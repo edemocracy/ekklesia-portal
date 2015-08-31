@@ -27,10 +27,10 @@ def make_app(**app_options):
     app.config["RESTFUL_JSON"] = {'ensure_ascii': False}
     app.config["SECRET_KEY"] = "dev"
     db = SQLAlchemy(app)
-    #admin = Admin(app, name="Arguments", template_mode="bootstrap3")
+    admin = Admin(app, name="Arguments", template_mode="bootstrap3")
 
     import arguments.views
-    #import arguments.views.admin
+    import arguments.views.admin
     #import arguments_rest.api
     return app
 
