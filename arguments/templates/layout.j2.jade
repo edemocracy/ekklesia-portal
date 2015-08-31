@@ -1,0 +1,56 @@
+!!! html5
+head
+  - block title
+    title Arguments
+  //meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  link(rel="stylesheet", href=url_for("static", filename="css/arguments.css"))
+  script(src=url_for("static", filename="js/jquery-2.1.1.js"))
+
+body
+  #wrapper
+    - block navbar
+        #header
+          #header_orange
+            .header_top_menu
+              .header_title
+                a(href="/") Arguments
+              .header_signup(style="text-align: center:")
+                a(href="/login/") Anmelden
+          .header_white
+            .header_navigation
+              .navi_point.title.current_page
+                a(href="/tags/title") Sortiert
+              .navi_point.top
+                a(href="/tags/top") Top
+              .navi_point.overview
+                a(href="/tags/overview") Antragsgruppen
+              .navi_point
+                input#navi_search(type="text", value="Suchen", name="navi_search")
+
+
+    - block messages
+      - with messages = get_flashed_messages(with_categories=True)
+        if messages
+          for cat, msg in messages
+            .alert(class="alert-{{ cat }}")= msg
+
+    - block content
+      // empty
+
+  - block footer
+    #footer
+      #footer_content
+        a(href="/")
+          .footer_logo
+        #footer_copyright
+          a(href="#") FAQ | 
+          a(href="#") Nutzungsbedingungen | 
+          a(href="#") Weiterer Link | 
+          a(href="#") Impressum
+
+
+  - block script
+    // empty
+  
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
