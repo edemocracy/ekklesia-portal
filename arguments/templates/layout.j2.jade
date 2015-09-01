@@ -12,18 +12,25 @@ body
         #header
           #header_orange
             .header_top_menu
+
               .header_title
                 a(href="/") Arguments
+
               .header_signup(style="text-align: center:")
                 a(href="/login/") Anmelden
+
           .header_white
             .header_navigation
-              .navi_point.title.current_page
-                a(href="/tags/title") Sortiert
-              .navi_point.top
-                a(href="/tags/top") Top
-              .navi_point.overview
-                a(href="/tags/overview") Antragsgruppen
+
+              .navi_point.title(class=("current_page" if mode=="sorted" else ""))
+                a(href=url_for("questions", mode="sorted")) Sortiert
+
+              .navi_point.top(class=("current_page" if mode=="top" else ""))
+                a(href=url_for("questions", mode="top")) Top
+
+              .navi_point.overview(class=("current_page" if mode=="custom" else ""))
+                a(href=url_for("questions", mode="custom")) Antragsgruppen
+
               .navi_point
                 input#navi_search(type="text", value="Suchen", name="navi_search")
 

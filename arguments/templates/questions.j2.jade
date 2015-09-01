@@ -1,0 +1,29 @@
+- extends "layout.j2.jade"
+
+- block title
+  title Arguments - Übersicht (Sortiert)
+
+- block content
+  #content
+    for question in questions
+      .question(id="question_{{ question.id }}")
+        .stats.question_stats
+          .points.question_points= question.score
+          .points_text.question_points_text Unterstützer
+        .question_title
+          p
+            a(href=question.url)= question.title
+        .question_num_arguments= question.arguments.count()
+          .icon_num_arguments
+        .tags
+          ul
+            for tag in question.tags
+              li.tag 
+                a(href="/tags/{{ tag.tag }}")= tag.tag
+        .author.question_author
+          |Eingetragen am {{ question.created_at.strftime("%d.%m.%Y um %H:%M") }}
+        .clear
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
