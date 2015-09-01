@@ -1,3 +1,4 @@
+import logging
 import time
 
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc
@@ -12,8 +13,13 @@ FK = db.ForeignKey
 C = db.Column
 Model = db.Model
 Table = db.Table
+bref = db.backref
 
 SLOW_QUERY_SECONDS = 0.3
+
+
+sqllog = logging.getLogger("sqllog")
+
 
 def dynamic_rel(*args, **kwargs):
     return rel(*args, lazy="dynamic", **kwargs)
@@ -74,5 +80,5 @@ def after_cursor_execute(conn, cursor, statement,
             statement = conn.connection.connection.history.last_statement
         else:
             statement = conn.info['current_query'].pop(-1)
-        logg.warn("slow query %.1fms:\n%s", total * 1000, statement)
+        sqllog.warn("slow query %.1fms:\n%s", total * 1000, statement)
 
