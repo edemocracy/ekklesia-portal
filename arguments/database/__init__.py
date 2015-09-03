@@ -1,6 +1,7 @@
 import logging
 import time
 
+#import pyaml
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import relationship, backref, Query, Mapper
@@ -55,12 +56,12 @@ def to_dict(self):
                 for col in self.__table__.columns)
 
 
-def to_yaml(self):
-    return pyaml.dump(self.to_dict())
+#def to_yaml(self):
+#    return pyaml.dump(self.to_dict())
 
 
 Model.to_dict = to_dict
-Model.to_yaml = to_yaml
+#Model.to_yaml = to_yaml
 
 
 @event.listens_for(Engine, "before_cursor_execute")
@@ -81,4 +82,3 @@ def after_cursor_execute(conn, cursor, statement,
         else:
             statement = conn.info['current_query'].pop(-1)
         sqllog.warn("slow query %.1fms:\n%s", total * 1000, statement)
-
