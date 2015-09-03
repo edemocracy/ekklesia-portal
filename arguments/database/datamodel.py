@@ -16,8 +16,8 @@ class UserGroup(Model):
 
 
 user_to_usergroup = Table("user_to_usergroup", db.metadata,
-        integer_fk("user.id", name="user_id", primary_key=True),
-        integer_fk(UserGroup.id, name="group_id", primary_key=True))
+                          integer_fk("user.id", name="user_id", primary_key=True),
+                          integer_fk(UserGroup.id, name="group_id", primary_key=True))
 
 
 class User(Model):
@@ -38,8 +38,8 @@ class Tag(Model):
 
 
 tag_to_question = Table("tag_to_question", db.metadata,
-    integer_fk("question.id", name="question_id", primary_key=True),
-    integer_fk(Tag.id, name="tag_id", primary_key=True))
+                        integer_fk("question.id", name="question_id", primary_key=True),
+                        integer_fk(Tag.id, name="tag_id", primary_key=True))
 
 
 class QuestionVote(Model):
@@ -56,7 +56,7 @@ class QuestionVote(Model):
 class ArgumentVote(Model):
 
     __tablename__ = "argument_vote"
-    
+
     argument_id = integer_fk("argument.id", primary_key=True)
     user_id = integer_fk(User.id, primary_key=True)
 
@@ -65,7 +65,7 @@ class ArgumentVote(Model):
 
 
 class Question(Model, TimeStamp):
-    
+
     __tablename__ = 'question'
 
     id = integer_pk()
@@ -100,5 +100,3 @@ class Argument(Model, TimeStamp):
 
     user = rel(User)
     question = rel(Question, backref=bref("arguments", lazy="dynamic"))
-
-

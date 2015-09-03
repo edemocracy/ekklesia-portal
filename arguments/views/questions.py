@@ -11,10 +11,10 @@ def questions():
     if mode == "top":
         questions = questions.order_by(Question.score.desc())
 
-    elif mode == "sorted" :
+    elif mode == "sorted":
         questions = questions.order_by(Question.url)
 
-    elif mode == "custom" :
+    elif mode == "custom":
         raise NotImplementedError()
 
     return render_template("questions.j2.jade", questions=questions, mode=mode)
