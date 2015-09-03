@@ -10,6 +10,7 @@ app = None
 db = None
 admin = None
 
+
 def make_app(**app_options):
     global db, app, admin
 
@@ -17,7 +18,7 @@ def make_app(**app_options):
     app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
     logging.basicConfig(level=logging.INFO)
     logg.info("creating flask app %s", __name__)
-    #app.config.from_object(arguments_config)
+    # app.config.from_object(arguments_config)
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://arguments:a@127.0.0.1/arguments"
     if app_options:
         app.config.update(app_options)
@@ -33,4 +34,3 @@ def make_app(**app_options):
     import arguments.views.admin
     #import arguments_rest.api
     return app
-

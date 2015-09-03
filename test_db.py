@@ -1,4 +1,4 @@
-#coding: utf8
+# coding: utf8
 from arguments import make_app
 app = make_app()
 from arguments import db
