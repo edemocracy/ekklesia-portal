@@ -1,0 +1,35 @@
+- macro argument_box(argument, user)
+  .argument_wrapper
+    a(href="GP/p/arg/ca")
+      .counter_argument_box(class="counter_argument_box_{{ argument.argument_type }}")
+        .count= argument.counter_arguments.count()
+        .count_text Gegen-Argument
+        .plus_sign
+        .line
+
+    vote = argument.user_vote(user)
+    upvoted = vote.is_upvote if vote else False
+    downvoted = vote.is_downvote if vote else False
+
+    .argument(class="argument_{{ argument.argument_type }}")
+      .stats.argument_stats
+        .points.argument_points= argument.score
+        .points_text.argument_points_text Punkte
+        form
+          .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
+          .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
+
+      .argument_headline
+        a(href="GP/p/arg")= argument.title
+
+      .argument_abstract= argument.abstract
+        if argument.details
+          a.read_more(href="GP/p/arg") &nbsp;>>
+
+      .author.question_author
+        |Eingetragen am {{ argument.created_at.strftime("%d.%m.%Y um %H:%M") }} von {{ argument.author.login_name }}
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
+

@@ -1,5 +1,5 @@
 import logging
-from flask import Flask
+from flask import Flask, g
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_admin import Admin
@@ -29,6 +29,13 @@ def make_app(**app_options):
     app.config["SECRET_KEY"] = "dev"
     db = SQLAlchemy(app)
     admin = Admin(app, name="Arguments", template_mode="bootstrap3")
+
+
+    @app.before_request
+    def load_user():
+        """XXX: test user"""
+        from arguments.database.datamodel import User    
+        g.user = User.query.filter_by(login_name=u"testuser").one()
 
     import arguments.views
     import arguments.views.admin

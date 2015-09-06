@@ -1,5 +1,6 @@
 - extends "layout.j2.jade"
-- from "question_macros.j2.jade" import question_tags
+- from "question_macros.j2.jade" import question_box
+- from "argument_macros.j2.jade" import argument_box
 
 - block title
   title= question.title
@@ -12,55 +13,19 @@
           a(href="/" + question.url) Diskussion
         .tab
           a(href="/" + question.url) Folgen: Nein
-
-      .question.question_no_margin(id="question_{{ question.id }}")
-        .stats.question_stats
-          .points.question_points 0
-            .points_text.question_points_text Unterstützer
-          form
-            .question_vote_up.vote_up.vote_up_inactive(title="hier klicken")
-
-        .question_title
-          p
-            a(href="/" + question.url)= question.title
-
-        .question_num_arguments 0
-          .icon_num_arguments 
-
-        .tags= question_tags(question.tags)
-
+        
+      - call question_box(question, no_margin=True, voting=True)
         hr
         .question_details
           a.button_orange(href="#arguments", style="width:180px") Gehe zu Argumenten
-          = question.details|safe
-        .clear
+          p
+            = question.details|safe
 
     .arguments
       a(name="arguments")
       .arguments_pro
-        .argument_wrapper
-          a(href="GP/p/arg/ca")
-            .counter_argument_box.counter_argument_box_pro
-              .count 1
-              .count_text Gegen-Argument
-              .plus_sign
-              .line
-                
-          .argument.argument_pro
-            .stats.argument_stats
-              .points.argument_points 2399
-              .points_text.argument_points_text Punkte
-              form
-                .vote_up.argument_vote_up.vote_up_inactive
-                .vote_dn.argument_vote_dn
-
-            .argument_headline
-              a(href="GP/p/arg") Ich halte das für eine super Idee
-
-            .argument_abstract Schön wärs, total geile Idee!
-              a.read_more(href="GP/p/arg")
-
-            .author.question_author Eingetragen vor 2 Minuten von t
+        for argument in question.pro_arguments
+          = argument_box(argument, g.user)
 
         .argument_wrapper
           a(href="GP/p/arg/ca")
@@ -91,6 +56,9 @@
             span Pro-Argument hinzufügen
 
       .arguments_con
+        for argument in question.contra_arguments
+          = argument_box(argument, g.user)
+
         .argument_wrapper
           a(href="GP/c/arg/ca")
             .counter_argument_box.counter_argument_box_con
