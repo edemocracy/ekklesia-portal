@@ -11,7 +11,7 @@ s = db.session
 
 ug1 = UserGroup(name="Deppengruppe")
 
-u1 = User(login_name="Hans")
+u1 = User(login_name="testuser")
 
 u2 = User(login_name="Egon")
 
@@ -22,7 +22,10 @@ t2 = Tag(tag="Tag2")
 t3 = Tag(tag="Täääg3")
 
 q1 = Question(url="Q1", title="Ein Titel", details="blah")
-arg1 = Argument(question=q1, title="Ein Argument", abstract="abstract", details="blah")
+arg1 = Argument(question=q1, author=u1, title=u"Ein Pro-Argument", abstract=u"dafür abstract", details=u"dafür", argument_type=u"pro")
+arg2 = Argument(question=q1, author=u2, title=u"Ein zweites Pro-Argument", abstract=u"dafür!!!", argument_type=u"pro")
+arg3 = Argument(question=q1, author=u1, title=u"Ein Contra-Argument", abstract=u"dagegen abstract", details=u"dafür", argument_type=u"con")
+q1.arguments.extend([arg1, arg2, arg3])
 q1.tags.extend([t1, t2])
 s.add(q1)
 
@@ -35,6 +38,13 @@ s.add(qv1)
 qv2 = QuestionVote(user=u1, question=q2)
 s.add(qv2)
 qv3 = QuestionVote(user=u2, question=q1)
+s.add(qv3)
+
+qv1 = ArgumentVote(user=u1, argument=arg1, vote=1)
+s.add(qv1)
+qv2 = ArgumentVote(user=u1, argument=arg2, vote=1)
+s.add(qv2)
+qv3 = ArgumentVote(user=u2, argument=arg1, vote=-1)
 s.add(qv3)
 
 s.commit()

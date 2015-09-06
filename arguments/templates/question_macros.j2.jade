@@ -5,9 +5,31 @@
         a(href="/tags/{{ tag.tag }}")= tag.tag
 
 
-- macro question_header(question)
-  h1
+- macro question_box(question, no_margin=False, voting=False)
+  .question(id="question_{{ question.id }}", 
+            class=("question_no_margin" if no_margin else ""))
+    .stats.question_stats
+      .points.question_points= question.score
+        .points_text.question_points_text Unterstützer
+      
+      if voting
+        form
+          .question_vote_up.vote_up.vote_up_inactive(title="hier klicken")
 
+    .question_title
+      p
+        a(href=url_for("question", question_url=question.url))= question.title
 
+    .question_num_arguments= question.arguments.count()
+      .icon_num_arguments 
+
+    .tags= question_tags(question.tags)
+
+    .author.question_author
+      |Eingetragen am {{ question.created_at.strftime("%d.%m.%Y um %H:%M") }}
+
+    = caller()
+
+    .clear
 
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
