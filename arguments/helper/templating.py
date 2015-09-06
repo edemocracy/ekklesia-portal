@@ -7,6 +7,8 @@ from pyjade.utils import process
 
 
 class JinjaAutoescapeCompiler(JinjaCompiler):
+    autocloseCode = 'if,for,block,filter,autoescape,with,trans,spaceless,comment,cache,macro,localize,compress,call'.split(',')
+
 
     def visitCode(self, code):
         if code.buffer:
