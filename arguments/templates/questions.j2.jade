@@ -1,4 +1,5 @@
 - extends "layout.j2.jade"
+- from "question_macros.j2.jade" import question_tags
 
 - block title
   title Arguments - Übersicht (Sortiert)
@@ -15,11 +16,9 @@
             a(href=question.url)= question.title
         .question_num_arguments= question.arguments.count()
           .icon_num_arguments
-        .tags
-          ul
-            for tag in question.tags
-              li.tag 
-                a(href="/tags/{{ tag.tag }}")= tag.tag
+
+        .tags= question_tags(question.tags)
+        
         .author.question_author
           |Eingetragen am {{ question.created_at.strftime("%d.%m.%Y um %H:%M") }}
         .clear

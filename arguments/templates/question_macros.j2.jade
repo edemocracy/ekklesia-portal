@@ -1,0 +1,13 @@
+- macro question_tags(tags)
+  ul
+    for tag in tags
+      li.tag 
+        a(href="/tags/{{ tag.tag }}")= tag.tag
+
+
+- macro question_header(question)
+  h1
+
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
