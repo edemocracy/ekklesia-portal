@@ -9,7 +9,6 @@ from pyjade.utils import process
 class JinjaAutoescapeCompiler(JinjaCompiler):
     autocloseCode = 'if,for,block,filter,autoescape,with,trans,spaceless,comment,cache,macro,localize,compress,call'.split(',')
 
-
     def visitCode(self, code):
         if code.buffer:
             val = code.val.lstrip()
@@ -25,6 +24,12 @@ class JinjaAutoescapeCompiler(JinjaCompiler):
                 codeTag = code.val.strip().split(' ', 1)[0]
                 if codeTag in self.autocloseCode:
                     self.buf.append('{%% end%s %%}' % codeTag)
+
+
+class PyJadeExtensionForBabel(JinjaJadeExtension):
+
+    def preprocess(self, source, name, filename=None):
+        return process(source, filename=name, compiler=JinjaAutoescapeCompiler, **self.options)
 
 
 class PyJadeExtension(JinjaJadeExtension):

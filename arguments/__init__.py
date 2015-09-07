@@ -1,7 +1,8 @@
 import logging
-from flask import Flask, g
+from flask import Flask, g, request
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.babelex import Babel
 from flask_admin import Admin
 
 logg = logging.getLogger(__name__)
@@ -27,15 +28,26 @@ def make_app(**app_options):
 
     app.config["RESTFUL_JSON"] = {'ensure_ascii': False}
     app.config["SECRET_KEY"] = "dev"
-    db = SQLAlchemy(app)
-    admin = Admin(app, name="Arguments", template_mode="bootstrap3")
-
 
     @app.before_request
     def load_user():
         """XXX: test user"""
         from arguments.database.datamodel import User    
         g.user = User.query.filter_by(login_name=u"testuser").one()
+
+    # initialize extension
+    # flask-sqlalchemy
+    db = SQLAlchemy(app)
+    # flask-admin
+    admin = Admin(app, name="Arguments", template_mode="bootstrap3")
+    # i18n via flask-babelex
+    babel = Babel(app)
+
+    @babel.localeselector
+    def get_locale():
+        locale = request.accept_languages.best_match(['de', 'en', 'fr'])
+        logg.info("locale from request: %s", locale)
+        return locale
 
     import arguments.views
     import arguments.views.admin
