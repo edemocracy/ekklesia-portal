@@ -25,10 +25,11 @@
       a(name="arguments")
       .arguments_pro
         for argument in question.pro_arguments
-          = argument_box(argument, g.user)
+          .argument_wrapper
+            = argument_box(argument, g.user, show_ca_button=True)
 
         .argument_wrapper
-          a(href="GP/p/arg/ca")
+          a(href="{{ question}}/p/arg/ca")
             .counter_argument_box.counter_argument_box_pro
               .count 1
               .count_text Gegen-Argument
@@ -57,7 +58,8 @@
 
       .arguments_con
         for argument in question.contra_arguments
-          = argument_box(argument, g.user)
+          .argument_wrapper
+            = argument_box(argument, g.user, show_ca_button=True)
 
         .argument_wrapper
           a(href="GP/c/arg/ca")

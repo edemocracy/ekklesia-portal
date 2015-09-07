@@ -1,33 +1,55 @@
-- macro argument_box(argument, user)
+- macro counter_arguments_button(argument)
   num_counter_arguments = argument.counter_arguments.count()
-  .argument_wrapper
-    a(href="GP/p/arg/ca")
-      .counter_argument_box(class="counter_argument_box_{{ argument.argument_type }}")
-        .count= num_counter_arguments
-        .count_text= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
-        .plus_sign
-        .line
 
-    vote = argument.user_vote(user)
-    upvoted = vote.is_upvote if vote else False
-    downvoted = vote.is_downvote if vote else False
+  a(href=url_for("counter_arguments", question_url=argument.question.url, argument_url=argument.url))
+    .counter_argument_box(class="counter_argument_box_{{ argument.argument_type }}")
+      .count= num_counter_arguments
+      .count_text= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
+      .plus_sign
+      .line
 
-    .argument(class="argument_{{ argument.argument_type }}")
-      .stats.argument_stats
-        .points.argument_points= argument.score
-        .points_text.argument_points_text= ngettext("point", "points", argument.score)
-        form
-          .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
-          .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
 
-      .argument_headline
-        a(href="GP/p/arg")= argument.title
+- macro argument_box(argument, user, extended=False, show_ca_button=False, no_counter=False)
+  question = argument.question
+  argument_url = url_for("argument", question_url=question.url, argument_url=argument.url)
+  vote = argument.user_vote(user)
+  upvoted = vote.is_upvote if vote else False
+  downvoted = vote.is_downvote if vote else False
 
-      .argument_abstract= argument.abstract
-        if argument.details
-          a.read_more(href="GP/p/arg") &nbsp;>>
+  if show_ca_button
+    = counter_arguments_button(argument)
 
-      .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.login_name)
+  if extended
+    abstract_cls = "argument_abstract_extended"
+    argument_cls = "argument_extended"
+  else
+    abstract_cls = "argument_abstract"
+    argument_cls = "argument argument_" + argument.argument_type
+    if no_counter
+      argument_cls = argument_cls + "_no_counter" 
+
+  div(class=argument_cls)
+    .stats.argument_stats
+      .points.argument_points= argument.score
+      .points_text.argument_points_text= ngettext("point", "points", argument.score)
+      form
+        .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
+        .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
+
+    .argument_headline
+      a(href=argument_url)= argument.title
+
+    div(class=abstract_cls)= argument.abstract
+      if argument.details
+        a.read_more(href=argument_url) &nbsp;>>
+
+    .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.login_name)
+
+    div(class="argument_{{ argument.argument_type }}_bar")
+
+
+- macro counter_argument_box(argument, user)
+  = argument_box(argument, user, no_counter=True)
 
 
 // generated from jade
