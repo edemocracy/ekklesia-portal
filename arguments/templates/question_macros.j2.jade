@@ -10,7 +10,7 @@
             class=("question_no_margin" if no_margin else ""))
     .stats.question_stats
       .points.question_points= question.score
-        .points_text.question_points_text Unterstützer
+        .points_text.question_points_text= ngettext("supporter", "supporters", question.score)
       
       if voting
         form
@@ -26,7 +26,7 @@
     .tags= question_tags(question.tags)
 
     .author.question_author
-      |Eingetragen am {{ question.created_at.strftime("%d.%m.%Y um %H:%M") }}
+    .author.question_author=_("authored_at", dt=question.created_at|datetimeformat)
 
     = caller()
 

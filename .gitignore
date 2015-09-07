@@ -3,3 +3,6 @@
 .project
 .pydevproject
 .idea
+*.pot
+*.mo
+.babelcompiled

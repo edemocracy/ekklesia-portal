@@ -17,22 +17,22 @@ body
                 a(href="/") Arguments
 
               .header_signup(style="text-align: center:")
-                a(href="/login/") Anmelden
+                a(href="/login/")= _("login")
 
           .header_white
             .header_navigation
 
               .navi_point.title(class=("current_page" if mode=="sorted" else ""))
-                a(href=url_for("questions", mode="sorted")) Sortiert
+                a(href=url_for("questions", mode="sorted"))= _("sorted")
 
               .navi_point.top(class=("current_page" if mode=="top" else ""))
-                a(href=url_for("questions", mode="top")) Top
+                a(href=url_for("questions", mode="top"))= _("top")
 
               .navi_point.overview(class=("current_page" if mode=="custom" else ""))
-                a(href=url_for("questions", mode="custom")) Antragsgruppen
+                a(href=url_for("questions", mode="custom"))= Antragsgruppen
 
               .navi_point
-                input#navi_search(type="text", value="Suchen", name="navi_search")
+                input#navi_search(type="text", value=_("search"), name="navi_search")
 
 
     - block messages
@@ -50,10 +50,13 @@ body
         a(href="/")
           .footer_logo
         #footer_copyright
-          a(href="#") FAQ | 
-          a(href="#") Nutzungsbedingungen | 
-          a(href="#") Weiterer Link | 
-          a(href="#") Impressum
+          a(href="#") FAQ 
+          || 
+          a(href="#")= _("terms_of_use")
+          || 
+          a(href="#")= _("link_other")
+          || 
+          a(href="#")= _("imprint")
 
 
   - block script

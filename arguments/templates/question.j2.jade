@@ -10,14 +10,14 @@
     .thin
       .question_tabs
         .tab.tab_active
-          a(href="/" + question.url) Diskussion
+          a(href="/" + question.url)= _("discussion")
         .tab
-          a(href="/" + question.url) Folgen: Nein
+          a(href="/" + question.url)= _("follow") if True else _("unfollow")
         
       - call question_box(question, no_margin=True, voting=True)
         hr
         .question_details
-          a.button_orange(href="#arguments", style="width:180px") Gehe zu Argumenten
+          a.button_orange(href="#arguments", style="width:180px")= _("goto_arguments")
           p
             = question.details|safe
 

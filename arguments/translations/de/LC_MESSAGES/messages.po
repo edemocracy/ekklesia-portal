@@ -1,0 +1,98 @@
+# German translations for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-09-07 08:52+0200\n"
+"PO-Revision-Date: 2015-09-06 22:42+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.0\n"
+
+#: arguments/templates/argument_macros.j2.jade:5
+#, fuzzy
+msgid "counter_argument"
+msgid_plural "counter_arguments"
+msgstr[0] "Gegen-Argument"
+msgstr[1] "Gegen-Argumente"
+
+#: arguments/templates/argument_macros.j2.jade:12
+msgid "point"
+msgid_plural "points"
+msgstr[0] "Punkt"
+msgstr[1] "Punkte"
+
+#: arguments/templates/argument_macros.j2.jade:21
+msgid "authored_at_by"
+msgstr "Eingetragen um %(dt)s von %(author_name)s"
+
+#: arguments/templates/layout.j2.jade:15
+msgid "login"
+msgstr "Anmelden"
+
+#: arguments/templates/layout.j2.jade:21
+msgid "sorted"
+msgstr "Sortiert"
+
+#: arguments/templates/layout.j2.jade:23
+msgid "top"
+msgstr "Top"
+
+#: arguments/templates/layout.j2.jade:28
+msgid "search"
+msgstr "Suchen"
+
+#: arguments/templates/layout.j2.jade:39
+msgid "terms_of_use"
+msgstr "Nutzungsbedingungen"
+
+#: arguments/templates/layout.j2.jade:39
+msgid "link_other"
+msgstr "Weiterer Link"
+
+#: arguments/templates/layout.j2.jade:39
+msgid "imprint"
+msgstr "Impressum"
+
+#: arguments/templates/question.j2.jade:6
+msgid "discussion"
+msgstr "Diskussion"
+
+#: arguments/templates/question.j2.jade:8
+msgid "follow"
+msgstr ""
+
+#: arguments/templates/question.j2.jade:8
+msgid "unfollow"
+msgstr ""
+
+#: arguments/templates/question.j2.jade:12
+msgid "goto_arguments"
+msgstr "Zu den Argumenten"
+
+#: arguments/templates/question_macros.j2.jade:9
+msgid "supporter"
+msgid_plural "supporters"
+msgstr[0] "Unterstützer"
+msgstr[1] "Unterstützer"
+
+#: arguments/templates/question_macros.j2.jade:22
+msgid "authored_at"
+msgstr "Eingetragen um %(dt)s"
+
+#: arguments/templates/questions.j2.jade:2
+msgid "overview"
+msgstr "Übersicht"
+
+#: arguments/views/question.py:12
+msgid "translation"
+msgstr "Übersetzung"
+
