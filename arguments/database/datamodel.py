@@ -94,8 +94,12 @@ class Argument(Model, TimeStamp):
     parent_id = integer_fk(id)
 
     author = rel(User)
-    counter_arguments = rel("Argument", lazy="dynamic", backref=bref("parent", remote_side=[id]))
+    _counter_arguments = rel("Argument", lazy="dynamic", backref=bref("parent", remote_side=[id]))
     question = rel("Question", backref=bref("arguments", lazy="dynamic"))
+
+    @property
+    def counter_arguments(self):
+        return self._counter_arguments.order_by(desc(Argument.score))
 
     @hybrid_property
     def score(self):
@@ -134,10 +138,10 @@ class Question(Model, TimeStamp):
 
     @hybrid_property
     def pro_arguments(self):
-        return self.arguments.filter_by(argument_type=u"pro").order_by(desc(Argument.score))
+        return self.arguments.filter_by(argument_type=u"pro", parent=None).order_by(desc(Argument.score))
 
     @hybrid_property
     def contra_arguments(self):
-        return self.arguments.filter_by(argument_type=u"con").order_by(desc(Argument.score))
+        return self.arguments.filter_by(argument_type=u"con", parent=None).order_by(desc(Argument.score))
 
 
