@@ -13,7 +13,7 @@
           a(href="/" + question.url)= _("discussion")
         .tab
           a(href="/" + question.url)= _("follow") if True else _("unfollow")
-        
+
       - call question_box(question, no_margin=True, voting=True)
         hr
         .question_details
@@ -23,35 +23,12 @@
 
     .arguments
       a(name="arguments")
+
       .arguments_pro
         for argument in question.pro_arguments
           .argument_wrapper
             = argument_box(argument, g.user, show_ca_button=True)
 
-        .argument_wrapper
-          a(href="{{ question}}/p/arg/ca")
-            .counter_argument_box.counter_argument_box_pro
-              .count 1
-              .count_text Gegen-Argument
-              .plus_sign
-              .line
-                
-          .argument.argument_pro
-            .stats.argument_stats
-              .points.argument_points 2399
-              .points_text.argument_points_text Punkte
-              form
-                .vote_up.argument_vote_up.vote_up_inactive
-                .vote_dn.argument_vote_dn
-
-            .argument_headline
-              a(href="GP/p/arg") Ich halte das für eine super Idee
-
-            .argument_abstract Schön wärs, total geile Idee!
-              a.read_more(href="GP/p/arg")
-
-            .author.question_author Eingetragen vor 2 Minuten von t
-        
         a(href="{{ question.url }}/p/new/") 
           .button_argument.button_new_argument_pro 
             span Pro-Argument hinzufügen
@@ -60,27 +37,6 @@
         for argument in question.contra_arguments
           .argument_wrapper
             = argument_box(argument, g.user, show_ca_button=True)
-
-        .argument_wrapper
-          a(href="GP/c/arg/ca")
-            .counter_argument_box.counter_argument_box_con
-              .count 2
-              .count_text Gegen-Argumente
-              .plus_sign
-              .line
-                
-          .argument.argument_con
-            .stats.argument_stats
-              .points.argument_points 1
-              .points_text.argument_points_text Punkt
-              form
-                .vote_up.argument_vote_up
-                .vote_dn.argument_vote_dn.vote_dn_inactive
-            .argument_headline
-              a(href="GP/p/arg") Ich halte das für eine bescheuerte  Idee
-            .argument_abstract Schön wärs, aber glaubt ihr auch an den Weihnachtsmann?!
-              a.read_more(href="GP/c/arg")
-            .author.question_author Eingetragen vor 4 Minuten von x
 
         a(href="{{ question.url }}/c/new/") 
           .button_argument.button_new_argument_con 

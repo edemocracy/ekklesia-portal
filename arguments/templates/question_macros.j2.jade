@@ -11,7 +11,7 @@
     .stats.question_stats
       .points.question_points= question.score
         .points_text.question_points_text= ngettext("supporter", "supporters", question.score)
-      
+
       if voting
         form
           .question_vote_up.vote_up.vote_up_inactive(title="hier klicken")

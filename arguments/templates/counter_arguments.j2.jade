@@ -23,31 +23,11 @@
 
       = argument_box(argument, g.user, extended=True)
 
-          
     .argument_container
       for ca in counter_arguments
         .argument_wrapper
           = counter_argument_box(ca, g.user)
 
-      #argument_wrapper_54_303.argument_wrapper
-        .argument.argument_pro_no_counter
-          .stats.argument_stats
-            .points.argument_points 2399
-            .points_text.argument_points_text Punkte
-            form
-              .vote_up.argument_vote_up.vote_up_inactive
-              .vote_dn.argument_vote_dn
-
-          .argument_headline
-            a(href="GP/p/arg") Ich halte das für eine super Idee
-
-          .argument_abstract Schön wärs, total geile Idee!
-            a.read_more(href="GP/p/arg")
-
-          .author.question_author Eingetragen vor 2 Minuten von t
-          .argument_con_bar
-
-    
       a.add-new-argument(href="{{ argument.url }}/ca/new/") 
         .button_argument.button_new_counter_argument
           span Gegenargument hinzufügen
