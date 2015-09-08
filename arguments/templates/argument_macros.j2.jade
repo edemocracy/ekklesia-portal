@@ -1,23 +1,42 @@
-- macro counter_arguments_button(argument)
+- macro counter_arguments_button(argument, full=False)
   num_counter_arguments = argument.counter_arguments.count()
 
+  if full
+    box_cls = "counter_argument_box_full counter_argument_box_full_" + argument.argument_type
+  else
+    box_cls = "counter_argument_box counter_argument_box_" + argument.argument_type
+
   a(href=url_for("counter_arguments", question_url=argument.question.url, argument_url=argument.url))
-    .counter_argument_box(class="counter_argument_box_{{ argument.argument_type }}")
+    div(class=box_cls)
       .count= num_counter_arguments
       .count_text= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
       .plus_sign
-      .line
 
+      if not full
+        .line
 
-- macro argument_box(argument, user, extended=False, show_ca_button=False, no_counter=False)
-  question = argument.question
-  argument_url = url_for("argument", question_url=question.url, argument_url=argument.url)
+- macro argument_stats(argument, user)
+
   vote = argument.user_vote(user)
   upvoted = vote.is_upvote if vote else False
   downvoted = vote.is_downvote if vote else False
 
-  if show_ca_button
-    = counter_arguments_button(argument)
+  .stats.argument_stats
+    .points.argument_points= argument.score
+    .points_text.argument_points_text= ngettext("point", "points", argument.score)
+    form
+      .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
+      .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
+
+
+- macro argument_footer(argument)
+    .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.login_name)
+
+    div(class="argument_{{ argument.argument_type }}_bar")
+
+
+- macro argument_box(argument, user, extended=False, show_ca_button=False, no_counter=False)
+  argument_url = url_for("argument", question_url=argument.question.url, argument_url=argument.url)
 
   if extended
     abstract_cls = "argument_abstract_extended"
@@ -28,13 +47,11 @@
     if no_counter
       argument_cls = argument_cls + "_no_counter" 
 
+  if show_ca_button
+    = counter_arguments_button(argument)
+
   div(class=argument_cls)
-    .stats.argument_stats
-      .points.argument_points= argument.score
-      .points_text.argument_points_text= ngettext("point", "points", argument.score)
-      form
-        .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
-        .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
+    = argument_stats(argument, user)
 
     .argument_headline
       a(href=argument_url)= argument.title
@@ -43,13 +60,30 @@
       if argument.details
         a.read_more(href=argument_url) &nbsp;>>
 
-    .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.login_name)
-
-    div(class="argument_{{ argument.argument_type }}_bar")
+    = argument_footer(argument)
 
 
 - macro counter_argument_box(argument, user)
   = argument_box(argument, user, no_counter=True)
+
+
+- macro argument_box_full(argument, user)
+  argument_url = url_for("argument", question_url=argument.question.url, argument_url=argument.url)
+
+  .argument_full
+    = argument_stats(argument, user)
+
+    .argument_title
+      a(href=argument_url)= argument.title
+
+    .argument_abstract_extended.argument_abstract_cursive= argument.abstract
+
+    .argument_details_extended= argument.details or ""
+
+    = argument_footer(argument)
+    
+  .counter_argument_box_full_line
+  = counter_arguments_button(argument, full=True)
 
 
 // generated from jade
