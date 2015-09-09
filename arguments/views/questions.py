@@ -1,20 +1,25 @@
 from flask import render_template, request
 from arguments import app
-from arguments.database.datamodel import Question
+from arguments.database.datamodel import Question, Tag
 
 
 @app.route("/")
-def questions():
+@app.route("/tags/<tag>")
+def questions(tag=None):
     questions = Question.query
-    mode = request.args.get("mode", "sorted")
+    mode = request.args.get("mode")
+
+    if tag:
+        questions = questions.join(Tag, Question.tags).filter_by(tag=tag)
 
     if mode == "top":
         questions = questions.order_by(Question.score.desc())
 
-    elif mode == "sorted":
+    elif mode is None or mode == "sorted":
         questions = questions.order_by(Question.url)
 
     elif mode == "custom":
         raise NotImplementedError()
 
-    return render_template("questions.j2.jade", questions=questions, mode=mode)
+    return render_template("questions.j2.jade", questions=questions, mode=mode, tag=tag)
+
