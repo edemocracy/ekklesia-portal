@@ -5,7 +5,7 @@
         a(href="/tags/{{ tag.tag }}")= tag.tag
 
 
-- macro question_box(question, no_margin=False, voting=False)
+- macro question_box(question, no_margin=False, voting=False, details=False)
   .question(id="question_{{ question.id }}", 
             class=("question_no_margin" if no_margin else ""))
     .stats.question_stats
@@ -28,7 +28,12 @@
     .author.question_author
     .author.question_author=_("authored_at", dt=question.created_at|datetimeformat)
 
-    = caller()
+    if details
+      hr
+      .question_details
+        a.button_orange(href="#arguments", style="width:180px")= _("goto_arguments")
+        p
+          = question.details|safe
 
     .clear
 
