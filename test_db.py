@@ -22,17 +22,17 @@ t2 = Tag(tag="Tag2")
 t3 = Tag(tag="Täääg3")
 
 q1 = Question(url="Q1", title="Ein Titel", details="blah")
-arg1 = Argument(question=q1, author=u1, title=u"Ein Pro-Argument", url=u"dafür-ööö",
-                abstract=u"dafür abstract", details=u"dafür", argument_type=u"pro")
+arg1 = Argument(question=q1, author=u1, title="Ein Pro-Argument", url="dafür-ööö",
+                abstract="dafür abstract", details="dafür", argument_type="pro")
 
-ca1_1 = Argument(question=q1, author=u2, title=u"Gegenargument", url=u"ca1_1", 
-                 argument_type=u"con", abstract=u"Abstract ca_1_1", details=u"mäh", parent=arg1)
+ca1_1 = Argument(question=q1, author=u2, title="Gegenargument", url="ca1_1", 
+                 argument_type="con", abstract="Abstract ca_1_1", details="mäh", parent=arg1)
 
-arg2 = Argument(question=q1, author=u2, title=u"Ein zweites Pro-Argument", url=u"dafuer",
-                abstract=u"dafür!!!", argument_type=u"pro")
+arg2 = Argument(question=q1, author=u2, title="Ein zweites Pro-Argument", url="dafuer",
+                abstract="dafür!!!", argument_type="pro")
 
-arg3 = Argument(question=q1, author=u1, title=u"Ein Contra-Argument", url=u"dagegen-ää",
-                abstract=u"dagegen abstract", details=u"dafür", argument_type=u"con")
+arg3 = Argument(question=q1, author=u1, title="Ein Contra-Argument", url="dagegen-ää",
+                abstract="dagegen abstract", details="dafür", argument_type="con")
 
 q1.arguments.extend([arg1, arg2, arg3, ca1_1])
 q1.tags.extend([t1, t2])
