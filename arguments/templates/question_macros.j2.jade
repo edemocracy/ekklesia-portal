@@ -32,4 +32,12 @@
 
     .clear
 
+
+- macro tag_filter_box(tag, mode)
+  .filter Tag: {{ tag }}
+    .remove
+      a(href=url_for("questions", mode=mode))
+        .remove_icon
+
+
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

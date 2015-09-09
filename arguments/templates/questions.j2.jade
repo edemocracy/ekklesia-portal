@@ -1,11 +1,14 @@
 - extends "layout.j2.jade"
-- from "question_macros.j2.jade" import question_box
+- from "question_macros.j2.jade" import question_box, tag_filter_box
 
 - block title
   title Arguments - {{ _("overview") }}
 
 - block content
   #content
+    if tag
+      = tag_filter_box(tag, mode)
+
     for question in questions
       - call question_box(question)
         // empty

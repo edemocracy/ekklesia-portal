@@ -22,11 +22,11 @@ body
           .header_white
             .header_navigation
 
-              .navi_point.title(class=("current_page" if mode=="sorted" else ""))
-                a(href=url_for("questions", mode="sorted"))= _("sorted")
+              .navi_point.title(class=("current_page" if not mode or mode=="sorted" else ""))
+                a(href=url_for("questions", tag=tag))= _("sorted")
 
               .navi_point.top(class=("current_page" if mode=="top" else ""))
-                a(href=url_for("questions", mode="top"))= _("top")
+                a(href=url_for("questions", mode="top", tag=tag))= _("top")
 
               .navi_point.overview(class=("current_page" if mode=="custom" else ""))
                 a(href=url_for("questions", mode="custom"))= Antragsgruppen
