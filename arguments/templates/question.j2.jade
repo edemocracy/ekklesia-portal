@@ -14,12 +14,7 @@
         .tab
           a(href="/" + question.url)= _("follow") if True else _("unfollow")
 
-      - call question_box(question, no_margin=True, voting=True)
-        hr
-        .question_details
-          a.button_orange(href="#arguments", style="width:180px")= _("goto_arguments")
-          p
-            = question.details|safe
+      = question_box(question, no_margin=True, voting=True, details=True)
 
     .arguments
       a(name="arguments")
