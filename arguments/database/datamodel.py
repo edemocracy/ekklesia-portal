@@ -3,8 +3,21 @@ from sqlalchemy.sql import select, func
 from sqlalchemy.orm import object_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.declarative import declared_attr
+
+from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
+from sqlalchemy_searchable import SearchQueryMixin
+from sqlalchemy_utils.types import TSVectorType
+from sqlalchemy_searchable import make_searchable
+
 from arguments import db
 from arguments.database import integer_pk, integer_fk, TimeStamp, rel, FK, C, Model, Table, bref
+
+
+make_searchable(options={'regconfig': 'pg_catalog.german'})
+
+
+class QuestionQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 
 class UserGroup(Model):
@@ -117,12 +130,16 @@ class Argument(Model, TimeStamp):
 
 class Question(Model, TimeStamp):
 
+    query_class = QuestionQuery
     __tablename__ = 'question'
 
     id = integer_pk()
     details = C(Text)
     title = C(Unicode)
     url = C(Unicode)
+
+    search_vector = C(TSVectorType('details', 'title', 'url'))
+
 
     tags = rel(Tag, secondary=tag_to_question, backref="questions")
 

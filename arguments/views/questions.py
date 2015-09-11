@@ -8,6 +8,10 @@ from arguments.database.datamodel import Question, Tag
 def questions(tag=None):
     questions = Question.query
     mode = request.args.get("mode")
+    searchterm = request.args.get("q")
+
+    if searchterm:
+        questions = questions.search(searchterm)
 
     if tag:
         questions = questions.join(Tag, Question.tags).filter_by(tag=tag)
@@ -21,5 +25,5 @@ def questions(tag=None):
     elif mode == "custom":
         raise NotImplementedError()
 
-    return render_template("questions.j2.jade", questions=questions, mode=mode, tag=tag)
+    return render_template("questions.j2.jade", questions=questions, mode=mode, tag=tag, searchterm=searchterm)
 

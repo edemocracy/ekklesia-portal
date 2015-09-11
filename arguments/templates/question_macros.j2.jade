@@ -45,4 +45,13 @@
         .remove_icon
 
 
+- macro search_filter_box(searchterm, mode)
+  .filter
+    = _("search_for") 
+    |:&nbsp;
+    = searchterm 
+    .remove
+      a(href=url_for("questions", mode=mode))
+        .remove_icon
+
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
