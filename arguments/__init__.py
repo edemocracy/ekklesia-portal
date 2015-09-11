@@ -1,15 +1,36 @@
 import logging
-from flask import Flask, g, request
+from flask import Flask, g, request, session
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babelex import Babel
 from flask_admin import Admin
+from flask_oauthlib.client import OAuth
 
 logg = logging.getLogger(__name__)
 
 app = None
 db = None
 admin = None
+idserver = None
+
+def init_oauth(app):
+    global idserver
+    oauth = OAuth(app)
+    idserver = oauth.remote_app(
+            'ekklesia',
+            base_url='https://beoauth.piratenpartei-bayern.de/',
+            access_token_url="oauth2/token/",
+            authorize_url="oauth2/authorize/",
+            app_key="EKKLESIA") 
+
+    @idserver.tokengetter
+    def get_idserver_token():
+        resp = session['idserver']
+        token = resp['access_token']
+        print(token)
+        return (token, '')
+
+    return oauth
 
 
 def make_app(**app_options):
@@ -17,17 +38,21 @@ def make_app(**app_options):
 
     app = Flask(__name__)
     app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
-    logging.basicConfig(level=logging.INFO)
-    logg.info("creating flask app %s", __name__)
-    # app.config.from_object(arguments_config)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://arguments:a@127.0.0.1/arguments"
+    logging.basicConfig(level=logging.DEBUG)
+    logg.debug("creating flask app %s", __name__)
+    try:
+        import arguments.config
+        app.config.from_object(arguments.config)
+    except ImportError:
+        pass
+
     if app_options:
         app.config.update(app_options)
-    logg.info("using database URI: '%s'", app.config["SQLALCHEMY_DATABASE_URI"])
-    logg.debug("config is %s", pformat(dict(app.config)))
 
     app.config["RESTFUL_JSON"] = {'ensure_ascii': False}
     app.config["SECRET_KEY"] = "dev"
+
+    logg.debug("app config is:\n%s", pformat(dict(app.config)))
 
     @app.before_request
     def load_user():
@@ -46,8 +71,10 @@ def make_app(**app_options):
     @babel.localeselector
     def get_locale():
         locale = request.accept_languages.best_match(['de', 'en', 'fr'])
-        logg.info("locale from request: %s", locale)
+        logg.debug("locale from request: %s", locale)
         return locale
+
+    init_oauth(app)
 
     import arguments.views
     import arguments.views.admin

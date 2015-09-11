@@ -6,3 +6,4 @@
 *.pot
 *.mo
 .babelcompiled
+arguments/config.py
