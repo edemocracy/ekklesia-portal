@@ -1,5 +1,5 @@
 - extends "layout.j2.jade"
-- from "question_macros.j2.jade" import question_box, tag_filter_box
+- from "question_macros.j2.jade" import question_box, tag_filter_box, search_filter_box
 
 - block title
   title Arguments - {{ _("overview") }}
@@ -8,6 +8,9 @@
   #content
     if tag
       = tag_filter_box(tag, mode)
+
+    if searchterm
+      = search_filter_box(searchterm, mode)
 
     for question in questions
       = question_box(question)

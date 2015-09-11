@@ -32,7 +32,8 @@ body
                 a(href=url_for("questions", mode="custom"))= Antragsgruppen
 
               .navi_point
-                input#navi_search(type="text", value=_("search"), name="navi_search")
+                form(action=url_for("questions"))
+                  input#navi_search(type="text", value=_("search_for"), name="q")
 
 
     - block messages
