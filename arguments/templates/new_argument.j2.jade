@@ -1,0 +1,41 @@
+- extends "layout.j2.jade"
+- from "question_macros.j2.jade" import question_box
+
+- block title
+  title
+    = question.title
+    | - 
+    = _("new_argument")
+
+- block content
+  #content_wide
+    .thin
+      .question_tabs
+        .tab
+          a(href="/" + question.url)= _("discussion")
+        .tab
+          a(href="/" + question.url)= _("follow") if True else _("unfollow")
+        .tab.tab_active
+          = _("new_argument")
+
+      = question_box(question, no_margin=True)
+
+      form#new_argument(method="POST", action=url_for("new_argument", question_url=question.url, argument_type=argument_type))
+        .new_argument
+          .row
+            .label= _("title")
+            .input
+              textarea#new_argument_title(maxlength=50, name="title")
+          .row
+            .label= _("abstract")
+            .input
+              textarea#new_argument_abstract(maxlength=140, name="abstract")
+          .row
+            .label= _("details")
+            .input
+              textarea#new_argument_details(name="details")
+          .row.row_submit
+            button.button_orange= _("submit")
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

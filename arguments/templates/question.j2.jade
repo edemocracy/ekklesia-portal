@@ -24,7 +24,7 @@
           .argument_wrapper
             = argument_box(argument, g.user, show_ca_button=True)
 
-        a(href="{{ question.url }}/p/new/") 
+        a(href=url_for("new_argument", question_url=question.url, argument_type="pro")) 
           .button_argument.button_new_argument_pro 
             span Pro-Argument hinzufügen
 
@@ -33,7 +33,7 @@
           .argument_wrapper
             = argument_box(argument, g.user, show_ca_button=True)
 
-        a(href="{{ question.url }}/c/new/") 
+        a(href=url_for("new_argument", question_url=question.url, argument_type="con")) 
           .button_argument.button_new_argument_con 
             span Contra-Argument hinzufügen
       .clear
