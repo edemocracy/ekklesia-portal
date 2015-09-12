@@ -1,0 +1,26 @@
+- extends "layout.j2.jade"
+
+- block title
+  title= _("new_question")
+
+- block content
+  #content_wide
+    form#new_question(method="POST", action=url_for("new_question"))
+      .new_question
+        .row
+          .label= _("title")
+          .input
+            textarea(maxlength=140, name="title")
+        .row
+          .label= _("details")
+          .input
+            textarea(name="details")
+        .row
+          .label= _("tags")
+          .input
+            textarea(name="tags")
+        .row.row_submit
+          button.button_orange= _("submit")
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
