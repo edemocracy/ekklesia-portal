@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-09-11 22:53+0200\n"
+"POT-Creation-Date: 2015-09-12 13:43+0200\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -19,12 +19,14 @@ msgstr ""
 
 #: arguments/templates/argument.j2.jade:6
 #: arguments/templates/counter_arguments.j2.jade:6
+#: arguments/templates/new_argument.j2.jade:8
 #: arguments/templates/question.j2.jade:6
 msgid "discussion"
 msgstr "Discussion"
 
 #: arguments/templates/argument.j2.jade:8
 #: arguments/templates/counter_arguments.j2.jade:8
+#: arguments/templates/new_argument.j2.jade:10
 #: arguments/templates/question.j2.jade:8
 msgid "follow"
 msgstr "Follow"
@@ -82,9 +84,50 @@ msgstr "Other Link"
 msgid "imprint"
 msgstr "Imprint"
 
+#: arguments/templates/new_argument.j2.jade:3
+#: arguments/templates/new_argument.j2.jade:12
+msgid "new_argument"
+msgstr "New Argument"
+
+#: arguments/templates/new_argument.j2.jade:10
 #: arguments/templates/question.j2.jade:8
 msgid "unfollow"
 msgstr "Unfollow"
+
+#: arguments/templates/new_argument.j2.jade:18
+#: arguments/templates/new_question.j2.jade:7
+msgid "title"
+msgstr "Title"
+
+#: arguments/templates/new_argument.j2.jade:23
+msgid "abstract"
+msgstr "Abstract"
+
+#: arguments/templates/new_argument.j2.jade:28
+#: arguments/templates/new_question.j2.jade:12
+msgid "details"
+msgstr "Details"
+
+#: arguments/templates/new_argument.j2.jade:33
+#: arguments/templates/new_question.j2.jade:22
+msgid "submit"
+msgstr "Send"
+
+#: arguments/templates/new_question.j2.jade:2
+msgid "new_question"
+msgstr "New Question"
+
+#: arguments/templates/new_question.j2.jade:17
+msgid "tags"
+msgstr "Tags"
+
+#: arguments/templates/question.j2.jade:16
+msgid "add_pro_argument"
+msgstr "Add Pro Argument"
+
+#: arguments/templates/question.j2.jade:22
+msgid "add_con_argument"
+msgstr "Add Contra Argument"
 
 #: arguments/templates/question_macros.j2.jade:9
 msgid "supporter"
@@ -103,7 +146,4 @@ msgstr "Go To Arguments"
 #: arguments/templates/questions.j2.jade:2
 msgid "overview"
 msgstr "Overview"
-
-#~ msgid "translation"
-#~ msgstr "Translation"
 
