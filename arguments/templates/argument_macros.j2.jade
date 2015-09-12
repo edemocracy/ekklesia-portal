@@ -78,7 +78,7 @@
 
     .argument_abstract_extended.argument_abstract_cursive= argument.abstract
 
-    .argument_details_extended= argument.details or ""
+    .argument_details_extended= (argument.details or "")|markdown
 
     = argument_footer(argument)
     
