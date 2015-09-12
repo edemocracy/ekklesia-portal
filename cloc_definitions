@@ -1,0 +1,5 @@
+Pyjade+Jinja
+    filter remove_html_comments
+    filter remove_matches ^\s*//
+    extension j2.jade
+    3rd_gen_scale 2.2
