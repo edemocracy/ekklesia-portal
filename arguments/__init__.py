@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babelex import Babel
 from flask_admin import Admin
 from flask_oauthlib.client import OAuth
+from flask.ext.misaka import Misaka
 
 logg = logging.getLogger(__name__)
 
@@ -67,6 +68,19 @@ def make_app(**app_options):
     admin = Admin(app, name="Arguments", template_mode="bootstrap3")
     # i18n via flask-babelex
     babel = Babel(app)
+    # markdown via flask-misaka
+    # TODO: markdown options should be configurable
+    markdown_opts = dict(
+        autolink=True,
+        fenced_code=True,
+        no_intra_emphasis=True,
+        strikethrough=True,
+        tables=True,
+        safelink=True,
+        escape=True,
+        smartypants=True
+    )
+    Misaka(app, **markdown_opts)
 
     @babel.localeselector
     def get_locale():

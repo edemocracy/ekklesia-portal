@@ -34,10 +34,9 @@ def new_argument(question_url, argument_type):
     question = Question.query.filter_by(url=question_url).first_or_404()
     form = ArgumentForm()
 
-    if form.validate_on_submit():
+    if request.method == "POST" and form.validate():
         user = User.query.first()
-        import ipdb; ipdb.set_trace()
-        arg = Argument(url=form.title.data.replace(" ", ""), details=form.details.data, title=form.title.data, 
+        arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data, 
                        abstract=form.abstract.data, argument_type=argument_type, question=question, author=user)
         db.session.add(arg)
         db.session.commit()
