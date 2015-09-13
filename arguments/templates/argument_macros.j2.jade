@@ -30,7 +30,7 @@
 
 
 - macro argument_footer(argument)
-    .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.login_name)
+    .author.question_author=_("authored_at_by", dt=argument.created_at|datetimeformat, author_name=argument.author.display_name)
 
     div(class="argument_{{ argument.argument_type }}_bar")
 
