@@ -3,7 +3,7 @@ from flask import render_template, abort, request, redirect, url_for
 from arguments import app, db
 from arguments.database.datamodel import Question, Argument, User
 from flask.ext.babelex import _
-
+from flask_login import current_user
 from flask_wtf import Form
 from wtforms import TextField
 from wtforms.validators import DataRequired
@@ -35,9 +35,8 @@ def new_argument(question_url, argument_type):
     form = ArgumentForm()
 
     if request.method == "POST" and form.validate():
-        user = User.query.first()
         arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data, 
-                       abstract=form.abstract.data, argument_type=argument_type, question=question, author=user)
+                       abstract=form.abstract.data, argument_type=argument_type, question=question, author=current_user)
         db.session.add(arg)
         db.session.commit()
         return redirect(url_for("question", question_url=question.url))

@@ -11,9 +11,9 @@ s = db.session
 
 ug1 = UserGroup(name="Deppengruppe")
 
-u1 = User(login_name="testuser")
+u1 = User(login_name="abc", display_name="testuser")
 
-u2 = User(login_name="Egon")
+u2 = User(login_name="def", display_name="Egon")
 
 ug1.users.extend([u1, u2])
 

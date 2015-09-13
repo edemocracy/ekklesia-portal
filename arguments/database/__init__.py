@@ -1,7 +1,7 @@
 import logging
 import time
 
-#import pyaml
+import yaml
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import relationship, backref, Query, Mapper
@@ -48,6 +48,12 @@ def integer_fk(*args, **kwargs):
         raise ValueError("at least one argument must be specified (type)!")
 
 
+def update_model(self, **kwargs):
+    for name, value in kwargs.items():
+        setattr(self, name, value)
+
+Model.update = update_model
+
 # some pretty printing for SQLAlchemy objects ;)
 
 
@@ -56,12 +62,12 @@ def to_dict(self):
                 for col in self.__table__.columns)
 
 
-#def to_yaml(self):
-#    return pyaml.dump(self.to_dict())
+def to_yaml(self):
+    return yaml.dump(self.to_dict())
 
 
 Model.to_dict = to_dict
-#Model.to_yaml = to_yaml
+Model.to_yaml = to_yaml
 
 
 @event.listens_for(Engine, "before_cursor_execute")

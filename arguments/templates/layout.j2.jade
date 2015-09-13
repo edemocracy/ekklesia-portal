@@ -15,9 +15,14 @@ body
 
               .header_title
                 a(href="/") Arguments
-
-              .header_signup(style="text-align: center:")
-                a(href=url_for("login"))= _("login")
+              
+              if current_user.is_authenticated()
+                .header_menu
+                  .username= current_user.display_name
+                    .up_arrow
+              else
+                .header_signup(style="text-align: center:")
+                  a(href=url_for("ekklesia.login"))= _("login")
 
           .header_white
             .header_navigation

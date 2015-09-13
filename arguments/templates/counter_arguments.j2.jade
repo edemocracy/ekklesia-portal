@@ -21,12 +21,12 @@
           |:
           = argument.title
 
-      = argument_box(argument, g.user, extended=True)
+      = argument_box(argument, current_user, extended=True)
 
     .argument_container
       for ca in counter_arguments
         .argument_wrapper
-          = counter_argument_box(ca, g.user)
+          = counter_argument_box(ca, current_user)
 
       a.add-new-argument(href="{{ argument.url }}/ca/new/") 
         .button_argument.button_new_counter_argument

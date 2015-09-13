@@ -1,13 +1,16 @@
-from sqlalchemy import Unicode, Integer, Text, desc
+from sqlalchemy import Unicode, Integer, Text, desc, Boolean
 from sqlalchemy.sql import select, func
 from sqlalchemy.orm import object_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from sqlalchemy_searchable import make_searchable
+from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
+from flask_login import UserMixin
 
 from arguments import db
 from arguments.database import integer_pk, integer_fk, TimeStamp, rel, FK, C, Model, Table, bref
@@ -33,14 +36,36 @@ user_to_usergroup = Table("user_to_usergroup", db.metadata,
                           integer_fk(UserGroup.id, name="group_id", primary_key=True))
 
 
-class User(Model):
+class User(Model, UserMixin):
 
     __tablename__ = "user"
 
     id = integer_pk()
     login_name = C(Unicode, unique=True)
+    display_name = C(Unicode, unique=True)
 
     groups = rel(UserGroup, secondary=user_to_usergroup, backref="users")
+
+
+class EkklesiaUserInfo(Model):
+
+    __tablename__ = "oauth_info"
+
+    user_id = C(FK(User.id), primary_key=True)
+    auid = C(Unicode, unique=True)
+    user_type = C(Unicode)
+    verified = C(Boolean)
+    all_nested_group_ids = C(ARRAY(Integer))
+    nested_group_ids = C(ARRAY(Integer))
+    user = rel(User, backref=bref("ekklesia_info", uselist=False))
+
+
+class OAuthToken(Model, OAuthConsumerMixin):
+    
+    __tablename__ = "oauth_token"
+
+    user_id = C(FK(User.id), primary_key=True)
+    user = rel(User, backref="oauth_token_list")
 
 
 class Tag(Model):
