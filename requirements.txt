@@ -1,0 +1,13 @@
+blinker
+flask-admin
+flask-babelex
+flask-dance
+flask-login
+flask-sijax
+flask-sqlalchemy
+flask-wtf
+ipython
+psycopg2
+pyjade
+pyyaml 
+sqlalchemy-searchable
