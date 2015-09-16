@@ -15,8 +15,8 @@ body
 
               .header_title
                 a(href="/") Arguments
-              
-              if current_user.is_authenticated()
+
+              if current_user.is_authenticated
                 .header_menu
                   .username= current_user.display_name
                     .up_arrow
@@ -28,10 +28,10 @@ body
             .header_navigation
 
               .navi_point.title(class=("current_page" if not mode or mode=="sorted" else ""))
-                a(href=url_for("questions", tag=tag))= _("sorted")
+                a(href=url_for("questions", tag=tag|default(None)))= _("sorted")
 
               .navi_point.top(class=("current_page" if mode=="top" else ""))
-                a(href=url_for("questions", mode="top", tag=tag))= _("top")
+                a(href=url_for("questions", mode="top", tag=tag|default(None)))= _("top")
 
               .navi_point.overview(class=("current_page" if mode=="custom" else ""))
                 a(href=url_for("questions", mode="custom"))= Antragsgruppen
@@ -56,12 +56,12 @@ body
         a(href="/")
           .footer_logo
         #footer_copyright
-          a(href="#") FAQ 
-          || 
+          a(href="#") FAQ
+          ||
           a(href="#")= _("terms_of_use")
-          || 
+          ||
           a(href="#")= _("link_other")
-          || 
+          ||
           a(href="#")= _("imprint")
 
 
