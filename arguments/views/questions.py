@@ -9,7 +9,6 @@ def questions(tag=None):
     questions = Question.query
     mode = request.args.get("mode")
     searchterm = request.args.get("q")
-    #import ipdb; ipdb.set_trace()
 
     if searchterm:
         questions = questions.search(searchterm)
