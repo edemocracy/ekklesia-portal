@@ -31,7 +31,6 @@ def new_question():
     if request.method == "POST" and form.validate():
         question = Question(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data)
         
-        import ipdb; ipdb.set_trace()
         tags = [t.strip() for t in form.tags.data.split(",")]
         existing_tags = Tag.query.filter(Tag.tag.in_(tags)).all()
         question.tags.extend(existing_tags)

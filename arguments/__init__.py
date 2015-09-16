@@ -51,7 +51,6 @@ def init_oauth_ext(app):
             res_profile = ekklesia.session.get("user/profile/")
             res_membership = ekklesia.session.get("user/membership/")
 
-            import ipdb; ipdb.set_trace()
             if res_profile.ok and res_membership.ok:
                 profile = res_profile.json()
                 membership = res_membership.json()
