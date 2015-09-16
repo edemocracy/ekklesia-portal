@@ -1,11 +1,12 @@
 import logging
+import sys
 from flask import Flask, g, request, session, flash
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babelex import Babel
 from flask_admin import Admin
 from flask_dance.consumer import OAuth2ConsumerBlueprint, oauth_authorized, oauth_error
-from flask_dance.consumer.backend.sqla import SQLAlchemyBackend 
+from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
 from flask.ext.misaka import Misaka
 from flask_login import current_user, LoginManager, login_user
 
@@ -30,7 +31,7 @@ def init_oauth_ext(app):
             base_url=app.config["EKKLESIA_API_BASE_URL"],
             token_url=app.config["EKKLESIA_TOKEN_URL"],
             authorization_url=app.config["EKKLESIA_AUTHORIZATION_URL"])
-    
+
     app.register_blueprint(ekklesia, url_prefix="/login")
 
     ekklesia.backend = SQLAlchemyBackend(OAuthToken, db.session, user=current_user)
@@ -96,7 +97,7 @@ def make_app(**app_options):
 
     app = Flask(__name__)
     app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
     logg.debug("creating flask app %s", __name__)
     try:
         import arguments.config
