@@ -17,7 +17,7 @@
 
 - macro argument_stats(argument, user)
 
-  vote = argument.user_vote(user)
+  vote = argument.user_vote(user) if user.is_authenticated else None
   upvoted = vote.is_upvote if vote else False
   downvoted = vote.is_downvote if vote else False
 
@@ -45,7 +45,7 @@
     abstract_cls = "argument_abstract"
     argument_cls = "argument argument_" + argument.argument_type
     if no_counter
-      argument_cls = argument_cls + "_no_counter" 
+      argument_cls = argument_cls + "_no_counter"
 
   if show_ca_button
     = counter_arguments_button(argument)
@@ -81,7 +81,7 @@
     .argument_details_extended= (argument.details or "")|markdown
 
     = argument_footer(argument)
-    
+
   .counter_argument_box_full_line
   = counter_arguments_button(argument, full=True)
 
