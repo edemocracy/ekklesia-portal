@@ -40,5 +40,56 @@
     .clear
 
 
+- block script
+  script.
+    $(function() {
+      $("[data-action='argument_vote_up']").click(function() {
+        var revoke = $(this).data("revoke");
+        var argument_id = $(this).data("argument-id");
+        Sijax.request("argument_vote", [argument_id, revoke ? 0 : 1]);
+      });
+
+      $("[data-action='argument_vote_dn']").click(function() {
+        var revoke = $(this).data("revoke");
+        var argument_id = $(this).data("argument-id");
+        Sijax.request("argument_vote", [argument_id, revoke ? 0 : -1]);
+      });
+    });
+
+    change_argument_vote_actions = function(argument_id, old_value, value) {
+
+      vote_up = $(`[data-action='argument_vote_up'][data-argument-id='${argument_id}']`);
+      vote_dn = $(`[data-action='argument_vote_dn'][data-argument-id='${argument_id}']`);
+
+      if (old_value == 0 && value == 1) {
+        vote_up.removeClass("vote_up_inactive");
+        vote_up.data("revoke", true);
+      }
+      else if (old_value == 0 && value == -1) {
+        vote_dn.removeClass("vote_dn_inactive");
+        vote_dn.data("revoke", true);
+      }
+      else if (old_value == 1 && value == 0) {
+        vote_up.addClass("vote_up_inactive");
+        vote_up.data("revoke", false);
+      }
+      else if (old_value == -1 && value == 0) {
+        vote_dn.addClass("vote_dn_inactive");
+        vote_dn.data("revoke", false);
+      }
+      else if (old_value == -1 && value == 1) {
+        vote_dn.addClass("vote_dn_inactive");
+        vote_dn.data("revoke", false);
+        vote_up.removeClass("vote_up_inactive");
+        vote_up.data("revoke", true);
+      }
+      else if (old_value == 1 && value == -1) {
+        vote_up.addClass("vote_up_inactive");
+        vote_up.data("revoke", false);
+        vote_dn.removeClass("vote_dn_inactive");
+        vote_dn.data("revoke", true);
+      }
+    };
+
 // generated from jade
-//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandab:

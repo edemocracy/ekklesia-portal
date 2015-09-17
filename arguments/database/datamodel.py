@@ -86,11 +86,11 @@ class VoteMixin(object):
 
     @property
     def is_upvote(self):
-        return self.vote == UP
+        return self.value == UP
 
     @property
     def is_downvote(self):
-        return self.vote == DOWN
+        return self.value == DOWN
 
 
 class QuestionVote(Model, VoteMixin):
@@ -99,7 +99,7 @@ class QuestionVote(Model, VoteMixin):
 
     question_id = integer_fk("question.id", primary_key=True)
     user_id = integer_fk(User.id, primary_key=True)
-    vote = C(Integer, default=1)
+    value = C(Integer, default=1)
 
     user = rel(User, backref=bref("question_votes", lazy="dynamic"))
     question = rel("Question", backref=bref("votes", lazy="dynamic"))
@@ -111,7 +111,7 @@ class ArgumentVote(Model, VoteMixin):
 
     argument_id = integer_fk("argument.id", primary_key=True)
     user_id = integer_fk(User.id, primary_key=True)
-    vote = C(Integer)
+    value = C(Integer)
 
     user = rel(User, backref=bref("argument_votes", lazy="dynamic"))
     argument = rel("Argument", backref=bref("votes", lazy="dynamic"))
@@ -141,11 +141,11 @@ class Argument(Model, TimeStamp):
 
     @hybrid_property
     def score(self):
-        return self.votes.with_entities(func.coalesce(func.sum(ArgumentVote.vote), 0)).scalar()
+        return self.votes.with_entities(func.coalesce(func.sum(ArgumentVote.value), 0)).scalar()
 
     @score.expression
     def score_expr(cls):
-        return (select([func.coalesce(func.sum(ArgumentVote.vote), 0)])
+        return (select([func.coalesce(func.sum(ArgumentVote.value), 0)])
                 .where(ArgumentVote.argument_id == cls.id))
 
 

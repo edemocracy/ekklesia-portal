@@ -7,6 +7,7 @@ from flask_login import current_user
 from flask_wtf import Form
 from wtforms import TextField
 from wtforms.validators import DataRequired
+import flask_sijax
 
 
 logg = logging.getLogger(__name__)
@@ -35,7 +36,7 @@ def new_argument(question_url, argument_type):
     form = ArgumentForm()
 
     if request.method == "POST" and form.validate():
-        arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data, 
+        arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data,
                        abstract=form.abstract.data, argument_type=argument_type, question=question, author=current_user)
         db.session.add(arg)
         db.session.commit()
@@ -44,3 +45,6 @@ def new_argument(question_url, argument_type):
     return render_template("new_argument.j2.jade", question=question, argument_type=argument_type)
 
 
+@flask_sijax.route(app, "/ajax/vote_argument")
+def vote_argument():
+    pass
