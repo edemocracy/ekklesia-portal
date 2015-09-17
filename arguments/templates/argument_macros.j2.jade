@@ -22,11 +22,17 @@
   downvoted = vote.is_downvote if vote else False
 
   .stats.argument_stats
-    .points.argument_points= argument.score
+    .points.argument_points(id="argument_score_{{ argument.id }}")= argument.score
     .points_text.argument_points_text= ngettext("point", "points", argument.score)
-    form
-      .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""))
-      .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""))
+    .vote_up.argument_vote_up(class=("vote_up_inactive" if not upvoted else ""),
+      data-action="argument_vote_up",
+      data-argument-id=argument.id,
+      data-revoke=upvoted|tojson)
+
+    .vote_dn.argument_vote_dn(class=("vote_dn_inactive" if not downvoted else ""),
+      data-action="argument_vote_dn",
+      data-argument-id=argument.id,
+      data-revoke=downvoted|tojson)
 
 
 - macro argument_footer(argument)

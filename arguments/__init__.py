@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 from flask import Flask, g, request, session, flash
 from pprint import pformat
@@ -9,6 +10,7 @@ from flask_dance.consumer import OAuth2ConsumerBlueprint, oauth_authorized, oaut
 from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
 from flask.ext.misaka import Misaka
 from flask_login import current_user, LoginManager, login_user
+import flask_sijax
 
 
 logg = logging.getLogger(__name__)
@@ -96,6 +98,7 @@ def make_app(**app_options):
     global db, app, admin
 
     app = Flask(__name__)
+    app.debug = True
     app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
     logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
     logg.debug("creating flask app %s", __name__)
@@ -139,6 +142,9 @@ def make_app(**app_options):
     login_manager = LoginManager(app)
     login_manager.login_view = 'ekklesia.login'
 
+    # XXX: for testing: just use first user from the DB as anon user
+    #login_manager.anonymous_user = lambda: User.query.first()
+
     from arguments.database.datamodel import User
 
     @login_manager.user_loader
@@ -157,7 +163,10 @@ def make_app(**app_options):
     init_oauth_ext(app)
 
     # ajax lib flask-sijax
-
+    path = os.path.join('.', os.path.dirname(__file__), 'static/js/sijax/')
+    app.config['SIJAX_STATIC_PATH'] = path
+    app.config['SIJAX_JSON_URI'] = '/static/js/sijax/json2.js'
+    flask_sijax.Sijax(app)
 
     import arguments.views
     import arguments.views.admin

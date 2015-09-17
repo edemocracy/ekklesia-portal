@@ -4,7 +4,11 @@ head
     title Arguments
   //meta(name="viewport", content="width=device-width, initial-scale=1.0")
   link(rel="stylesheet", href=url_for("static", filename="css/arguments.css"))
-  script(src=url_for("static", filename="js/jquery-2.1.1.js"))
+  script(src=url_for("static", filename="js/jquery-2.1.4.js"))
+  script(src="/static/js/sijax/sijax.js")
+  script= g.sijax.get_js()|safe
+  script.
+    var current_user = { "is_authenticated": {{ current_user.is_authenticated|tojson }} };
 
 body
   #wrapper
