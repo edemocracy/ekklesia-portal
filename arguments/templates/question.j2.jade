@@ -14,7 +14,7 @@
         .tab
           a(href="/" + question.url)= _("follow") if True else _("unfollow")
 
-      = question_box(question, no_margin=True, voting=True, details=True)
+      = question_box(question, no_margin=True, voting=True, details=True, user=current_user)
 
     .arguments
       a(name="arguments")
@@ -54,7 +54,29 @@
         var argument_id = $(this).data("argument-id");
         Sijax.request("argument_vote", [argument_id, revoke ? 0 : -1]);
       });
+
+      $("[data-action='question_vote_up']").click(function() {
+        var revoke = $(this).data("revoke");
+        var question_id = $(this).data("question-id");
+        Sijax.request("question_vote", [question_id, revoke ? 0 : 1]);
+      });
     });
+
+
+    change_question_vote_actions = function(question_id, old_value, value) {
+      
+      vote_up = $(`[data-action='question_vote_up'][data-question-id='${question_id}']`);
+
+      if (old_value == 0 && value == 1) {
+        vote_up.removeClass("vote_up_inactive");
+        vote_up.data("revoke", true);
+      }
+      else if (old_value == 1 && value == 0) {
+        vote_up.addClass("vote_up_inactive");
+        vote_up.data("revoke", false);
+      }
+    }
+
 
     change_argument_vote_actions = function(argument_id, old_value, value) {
 

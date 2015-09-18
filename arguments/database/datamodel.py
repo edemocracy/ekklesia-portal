@@ -70,7 +70,6 @@ class OAuthToken(Model, OAuthConsumerMixin):
 
 class Tag(Model):
     __tablename__ = 'tag'
-
     id = integer_pk()
     tag = C(Unicode)
 
@@ -186,4 +185,6 @@ class Question(Model, TimeStamp):
     def contra_arguments(self):
         return self.arguments.filter_by(argument_type=u"con", parent=None).order_by(desc(Argument.score))
 
+    def user_vote(self, user):
+        return self.votes.filter_by(user_id=user.id).scalar()
 

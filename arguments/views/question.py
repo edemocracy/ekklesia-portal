@@ -7,7 +7,7 @@ from flask_wtf import Form
 from wtforms import TextField
 from wtforms.validators import DataRequired
 import flask_sijax
-from arguments.sijax_callbacks import argument_vote
+from arguments.sijax_callbacks import argument_vote, question_vote
 
 
 logg = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ def question(question_url):
 
     if g.sijax.is_sijax_request:
         g.sijax.register_callback('argument_vote', argument_vote)
+        g.sijax.register_callback('question_vote', question_vote)
         return g.sijax.process_request()
 
     question = Question.query.filter_by(url=question_url).first_or_404()
