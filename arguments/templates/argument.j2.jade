@@ -21,7 +21,7 @@
           |:
           = argument.title
 
-      = question_box(question, no_margin=True, voting=True)
+      = question_box(question, no_margin=True, voting=True, user=current_user)
     
     .argument_container_full
         = argument_box_full(argument, current_user)
