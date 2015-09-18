@@ -176,7 +176,7 @@ background: linear-gradient(to bottom, #ff8800 0%,#ffc880 100%); /* W3C */
   float: right;
   color: #87cbff;
   font-size: 16px;
-
+  text-align: right;
 }
 
 .header_signup a {
@@ -342,14 +342,13 @@ width:45px;
 }
 
 #footer {
-  background: #3275B7;
   height: 138px;
   width: 100%;
-  background-repeat: repeat-x;
   margin-top: -128px;
   position:relative;
   clear:both;
-  background: linear-gradient(to bottom,  rgba(51,129,205,0.9) 0%,rgba(50,117,183,0.9) 100%);
+  background: #ff8800;
+  background: linear-gradient(to top, #ff8800 65%, #ffc880 100%);
 }
 
 #footer_content {
@@ -370,7 +369,7 @@ width:45px;
 #footer_copyright {
   position: relative;
   top: 60px;
-  color: #87CBFF;
+  color: #004C83;
   font-size: 13px;
   width:65%;
 }
@@ -394,7 +393,7 @@ width:45px;
 
 #footer_copyright a,
 #footer_menu a{
-color:#87cbff;
+  color: #004C83;
 }
 
 	#footer_copyright a:hover {
