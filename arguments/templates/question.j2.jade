@@ -14,7 +14,7 @@
         .tab
           a(href="/" + question.url)= _("follow") if True else _("unfollow")
 
-      = question_box(question, no_margin=True, voting=True, details=True, user=current_user)
+      = question_box(question, current_user, no_margin=True, voting=True, details=True)
 
     .arguments
       a(name="arguments")
@@ -114,4 +114,4 @@
     };
 
 // generated from jade
-//- vim: set filetype=jade sw=2 ts=2 sts=2 expandab:
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
