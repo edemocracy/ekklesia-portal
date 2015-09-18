@@ -61,7 +61,7 @@ a {
   text-decoration: none;
   cursor: hand;
   cursor: pointer;
-  color: #004c83
+  color: rgb(85, 59, 115)
 }
 
 hr { 
@@ -77,18 +77,11 @@ hr {
   width: 100%;
 }
 
-#header_blue {
-  background: url('../img/header_background.png');
-  height: 54px;
-  width: 100%;
-  background-repeat: repeat-x;
-}
-
 #header_orange {
   height: 54px;
   width: 100%;
-background: #ff8800; /* Old browsers */
-background: linear-gradient(to bottom, #ff8800 0%,#ffc880 100%); /* W3C */
+  background: #F9B200; /* Old browsers */
+  background: linear-gradient(to top left, rgb(253, 195, 0) 0%, rgb(240, 138, 0) 100%); /* W3C */
 }
 
 .header_white {
@@ -174,7 +167,7 @@ background: linear-gradient(to bottom, #ff8800 0%,#ffc880 100%); /* W3C */
   height: 20px;
   top: 18px;
   float: right;
-  color: #87cbff;
+  color: rgb(85, 59, 115);
   font-size: 16px;
   text-align: right;
 }
@@ -195,7 +188,7 @@ background: linear-gradient(to bottom, #ff8800 0%,#ffc880 100%); /* W3C */
 }
 
 .header_menu .username {
-  color: #004C83;
+  color: rgb(85, 59, 115);
   height: 34px;
   padding-top: 10px;
   text-align: center;
@@ -348,7 +341,7 @@ width:45px;
   position:relative;
   clear:both;
   background: #ff8800;
-  background: linear-gradient(to top, #ff8800 65%, #ffc880 100%);
+  background: linear-gradient(to bottom right, rgb(253, 195, 0) 0%, rgb(240, 138, 0) 100%);
 }
 
 #footer_content {
@@ -369,7 +362,7 @@ width:45px;
 #footer_copyright {
   position: relative;
   top: 60px;
-  color: #004C83;
+  color: rgb(85, 59, 115);
   font-size: 13px;
   width:65%;
 }
@@ -377,7 +370,7 @@ width:45px;
 #footer_menu {
   position: absolute;
   top: 98px;
-  color: #87cbff;
+  color: rgb(85, 59, 115);
   font-size: 13px;
   width:65%;
 }
@@ -385,7 +378,7 @@ width:45px;
 #footer_submenu {
   position: absolute;
   top: 118px;
-  color: #87cbff;
+  color: rgb(85, 59, 115);
   font-size: 13px;
   width:65%;
 }
@@ -393,19 +386,19 @@ width:45px;
 
 #footer_copyright a,
 #footer_menu a{
-  color: #004C83;
+  color: rgb(85, 59, 115);
 }
 
 	#footer_copyright a:hover {
-		border-bottom:1px solid #87cbff;
+		border-bottom:1px solid rgb(85, 59, 115);
 	}
 
 #footer_submenu a{
-color:#87cbff;
+color:rgb(85, 59, 115);
 }
 
 	#footer_copyright a:hover {
-		border-bottom:1px solid #87cbff;
+		border-bottom:1px solid rgb(85, 59, 115);
 	}
 
 
@@ -470,7 +463,7 @@ color:#87cbff;
 }
 
 .stats .points {
-  color: #004A80;
+  color: rgb(85, 59, 115);
   font-size: 22px;
   position: relative;
   right: 8px;
@@ -562,7 +555,7 @@ position:absolute;
 
 
 .question_title {
-  color: #004A80;
+  color: rgb(85, 59, 115);
   font-size: 20px;
   position: relative;
   float:left;
@@ -587,7 +580,7 @@ position:absolute;
 }
 
 .question_title a {
-  color: #004A80;
+  color: rgb(85, 59, 115);
   font-size: 22px;
 }
 
@@ -633,7 +626,7 @@ position:absolute;
   text-align: left;
   line-height: 23px;
   font-size: 12px;
-  color: #004A80;
+  color: rgb(85, 59, 115);
   padding-left: 6px;
 
 
@@ -751,14 +744,14 @@ padding-right:18px;
 
 .headline {
   font-size: 40px;
-  color: #004a80;
+  color: rgb(85, 59, 115);
 }
 
 .subheadline_faq {
   padding-top: 20px;
   padding-bottom: 15px;
   font-size: 20px;
-  color: #004a80;
+  color: rgb(85, 59, 115);
 }
 
 .icon_twitter {
@@ -789,7 +782,7 @@ padding-right:18px;
 }
 
 .hidden a{
-color:#004A80;
+color:rgb(85, 59, 115);
 }
 
 .question_tabs {
@@ -958,14 +951,14 @@ color:#333;
 
 .argument_headline,.associated_question_title {
   position: relative;
-  color: #004a80;
-  font-size: 18px;
+  color: rgb(85, 59, 115);
+  font-size: 20px;
   margin-left: 110px;
   margin-top: 20px;
 }
 
 .argument_headline a {
-  color: #004a80;
+  color: rgb(85, 59, 115);
 }
 
 .argument_abstract {
@@ -1015,7 +1008,7 @@ font-size:16px;
 
 .count {
   font-size: 24px;
-  color: #004a80;
+  color: rgb(85, 59, 115);
   margin-top: 7px;
   margin-left: 15px;
   position: relative;
@@ -1068,7 +1061,7 @@ font-size:16px;
   position: absolute;
   right: 0px;
   width: 10px;
-  background: #0066b8;
+  background: rgb(85, 59, 115);
   top: 0px;
   bottom: 0px;
 }
@@ -1077,17 +1070,17 @@ font-size:16px;
   position: absolute;
   left: 0px;
   width: 10px;
-  background: #ff7000;
+  background: rgb(249, 179, 0);
   top: 0px;
   bottom: 0px;
 }
 
 .tab_arg_pro a {
-  color: #0066b8;
+  color: rgb(85, 59, 115);
 }
 
 .tab_arg_con a {
-  color: #ff7000;
+  color: rgb(249, 179, 0);
 }
 
 .argument_container {
@@ -1144,7 +1137,7 @@ font-size:16px;
 
 
 .argument_title {
-  color: #004A80;
+  color: rgb(85, 59, 115);
   font-size: 22px;
   position: relative;
   width: 700px;
@@ -1157,7 +1150,7 @@ left:0px;
 
 
 .argument_title a {
-  color: #004A80;
+  color: rgb(85, 59, 115);
 }
 
 .argument_abstract_extended {
@@ -1392,19 +1385,11 @@ text-align:center;
 letter-spacing: -0.5px;
 font-size:16px;
 padding:5px 8px;
-background:#ee600d;
-border-top :1px solid #edb14a;
-border-bottom :1px solid #9c4822;
-border-left: 1px solid #da9650;
-border-right:1px solid #af5b0c;
-color:#FFF;
- text-shadow: 0 -1px #B64F1B;
-background: #f6a015; /* Old browsers */
-background: linear-gradient(to bottom,  #f6a015 0%,#f17b10 60%,#e6500b 100%); /* W3C */
+color: rgb(85, 59, 115);
+background: rgb(249, 179, 0);
 border-radius:5px;
-box-shadow: 1px 1px #fce0af inset,0px 0px 3px #999;
-
 }
+
 .button_orange:before{
     transform: rotate(-33deg);
     border-radius: 2px 2px 2px 2px;
@@ -1513,7 +1498,7 @@ cursor: pointer;
 } 
 
 .token-feedback.valid {
-    color: #004a80;
+    color: rgb(85, 59, 115);
 }
 
 .token-feedback.invalid {
@@ -1650,8 +1635,8 @@ overflow:hidden;
   padding: 4px 10px;
   border-radius: 6px;
   background: #FFFFFF;
-  border: 1px solid #F9B497;
-  color: #858585;
+  border: 1px solid rgb(249, 179, 0);
+  color: rgb(85, 59, 115);
   font-size: 14px;
   margin-top: 2px;
   line-height: 20px;
@@ -1707,7 +1692,7 @@ float:left;
 }
 
 .writing_tips h3{
-    color: #004A80;
+    color: rgb(85, 59, 115);
     height: 29px;
     left: -64px;
     line-height: 29px;
@@ -1738,7 +1723,7 @@ float:right;
 list-style:none;
 margin:3px;
 display: inline-block;
-color: #87cbff;
+color: rgb(85, 59, 115);
 vertical-align: middle;
 }
 #footer_socials ul li a{
@@ -1770,7 +1755,7 @@ margin-left:175px;
 
 #user_tips h3{
 margin-top:35px;
-color:#004a80;
+color:rgb(85, 59, 115);
 font-size:20px;
 }
 
@@ -1936,7 +1921,7 @@ clear:both;
   padding-top: 6px;
   height: 25px;
   width: 55px;
-  color: #004A80;
+  color: rgb(85, 59, 115);
 }
 
 .icon_num_arguments {
