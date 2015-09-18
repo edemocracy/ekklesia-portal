@@ -5,7 +5,11 @@
         a(href="/tags/{{ tag.tag }}")= tag.tag
 
 
-- macro question_box(question, no_margin=False, voting=False, details=False, user=None)
+- macro question_box(question, user, no_margin=False, voting=False, details=False)
+
+  vote = question.user_vote(user) if user.is_authenticated else None
+  upvoted = vote != None
+
   .question(id="question_{{ question.id }}", 
             class=("question_no_margin" if no_margin else ""))
     .stats.question_stats
@@ -13,14 +17,13 @@
       .points_text.question_points_text= ngettext("supporter", "supporters", question.score)
 
       if voting
-        vote = question.user_vote(user) if user.is_authenticated else None
-        upvoted = vote != None
-
         .question_vote_up.vote_up(class=("vote_up_inactive" if not upvoted else ""),
           data-action="question_vote_up",
           data-question-id=question.id,
           data-revoke=upvoted|tojson,
           title="hier klicken")
+      elif upvoted
+        .question_vote_up.vote_up
 
     .question_title
       p
