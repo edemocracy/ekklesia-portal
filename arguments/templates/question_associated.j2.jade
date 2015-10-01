@@ -1,0 +1,37 @@
+- extends "layout.j2.jade"
+- from "question_macros.j2.jade" import question_box, question_box_small, question_tabline
+
+- block title
+  title= question.title
+
+- block content
+  #content_wide
+    .thin
+      = question_tabline(question, "associated")
+      = question_box(question, current_user, _("goto_associated_questions"), no_margin=True, voting=True, details=True)
+
+    .arguments
+      a(name="bottom")
+
+      .associated_questions_left
+        for associated_question in question.associated_questions("change")
+          = question_box_small(associated_question, "left")
+
+        a(href=url_for("new_question", associated_with_question_url=question.url, association_type="change")) 
+          .button_associated_question.button_new_associated_question_left 
+            span= _("add_change_question")
+
+
+      .associated_questions_right
+        for associated_question in question.associated_questions("counter")
+          = question_box_small(associated_question, "right")
+
+        a(href=url_for("new_question", associated_with_question_url=question.url, association_type="counter")) 
+          .button_associated_question.button_new_associated_question_right
+            span= _("add_counter_question")
+      .clear
+    .clear
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
