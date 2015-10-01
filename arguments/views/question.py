@@ -70,8 +70,15 @@ def new_question(associated_with_question_url="", association_type=""):
         db.session.add(question)
         db.session.commit()
         return redirect(url_for("question", question_url=question.url))
+    
+    title = request.args.get("title", "")
+    details = request.args.get("details", "")
+    tags = request.args.getlist("tags")
 
     return render_template("new_question.j2.jade", 
             associated_with_question_url=associated_with_question_url, 
-            association_type=association_type)
+            association_type=association_type,
+            title=title,
+            details=details,
+            tags=",".join(tags))
 
