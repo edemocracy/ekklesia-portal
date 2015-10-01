@@ -199,3 +199,26 @@ class Question(Model, TimeStamp):
     def __repr__(self):
         return "Question '{}'".format(self.url)
 
+
+class QuestionAssociation(Model):
+    __tablename__ = "question_to_question"
+
+    left_id = integer_fk(Question.id, primary_key=True)
+    right_id = integer_fk(Question.id, primary_key=True)
+
+    association_type = C(Unicode)
+    left = rel(Question, primaryjoin=Question.id == left_id, backref=bref("right_assocs", lazy="dynamic"))
+    right = rel(Question, primaryjoin=Question.id == right_id, backref=bref("left_assocs", lazy="dynamic"))
+
+    def __repr__(self):
+        return "Question {} -> {} ({})".format(self.left_id, self.right_id, self.association_type)
+
+
+def associated_questions(self, association):
+    # XXX: find a better way to get the associated objects
+    questions = [q.right for q in self.right_assocs.filter_by(association_type=association)]
+    questions.sort(key=lambda q: q.score, reverse=True)
+    return questions
+
+Question.associated_questions = associated_questions
+

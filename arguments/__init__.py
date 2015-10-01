@@ -99,6 +99,8 @@ def make_app(**app_options):
 
     app = Flask(__name__)
     app.debug = True
+    from werkzeug.debug import DebuggedApplication
+    app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
     app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
     logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
     logg.debug("creating flask app %s", __name__)

@@ -5,7 +5,7 @@
         a(href="/tags/{{ tag.tag }}")= tag.tag
 
 
-- macro question_box(question, user, no_margin=False, voting=False, details=False)
+- macro question_box(question, user, goto_label, no_margin=False, voting=False, details=False)
 
   vote = question.user_vote(user) if user.is_authenticated else None
   upvoted = vote != None
@@ -39,7 +39,7 @@
 
     if details
       .question_details
-        a.button_orange(href="#arguments", style="width:180px")= _("goto_arguments")
+        a.button_orange(href="#bottom", style="width:180px")= goto_label
         p
           = question.details|markdown
 
@@ -61,5 +61,34 @@
     .remove
       a(href=url_for("questions", mode=mode))
         .remove_icon
+
+
+- macro question_tabline(question, active_tab)
+  .question_tabs
+    .tab(class=("tab_active" if active_tab == "discussion" else ""))
+      a(href=url_for("question", question_url=question.url))= _("discussion")
+
+    .tab(class=("tab_active" if active_tab == "associated" else ""))
+      a(href=url_for("question_associated", question_url=question.url))= _("associated")
+
+    .tab
+      a(href="/" + question.url)= _("follow") if True else _("unfollow")
+
+
+- macro question_box_small(question, side)
+  .associated_question_wrapper
+    .associated_question(class=("associated_question_" + side))
+      .stats.associated_question_stats
+        .points.question_points= question.score
+        .points_text.question_points_text= ngettext("supporter", "supporters", question.score)
+
+      .associated_question_title
+        p
+          a(href=url_for("question", question_url=question.url))= question.title
+
+      .author=_("authored_at", dt=question.created_at|datetimeformat)
+
+      .clear
+
 
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

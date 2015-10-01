@@ -8,17 +8,28 @@
     form#new_question(method="POST", action=url_for("new_question"))
       .new_question
         .row
+          .label= _("associated_with_question_url")
+          .input
+            textarea(name="associated_with_question_url", cols=80, rows=3)= associated_with_question_url
+        .row
+          .label= _("association_type")
+          select(name="association_type")
+            option(value="")
+            option(value="change" selected=(association_type=="change"))= _("change_question")
+            option(value="counter" selected=(association_type=="counter"))= _("counter_question")
+        .row
           .label= _("title")
           .input
-            textarea(maxlength=140, name="title")
-        .row
-          .label= _("details")
-          .input
-            textarea(name="details")
+            textarea(name="title", cols=80, rows=3)
         .row
           .label= _("tags")
           .input
-            textarea(name="tags")
+            textarea(name="tags", cols=80, rows=2)
+        .row
+          .label= _("details")
+          .input
+            textarea(name="details", cols=80, rows=20)
+
         .row.row_submit
           button.button_orange= _("submit")
 

@@ -22,6 +22,19 @@ t2 = Tag(tag="Tag2")
 t3 = Tag(tag="Täääg3")
 
 q1 = Question(url="Q1", title="Ein Titel", details="blah")
+
+q1_counter = Question(url="Q1Counter", title="Gegenantrag zu Q1", details="will was anderes")
+q1_counter_assoc = QuestionAssociation(left=q1, right=q1_counter, association_type="counter")
+s.add(q1_counter_assoc)
+
+q1_counter_2 = Question(url="Q1Counter2", title="Noch ein Gegenantrag zu Q1", details="will was ganz anderes")
+q1_counter_2_assoc = QuestionAssociation(left=q1, right=q1_counter_2, association_type="counter")
+s.add(q1_counter_2_assoc)
+
+q1_change = Question(url="Q1Change", title="Änderungsantrag zu Q1", details="will was ändern")
+q1_change_assoc = QuestionAssociation(left=q1, right=q1_change, association_type="change")
+s.add(q1_change_assoc)
+
 arg1 = Argument(question=q1, author=u1, title="Ein Pro-Argument", url="dafür-ööö",
                 abstract="dafür abstract", details="dafür", argument_type="pro")
 
