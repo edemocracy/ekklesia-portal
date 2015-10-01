@@ -46,6 +46,9 @@ class User(Model, UserMixin):
 
     groups = rel(UserGroup, secondary=user_to_usergroup, backref="users")
 
+    def __repr__(self):
+        return "User '{}'".format(self.login_name)
+
 
 class EkklesiaUserInfo(Model):
 
@@ -72,6 +75,9 @@ class Tag(Model):
     __tablename__ = 'tag'
     id = integer_pk()
     tag = C(Unicode)
+
+    def __repr__(self):
+        return "Tag '{}'".format(self.tag)
 
 
 tag_to_question = Table("tag_to_question", db.metadata,
@@ -103,6 +109,9 @@ class QuestionVote(Model, VoteMixin):
     user = rel(User, backref=bref("question_votes", lazy="dynamic"))
     question = rel("Question", backref=bref("votes", lazy="dynamic"))
 
+    def __repr__(self):
+        return "QuestionVote '{}' for '{}'".format(self.value, self.question_id)
+
 
 class ArgumentVote(Model, VoteMixin):
 
@@ -114,6 +123,9 @@ class ArgumentVote(Model, VoteMixin):
 
     user = rel(User, backref=bref("argument_votes", lazy="dynamic"))
     argument = rel("Argument", backref=bref("votes", lazy="dynamic"))
+
+    def __repr__(self):
+        return "ArgumentVote '{}' for '{}'".format(self.value, self.argument_id)
 
 
 class Argument(Model, TimeStamp):
@@ -183,4 +195,7 @@ class Question(Model, TimeStamp):
 
     def user_vote(self, user):
         return self.votes.filter_by(user_id=user.id).scalar()
+
+    def __repr__(self):
+        return "Question '{}'".format(self.url)
 
