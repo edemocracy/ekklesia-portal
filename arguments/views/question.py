@@ -13,6 +13,14 @@ from arguments.sijax_callbacks import argument_vote, question_vote
 logg = logging.getLogger(__name__)
 
 
+# XXX: we support two association types, make it configurable
+QUESTION_ASSOCIATION_TYPES = {
+    "left": "change",
+    "right": "counter",
+    "": ""
+}
+
+
 class QuestionForm(Form):
     associated_with_question_url = TextField(default="")
     association_type = TextField(default="")
@@ -36,13 +44,20 @@ def question(question_url):
 @app.route("/<question_url>/associated")
 def question_associated(question_url):
     question = Question.query.filter_by(url=question_url).first_or_404()
-    return render_template("question_associated.j2.jade", question=question)
+    associated_questions_left = question.associated_questions(QUESTION_ASSOCIATION_TYPES["left"])
+    associated_questions_right = question.associated_questions(QUESTION_ASSOCIATION_TYPES["right"])
+
+    return render_template("question_associated.j2.jade", 
+            question=question,
+            associated_questions_left=associated_questions_left,
+            associated_questions_right=associated_questions_right)
 
 
 @app.route("/<associated_with_question_url>/associated/<association_type>/new", methods=["GET", "POST"])
 @app.route("/new", methods=["GET", "POST"])
-def new_question(associated_with_question_url="", association_type=""):
+def new_question(associated_with_question_url="", side=""):
     logg.debug("new question form: %s", request.form)
+
     form = QuestionForm()
 
     if request.method == "POST" and form.validate():
@@ -71,6 +86,8 @@ def new_question(associated_with_question_url="", association_type=""):
         db.session.commit()
         return redirect(url_for("question", question_url=question.url))
     
+
+    association_type = QUESTION_ASSOCIATION_TYPES[side]
     title = request.args.get("title", "")
     details = request.args.get("details", "")
     tags = request.args.getlist("tags")

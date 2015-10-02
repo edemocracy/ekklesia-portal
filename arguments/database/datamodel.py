@@ -215,10 +215,8 @@ class QuestionAssociation(Model):
 
 
 def associated_questions(self, association):
-    # XXX: find a better way to get the associated objects
-    questions = [q.right for q in self.right_assocs.filter_by(association_type=association)]
-    questions.sort(key=lambda q: q.score, reverse=True)
-    return questions
+    return (self.right_assocs.filter_by(association_type=association)
+        .with_entities(Question).filter(Question.id==QuestionAssociation.right_id))
 
 Question.associated_questions = associated_questions
 
