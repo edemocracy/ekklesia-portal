@@ -3,6 +3,7 @@ flask-admin
 flask-babelex
 flask-dance
 flask-login
+flask-misaka
 flask-sijax
 flask-sqlalchemy
 flask-wtf
