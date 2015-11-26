@@ -1,6 +1,6 @@
 import logging
 from flask import render_template, abort, request, url_for, redirect, g
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_wtf import Form
 from wtforms import TextField
 from wtforms.validators import DataRequired
@@ -100,6 +100,7 @@ QUESTION_IMPORT_HANDLERS = {
 @app.route("/<associated_with_question_url>/associated/<association_type>/new", methods=["GET", "POST"])
 @app.route("/new", methods=["GET", "POST"])
 @app.route("/questions/new", methods=["GET", "POST"])
+@login_required
 def new_question(associated_with_question_url="", side=""):
     logg.debug("new question form: %s", request.form)
 
