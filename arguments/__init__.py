@@ -11,6 +11,7 @@ from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
 from flask.ext.misaka import Misaka
 from flask_login import current_user, LoginManager, login_user
 import flask_sijax
+from werkzeug.contrib.fixers import ProxyFix
 
 
 logg = logging.getLogger(__name__)
@@ -187,4 +188,7 @@ def make_app(**app_options):
     import arguments.views
     import arguments.views.admin
     #import arguments_rest.api
+    
+    # needed when running behind a reverse proxy.
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     return app
