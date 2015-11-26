@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-from flask import Flask, g, request, session, flash
+from flask import Flask, g, request, session, flash, redirect, url_for
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.babelex import Babel
@@ -79,6 +79,10 @@ def init_oauth_ext(app):
                 db.session.commit()
                 login_user(user)
                 flash("Successfully signed in with " + app.config["EKKLESIA_TITLE"])
+
+                next_url = request.args.get('next')
+                redirect(next_url or url_for('questions'))
+
             else:
                 flash("Failed to fetch user profile from Ekklesia ID Server", category="error")
         else:
