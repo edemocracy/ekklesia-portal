@@ -75,10 +75,10 @@ def init_oauth_ext(app):
                     all_nested_group_ids=membership["all_nested_groups"],
                     nested_group_ids=membership["nested_groups"]
                 )
-                db.session.commit()
 
+                db.session.commit()
                 login_user(user)
-                flash("Successfully signed in with Ekklesia")
+                flash("Successfully signed in with " + app.config["EKKLESIA_TITLE"])
             else:
                 flash("Failed to fetch user profile from Ekklesia ID Server", category="error")
         else:

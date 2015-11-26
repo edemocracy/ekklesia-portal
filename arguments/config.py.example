@@ -1,4 +1,5 @@
 EKKLESIA_CONSUMER_KEY="arguments"
 EKKLESIA_CONSUMER_SECRET="argument_secret"
+EKKLESIA_TITLE="Ekklesia identity server"
 SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://arguments_user:password@127.0.0.1/arguments_database_name"
 
