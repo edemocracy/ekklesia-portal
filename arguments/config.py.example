@@ -1,5 +1,8 @@
-EKKLESIA_CONSUMER_KEY="arguments"
-EKKLESIA_CONSUMER_SECRET="argument_secret"
-EKKLESIA_TITLE="Ekklesia identity server"
+EKKLESIA_API_BASE_URL = "https://identity-server/api/v1/"
+EKKLESIA_AUTHORIZATION_URL = "https://identity-server/oauth2/authorize/"
+EKKLESIA_CLIENT_ID = "arguments"
+EKKLESIA_CLIENT_SECRET = "argument_secret"
+EKKLESIA_TITLE = "Ekklesia identity server"
+EKKLESIA_TOKEN_URL = "https://identity-server/oauth2/token/"
 SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://arguments_user:password@127.0.0.1/arguments_database_name"
-
+WTF_CSRF_ENABLED = False
