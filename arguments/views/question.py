@@ -61,7 +61,7 @@ def _handle_post_new_question(form):
                         title=form.title.data)
 
     associated_with_question_url = form.associated_with_question_url.data
-    if associated_with_question_url is not None:
+    if associated_with_question_url:
         associated_with_question = Question.query.filter_by(url=associated_with_question_url).scalar()
         qrel = QuestionAssociation(left=associated_with_question, 
                 right=question, association_type=form.association_type.data)
