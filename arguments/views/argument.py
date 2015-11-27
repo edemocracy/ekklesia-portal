@@ -44,7 +44,3 @@ def new_argument(question_url, argument_type):
 
     return render_template("new_argument.j2.jade", question=question, argument_type=argument_type)
 
-
-@flask_sijax.route(app, "/ajax/vote_argument")
-def vote_argument():
-    pass

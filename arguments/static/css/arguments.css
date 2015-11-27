@@ -1970,18 +1970,17 @@ select {
 padding:5px;
 }
 
-	select.wide {
-		min-width:190px;
-	}
+select.wide {
+  min-width:190px;
+}
 
-	select.medium {
-	min-width:120px;
-	}
+select.medium {
+min-width:120px;
+}
 
-	select.small {
-	min-width:50px;
-	}
-
+select.small {
+min-width:50px;
+}
 
 .right_align {
 float:right;

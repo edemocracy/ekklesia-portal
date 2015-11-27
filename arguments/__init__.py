@@ -166,6 +166,7 @@ def make_app(**app_options):
         logg.debug("locale from request: %s", locale)
         return locale
 
+    # OAuth2 using flask-dance
     init_oauth_ext(app)
 
     # ajax lib flask-sijax
