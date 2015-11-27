@@ -4,7 +4,7 @@ import sys
 from flask import Flask, g, request, session, flash, redirect, url_for
 from pprint import pformat
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.babelex import Babel
+from flask.ext.babelex import Babel, _
 from flask_admin import Admin
 from flask_dance.consumer import OAuth2ConsumerBlueprint, oauth_authorized, oauth_error
 from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
@@ -42,8 +42,10 @@ def init_oauth_ext(app):
     # create/login local user on successful Ekklesia login
     @oauth_authorized.connect_via(ekklesia)
     def ekklesia_logged_in(blueprint, token):
+
+        auth_title = app.config["EKKLESIA_TITLE"]
         if not token:
-            flash("Failed to log in with Ekklesia")
+            flash(_("login_fail_with", auth_title=auth_title))
             return
 
         # ekklesia users have an unique auid, try to find an existing user in our database by auid
@@ -79,7 +81,7 @@ def init_oauth_ext(app):
 
                 db.session.commit()
                 login_user(user)
-                flash("Successfully signed in with " + app.config["EKKLESIA_TITLE"])
+                flash(_("login_success_with", auth_title=auth_title))
 
                 next_url = request.args.get('next')
                 redirect(next_url or url_for('questions'))
