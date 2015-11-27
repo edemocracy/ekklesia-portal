@@ -99,14 +99,11 @@ def init_oauth_ext(app):
     return ekklesia
 
 
-def make_app(**app_options):
+def make_app(debug=False, **app_options):
     global db, app, admin
 
     app = Flask(__name__)
-    app.debug = True
-    from werkzeug.debug import DebuggedApplication
-    app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
-    app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
+
     logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
     logg.debug("creating flask app %s", __name__)
     try:
@@ -120,8 +117,15 @@ def make_app(**app_options):
 
     app.config["RESTFUL_JSON"] = {'ensure_ascii': False}
     app.config["SECRET_KEY"] = "dev"
-
+    app.config["DEBUG"] = debug
     logg.debug("app config is:\n%s", pformat(dict(app.config)))
+
+    if debug:
+        app.debug = True
+        from werkzeug.debug import DebuggedApplication
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
+
+    app.jinja_env.add_extension('arguments.helper.templating.PyJadeExtension')
 
     # initialize extensions
     # flask-sqlalchemy
