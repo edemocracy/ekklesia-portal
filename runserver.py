@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import os.path
 from arguments import make_app
@@ -5,7 +6,19 @@ import tempfile
 
 tmpdir = tempfile.gettempdir()
 
-flask_app = make_app()
+parser = argparse.ArgumentParser("Arguments runserver.py")
+
+parser.add_argument("-b", "--bind", default="127.0.0.1", help="hostname / IP to bind to, default 127.0.0.1")
+parser.add_argument("-p", "--http_port", default=5000, help="HTTP port to use, default 5000")
+parser.add_argument("-d", "--debug", action="store_true", help="enable Flask debugging (+ reloader)")
+parser.add_argument("-s", "--stackdump", action="store_true", help="write stackdumps to temp dir {} on SIGQUIT".format(tmpdir))
+        
+args = parser.parse_args()
+
+print("cmdline args:", args)
+
+flask_app = make_app(args.debug)
+
 
 def stackdump_setup():
     import codecs
@@ -54,7 +67,8 @@ def stackdump_setup():
         signal.signal(signal.SIGQUIT, dumpstacks)
 
 
-stackdump_setup()
+if args.stackdump:
+    stackdump_setup()
 
 
 with open(os.path.join(tmpdir, "arguments.started"), "w") as wf:
@@ -62,4 +76,4 @@ with open(os.path.join(tmpdir, "arguments.started"), "w") as wf:
     wf.write("\n")
 
 
-flask_app.run(host="0.0.0.0", port=5000, debug=True, extra_files=[os.path.join(os.path.dirname(__file__), ".babelcompiled")])
+flask_app.run(host=args.bind, port=int(args.http_port), debug=args.debug, extra_files=[os.path.join(os.path.dirname(__file__), ".babelcompiled")])
