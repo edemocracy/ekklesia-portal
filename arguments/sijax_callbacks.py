@@ -1,4 +1,5 @@
 import logging
+from flask import session
 from flask_login import current_user
 from arguments import db
 from arguments.database.datamodel import Argument, ArgumentVote, Question, QuestionVote
@@ -99,4 +100,10 @@ def argument_vote(resp, argument_id, value):
     resp.call("change_argument_vote_actions", [argument_id, old_value, value])
     
     db.session.commit()
+
+
+def change_locale(resp, locale):
+    logg.debug("user locale changed to %s", locale)
+    session["locale"] = locale
+    resp.call("change_locale_sijax_callback")
 

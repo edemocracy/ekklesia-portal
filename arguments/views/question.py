@@ -33,6 +33,8 @@ class QuestionForm(Form):
 
 @flask_sijax.route(app, "/<question_url>")
 def question(question_url):
+    # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
+    g.sijax.set_request_uri(request.path)
 
     if g.sijax.is_sijax_request:
         g.sijax.register_callback('argument_vote', argument_vote)

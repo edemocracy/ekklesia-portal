@@ -21,3 +21,4 @@ from . import questions
 from . import argument
 from . import counter_arguments
 from . import logout
+from . import sijaxcommon
