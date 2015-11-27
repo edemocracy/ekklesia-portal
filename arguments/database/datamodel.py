@@ -163,6 +163,9 @@ class Argument(Model, TimeStamp):
     def user_vote(self, user):
         return self.votes.filter_by(user_id=user.id).scalar()
 
+    def __repr__(self):
+        return "Argument '{}' for '{}'".format(self.url, self.question_id)
+
 
 class Question(Model, TimeStamp):
 
