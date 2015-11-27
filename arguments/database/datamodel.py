@@ -1,6 +1,6 @@
 from sqlalchemy import Unicode, Integer, Text, desc, Boolean
 from sqlalchemy.sql import select, func
-from sqlalchemy.orm import object_session, column_property
+from sqlalchemy.orm import object_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -150,15 +150,18 @@ class Argument(Model, TimeStamp):
     def counter_arguments(self):
         return self._counter_arguments.order_by(desc(Argument.score))
 
+    @hybrid_property
+    def score(self):
+        return self.votes.with_entities(func.coalesce(func.sum(ArgumentVote.value), 0)).scalar()
+
+    @score.expression
+    def score_expr(cls):
+        return (select([func.coalesce(func.sum(ArgumentVote.value), 0)])
+                .where(ArgumentVote.argument_id == cls.id))
+
+
     def user_vote(self, user):
         return self.votes.filter_by(user_id=user.id).scalar()
-
-    def __repr__(self):
-        return "Argument '{}' for '{}'".format(self.url, self.question_id)
-
-
-Argument.score = column_property(select([func.coalesce(func.sum(ArgumentVote.value), 0)])
-            .where(ArgumentVote.argument_id == Argument.id))
 
 
 class Question(Model, TimeStamp):
@@ -172,6 +175,7 @@ class Question(Model, TimeStamp):
     url = C(Unicode)
 
     search_vector = C(TSVectorType('details', 'title', 'url'))
+
 
     tags = rel(Tag, secondary=tag_to_question, backref="questions")
 
