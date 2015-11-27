@@ -49,7 +49,7 @@ def question_vote(resp, question_id, value):
         else:
             user_vote.value = value
 
-    logg.debug("%s voted %s for question %s", current_user.login_name, value, question_id)
+    logg.debug("%s voted %s for question %s, new score %s", current_user.login_name, value, question_id, question.score)
     # set new score and change voting actions
     resp.html("#question_score_" + str(question_id), question.score)
     resp.call("change_question_vote_actions", [question_id, old_value, value])
@@ -93,7 +93,7 @@ def argument_vote(resp, argument_id, value):
         else:
             user_vote.value = value
 
-    logg.debug("%s voted %s for argument %s", current_user.login_name, value, argument_id)
+    logg.debug("%s voted %s for argument %s, new score %s", current_user.login_name, value, argument_id, argument.score)
     # set new score and change voting actions
     resp.html("#argument_score_" + str(argument_id), argument.score)
     resp.call("change_argument_vote_actions", [argument_id, old_value, value])
