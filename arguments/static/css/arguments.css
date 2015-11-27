@@ -1982,6 +1982,10 @@ select.small {
 min-width:50px;
 }
 
+#locale_select {
+  margin-left: 10px;
+}
+
 .right_align {
 float:right;
 }

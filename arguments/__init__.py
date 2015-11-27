@@ -162,9 +162,7 @@ def make_app(**app_options):
 
     @babel.localeselector
     def get_locale():
-        locale = request.accept_languages.best_match(['de', 'en', 'fr'])
-        logg.debug("locale from request: %s", locale)
-        return locale
+        return session["locale"]
 
     # OAuth2 using flask-dance
     init_oauth_ext(app)
@@ -174,6 +172,17 @@ def make_app(**app_options):
     app.config['SIJAX_STATIC_PATH'] = path
     app.config['SIJAX_JSON_URI'] = '/static/js/sijax/json2.js'
     flask_sijax.Sijax(app)
+
+    @app.before_request
+    def set_locale():
+        locale = session.get("locale")
+        if locale:
+            logg.debug("locale from session: %s", locale)
+        else:
+            locale = request.accept_languages.best_match(['de', 'en', 'fr'])
+            logg.debug("locale from request: %s", locale)
+            session["locale"] = locale
+        g.locale = locale
 
     import arguments.views
     import arguments.views.admin

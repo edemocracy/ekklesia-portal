@@ -20,6 +20,11 @@ body
               .header_title
                 a(href="/") Arguments
 
+              select#locale_select
+                option(selected=(g.locale == "de"), value="de") Deutsch
+                option(selected=(g.locale == "en"), value="en") English
+                option(selected=(g.locale == "fr"), value="fr") Français
+
               if current_user.is_authenticated
                 .header_menu
                   .username= current_user.display_name
@@ -68,6 +73,18 @@ body
           ||
           a(href="#")= _("imprint")
 
+  script.
+
+    change_locale_sijax_callback = function() {
+      location.reload();
+    }
+
+    $(function() {
+      $("#locale_select").change(function() {
+        Sijax.request("change_locale", [this.value])
+        console.log("locale changed to " + this.value);
+      });
+    });
 
   - block script
     // empty
