@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-09-12 13:43+0200\n"
+"POT-Creation-Date: 2015-11-27 20:28+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -17,17 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.0\n"
 
+#: arguments/__init__.py:48
+msgid "login_fail_with"
+msgstr "Login with %(auth_title) failed"
+
+#: arguments/__init__.py:84
+msgid "login_success_with"
+msgstr "Login with %(auth_title) succeeded"
+
 #: arguments/templates/argument.j2.jade:6
 #: arguments/templates/counter_arguments.j2.jade:6
 #: arguments/templates/new_argument.j2.jade:8
-#: arguments/templates/question.j2.jade:6
+#: arguments/templates/question_macros.j2.jade:40
 msgid "discussion"
 msgstr "Discussion"
 
 #: arguments/templates/argument.j2.jade:8
 #: arguments/templates/counter_arguments.j2.jade:8
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question.j2.jade:8
+#: arguments/templates/question_macros.j2.jade:44
 msgid "follow"
 msgstr "Follow"
 
@@ -47,7 +55,7 @@ msgid_plural "points"
 msgstr[0] "Point"
 msgstr[1] "Points"
 
-#: arguments/templates/argument_macros.j2.jade:16
+#: arguments/templates/argument_macros.j2.jade:14
 msgid "authored_at_by"
 msgstr "Added at %(dt)s by %(author_name)s"
 
@@ -55,32 +63,32 @@ msgstr "Added at %(dt)s by %(author_name)s"
 msgid "counterarguments_for"
 msgstr "Counterargument for"
 
-#: arguments/templates/layout.j2.jade:15
+#: arguments/templates/layout.j2.jade:29
 msgid "login"
 msgstr "Login"
 
-#: arguments/templates/layout.j2.jade:21
+#: arguments/templates/layout.j2.jade:35
 msgid "sorted"
 msgstr "Sorted"
 
-#: arguments/templates/layout.j2.jade:23
+#: arguments/templates/layout.j2.jade:37
 msgid "top"
 msgstr "Top"
 
-#: arguments/templates/layout.j2.jade:29
-#: arguments/templates/question_macros.j2.jade:35
+#: arguments/templates/layout.j2.jade:43
+#: arguments/templates/question_macros.j2.jade:33
 msgid "search_for"
 msgstr "Search for"
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "terms_of_use"
 msgstr "Terms Of Use"
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "link_other"
-msgstr "Other Link"
+msgstr "Go to current voting"
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "imprint"
 msgstr "Imprint"
 
@@ -90,7 +98,7 @@ msgid "new_argument"
 msgstr "New Argument"
 
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question.j2.jade:8
+#: arguments/templates/question_macros.j2.jade:44
 msgid "unfollow"
 msgstr "Unfollow"
 
@@ -109,7 +117,7 @@ msgid "details"
 msgstr "Details"
 
 #: arguments/templates/new_argument.j2.jade:33
-#: arguments/templates/new_question.j2.jade:22
+#: arguments/templates/new_question.j2.jade:35
 msgid "submit"
 msgstr "Send"
 
@@ -118,32 +126,70 @@ msgid "new_question"
 msgstr "New Question"
 
 #: arguments/templates/new_question.j2.jade:17
+msgid "associated_with_question_url"
+msgstr "Related to motion"
+
+#: arguments/templates/new_question.j2.jade:22
+msgid "association_type"
+msgstr "Relation type"
+
+#: arguments/templates/new_question.j2.jade:25
+msgid "change_question"
+msgstr "change motion"
+
+#: arguments/templates/new_question.j2.jade:26
+msgid "counter_question"
+msgstr "counter motion"
+
+#: arguments/templates/new_question.j2.jade:30
 msgid "tags"
 msgstr "Tags"
 
-#: arguments/templates/question.j2.jade:16
+#: arguments/templates/question.j2.jade:4
+msgid "goto_arguments"
+msgstr "Go To Arguments"
+
+#: arguments/templates/question.j2.jade:10
 msgid "add_pro_argument"
 msgstr "Add Pro Argument"
 
-#: arguments/templates/question.j2.jade:22
+#: arguments/templates/question.j2.jade:16
 msgid "add_con_argument"
 msgstr "Add Contra Argument"
 
+#: arguments/templates/question_associated.j2.jade:4
+msgid "goto_associated_questions"
+msgstr ""
+
+#: arguments/templates/question_associated.j2.jade:8
+msgid "add_change_question"
+msgstr "Add change motion"
+
+#: arguments/templates/question_associated.j2.jade:12
+msgid "add_counter_question"
+msgstr "Add counter motion"
+
 #: arguments/templates/question_macros.j2.jade:9
+#: arguments/templates/question_macros.j2.jade:51
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporter"
 msgstr[1] "Supporters"
 
-#: arguments/templates/question_macros.j2.jade:22
+#: arguments/templates/question_macros.j2.jade:21
+#: arguments/templates/question_macros.j2.jade:57
 msgid "authored_at"
 msgstr "Added at %(dt)s"
 
-#: arguments/templates/question_macros.j2.jade:24
-msgid "goto_arguments"
-msgstr "Go To Arguments"
+#: arguments/templates/question_macros.j2.jade:42
+msgid "associated"
+msgstr "Related (change and counter motions)"
 
 #: arguments/templates/questions.j2.jade:2
 msgid "overview"
 msgstr "Overview"
+
+#: arguments/views/logout.py:12
+msgid "logged_out"
+msgstr ""
 
