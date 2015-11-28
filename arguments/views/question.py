@@ -99,7 +99,7 @@ QUESTION_IMPORT_HANDLERS = {
 }
 
 
-@app.route("/<associated_with_question_url>/associated/<association_type>/new", methods=["GET", "POST"])
+@app.route("/<associated_with_question_url>/associated/<side>/new", methods=["GET", "POST"])
 @app.route("/new", methods=["GET", "POST"])
 @app.route("/questions/new", methods=["GET", "POST"])
 @login_required
