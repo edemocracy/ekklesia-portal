@@ -84,18 +84,34 @@ def _handle_post_new_question(form):
     return redirect(url_for("question", question_url=question.url))
 
 
-def _import_discourse_post(from_url):
-    res = requests.get(from_url, headers=dict(Accept="application/json"))
+def _import_discourse_post(base_url, from_data):
+    post_id = int(from_data)
+    post_url = "{}/posts/{}".format(base_url, post_id)
+
+    res = requests.get(post_url, headers=dict(Accept="application/json"))
     content = res.json()
+
     details = content.get("raw")
     if details is None:
         raise ValueError("malformed discourse post JSON, key 'raw' not found!")
 
-    return None, details, None
+    topic_id = content.get("topic_id")
+    if topic_id is None:
+        raise ValueError("malformed discourse post JSON, key 'raw' not found!")
+
+    topic_url = "{}/t/{}".format(base_url, topic_id)
+    res = requests.get(topic_url, headers=dict(Accept="application/json"))
+    content = res.json()
+
+    title = content.get("title")
+    if title is None:
+        raise ValueError("malformed discourse topic JSON, key 'title' not found!")
+
+    return title, details, None
 
 
 QUESTION_IMPORT_HANDLERS = {
-        "discourse_post": _import_discourse_post
+    "discourse_post": _import_discourse_post
 }
 
 
@@ -119,16 +135,24 @@ def new_question(associated_with_question_url="", side=""):
     details = request.args.get("details", "")
     tags = request.args.getlist("tags")
 
-    from_url = request.args.get("from_url")
-    from_format = request.args.get("from_format")
+    from_data = request.args.get("from_data")
+    source = request.args.get("source")
 
-    if from_url and from_format:
+    if from_data and source:
         # pre-fill new question form from a URL return data formatted as `from_format`
         #'for supported formats, see 'QUESTION_IMPORT_HANDLERS'
+        import_info = app.config["QUESTION_SOURCES"].get(source)
+
+        if import_info is None:
+            raise ValueError("unsupported question source: " + source)
+
+        from_format, base_url = import_info
+        
         import_handler = QUESTION_IMPORT_HANDLERS.get(from_format)
         if import_handler is None:
             raise ValueError("unsupported question import format: " + from_format)
-        imp_title, imp_details, imp_tags = import_handler(from_url)
+        
+        imp_title, imp_details, imp_tags = import_handler(base_url, from_data)
 
         if imp_title is not None:
             title = imp_title
