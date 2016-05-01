@@ -1,0 +1,177 @@
+!!!5
+html
+  head
+    title Televotia-Mockup
+    meta(charset="utf8")
+    meta(name="viewport",content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(http-equiv="x-ua-compatible", content="ie=edge")
+    link(rel="stylesheet", href="arguments.css")
+
+  body
+    nav.navbar.navbar-light.bg-primary
+      a.navbar-brand(href="#") Televotia
+      ul.nav.navbar-nav
+        li.nav-item.active 
+          a.nav-link(href="#") Sortiert
+        li.nav-item
+          a.nav-link(href="#") Top
+        li.nav-item
+          a.nav-link(href="#") Antragsgruppen
+        li.nav-item
+          .dropdown
+            a.btn.dropdown-toggle(href="#", data-toggle="dropdown") Angenommene Anträge
+            .dropdown-menu
+              a.dropdown-item(href="#") Abgelehnte Anträge
+              a.dropdown-item(href="#") Neue Anträge seit gestern
+              a.dropdown-item(href="#") Dumme Anträge
+              .dropdown-divider
+              a.dropdown-item(href="#") Antragsfilter festlegen...
+
+
+
+      ul.nav.navbar-nav.pull-xs-right
+        li.nav-item
+          a.btn.nav-link.pull-xs-right(href="#") Anmelden
+
+      form.form-inline.pull-xs-right
+        input.form-control(type="text", placeholder="search")
+        button.btn.btn-success-outline(type="submit")
+          i.fa.fa-search &nbsp;Suche
+
+    .alert.alert-success.alert-dismissable(role="alert") Du hast dich erfolgreich angemeldet
+      button.close(type="button", data-dismiss="alert") &times;
+
+    .container-fluid
+      .row 
+        ul.nav.nav-pills
+          li.nav-item
+            a.btn(href="#", type="button") PPS
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="#", role="button", data-toggle="dropdown") Sektion Bayern
+            .dropdown-menu
+              a.dropdown-item(href="#") Sektion Tirol
+              a.dropdown-item(href="#") Sektion Mond
+              a.dropdown-item(href="#") Sektion California
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown") Angenommene Anträge
+            .dropdown-menu
+              a.dropdown-item(href="#") Abgelehnte Anträge
+              a.dropdown-item(href="#") Neue Anträge seit gestern
+              a.dropdown-item(href="#") Dumme Anträge
+              .dropdown-divider
+              a.dropdown-item(href="#") Antragsfilter festlegen...
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown") Alphabetisch
+            .dropdown-menu
+              a.dropdown-item(href="#") Top
+              a.dropdown-item(href="#") Trending
+              a.dropdown-item(href="#") Nach Antragsnummer
+              .dropdown-divider
+              a.dropdown-item(href="#") Andere Sortierung festlegen...
+      .row
+        hr
+      .card.card-block
+        h4.card-title
+          a(href="#") Antrag
+        p.card-text
+          span.label.label-default Tag1 
+          | &nbsp; 
+          span.label.label-default Tag6
+        p.card-text
+          small.text-muted Eingereicht am 11.11.2011 von Sepp
+
+      .row
+        .col-sm-1
+          .card.card-block
+            p.card-text
+              a(href="#") Gegen-argumente
+        .col-sm-5
+          .card.card-block
+            h4.card-title
+              a(href="#") Argument A
+            p.card-text Ja, mei, des is halt a bleder Antrag!
+            p.card-text
+              small.text-muted Eingetragen am 11.11.2011 von Sepp
+        .col-sm-5
+          .card.card-block
+            h4.card-title
+              a(href="#") Argument B
+            p.card-text Ja, mei, super Antrag! 
+            p.card-text
+              small.text-muted Eingetragen am 11.11.2011 von Sepp
+        .col-sm-1
+          .card
+            .card-block
+              p.card-text
+                a(href="#") Gegen-argumente
+      .row
+        .col-sm-1
+          .card.card-block
+            p.card-text
+              a(href="#") Gegen-argumente
+        .col-sm-5
+          .card.card-block
+            h4.card-title
+              a(href="#") Argument A
+            p.card-text Ja, mei, des is halt a bleder Antrag!
+            p.card-text
+              small.text-muted Eingetragen am 11.11.2011 von Sepp
+        .col-sm-5
+          .card.card-block
+            h4.card-title
+              a(href="#") Argument A
+            p.card-text Ja, mei, des is halt a bleder Antrag!
+            p.card-text
+              small.text-muted Eingetragen am 11.11.2011 von Sepp
+        .col-sm-1
+          .card.card-block
+            p.card-text
+              a(href="#") Gegen-argumente
+
+      .card
+        .card-block
+          h4.card-title
+            a(href="#") Ein Antragstitel, der gar nicht mal so kurz ist
+          p.card-text
+            small.text-muted Eingereicht am 11.11.2011 um 12:23 von Sepp
+
+      .card
+        .card-block
+          h4.card-title
+            a(href="#") Ein völlig sinnloser und ausschweifender Antragstitel, der schon extrem lang ist und auch dazu führt, dass es einen Umbruch gibt
+          p.card-text
+            small.text-muted Eingereicht am 11.11.2011
+
+      .card
+        .card-block
+          h4.card-title
+            a(href="#") Ein völlig sinnloser und ausschweifender Antragstitel, der schon extrem lang ist und auch dazu führt, dass es einen Umbruch gibt
+          p.card-text
+            small.text-muted Eingereicht am 11.11.2011
+
+      .card
+        .card-block
+          h4.card-title
+            a(href="#") Ein völlig sinnloser und ausschweifender Antragstitel, der schon extrem lang ist und auch dazu führt, dass es einen Umbruch gibt
+          p.card-text
+            small.text-muted Eingereicht am 11.11.2011
+
+      ul.pagination
+        li.page-item.disabled
+          a.page-link(href="#") &laquo;
+        li.page-item.active: a.page-link(href="#") 1
+        li.page-item: a.page-link(href="#") 2
+        li.page-item: a.page-link(href="#") 3
+        li.page-item
+          a.page-link(href="#") &raquo;
+
+    script(src="js/jquery.js")
+    script(src="js/bootstrap.js")
+    
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
