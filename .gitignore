@@ -7,3 +7,4 @@
 *.mo
 .babelcompiled
 arguments/config.py
+arguments/static/css/arguments.css
