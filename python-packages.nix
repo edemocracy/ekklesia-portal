@@ -60,13 +60,13 @@
     };
   };
   Werkzeug = super.buildPythonPackage {
-    name = "Werkzeug-0.11.4";
+    name = "Werkzeug-0.11.10";
     buildInputs = with self; [];
     doCheck = false;
     propagatedBuildInputs = with self; [];
     src = fetchurl {
-      url = "https://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-0.11.4.tar.gz";
-      md5 = "9c5cfb704e39aea1524777caa5891eb0";
+      url = "https://pypi.python.org/packages/b7/7f/44d3cfe5a12ba002b253f6985a4477edfa66da53787a2a838a40f6415263/Werkzeug-0.11.10.tar.gz";
+      md5 = "780967186f9157e88f2bfbfa6f07a893";
     };
   };
   blinker = super.buildPythonPackage {
@@ -89,14 +89,24 @@
       md5 = "f12c5651ccd707e12a0abaa4f76cd69a";
     };
   };
-  flask = super.buildPythonPackage {
-    name = "flask-0.10.1";
+  click = super.buildPythonPackage {
+    name = "click-6.6";
     buildInputs = with self; [];
     doCheck = false;
-    propagatedBuildInputs = with self; [Werkzeug Jinja2 itsdangerous];
+    propagatedBuildInputs = with self; [];
     src = fetchurl {
-      url = "https://pypi.python.org/packages/source/F/Flask/Flask-0.10.1.tar.gz";
-      md5 = "378670fe456957eb3c27ddaef60b2b24";
+      url = "https://pypi.python.org/packages/7a/00/c14926d8232b36b08218067bcd5853caefb4737cda3f0a47437151344792/click-6.6.tar.gz";
+      md5 = "d0b09582123605220ad6977175f3e51d";
+    };
+  };
+  flask = super.buildPythonPackage {
+    name = "flask-0.11";
+    buildInputs = with self; [];
+    doCheck = false;
+    propagatedBuildInputs = with self; [Werkzeug Jinja2 itsdangerous click];
+    src = fetchurl {
+      url = "https://pypi.python.org/packages/dc/ca/c0ed9cc90c079085c698e284b672edbc1ffd6866b1830574095cbc5b7752/Flask-0.11.tar.gz";
+      md5 = "89fbdcb04b7b96c5b24625ae299cf48b";
     };
   };
   flask-admin = super.buildPythonPackage {
