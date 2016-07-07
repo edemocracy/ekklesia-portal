@@ -64,7 +64,7 @@ class EkklesiaUserInfo(Model):
 
 
 class OAuthToken(Model, OAuthConsumerMixin):
-    
+
     __tablename__ = "oauth_token"
 
     user_id = C(FK(User.id), primary_key=True)
@@ -227,3 +227,25 @@ def associated_questions(self, association):
 
 Question.associated_questions = associated_questions
 
+
+class VotingModule(Model):
+    __tablename__ = "voting_module"
+    id = integer_pk()
+    name = C(Unicode, unique=True)
+    base_url = C(Unicode)
+    module_type = C(Unicode)
+
+    __mapper_args__ = {
+        "polymorphic_on": module_type
+    }
+
+
+class VVVoteVotingModule(VotingModule):
+
+    __mapper_args__ = {
+        "polymorphic_identity": "vvvote"
+    }
+    @property
+    def url_new_election(self):
+        from urllib.parse import urljoin
+        return urljoin(self.base_url, "newelection.php")
