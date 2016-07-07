@@ -2,76 +2,70 @@
 head
   - block title
     title Arguments
-  //meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  meta(charset="utf8")
+  meta(name="viewport",content="width=device-width, initial-scale=1, shrink-to-fit=no")
+  meta(http-equiv="x-ua-compatible", content="ie=edge")
   link(rel="stylesheet", href=url_for("static", filename="css/arguments.css"))
-  script(src=url_for("static", filename="js/jquery-2.1.4.js"))
+  script(src=url_for("static", filename="js/jquery-2.2.3.js"))
   script(src="/static/js/sijax/sijax.js")
   script= g.sijax.get_js()|safe
   script.
     var current_user = { "is_authenticated": {{ current_user.is_authenticated|tojson }} };
 
 body
-  #wrapper
-    - block navbar
-        #header
-          #header_orange
-            .header_top_menu
+  - block navbar
+    nav.top_navbar
+      a.navbar-brand(href=url_for("questions")) Arguments
 
-              .header_title
-                a(href="/") Arguments
+      ul.nav.navbar-nav
+        li.nav-item
+          select.form-control#locale_select
+            option(selected=(g.locale == "de"), value="de") Deutsch
+            option(selected=(g.locale == "en"), value="en") English
+            option(selected=(g.locale == "fr"), value="fr") Français
 
-              select#locale_select
-                option(selected=(g.locale == "de"), value="de") Deutsch
-                option(selected=(g.locale == "en"), value="en") English
-                option(selected=(g.locale == "fr"), value="fr") Français
+        li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
+          a.nav-link(href=url_for("questions", tag=tag|default(None)))= _("sorted")
+        
+        li.nav-item(class=("active" if mode=="top" else ""))
+          a.nav-link(href=url_for("questions", mode="top", tag=tag|default(None)))= _("top")
 
-              if current_user.is_authenticated
-                .header_menu
-                  .username= current_user.display_name
-                    .up_arrow
-              else
-                .header_signup
-                  a(href=url_for("ekklesia.login"))= _("login")
+        //li.nav-item(class=("active" if mode=="custom" else ""))
+        //  a.nav-link(href=url_for("questions", mode="custom")) Antragsgruppen 
 
-          .header_white
-            .header_navigation
+      ul.top_usercontrols
+        li.nav-item
+          if current_user.is_authenticated
+            a.btn.nav-link(href="#")= current_user.display_name
+          else
+            a.btn.nav-link(href=url_for("ekklesia.login"))= _("login")
 
-              .navi_point.title(class=("current_page" if not mode or mode=="sorted" else ""))
-                a(href=url_for("questions", tag=tag|default(None)))= _("sorted")
-
-              .navi_point.top(class=("current_page" if mode=="top" else ""))
-                a(href=url_for("questions", mode="top", tag=tag|default(None)))= _("top")
-
-              .navi_point.overview(class=("current_page" if mode=="custom" else ""))
-                a(href=url_for("questions", mode="custom"))= Antragsgruppen
-
-              .navi_point
-                form(action=url_for("questions"))
-                  input#navi_search(type="text", value=_("search_for"), name="q")
-
+      form.top_search(action=url_for("questions"))
+        input.form-control(type="text", placeholder=_("search_for"), name="q")
+        button.search_button(type="submit")
+          i.fa.fa-search &nbsp;Suche
 
     - block messages
       - with messages = get_flashed_messages(with_categories=True)
         if messages
           for cat, msg in messages
-            .alert(class="alert-{{ cat }}")= msg
+            div(class="alert_{{ cat }}")= msg
 
-    - block content
-      // empty
+    .content_area
+      - block content
+        // empty
 
   - block footer
-    #footer
-      #footer_content
-        a(href="/")
-          .footer_logo
-        #footer_copyright
-          a(href="#")= _("link_other")
-          ||
-          a(href="#") FAQ
-          ||
-          a(href="#")= _("terms_of_use")
-          ||
-          a(href="#")= _("imprint")
+    nav.navbar.navbar-light.navbar-bottom.bg-primary
+      ul.nav.navbar-nav
+        li.nav-item
+          a.nav-link(href="#")= _("link_other")
+        li.nav-item
+          a.nav-link(href="#") FAQ
+        li.nav-item
+          a.nav-link(href="#")= _("terms_of_use")
+        li.nav-item
+          a.nav-link(href="#")= _("imprint")
 
   script.
 

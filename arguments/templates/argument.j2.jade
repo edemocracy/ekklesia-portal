@@ -8,23 +8,27 @@
 - block content
   question = argument.question
 
-  #content_wide
-    .thin
-      .question_tabs
-        .tab
-          a(href=url_for("question", question_url=question.url))= _("discussion")
-        .tab
-          a(href="#")= _("follow")
-        .tab.tab_active.tab_arg_pro
-          a(href=url_for("argument", question_url=question.url, argument_url=argument.url))
-          = _("argument")
-          |:
-          = argument.title
+  ol.breadcrumb
+    li
+      a(href=url_for("question", question_url=question.url))
+        = _("discussion")
+        |:
+        = question.title
 
-      = question_box(question, current_user, no_margin=True, voting=True)
-    
-    .argument_container_full
-        = argument_box_full(argument, current_user)
+    li.active 
+      a(href=url_for("argument", question_url=question.url, argument_url=argument.url))
+      = _("argument")
+      |:
+      = argument.title
+
+  = question_box(question, current_user, no_margin=True, voting=True)
+
+  h3 Argument
+
+  hr.argument_separator
+
+  .arguments
+      = argument_box_full(argument, current_user)
 
 
 // generated from jade

@@ -1,5 +1,5 @@
 - extends "layout.j2.jade"
-- from "question_macros.j2.jade" import question_box
+- from "question_macros.j2.jade" import question_box, question_tabline
 
 - block title
   title
@@ -8,34 +8,27 @@
     = _("new_argument")
 
 - block content
-  #content_wide
-    .thin
-      .question_tabs
-        .tab
-          a(href="/" + question.url)= _("discussion")
-        .tab
-          a(href="/" + question.url)= _("follow") if True else _("unfollow")
-        .tab.tab_active
-          = _("new_argument")
+  = question_tabline(question, "discussion")
 
-      = question_box(question, current_user, no_margin=True)
+  = question_box(question, current_user, no_margin=True)
 
-      form#new_argument(method="POST", action=url_for("new_argument", question_url=question.url, argument_type=argument_type))
-        .new_argument
-          .row
-            .label= _("title")
-            .input
-              textarea#new_argument_title(maxlength=50, name="title")
-          .row
-            .label= _("abstract")
-            .input
-              textarea#new_argument_abstract(maxlength=140, name="abstract")
-          .row
-            .label= _("details")
-            .input
-              textarea#new_argument_details(name="details")
-          .row.row_submit
-            button.button_orange= _("submit")
+  h3= _("new_argument")
+
+  form#new_argument(method="POST", action=url_for("new_argument", question_url=question.url, argument_type=argument_type))
+    fieldset.form-group
+      label= _("title")
+      textarea.form-control#new_argument_title(maxlength=50, rows=1, name="title")
+
+    fieldset.form-group
+      label= _("abstract")
+      textarea.form-control#new_argument_abstract(maxlength=140, rows=2, name="abstract")
+
+    fieldset.form-group
+      label= _("details")
+      textarea.form-control#new_argument_details(name="details", rows=4)
+
+    fieldset.form-group
+      button.btn.btn-primary= _("submit")
 
 
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

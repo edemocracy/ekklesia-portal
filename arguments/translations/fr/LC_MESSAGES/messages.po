@@ -1,35 +1,43 @@
-# English translations for PROJECT.
+# French translations for .
 # Copyright (C) 2015 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# 
-# Translators:
-# Moira Brülisauer <moosline@savvy.ch>, 2015
+# This file is distributed under the same license as the  project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: arguments\n"
+"Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-09-12 13:43+0200\n"
+"POT-Creation-Date: 2015-11-27 20:28+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
-"Language-Team: French (http://www.transifex.com/ekklesia-1/arguments/language/fr/)\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.0\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Team: French "
+"(http://www.transifex.com/ekklesia-1/arguments/language/fr/)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: arguments/__init__.py:48
+msgid "login_fail_with"
+msgstr ""
+
+#: arguments/__init__.py:84
+msgid "login_success_with"
+msgstr ""
 
 #: arguments/templates/argument.j2.jade:6
 #: arguments/templates/counter_arguments.j2.jade:6
 #: arguments/templates/new_argument.j2.jade:8
-#: arguments/templates/question.j2.jade:6
+#: arguments/templates/question_macros.j2.jade:40
 msgid "discussion"
 msgstr "Discussion"
 
 #: arguments/templates/argument.j2.jade:8
 #: arguments/templates/counter_arguments.j2.jade:8
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question.j2.jade:8
+#: arguments/templates/question_macros.j2.jade:44
 msgid "follow"
 msgstr "Abonner"
 
@@ -49,7 +57,7 @@ msgid_plural "points"
 msgstr[0] "Point"
 msgstr[1] "Points"
 
-#: arguments/templates/argument_macros.j2.jade:16
+#: arguments/templates/argument_macros.j2.jade:14
 msgid "authored_at_by"
 msgstr "ajouté à %(dt)s par %(author_name)s"
 
@@ -57,32 +65,32 @@ msgstr "ajouté à %(dt)s par %(author_name)s"
 msgid "counterarguments_for"
 msgstr "contre-argument pour"
 
-#: arguments/templates/layout.j2.jade:15
+#: arguments/templates/layout.j2.jade:29
 msgid "login"
 msgstr "Se connecter"
 
-#: arguments/templates/layout.j2.jade:21
+#: arguments/templates/layout.j2.jade:35
 msgid "sorted"
 msgstr "Trié"
 
-#: arguments/templates/layout.j2.jade:23
+#: arguments/templates/layout.j2.jade:37
 msgid "top"
 msgstr "Haut"
 
-#: arguments/templates/layout.j2.jade:29
-#: arguments/templates/question_macros.j2.jade:35
+#: arguments/templates/layout.j2.jade:43
+#: arguments/templates/question_macros.j2.jade:33
 msgid "search_for"
 msgstr "Rechercher "
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "terms_of_use"
 msgstr "Conditions d'utilisation"
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "link_other"
 msgstr "Autre lien"
 
-#: arguments/templates/layout.j2.jade:41
+#: arguments/templates/layout.j2.jade:55
 msgid "imprint"
 msgstr "Contacts"
 
@@ -92,7 +100,7 @@ msgid "new_argument"
 msgstr "Nouveau Argument"
 
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question.j2.jade:8
+#: arguments/templates/question_macros.j2.jade:44
 msgid "unfollow"
 msgstr "Désabonner"
 
@@ -111,7 +119,7 @@ msgid "details"
 msgstr "Details"
 
 #: arguments/templates/new_argument.j2.jade:33
-#: arguments/templates/new_question.j2.jade:22
+#: arguments/templates/new_question.j2.jade:35
 msgid "submit"
 msgstr "Envoyer"
 
@@ -120,31 +128,75 @@ msgid "new_question"
 msgstr "Nouvelle question"
 
 #: arguments/templates/new_question.j2.jade:17
+msgid "associated_with_question_url"
+msgstr ""
+
+#: arguments/templates/new_question.j2.jade:22
+msgid "association_type"
+msgstr ""
+
+#: arguments/templates/new_question.j2.jade:25
+#, fuzzy
+msgid "change_question"
+msgstr "Nouvelle question"
+
+#: arguments/templates/new_question.j2.jade:26
+#, fuzzy
+msgid "counter_question"
+msgstr "Nouvelle question"
+
+#: arguments/templates/new_question.j2.jade:30
 msgid "tags"
 msgstr "Mots clés"
 
-#: arguments/templates/question.j2.jade:16
+#: arguments/templates/question.j2.jade:4
+msgid "goto_arguments"
+msgstr "Aller aux arguments"
+
+#: arguments/templates/question.j2.jade:10
 msgid "add_pro_argument"
 msgstr "Ajouter un argument positif"
 
-#: arguments/templates/question.j2.jade:22
+#: arguments/templates/question.j2.jade:16
 msgid "add_con_argument"
 msgstr "Ajouter un contre-argument"
 
+#: arguments/templates/question_associated.j2.jade:4
+msgid "goto_associated_questions"
+msgstr ""
+
+#: arguments/templates/question_associated.j2.jade:8
+#, fuzzy
+msgid "add_change_question"
+msgstr "Nouvelle question"
+
+#: arguments/templates/question_associated.j2.jade:12
+#, fuzzy
+msgid "add_counter_question"
+msgstr "Nouvelle question"
+
 #: arguments/templates/question_macros.j2.jade:9
+#: arguments/templates/question_macros.j2.jade:51
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporteur"
 msgstr[1] "Supporteurs"
 
-#: arguments/templates/question_macros.j2.jade:22
+#: arguments/templates/question_macros.j2.jade:21
+#: arguments/templates/question_macros.j2.jade:57
 msgid "authored_at"
 msgstr "Ajouté à %(dt)s"
 
-#: arguments/templates/question_macros.j2.jade:24
-msgid "goto_arguments"
-msgstr "Aller aux arguments"
+#: arguments/templates/question_macros.j2.jade:42
+#, fuzzy
+msgid "associated"
+msgstr "Trié"
 
 #: arguments/templates/questions.j2.jade:2
 msgid "overview"
 msgstr "Aperçu"
+
+#: arguments/views/logout.py:12
+msgid "logged_out"
+msgstr ""
+

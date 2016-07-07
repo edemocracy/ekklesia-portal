@@ -6,34 +6,29 @@
   title= question.title
 
 - block content
-  #content_wide
-    .thin
-      = question_tabline(question, "discussion")
-      = question_box(question, current_user, _("goto_arguments"), no_margin=True, voting=True, details=True)
+  = question_tabline(question, "discussion")
+  = question_box(question, current_user, _("goto_arguments"), no_margin=True, voting=True, details=True, show_actions=True)
 
-    .arguments
-      a(name="bottom")
+  .arguments
+    a(name="bottom")
 
-      .arguments_pro
-        for argument in question.pro_arguments
-          .argument_wrapper
-            = argument_box(argument, current_user, show_ca_button=True)
+    .question_col.pro
+      for argument in question.pro_arguments
+          = argument_box(argument, current_user, show_ca_button=True)
 
-        a(href=url_for("new_argument", question_url=question.url, argument_type="pro")) 
-          .button_argument.button_new_argument_pro 
-            span= _("add_pro_argument")
+      a(href=url_for("new_argument", question_url=question.url, argument_type="pro")) 
+        .button_add_related
+          i.fa.fa-thumbs-o-up &nbsp;
+          = _("add_pro_argument")
 
-      .arguments_con
-        for argument in question.contra_arguments
-          .argument_wrapper
-            = argument_box(argument, current_user, show_ca_button=True)
+    .question_col.con
+      for argument in question.contra_arguments
+        = argument_box(argument, current_user, show_ca_button=True)
 
-        a(href=url_for("new_argument", question_url=question.url, argument_type="con")) 
-          .button_argument.button_new_argument_con 
-            span= _("add_con_argument")
-      .clear
-    .clear
-
+      a(href=url_for("new_argument", question_url=question.url, argument_type="con")) 
+        .button_add_related
+          i.fa.fa-thumbs-o-down &nbsp;
+          = _("add_con_argument")
 
 - block script
   script.
@@ -50,25 +45,30 @@
         Sijax.request("argument_vote", [argument_id, revoke ? 0 : -1]);
       });
 
-      $("[data-action='question_vote_up']").click(function() {
-        var revoke = $(this).data("revoke");
+      $("[data-action='question_vote']").click(function() {
         var question_id = $(this).data("question-id");
-        Sijax.request("question_vote", [question_id, revoke ? 0 : 1]);
+        Sijax.request("question_vote", [question_id, 1]);
+      });
+
+      $("[data-action='question_revoke_vote']").click(function() {
+        var question_id = $(this).data("question-id");
+        Sijax.request("question_vote", [question_id, 0]);
       });
     });
 
 
     change_question_vote_actions = function(question_id, old_value, value) {
       
-      vote_up = $(`[data-action='question_vote_up'][data-question-id='${question_id}']`);
+      vote_btn = $(`[data-action='question_vote'][data-question-id='${question_id}']`);
+      revoke_vote_btn = $(`[data-action='question_revoke_vote'][data-question-id='${question_id}']`);
 
       if (old_value == 0 && value == 1) {
-        vote_up.removeClass("vote_up_inactive");
-        vote_up.data("revoke", true);
+        vote_btn.prop("hidden", "hidden")
+        revoke_vote_btn.prop("hidden", false)
       }
       else if (old_value == 1 && value == 0) {
-        vote_up.addClass("vote_up_inactive");
-        vote_up.data("revoke", false);
+        vote_btn.prop("hidden", false)
+        revoke_vote_btn.prop("hidden", "hidden")
       }
     }
 
@@ -79,31 +79,31 @@
       vote_dn = $(`[data-action='argument_vote_dn'][data-argument-id='${argument_id}']`);
 
       if (old_value == 0 && value == 1) {
-        vote_up.removeClass("vote_up_inactive");
+        vote_up.addClass("active");
         vote_up.data("revoke", true);
       }
       else if (old_value == 0 && value == -1) {
-        vote_dn.removeClass("vote_dn_inactive");
+        vote_dn.addClass("active");
         vote_dn.data("revoke", true);
       }
       else if (old_value == 1 && value == 0) {
-        vote_up.addClass("vote_up_inactive");
+        vote_up.removeClass("active");
         vote_up.data("revoke", false);
       }
       else if (old_value == -1 && value == 0) {
-        vote_dn.addClass("vote_dn_inactive");
+        vote_dn.removeClass("active");
         vote_dn.data("revoke", false);
       }
       else if (old_value == -1 && value == 1) {
-        vote_dn.addClass("vote_dn_inactive");
+        vote_dn.removeClass("active");
         vote_dn.data("revoke", false);
-        vote_up.removeClass("vote_up_inactive");
+        vote_up.addClass("active");
         vote_up.data("revoke", true);
       }
       else if (old_value == 1 && value == -1) {
-        vote_up.addClass("vote_up_inactive");
+        vote_up.removeClass("active");
         vote_up.data("revoke", false);
-        vote_dn.removeClass("vote_dn_inactive");
+        vote_dn.addClass("active");
         vote_dn.data("revoke", true);
       }
     };

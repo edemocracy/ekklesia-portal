@@ -5,15 +5,14 @@
   title Arguments - {{ _("overview") }}
 
 - block content
-  #content
-    if tag
-      = tag_filter_box(tag, mode)
+  if tag
+    = tag_filter_box(tag, mode)
 
-    if searchterm
-      = search_filter_box(searchterm, mode)
+  if searchterm
+    = search_filter_box(searchterm, mode)
 
-    for question in questions
-      = question_box(question, current_user)
+  for question in questions
+    = question_box(question, current_user)
 
 
 // generated from jade

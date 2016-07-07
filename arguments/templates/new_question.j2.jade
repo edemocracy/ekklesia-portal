@@ -4,34 +4,37 @@
   title= _("new_question")
 
 - block content
-  #content_wide
-    form#new_question(method="POST", action=url_for("new_question"))
-      .new_question
-        .row
-          .label= _("title")
-          .input
-            textarea(name="title", cols=80, rows=3)= title
-        .row
-          .label= _("details")
-          .input
-            textarea(name="details", cols=80, rows=20)= details
-        .row
-          .label= _("associated_with_question_url")
-          .input
-            textarea(name="associated_with_question_url", cols=80, rows=3)= associated_with_question_url
-        .row
-          .label= _("association_type")
-          select(name="association_type")
-            option(value="")
-            option(value="change" selected=(association_type=="change"))= _("change_question")
-            option(value="counter" selected=(association_type=="counter"))= _("counter_question")
-        .row
-          .label= _("tags")
-          .input
-            textarea(name="tags", cols=80, rows=2)= tags
+  h2= _("new_question")
 
-        .row.row_submit
-          button.button_orange= _("submit")
+  form#new_question(method="POST", action=url_for("new_question"))
+    fieldset.form-group
+      button.btn.btn-primary= _("submit")
+
+    fieldset.form-group
+      label= _("title")
+      textarea.form-control(name="title", rows=2)= title
+
+    fieldset.form-group
+      label= _("details")
+      textarea.form-control(name="details", rows=8)= details
+
+    fieldset.form-group
+      label= _("tags")
+      textarea.form-control(name="tags", rows=2)= tags
+
+    fieldset.form-group
+      label= _("associated_with_question_url")
+      textarea.form-control(name="associated_with_question_url", rows=2)= associated_with_question_url
+
+    fieldset.form-group
+      label= _("association_type")
+      select.form-control(name="association_type")
+        option(value="")
+        option(value="change" selected=(association_type=="change"))= _("change_question")
+        option(value="counter" selected=(association_type=="counter"))= _("counter_question")
+
+    fieldset.form-group
+      button.btn.btn-primary= _("submit")
 
 
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

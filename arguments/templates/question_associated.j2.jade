@@ -5,32 +5,27 @@
   title= question.title
 
 - block content
-  #content_wide
-    .thin
-      = question_tabline(question, "associated")
-      = question_box(question, current_user, _("goto_associated_questions"), no_margin=True, voting=True, details=True)
+  = question_tabline(question, "associated")
+  = question_box(question, current_user, _("goto_associated_questions"), no_margin=True, voting=True, details=True, show_actions=True)
 
-    .arguments
-      a(name="bottom")
+  .question_col
+    a(name="bottom")
+  
+    for associated_question in associated_questions_left
+      = question_box_small(associated_question, "left")
 
-      .associated_questions_left
-        for associated_question in associated_questions_left
-          = question_box_small(associated_question, "left")
-
-        a(href=url_for("new_question", associated_with_question_url=question.url, side="left")) 
-          .button_associated_question.button_new_associated_question_left 
-            span= _("add_change_question")
+    a(href=url_for("new_question", associated_with_question_url=question.url, side="left")) 
+      .button_add_related
+        span= _("add_change_question")
 
 
-      .associated_questions_right
-        for associated_question in associated_question_right
-          = question_box_small(associated_question, "right")
+  .question_col
+    for associated_question in associated_question_right
+      = question_box_small(associated_question, "right")
 
-        a(href=url_for("new_question", associated_with_question_url=question.url, side="right")) 
-          .button_associated_question.button_new_associated_question_right
-            span= _("add_counter_question")
-      .clear
-    .clear
+    a(href=url_for("new_question", associated_with_question_url=question.url, side="right")) 
+      .button_add_related
+        span= _("add_counter_question")
 
 
 // generated from jade

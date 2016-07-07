@@ -8,29 +8,36 @@
   question = argument.question
   counter_arguments = argument.counter_arguments.all()
 
-  #content_wide
-    .thin
-      .question_tabs
-        .tab
-          a(href=url_for("question", question_url=question.url))= _("discussion")
-        .tab
-          a(href="#")= _("follow")
-        .tab.tab_active.tab_arg_pro
-          a(href=url_for("argument", question_url=question.url, argument_url=argument.url))
-          = _("counterarguments_for")
-          |:
-          = argument.title
+  ol.breadcrumb
+    li
+      a(href=url_for("question", question_url=question.url))
+        = _("discussion")
+        |:
+        = question.title
 
-      = argument_box(argument, current_user, extended=True)
+    li.active 
+      a(href=url_for("argument", question_url=question.url, argument_url=argument.url))
+        = _("counterarguments_for")
+        |:
+        = argument.title
 
-    .argument_container
-      for ca in counter_arguments
-        .argument_wrapper
-          = counter_argument_box(ca, current_user)
+  div(class=argument.argument_type)
+    = argument_box(argument, current_user, extended=True)
 
-      a.add-new-argument(href="{{ argument.url }}/ca/new/") 
-        .button_argument.button_new_counter_argument
-          span Gegenargument hinzufügen
+
+  h3 Gegenargumente
+
+  hr.argument_separator
+
+  counter_cls = "pro" if argument.argument_type == "con" else "con"
+
+  .counter_arguments(class=counter_cls)
+    for ca in counter_arguments
+      = counter_argument_box(ca, current_user)
+
+  a.add-new-argument(href="{{ argument.url }}/ca/new/") 
+    .button_argument.button_add_counter_argument
+      span Gegenargument hinzufügen
 
 
 // generated from jade
