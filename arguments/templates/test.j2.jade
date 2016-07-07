@@ -1,10 +1,20 @@
 - extends "layout.j2.jade"
 
 - macro title(text)
-        title= text
+  title= text
            
 - block content
-  = title("hello")
+  dl
+    dt User logged in?
+    dd= current_user.is_authenticated
+
+    dt Translation of "hello"
+    dd= _("hello")
+
+    dt Buttons
+    dd 
+      button.btn.btn-primary Primary Button
+      button.btn.btn-primary-outline Primary Outline Button
 
 
 // generated from jade
