@@ -223,7 +223,7 @@ class QuestionAssociation(Model):
 
 def associated_questions(self, association):
     return (self.right_assocs.filter_by(association_type=association)
-        .with_entities(Question).filter(Question.id==QuestionAssociation.right_id))
+        .with_entities(Question).filter(Question.id == QuestionAssociation.right_id))
 
 Question.associated_questions = associated_questions
 

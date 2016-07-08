@@ -156,7 +156,7 @@ def make_app(debug=False, **app_options):
     login_manager.login_view = 'ekklesia.login'
 
     # XXX: for testing: just use first user from the DB as anon user
-    #login_manager.anonymous_user = lambda: User.query.first()
+    # login_manager.anonymous_user = lambda: User.query.first()
 
     from arguments.database.datamodel import User
 
@@ -193,7 +193,7 @@ def make_app(debug=False, **app_options):
 
     import arguments.views
     import arguments.views.admin
-    #import arguments_rest.api
+    # import arguments_rest.api
     
     # needed when running behind a reverse proxy.
     app.wsgi_app = ProxyFix(app.wsgi_app)

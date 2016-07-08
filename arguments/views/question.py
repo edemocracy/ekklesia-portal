@@ -51,7 +51,7 @@ def question_associated(question_url):
     associated_questions_left = question.associated_questions(QUESTION_ASSOCIATION_TYPES["left"])
     associated_questions_right = question.associated_questions(QUESTION_ASSOCIATION_TYPES["right"])
 
-    return render_template("question_associated.j2.jade", 
+    return render_template("question_associated.j2.jade",
             question=question,
             associated_questions_left=associated_questions_left,
             associated_questions_right=associated_questions_right)
@@ -65,7 +65,7 @@ def _handle_post_new_question(form):
     associated_with_question_url = form.associated_with_question_url.data
     if associated_with_question_url:
         associated_with_question = Question.query.filter_by(url=associated_with_question_url).scalar()
-        qrel = QuestionAssociation(left=associated_with_question, 
+        qrel = QuestionAssociation(left=associated_with_question,
                 right=question, association_type=form.association_type.data)
         db.session.add(qrel)
 
@@ -140,7 +140,7 @@ def new_question(associated_with_question_url="", side=""):
 
     if from_data and source:
         # pre-fill new question form from a URL return data formatted as `from_format`
-        #'for supported formats, see 'QUESTION_IMPORT_HANDLERS'
+        # 'for supported formats, see 'QUESTION_IMPORT_HANDLERS'
         import_info = app.config["QUESTION_SOURCES"].get(source)
 
         if import_info is None:
@@ -161,8 +161,8 @@ def new_question(associated_with_question_url="", side=""):
         if imp_tags is not None:
             tags = imp_tags
 
-    return render_template("new_question.j2.jade", 
-            associated_with_question_url=associated_with_question_url, 
+    return render_template("new_question.j2.jade",
+            associated_with_question_url=associated_with_question_url,
             association_type=association_type,
             title=title,
             details=details,
