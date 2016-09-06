@@ -1,0 +1,42 @@
+| Schweiz / Sektion Bayern: Satzungsänderungsantrag #123
+
+h4.question_title
+    a(href="question1.html") Brutal langer Titel ohne jeden Sinn und Zweck
+
+ul.list-inline
+    li.list-inline-item
+      a.tag(href="tag1.html") Tag1
+      a.tag(href="tag2.html") Tag2
+
+p.question_details(hidden="hidden")
+  | Ja, hier stehen die Details zum Antrag
+
+.question_actions(hidden="hidden")
+  button.vote_button(
+      data-action="question_vote"
+      data-question-id="1")
+    i.fa.fa-thumbs-up &nbsp;
+    | Unterstützen
+
+  button.revoke_vote_button(hidden="hidden"
+      data-action="question_revoke_vote"
+      data-question-id="1")
+      i.fa.fa-remove &nbsp;
+      | Unterstützung zurückziehen
+
+  button.report_button
+    i.fa.fa-thumbs-down &nbsp;
+    | Melden
+
+  button.revoke_button(hidden="hidden")
+    i.fa.fa-thumbs-down &nbsp;
+    | Antrag zurückziehen
+
+  button.share_button
+    i.fa.fa-share &nbsp;
+    | Teilen
+
+  a.goto_button(href="#bottom")
+    i.fa.fa-comments &nbsp;
+    | Gehe zu
+

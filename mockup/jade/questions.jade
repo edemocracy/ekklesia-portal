@@ -1,0 +1,232 @@
+doctype html
+include _head.jade
+
+
+body
+
+  .content_area.container_wide
+    .question
+      .row
+        .question_activity
+
+          .authoring_info
+            small.author Erstellt am 11.12.1111 um 23:42:51
+
+          .points
+            i.fa.fa-thumbs-up &nbsp;
+            strong.question_info_number 1
+            | &nbsp;
+            span Unterstützer
+
+          .argument_count
+            i.fa.fa-comments &nbsp;
+            strong.question_info_number 5
+            | &nbsp;
+            span Argumente
+
+        .question_body.col-6
+          include _question_body_large.jade
+
+        .question_right
+          i.fa.fa-hourglass-start.fa-2x &nbsp;
+          | Suche nach Unterstützern
+
+          br
+          br
+
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+
+    .question
+      .row
+        .question_activity
+
+          .authoring_info
+            small.author Eingereicht am 11.12.1111 um 23:42:51
+
+          .authoring_info
+            small.author Zugelassen am 12.12.1111 um 23:42:51
+
+        .question_body.col-6
+          include _question_body_large.jade
+
+        .question_right
+          div 
+            i.fa.fa-thumbs-up.fa-2x &nbsp;
+            | Zur Abstimmung zugelassen
+          
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+          br
+          .points
+            i.fa.fa-thumbs-up &nbsp;
+            strong.question_info_number 1
+            | &nbsp;
+            span Unterstützer
+
+          .argument_count
+            i.fa.fa-comments &nbsp;
+            strong.question_info_number 5
+            | &nbsp;
+            span Argumente
+
+    .question
+      .row
+        .question_activity
+
+          .authoring_info
+            small.author Eingereicht am 11.12.1111 um 23:42:51
+
+          .authoring_info
+            small.author Zurückgezogen am 12.12.1111 um 23:42:51
+
+        .question_body.col-6
+          include _question_body_large.jade
+
+        .question_state
+          i.fa.fa-close.fa-2x &nbsp;
+          | Vom Antragsteller zurückgezogen
+          br
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+
+        .question_info
+          .points
+            i.fa.fa-thumbs-up &nbsp;
+            strong.question_info_number 1
+            | &nbsp;
+            span Unterstützer
+
+          .argument_count
+            i.fa.fa-comments &nbsp;
+            strong.question_info_number 5
+            | &nbsp;
+            span Argumente
+
+    .question(id="question_")
+      .row
+        .question_activity
+          ul.list-unstyled
+           li: small Eingereicht am 10.12.1111
+           li: small Zugelassen am 11.12.1111
+           li: small Abgelehnt am 12.12.1111
+
+        .question_body.col-6
+          include _question_body_large.jade
+
+        .question_state
+          i.fa.fa-minus-circle.fa-2x &nbsp;
+          | Abgelehnt in 
+          a(href="#") Online-Abstimmung #42
+          br
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+
+        .question_info
+
+          .points
+            i.fa.fa-plus &nbsp;
+            strong.question_info_number
+            | &nbsp;
+            span 30,9% Ja
+
+          .points
+            i.fa.fa-minus &nbsp;
+            strong.question_info_number
+            | &nbsp;
+            span 40,4% Nein
+
+          .points
+            i.fa.fa-circle-o &nbsp;
+            strong.question_info_number
+            | &nbsp;
+            span 40,4% Enthaltung
+
+          .argument_count
+            i.fa.fa-comments &nbsp;
+            strong.question_info_number 5
+            | &nbsp;
+            span Argumente
+
+    .question
+      .row
+        .question_activity
+          ul.list-unstyled
+           li: small Eingereicht am 10.12.1111
+           li: small Zugelassen am 11.12.1111
+           li: small Abstimmungsbeginn am 12.12.1111
+           li: small Abstimmungsende am 13.12.1111
+
+        .question_body.col-6
+          include _question_body.jade
+
+        .question_state
+          i.fa.fa-file-text.fa-2x &nbsp;
+          a(href="#") Online-Abstimmung #42
+          |  läuft gerade
+          br
+          button.btn.btn-primary
+            i.fa.fa-file-text-o &nbsp;
+            |Abstimmen
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+
+        .question_info
+          ul.list-unstyled
+            li  
+              i.fa.fa-comments &nbsp;
+              strong.question_info_number 5
+              | &nbsp;
+              span Argumente
+            li
+              i.fa.fa-thumbs-up &nbsp;
+              strong.question_info_number 1
+              | &nbsp;
+              span Unterstützer
+
+    .question
+      .row
+        .question_activity
+          ul.list-unstyled
+           li: small Eingereicht am 10.12.1111
+           li: small Zugelassen am 11.12.1111
+           li: small Angenommen am 12.12.1111
+
+        .question_body.col-6
+          include _question_body.jade
+
+        .question_state
+          i.fa.fa-plus-circle.fa-2x &nbsp;
+          | Angenommen in 
+          a(href="#") Online-Abstimmung #42
+          br
+          button.help_button
+            i.fa.fa-question-circle &nbsp;
+            |Hilfe!
+
+        .question_info
+          ul.list-unstyled
+            li  
+              i.fa.fa-plus &nbsp;
+              strong.question_info_number
+              | &nbsp;
+              span 60,9% Ja
+            li
+              i.fa.fa-minus &nbsp;
+              strong.question_info_number
+              | &nbsp;
+              span 40,4% Nein
+
+            li
+              i.fa.fa-circle-o &nbsp;
+              strong.question_info_number
+              | &nbsp;
+              span 40,4% Enthaltung
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

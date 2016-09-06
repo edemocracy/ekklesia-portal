@@ -1,0 +1,113 @@
+doctype html
+include _head.jade
+
+.content_area.container_wide
+
+  .question_toolbar
+    .question_tabs
+      a.tab.discussion_tab(href="#") Diskussion
+      a.tab.related_tab.inactive(href="#") Zugehörig (Änderungs- und Gegenanträge)
+      a.tab.versions_tab.inactive(href="#") Versionsgeschichte
+
+
+  .question(id="question_")
+    .row
+      .question_activity
+        ul.list-unstyled
+         li: small Eingereicht am 11.11.1111 durch Benutzer1
+         li: small Abstimmungsbeginn: 12.12.1111
+         li: small Abstimmungsende: 13.12.1111
+
+      .question_body.col-6
+        include _question_body.jade
+
+      .question_state
+        i.fa.fa-file-text.fa-2x &nbsp;
+        a(href="#") Online-Abstimmung #42
+        |  läuft gerade
+        br
+        button.btn.btn-primary
+          i.fa.fa-file-text-o &nbsp;
+          |Abstimmen
+        button.help_button
+          i.fa.fa-question-circle &nbsp;
+          |Hilfe!
+
+      .question_info
+        ul.list-unstyled
+          li  
+            i.fa.fa-comments &nbsp;
+            strong.question_info_number 5
+            | &nbsp;
+            span Argumente
+          li
+            i.fa.fa-thumbs-up &nbsp;
+            strong.question_info_number(id="question_score_1") 1
+            | &nbsp;
+            span Unterstützer
+
+  .versions(hidden="hidden")
+    h3 Versionen
+
+    table.table.table-striped
+      thead
+        tr
+          th #
+          th l
+          th r
+          th Aktualisiert
+          th Autor
+          th Kommentar
+          th Moderation
+      tbody
+        tr
+          td 3
+          td
+            input(type="radio", name="l", checked="checked")
+          td
+          td 11.11.1111 13:12:44
+          td Moderator
+          td Obszöne Inhalte entfernt...
+          td
+            a(href="#")
+              i.fa.fa-minus-square &nbsp;
+              | Verstecken
+
+        tr
+          td 2
+          td
+            input(type="radio", name="l")
+          td
+            input(type="radio", name="r", checked="checked")
+          td 11.11.1111 12:12:44
+          td Benutzer1
+          td 
+          td
+            a(href="#") 
+              i.fa.fa-plus-square &nbsp;
+              | Wieder anzeigen
+
+        tr
+          td 1
+          td
+            input(type="radio", name="l")
+          td
+            input(type="radio", name="r")
+          td 11.11.1111 11:12:44
+          td Benutzer1
+          td 
+          td
+            a(href="#") 
+              i.fa.fa-plus-square &nbsp;
+              | Verstecken
+
+
+    button.btn.btn-primary(type="submit") Ausgewählte Versionen vergleichen
+
+script.
+  show(".question_actions")
+  show(".question_details")
+  hide(".vote_button")
+
+  $(".tab").click(function() { disable(".tab"); enable(this) })
+  $(".versions_tab").click(function() { show(".versions") })

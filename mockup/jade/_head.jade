@@ -1,0 +1,69 @@
+title Arguments
+meta(charset="utf8")
+meta(name="viewport",content="width=device-width, initial-scale=1, shrink-to-fit=no")
+meta(http-equiv="x-ua-compatible", content="ie=edge")
+link(rel="stylesheet", href="css/mockup.css")
+script(src="js/jquery.js")
+script(src="js/bootstrap.js")
+
+script.
+  function show(selector) {
+    $(selector).removeAttr("hidden")
+  }
+
+  function hide(selector) {
+    $(selector).attr("hidden", "hidden")
+  }
+
+  function disable(selector) {
+    $(selector).addClass("inactive")
+  }
+
+  function enable(selector) {
+    $(selector).removeClass("inactive")
+  }
+
+nav.top_navbar
+  .container.container_wide
+    a.navbar-brand(href="#") Arguments
+
+    ul.nav.navbar-nav
+      li.nav-item.active
+        a.nav-link Sortiert
+      
+      li.nav-item
+        a.nav-link Top
+
+    ul.language_selector
+      li.nav-item.active
+        a.nav-link(href="#") de
+      li.nav-item
+        a.nav-link(href="#") en
+      li.nav-item
+        a.nav-link(href="#") fr
+
+    ul.usercontrols
+      li.nav-item
+        .logged_in_user(hidden="hidden")
+          a.btn.nav-link(href="#")
+            i.fa.fa-user
+            | 
+            | Benutzer
+
+        .login
+          a.login_button(href="#")
+            i.fa.fa-sign-in 
+            | 
+            | Anmelden
+
+    form.top_search
+      .input-group
+        span.input-group-btn
+          button.search_button(type="submit")
+            i.fa.fa-search 
+            | 
+            |  Suche
+        input.form-control(type="text", placeholder="Suche nach", name="q")
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

@@ -1,0 +1,54 @@
+include _head.jade
+
+.content_area
+  h3 Neuer Antrag
+
+  form#new_question(method="POST", action=url_for("new_question"))
+    fieldset.form-group
+      button.btn.btn-primary Abschicken
+
+    fieldset.form-group
+      label Typ
+      select.form-control
+        option Statutenänderungsantrag
+        option Parolenantrag
+        option Referendumsantrag
+        option Wahlantrag
+        option Programmantrag
+        option Positionspapier
+        option Budgetantrag
+        option Erlassantrag
+        option Auftrag
+        option Anderer Antrag
+
+    fieldset.form-group
+      label Titel
+      textarea.form-control(name="title", rows=2)
+
+    fieldset.form-group
+      label Antragstext
+      textarea.form-control(name="text", rows=8)
+
+    fieldset.form-group
+      label Begründung
+      textarea.form-control(name="motivation", rows=8)
+
+    fieldset.form-group(hidden="hidden")
+      label Tags
+      textarea.form-control(name="tags", rows=2)
+
+    fieldset.form-group(hidden="hidden")
+      label Zugehörig zu Antrag
+      textarea.form-control(name="associated_with_question_url", rows=2)
+
+    fieldset.form-group(hidden="hidden")
+      label Zugehörigkeitsart
+      select.form-control(name="association_type")
+        option(value="")
+        option(value="change") Änderungsantrag
+        option(value="counter") Gegenantrag
+
+    fieldset.form-group
+      button.btn.btn-primary Abschicken
+
+
