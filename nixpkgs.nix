@@ -1,1 +1,1 @@
-fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz
+fetchTarball https://nixos.org/channels/nixos-16.09/nixexprs.tar.xz
