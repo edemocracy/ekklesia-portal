@@ -1,26 +1,26 @@
 | Schweiz / Sektion Bayern: Satzungsänderungsantrag #123
 
-h4.question_title
-    a(href="question1.html") Brutal langer Titel ohne jeden Sinn und Zweck
+h4.proposition_title
+    a(href="proposition1.html") Brutal langer Titel ohne jeden Sinn und Zweck
 
 ul.list-inline
     li.list-inline-item
       a.tag(href="tag1.html") Tag1
       a.tag(href="tag2.html") Tag2
 
-p.question_details(hidden="hidden")
-  | Ja, hier stehen die Details zum Antrag
+p.proposition_details(hidden="hidden")
+  include proposition_text
 
-.question_actions(hidden="hidden")
+.proposition_actions(hidden="hidden")
   button.vote_button(
-      data-action="question_vote"
-      data-question-id="1")
+      data-action="proposition_vote"
+      data-proposition-id="1")
     i.fa.fa-thumbs-up &nbsp;
     | Unterstützen
 
   button.revoke_vote_button(hidden="hidden"
-      data-action="question_revoke_vote"
-      data-question-id="1")
+      data-action="proposition_revoke_vote"
+      data-proposition-id="1")
       i.fa.fa-remove &nbsp;
       | Unterstützung zurückziehen
 

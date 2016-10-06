@@ -1,0 +1,192 @@
+@import ../../arguments/sass/custom
+@import bootstrap/bootstrap
+@import font-awesome/font-awesome
+
+a.btn
+  margin-left: 0.3rem
+
+.alert_message
+  @extend .alert
+  @extend .alert-info
+
+.alert_error,.alert_danger
+  @extend .alert
+  @extend .alert-danger
+
+.alert_warning
+  @extend .alert
+  @extend .alert-warning
+
+.argument_vote_btn
+  @extend .btn
+  @extend .btn-secondary
+  width: 3rem
+  @extend .center-block
+
+.argument
+  @extend .card
+  @extend .card-block
+  padding: 1rem
+
+.con .authoring_info
+  @extend .text-sm-right
+
+.argument_counter_arguments
+  @extend .argument_sidebar
+
+.con .argument_counter_arguments
+  @extend .push-sm-10
+
+.argument_sidebar
+  @extend .col-sm-2
+
+.argument_body
+  @extend .col-sm-8
+
+.argument_score
+  @extend .text-sm-center
+
+.con .argument_score
+  @extend .push-sm-6
+
+.argument_vote_btns
+  @extend .col-sm-6
+
+.con .argument_vote_btns
+  @extend .pull-sm-6
+
+.argument_voting
+  @extend .argument_sidebar
+
+.con .argument_voting
+  @extend .pull-sm-10
+
+.associated_proposition
+  @extend .card
+  @extend .card-block
+
+.associated_proposition_title
+  @extend .card-title
+
+.counter_arguments_btn
+  @extend .btn
+  @extend .btn-secondary
+  white-space: normal
+  margin-left: -2.5rem
+
+.con .counter_arguments_btn
+  margin-left: -0.7rem
+
+.pro .argument
+  border-right-width: 3px
+  border-right-color: darkblue
+
+.con .argument
+  border-left-width: 3px
+  border-left-color: red
+
+.proposition_col
+  @extend .col-sm-6
+
+.author
+  @extend .text-sm-right
+
+.authoring_info
+  @extend .col-sm-12
+  margin-top: 0.5rem
+
+.button_add_related
+  @extend .btn
+  @extend .btn-secondary
+  width: 100%
+
+.button_add_counter_argument
+  @extend .btn
+  @extend .btn-secondary
+  width: 100%
+
+.content_area
+  @extend .container
+  margin-top: 1rem
+  margin-bottom: 1rem
+
+.large_number
+  @extend .text-large
+
+.points_text
+  @extend .text-muted
+
+.proposition
+  @extend .card
+  @extend .card-block
+  padding: 1rem
+
+.proposition_info_number
+  @extend .text-large
+
+.proposition_info_text
+  @extend .text-muted
+
+.proposition_title
+  @extend .card-title
+
+.proposition_body
+  @extend .col-sm-8
+
+.proposition_sidebar
+  @extend .col-sm-2
+
+.proposition_toolbar
+  @extend .btn-toolbar
+
+.proposition_tabs
+  @extend .btn-group
+
+.search_button
+  @extend .btn
+  @extend .btn-success-outline
+  padding-top: 0.45rem
+  padding-bottom: 0.45rem
+
+.proposition_left
+  @extend .col-sm-2
+  @extend .text-sm-center
+
+.tab
+  @extend .btn
+  @extend .btn-secondary
+  @extend .btn-sm
+  border-radius: 0
+  border-bottom: 0
+
+.tab.inactive
+  @extend .btn-link
+  text-color: black
+
+.tags
+  @extend .card-text
+
+hr.argument_separator
+  border-top: 2px solid $gray-light
+
+span.tag_text
+  @extend .tag
+  @extend .tag-default
+  margin-left: 0.5rem
+
+.top_navbar
+  @extend .navbar
+  @extend .navbar-light
+  @extend .bg-primary
+
+.top_search
+  @extend .form-inline
+  @extend .pull-xs-right
+  margin-bottom: 0
+
+.top_usercontrols
+  @extend .nav
+  @extend .pull-right
+
+h1>a,h2>a,h3>a,h4>a,h5>a
+  color: darkblue

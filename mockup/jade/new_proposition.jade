@@ -3,7 +3,7 @@ include _head.jade
 .content_area
   h3 Neuer Antrag
 
-  form#new_question(method="POST", action=url_for("new_question"))
+  form#new_proposition(method="POST", action=url_for("new_proposition"))
     fieldset.form-group
       button.btn.btn-primary Abschicken
 
@@ -39,7 +39,7 @@ include _head.jade
 
     fieldset.form-group(hidden="hidden")
       label Zugehörig zu Antrag
-      textarea.form-control(name="associated_with_question_url", rows=2)
+      textarea.form-control(name="associated_with_proposition_url", rows=2)
 
     fieldset.form-group(hidden="hidden")
       label Zugehörigkeitsart

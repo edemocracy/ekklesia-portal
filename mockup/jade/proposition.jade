@@ -3,27 +3,27 @@ include _head.jade
 
 .content_area.container_wide
 
-  .question_toolbar
-    .question_tabs
+  .proposition_toolbar
+    .proposition_tabs
       a.tab.discussion_tab(href="#") Diskussion
       a.tab.related_tab.inactive(href="#") Zugehörig (Änderungs- und Gegenanträge)
       a.tab.versions_tab.inactive(href="#") Versionsgeschichte
 
 
-  .question(id="question_")
+  .proposition(id="proposition_")
     .row
-      .question_activity
+      .proposition_activity
         ul.list-unstyled
          li: small Eingereicht am 11.11.1111 durch Benutzer1
          li: small Abstimmungsbeginn: 12.12.1111
          li: small Abstimmungsende: 13.12.1111
 
-      .question_body.col-6
-        include _question_body.jade
+      .proposition_body.col-6
+        include _proposition_body
 
-      .question_state
+      .proposition_state
         i.fa.fa-file-text.fa-2x &nbsp;
-        a(href="#") Online-Abstimmung #42
+        a(href="#") Abstimmung #42
         |  läuft gerade
         br
         button.btn.btn-primary
@@ -33,16 +33,16 @@ include _head.jade
           i.fa.fa-question-circle &nbsp;
           |Hilfe!
 
-      .question_info
+      .proposition_info
         ul.list-unstyled
           li  
             i.fa.fa-comments &nbsp;
-            strong.question_info_number 5
+            strong.proposition_info_number 5
             | &nbsp;
             span Argumente
           li
             i.fa.fa-thumbs-up &nbsp;
-            strong.question_info_number(id="question_score_1") 1
+            strong.proposition_info_number(id="proposition_score_1") 1
             | &nbsp;
             span Unterstützer
 
@@ -105,8 +105,8 @@ include _head.jade
     button.btn.btn-primary(type="submit") Ausgewählte Versionen vergleichen
 
 script.
-  show(".question_actions")
-  show(".question_details")
+  show(".proposition_actions")
+  show(".proposition_details")
   hide(".vote_button")
 
   $(".tab").click(function() { disable(".tab"); enable(this) })
