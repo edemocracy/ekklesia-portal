@@ -1,6 +1,6 @@
-{ nixpkgs ? (import ./nixpkgs.nix) }:
+{ nixpkgs ? (import ./requirements/nixpkgs.nix) }:
 let
 pkgs = import nixpkgs {};
-arguments = import ./arguments.nix { inherit pkgs; };
+arguments = import ./requirements/arguments.nix { inherit pkgs; };
 in arguments.interpreter
 
