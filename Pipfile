@@ -1,0 +1,32 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+morepath = "*"
+"more.transaction" = "*"
+"psycopg2" = "*"
+pyjade = "*"
+pyyaml = "*"
+sqlalchemy = "*"
+sqlalchemy-searchable = "*"
+
+
+[dev-packages]
+
+"more.pathtool" = "*"
+werkzeug = "*"
+coverage = "*"
+pytest = "*"
+pytest-localserver = "*"
+requests = "*"
+webtest = "*"
+
+
+[requires]
+
+python_version = "3.6"
