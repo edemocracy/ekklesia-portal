@@ -14,6 +14,9 @@ pyjade = "*"
 pyyaml = "*"
 sqlalchemy = "*"
 sqlalchemy-searchable = "*"
+"jinja2" = "*"
+munch = "*"
+attrs = "*"
 
 
 [dev-packages]
