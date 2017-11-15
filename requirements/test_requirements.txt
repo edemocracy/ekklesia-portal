@@ -1,0 +1,5 @@
+coverage
+pytest
+pytest-localserver
+requests
+webtest

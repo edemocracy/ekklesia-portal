@@ -7,7 +7,6 @@ flask-misaka
 flask-sijax
 flask-sqlalchemy
 flask-wtf
-ipython
 psycopg2
 pyjade
 pyyaml 
