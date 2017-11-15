@@ -8,3 +8,5 @@
 .babelcompiled
 arguments/config.py
 arguments/static/css/arguments.css
+requirements/pypi2nix_source_deps
+requirements/pypi2nix_source_deps_with_hash
