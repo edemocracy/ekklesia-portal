@@ -1,5 +1,6 @@
 import morepath
 import werkzeug.serving
+import werkzeug.wsgi
 from arguments.app import App
 
 import argparse
@@ -72,6 +73,10 @@ def run():
     App.commit()
     wsgi_app = App()
 
+    wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
+        '/static': ("arguments", 'static')
+    })
+    
     if args.stackdump:
         stackdump_setup()
 
@@ -79,7 +84,7 @@ def run():
         wf.write(datetime.datetime.now().isoformat())
         wf.write("\n")
 
-    werkzeug.serving.run_simple(args.bind, args.http_port, wsgi_app, use_reloader=args.debug, use_debugger=args.debug)
+    werkzeug.serving.run_simple(args.bind, args.http_port, wrapped_app, use_reloader=args.debug, use_debugger=args.debug)
 
 
 if __name__ == "__main__":
