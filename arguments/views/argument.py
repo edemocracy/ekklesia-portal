@@ -1,25 +1,25 @@
 import logging
-from flask import render_template, abort, request, redirect, url_for
-from arguments import app, db
+#from flask import render_template, abort, request, redirect, url_for
+#from flask.ext.babelex import _
+#from flask_login import current_user
+#from flask_wtf import Form
+#from wtforms import TextField
+#from wtforms.validators import DataRequired
+#import flask_sijax
+from arguments import app #, db
 from arguments.database.datamodel import Question, Argument, User
-from flask.ext.babelex import _
-from flask_login import current_user
-from flask_wtf import Form
-from wtforms import TextField
-from wtforms.validators import DataRequired
-import flask_sijax
 
 
 logg = logging.getLogger(__name__)
 
 
-class ArgumentForm(Form):
-    title = TextField("headline", validators=[DataRequired()])
-    abstract = TextField("abstract", validators=[DataRequired()])
-    details = TextField("details")
+#class ArgumentForm(Form):
+#    title = TextField("headline", validators=[DataRequired()])
+#    abstract = TextField("abstract", validators=[DataRequired()])
+#    details = TextField("details")
 
 
-@app.route("/<question_url>/<argument_url>")
+#@app.route("/<question_url>/<argument_url>")
 def argument(question_url, argument_url):
     argument = (Argument.query
                 .filter_by(url=argument_url)
@@ -29,7 +29,7 @@ def argument(question_url, argument_url):
     return render_template("argument.j2.jade", argument=argument)
 
 
-@app.route("/<question_url>/<argument_type>/new", methods=["GET", "POST"])
+#@app.route("/<question_url>/<argument_type>/new", methods=["GET", "POST"])
 def new_argument(question_url, argument_type):
     logg.debug("new argument form: %s", request.form)
     question = Question.query.filter_by(url=question_url).first_or_404()

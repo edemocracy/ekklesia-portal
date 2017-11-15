@@ -1,27 +1,19 @@
-"""
-All view modules must be imported here.
-"""
-
 import logging
-from flask import render_template, flash
-from arguments import app
+from arguments.app import App
 
 
 logg = logging.getLogger(__name__)
 
 
-@app.route("/test")
-def test():
-    flash("wiß Ünicöde ä")
-    flash("warning", "warning")
-    flash("error", "error")
-    return render_template("test.j2.jade")
+class TestPage:
+    pass
 
 
-# import all view functions defined is this package to register them with the app
-from . import question
-from . import questions
-from . import argument
-from . import counter_arguments
-from . import logout
-from . import sijaxcommon
+@App.path(model=TestPage, path="test")
+def test_page():
+    return TestPage()
+    
+
+@App.view(model=TestPage)
+def show_test_page(request, self):
+    return "hello test"

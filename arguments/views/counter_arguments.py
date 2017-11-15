@@ -1,10 +1,10 @@
-from flask import render_template, abort
+#from flask.ext.babelex import _
+#from flask import render_template, abort
 from arguments import app
 from arguments.database.datamodel import Question, Argument
-from flask.ext.babelex import _
 
 
-@app.route("/<question_url>/<argument_url>/ca")
+#@app.route("/<question_url>/<argument_url>/ca")
 def counter_arguments(question_url, argument_url):
     argument = (Argument.query
                 .filter_by(url=argument_url)

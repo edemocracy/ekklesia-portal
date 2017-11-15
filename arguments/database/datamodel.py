@@ -1,25 +1,22 @@
 from sqlalchemy import Unicode, Integer, Text, desc, Boolean
 from sqlalchemy.sql import select, func
-from sqlalchemy.orm import object_session
+from sqlalchemy.orm import Query
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.dialects.postgresql import ARRAY
 
-from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from sqlalchemy_searchable import make_searchable
-from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
-from flask_login import UserMixin
+#from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
+#from flask_login import UserMixin
 
-from arguments import db
-from arguments.database import integer_pk, integer_fk, TimeStamp, rel, FK, C, Model, Table, bref
+from arguments.database import integer_pk, integer_fk, TimeStamp, rel, FK, C, Model, Table, bref, db_metadata
 
 
 make_searchable(options={'regconfig': 'pg_catalog.german'})
 
 
-class QuestionQuery(BaseQuery, SearchQueryMixin):
+class QuestionQuery(Query, SearchQueryMixin):
     pass
 
 
@@ -31,12 +28,12 @@ class UserGroup(Model):
     name = C(Unicode)
 
 
-user_to_usergroup = Table("user_to_usergroup", db.metadata,
+user_to_usergroup = Table("user_to_usergroup", db_metadata,
                           integer_fk("user.id", name="user_id", primary_key=True),
                           integer_fk(UserGroup.id, name="group_id", primary_key=True))
 
 
-class User(Model, UserMixin):
+class User(Model): #, UserMixin):
 
     __tablename__ = "user"
 
@@ -63,7 +60,7 @@ class EkklesiaUserInfo(Model):
     user = rel(User, backref=bref("ekklesia_info", uselist=False))
 
 
-class OAuthToken(Model, OAuthConsumerMixin):
+class OAuthToken(Model): #, OAuthConsumerMixin):
 
     __tablename__ = "oauth_token"
 
@@ -80,7 +77,7 @@ class Tag(Model):
         return "Tag '{}'".format(self.tag)
 
 
-tag_to_question = Table("tag_to_question", db.metadata,
+tag_to_question = Table("tag_to_question", db_metadata,
                         integer_fk("question.id", name="question_id", primary_key=True),
                         integer_fk(Tag.id, name="tag_id", primary_key=True))
 

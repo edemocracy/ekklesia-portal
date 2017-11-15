@@ -1,13 +1,13 @@
 import logging
-from flask import render_template, abort, request, url_for, redirect, g
-from flask_login import current_user, login_required
-from flask_wtf import Form
-from wtforms import TextField
-from wtforms.validators import DataRequired
-import flask_sijax
+#from flask import render_template, abort, request, url_for, redirect, g
+#from flask_login import current_user, login_required
+#from flask_wtf import Form
+#from wtforms import TextField
+#from wtforms.validators import DataRequired
+#import flask_sijax
 import requests
 
-from arguments import app, db
+from arguments import app #, db
 from arguments.database.datamodel import Question, Tag, QuestionAssociation
 from arguments.sijax_callbacks import argument_vote, question_vote
 
@@ -23,15 +23,15 @@ QUESTION_ASSOCIATION_TYPES = {
 }
 
 
-class QuestionForm(Form):
-    associated_with_question_url = TextField(default="")
-    association_type = TextField(default="")
-    title = TextField("title", validators=[DataRequired()])
-    details = TextField("details", default="")
-    tags = TextField("tags", default="")
+#class QuestionForm(Form):
+#    associated_with_question_url = TextField(default="")
+#    association_type = TextField(default="")
+#    title = TextField("title", validators=[DataRequired()])
+#    details = TextField("details", default="")
+#    tags = TextField("tags", default="")
 
 
-@flask_sijax.route(app, "/<question_url>")
+#@flask_sijax.route(app, "/<question_url>")
 def question(question_url):
     # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
     g.sijax.set_request_uri(request.path)
@@ -45,7 +45,7 @@ def question(question_url):
     return render_template("question.j2.jade", question=question)
 
 
-@app.route("/<question_url>/associated")
+#@app.route("/<question_url>/associated")
 def question_associated(question_url):
     question = Question.query.filter_by(url=question_url).first_or_404()
     associated_questions_left = question.associated_questions(QUESTION_ASSOCIATION_TYPES["left"])
@@ -115,10 +115,10 @@ QUESTION_IMPORT_HANDLERS = {
 }
 
 
-@app.route("/<associated_with_question_url>/associated/<side>/new", methods=["GET", "POST"])
-@app.route("/new", methods=["GET", "POST"])
-@app.route("/questions/new", methods=["GET", "POST"])
-@login_required
+#@app.route("/<associated_with_question_url>/associated/<side>/new", methods=["GET", "POST"])
+#@app.route("/new", methods=["GET", "POST"])
+#@app.route("/questions/new", methods=["GET", "POST"])
+#@login_required
 def new_question(associated_with_question_url="", side=""):
     logg.debug("new question form: %s", request.form)
 

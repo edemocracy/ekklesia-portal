@@ -1,24 +1,21 @@
+import morepath
+import werkzeug.serving
+from arguments.app import App
+
 import argparse
 import datetime
 import os.path
-from arguments import make_app
 import tempfile
 
 tmpdir = tempfile.gettempdir()
 
 parser = argparse.ArgumentParser("Arguments runserver.py")
 
-parser.add_argument("-b", "--bind", default="127.0.0.1", help="hostname / IP to bind to, default 127.0.0.1")
-parser.add_argument("-p", "--http_port", default=5000, help="HTTP port to use, default 5000")
-parser.add_argument("-d", "--debug", action="store_true", help="enable Flask debugging (+ reloader)")
-parser.add_argument("-s", "--stackdump", action="store_true", help="write stackdumps to temp dir {} on SIGQUIT".format(tmpdir))
+parser.add_argument("-b", "--bind", default="arguments.localhost", help="hostname / IP to bind to, default arguments.localhost")
+parser.add_argument("-p", "--http_port", default=8080, help="HTTP port to use, default 8080")
+parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
+parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
         
-args = parser.parse_args()
-
-print("cmdline args:", args)
-
-flask_app = make_app(args.debug)
-
 
 def stackdump_setup():
     import codecs
@@ -67,13 +64,23 @@ def stackdump_setup():
         signal.signal(signal.SIGQUIT, dumpstacks)
 
 
-if args.stackdump:
-    stackdump_setup()
+
+def run():
+    args = parser.parse_args()
+    print("cmdline args:", args)
+    morepath.autoscan()
+    App.commit()
+    wsgi_app = App()
+
+    if args.stackdump:
+        stackdump_setup()
+
+    with open(os.path.join(tmpdir, "arguments.started"), "w") as wf:
+        wf.write(datetime.datetime.now().isoformat())
+        wf.write("\n")
+
+    werkzeug.serving.run_simple(args.bind, args.http_port, wsgi_app, use_reloader=args.debug, use_debugger=args.debug)
 
 
-with open(os.path.join(tmpdir, "arguments.started"), "w") as wf:
-    wf.write(datetime.datetime.now().isoformat())
-    wf.write("\n")
-
-
-flask_app.run(host=args.bind, port=int(args.http_port), debug=args.debug, extra_files=[os.path.join(os.path.dirname(__file__), ".babelcompiled")])
+if __name__ == "__main__":
+    run()

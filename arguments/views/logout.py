@@ -1,12 +1,12 @@
-from flask import flash, redirect, url_for
-from flask_login import login_required, logout_user
-from flask.ext.babelex import _
+#from flask import flash, redirect, url_for
+#from flask_login import login_required, logout_user
+#from flask.ext.babelex import _
 
 from arguments import app
 
 
-@app.route("/logout")
-@login_required
+#@app.route("/logout")
+#@login_required
 def logout():
     logout_user()
     flash(_("logged_out"))

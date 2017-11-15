@@ -5,16 +5,16 @@ import yaml
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import relationship, backref, Query, Mapper
-from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.ext.declarative import declared_attr, declarative_base
+from sqlalchemy.orm.scoping import scoped_session
 
-from arguments import db
-
-rel = db.relationship
-FK = db.ForeignKey
-C = db.Column
-Model = db.Model
-Table = db.Table
-bref = db.backref
+rel = relationship
+FK = ForeignKey
+C = Column
+Model = declarative_base()
+Table = Table
+bref = backref
+db_metadata = Model.metadata
 
 SLOW_QUERY_SECONDS = 0.3
 
@@ -79,7 +79,7 @@ def before_cursor_execute(conn, cursor, statement,
 
 @event.listens_for(Engine, "after_cursor_execute")
 def after_cursor_execute(conn, cursor, statement,
-                         parameters, context, executemany):
+                          parameters, context, executemany):
     total = time.time() - conn.info['query_start_time'].pop(-1)
     # total in seconds
     if total > SLOW_QUERY_SECONDS:

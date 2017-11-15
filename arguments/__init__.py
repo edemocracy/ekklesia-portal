@@ -1,16 +1,16 @@
 import logging
 import os
 import sys
-from flask import Flask, g, request, session, flash, redirect, url_for
+#from flask import Flask, g, request, session, flash, redirect, url_for
 from pprint import pformat
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.babelex import Babel, _
-from flask_admin import Admin
-from flask_dance.consumer import OAuth2ConsumerBlueprint, oauth_authorized, oauth_error
-from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
-from flask.ext.misaka import Misaka
-from flask_login import current_user, LoginManager, login_user
-import flask_sijax
+#from flask.ext.sqlalchemy import SQLAlchemy
+#from flask.ext.babelex import Babel, _
+#from flask_admin import Admin
+#from flask_dance.consumer import OAuth2ConsumerBlueprint, oauth_authorized, oauth_error
+#from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
+#from flask.ext.misaka import Misaka
+#from flask_login import current_user, LoginManager, login_user
+#import flask_sijax
 from werkzeug.contrib.fixers import ProxyFix
 
 

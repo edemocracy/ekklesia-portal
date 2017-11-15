@@ -1,10 +1,10 @@
-from flask import render_template, request
+#from flask import render_template, request
 from arguments import app
 from arguments.database.datamodel import Question, Tag
 
 
-@app.route("/")
-@app.route("/tags/<tag>")
+#@app.route("/")
+#@app.route("/tags/<tag>")
 def questions(tag=None):
     questions = Question.query
     mode = request.args.get("mode")
