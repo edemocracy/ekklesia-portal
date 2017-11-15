@@ -1,13 +1,7 @@
-blinker
-flask-admin
-flask-babelex
-flask-dance
-flask-login
-flask-misaka
-flask-sijax
-flask-sqlalchemy
-flask-wtf
+morepath
+more.transaction
 psycopg2
 pyjade
 pyyaml 
+sqlalchemy
 sqlalchemy-searchable
