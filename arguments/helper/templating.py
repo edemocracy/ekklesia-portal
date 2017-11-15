@@ -39,3 +39,14 @@ class PyJadeExtension(JinjaJadeExtension):
                 (name and not os.path.splitext(name)[1] in self.file_extensions)):
             return source
         return process(source, filename=name, compiler=JinjaAutoescapeCompiler, **self.options)
+
+
+def select_jinja_autoescape(filename):
+    """Returns `True` if autoescaping should be active for the given
+    template name.
+
+    !taken from Flask.
+    """
+    if filename is None:
+        return False
+    return filename.endswith(('.html', '.htm', '.xml', '.xhtml', '.jade'))

@@ -8,7 +8,7 @@ head
   link(rel="stylesheet", href=url_for("static", filename="css/arguments.css"))
   script(src=url_for("static", filename="js/jquery-2.2.3.js"))
   script(src="/static/js/sijax/sijax.js")
-  script= g.sijax.get_js()|safe
+  //script= g.sijax.get_js()|safe
   script.
     var current_user = { "is_authenticated": {{ current_user.is_authenticated|tojson }} };
 
