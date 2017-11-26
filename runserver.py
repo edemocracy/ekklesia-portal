@@ -12,7 +12,7 @@ tmpdir = tempfile.gettempdir()
 
 parser = argparse.ArgumentParser("Arguments runserver.py")
 
-parser.add_argument("-b", "--bind", default="arguments.localhost", help="hostname / IP to bind to, default arguments.localhost")
+parser.add_argument("-b", "--bind", default="arguments_localhost", help="hostname / IP to bind to, default arguments.localhost")
 parser.add_argument("-p", "--http_port", default=8080, help="HTTP port to use, default 8080")
 parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
 parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
