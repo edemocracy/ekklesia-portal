@@ -30,6 +30,21 @@ QUESTION_ASSOCIATION_TYPES = {
 #    details = TextField("details", default="")
 #    tags = TextField("tags", default="")
 
+class Cell:
+    model_properties = []
+
+    def __init__(self, model):
+        self._model = model
+
+    def __getattribute__(self, name):
+        if name in self.properties:
+            return getattr(self._model, name)
+
+
+class QuestionCell(Cell):
+    model_properties = ['url', 'title']
+
+
 
 #@flask_sijax.route(app, "/<question_url>")
 def question(question_url):
