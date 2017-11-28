@@ -45,26 +45,31 @@ class App(morepath.App):
         return template.render(**context)
 
 
-def configure_app_settings(settings_filepath):
-    if os.path.isfile(settings_filepath):
+def get_app_settings(settings_filepath):
+    from arguments.default_settings import settings
 
+    if settings_filepath is None:
+        logg.info("no config file given")
+    elif os.path.isfile(settings_filepath):
         with open(settings_filepath) as config:
-            settings = yaml.load(config)
-
-        App.init_settings(settings)
+            settings_from_file = yaml.load(config)
         logg.info("loaded config from %s", settings_filepath)
+
+        for section_name, section in settings_from_file.items():
+            if section_name in settings:
+                settings[section_name].update(section)
+            else:
+                settings[section_name] = section
     else:
         logg.warn("config file path %s doesn't exist!")
+
+    return settings
 
 
 def make_wsgi_app(args):
     morepath.autoscan()
-
-    if args.config_file:
-        configure_app_settings(args.config_file)
-    else:
-        logg.info("no config file given")
-
+    settings = get_app_settings(args.config_file)
+    App.init_settings(settings)
     App.commit()
     wsgi_app = App()
     return wsgi_app

@@ -1,2 +1,4 @@
 test_section:
     test_setting: test
+app:
+    instance_name: test
