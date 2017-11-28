@@ -50,7 +50,7 @@
       .question_sidebar
 
         .authoring_info
-          small.author=_("authored_at", dt=question.created_at|datetimeformat)
+          small.author=_("authored_at", dt=question.created_at)
 
         .points
           i.fa.fa-thumbs-up &nbsp;
@@ -115,7 +115,7 @@
     .row
       .col-sm-2
         .authoring_info
-          small.author=_("authored_at", dt=question.created_at|datetimeformat)
+          small.author=_("authored_at", dt=question.created_at)
 
         .points
           i.fa.fa-thumbs-up &nbsp;

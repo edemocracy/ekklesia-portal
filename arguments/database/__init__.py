@@ -20,7 +20,8 @@ db_metadata = Base.metadata
 SLOW_QUERY_SECONDS = 0.3
 
 
-sqllog = logging.getLogger(__name__)
+logg = logging.getLogger(__name__)
+sqllog = logging.getLogger("sqllog")
 
 Session = sessionmaker()
 zope.sqlalchemy.register(Session)
@@ -95,7 +96,7 @@ def after_cursor_execute(conn, cursor, statement,
 
 
 def configure_sqlalchemy(db_settings):
+    logg.info("using SQLAlchemy connection uri %s", db_settings.uri)
     engine = create_engine(db_settings.uri)
     Session.configure(bind=engine)
     db_metadata.bind = engine
-

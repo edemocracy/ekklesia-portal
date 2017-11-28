@@ -4,6 +4,7 @@ import os
 import jinja2
 from more.transaction import TransactionApp
 from morepath.reify import reify
+from morepath.request import Request
 from munch import Munch
 from werkzeug.datastructures import ImmutableDict
 from zope.sqlalchemy import register
@@ -22,7 +23,18 @@ def format_datetime(timestamp):
     return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
 
 
+class DBSessionRequest(Request):
+    @reify
+    def db_session(self):
+        return database.Session()
+
+    def q(self, *args, **kwargs):
+        return self.db_session.query(*args, **kwargs)
+
+
 class App(TransactionApp):
+    request_class = DBSessionRequest
+    
     def __init__(self):
         super().__init__()
         jinja_globals = dict(url_for=lambda *a, **k: "#",

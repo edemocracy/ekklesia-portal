@@ -36,7 +36,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.associationproxy import association_proxy
 
-from arguments.database import Base
+from arguments.database import Base, TimeStamp
 
 
 class Group(Base):
@@ -297,6 +297,8 @@ class Proposition(Base):
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]) )
 
     discussion_url = Column(Text)
+    
+    created_at = Column(DateTime, nullable=False, server_default="NOW()")
     """
    submission data: content, submitters, conflicts
    perform daily checks
