@@ -1,7 +1,7 @@
 import morepath
 import werkzeug.serving
 import werkzeug.wsgi
-from arguments.app import App
+from arguments.app import App, make_wsgi_app
 
 import argparse
 import datetime
@@ -16,6 +16,7 @@ parser.add_argument("-b", "--bind", default="arguments_localhost", help="hostnam
 parser.add_argument("-p", "--http_port", default=8080, help="HTTP port to use, default 8080")
 parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
 parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
+parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
         
 
 def stackdump_setup():
@@ -69,9 +70,7 @@ def stackdump_setup():
 def run():
     args = parser.parse_args()
     print("cmdline args:", args)
-    morepath.autoscan()
-    App.commit()
-    wsgi_app = App()
+    wsgi_app = make_wsgi_app(args)
 
     wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
         '/static': ("arguments", 'static')

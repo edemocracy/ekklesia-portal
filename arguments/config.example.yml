@@ -1,0 +1,8 @@
+ekklesia:
+    client_id: "arguments"
+    client_secret: "arguments_secret"
+    api_base_url: "https://identity-server.invalid/api/v1/"
+    authorization_url: "https://identity-server.invalid/oauth2/authorize/"
+    token_url: "https://identity-server.invalid/oauth2/token/"
+database:
+    uri: "postgresql+psycopg2://arguments_db_user:arguments_db_passwors@127.0.0.1/arguments_db_name"
