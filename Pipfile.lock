@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8d5cc8cbee19f904e14c256391ff656110b0cfaff6cdda238a8ffab542e40ad9"
+            "sha256": "c14ceab5ed50d382c5dc1e29020e2e2330553274cb78c6be5423102f93dd82ca"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -248,6 +248,12 @@
                 "sha256:d6d26d5dfbfd60c65152938fcb82f949e8dada37c041f72916fef6621ba5c5ce"
             ],
             "version": "==4.4.3"
+        },
+        "zope.sqlalchemy": {
+            "hashes": [
+                "sha256:5da8ff6b060f3a47fc0cbc61cfd6a83b959b5e730f95e492edcf7b9bf3ec987a"
+            ],
+            "version": "==0.7.7"
         }
     },
     "develop": {

@@ -2,11 +2,12 @@ import logging
 import time
 
 import yaml
-from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc
+import sqlalchemy
+from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc, create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import relationship, backref, Query, Mapper
+from sqlalchemy.orm import relationship, backref, Query, Mapper, sessionmaker
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
-from sqlalchemy.orm.scoping import scoped_session
+import zope.sqlalchemy
 
 rel = relationship
 FK = ForeignKey
@@ -19,7 +20,10 @@ db_metadata = Model.metadata
 SLOW_QUERY_SECONDS = 0.3
 
 
-sqllog = logging.getLogger("sqllog")
+sqllog = logging.getLogger(__name__)
+
+Session = sessionmaker()
+zope.sqlalchemy.register(Session)
 
 
 def dynamic_rel(*args, **kwargs):
@@ -88,3 +92,10 @@ def after_cursor_execute(conn, cursor, statement,
         else:
             statement = conn.info['current_query'].pop(-1)
         sqllog.warn("slow query %.1fms:\n%s", total * 1000, statement)
+
+
+def configure_sqlalchemy(db_settings):
+    engine = create_engine(db_settings.uri)
+    Session.configure(bind=engine)
+    db_metadata.bind = engine
+

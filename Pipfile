@@ -17,6 +17,7 @@ sqlalchemy-searchable = "*"
 "jinja2" = "*"
 munch = "*"
 attrs = "*"
+"zope.sqlalchemy" = "*"
 
 
 [dev-packages]

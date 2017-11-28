@@ -2,12 +2,16 @@ from datetime import datetime
 import logging
 import os
 import jinja2
-import morepath
+from more.transaction import TransactionApp
+from morepath.reify import reify
 from munch import Munch
 from werkzeug.datastructures import ImmutableDict
+from zope.sqlalchemy import register
+import morepath
 import yaml
 
 from arguments.helper.templating import PyJadeExtension, select_jinja_autoescape
+from arguments import database
 
 
 logg = logging.getLogger(__name__)
@@ -18,7 +22,7 @@ def format_datetime(timestamp):
     return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
 
 
-class App(morepath.App):
+class App(TransactionApp):
     def __init__(self):
         super().__init__()
         jinja_globals = dict(url_for=lambda *a, **k: "#",
@@ -71,5 +75,7 @@ def make_wsgi_app(args):
     settings = get_app_settings(args.config_file)
     App.init_settings(settings)
     App.commit()
-    wsgi_app = App()
-    return wsgi_app
+
+    app = App()
+    database.configure_sqlalchemy(app.settings.database)
+    return app

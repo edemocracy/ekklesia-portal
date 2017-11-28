@@ -10,12 +10,14 @@ BASEDIR = os.path.dirname(__file__)
 def test_get_app_settings_default():
     settings = get_app_settings(None)
     assert "app" in settings
+    assert "database" in settings
     assert settings["app"]["instance_name"] == "arguments"
     
 
 def test_get_app_settings():
     settings = get_app_settings(path.join(BASEDIR, "testconfig.yml"))
     assert "app" in settings
+    assert "database" in settings
     assert "test_section" in settings
     assert settings["app"]["instance_name"] == "test"
     assert settings["test_section"]["test_setting"] == "test"
