@@ -2,7 +2,7 @@ import logging
 #from flask import session
 #from flask_login import current_user
 #from arguments import db
-from arguments.database.datamodel import Argument, ArgumentVote, Question, QuestionVote
+#from arguments.database.datamodel import Argument, ArgumentVote, Question, QuestionVote
 
 
 logg = logging.getLogger(__name__)

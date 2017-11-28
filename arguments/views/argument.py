@@ -7,7 +7,7 @@ import logging
 #from wtforms.validators import DataRequired
 #import flask_sijax
 from arguments import app #, db
-from arguments.database.datamodel import Question, Argument, User
+#from arguments.database.datamodel import Question, Argument, User
 
 
 logg = logging.getLogger(__name__)

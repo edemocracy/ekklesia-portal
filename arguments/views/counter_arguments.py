@@ -1,7 +1,7 @@
 #from flask.ext.babelex import _
 #from flask import render_template, abort
 from arguments import app
-from arguments.database.datamodel import Question, Argument
+#from arguments.database.datamodel import Question, Argument
 
 
 #@app.route("/<question_url>/<argument_url>/ca")

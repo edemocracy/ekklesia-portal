@@ -8,7 +8,7 @@ import logging
 import requests
 
 from arguments import app #, db
-from arguments.database.datamodel import Question, Tag, QuestionAssociation
+#from arguments.database.datamodel import Question, Tag, QuestionAssociation
 from arguments.sijax_callbacks import argument_vote, question_vote
 
 

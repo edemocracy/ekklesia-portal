@@ -1,7 +1,7 @@
 #from flask_admin.contrib.sqla import ModelView
 
 #from arguments import admin
-from arguments.database.datamodel import *
+#from arguments.database.datamodel import *
 
 
 #class BaseAdminView(ModelView):

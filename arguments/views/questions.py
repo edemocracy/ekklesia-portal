@@ -1,6 +1,6 @@
 #from flask import render_template, request
 from arguments.app import App
-from arguments.database.datamodel import Question, Tag
+#from arguments.database.datamodel import Question, Tag
 from munch import Munch
 from datetime import datetime
 
