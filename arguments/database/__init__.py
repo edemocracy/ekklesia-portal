@@ -12,10 +12,10 @@ import zope.sqlalchemy
 rel = relationship
 FK = ForeignKey
 C = Column
-Model = declarative_base()
+Base = declarative_base()
 Table = Table
 bref = backref
-db_metadata = Model.metadata
+db_metadata = Base.metadata
 
 SLOW_QUERY_SECONDS = 0.3
 
@@ -56,7 +56,7 @@ def update_model(self, **kwargs):
     for name, value in kwargs.items():
         setattr(self, name, value)
 
-Model.update = update_model
+Base.update = update_model
 
 # some pretty printing for SQLAlchemy objects ;)
 
@@ -70,8 +70,8 @@ def to_yaml(self):
     return yaml.dump(self.to_dict())
 
 
-Model.to_dict = to_dict
-Model.to_yaml = to_yaml
+Base.to_dict = to_dict
+Base.to_yaml = to_yaml
 
 
 @event.listens_for(Engine, "before_cursor_execute")

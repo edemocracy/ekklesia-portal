@@ -34,18 +34,10 @@ from sqlalchemy import (
     func
     )
 from sqlalchemy.orm import relationship, backref
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-    )
 
-#from zope.sqlalchemy import ZopeTransactionExtension
+from arguments.database import Base
 
-#DBSession = scoped_session(
-#    sessionmaker(extension=ZopeTransactionExtension()))
-Base = declarative_base()
 
 class Group(Base):
     __tablename__ = 'groups'
@@ -94,10 +86,15 @@ class UserProfile(Base):
 
 class GroupMember(Base):
     __tablename__ = 'groupmembers'
+    
     group_id    = Column(Integer, ForeignKey('groups.id'), primary_key=True)
     member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
     group       = relationship("Group", backref=backref("group_members", cascade="all, delete-orphan"))
     member      = relationship("User", backref=backref("member_groups", cascade="all, delete-orphan"))
+    
+    def __init__(self, member=None, group=None):
+        self.member = member 
+        self.group = group
 
 class Department(Base):
     __tablename__ = 'departments'
@@ -283,21 +280,21 @@ class Proposition(Base):
     id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
     title       = Column(Text, nullable=False)
     content     = Column(Text, nullable=False) # modifies: generate diff to original dynamically
-    motivation  = Column(Text, nullable=False)
+    motivation  = Column(Text, nullable=False, default="")
     submitted   = Column(Date) # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
     qualified   = Column(Date) # optional, when qualified
-    status      = Column(String(10), nullable=False) #draft, submitted, changing, abandoned, qualified, planned, voting, finished
-    ballot_id   = Column(Integer, ForeignKey('ballots.id'), nullable=False)
+    status      = Column(String(10), nullable=False, default="draft") #draft, submitted, changing, abandoned, qualified, planned, voting, finished
+    ballot_id   = Column(Integer, ForeignKey('ballots.id'))
     ballot      = relationship("Ballot", uselist=False, back_populates="propositions") # contains area (department), propositiontype
     supporters  = association_proxy('member_propositions', 'member') # <-Supporter-> User
       # in state draft only submitters may become supporters §3.3
     tags        = association_proxy('proposition_tags', 'tag') # <-PropositionTag-> Tag
 
     modifies_id = Column(Integer, ForeignKey('propositions.id')) # optional, only one level allowed
-    modifies    = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('derivations', remote_side=[id]) )
+    derivations  = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]) )
 
     replaces_id = Column(Integer, ForeignKey('propositions.id')) # optional
-    replacement = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replacements', remote_side=[id]) )
+    replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]) )
 
     discussion_url = Column(Text)
     """
@@ -323,6 +320,11 @@ class PropositionTag(Base):
     proposition = relationship("Proposition", backref=backref("proposition_tags", cascade="all, delete-orphan"))
     tag_id      = Column(Integer, ForeignKey('tags.id'), primary_key=True)
     tag         = relationship("Tag", backref=backref("tag_propositions", cascade="all, delete-orphan"))
+    
+    def __init__(self, tag=None, proposition=None):
+        self.tag = tag
+        self.proposition = proposition
+
 
 class Supporter(Base): # §3.5
     __tablename__ = 'supporters'
@@ -331,8 +333,8 @@ class Supporter(Base): # §3.5
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("proposition_members", cascade="all, delete-orphan"))
     submitter   = Column(Boolean, nullable=False, default=False) # submitter or regular
-    status      = Column(String(10), nullable=False) # active,expired,retracted
-    last_change = Column(Date, nullable=False) # time of submitted/supported/retracted
+    status      = Column(String(10), nullable=False, default="active") # active,expired,retracted
+    last_change = Column(Date, nullable=False, server_default="NOW()") # time of submitted/supported/retracted
     
 class Argument(Base):
     __tablename__ = 'arguments'
@@ -340,9 +342,9 @@ class Argument(Base):
     title       = Column(Text, nullable=False)
     abstract    = Column(Text, nullable=False)
     details     = Column(Text)
-    author_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    author_id   = Column(Integer, ForeignKey('users.id'))
     author      = relationship("User", backref=backref("member_arguments", cascade="all, delete-orphan"))
-    created     = Column(DateTime, nullable=False)
+    created     = Column(DateTime, nullable=False, server_default="NOW()")
 
 class ArgumentRelation(Base):
     __tablename__ = 'argumentrelations'
@@ -350,11 +352,11 @@ class ArgumentRelation(Base):
     parent_id   = Column(Integer, ForeignKey('argumentrelations.id')) # optional for inter-arguments
     children    = relationship("ArgumentRelation", backref=backref('parent', remote_side=[id]) )
 
-    argument_id = Column(Integer, ForeignKey('arguments.id'), primary_key=True)
+    argument_id = Column(Integer, ForeignKey('arguments.id'))
     argument    = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id')) # also show parent proposition arguments if still valid?
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
-    type      = Column(String(8), nullable=False) # pro/extends,contra/refutes,question,answer
+    argument_type = Column(String(8), nullable=False) # pro/extends,contra/refutes,question,answer
      # if not extendedDiscussion: only pro/contra/refutes
 
 class ArgumentVote(Base):
