@@ -10,7 +10,7 @@ logg = logging.getLogger(__name__)
 
 
 from arguments.database import db_metadata, Session
-from arguments.database.new_datamodel import *
+from arguments.database.datamodel import *
 
 
 logg.info("using db url %s", app.settings.database.uri)
