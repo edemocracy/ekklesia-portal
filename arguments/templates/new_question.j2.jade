@@ -1,12 +1,12 @@
 - extends "layout.j2.jade"
 
 - block title
-  title= _("new_question")
+  title= _("new_proposition")
 
 - block content
-  h2= _("new_question")
+  h2= _("new_proposition")
 
-  form#new_question(method="POST", action=url_for("new_question"))
+  form#new_proposition(method="POST", action=url_for("new_proposition"))
     fieldset.form-group
       button.btn.btn-primary= _("submit")
 
@@ -23,15 +23,15 @@
       textarea.form-control(name="tags", rows=2)= tags
 
     fieldset.form-group
-      label= _("associated_with_question_url")
-      textarea.form-control(name="associated_with_question_url", rows=2)= associated_with_question_url
+      label= _("associated_with_proposition_url")
+      textarea.form-control(name="associated_with_proposition_url", rows=2)= associated_with_proposition_url
 
     fieldset.form-group
       label= _("association_type")
       select.form-control(name="association_type")
         option(value="")
-        option(value="change" selected=(association_type=="change"))= _("change_question")
-        option(value="counter" selected=(association_type=="counter"))= _("counter_question")
+        option(value="change" selected=(association_type=="change"))= _("change_proposition")
+        option(value="counter" selected=(association_type=="counter"))= _("counter_proposition")
 
     fieldset.form-group
       button.btn.btn-primary= _("submit")

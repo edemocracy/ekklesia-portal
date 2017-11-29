@@ -5,18 +5,18 @@
   title= argument.title
 
 - block content
-  question = argument.question
+  proposition = argument.proposition
   counter_arguments = argument.counter_arguments.all()
 
   ol.breadcrumb
     li
-      a(href=url_for("question", question_url=question.url))
+      a(href=url_for("proposition", proposition_url=proposition.url))
         = _("discussion")
         |:
-        = question.title
+        = proposition.title
 
     li.active 
-      a(href=url_for("argument", question_url=question.url, argument_url=argument.url))
+      a(href=url_for("argument", proposition_url=proposition.url, argument_url=argument.url))
         = _("counterarguments_for")
         |:
         = argument.title

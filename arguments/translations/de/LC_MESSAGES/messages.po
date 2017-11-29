@@ -29,14 +29,14 @@ msgstr "Login über %(auth_title)s war erfolgreich"
 #: arguments/templates/argument.j2.jade:6
 #: arguments/templates/counter_arguments.j2.jade:6
 #: arguments/templates/new_argument.j2.jade:8
-#: arguments/templates/question_macros.j2.jade:40
+#: arguments/templates/proposition_macros.j2.jade:40
 msgid "discussion"
 msgstr "Diskussion"
 
 #: arguments/templates/argument.j2.jade:8
 #: arguments/templates/counter_arguments.j2.jade:8
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question_macros.j2.jade:44
+#: arguments/templates/proposition_macros.j2.jade:44
 msgid "follow"
 msgstr "Folgen"
 
@@ -77,7 +77,7 @@ msgid "top"
 msgstr "Top"
 
 #: arguments/templates/layout.j2.jade:43
-#: arguments/templates/question_macros.j2.jade:33
+#: arguments/templates/proposition_macros.j2.jade:33
 msgid "search_for"
 msgstr "Suchen nach"
 
@@ -99,12 +99,12 @@ msgid "new_argument"
 msgstr "Neues Argument"
 
 #: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/question_macros.j2.jade:44
+#: arguments/templates/proposition_macros.j2.jade:44
 msgid "unfollow"
 msgstr "Entfolgen"
 
 #: arguments/templates/new_argument.j2.jade:18
-#: arguments/templates/new_question.j2.jade:7
+#: arguments/templates/new_proposition.j2.jade:7
 msgid "title"
 msgstr "Titel"
 
@@ -113,80 +113,80 @@ msgid "abstract"
 msgstr "Zusammenfassung"
 
 #: arguments/templates/new_argument.j2.jade:28
-#: arguments/templates/new_question.j2.jade:12
+#: arguments/templates/new_proposition.j2.jade:12
 msgid "details"
 msgstr "Details"
 
 #: arguments/templates/new_argument.j2.jade:33
-#: arguments/templates/new_question.j2.jade:35
+#: arguments/templates/new_proposition.j2.jade:35
 msgid "submit"
 msgstr "Abschicken"
 
-#: arguments/templates/new_question.j2.jade:2
-msgid "new_question"
+#: arguments/templates/new_proposition.j2.jade:2
+msgid "new_proposition"
 msgstr "Neue Frage"
 
-#: arguments/templates/new_question.j2.jade:17
-msgid "associated_with_question_url"
+#: arguments/templates/new_proposition.j2.jade:17
+msgid "associated_with_proposition_url"
 msgstr "Beziehung zu Antrag"
 
-#: arguments/templates/new_question.j2.jade:22
+#: arguments/templates/new_proposition.j2.jade:22
 msgid "association_type"
 msgstr "Beziehungstyp"
 
-#: arguments/templates/new_question.j2.jade:25
-msgid "change_question"
+#: arguments/templates/new_proposition.j2.jade:25
+msgid "change_proposition"
 msgstr "Änderungsantrag"
 
-#: arguments/templates/new_question.j2.jade:26
-msgid "counter_question"
+#: arguments/templates/new_proposition.j2.jade:26
+msgid "counter_proposition"
 msgstr "Gegenantrag"
 
-#: arguments/templates/new_question.j2.jade:30
+#: arguments/templates/new_proposition.j2.jade:30
 msgid "tags"
 msgstr "Tags"
 
-#: arguments/templates/question.j2.jade:4
+#: arguments/templates/proposition.j2.jade:4
 msgid "goto_arguments"
 msgstr "Zu den Argumenten"
 
-#: arguments/templates/question.j2.jade:10
+#: arguments/templates/proposition.j2.jade:10
 msgid "add_pro_argument"
 msgstr "Pro-Argument hinzufügen"
 
-#: arguments/templates/question.j2.jade:16
+#: arguments/templates/proposition.j2.jade:16
 msgid "add_con_argument"
 msgstr "Gegen-Argument hinzufügen"
 
-#: arguments/templates/question_associated.j2.jade:4
-msgid "goto_associated_questions"
+#: arguments/templates/proposition_associated.j2.jade:4
+msgid "goto_associated_propositions"
 msgstr "Gehe zu zugehörigen Anträgen"
 
-#: arguments/templates/question_associated.j2.jade:8
-msgid "add_change_question"
+#: arguments/templates/proposition_associated.j2.jade:8
+msgid "add_change_proposition"
 msgstr "Änderungsantrag stellen"
 
-#: arguments/templates/question_associated.j2.jade:12
-msgid "add_counter_question"
+#: arguments/templates/proposition_associated.j2.jade:12
+msgid "add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
-#: arguments/templates/question_macros.j2.jade:9
-#: arguments/templates/question_macros.j2.jade:51
+#: arguments/templates/proposition_macros.j2.jade:9
+#: arguments/templates/proposition_macros.j2.jade:51
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Unterstützer"
 msgstr[1] "Unterstützer"
 
-#: arguments/templates/question_macros.j2.jade:21
-#: arguments/templates/question_macros.j2.jade:57
+#: arguments/templates/proposition_macros.j2.jade:21
+#: arguments/templates/proposition_macros.j2.jade:57
 msgid "authored_at"
 msgstr "Eingetragen um %(dt)s"
 
-#: arguments/templates/question_macros.j2.jade:42
+#: arguments/templates/proposition_macros.j2.jade:42
 msgid "associated"
 msgstr "Zugehörig (Änderungs- und Gegenanträge)"
 
-#: arguments/templates/questions.j2.jade:2
+#: arguments/templates/propositions.j2.jade:2
 msgid "overview"
 msgstr "Übersicht"
 

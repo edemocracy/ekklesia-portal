@@ -84,7 +84,7 @@ def init_oauth_ext(app):
                 flash(_("login_success_with", auth_title=auth_title))
 
                 next_url = request.args.get('next')
-                redirect(next_url or url_for('questions'))
+                redirect(next_url or url_for('propositions'))
 
             else:
                 flash("Failed to fetch user profile from Ekklesia ID Server", category="error")

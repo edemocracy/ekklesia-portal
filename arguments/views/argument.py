@@ -7,7 +7,7 @@ import logging
 #from wtforms.validators import DataRequired
 #import flask_sijax
 from arguments import app #, db
-#from arguments.database.datamodel import Question, Argument, User
+#from arguments.database.datamodel import Proposition, Argument, User
 
 
 logg = logging.getLogger(__name__)
@@ -19,28 +19,28 @@ logg = logging.getLogger(__name__)
 #    details = TextField("details")
 
 
-#@app.route("/<question_url>/<argument_url>")
-def argument(question_url, argument_url):
+#@app.route("/<proposition_url>/<argument_url>")
+def argument(proposition_url, argument_url):
     argument = (Argument.query
                 .filter_by(url=argument_url)
-                .join(Question)
-                .filter_by(url=question_url).first_or_404())
+                .join(Proposition)
+                .filter_by(url=proposition_url).first_or_404())
 
     return render_template("argument.j2.jade", argument=argument)
 
 
-#@app.route("/<question_url>/<argument_type>/new", methods=["GET", "POST"])
-def new_argument(question_url, argument_type):
+#@app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])
+def new_argument(proposition_url, argument_type):
     logg.debug("new argument form: %s", request.form)
-    question = Question.query.filter_by(url=question_url).first_or_404()
+    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
     form = ArgumentForm()
 
     if request.method == "POST" and form.validate():
         arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data,
-                       abstract=form.abstract.data, argument_type=argument_type, question=question, author=current_user)
+                       abstract=form.abstract.data, argument_type=argument_type, proposition=proposition, author=current_user)
         db.session.add(arg)
         db.session.commit()
-        return redirect(url_for("question", question_url=question.url))
+        return redirect(url_for("proposition", proposition_url=proposition.url))
 
-    return render_template("new_argument.j2.jade", question=question, argument_type=argument_type)
+    return render_template("new_argument.j2.jade", proposition=proposition, argument_type=argument_type)
 

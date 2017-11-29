@@ -10,4 +10,4 @@ from arguments import app
 def logout():
     logout_user()
     flash(_("logged_out"))
-    return redirect(url_for("questions"))
+    return redirect(url_for("propositions"))

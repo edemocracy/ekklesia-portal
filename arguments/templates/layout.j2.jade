@@ -18,7 +18,7 @@ body
   - block navbar
     nav.top_navbar
       .container
-        a.navbar-brand(href=url_for("questions")) Arguments
+        a.navbar-brand(href=url_for("propositions")) Arguments
 
         ul.nav.navbar-nav
           li.nav-item
@@ -28,13 +28,13 @@ body
               option(selected=(g.locale == "fr"), value="fr") Français
 
           li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
-            a.nav-link(href=url_for("questions", tag=tag|default(None)))= _("sorted")
+            a.nav-link(href=url_for("propositions", tag=tag|default(None)))= _("sorted")
           
           li.nav-item(class=("active" if mode=="top" else ""))
-            a.nav-link(href=url_for("questions", mode="top", tag=tag|default(None)))= _("top")
+            a.nav-link(href=url_for("propositions", mode="top", tag=tag|default(None)))= _("top")
 
           //li.nav-item(class=("active" if mode=="custom" else ""))
-          //  a.nav-link(href=url_for("questions", mode="custom")) Antragsgruppen 
+          //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen 
 
         ul.top_usercontrols
           li.nav-item
@@ -43,7 +43,7 @@ body
             else
               a.btn.nav-link(href=url_for("ekklesia.login"))= _("login")
 
-        form.top_search(action=url_for("questions"))
+        form.top_search(action=url_for("propositions"))
           input.form-control(type="text", placeholder=_("search_for"), name="q")
           button.search_button(type="submit")
             i.fa.fa-search &nbsp;Suche

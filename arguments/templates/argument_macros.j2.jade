@@ -1,7 +1,7 @@
 - macro counter_arguments_button(argument)
   num_counter_arguments = argument.counter_arguments.count()
 
-  a.counter_arguments_btn(href=url_for("counter_arguments", question_url=argument.question.url, argument_url=argument.url))
+  a.counter_arguments_btn(href=url_for("counter_arguments", proposition_url=argument.proposition.url, argument_url=argument.url))
     strong.large_number= num_counter_arguments
     |&nbsp;
     span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
@@ -41,7 +41,7 @@
 
 
 - macro argument_box(argument, user, extended=False, show_ca_button=False, no_counter=False)
-  argument_url = url_for("argument", question_url=argument.question.url, argument_url=argument.url)
+  argument_url = url_for("argument", proposition_url=argument.proposition.url, argument_url=argument.url)
 
   .argument
     .row

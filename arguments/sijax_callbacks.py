@@ -2,7 +2,7 @@ import logging
 #from flask import session
 #from flask_login import current_user
 #from arguments import db
-#from arguments.database.datamodel import Argument, ArgumentVote, Question, QuestionVote
+#from arguments.database.datamodel import Argument, ArgumentVote, Proposition, PropositionVote
 
 
 logg = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ def sijax_err(resp, msg):
     resp.alert(msg)
 
 
-def question_vote(resp, question_id, value):
+def proposition_vote(resp, proposition_id, value):
     if not current_user.is_authenticated:
         sijax_err(resp, "not logged in, anonymous users can't vote")
         return
@@ -22,15 +22,15 @@ def question_vote(resp, question_id, value):
     # downvoting would be possible, can be added later (as option)
     # could be extended to other integers if we want scored voting
     if not value in (0, 1):
-        sijax_err(resp, "question vote value must be 0 or 1")
+        sijax_err(resp, "proposition vote value must be 0 or 1")
         return
 
-    question = Question.query.get(question_id)
-    if question is None:
-        sijax_err(resp, "question id {} does not exist".format(question_id))
+    proposition = Proposition.query.get(proposition_id)
+    if proposition is None:
+        sijax_err(resp, "proposition id {} does not exist".format(proposition_id))
         return
     
-    user_vote = question.user_vote(current_user)
+    user_vote = proposition.user_vote(current_user)
 
     if user_vote is None:
         if value == 0:
@@ -38,7 +38,7 @@ def question_vote(resp, question_id, value):
             return
 
         old_value = 0
-        vote = QuestionVote(question=question, user=current_user, value=value)
+        vote = PropositionVote(proposition=proposition, user=current_user, value=value)
         db.session.add(vote)
     else:
         old_value = user_vote.value
@@ -50,10 +50,10 @@ def question_vote(resp, question_id, value):
         else:
             user_vote.value = value
 
-    logg.debug("%s voted %s for question %s, new score %s", current_user.login_name, value, question_id, question.score)
+    logg.debug("%s voted %s for proposition %s, new score %s", current_user.login_name, value, proposition_id, proposition.score)
     # set new score and change voting actions
-    resp.html("#question_score_" + str(question_id), question.score)
-    resp.call("change_question_vote_actions", [question_id, old_value, value])
+    resp.html("#proposition_score_" + str(proposition_id), proposition.score)
+    resp.call("change_proposition_vote_actions", [proposition_id, old_value, value])
     
     db.session.commit()
 

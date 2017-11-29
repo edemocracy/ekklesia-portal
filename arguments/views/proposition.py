@@ -8,8 +8,8 @@ import logging
 import requests
 
 from arguments import app #, db
-#from arguments.database.datamodel import Question, Tag, QuestionAssociation
-from arguments.sijax_callbacks import argument_vote, question_vote
+#from arguments.database.datamodel import Proposition, Tag, PropositionAssociation
+from arguments.sijax_callbacks import argument_vote, proposition_vote
 
 
 logg = logging.getLogger(__name__)
@@ -23,8 +23,8 @@ QUESTION_ASSOCIATION_TYPES = {
 }
 
 
-#class QuestionForm(Form):
-#    associated_with_question_url = TextField(default="")
+#class PropositionForm(Form):
+#    associated_with_proposition_url = TextField(default="")
 #    association_type = TextField(default="")
 #    title = TextField("title", validators=[DataRequired()])
 #    details = TextField("details", default="")
@@ -41,62 +41,62 @@ class Cell:
             return getattr(self._model, name)
 
 
-class QuestionCell(Cell):
+class PropositionCell(Cell):
     model_properties = ['url', 'title']
 
 
 
-#@flask_sijax.route(app, "/<question_url>")
-def question(question_url):
+#@flask_sijax.route(app, "/<proposition_url>")
+def proposition(proposition_url):
     # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
     g.sijax.set_request_uri(request.path)
 
     if g.sijax.is_sijax_request:
         g.sijax.register_callback('argument_vote', argument_vote)
-        g.sijax.register_callback('question_vote', question_vote)
+        g.sijax.register_callback('proposition_vote', proposition_vote)
         return g.sijax.process_request()
 
-    question = Question.query.filter_by(url=question_url).first_or_404()
-    return render_template("question.j2.jade", question=question)
+    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
+    return render_template("proposition.j2.jade", proposition=proposition)
 
 
-#@app.route("/<question_url>/associated")
-def question_associated(question_url):
-    question = Question.query.filter_by(url=question_url).first_or_404()
-    associated_questions_left = question.associated_questions(QUESTION_ASSOCIATION_TYPES["left"])
-    associated_questions_right = question.associated_questions(QUESTION_ASSOCIATION_TYPES["right"])
+#@app.route("/<proposition_url>/associated")
+def proposition_associated(proposition_url):
+    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
+    associated_propositions_left = proposition.associated_propositions(QUESTION_ASSOCIATION_TYPES["left"])
+    associated_propositions_right = proposition.associated_propositions(QUESTION_ASSOCIATION_TYPES["right"])
 
-    return render_template("question_associated.j2.jade",
-            question=question,
-            associated_questions_left=associated_questions_left,
-            associated_questions_right=associated_questions_right)
+    return render_template("proposition_associated.j2.jade",
+            proposition=proposition,
+            associated_propositions_left=associated_propositions_left,
+            associated_propositions_right=associated_propositions_right)
 
 
-def _handle_post_new_question(form):
-    question = Question(url=form.title.data.replace(" ", "-"),
+def _handle_post_new_proposition(form):
+    proposition = Proposition(url=form.title.data.replace(" ", "-"),
                         details=form.details.data,
                         title=form.title.data)
 
-    associated_with_question_url = form.associated_with_question_url.data
-    if associated_with_question_url:
-        associated_with_question = Question.query.filter_by(url=associated_with_question_url).scalar()
-        qrel = QuestionAssociation(left=associated_with_question,
-                right=question, association_type=form.association_type.data)
+    associated_with_proposition_url = form.associated_with_proposition_url.data
+    if associated_with_proposition_url:
+        associated_with_proposition = Proposition.query.filter_by(url=associated_with_proposition_url).scalar()
+        qrel = PropositionAssociation(left=associated_with_proposition,
+                right=proposition, association_type=form.association_type.data)
         db.session.add(qrel)
 
     tags = [t.strip() for t in form.tags.data.split(",") if t.strip()]
     existing_tags = Tag.query.filter(Tag.tag.in_(tags)).all()
-    question.tags.extend(existing_tags)
+    proposition.tags.extend(existing_tags)
     new_tags = set(tags) - {t.tag for t in existing_tags}
 
     for tag_name in new_tags:
         tag = Tag(tag=tag_name)
-        question.tags.append(tag)
+        proposition.tags.append(tag)
         db.session.add(tag)
 
-    db.session.add(question)
+    db.session.add(proposition)
     db.session.commit()
-    return redirect(url_for("question", question_url=question.url))
+    return redirect(url_for("proposition", proposition_url=proposition.url))
 
 
 def _import_discourse_post(base_url, from_data):
@@ -130,22 +130,22 @@ QUESTION_IMPORT_HANDLERS = {
 }
 
 
-#@app.route("/<associated_with_question_url>/associated/<side>/new", methods=["GET", "POST"])
+#@app.route("/<associated_with_proposition_url>/associated/<side>/new", methods=["GET", "POST"])
 #@app.route("/new", methods=["GET", "POST"])
-#@app.route("/questions/new", methods=["GET", "POST"])
+#@app.route("/propositions/new", methods=["GET", "POST"])
 #@login_required
-def new_question(associated_with_question_url="", side=""):
-    logg.debug("new question form: %s", request.form)
+def new_proposition(associated_with_proposition_url="", side=""):
+    logg.debug("new proposition form: %s", request.form)
 
-    form = QuestionForm()
+    form = PropositionForm()
 
     if request.method == "POST" and form.validate():
-        return _handle_post_new_question(form)
+        return _handle_post_new_proposition(form)
     
 
     association_type = QUESTION_ASSOCIATION_TYPES[side]
 
-    # pre-fill new question form from URL params if given
+    # pre-fill new proposition form from URL params if given
     title = request.args.get("title", "")
     details = request.args.get("details", "")
     tags = request.args.getlist("tags")
@@ -154,18 +154,18 @@ def new_question(associated_with_question_url="", side=""):
     source = request.args.get("source")
 
     if from_data and source:
-        # pre-fill new question form from a URL return data formatted as `from_format`
+        # pre-fill new proposition form from a URL return data formatted as `from_format`
         # 'for supported formats, see 'QUESTION_IMPORT_HANDLERS'
         import_info = app.config["QUESTION_SOURCES"].get(source)
 
         if import_info is None:
-            raise ValueError("unsupported question source: " + source)
+            raise ValueError("unsupported proposition source: " + source)
 
         from_format, base_url = import_info
         
         import_handler = QUESTION_IMPORT_HANDLERS.get(from_format)
         if import_handler is None:
-            raise ValueError("unsupported question import format: " + from_format)
+            raise ValueError("unsupported proposition import format: " + from_format)
         
         imp_title, imp_details, imp_tags = import_handler(base_url, from_data)
 
@@ -176,8 +176,8 @@ def new_question(associated_with_question_url="", side=""):
         if imp_tags is not None:
             tags = imp_tags
 
-    return render_template("new_question.j2.jade",
-            associated_with_question_url=associated_with_question_url,
+    return render_template("new_proposition.j2.jade",
+            associated_with_proposition_url=associated_with_proposition_url,
             association_type=association_type,
             title=title,
             details=details,

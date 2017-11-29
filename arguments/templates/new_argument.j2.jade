@@ -1,20 +1,20 @@
 - extends "layout.j2.jade"
-- from "question_macros.j2.jade" import question_box, question_tabline
+- from "proposition_macros.j2.jade" import proposition_box, proposition_tabline
 
 - block title
   title
-    = question.title
+    = proposition.title
     | - 
     = _("new_argument")
 
 - block content
-  = question_tabline(question, "discussion")
+  = proposition_tabline(proposition, "discussion")
 
-  = question_box(question, current_user, no_margin=True)
+  = proposition_box(proposition, current_user, no_margin=True)
 
   h3= _("new_argument")
 
-  form#new_argument(method="POST", action=url_for("new_argument", question_url=question.url, argument_type=argument_type))
+  form#new_argument(method="POST", action=url_for("new_argument", proposition_url=proposition.url, argument_type=argument_type))
     fieldset.form-group
       label= _("title")
       textarea.form-control#new_argument_title(maxlength=50, rows=1, name="title")
