@@ -1,69 +1,40 @@
-from datetime import datetime
 import logging
 import os
 import jinja2
 from more.transaction import TransactionApp
 from morepath.reify import reify
 from morepath.request import Request
-from munch import Munch
-from werkzeug.datastructures import ImmutableDict
-from zope.sqlalchemy import register
 import morepath
 import yaml
 
-from arguments.helper.templating import PyJadeExtension, select_jinja_autoescape
+from arguments.helper.templating import make_jinja_env
 from arguments import database
 
 
 logg = logging.getLogger(__name__)
 
 
-def format_datetime(timestamp):
-    """Format a timestamp for display."""
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
-
-
-class DBSessionRequest(Request):
+class CustomRequest(Request):
+    
     @reify
-    def db_session(self):
+    def db_session(self): 
         return database.Session()
 
     def q(self, *args, **kwargs):
         return self.db_session.query(*args, **kwargs)
 
-
-def fake_translate(name, *a, **k):
-    el = [str(e) for e in [name, a if a else None, list(k.values()) if k else None] if e]
-    return ", ".join(el)
+    def render_template(self, template, **context):
+        template = self.app.jinja_env.get_template(template)
+        return template.render(**context)
 
 
 class App(TransactionApp):
-    request_class = DBSessionRequest
+    request_class = CustomRequest
     
     def __init__(self):
         super().__init__()
-        jinja_globals = dict(url_for=lambda *a, **k: "#",
-                             g=Munch(locale="de"),
-                             current_user=Munch(is_authenticated=False),
-                             _=fake_translate,
-                             ngettext=fake_translate,
-                             get_flashed_messages=lambda *a, **k: [],
-
-                             )
-        jinja_options = ImmutableDict(
-            loader=jinja2.PackageLoader("arguments", "templates"),
-            extensions=[PyJadeExtension, "jinja2.ext.autoescape"],
-            autoescape=select_jinja_autoescape,
-        )
-
-        self.jinja_env = jinja2.Environment(**jinja_options)
-        self.jinja_env.globals.update(jinja_globals)
-        self.jinja_env.filters['datetimeformat'] = format_datetime
-        self.jinja_env.filters['markdown'] = lambda t: t
-
-    def render_template(self, template, **context):
-        template = self.jinja_env.get_template(template)
-        return template.render(**context)
+        template_loader = jinja2.PackageLoader("arguments")
+        self.jinja_env = make_jinja_env(jinja_environment_class=jinja2.Environment, jinja_options=dict(loader=template_loader))
 
 
 def get_app_settings(settings_filepath):

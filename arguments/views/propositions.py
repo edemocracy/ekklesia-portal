@@ -41,4 +41,4 @@ def propositions(request, q, tag, mode="sorted"):
 def propositions_html(self, request):
     q = request.q
     propositions = self.propositions(q)
-    return request.app.render_template("propositions.j2.jade", propositions=propositions, mode=self.mode, tag=self.tag, searchterm=self.searchterm)
+    return request.render_template("propositions.j2.jade", propositions=propositions, mode=self.mode, tag=self.tag, searchterm=self.searchterm)
