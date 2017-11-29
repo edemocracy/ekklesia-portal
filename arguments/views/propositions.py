@@ -1,6 +1,6 @@
-#from flask import render_template, request
 from arguments.app import App
 from arguments.database.datamodel import Proposition, Tag
+from arguments.helper.cell import Cell
 
 
 class Propositions:
@@ -30,6 +30,14 @@ class Propositions:
         return propositions
 
 
+class PropositionCell(Cell):
+    model_properties = ['mode', 'tag', 'searchterm']
+    
+    @property
+    def propositions(self):
+        return self._model.propositions(self._request.q)
+    
+
 @App.path(model=Propositions, path='propositions')
 def propositions(request, searchterm, tag, mode="sorted"):
     return Propositions(mode, searchterm, tag)
@@ -37,6 +45,4 @@ def propositions(request, searchterm, tag, mode="sorted"):
 
 @App.html(model=Propositions)
 def propositions_html(self, request):
-    q = request.q
-    propositions = self.propositions(q)
-    return request.render_template("propositions.j2.jade", propositions=propositions, mode=self.mode, tag=self.tag, searchterm=self.searchterm)
+    return PropositionCell(self, request).show()
