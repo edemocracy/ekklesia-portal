@@ -1,4 +1,4 @@
-from arguments.views import PageTestCell
+from arguments.views.pagetest import PageTestCell
 
 
 def test_pagetest(client):
