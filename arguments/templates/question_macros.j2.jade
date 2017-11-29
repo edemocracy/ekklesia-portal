@@ -41,8 +41,7 @@
 
 - macro question_box(question, user, goto_label, no_margin=False, voting=False, details=False, show_actions=False)
 
-  //argument_count = question.arguments.count()
-  argument_count = 1
+  argument_count = question.proposition_arguments|length
 
   .question(id="question_{{ question.id }}", 
             class=("question_no_margin" if no_margin else ""))
