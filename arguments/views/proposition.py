@@ -7,9 +7,10 @@ import logging
 #import flask_sijax
 import requests
 
-from arguments import app #, db
-#from arguments.database.datamodel import Proposition, Tag, PropositionAssociation
+from arguments.app import App
+from arguments.database.datamodel import Proposition, Tag, Argument
 from arguments.sijax_callbacks import argument_vote, proposition_vote
+from arguments.helper.cell import Cell
 
 
 logg = logging.getLogger(__name__)
@@ -30,34 +31,35 @@ QUESTION_ASSOCIATION_TYPES = {
 #    details = TextField("details", default="")
 #    tags = TextField("tags", default="")
 
-class Cell:
-    model_properties = []
-
-    def __init__(self, model):
-        self._model = model
-
-    def __getattribute__(self, name):
-        if name in self.properties:
-            return getattr(self._model, name)
-
-
 class PropositionCell(Cell):
-    model_properties = ['url', 'title']
-
+    model_properties = ['id', 'title', 'content', 'motivation']
+    
+    def new_argument_url(self, argument_type):
+        return "#"
+        self.class_link(Argument, dict(argument_type=argument_type), 'new')
+        
+    def arguments(self, argument_type):
+        return []
 
 
 #@flask_sijax.route(app, "/<proposition_url>")
-def proposition(proposition_url):
+@App.path(model=Proposition, path="/propositions/{proposition_id}")
+def proposition(request, proposition_id):
     # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
-    g.sijax.set_request_uri(request.path)
+    #g.sijax.set_request_uri(request.path)
 
-    if g.sijax.is_sijax_request:
-        g.sijax.register_callback('argument_vote', argument_vote)
-        g.sijax.register_callback('proposition_vote', proposition_vote)
-        return g.sijax.process_request()
+    #if g.sijax.is_sijax_request:
+    #    g.sijax.register_callback('argument_vote', argument_vote)
+    #    g.sijax.register_callback('proposition_vote', proposition_vote)
+    #    return g.sijax.process_request()
 
-    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
-    return render_template("proposition.j2.jade", proposition=proposition)
+    proposition = request.q(Proposition).get(proposition_id)
+    return proposition
+
+
+@App.html(model=Proposition)
+def proposition_show(self, request):
+    return PropositionCell(self, request).show()
 
 
 #@app.route("/<proposition_url>/associated")

@@ -1,7 +1,7 @@
-def test_proposition(client):
+def test_propositions(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/propositions/1")
+    res = client.get("/propositions")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
-    assert 'Ein Titel' in content
+    assert 'Q1' in content
     
