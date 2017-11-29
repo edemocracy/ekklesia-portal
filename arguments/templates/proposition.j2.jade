@@ -7,7 +7,7 @@
 
 - block content
   = proposition_tabline(_model, "discussion")
-  = proposition_box(_model, current_user, _("goto_arguments"), no_margin=True, voting=True, details=True, show_actions=True)
+  = proposition_box(_model, self_link, current_user, _("goto_arguments"), no_margin=True, voting=True, details=True, show_actions=True)
 
   .arguments
     a(name="bottom")

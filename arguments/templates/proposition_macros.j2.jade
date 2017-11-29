@@ -39,7 +39,7 @@
 
 
 
-- macro proposition_box(proposition, user, goto_label, no_margin=False, voting=False, details=False, show_actions=False)
+- macro proposition_box(proposition, proposition_url, user, goto_label, no_margin=False, voting=False, details=False, show_actions=False)
 
   argument_count = proposition.proposition_arguments|length
 
@@ -65,7 +65,7 @@
 
       .proposition_body
         h4.proposition_title
-            a(href=url_for("proposition", proposition_url=proposition.url))= proposition.title
+            a(href=proposition_url)= proposition.title
 
         = proposition_tags(proposition.tags)
 

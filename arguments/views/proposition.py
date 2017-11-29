@@ -43,8 +43,8 @@ class PropositionCell(Cell):
 
 
 #@flask_sijax.route(app, "/<proposition_url>")
-@App.path(model=Proposition, path="/propositions/{proposition_id}")
-def proposition(request, proposition_id):
+@App.path(model=Proposition, path="/propositions/{id}")
+def proposition(request, id):
     # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
     #g.sijax.set_request_uri(request.path)
 
@@ -53,7 +53,7 @@ def proposition(request, proposition_id):
     #    g.sijax.register_callback('proposition_vote', proposition_vote)
     #    return g.sijax.process_request()
 
-    proposition = request.q(Proposition).get(proposition_id)
+    proposition = request.q(Proposition).get(id)
     return proposition
 
 
