@@ -32,6 +32,11 @@ class DBSessionRequest(Request):
         return self.db_session.query(*args, **kwargs)
 
 
+def fake_translate(name, *a, **k):
+    el = [str(e) for e in [name, a if a else None, list(k.values()) if k else None] if e]
+    return ", ".join(el)
+
+
 class App(TransactionApp):
     request_class = DBSessionRequest
     
@@ -40,8 +45,8 @@ class App(TransactionApp):
         jinja_globals = dict(url_for=lambda *a, **k: "#",
                              g=Munch(locale="de"),
                              current_user=Munch(is_authenticated=False),
-                             _=lambda name, *a, **k: name,
-                             ngettext=lambda name, *a, **k: name,
+                             _=fake_translate,
+                             ngettext=fake_translate,
                              get_flashed_messages=lambda *a, **k: [],
 
                              )
