@@ -1,4 +1,5 @@
 import jinja2
+from morepath import reify
 
 
 class Cell:
@@ -24,8 +25,15 @@ class Cell:
     def render_template(self, template_path):
         return self._request.render_template(template_path, _cell=self)
         
-    def link(self, model):
-        return self._request.link(model)
+    def link(self, model, name='', *args, **kwargs):
+        return self._request.link(model, name, *args, **kwargs)
+
+    def class_link(self, model_class, variables, name='', *args, **kwargs):
+        return self._request.class_link(model_class, variables, name, *args, **kwargs)
+
+    @reify
+    def self_link(self):
+        return self.link(self._model)
 
     def __getattr__(self, name):
         if name in self.model_properties:
