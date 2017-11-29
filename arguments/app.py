@@ -9,6 +9,7 @@ import yaml
 
 from arguments.helper.templating import make_jinja_env
 from arguments import database
+from arguments.helper.cell import JinjaCellEnvironment
 
 
 logg = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class App(TransactionApp):
     def __init__(self):
         super().__init__()
         template_loader = jinja2.PackageLoader("arguments")
-        self.jinja_env = make_jinja_env(jinja_environment_class=jinja2.Environment, jinja_options=dict(loader=template_loader))
+        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader))
 
 
 def get_app_settings(settings_filepath):

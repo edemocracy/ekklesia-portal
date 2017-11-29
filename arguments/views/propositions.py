@@ -1,12 +1,10 @@
 #from flask import render_template, request
 from arguments.app import App
 from arguments.database.datamodel import Proposition, Tag
-from munch import Munch
-from datetime import datetime
 
 
 class Propositions:
-    def __init__(self, mode, searchterm, tag):
+    def __init__(self, mode=None, searchterm=None, tag=None):
         self.searchterm = searchterm
         self.mode = mode
         self.tag = tag
@@ -32,9 +30,9 @@ class Propositions:
         return propositions
 
 
-@App.path(model=Propositions, path='')
-def propositions(request, q, tag, mode="sorted"):
-    return Propositions(mode, q, tag)
+@App.path(model=Propositions, path='propositions')
+def propositions(request, searchterm, tag, mode="sorted"):
+    return Propositions(mode, searchterm, tag)
 
 
 @App.html(model=Propositions)
