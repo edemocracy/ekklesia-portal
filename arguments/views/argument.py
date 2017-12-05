@@ -43,4 +43,3 @@ def new_argument(proposition_url, argument_type):
         return redirect(url_for("proposition", proposition_url=proposition.url))
 
     return render_template("new_argument.j2.jade", proposition=proposition, argument_type=argument_type)
-

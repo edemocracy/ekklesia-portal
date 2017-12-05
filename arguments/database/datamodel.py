@@ -9,12 +9,12 @@
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # For more details see the file COPYING.
@@ -66,7 +66,7 @@ class User(Base):
     secret_voters = association_proxy('member_secretvoters', 'secretvoter') # <-SecretVoter-> Ballot
     urns        = association_proxy('member_urns', 'urn') # <-UrnSupporter-> Urn
     postal_votes = association_proxy('member_postal', 'voting') # <-PostalVote-> VotingPhase
-    
+
 class UserProfile(Base):
     __tablename__ = 'userprofiles'
     id          = Column(Integer, ForeignKey('users.id'), primary_key=True)
@@ -86,14 +86,14 @@ class UserProfile(Base):
 
 class GroupMember(Base):
     __tablename__ = 'groupmembers'
-    
+
     group_id    = Column(Integer, ForeignKey('groups.id'), primary_key=True)
     member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
     group       = relationship("Group", backref=backref("group_members", cascade="all, delete-orphan"))
     member      = relationship("User", backref=backref("member_groups", cascade="all, delete-orphan"))
-    
+
     def __init__(self, member=None, group=None):
-        self.member = member 
+        self.member = member
         self.group = group
 
 class Department(Base):
@@ -222,10 +222,10 @@ class Ballot(Base): # conflicting qualified propositions
     type        = Column(String(8), nullable=False) #online, urn, assembly, board
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship("PropositionType", back_populates="ballots")
-    
+
     area_id     = Column(Integer, ForeignKey('subjectareas.id'))
     area        = relationship("SubjectArea", back_populates="ballots") # contains department
-    
+
     # optional, if assigned, set proposition to planned
     voting_id   = Column(Integer, ForeignKey('votingphases.id'))
     voting      = relationship("VotingPhase", back_populates="ballots")
@@ -297,14 +297,14 @@ class Proposition(Base):
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]) )
 
     discussion_url = Column(Text)
-    
+
     created_at = Column(DateTime, nullable=False, server_default="NOW()")
     """
    submission data: content, submitters, conflicts
    perform daily checks
    change only if submitted §3.4:
     1. create copy as draft until all submitters agree (set parent)
-    2. copy supporters to new proposition and replace original in its conflicts 
+    2. copy supporters to new proposition and replace original in its conflicts
        for original: set status to changing and original submitters to retracted (takeover submitters= active)
     3a. if takeover within timelimit, submit new version as new conflicting proposition and remove old supporters, original status=submitted
     3b. otherwise set original to abandoned
@@ -315,14 +315,14 @@ class Proposition(Base):
      if vote on Parteitag, set to finished with results §3.8
    elections: first normal proposition for election itself, then candidates in ballot §3.9
     """
-   
+
 class PropositionTag(Base):
     __tablename__ = 'propositiontags'
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("proposition_tags", cascade="all, delete-orphan"))
     tag_id      = Column(Integer, ForeignKey('tags.id'), primary_key=True)
     tag         = relationship("Tag", backref=backref("tag_propositions", cascade="all, delete-orphan"))
-    
+
     def __init__(self, tag=None, proposition=None):
         self.tag = tag
         self.proposition = proposition
@@ -337,7 +337,7 @@ class Supporter(Base): # §3.5
     submitter   = Column(Boolean, nullable=False, default=False) # submitter or regular
     status      = Column(String(10), nullable=False, default="active") # active,expired,retracted
     last_change = Column(Date, nullable=False, server_default="NOW()") # time of submitted/supported/retracted
-    
+
 class Argument(Base):
     __tablename__ = 'arguments'
     id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
