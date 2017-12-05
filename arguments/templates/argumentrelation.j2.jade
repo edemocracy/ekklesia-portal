@@ -1,0 +1,30 @@
+- if layout
+  - extends "layout.j2.jade"
+
+- block title
+  title= title
+
+- block content
+  ol.breadcrumb
+    li
+      a(href=proposition_url)
+        = _("discussion")
+        |:
+        = proposition_title
+
+    li.active 
+      a(href=argument_url)
+      = _("argument")
+      |:
+      = argument_title
+
+  = render_cell(proposition, margin=False)
+
+  hr.argument_separator
+
+  .arguments
+      = render_cell(argument, extended=True, show_voting=True)
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

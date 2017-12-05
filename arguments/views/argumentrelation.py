@@ -6,7 +6,7 @@ import logging
 #from wtforms.validators import DataRequired
 #import flask_sijax
 from arguments.app import App
-from arguments.database.datamodel import Argument
+from arguments.database.datamodel import ArgumentRelation
 from arguments.helper.cell import Cell
 
 
@@ -18,20 +18,35 @@ logg = logging.getLogger(__name__)
 #    abstract = TextField("abstract", validators=[DataRequired()])
 #    details = TextField("details")
 
-class ArgumentCell(Cell):
-    model = Argument
-    model_properties = ['title', 'abstract', 'details', 'created_at', 'author']
+class ArgumentRelationCell(Cell):
+    model_properties = ['proposition', 'argument']
+
+    @property
+    def proposition_url(self):
+        return self.link(self._model.proposition)
+
+    @property
+    def argument_url(self):
+        return self.link(self._model.argument)
+
+    @property
+    def proposition_title(self):
+        return self.proposition.title
+
+    @property
+    def argument_title(self):
+        return self.argument.title
 
 
-@App.path(model=Argument, path="/arguments/{id}")
-def argument(request, id):
-    argument = request.q(Argument).get(id)
-    return argument
+@App.path(model=ArgumentRelation, path="/propositions/{id}/arguments/{argument_id}")
+def argument_relation(request, id, argument_id):
+    argument_relation = request.q(ArgumentRelation).filter_by(proposition_id=id, argument_id=argument_id).scalar()
+    return argument_relation
 
 
-@App.html(model=Argument)
-def show_argument(self, request):
-    return ArgumentCell(self, request, extended=True).show()
+@App.html(model=ArgumentRelation)
+def show_argument_relation(self, request):
+    return ArgumentRelationCell(self, request).show()
 
 
 #@app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])

@@ -55,9 +55,12 @@ def select_jinja_autoescape(filename):
     return filename.endswith(('.html', '.htm', '.xml', '.xhtml', '.jade'))
 
 
-def format_datetime(timestamp):
+def format_datetime(timestamp_or_dt):
     """Format a timestamp for display."""
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M')
+    if isinstance(timestamp_or_dt, datetime):
+        return timestamp_or_dt.strftime('%Y-%m-%d @ %H:%M')
+    else:
+        return datetime.utcfromtimestamp(timestamp_or_dt).strftime('%Y-%m-%d @ %H:%M')
 
 
 def fake_translate(name, *a, **k):
