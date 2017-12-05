@@ -1,5 +1,6 @@
 import jinja2
 from morepath import reify
+from markupsafe import Markup
 
 _cell_registry = {}
 
@@ -27,6 +28,8 @@ class Cell(metaclass=CellMeta):
     model = None
     model_properties = []
     layout = True
+    #: class that should be used to mark safe HTML output
+    markup_class = Markup
 
     def __init__(self, model, request, layout=None, template_path=None, **options):
         self._model = model
@@ -45,7 +48,7 @@ class Cell(metaclass=CellMeta):
         return self._template_path
 
     def render_template(self, template_path):
-        return self._request.render_template(template_path, _cell=self)
+        return self.__class__.markup_class(self._request.render_template(template_path, _cell=self))
 
     def link(self, model, name='', *args, **kwargs):
         return self._request.link(model, name, *args, **kwargs)

@@ -41,9 +41,14 @@ def render_template(jinja_env):
 def cell(model, request_for_cell):
     _model = model
 
+    class DummyMarkup:
+        def __init__(self, content):
+            self.content = content
+
     class TestCell(Cell):
         model = _model.__class__
         model_properties = ['id', 'title']
+        markup_class = DummyMarkup
 
         @property
         def test_url(self):
@@ -94,17 +99,17 @@ def test_cell_template_path(cell, model):
 
 def test_cell_show(cell, model):
     res = cell.show()
-    assert res.render_template.called_with(cell.template_path, cell)
+    assert res.content.render_template.called_with(cell.template_path, cell)
 
 
 def test_cell_render_cell(cell, model):
     res = cell.render_cell(model, some_option=42)
-    assert res.show.called_with(model, cell._request, some_option=42)
+    assert res.content.render_template.called_with(model, cell._request, some_option=42)
 
 
 def test_cell_jinja_integration(cell, model, render_template, request_for_cell):
 
     request_for_cell.render_template.side_effect = render_template
     res = cell.show()
-    assert str(model.id) in res
-    assert model.title in res
+    assert str(model.id) in res.content
+    assert model.title in res.content
