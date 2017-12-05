@@ -24,8 +24,7 @@
         | Nur Anträge mit Tag: 
         span.tag_text= tag
 
-  for proposition in propositions
-    = render_cell(proposition)
+  = render_cell(collection=propositions)
 
 
 // generated from jade
