@@ -346,7 +346,7 @@ class Argument(Base):
     details     = Column(Text)
     author_id   = Column(Integer, ForeignKey('users.id'))
     author      = relationship("User", backref=backref("member_arguments", cascade="all, delete-orphan"))
-    created     = Column(DateTime, nullable=False, server_default="NOW()")
+    created_at  = Column(DateTime, nullable=False, server_default="NOW()")
 
 class ArgumentRelation(Base):
     __tablename__ = 'argumentrelations'
