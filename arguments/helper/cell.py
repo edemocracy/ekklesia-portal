@@ -28,10 +28,11 @@ class Cell(metaclass=CellMeta):
     model_properties = []
     layout = True
 
-    def __init__(self, model, request, layout=None, template_path=None):
+    def __init__(self, model, request, layout=None, template_path=None, **options):
         self._model = model
         self._request = request
         self._template_path = template_path
+        self.options = options
         if layout is not None:
             self.layout = layout
 
@@ -52,11 +53,14 @@ class Cell(metaclass=CellMeta):
     def class_link(self, model_class, variables, name='', *args, **kwargs):
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
 
-    def cell(self, model, view_name=''):
+    def cell(self, model, view_name='', **options):
         """Look up a cell and create an instance
         """
         cell_class = find_cell_by_model_instance(model)
-        return cell_class(model, self._request)
+        return cell_class(model, self._request, **options)
+
+    def render_cell(self, model, view_name='', **options):
+        return self.cell(model, **options).show()
 
     @reify
     def self_link(self):
