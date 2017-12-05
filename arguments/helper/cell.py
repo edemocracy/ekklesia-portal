@@ -26,11 +26,14 @@ class Cell(metaclass=CellMeta):
     """
     model = None
     model_properties = []
+    layout = True
 
-    def __init__(self, model, request, template_path=None):
+    def __init__(self, model, request, layout=None, template_path=None):
         self._model = model
         self._request = request
         self._template_path = template_path
+        if layout is not None:
+            self.layout = layout
 
     @property
     def template_path(self):
