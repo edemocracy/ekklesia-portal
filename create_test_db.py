@@ -43,11 +43,11 @@ s.add(q1_change)
 
 arg1 = Argument(author=u1, title="Ein Pro-Argument", abstract="dafür abstract", details="dafür")
 arg2 = Argument(author=u2, title="Ein zweites Pro-Argument", abstract="dafür!!!")
-arg3 = Argument(author=u1, title="Ein Contra-Argument", abstract="dagegen abstract", details="dafür")
+arg3 = Argument(author=u1, title="Ein Contra-Argument", abstract="dagegen!!!", details="aus Gründen")
 
 arg1_rel = ArgumentRelation(proposition=q1, argument=arg1, argument_type="pro")
-arg2_rel = ArgumentRelation(proposition=q1, argument=arg2, argument_type="con")
-arg3_rel = ArgumentRelation(proposition=q1, argument=arg3, argument_type="pro")
+arg2_rel = ArgumentRelation(proposition=q1, argument=arg2, argument_type="pro")
+arg3_rel = ArgumentRelation(proposition=q1, argument=arg3, argument_type="con")
 
 q1.proposition_arguments.extend([arg1_rel, arg2_rel, arg3_rel])
 q1.tags.extend([t1, t2])
