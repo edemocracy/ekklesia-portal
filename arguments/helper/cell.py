@@ -1,12 +1,30 @@
 import jinja2
 from morepath import reify
 
+_cell_registry = {}
 
-class Cell:
+
+def find_cell_by_model_instance(model):
+    return _cell_registry[model.__class__]
+
+
+class CellMeta(type):
+    """
+    Registers Cell types that are bound to a Model class.
+    """
+
+    def __init__(cls, name, bases, attrs, **kwargs):
+        if cls.model:
+            _cell_registry[cls.model] = cls
+        return super().__init__(name, bases, attrs)
+
+
+class Cell(metaclass=CellMeta):
     """
     View model base class which is basically a wrapper around a template.
     Templates can access attributes of the cell and some selected model properties directly.
     """
+    model = None
     model_properties = []
 
     def __init__(self, model, request, template_path=None):
@@ -30,6 +48,12 @@ class Cell:
 
     def class_link(self, model_class, variables, name='', *args, **kwargs):
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
+
+    def cell(self, model, view_name=''):
+        """Look up a cell and create an instance
+        """
+        cell_class = find_cell_by_model_instance(model)
+        return cell_class(model, self._request)
 
     @reify
     def self_link(self):

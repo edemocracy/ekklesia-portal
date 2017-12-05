@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock
 from munch import Munch
 from pytest import fixture, raises
+import arguments.helper.cell
 from arguments.helper.cell import Cell, JinjaCellEnvironment
 from arguments.app import make_jinja_env, CustomRequest
 from webob.request import BaseRequest
@@ -35,15 +36,26 @@ def render_template(jinja_env):
 
 @fixture
 def cell(model, request_for_cell):
+    _model = model
+
     class TestCell(Cell):
+        model = _model.__class__
         model_properties = ['id', 'title']
 
         @property
         def test_url(self):
             return "https://example.com/test"
 
-
     return TestCell(model, request_for_cell)
+
+
+def test_cell_is_registrated(cell, model):
+    assert model.__class__ in arguments.helper.cell._cell_registry
+
+
+def test_cell_cell(cell, model):
+    another_cell = cell.cell(model)
+    assert another_cell.__class__ == cell.__class__
 
 
 def test_cell_getattr(cell, model):
