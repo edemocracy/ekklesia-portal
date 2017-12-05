@@ -50,24 +50,35 @@ class Cell(metaclass=CellMeta):
     def render_template(self, template_path):
         return self.__class__.markup_class(self._request.render_template(template_path, _cell=self))
 
+    def show(self):
+        return self.render_template(self.template_path)
+
+    # template helpers
+
     def link(self, model, name='', *args, **kwargs):
         return self._request.link(model, name, *args, **kwargs)
 
     def class_link(self, model_class, variables, name='', *args, **kwargs):
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
 
-    def cell(self, model, view_name='', **options):
-        """Look up a cell and create an instance
+    def cell(self, model, layout=False, view_name='', **options):
+        """Look up a cell by model and create an instance.
+        Cells created with this method are rendered without layout by default.
         """
         cell_class = find_cell_by_model_instance(model)
-        return cell_class(model, self._request, **options)
+        return cell_class(model, self._request, layout=layout, **options)
 
-    def render_cell(self, model, view_name='', **options):
-        return self.cell(model, **options).show()
+    def render_cell(self, model, layout=False, view_name='', **options):
+        """Look up a cell by model and render it to HTML.
+        Cells are rendered without layout by default.
+        """
+        return self.cell(model, layout=layout, **options).show()
 
     @reify
     def self_link(self):
         return self.link(self._model)
+
+    # magic starts here...
 
     def __getattr__(self, name):
         if name in self.model_properties:
@@ -86,9 +97,6 @@ class Cell(metaclass=CellMeta):
 
     def __contains__(self, name):
         return name in self.model_properties or hasattr(self, name)
-
-    def show(self):
-        return self.render_template(self.template_path)
 
 
 class JinjaCellContext(jinja2.runtime.Context):
