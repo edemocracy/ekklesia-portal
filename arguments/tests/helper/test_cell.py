@@ -41,7 +41,7 @@ def render_template(jinja_env):
 def cell(model, request_for_cell):
     _model = model
 
-    class DummyMarkup:
+    class DummyMarkup(str):
         def __init__(self, content):
             self.content = content
 
@@ -105,6 +105,21 @@ def test_cell_show(cell, model):
 def test_cell_render_cell(cell, model):
     res = cell.render_cell(model, some_option=42)
     assert res.content.render_template.called_with(model, cell._request, some_option=42)
+
+
+def test_cell_render_cell_collection(cell, model):
+    model2 = model.copy()
+    model2.title = "test2"
+    models = [model, model2]
+    cell.render_template = MagicMock()
+    cell.render_cell(collection=models, some_option=42)
+    assert cell.render_template.called_with(model, cell._request, some_option=42)
+    assert cell.render_template.called_with(model2, cell._request, some_option=42)
+
+
+def test_cell_render_cell_model_and_collection_not_allowed(cell, model):
+    with raises(ValueError):
+        cell.render_cell(model, collection=[], some_option=42)
 
 
 def test_cell_jinja_integration(cell, model, render_template, request_for_cell):

@@ -31,9 +31,10 @@ class Cell(metaclass=CellMeta):
     #: class that should be used to mark safe HTML output
     markup_class = Markup
 
-    def __init__(self, model, request, layout=None, template_path=None, **options):
+    def __init__(self, model, request, collection=None, layout=None, template_path=None, **options):
         self._model = model
         self._request = request
+        self.collection = collection
         self._template_path = template_path
         self.options = options
         if layout is not None:
@@ -68,11 +69,23 @@ class Cell(metaclass=CellMeta):
         cell_class = find_cell_by_model_instance(model)
         return cell_class(model, self._request, layout=layout, **options)
 
-    def render_cell(self, model, layout=False, view_name='', **options):
+    def render_cell(self, model=None, collection=None, separator=None, layout=False, view_name='', **options):
         """Look up a cell by model and render it to HTML.
         Cells are rendered without layout by default.
         """
-        return self.cell(model, layout=layout, **options).show()
+        if collection is not None:
+            if model is not None:
+                raise ValueError("model and collection arguments cannot be used together!")
+
+            parts = [self.cell(item, layout=layout, **options).show() for item in collection]
+
+            if separator is None:
+                separator = "\n"
+
+            return self.__class__.markup_class(separator.join(parts))
+
+        else:
+            return self.cell(model, layout=layout, **options).show()
 
     @reify
     def self_link(self):
