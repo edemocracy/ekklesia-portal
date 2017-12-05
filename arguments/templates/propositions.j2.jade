@@ -1,18 +1,31 @@
-- extends "layout.j2.jade"
-- from "proposition_macros.j2.jade" import proposition_box, tag_filter_box, search_filter_box
+- if layout
+  - extends "layout.j2.jade"
 
 - block title
   title Arguments - {{ _("overview") }}
 
 - block content
-  if tag
-    = tag_filter_box(tag, mode)
-
   if searchterm
-    = search_filter_box(searchterm, mode)
+    ol.breadcrumb
+      li
+        a(href=self_link)
+          = _("overview")
+      li.active
+        = _("search_for")
+        |: 
+        strong= searchterm
+        
+  if tag
+    ol.breadcrumb
+      li
+        a(href=self_link)
+          = _("overview")
+      li.active
+        | Nur Anträge mit Tag: 
+        span.tag_text= tag
 
   for proposition in propositions
-    = proposition_box(proposition, link(proposition), current_user)
+    = render_cell(proposition)
 
 
 // generated from jade

@@ -30,13 +30,14 @@ class Propositions:
         return propositions
 
 
-class PropositionCell(Cell):
+class PropositionsCell(Cell):
+    model = Propositions
     model_properties = ['mode', 'tag', 'searchterm']
-    
+
     @property
     def propositions(self):
         return self._model.propositions(self._request.q)
-    
+
 
 @App.path(model=Propositions, path='propositions')
 def propositions(request, searchterm, tag, mode="sorted"):
@@ -45,4 +46,4 @@ def propositions(request, searchterm, tag, mode="sorted"):
 
 @App.html(model=Propositions)
 def propositions_html(self, request):
-    return PropositionCell(self, request).show()
+    return PropositionsCell(self, request, layout=True).show()

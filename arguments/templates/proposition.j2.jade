@@ -1,34 +1,140 @@
-- extends "layout.j2.jade"
-- from "proposition_macros.j2.jade" import proposition_box, proposition_tabline
-- from "argument_macros.j2.jade" import argument_box
+- if layout
+  - extends "layout.j2.jade"
 
+- macro proposition_tags(tags)
+  ul.list-inline
+    for tag in tags
+      li.list-inline-item
+        a(href="/tags/{{ tag.tag }}")
+          span.tag_text= tag.tag
+
+
+- macro proposition_actions(proposition, user, goto_label)
+  
+  vote = user_vote(user) if user.is_authenticated else None
+  upvoted = vote != None
+
+  div
+    if user.is_authenticated
+      button.btn.btn-primary(hidden=upvoted
+          data-action="proposition_vote"
+          data-proposition-id=id)
+          i.fa.fa-thumbs-up &nbsp;
+          | Unterstützen
+
+      button.btn.btn-secondary(hidden=(not upvoted)
+          data-action="proposition_revoke_vote"
+          data-proposition-id=id)
+          i.fa.fa-remove &nbsp;
+          | Unterstützung zurückziehen
+
+      button.btn.btn-danger-outline
+        i.fa.fa-thumbs-down &nbsp;
+        | Melden
+
+    button.btn.btn-secondary
+      i.fa.fa-share &nbsp;
+      | Teilen
+
+    a.btn.btn-secondary(href="#bottom")
+      i.fa.fa-comments &nbsp;
+      = goto_label
+
+      
 - block title
   title= title
 
+
 - block content
-  = proposition_tabline(_model, "discussion")
-  = proposition_box(_model, self_link, current_user, _("goto_arguments"), no_margin=True, voting=True, details=True, show_actions=True)
 
-  .arguments
-    a(name="bottom")
+  if options.small
+    .associated_proposition(class=("associated_proposition_" + side))
+      .row
+        .col-sm-2
+          .authoring_info
+            small.author=_("authored_at", dt=created_at)
 
-    .proposition_col.pro
-      for argument in arguments("pro")
-          = argument_box(argument, current_user, show_ca_button=True)
+          .points
+            i.fa.fa-thumbs-up &nbsp;
+            strong.proposition_info_number(id="proposition_score_{{ id }}")= score
+            | &nbsp;
+            span= ngettext("supporter", "supporters", score)
 
-      a(href=new_argument_url("pro")) 
-        .button_add_related
-          i.fa.fa-thumbs-o-up &nbsp;
-          = _("add_pro_argument")
+        .col-sm-8
+          h5.associated_proposition_title
+            a(href=self_link)= title
 
-    .proposition_col.con
-      for argument in arguments("con")
-        = argument_box(argument, current_user, show_ca_button=True)
+  else
+    if options.show_tabs
+      .proposition_toolbar
+        .proposition_tabs
+          a.tab(class=("inactive" if active_tab != "discussion" else "")
+                href=self_link)= _("discussion")
 
-      a(href=new_argument_url("con")) 
-        .button_add_related
-          i.fa.fa-thumbs-o-down &nbsp;
-          = _("add_con_argument")
+          a.tab(class=("inactive" if active_tab != "associated" else "")
+                href=self_link)= _("associated")
+    
+    argument_count = proposition_arguments|length
+
+    .proposition(id="proposition_{{ id }}", 
+              class=("" if options.margin else "proposition_no_margin"))
+      .row
+        .proposition_sidebar
+
+          .authoring_info
+            small.author=_("authored_at", dt=created_at)
+
+          .points
+            i.fa.fa-thumbs-up &nbsp;
+            strong.proposition_info_number(id="proposition_score_{{ id }}")= score
+            | &nbsp;
+            span= ngettext("supporter", "supporters", score)
+
+          .argument_count
+            i.fa.fa-comments &nbsp;
+            strong.proposition_info_number= argument_count
+            | &nbsp;
+            span= ngettext("argument", "arguments", argument_count)
+
+        .proposition_body
+          h4.proposition_title
+              a(href=self_link)= title
+
+          = proposition_tags(tags)
+
+          if options.show_details
+            .proposition_details
+              p
+                = content|markdown
+              p
+                = motivation|markdown
+
+          if options.show_actions
+            = proposition_actions(_model, current_user, _("goto_arguments"))
+
+
+
+    if options.arguments
+      .arguments
+        a(name="bottom")
+
+        .proposition_col.pro
+          for argument in arguments("pro")
+              = argument_box(argument, current_user, show_ca_button=True)
+
+          a(href=new_argument_url("pro")) 
+            .button_add_related
+              i.fa.fa-thumbs-o-up &nbsp;
+              = _("add_pro_argument")
+
+        .proposition_col.con
+          for argument in arguments("con")
+            = argument_box(argument, current_user, show_ca_button=True)
+
+          a(href=new_argument_url("con")) 
+            .button_add_related
+              i.fa.fa-thumbs-o-down &nbsp;
+              = _("add_con_argument")
 
 - block script
   script.

@@ -4,4 +4,3 @@ def test_proposition(client):
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content
-    

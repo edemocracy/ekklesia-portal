@@ -24,7 +24,7 @@ QUESTION_ASSOCIATION_TYPES = {
 }
 
 
-#class PropositionForm(Form):
+# class PropositionForm(Form):
 #    associated_with_proposition_url = TextField(default="")
 #    association_type = TextField(default="")
 #    title = TextField("title", validators=[DataRequired()])
@@ -32,12 +32,13 @@ QUESTION_ASSOCIATION_TYPES = {
 #    tags = TextField("tags", default="")
 
 class PropositionCell(Cell):
-    model_properties = ['id', 'title', 'content', 'motivation']
-    
+    model = Proposition
+    model_properties = ['id', 'title', 'content', 'motivation', 'proposition_arguments']
+
     def new_argument_url(self, argument_type):
         return "#"
         self.class_link(Argument, dict(argument_type=argument_type), 'new')
-        
+
     def arguments(self, argument_type):
         return []
 
@@ -46,9 +47,9 @@ class PropositionCell(Cell):
 @App.path(model=Proposition, path="/propositions/{id}")
 def proposition(request, id):
     # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
-    #g.sijax.set_request_uri(request.path)
+    # g.sijax.set_request_uri(request.path)
 
-    #if g.sijax.is_sijax_request:
+    # if g.sijax.is_sijax_request:
     #    g.sijax.register_callback('argument_vote', argument_vote)
     #    g.sijax.register_callback('proposition_vote', proposition_vote)
     #    return g.sijax.process_request()
@@ -59,7 +60,8 @@ def proposition(request, id):
 
 @App.html(model=Proposition)
 def proposition_show(self, request):
-    return PropositionCell(self, request).show()
+    cell = PropositionCell(self, request, layout=True, show_tabs=True, show_details=True, show_actions=True)
+    return cell.show()
 
 
 #@app.route("/<proposition_url>/associated")
@@ -69,21 +71,21 @@ def proposition_associated(proposition_url):
     associated_propositions_right = proposition.associated_propositions(QUESTION_ASSOCIATION_TYPES["right"])
 
     return render_template("proposition_associated.j2.jade",
-            proposition=proposition,
-            associated_propositions_left=associated_propositions_left,
-            associated_propositions_right=associated_propositions_right)
+                           proposition=proposition,
+                           associated_propositions_left=associated_propositions_left,
+                           associated_propositions_right=associated_propositions_right)
 
 
 def _handle_post_new_proposition(form):
     proposition = Proposition(url=form.title.data.replace(" ", "-"),
-                        details=form.details.data,
-                        title=form.title.data)
+                              details=form.details.data,
+                              title=form.title.data)
 
     associated_with_proposition_url = form.associated_with_proposition_url.data
     if associated_with_proposition_url:
         associated_with_proposition = Proposition.query.filter_by(url=associated_with_proposition_url).scalar()
         qrel = PropositionAssociation(left=associated_with_proposition,
-                right=proposition, association_type=form.association_type.data)
+                                      right=proposition, association_type=form.association_type.data)
         db.session.add(qrel)
 
     tags = [t.strip() for t in form.tags.data.split(",") if t.strip()]
@@ -143,7 +145,6 @@ def new_proposition(associated_with_proposition_url="", side=""):
 
     if request.method == "POST" and form.validate():
         return _handle_post_new_proposition(form)
-    
 
     association_type = QUESTION_ASSOCIATION_TYPES[side]
 
@@ -164,11 +165,11 @@ def new_proposition(associated_with_proposition_url="", side=""):
             raise ValueError("unsupported proposition source: " + source)
 
         from_format, base_url = import_info
-        
+
         import_handler = QUESTION_IMPORT_HANDLERS.get(from_format)
         if import_handler is None:
             raise ValueError("unsupported proposition import format: " + from_format)
-        
+
         imp_title, imp_details, imp_tags = import_handler(base_url, from_data)
 
         if imp_title is not None:
@@ -179,9 +180,8 @@ def new_proposition(associated_with_proposition_url="", side=""):
             tags = imp_tags
 
     return render_template("new_proposition.j2.jade",
-            associated_with_proposition_url=associated_with_proposition_url,
-            association_type=association_type,
-            title=title,
-            details=details,
-            tags=",".join(tags))
-
+                           associated_with_proposition_url=associated_with_proposition_url,
+                           association_type=association_type,
+                           title=title,
+                           details=details,
+                           tags=",".join(tags))
