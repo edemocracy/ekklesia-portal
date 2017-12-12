@@ -1,7 +1,11 @@
-morepath
+attrs
+jinja2
 more.transaction
+morepath
+munch
 psycopg2
 pyjade
-pyyaml 
+pyyaml
 sqlalchemy
 sqlalchemy-searchable
+zope.sqlalchemy

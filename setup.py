@@ -1,9 +1,14 @@
 # see setup.cfg for metadata and options; only requirements are loaded here
-from pipenv.project import Project
-from pipenv.utils import convert_deps_to_pip
+import os.path
 
-pfile = Project(chdir=False).parsed_pipfile
-requirements = convert_deps_to_pip(pfile['packages'], r=False)
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+
+def read_install_requires():
+    with open(os.path.join(here, "requirements", "install_requirements.txt")) as f:
+        return [s.strip() for s in f.readlines()]
+
 
 from setuptools import setup
-setup(install_requires=requirements)
+setup(install_requires=read_install_requires())
