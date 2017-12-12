@@ -14,4 +14,6 @@ arguments/static/css/arguments.css
 requirements/pypi2nix_source_deps
 requirements/pypi2nix_source_deps_with_hash
 requirements/requirements_frozen.txt
+requirements/all_deps
+requirements/dev_deps
 config.yml
