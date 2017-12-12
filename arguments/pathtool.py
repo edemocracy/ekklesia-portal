@@ -1,7 +1,6 @@
 import morepath
 
 from arguments.app import App
-from more.pathtool import path_tool
 
 
 def paths():
@@ -11,4 +10,5 @@ def paths():
 
 
 if __name__ == '__main__':
+    from more.pathtool import path_tool
     paths()

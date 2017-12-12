@@ -23,7 +23,6 @@ attrs = "*"
 [dev-packages]
 
 "e1839a8" = {path = ".", editable = true}
-"more.pathtool" = "*"
 werkzeug = "*"
 coverage = "*"
 pytest = "*"
