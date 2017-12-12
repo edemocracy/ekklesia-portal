@@ -29,6 +29,7 @@ pytest = "*"
 pytest-localserver = "*"
 requests = "*"
 webtest = "*"
+"7e87fbd" = {path = "../more.babel_i18n", editable = true}
 
 
 [requires]
