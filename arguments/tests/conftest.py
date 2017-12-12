@@ -7,6 +7,7 @@ from arguments.app import make_wsgi_app
 
 BASEDIR = path.dirname(__file__)
 
+
 @fixture(scope="session")
 def config_filepath():
     return path.join(BASEDIR, "testconfig.yml")
@@ -14,11 +15,10 @@ def config_filepath():
 
 @fixture(scope="session")
 def app(config_filepath):
-    args = Munch(config_file=config_filepath)
-    return make_wsgi_app(args)
+    app = make_wsgi_app(config_filepath)
+    return app
 
 
 @fixture(scope="session")
 def client(app):
     return Client(app)
-

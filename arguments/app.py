@@ -59,9 +59,9 @@ def get_app_settings(settings_filepath):
     return settings
 
 
-def make_wsgi_app(args):
+def make_wsgi_app(settings_filepath=None):
     morepath.autoscan()
-    settings = get_app_settings(args.config_file)
+    settings = get_app_settings(settings_filepath)
     App.init_settings(settings)
     App.commit()
 
