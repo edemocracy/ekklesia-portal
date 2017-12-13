@@ -348,9 +348,9 @@ class PropositionTag(Base):
 class Supporter(Base):  # §3.5
     __tablename__ = 'supporters'
     member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
+    member = relationship("User", backref=backref("propositions_member", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
-    proposition = relationship("Proposition", backref=backref("proposition_members", cascade="all, delete-orphan"))
+    proposition = relationship("Proposition", backref=backref("member_propositions", cascade="all, delete-orphan"))
     submitter = Column(Boolean, nullable=False, default=False)  # submitter or regular
     status = Column(String(10), nullable=False, default="active")  # active,expired,retracted
     last_change = Column(Date, nullable=False, server_default="NOW()")  # time of submitted/supported/retracted
