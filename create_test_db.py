@@ -1,10 +1,9 @@
 import logging
 logging.basicConfig(level=logging.INFO)
-from munch import Munch
 import transaction
 from arguments.app import make_wsgi_app
 
-app = make_wsgi_app(Munch(config_file="config.yml"))
+app = make_wsgi_app("config.yml")
 
 logg = logging.getLogger(__name__)
 
