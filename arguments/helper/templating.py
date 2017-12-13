@@ -7,6 +7,8 @@ from pyjade.ext.jinja import Compiler as JinjaCompiler
 from pyjade.ext.jinja import PyJadeExtension as JinjaJadeExtension
 from pyjade.utils import process
 from werkzeug.datastructures import ImmutableDict
+from jinja2.filters import contextfilter
+from jinja2 import Undefined
 
 
 class JinjaAutoescapeCompiler(JinjaCompiler):
@@ -68,21 +70,56 @@ def fake_translate(name, *a, **k):
     return ", ".join(el)
 
 
-def make_jinja_env(jinja_environment_class, jinja_options):
+def make_jinja_env(jinja_environment_class, jinja_options, app):
+
+    def make_babel_filter(func_name):
+        def babel_filter_wrapper(context, value):
+            request = context.get("_request")
+            func = getattr(request.i18n, func_name)
+            return func(value)
+
+        f = contextfilter(babel_filter_wrapper)
+        f.__name__ = func_name
+        return f
+
+    babel_filter_names = (
+        ("datetimeformat", "format_datetime"),
+        ("dateformat", "format_date"),
+        ("numberformat", "format_number"),
+        ("dateformat", "format_date"),
+        ("timeformat", "format_time"),
+        ("timedeltaformat", "format_timedelta"),
+        ("decimalformat", "format_decimal"),
+        ("currencyformat", "format_currency"),
+        ("percentformat", "format_percent"),
+        ("scientificformat", "format_scientific")
+    )
+    babel_filters = {name: make_babel_filter(func_name) for name, func_name in babel_filter_names}
+
     jinja_globals = dict(url_for=lambda *a, **k: "#",
                          g=Munch(locale="de"),
                          current_user=Munch(is_authenticated=False),
-                         _=fake_translate,
                          ngettext=fake_translate,
                          get_flashed_messages=lambda *a, **k: [])
 
     default_jinja_options = ImmutableDict(
-        extensions=[PyJadeExtension, "jinja2.ext.autoescape"],
+        extensions=[PyJadeExtension, "jinja2.ext.autoescape", "jinja2.ext.i18n"],
         autoescape=select_jinja_autoescape
     )
 
     jinja_env = jinja_environment_class(**default_jinja_options, **jinja_options)
     jinja_env.globals.update(jinja_globals)
-    jinja_env.filters['datetimeformat'] = format_datetime
+    jinja_env.filters.update(babel_filters)
     jinja_env.filters['markdown'] = lambda t: t
+
+    def jinja_ngettext(s, p, n):
+        # using the translation for zero is better than throwing an exception when the number is undefined, I think
+        if isinstance(n, Undefined):
+            n = 0
+        return app.babel.domain.get_translations().ungettext(s, p, n)
+
+    def jinja_gettext(x):
+        return app.babel.domain.get_translations().ugettext(x)
+
+    jinja_env.install_gettext_callables(jinja_gettext, jinja_ngettext, newstyle=True)
     return jinja_env

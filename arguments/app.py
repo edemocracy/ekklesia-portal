@@ -2,6 +2,7 @@ import logging
 import os
 import jinja2
 from more.transaction import TransactionApp
+from more.babel_i18n import BabelApp, BabelRequest
 from morepath.reify import reify
 from morepath.request import Request
 import morepath
@@ -15,10 +16,10 @@ from arguments.helper.cell import JinjaCellEnvironment
 logg = logging.getLogger(__name__)
 
 
-class CustomRequest(Request):
-    
+class CustomRequest(BabelRequest):
+
     @reify
-    def db_session(self): 
+    def db_session(self):
         return database.Session()
 
     def q(self, *args, **kwargs):
@@ -29,13 +30,13 @@ class CustomRequest(Request):
         return template.render(**context)
 
 
-class App(TransactionApp):
+class App(TransactionApp, BabelApp):
     request_class = CustomRequest
-    
+
     def __init__(self):
         super().__init__()
         template_loader = jinja2.PackageLoader("arguments")
-        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader))
+        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=self)
 
 
 def get_app_settings(settings_filepath):
@@ -67,4 +68,5 @@ def make_wsgi_app(settings_filepath=None):
 
     app = App()
     database.configure_sqlalchemy(app.settings.database)
+    app.babel_init()
     return app

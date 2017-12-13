@@ -22,10 +22,10 @@ def request_for_cell(app):
 
 
 @fixture
-def jinja_env():
+def jinja_env(app):
     import jinja2
     template_loader = jinja2.loaders.PackageLoader("arguments.tests")
-    return make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader))
+    return make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=app)
 
 
 @fixture

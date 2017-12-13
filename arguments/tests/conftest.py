@@ -2,7 +2,8 @@ from os import path
 from pytest import fixture
 from webtest import TestApp as Client
 from munch import Munch
-from arguments.app import make_wsgi_app
+from morepath.request import BaseRequest
+from arguments.app import make_wsgi_app, CustomRequest
 
 
 BASEDIR = path.dirname(__file__)
@@ -22,3 +23,9 @@ def app(config_filepath):
 @fixture(scope="session")
 def client(app):
     return Client(app)
+
+
+@fixture
+def request(app):
+    environ = BaseRequest.blank('test').environ
+    return CustomRequest(environ, app)
