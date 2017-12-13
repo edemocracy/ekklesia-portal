@@ -56,9 +56,9 @@
 
           .points
             i.fa.fa-thumbs-up &nbsp;
-            strong.proposition_info_number(id="proposition_score_{{ id }}")= score
+            strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
-            span= ngettext("supporter", "supporters", score)
+            span= ngettext("supporter", "supporters", supporter_count)
 
         .col-sm-8
           h5.associated_proposition_title
@@ -86,9 +86,9 @@
 
           .points
             i.fa.fa-thumbs-up &nbsp;
-            strong.proposition_info_number(id="proposition_score_{{ id }}")= score
+            strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
-            span= ngettext("supporter", "supporters", score)
+            span= ngettext("supporter", "supporters", supporter_count)
 
           .argument_count
             i.fa.fa-comments &nbsp;
