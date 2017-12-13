@@ -5,7 +5,7 @@ from morepath import reify
 
 class PropositionCell(Cell):
     model = Proposition
-    model_properties = ['id', 'title', 'content', 'motivation']
+    model_properties = ['id', 'title', 'content', 'motivation', 'created_at']
 
     def new_argument_url(self, argument_type):
         return "#"
