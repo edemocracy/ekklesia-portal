@@ -8,7 +8,7 @@ import logging
 import requests
 
 from arguments.app import App
-from arguments.database.datamodel import Proposition, Tag
+from arguments.database.datamodel import Proposition
 from arguments.cells.proposition import PropositionCell
 
 
@@ -47,7 +47,7 @@ def proposition(request, id):
 
 @App.html(model=Proposition)
 def proposition_show(self, request):
-    cell = PropositionCell(self, request, layout=True, show_tabs=True, show_details=True, show_actions=True)
+    cell = PropositionCell(self, request, layout=True, show_tabs=True, show_details=True, show_actions=True, show_arguments=True)
     return cell.show()
 
 

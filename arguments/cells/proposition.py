@@ -1,11 +1,11 @@
-from arguments.database.datamodel import Proposition, Argument
+from arguments.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
 from arguments.helper.cell import Cell
 from morepath import reify
 
 
 class PropositionCell(Cell):
     model = Proposition
-    model_properties = ['id', 'title', 'content', 'motivation', 'proposition_arguments']
+    model_properties = ['id', 'title', 'content', 'motivation']
 
     def new_argument_url(self, argument_type):
         return "#"
@@ -15,5 +15,14 @@ class PropositionCell(Cell):
     def supporter_count(self):
         return len(self._model.supporters)
 
-    def arguments(self, argument_type):
-        return []
+    @reify
+    def pro_arguments(self):
+        return [p.argument for p in self._model.proposition_arguments if p.argument_type == "pro"]
+
+    @reify
+    def contra_arguments(self):
+        return [p.argument for p in self._model.proposition_arguments if p.argument_type == "con"]
+
+    @reify
+    def argument_count(self):
+        return len(self._model.proposition_arguments)

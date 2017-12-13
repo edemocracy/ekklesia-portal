@@ -74,8 +74,6 @@
           a.tab(class=("inactive" if active_tab != "associated" else "")
                 href=self_link)= _("associated")
     
-    argument_count = proposition_arguments|length
-
     .proposition(id="proposition_{{ id }}", 
               class=("" if options.margin else "proposition_no_margin"))
       .row
@@ -114,13 +112,12 @@
 
 
 
-    if options.arguments
+    if options.show_arguments
       .arguments
         a(name="bottom")
 
         .proposition_col.pro
-          for argument in arguments("pro")
-              = argument_box(argument, current_user, show_ca_button=True)
+          = render_cell(collection=pro_arguments)
 
           a(href=new_argument_url("pro")) 
             .button_add_related
@@ -128,8 +125,7 @@
               = _("add_pro_argument")
 
         .proposition_col.con
-          for argument in arguments("con")
-            = argument_box(argument, current_user, show_ca_button=True)
+          = render_cell(collection=contra_arguments)
 
           a(href=new_argument_url("con")) 
             .button_add_related

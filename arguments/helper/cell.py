@@ -2,6 +2,7 @@ import jinja2
 from morepath import reify
 from markupsafe import Markup
 
+
 _cell_registry = {}
 
 

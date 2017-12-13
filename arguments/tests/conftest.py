@@ -1,9 +1,10 @@
 from os import path
+from morepath.request import BaseRequest
 from pytest import fixture
 from webtest import TestApp as Client
-from munch import Munch
-from morepath.request import BaseRequest
 from arguments.app import make_wsgi_app, CustomRequest
+from arguments.database import Session
+from arguments.database.datamodel import Proposition
 
 
 BASEDIR = path.dirname(__file__)
@@ -29,3 +30,13 @@ def client(app):
 def request(app):
     environ = BaseRequest.blank('test').environ
     return CustomRequest(environ, app)
+
+
+@fixture
+def session(app):
+    return Session()
+
+
+@fixture
+def proposition(session):
+    return session.query(Proposition).get(1)
