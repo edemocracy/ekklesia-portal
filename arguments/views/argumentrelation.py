@@ -7,7 +7,7 @@ import logging
 #import flask_sijax
 from arguments.app import App
 from arguments.database.datamodel import ArgumentRelation
-from arguments.helper.cell import Cell
+from arguments.cells.argumentrelation import ArgumentRelationCell
 
 
 logg = logging.getLogger(__name__)
@@ -17,26 +17,6 @@ logg = logging.getLogger(__name__)
 #    title = TextField("headline", validators=[DataRequired()])
 #    abstract = TextField("abstract", validators=[DataRequired()])
 #    details = TextField("details")
-
-class ArgumentRelationCell(Cell):
-    model_properties = ['proposition', 'argument']
-
-    @property
-    def proposition_url(self):
-        return self.link(self._model.proposition)
-
-    @property
-    def argument_url(self):
-        return self.link(self._model.argument)
-
-    @property
-    def proposition_title(self):
-        return self.proposition.title
-
-    @property
-    def argument_title(self):
-        return self.argument.title
-
 
 @App.path(model=ArgumentRelation, path="/propositions/{id}/arguments/{argument_id}")
 def argument_relation(request, id, argument_id):

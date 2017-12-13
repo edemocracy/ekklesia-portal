@@ -7,7 +7,7 @@ import logging
 #import flask_sijax
 from arguments.app import App
 from arguments.database.datamodel import Argument
-from arguments.helper.cell import Cell
+from arguments.cells.argument import ArgumentCell
 
 
 logg = logging.getLogger(__name__)
@@ -17,11 +17,6 @@ logg = logging.getLogger(__name__)
 #    title = TextField("headline", validators=[DataRequired()])
 #    abstract = TextField("abstract", validators=[DataRequired()])
 #    details = TextField("details")
-
-class ArgumentCell(Cell):
-    model = Argument
-    model_properties = ['title', 'abstract', 'details', 'created_at', 'author']
-
 
 @App.path(model=Argument, path="/arguments/{id}")
 def argument(request, id):

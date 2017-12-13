@@ -8,10 +8,8 @@ import logging
 import requests
 
 from arguments.app import App
-from arguments.database.datamodel import Proposition, Tag, Argument
-from arguments.sijax_callbacks import argument_vote, proposition_vote
-from arguments.helper.cell import Cell
-from morepath import reify
+from arguments.database.datamodel import Proposition, Tag
+from arguments.cells.proposition import PropositionCell
 
 
 logg = logging.getLogger(__name__)
@@ -31,22 +29,6 @@ QUESTION_ASSOCIATION_TYPES = {
 #    title = TextField("title", validators=[DataRequired()])
 #    details = TextField("details", default="")
 #    tags = TextField("tags", default="")
-
-class PropositionCell(Cell):
-    model = Proposition
-    model_properties = ['id', 'title', 'content', 'motivation', 'proposition_arguments']
-
-    def new_argument_url(self, argument_type):
-        return "#"
-        self.class_link(Argument, dict(argument_type=argument_type), 'new')
-
-    @reify
-    def supporter_count(self):
-        return len(self._model.supporters)
-
-    def arguments(self, argument_type):
-        return []
-
 
 #@flask_sijax.route(app, "/<proposition_url>")
 @App.path(model=Proposition, path="/propositions/{id}")
