@@ -32,7 +32,7 @@ from sqlalchemy import (
     ForeignKey,
     Sequence,
     func
-    )
+)
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.associationproxy import association_proxy
 
@@ -41,70 +41,74 @@ from arguments.database import Base, TimeStamp
 
 class Group(Base):
     __tablename__ = 'groups'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
     permissions = Column(Integer, default=0)
-    members     = association_proxy('group_members', 'member') # <-GroupMember-> User
+    members = association_proxy('group_members', 'member')  # <-GroupMember-> User
+
 
 class User(Base):
     __tablename__ = 'users'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
-    email       = Column(String(254), unique=True) # optional, for notifications, otherwise use user/mails/
-    usertype    = Column(String(8), nullable=False) # deleted,system,virtual,oauth(has UserProfile)
-    joined      = Column(Date, nullable=False, default=func.now())
-    active      = Column(Boolean, nullable=False, default=True)
-    last_active = Column(Date, nullable=False, default=func.now()) # last relevant activity (to be considered active member §2.2)
-            # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
-    profile     = relationship("UserProfile", uselist=False, back_populates="user")
-    groups      = association_proxy('member_groups', 'group') # <-GroupMember-> Group
-     # from user/membership/ all_nested_groups
-    departments = association_proxy('member_departments', 'department') # <-DepartmentMember-> Department
-    areas       = association_proxy('member_areas', 'area') # <-AreaMember-> SubjectArea
-    supports    = association_proxy('member_proposition', 'proposition') # <-Supporter-> Proposition
-    arguments   = relationship("Argument", back_populates="author")
-    secret_voters = association_proxy('member_secretvoters', 'secretvoter') # <-SecretVoter-> Ballot
-    urns        = association_proxy('member_urns', 'urn') # <-UrnSupporter-> Urn
-    postal_votes = association_proxy('member_postal', 'voting') # <-PostalVote-> VotingPhase
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
+    email = Column(String(254), unique=True)  # optional, for notifications, otherwise use user/mails/
+    usertype = Column(String(8), nullable=False)  # deleted,system,virtual,oauth(has UserProfile)
+    joined = Column(Date, nullable=False, default=func.now())
+    active = Column(Boolean, nullable=False, default=True)
+    last_active = Column(Date, nullable=False, default=func.now())  # last relevant activity (to be considered active member §2.2)
+    # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
+    profile = relationship("UserProfile", uselist=False, back_populates="user")
+    groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
+    # from user/membership/ all_nested_groups
+    departments = association_proxy('member_departments', 'department')  # <-DepartmentMember-> Department
+    areas = association_proxy('member_areas', 'area')  # <-AreaMember-> SubjectArea
+    supports = association_proxy('member_proposition', 'proposition')  # <-Supporter-> Proposition
+    arguments = relationship("Argument", back_populates="author")
+    secret_voters = association_proxy('member_secretvoters', 'secretvoter')  # <-SecretVoter-> Ballot
+    urns = association_proxy('member_urns', 'urn')  # <-UrnSupporter-> Urn
+    postal_votes = association_proxy('member_postal', 'voting')  # <-PostalVote-> VotingPhase
+
 
 class UserProfile(Base):
     __tablename__ = 'userprofiles'
-    id          = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    user        = relationship("User", back_populates="profile")
-    auid        = Column(String(36), unique=True) # from user/auid/
+    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    user = relationship("User", back_populates="profile")
+    auid = Column(String(36), unique=True)  # from user/auid/
 
-    access_token = Column(Text) # from oauth2/token/
-    refresh_token = Column(Text) # from oauth2/revoke_token/
+    access_token = Column(Text)  # from oauth2/token/
+    refresh_token = Column(Text)  # from oauth2/revoke_token/
     token_expires = Column(DateTime)
   # possibly cached variables from IDserver
-    type        = Column(String(8), nullable=False) #deleted,guest,member,eligible # from user/membership/
-    profile     = Column(Text) # from user/profile/
-    public_id   = Column(Text) # from user/profile/
-    avatar      = Column(Text) # from user/profile/
+    type = Column(String(8), nullable=False)  # deleted,guest,member,eligible # from user/membership/
+    profile = Column(Text)  # from user/profile/
+    public_id = Column(Text)  # from user/profile/
+    avatar = Column(Text)  # from user/profile/
   # possible extensions
-    privacy     = Column(String(10), nullable=False) # default,anonymous,trusted,members,users,public
+    privacy = Column(String(10), nullable=False)  # default,anonymous,trusted,members,users,public
+
 
 class GroupMember(Base):
     __tablename__ = 'groupmembers'
 
-    group_id    = Column(Integer, ForeignKey('groups.id'), primary_key=True)
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    group       = relationship("Group", backref=backref("group_members", cascade="all, delete-orphan"))
-    member      = relationship("User", backref=backref("member_groups", cascade="all, delete-orphan"))
+    group_id = Column(Integer, ForeignKey('groups.id'), primary_key=True)
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    group = relationship("Group", backref=backref("group_members", cascade="all, delete-orphan"))
+    member = relationship("User", backref=backref("member_groups", cascade="all, delete-orphan"))
 
     def __init__(self, member=None, group=None):
         self.member = member
         self.group = group
 
+
 class Department(Base):
     __tablename__ = 'departments'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
     description = Column(Text)
-    members     = association_proxy('department_members', 'member') # <-DepartmentMember-> User
-    areas       = relationship("SubjectArea", back_populates="department")
+    members = association_proxy('department_members', 'member')  # <-DepartmentMember-> User
+    areas = relationship("SubjectArea", back_populates="department")
     # parent, depth?
-    configuration = Column(Text) # JSON
+    configuration = Column(Text)  # JSON
     """
     durations as INT+ENUM(days,weeks,months,periods)? quorum as num/denum(INT)?
 
@@ -136,39 +140,43 @@ class Department(Base):
      extendedDiscussion BOOL #  (false) whether all argument relations are supported, otherwised only pro/contra and 1 level of refusal
     """
 
+
 class DepartmentMember(Base):
     __tablename__ = 'departmentmembers'
     department_id = Column(Integer, ForeignKey('departments.id'), primary_key=True)
     department = relationship("Department", backref=backref("department_members", cascade="all, delete-orphan"))
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_departments", cascade="all, delete-orphan"))
-    is_admin    = Column(Boolean, nullable=False, default=False)
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_departments", cascade="all, delete-orphan"))
+    is_admin = Column(Boolean, nullable=False, default=False)
 
-class SubjectArea(Base): # Themenbereich §2.3+4
+
+class SubjectArea(Base):  # Themenbereich §2.3+4
     __tablename__ = 'subjectareas'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
     description = Column(Text)
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
-    department  = relationship("Department", back_populates="areas")
-    ballots     = relationship("Ballot", back_populates="area")
+    department = relationship("Department", back_populates="areas")
+    ballots = relationship("Ballot", back_populates="area")
     # Themenbereichsteilnehmer
     # can only be removed if not proposition in this area supported §2.3
-    members     = association_proxy('area_members', 'member') # <-AreaMember-> User
+    members = association_proxy('area_members', 'member')  # <-AreaMember-> User
+
 
 class AreaMember(Base):
     __tablename__ = 'areamembers'
-    area_id     = Column(Integer, ForeignKey('subjectareas.id'), primary_key=True)
-    area        = relationship("SubjectArea", backref=backref("area_members", cascade="all, delete-orphan"))
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_areas", cascade="all, delete-orphan"))
+    area_id = Column(Integer, ForeignKey('subjectareas.id'), primary_key=True)
+    area = relationship("SubjectArea", backref=backref("area_members", cascade="all, delete-orphan"))
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_areas", cascade="all, delete-orphan"))
 
-class Policy(Base): # Regelwerk
+
+class Policy(Base):  # Regelwerk
     __tablename__ = 'policies'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
     proposition_types = relationship("PropositionType", back_populates="policy")
-    configuration = Column(Text) # JSON
+    configuration = Column(Text)  # JSON
     """
     configuration values also see department
          submissionQuorum INT # (5) §3.3
@@ -194,107 +202,115 @@ class Policy(Base): # Regelwerk
          election BOOL # §3.8
     """
 
+
 class Tag(Base):
     __tablename__ = 'tags'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
-    parent_id   = Column(Integer, ForeignKey('tags.id')) # optional
-    children    = relationship("Tag", backref=backref('parent', remote_side=[id]) )
-    mut_exclusive = Column(Boolean, nullable=False, default=False) # whether all children are mutually exclusive
-    propositions = association_proxy('tag_propositions', 'proposition') # <-PropositionTag-> Proposition
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
+    parent_id = Column(Integer, ForeignKey('tags.id'))  # optional
+    children = relationship("Tag", backref=backref('parent', remote_side=[id]))
+    mut_exclusive = Column(Boolean, nullable=False, default=False)  # whether all children are mutually exclusive
+    propositions = association_proxy('tag_propositions', 'proposition')  # <-PropositionTag-> Proposition
 
-class PropositionType(Base): # Antragsart
+
+class PropositionType(Base):  # Antragsart
     __tablename__ = 'propositiontypes'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
-    policy_id   = Column(Integer, ForeignKey('policies.id'), nullable=False)
-    policy      = relationship("Policy", back_populates="proposition_types")
-    ballots     = relationship("Ballot", back_populates="proposition_type")
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
+    policy_id = Column(Integer, ForeignKey('policies.id'), nullable=False)
+    policy = relationship("Policy", back_populates="proposition_types")
+    ballots = relationship("Ballot", back_populates="proposition_type")
 
-class Ballot(Base): # conflicting qualified propositions
+
+class Ballot(Base):  # conflicting qualified propositions
     __tablename__ = 'ballots'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    name        = Column(String(64), unique=True, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    name = Column(String(64), unique=True, nullable=False)
     #<- propositions Proposition[]
-    status      = Column(String(8), nullable=False) #submitted?, qualified, locked, obsolete # §4.8 §5.2
-    election    = Column(Integer, nullable=False, default=0) # 0=no election, otherwise nr of positions, §5d.4+5
-         # §3.8, one proposition is for qualification of election itself
-    type        = Column(String(8), nullable=False) #online, urn, assembly, board
+    status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
+    election = Column(Integer, nullable=False, default=0)  # 0=no election, otherwise nr of positions, §5d.4+5
+    # §3.8, one proposition is for qualification of election itself
+    type = Column(String(8), nullable=False)  # online, urn, assembly, board
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship("PropositionType", back_populates="ballots")
 
-    area_id     = Column(Integer, ForeignKey('subjectareas.id'))
-    area        = relationship("SubjectArea", back_populates="ballots") # contains department
+    area_id = Column(Integer, ForeignKey('subjectareas.id'))
+    area = relationship("SubjectArea", back_populates="ballots")  # contains department
 
     # optional, if assigned, set proposition to planned
-    voting_id   = Column(Integer, ForeignKey('votingphases.id'))
-    voting      = relationship("VotingPhase", back_populates="ballots")
+    voting_id = Column(Integer, ForeignKey('votingphases.id'))
+    voting = relationship("VotingPhase", back_populates="ballots")
 
-    secret_voters = association_proxy('ballot_members', 'member') # <-SecretVoter-> User
+    secret_voters = association_proxy('ballot_members', 'member')  # <-SecretVoter-> User
 
     propositions = relationship("Proposition", back_populates="ballot")
     #<-result   VotingResult # optional
-    result      = relationship("VotingResult", uselist=False, back_populates="ballot")
+    result = relationship("VotingResult", uselist=False, back_populates="ballot")
     #<-  propositions Proposition[]
     # requirements for assignment:
     #  deadline for first and conflicting proposition before target date §4.2
     #  later conflicting proposition are assigned to a new independent ballot
 
-class SecretVoter(Base): # §3.7, §4.4
-    __tablename__ = 'secretvoters'
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_ballots", cascade="all, delete-orphan"))
-    ballot_id   = Column(Integer, ForeignKey('ballots.id'), primary_key=True)
-    ballot      = relationship("Ballot", backref=backref("ballot_members", cascade="all, delete-orphan"))
 
-    status      = Column(String(10), nullable=False) # active,expired,retracted
-    last_change = Column(Date, nullable=False) # time of requested/retracted
+class SecretVoter(Base):  # §3.7, §4.4
+    __tablename__ = 'secretvoters'
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_ballots", cascade="all, delete-orphan"))
+    ballot_id = Column(Integer, ForeignKey('ballots.id'), primary_key=True)
+    ballot = relationship("Ballot", backref=backref("ballot_members", cascade="all, delete-orphan"))
+
+    status = Column(String(10), nullable=False)  # active,expired,retracted
+    last_change = Column(Date, nullable=False)  # time of requested/retracted
   # can only be requested before deadline before voting starts §4.4
   # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
   #  calculate quorum, if supporters >= quorum, set ballot to secret
 
-class VotingPhase(Base): # Abstimmungsperiode
+
+class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    target      = Column(Date, nullable=False) # constrained by §4.1
-    secret      = Column(Boolean, nullable=False, default=False) # whether any secret votes will take place (decision deadline §4.2)
-    ballots     = relationship("Ballot", back_populates="voting")
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    target = Column(Date, nullable=False)  # constrained by §4.1
+    secret = Column(Boolean, nullable=False, default=False)  # whether any secret votes will take place (decision deadline §4.2)
+    ballots = relationship("Ballot", back_populates="voting")
     #<- urns    Urn[]
-    urns        = relationship("Urn", back_populates="voting")
-    postal_votes = association_proxy('voting_postal', 'member') # <-PostalVote-> User
+    urns = relationship("Urn", back_populates="voting")
+    postal_votes = association_proxy('voting_postal', 'member')  # <-PostalVote-> User
  # send announcement before deadline §4.1
  # send voting invitation before deadline §4.3
  # deadline for vote registration before voting starts $5.6
  # shall not assign more than recommended votings per period §5.2
  # ask submitters for veto for move to other phase §5.3
 
-class VotingResult(Base): # §4.6, move to ballot?
+
+class VotingResult(Base):  # §4.6, move to ballot?
     __tablename__ = 'votingresults'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    data        = Column(Text) # JSON or ID share reference or compressed result?
-    ballot_id   = Column(Integer, ForeignKey('ballots.id'))
-    ballot      = relationship("Ballot", back_populates="result")
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    data = Column(Text)  # JSON or ID share reference or compressed result?
+    ballot_id = Column(Integer, ForeignKey('ballots.id'))
+    ballot = relationship("Ballot", back_populates="result")
+
 
 class Proposition(Base):
     __tablename__ = 'propositions'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    title       = Column(Text, nullable=False)
-    content     = Column(Text, nullable=False) # modifies: generate diff to original dynamically
-    motivation  = Column(Text, nullable=False, default="")
-    submitted   = Column(Date) # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
-    qualified   = Column(Date) # optional, when qualified
-    status      = Column(String(10), nullable=False, default="draft") #draft, submitted, changing, abandoned, qualified, planned, voting, finished
-    ballot_id   = Column(Integer, ForeignKey('ballots.id'))
-    ballot      = relationship("Ballot", uselist=False, back_populates="propositions") # contains area (department), propositiontype
-    supporters  = association_proxy('member_propositions', 'member') # <-Supporter-> User
-      # in state draft only submitters may become supporters §3.3
-    tags        = association_proxy('proposition_tags', 'tag') # <-PropositionTag-> Tag
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    title = Column(Text, nullable=False)
+    content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
+    motivation = Column(Text, nullable=False, default="")
+    submitted = Column(Date)  # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
+    qualified = Column(Date)  # optional, when qualified
+    # draft, submitted, changing, abandoned, qualified, planned, voting, finished
+    status = Column(String(10), nullable=False, default="draft")
+    ballot_id = Column(Integer, ForeignKey('ballots.id'))
+    ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
+    supporters = association_proxy('member_propositions', 'member')  # <-Supporter-> User
+    # in state draft only submitters may become supporters §3.3
+    tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
 
-    modifies_id = Column(Integer, ForeignKey('propositions.id')) # optional, only one level allowed
-    derivations  = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]) )
+    modifies_id = Column(Integer, ForeignKey('propositions.id'))  # optional, only one level allowed
+    derivations = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]))
 
-    replaces_id = Column(Integer, ForeignKey('propositions.id')) # optional
-    replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]) )
+    replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
+    replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
 
     discussion_url = Column(Text)
 
@@ -316,88 +332,95 @@ class Proposition(Base):
    elections: first normal proposition for election itself, then candidates in ballot §3.9
     """
 
+
 class PropositionTag(Base):
     __tablename__ = 'propositiontags'
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("proposition_tags", cascade="all, delete-orphan"))
-    tag_id      = Column(Integer, ForeignKey('tags.id'), primary_key=True)
-    tag         = relationship("Tag", backref=backref("tag_propositions", cascade="all, delete-orphan"))
+    tag_id = Column(Integer, ForeignKey('tags.id'), primary_key=True)
+    tag = relationship("Tag", backref=backref("tag_propositions", cascade="all, delete-orphan"))
 
     def __init__(self, tag=None, proposition=None):
         self.tag = tag
         self.proposition = proposition
 
 
-class Supporter(Base): # §3.5
+class Supporter(Base):  # §3.5
     __tablename__ = 'supporters'
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("proposition_members", cascade="all, delete-orphan"))
-    submitter   = Column(Boolean, nullable=False, default=False) # submitter or regular
-    status      = Column(String(10), nullable=False, default="active") # active,expired,retracted
-    last_change = Column(Date, nullable=False, server_default="NOW()") # time of submitted/supported/retracted
+    submitter = Column(Boolean, nullable=False, default=False)  # submitter or regular
+    status = Column(String(10), nullable=False, default="active")  # active,expired,retracted
+    last_change = Column(Date, nullable=False, server_default="NOW()")  # time of submitted/supported/retracted
+
 
 class Argument(Base):
     __tablename__ = 'arguments'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    title       = Column(Text, nullable=False)
-    abstract    = Column(Text, nullable=False)
-    details     = Column(Text)
-    author_id   = Column(Integer, ForeignKey('users.id'))
-    author      = relationship("User", backref=backref("member_arguments", cascade="all, delete-orphan"))
-    created_at  = Column(DateTime, nullable=False, server_default="NOW()")
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    title = Column(Text, nullable=False)
+    abstract = Column(Text, nullable=False)
+    details = Column(Text)
+    author_id = Column(Integer, ForeignKey('users.id'))
+    author = relationship("User", backref=backref("member_arguments", cascade="all, delete-orphan"))
+    created_at = Column(DateTime, nullable=False, server_default="NOW()")
+
 
 class ArgumentRelation(Base):
     __tablename__ = 'argumentrelations'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    parent_id   = Column(Integer, ForeignKey('argumentrelations.id')) # optional for inter-arguments
-    children    = relationship("ArgumentRelation", backref=backref('parent', remote_side=[id]) )
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    parent_id = Column(Integer, ForeignKey('argumentrelations.id'))  # optional for inter-arguments
+    children = relationship("ArgumentRelation", backref=backref('parent', remote_side=[id]))
 
     argument_id = Column(Integer, ForeignKey('arguments.id'))
-    argument    = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
-    proposition_id = Column(Integer, ForeignKey('propositions.id')) # also show parent proposition arguments if still valid?
+    argument = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
+    proposition_id = Column(Integer, ForeignKey('propositions.id'))  # also show parent proposition arguments if still valid?
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
-    argument_type = Column(String(8), nullable=False) # pro/extends,contra/refutes,question,answer
-     # if not extendedDiscussion: only pro/contra/refutes
+    argument_type = Column(String(8), nullable=False)  # pro/extends,contra/refutes,question,answer
+    # if not extendedDiscussion: only pro/contra/refutes
+
 
 class ArgumentVote(Base):
     __tablename__ = 'argumentvotes'
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_argumentvotes", cascade="all, delete-orphan"))
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_argumentvotes", cascade="all, delete-orphan"))
     relation_id = Column(Integer, ForeignKey('argumentrelations.id'), primary_key=True)
-    relation    = relationship("ArgumentRelation", backref=backref("relation_voters", cascade="all, delete-orphan"))
-    weight     = Column(Integer,nullable=False) # if extendedDiscussion: --,-,0,+,++ , otherwise -1 and +1
+    relation = relationship("ArgumentRelation", backref=backref("relation_voters", cascade="all, delete-orphan"))
+    weight = Column(Integer, nullable=False)  # if extendedDiscussion: --,-,0,+,++ , otherwise -1 and +1
 
-class PostalVote(Base): # §5.4
+
+class PostalVote(Base):  # §5.4
     __tablename__ = 'postalvotes'
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_postal", cascade="all, delete-orphan"))
-    voting_id   = Column(Integer, ForeignKey('votingphases.id'), primary_key=True) # option, empty=permanent
-    voting      = relationship("VotingPhase", backref=backref("voting_postal", cascade="all, delete-orphan"))
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_postal", cascade="all, delete-orphan"))
+    voting_id = Column(Integer, ForeignKey('votingphases.id'), primary_key=True)  # option, empty=permanent
+    voting = relationship("VotingPhase", backref=backref("voting_postal", cascade="all, delete-orphan"))
   # can only be requested before deadline before voting starts §5.4
   # deleted when member becomes inactive
   # must not be urn supporter
 
+
 class Urn(Base):
     __tablename__ = 'urns'
-    id          = Column(Integer, Sequence('id_seq',optional=True), primary_key=True)
-    voting_id   = Column(Integer, ForeignKey('votingphases.id'), nullable=False)
-    voting      = relationship("VotingPhase", back_populates="urns")
-    accepted    = Column(Boolean, nullable=False, default=False)
-    location    = Column(Text, nullable=False)
+    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    voting_id = Column(Integer, ForeignKey('votingphases.id'), nullable=False)
+    voting = relationship("VotingPhase", back_populates="urns")
+    accepted = Column(Boolean, nullable=False, default=False)
+    location = Column(Text, nullable=False)
     description = Column(Text)
-    opening     = Column(Time) # §5b.5
-    supporters  = association_proxy('urn_members', 'member') # <-UrnSupporter-> User
+    opening = Column(Time)  # §5b.5
+    supporters = association_proxy('urn_members', 'member')  # <-UrnSupporter-> User
   # see deadlines and requirements in config
 
-class UrnSupporter(Base): # §5b.2
-    __tablename__ = 'urnsupporters'
-    member_id   = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member      = relationship("User", backref=backref("member_urns", cascade="all, delete-orphan"))
-    urn_id      = Column(Integer, ForeignKey('urns.id'), primary_key=True)
-    urn         = relationship("Urn", backref=backref("urn_members", cascade="all, delete-orphan"))
 
-    type        = Column(String(12), nullable=False) # responsible, request, voter # §5b.2+4
-    voted       = Column(Boolean, nullable=False, default=False) # §5b.6
+class UrnSupporter(Base):  # §5b.2
+    __tablename__ = 'urnsupporters'
+    member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_urns", cascade="all, delete-orphan"))
+    urn_id = Column(Integer, ForeignKey('urns.id'), primary_key=True)
+    urn = relationship("Urn", backref=backref("urn_members", cascade="all, delete-orphan"))
+
+    type = Column(String(12), nullable=False)  # responsible, request, voter # §5b.2+4
+    voted = Column(Boolean, nullable=False, default=False)  # §5b.6
   # urn merge if below min. no of voters §5b.6
