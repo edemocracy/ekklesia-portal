@@ -1,8 +1,11 @@
-from arguments import make_app
-app = make_app()
-from arguments import db
+from munch import Munch
+from arguments.app import make_wsgi_app
+app = make_wsgi_app("config.yml")
+from arguments import database
+from arguments.app import App
 from arguments.database.datamodel import *
-s = db.session
+
+s = database.Session()
 q = s.query
 
 ip = get_ipython()
