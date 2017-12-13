@@ -122,8 +122,12 @@ class JinjaCellContext(jinja2.runtime.Context):
         self._cell = parent.get('_cell')
 
     def resolve_or_missing(self, key):
-        if self._cell and key in self._cell:
-            return self._cell[key]
+        if self._cell is not None:
+            if key == "_request":
+                return self._cell._request
+
+            if key in self._cell:
+                return self._cell[key]
 
         return super().resolve_or_missing(key)
 
