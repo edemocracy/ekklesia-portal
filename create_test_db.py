@@ -1,4 +1,5 @@
 import logging
+from arguments.lib.password import password_context
 logging.basicConfig(level=logging.INFO)
 import transaction
 from arguments.app import make_wsgi_app
@@ -22,6 +23,7 @@ s = Session()
 ug1 = Group(name="Deppengruppe")
 
 u1 = User(name="testuser", usertype="system")
+u1.password = UserPassword(hashed_password=password_context.hash("test", scheme="plaintext"))
 u2 = User(name="egon", usertype="system")
 ug1.members.extend([u1, u2])
 

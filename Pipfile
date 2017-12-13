@@ -18,6 +18,7 @@ sqlalchemy-searchable = "*"
 munch = "*"
 attrs = "*"
 "zope.sqlalchemy" = "*"
+passlib = "*"
 
 
 [dev-packages]

@@ -69,6 +69,13 @@ class User(Base):
     postal_votes = association_proxy('member_postal', 'voting')  # <-PostalVote-> VotingPhase
 
 
+class UserPassword(Base):
+    __tablename__ = 'userpassword'
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    user = relationship("User", backref=backref("password", uselist=False))
+    hashed_password = Column(Text)
+
+
 class UserProfile(Base):
     __tablename__ = 'userprofiles'
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
