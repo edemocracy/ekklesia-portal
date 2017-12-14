@@ -1,0 +1,20 @@
+- if layout
+  - extends "layout.j2.jade"
+  
+  
+- block content
+
+  form(action="/login", method="POST")
+    p
+      label(for="username") Username
+      input(name="username" value=username)
+      
+    p
+      label(for="password") Password
+      input(name="password")
+      
+      
+    input(type="submit")
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
