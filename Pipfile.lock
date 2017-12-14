@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3dc6f7b4bea93222f6d1d144b4a2d87174fa327036ddc02fd5fb9741c23c0eae"
+            "sha256": "17a9ffa94b68086e9f5bf3531aa27638f69deaf59da79cfa63ebcda717ba34ce"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -56,6 +56,12 @@
             ],
             "version": "==0.1"
         },
+        "itsdangerous": {
+            "hashes": [
+                "sha256:cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519"
+            ],
+            "version": "==0.24"
+        },
         "jinja2": {
             "hashes": [
                 "sha256:74c935a1b8bb9a3947c50a54766a969d4846290e1e788ea44c1392163723c3bd",
@@ -68,6 +74,13 @@
                 "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"
             ],
             "version": "==1.0"
+        },
+        "more.itsdangerous": {
+            "hashes": [
+                "sha256:711867e2e480cce7c1cf8a4053a295a005f7c8ed6f58cf0957ed2caf3fbf28d1",
+                "sha256:c0352ec418cb5f356261d88c600c18f7d7627895d357fe2f933fe643e42ba0f2"
+            ],
+            "version": "==0.0.2"
         },
         "more.transaction": {
             "hashes": [
@@ -350,17 +363,11 @@
             "version": "==4.4.2"
         },
         "decorator": {
-            "hashes": [
-                "sha256:95a26b17806e284452bfd97fa20aa1e8cb4ee23542bda4dbac5e4562aa1642cd",
-                "sha256:7cb64d38cb8002971710c8899fbdfb859a23a364b7c99dab19d1f719c2ba16b5"
-            ],
+            "hashes": [],
             "version": "==4.1.2"
         },
         "dectate": {
-            "hashes": [
-                "sha256:bc3920b30e26d361cb119db9b081add0ffba7b5550b5b33221e805dd7433b49e",
-                "sha256:299a5d3d674d7cd095c8489331ecece22e5a567ee8a7636e8b57bbb220c568e4"
-            ],
+            "hashes": [],
             "version": "==0.13"
         },
         "e1839a8": {
@@ -401,10 +408,7 @@
             "version": "==0.8"
         },
         "morepath": {
-            "hashes": [
-                "sha256:94532e9a3fbd45fa119e43d7e21d3039ec9aec844d1b07c54d55f08c2dc3c33d",
-                "sha256:4b634b52ad79e30cc31d10a5433dffd6105b4f37b45ee25c222b3a4ee67b21d7"
-            ],
+            "hashes": [],
             "version": "==0.18.1"
         },
         "munch": {
@@ -488,9 +492,7 @@
             "version": "==3.3.1"
         },
         "pytest-localserver": {
-            "hashes": [
-                "sha256:a72af60a1ec8f73668a7884c86baf1fbe48394573cb4fa36709887217736c021"
-            ],
+            "hashes": [],
             "version": "==0.4.1"
         },
         "pytz": {

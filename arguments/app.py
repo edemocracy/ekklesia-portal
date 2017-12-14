@@ -2,6 +2,7 @@ import logging
 import os
 import jinja2
 from more.transaction import TransactionApp
+import more.itsdangerous
 from more.babel_i18n import BabelApp, BabelRequest
 from morepath.reify import reify
 from morepath.request import Request
@@ -37,6 +38,17 @@ class App(TransactionApp, BabelApp):
         super().__init__()
         template_loader = jinja2.PackageLoader("arguments")
         self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=self)
+
+
+@App.identity_policy()
+def get_identity_policy():
+    # XXX: secure=False only for testing
+    return more.itsdangerous.IdentityPolicy(secure=False)
+
+
+@App.verify_identity()
+def verify_identity(identity):
+    return True
 
 
 def get_app_settings(settings_filepath):

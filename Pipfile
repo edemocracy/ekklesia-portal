@@ -19,6 +19,7 @@ munch = "*"
 attrs = "*"
 "zope.sqlalchemy" = "*"
 passlib = "*"
+"more.itsdangerous" = "*"
 
 
 [dev-packages]
@@ -36,3 +37,4 @@ webtest = "*"
 [requires]
 
 python_version = "3.6"
+
