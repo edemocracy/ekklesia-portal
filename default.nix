@@ -19,7 +19,7 @@ let
 in python.mkDerivation rec {
   pname = pythonPackageName;
   name = "${pname}-${version}";
-  version = lib.removeSuffix "\n" ( builtins.readFile ( ./. + "/${pythonPackageName}/VERSION" ) );
+  version = lib.removeSuffix "\n" ( builtins.readFile ( ./. + "/src/${pythonPackageName}/VERSION" ) );
   inherit src;
   propagatedBuildInputs = deps;
   doCheck = false;

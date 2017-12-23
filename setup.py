@@ -1,12 +1,13 @@
 # see setup.cfg for metadata and options; only requirements are loaded here
 import os.path
+from setuptools import find_packages
 
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 
 def find_version():
-    with open(os.path.join(here, "arguments", "VERSION")) as version_file:
+    with open(os.path.join(here, "src", "arguments", "VERSION")) as version_file:
         return version_file.read().strip()
 
 
@@ -16,4 +17,10 @@ def read_install_requires():
 
 
 from setuptools import setup
-setup(install_requires=read_install_requires(), version=find_version())
+setup(install_requires=read_install_requires(),
+      version=find_version(),
+      packages=find_packages(where="src"),
+      package_dir={"": "src"},
+      include_package_data=True,
+      python_requires="~=3.6"
+)
