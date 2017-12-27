@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 
 def find_version():
-    with open(os.path.join(here, "src", "arguments", "VERSION")) as version_file:
+    with open(os.path.join(here, "src", "ekklesia_portal", "VERSION")) as version_file:
         return version_file.read().strip()
 
 

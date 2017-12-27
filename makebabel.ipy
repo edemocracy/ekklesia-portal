@@ -6,28 +6,27 @@ def main():
     cmd = argv[1]
 
     if cmd == "compile":
-        !pybabel compile -d arguments/translations
+        !pybabel compile -d ekklesia_portal/translations
         !date > .babelcompiled
     elif cmd == "init":
         lang = argv[2]
-        !pybabel init -i arguments/translations/messages.pot -d arguments/translations -l $lang
+        !pybabel init -i ekklesia_portal/translations/messages.pot -d ekklesia_portal/translations -l $lang
     elif cmd == "extract":
-        !pybabel extract -F babel.cfg -o arguments/translations/messages.pot .
+        !pybabel extract -F babel.cfg -o ekklesia_portal/translations/messages.pot .
     elif cmd == "extractupdate":
-        !pybabel extract -F babel.cfg -o arguments/translations/messages.pot .
-        !pybabel update -d arguments/translations -i arguments/translations/messages.pot 
+        !pybabel extract -F babel.cfg -o ekklesia_portal/translations/messages.pot .
+        !pybabel update -d ekklesia_portal/translations -i ekklesia_portal/translations/messages.pot
     elif cmd == "update":
-        !pybabel update -d arguments/translations -i arguments/translations/messages.pot 
+        !pybabel update -d ekklesia_portal/translations -i ekklesia_portal/translations/messages.pot
     else:
         raise Exception("!? unknown command")
 
 
 if len(argv) == 1:
-    print("usage:") 
-    print("\tmakebabel.ipy init LOCALE") 
-    print("\tmakebabel.ipy compile") 
-    print("\tmakebabel.ipy extractupdate") 
-    print("\tmakebabel.ipy update") 
+    print("usage:")
+    print("\tmakebabel.ipy init LOCALE")
+    print("\tmakebabel.ipy compile")
+    print("\tmakebabel.ipy extractupdate")
+    print("\tmakebabel.ipy update")
 else:
     main()
-

@@ -6,11 +6,11 @@
 *.pot
 *.mo
 .babelcompiled
-arguments.egg-info/
+src/ekklesia_portal.egg-info/
 .cache/
 .eggs/
-arguments/config.py
-arguments/static/css/arguments.css
+src/ekklesia/config.py
+src/ekklesia/static/css/portal.css
 requirements/pypi2nix_source_deps
 requirements/pypi2nix_source_deps_with_hash
 requirements/requirements_frozen.txt

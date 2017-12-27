@@ -2,8 +2,8 @@
 let
   inherit (pkgs) lib pythonPackages;
 
-  pythonPackageName = "arguments";
-  
+  pythonPackageName = "ekklesia_portal";
+
   basename = path: with pkgs.lib; with builtins; last (splitString "/" path);
   src-filter = path: type: with pkgs.lib;
     let

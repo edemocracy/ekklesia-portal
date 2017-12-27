@@ -1,6 +1,0 @@
-test_section:
-    test_setting: test
-app:
-    instance_name: test
-database:
-    uri: "postgresql+psycopg2://arguments:a@127.0.0.1/arguments_new"
