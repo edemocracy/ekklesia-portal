@@ -1,7 +1,6 @@
 import morepath
 import werkzeug.serving
 import werkzeug.wsgi
-from ekklesia_portal.app import App, make_wsgi_app
 
 import argparse
 import datetime
@@ -68,6 +67,7 @@ def stackdump_setup():
 
 
 def run():
+    from ekklesia_portal.app import make_wsgi_app
     args = parser.parse_args()
     print("cmdline args:", args)
     wsgi_app = make_wsgi_app(args.config_file)
