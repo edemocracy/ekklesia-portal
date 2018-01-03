@@ -67,7 +67,7 @@ def get_app_settings(settings_filepath):
             else:
                 settings[section_name] = section
     else:
-        logg.warn("config file path %s doesn't exist!")
+        logg.warn("config file path %s doesn't exist!", settings_filepath)
 
     return settings
 
