@@ -20,6 +20,7 @@ attrs = "*"
 "zope.sqlalchemy" = "*"
 passlib = "*"
 "more.itsdangerous" = "*"
+requests-oauthlib = "*"
 
 
 [dev-packages]
@@ -32,9 +33,9 @@ pytest-localserver = "*"
 requests = "*"
 webtest = "*"
 "7e87fbd" = {path = "../more.babel_i18n", editable = true}
+responses = "*"
 
 
 [requires]
 
 python_version = "3.6"
-
