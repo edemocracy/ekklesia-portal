@@ -75,111 +75,6 @@ let
 
   generated = self: {
 
-    "Jinja2" = python.mkDerivation {
-      name = "Jinja2-2.10";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/56/e6/332789f295cf22308386cf5bbd1f4e00ed11484299c5d7383378cf48ba47/Jinja2-2.10.tar.gz"; sha256 = "f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."MarkupSafe"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://jinja.pocoo.org/";
-        license = licenses.bsdOriginal;
-        description = "A small but fast and easy to use stand-alone template engine written in pure python.";
-      };
-    };
-
-
-
-    "MarkupSafe" = python.mkDerivation {
-      name = "MarkupSafe-1.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz"; sha256 = "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/pallets/markupsafe";
-        license = licenses.bsdOriginal;
-        description = "Implements a XML/HTML/XHTML Markup safe string for Python";
-      };
-    };
-
-
-
-    "PyYAML" = python.mkDerivation {
-      name = "PyYAML-3.12";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4a/85/db5a2df477072b2902b0eb892feb37d88ac635d36245a72a6a69b23b383a/PyYAML-3.12.tar.gz"; sha256 = "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://pyyaml.org/wiki/PyYAML";
-        license = licenses.mit;
-        description = "YAML parser and emitter for Python";
-      };
-    };
-
-
-
-    "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.1.15";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c2/f6/11fcc1ce19a7cb81b1c9377f4e27ce3813265611922e355905e57c44d164/SQLAlchemy-1.1.15.tar.gz"; sha256 = "8b79a5ed91cdcb5abe97b0045664c55c140aec09e5dd5c01303e23de5fe7a95a"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."psycopg2"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://www.sqlalchemy.org";
-        license = licenses.mit;
-        description = "Database Abstraction Library";
-      };
-    };
-
-
-
-    "SQLAlchemy-Searchable" = python.mkDerivation {
-      name = "SQLAlchemy-Searchable-0.10.6";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/77/7c/e767325f3a666095fda7f97cd611c6ab47b27d23c9db8bf3b755f0d2e8a3/SQLAlchemy-Searchable-0.10.6.tar.gz"; sha256 = "84f0bff434a17d64e8f7f394065b21855bd3c8a3ede770a25c84127e5d0f95f7"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."SQLAlchemy"
-      self."SQLAlchemy-Utils"
-      self."psycopg2"
-      self."pyparsing"
-      self."validators"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/kvesteri/sqlalchemy-searchable";
-        license = licenses.bsdOriginal;
-        description = "Provides fulltext search capabilities for declarative SQLAlchemy models.";
-      };
-    };
-
-
-
-    "SQLAlchemy-Utils" = python.mkDerivation {
-      name = "SQLAlchemy-Utils-0.32.21";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/6b/8c/bf6539a85705e845e9f83908cc290dd34c352d90d9a86134124bd4b64acd/SQLAlchemy-Utils-0.32.21.tar.gz"; sha256 = "e35431b0e57c4f7030ff598c23813c8b7b04b508ce10e8e9ebe448645b38d6d7"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."Jinja2"
-      self."SQLAlchemy"
-      self."psycopg2"
-      self."six"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/kvesteri/sqlalchemy-utils";
-        license = licenses.bsdOriginal;
-        description = "Various utility functions for SQLAlchemy.";
-      };
-    };
-
-
-
     "WebOb" = python.mkDerivation {
       name = "WebOb-1.7.4";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/75/34/731e23f52371852dfe7490a61644826ba7fe70fd52a377aaca0f4956ba7f/WebOb-1.7.4.tar.gz"; sha256 = "8d10af182fda4b92193113ee1edeb687ab9dc44336b37d6804e413f0240d40d9"; };
@@ -195,31 +90,31 @@ let
 
 
 
-    "attrs" = python.mkDerivation {
-      name = "attrs-17.3.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/a4/d0db68156abbdee228ce69a786ecb512da40b36b1289aadb9e3f9fd45121/attrs-17.3.0.tar.gz"; sha256 = "c78f53e32d7cf36d8597c8a2c7e3c0ad210f97b9509e152e4c37fa80869f823c"; };
+    "certifi" = python.mkDerivation {
+      name = "certifi-2017.11.5";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/3f/8be01c50ed24a4bd6b8da799839066ce0288f66f5e11f0367323467f0cbc/certifi-2017.11.5.tar.gz"; sha256 = "5ec74291ca1136b40f0379e1128ff80e866597e4e2c1e755739a913bbc3613c0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://www.attrs.org/";
-        license = licenses.mit;
-        description = "Classes Without Boilerplate";
+        homepage = "http://certifi.io/";
+        license = licenses.mpl20;
+        description = "Python package for providing Mozilla's CA Bundle.";
       };
     };
 
 
 
-    "decorator" = python.mkDerivation {
-      name = "decorator-4.1.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/bb/e0/f6e41e9091e130bf16d4437dabbac3993908e4d6485ecbc985ef1352db94/decorator-4.1.2.tar.gz"; sha256 = "7cb64d38cb8002971710c8899fbdfb859a23a364b7c99dab19d1f719c2ba16b5"; };
+    "chardet" = python.mkDerivation {
+      name = "chardet-3.0.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fc/bb/a5768c230f9ddb03acc9ef3f0d4a3cf93462473795d18e9535498c8f929d/chardet-3.0.4.tar.gz"; sha256 = "84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/micheles/decorator";
-        license = licenses.bsdOriginal;
-        description = "Better living through Python with decorators";
+        homepage = "https://github.com/chardet/chardet";
+        license = licenses.lgpl2;
+        description = "Universal encoding detector for Python 2 and 3";
       };
     };
 
@@ -240,6 +135,21 @@ let
 
 
 
+    "idna" = python.mkDerivation {
+      name = "idna-2.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/f4/bd/0467d62790828c23c47fc1dfa1b1f052b24efdf5290f071c7a91d0d82fd3/idna-2.6.tar.gz"; sha256 = "2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/kjd/idna";
+        license = licenses.bsdOriginal;
+        description = "Internationalized Domain Names in Applications (IDNA)";
+      };
+    };
+
+
+
     "importscan" = python.mkDerivation {
       name = "importscan-0.1";
       src = pkgs.fetchurl { url = "https://pypi.python.org/packages/2d/e1/01431f1afc930befc4a1e32b39e5227124ebcd5ee165683b0d8e80fdb45f/importscan-0.1.tar.gz"; sha256 = "5c003afe8d7f48d684bc9f66e8109952234812b225be324ce572ce4278b18f10"; };
@@ -255,19 +165,34 @@ let
 
 
 
-    "more.transaction" = python.mkDerivation {
-      name = "more.transaction-0.8";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/e9/32/4584350d0fbeb8e5ee9ff050872027b6ff6829bc37884864ecd40e8bc1ba/more.transaction-0.8.tar.gz"; sha256 = "ba8db43731973c1e432a9213e4ab2390eccfa260d1e142071907d4c2980b440c"; };
+    "itsdangerous" = python.mkDerivation {
+      name = "itsdangerous-0.24";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/dc/b4/a60bcdba945c00f6d608d8975131ab3f25b22f2bcfe1dab221165194b2d4/itsdangerous-0.24.tar.gz"; sha256 = "cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/mitsuhiko/itsdangerous";
+        license = licenses.bsdOriginal;
+        description = "Various helpers to pass trusted data to untrusted environments and back.";
+      };
+    };
+
+
+
+    "more.itsdangerous" = python.mkDerivation {
+      name = "more.itsdangerous-0.0.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/56/22/a423e8d148b628cf62f8bc8ec63ffdbda62258783e68c743c987321e68f0/more.itsdangerous-0.0.2.tar.gz"; sha256 = "c0352ec418cb5f356261d88c600c18f7d7627895d357fe2f933fe643e42ba0f2"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."itsdangerous"
       self."morepath"
-      self."transaction"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/morepath/more.transaction";
+        homepage = "http://github.com/morepath/more.itsdangerous";
         license = licenses.bsdOriginal;
-        description = "transaction integration for Morepath";
+        description = "An identity policy for morepath using itsdangerous.";
       };
     };
 
@@ -279,7 +204,6 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."PyYAML"
       self."WebOb"
       self."dectate"
       self."importscan"
@@ -294,65 +218,31 @@ let
 
 
 
-    "munch" = python.mkDerivation {
-      name = "munch-2.2.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/92/58/c17cf679a2b9b65541cc71ba13a950289b7d34dd0967e34b8816a4d87044/munch-2.2.0.tar.gz"; sha256 = "62fb4fb318e965a464b088e6af52a63e0905a50500b770596a939d3855e7aa15"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."six"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/Infinidat/munch";
-        license = licenses.mit;
-        description = "A dot-accessible dictionary (a la JavaScript objects).";
-      };
-    };
-
-
-
-    "psycopg2" = python.mkDerivation {
-      name = "psycopg2-2.7.3.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/dd/47/000b405d73ca22980684fd7bd3318690cc03cfa3b2ae1c5b7fff8050b28a/psycopg2-2.7.3.2.tar.gz"; sha256 = "5c3213be557d0468f9df8fe2487eaf2990d9799202c5ff5cb8d394d09fad9b2a"; };
+    "oauthlib" = python.mkDerivation {
+      name = "oauthlib-2.0.6";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a5/8a/212e9b47fb54be109f3ff0684165bb38c51117f34e175c379fce5c7df754/oauthlib-2.0.6.tar.gz"; sha256 = "ce57b501e906ff4f614e71c36a3ab9eacbb96d35c24d1970d2539bbc3ec70ce1"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://initd.org/psycopg/";
-        license = licenses.lgpl2;
-        description = "psycopg2 - Python-PostgreSQL Database Adapter";
+        homepage = "https://github.com/idan/oauthlib";
+        license = licenses.bsdOriginal;
+        description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic";
       };
     };
 
 
 
-    "pyjade" = python.mkDerivation {
-      name = "pyjade-4.0.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4a/04/396ec24e806fd3af7ea5d0f3cb6c7bbd4d00f7064712e4dd48f24c02ca95/pyjade-4.0.0.tar.gz"; sha256 = "8d95b741de09c4942259fc3d1ad7b4f48166e69cef6f11c172e4b2c458b1ccd7"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."six"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/syrusakbary/pyjade";
-        license = licenses.mit;
-        description = "Jade syntax template adapter for Django, Jinja2, Mako and Tornado templates";
-      };
-    };
-
-
-
-    "pyparsing" = python.mkDerivation {
-      name = "pyparsing-2.2.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3c/ec/a94f8cf7274ea60b5413df054f82a8980523efd712ec55a59e7c3357cf7c/pyparsing-2.2.0.tar.gz"; sha256 = "0832bcf47acd283788593e7a0f542407bd9550a55a8a8435214a1960e04bcb04"; };
+    "passlib" = python.mkDerivation {
+      name = "passlib-1.7.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/25/4b/6fbfc66aabb3017cd8c3bd97b37f769d7503ead2899bf76e570eb91270de/passlib-1.7.1.tar.gz"; sha256 = "3d948f64138c25633613f303bcc471126eae67c04d5e3f6b7b8ce6242f8653e0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://pyparsing.wikispaces.com/";
-        license = licenses.mit;
-        description = "Python parsing module";
+        homepage = "https://bitbucket.org/ecollins/passlib";
+        license = licenses.bsdOriginal;
+        description = "comprehensive password hashing framework supporting over 30 schemes";
       };
     };
 
@@ -390,85 +280,57 @@ let
 
 
 
-    "six" = python.mkDerivation {
-      name = "six-1.11.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/16/d8/bc6316cf98419719bd59c91742194c111b6f2e85abac88e496adefaf7afe/six-1.11.0.tar.gz"; sha256 = "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"; };
+    "requests" = python.mkDerivation {
+      name = "requests-2.18.4";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b0/e1/eab4fc3752e3d240468a8c0b284607899d2fbfb236a56b7377a329aa8d09/requests-2.18.4.tar.gz"; sha256 = "9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
+      propagatedBuildInputs = [
+      self."certifi"
+      self."chardet"
+      self."idna"
+      self."urllib3"
+    ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://pypi.python.org/pypi/six/";
-        license = licenses.mit;
-        description = "Python 2 and 3 compatibility utilities";
+        homepage = "http://python-requests.org";
+        license = licenses.asl20;
+        description = "Python HTTP for Humans.";
       };
     };
 
 
 
-    "transaction" = python.mkDerivation {
-      name = "transaction-2.1.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/27/c5/27f1953db67de21832fd977684e639e41c7738dc449886419bb2aa235094/transaction-2.1.2.tar.gz"; sha256 = "b9bc365e7dba3877e0f6fdee32aa029b8c0c1eb4fe227f524bffd5fc46064bd5"; };
+    "requests-oauthlib" = python.mkDerivation {
+      name = "requests-oauthlib-0.8.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/80/14/ad120c720f86c547ba8988010d5186102030591f71f7099f23921ca47fe5/requests-oauthlib-0.8.0.tar.gz"; sha256 = "883ac416757eada6d3d07054ec7092ac21c7f35cb1d2cf82faf205637081f468"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."zope.interface"
+      self."oauthlib"
+      self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/zopefoundation/transaction";
-        license = licenses.zpl21;
-        description = "Transaction management for Python";
-      };
-    };
-
-
-
-    "validators" = python.mkDerivation {
-      name = "validators-0.12.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/8f/b5/9c9bf9cc9b50acea54a175eee97b0092f7676dbd6a17e00591588640acc3/validators-0.12.0.tar.gz"; sha256 = "bf1aa66554df0a7907f0e78b6d356e2ce30d6f2e73fefd1f3b14d20114341066"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [
-      self."decorator"
-      self."six"
-    ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/kvesteri/validators";
+        homepage = "https://github.com/requests/requests-oauthlib";
         license = licenses.bsdOriginal;
-        description = "Python Data Validation for Humans™.";
+        description = "OAuthlib authentication support for Requests.";
       };
     };
 
 
 
-    "zope.interface" = python.mkDerivation {
-      name = "zope.interface-4.4.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/bd/d2/25349ed41f9dcff7b3baf87bd88a4c82396cf6e02f1f42bb68657a3132af/zope.interface-4.4.3.tar.gz"; sha256 = "d6d26d5dfbfd60c65152938fcb82f949e8dada37c041f72916fef6621ba5c5ce"; };
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs;
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/zopefoundation/zope.interface";
-        license = licenses.zpl21;
-        description = "Interfaces for Python";
-      };
-    };
-
-
-
-    "zope.sqlalchemy" = python.mkDerivation {
-      name = "zope.sqlalchemy-0.7.7";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/14/95/47ef5f5fbf5f18dc95d6d39b7dbd690818b541afa724d14ed176e415b134/zope.sqlalchemy-0.7.7.tar.gz"; sha256 = "5da8ff6b060f3a47fc0cbc61cfd6a83b959b5e730f95e492edcf7b9bf3ec987a"; };
+    "urllib3" = python.mkDerivation {
+      name = "urllib3-1.22";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/ee/11/7c59620aceedcc1ef65e156cc5ce5a24ef87be4107c2b74458464e437a5d/urllib3-1.22.tar.gz"; sha256 = "cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
-      self."SQLAlchemy"
-      self."transaction"
-      self."zope.interface"
+      self."certifi"
+      self."idna"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://pypi.python.org/pypi/zope.sqlalchemy";
-        license = licenses.zpl21;
-        description = "Minimal Zope/SQLAlchemy transaction integration";
+        homepage = "https://urllib3.readthedocs.io/";
+        license = licenses.mit;
+        description = "HTTP library with thread-safe connection pooling, file post, and more.";
       };
     };
 
