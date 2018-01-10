@@ -1,38 +1,24 @@
 import logging
 import os
+
 import jinja2
-from more.transaction import TransactionApp
-import more.itsdangerous
-from more.babel_i18n import BabelApp, BabelRequest
-from morepath.reify import reify
-from morepath.request import Request
 import morepath
+from more.babel_i18n import BabelApp
+import more.itsdangerous
+from more.transaction import TransactionApp
 import yaml
 
-from ekklesia_portal.helper.templating import make_jinja_env
 from ekklesia_portal import database
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
+from ekklesia_portal.helper.templating import make_jinja_env
+from ekklesia_portal.request import EkklesiaPortalRequest
 
 
 logg = logging.getLogger(__name__)
 
 
-class CustomRequest(BabelRequest):
-
-    @reify
-    def db_session(self):
-        return database.Session()
-
-    def q(self, *args, **kwargs):
-        return self.db_session.query(*args, **kwargs)
-
-    def render_template(self, template, **context):
-        template = self.app.jinja_env.get_template(template)
-        return template.render(**context)
-
-
 class App(TransactionApp, BabelApp):
-    request_class = CustomRequest
+    request_class = EkklesiaPortalRequest
 
     def __init__(self):
         super().__init__()
