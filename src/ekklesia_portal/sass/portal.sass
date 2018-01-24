@@ -21,12 +21,12 @@ a.btn
   @extend .btn
   @extend .btn-secondary
   width: 3rem
-  @extend .m-x-auto
+  @extend .mx-auto
   @extend .d-block
 
 .argument
   @extend .card
-  @extend .card-block
+  @extend .card-body
   padding: 1rem
 
 .con .authoring_info
@@ -36,7 +36,7 @@ a.btn
   @extend .argument_sidebar
 
 .con .argument_counter_arguments
-  @extend .push-sm-10
+  @extend .offset-sm-10
 
 .argument_sidebar
   @extend .col-sm-2
@@ -48,23 +48,23 @@ a.btn
   @extend .text-sm-center
 
 .con .argument_score
-  @extend .push-sm-6
+  @extend .offset-sm-6
 
 .argument_vote_btns
   @extend .col-sm-6
 
 .con .argument_vote_btns
-  @extend .pull-sm-6
+  @extend .offset-sm-6
 
 .argument_voting
   @extend .argument_sidebar
 
 .con .argument_voting
-  @extend .pull-sm-10
+  @extend .offset-sm-10
 
 .associated_proposition
   @extend .card
-  @extend .card-block
+  @extend .card-body
 
 .associated_proposition_title
   @extend .card-title
@@ -119,7 +119,7 @@ a.btn
 
 .proposition
   @extend .card
-  @extend .card-block
+  @extend .card-body
   padding: 1rem
 
 .proposition_info_number
@@ -168,11 +168,11 @@ a.btn
   @extend .card-text
 
 hr.argument_separator
-  border-top: 2px solid $gray-light
+  border-top: 2px solid $light
 
 span.tag_text
-  @extend .tag
-  @extend .tag-default
+  @extend .badge
+  @extend .badge-secondary
   margin-left: 0.5rem
 
 .top_navbar
@@ -182,12 +182,12 @@ span.tag_text
 
 .top_search
   @extend .form-inline
-  @extend .pull-xs-right
+  @extend .order-2
   margin-bottom: 0
 
 .top_usercontrols
   @extend .nav
-  @extend .pull-right
+  @extend .order-2
 
 h1>a,h2>a,h3>a,h4>a,h5>a
   color: darkblue
