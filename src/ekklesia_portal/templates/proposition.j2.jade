@@ -15,29 +15,29 @@
   upvoted = vote != None
 
   div
-    if user.is_authenticated
+    if not user.is_authenticated
       button.btn.btn-primary(hidden=upvoted
           data-action="proposition_vote"
           data-proposition-id=id)
-          i.fa.fa-thumbs-up &nbsp;
+          i.far.fa-thumbs-up &nbsp;
           | Unterstützen
 
       button.btn.btn-secondary(hidden=(not upvoted)
           data-action="proposition_revoke_vote"
           data-proposition-id=id)
-          i.fa.fa-remove &nbsp;
+          i.far.fa-remove &nbsp;
           | Unterstützung zurückziehen
 
       button.btn.btn-danger-outline
-        i.fa.fa-thumbs-down &nbsp;
+        i.far.fa-thumbs-down &nbsp;
         | Melden
 
     button.btn.btn-secondary
-      i.fa.fa-share &nbsp;
+      i.far.fa-share-square &nbsp;
       | Teilen
 
     a.btn.btn-secondary(href="#bottom")
-      i.fa.fa-comments &nbsp;
+      i.far.fa-comments &nbsp;
       = goto_label
 
       
@@ -55,7 +55,7 @@
             small.author=_("authored_at", dt=created_at)
 
           .points
-            i.fa.fa-thumbs-up &nbsp;
+            i.far.fa-thumbs-up &nbsp;
             strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
             span= ngettext("supporter", "supporters", supporter_count)
@@ -83,13 +83,13 @@
             small.author=_("authored_at", dt=created_at|datetimeformat)
 
           .points
-            i.fa.fa-thumbs-up &nbsp;
+            i.far.fa-thumbs-up &nbsp;
             strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
             span= ngettext("supporter", "supporters", supporter_count)
 
           .argument_count
-            i.fa.fa-comments &nbsp;
+            i.far.fa-comments &nbsp;
             strong.proposition_info_number= argument_count
             | &nbsp;
             span= ngettext("argument", "arguments", argument_count)
@@ -121,7 +121,7 @@
 
           a(href=new_argument_url("pro")) 
             .button_add_related
-              i.fa.fa-thumbs-o-up &nbsp;
+              i.far.fa-thumbs-up &nbsp;
               = _("add_pro_argument")
 
         .proposition_col.con
@@ -129,7 +129,7 @@
 
           a(href=new_argument_url("con")) 
             .button_add_related
-              i.fa.fa-thumbs-o-down &nbsp;
+              i.far.fa-thumbs-down &nbsp;
               = _("add_con_argument")
 
 - block script

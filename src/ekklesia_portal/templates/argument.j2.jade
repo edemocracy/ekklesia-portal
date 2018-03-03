@@ -30,7 +30,7 @@
           if details
             a.read_more(href=self_link) &nbsp;&nbsp;&gt;&gt;&gt;
 
-      if options.show_voting
+      if not options.show_voting
         .argument_voting
           vote = user_vote(user) if current_user.is_authenticated else None
           upvoted = vote.is_upvote if vote else False
@@ -44,19 +44,19 @@
               data-action="argument_vote_up",
               data-argument-id=id,
               data-revoke=upvoted|tojson)
-                i.fa.fa-arrow-up
+                i.fas.fa-arrow-up
 
             button.argument_vote_btn(class=("active" if not (downvoted or upvoted) else ""),
               data-action="argument_revoke",
               data-argument-id=id,
               data-revoke=true)
-                i.fa.fa-circle-o
+                i.far.fa-circle
 
             button.argument_vote_btn(class=("active" if downvoted else ""),
               data-action="argument_vote_dn",
               data-argument-id=id,
               data-revoke=downvoted|tojson)
-                i.fa.fa-arrow-down
+                i.fas.fa-arrow-down
 
     .row
       .authoring_info
