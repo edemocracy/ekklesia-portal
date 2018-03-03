@@ -17,10 +17,9 @@ head
 body
   - block navbar
     nav.top_navbar
-      .container
-        a.navbar-brand(href=url_for("propositions")) Arguments
-
-        ul.nav.navbar-nav
+      a.navbar-brand(href=url_for("propositions")) Ekklesia Portal
+      .collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
           li.nav-item
             select.form-control#locale_select
               option(selected=(g.locale == "de"), value="de") Deutsch
@@ -46,7 +45,7 @@ body
         form.top_search(action=url_for("propositions"))
           input.form-control(type="text", placeholder=_("search_for"), name="q")
           button.search_button(type="submit")
-            i.fa.fa-search &nbsp;Suche
+            i.fas.fa-search &nbsp;Suche
 
     - block messages
       - with messages = get_flashed_messages(with_categories=True)
