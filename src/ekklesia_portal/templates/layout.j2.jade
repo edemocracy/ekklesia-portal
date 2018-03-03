@@ -58,16 +58,19 @@ body
         // empty
 
   - block footer
-    nav.navbar.navbar-light.navbar-bottom.bg-primary
-      ul.nav.navbar-nav
-        li.nav-item
-          a.nav-link(href="#")= _("link_other")
-        li.nav-item
-          a.nav-link(href="#") FAQ
-        li.nav-item
-          a.nav-link(href="#")= _("terms_of_use")
-        li.nav-item
-          a.nav-link(href="#")= _("imprint")
+
+    footer.footer.bg-primary
+      ul.list-inline
+        li.list-inline-item
+          a(href="#")= _("link_other")
+        li.list-inline-item
+          a(href="#") FAQ
+        li.list-inline-item
+          a(href="#")= _("terms_of_use")
+        li.list-inline-item
+          a(href="#")= _("imprint")
+        li.list-inline-item
+          a(href="https://github.com/dpausp/ekklesia-portal")= _("source code")
 
   script.
 
