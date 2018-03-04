@@ -35,6 +35,7 @@ webtest = "*"
 "7e87fbd" = {path = "../more.babel_i18n", editable = true}
 responses = "*"
 pylint = "*"
+when-changed = "*"
 
 
 [requires]
