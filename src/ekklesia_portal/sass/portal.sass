@@ -25,45 +25,60 @@ a.btn
   @extend .btn-secondary
   width: 3rem
   @extend .mx-auto
+  @extend .my-2
   @extend .d-block
 
 .argument
   @extend .card
+  @extend .mb-1
+
+.argument_title
+  @extend .card-title
+
+.argument_content
+  @extend .col-sm
+
+.argument_body
+  @extend .p-3
   @extend .card-body
-  padding: 1rem
 
-.con .authoring_info
-  @extend .text-sm-right
+.argument_text
+  @extend .card-text
 
-.argument_counter_arguments
-  @extend .argument_sidebar
+.argument_footer
+  @extend .card-footer
+  @extend .text-muted
+  @extend .py-2
 
-.con .argument_counter_arguments
-  @extend .offset-sm-10
+.argument_actions
+  @extend .mt-1
+  @extend .row
+
+.con 
+  .authoring_info
+    @extend .text-sm-right
+
+  .counter_arguments_btn
+    @extend .float-right
+
+  .argument
+    border-left-width: 3px
+    border-left-color: red
+
 
 .argument_sidebar
   @extend .col-sm-2
 
-.argument_body
-  @extend .col-sm-8
+.pro 
+  .argument_sidebar
+    @extend .order-10
+
+  .argument
+    border-right-width: 3px
+    border-right-color: darkblue
 
 .argument_score
   @extend .text-sm-center
-
-.con .argument_score
-  @extend .offset-sm-6
-
-.argument_vote_btns
-  @extend .col-sm-6
-
-.con .argument_vote_btns
-  @extend .offset-sm-6
-
-.argument_voting
-  @extend .argument_sidebar
-
-.con .argument_voting
-  @extend .offset-sm-10
 
 .associated_proposition
   @extend .card
@@ -72,32 +87,22 @@ a.btn
 .associated_proposition_title
   @extend .card-title
 
+.counter_arguments
+  @extend .col-sm
+
 .counter_arguments_btn
   @extend .btn
   @extend .btn-secondary
   white-space: normal
-  margin-left: -2.5rem
-
-.con .counter_arguments_btn
-  margin-left: -0.7rem
-
-.pro .argument
-  border-right-width: 3px
-  border-right-color: darkblue
-
-.con .argument
-  border-left-width: 3px
-  border-left-color: red
 
 .proposition_col
   @extend .col-sm-6
 
+.arguments 
+  @extend .mt-2
+
 .author
   @extend .text-sm-right
-
-.authoring_info
-  @extend .col-sm-12
-  margin-top: 0.5rem
 
 .button_add_related
   @extend .btn
@@ -113,6 +118,13 @@ a.btn
   @extend .container
   margin-top: 1rem
   margin-bottom: 1rem
+
+footer.footer
+  @extend .bg-primary
+  @extend .p-2
+
+  .list-inline
+    @extend .my-1
 
 .large_number
   font-size: 1.2rem
@@ -149,8 +161,7 @@ a.btn
 .search_button
   @extend .btn
   @extend .btn-outline-success
-  padding-top: 0.45rem
-  padding-bottom: 0.45rem
+  @extend .mx-2
 
 .proposition_left
   @extend .col-sm-2

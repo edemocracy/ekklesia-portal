@@ -1,64 +1,71 @@
 - if layout
   - extends "layout.j2.jade"
   
-  
+- macro argument_voting()
+  vote = user_vote(user) if current_user.is_authenticated else None
+  upvoted = vote.is_upvote if vote else False
+  downvoted = vote.is_downvote if vote else False
+
+  div
+    .argument_score
+      strong(id="argument_score_{{ id }}")= score
+
+    button.argument_vote_btn(class=("active" if upvoted else ""),
+      data-action="argument_vote_up",
+      data.argument_id=id,
+      data-revoke=upvoted|tojson)
+        i.fas.fa-arrow-up
+
+    button.argument_vote_btn(class=("active" if not (downvoted or upvoted) else ""),
+      data-action="argument_revoke",
+      data.argument_id=id,
+      data-revoke=true)
+        i.far.fa-circle
+
+    button.argument_vote_btn(class=("active" if downvoted else ""),
+      data-action="argument_vote_dn",
+      data.argument_id=id,
+      data-revoke=downvoted|tojson)
+        i.fas.fa-arrow-down
+
+
 - block content
   .argument
-    .row
-      .argument_counter_arguments
-        if options.show_ca_button
-          num_counter_arguments = counter_arguments|length
-          a.counter_arguments_btn(href="#")
-            strong.large_number= num_counter_arguments
-            |&nbsp;
-            span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
+    .argument_body
+      .row
+        .argument_sidebar
+          if not options.show_voting
+            .argument_voting
+              = argument_voting()
 
-      .argument_body
-        h5.argument_headline
-          if details
-            a(href=self_link)= title
+        .argument_content
+          h5.argument_title
+            if details
+              a(href=self_link)= title
+            else
+              = title
+
+          if options.extended
+            small= abstract
+            hr
+            .argument_details_extended= (details or "")|markdown
           else
-            = title
+            p.argument_text= abstract
 
-        if options.extended
-          small= abstract
-          hr
-          .argument_details_extended= (details or "")|markdown
-        else
-          span= abstract
+              if details
+                a.read_more(href=self_link) &nbsp;&nbsp;&gt;&gt;&gt;
 
-          if details
-            a.read_more(href=self_link) &nbsp;&nbsp;&gt;&gt;&gt;
+      .argument_actions
+        .counter_arguments
+          if options.show_ca_button
+            num_counter_arguments = counter_arguments|length
+            a.counter_arguments_btn(href="#")
+              strong.large_number= num_counter_arguments
+              |&nbsp;
+              span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
 
-      if not options.show_voting
-        .argument_voting
-          vote = user_vote(user) if current_user.is_authenticated else None
-          upvoted = vote.is_upvote if vote else False
-          downvoted = vote.is_downvote if vote else False
+    .argument_footer
 
-          div
-            .argument_score
-              strong(id="argument_score_{{ id }}")= score
-
-            button.argument_vote_btn(class=("active" if upvoted else ""),
-              data-action="argument_vote_up",
-              data-argument-id=id,
-              data-revoke=upvoted|tojson)
-                i.fas.fa-arrow-up
-
-            button.argument_vote_btn(class=("active" if not (downvoted or upvoted) else ""),
-              data-action="argument_revoke",
-              data-argument-id=id,
-              data-revoke=true)
-                i.far.fa-circle
-
-            button.argument_vote_btn(class=("active" if downvoted else ""),
-              data-action="argument_vote_dn",
-              data-argument-id=id,
-              data-revoke=downvoted|tojson)
-                i.fas.fa-arrow-down
-
-    .row
       .authoring_info
         small.author= _("authored_at_by", dt=created_at|datetimeformat, author_name=author.display_name)
 

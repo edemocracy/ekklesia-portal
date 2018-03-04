@@ -35,6 +35,11 @@ body
           //li.nav-item(class=("active" if mode=="custom" else ""))
           //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen 
 
+        form.top_search(action=url_for("propositions"))
+          input.form-control(type="text", placeholder=_("search_for"), name="q")
+          button.search_button(type="submit")
+            i.fas.fa-search &nbsp;Suche
+
         ul.top_usercontrols
           li.nav-item
             if current_user.is_authenticated
@@ -42,10 +47,6 @@ body
             else
               a.btn.nav-link(href=url_for("ekklesia.login"))= _("login")
 
-        form.top_search(action=url_for("propositions"))
-          input.form-control(type="text", placeholder=_("search_for"), name="q")
-          button.search_button(type="submit")
-            i.fas.fa-search &nbsp;Suche
 
     - block messages
       - with messages = get_flashed_messages(with_categories=True)
@@ -59,7 +60,7 @@ body
 
   - block footer
 
-    footer.footer.bg-primary
+    footer.footer
       ul.list-inline
         li.list-inline-item
           a(href="#")= _("link_other")

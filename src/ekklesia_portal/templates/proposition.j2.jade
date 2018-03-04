@@ -15,7 +15,7 @@
   upvoted = vote != None
 
   div
-    if not user.is_authenticated
+    if user.is_authenticated
       button.btn.btn-primary(hidden=upvoted
           data-action="proposition_vote"
           data-proposition-id=id)
