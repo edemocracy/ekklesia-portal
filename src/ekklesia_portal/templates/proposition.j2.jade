@@ -3,6 +3,10 @@
 
 - macro proposition_tags(tags)
   ul.list-inline
+    li.list-inline-item
+      a(href="#")
+        span.tag_text Ein Tag
+
     for tag in tags
       li.list-inline-item
         a(href="/tags/{{ tag.tag }}")
@@ -65,50 +69,51 @@
             a(href=self_link)= title
 
   else
-    if options.show_tabs
-      .proposition_toolbar
-        .proposition_tabs
-          a.tab(class=("inactive" if active_tab != "discussion" else "")
-                href=self_link)= _("discussion")
-
-          a.tab(class=("inactive" if active_tab != "associated" else "")
-                href=self_link)= _("associated")
-    
     .proposition(id="proposition_{{ id }}", 
               class=("" if options.margin else "proposition_no_margin"))
-      .row
-        .proposition_sidebar
+      if options.show_tabs
+        .proposition_toolbar
+          ul.proposition_tabs
+            li.nav-item(class=("active" if active_tab == "discussion" else ""))
+              a.nav-link.active(href=self_link)= _("discussion")
+              
+            li.nav-item(class=("active" if active_tab == "associated" else ""))
+              a.nav-link(href=self_link)= _("associated")
+    
+      .card-body
+        .row
+          .proposition_sidebar
 
-          .authoring_info
-            small.author=_("authored_at", dt=created_at|datetimeformat)
+            .authoring_info
+              small.author=_("authored_at", dt=created_at|datetimeformat)
 
-          .points
-            i.far.fa-thumbs-up &nbsp;
-            strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
-            | &nbsp;
-            span= ngettext("supporter", "supporters", supporter_count)
+            .points
+              i.far.fa-thumbs-up &nbsp;
+              strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
+              | &nbsp;
+              span= ngettext("supporter", "supporters", supporter_count)
 
-          .argument_count
-            i.far.fa-comments &nbsp;
-            strong.proposition_info_number= argument_count
-            | &nbsp;
-            span= ngettext("argument", "arguments", argument_count)
+            .argument_count
+              i.far.fa-comments &nbsp;
+              strong.proposition_info_number= argument_count
+              | &nbsp;
+              span= ngettext("argument", "arguments", argument_count)
 
-        .proposition_body
-          h4.proposition_title
-              a(href=self_link)= title
+          .proposition_body
+            h4.proposition_title
+                a(href=self_link)= title
 
-          = proposition_tags(tags)
+            = proposition_tags(tags)
 
-          if options.show_details
-            .proposition_details
-              p
-                = content|markdown
-              p
-                = motivation|markdown
+            if options.show_details
+              .proposition_details
+                p
+                  = content|markdown
+                p
+                  = motivation|markdown
 
-          if options.show_actions
-            = proposition_actions(_model, current_user, _("goto_arguments"))
+            if options.show_actions
+              = proposition_actions(_model, current_user, _("goto_arguments"))
 
 
 

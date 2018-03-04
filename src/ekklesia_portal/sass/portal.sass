@@ -116,8 +116,7 @@ a.btn
 
 .content_area
   @extend .container
-  margin-top: 1rem
-  margin-bottom: 1rem
+  @extend .my-2
 
 footer.footer
   @extend .bg-primary
@@ -134,8 +133,6 @@ footer.footer
 
 .proposition
   @extend .card
-  @extend .card-body
-  padding: 1rem
 
 .proposition_info_number
   font-size: 1.2rem
@@ -153,10 +150,12 @@ footer.footer
   @extend .col-sm-2
 
 .proposition_toolbar
-  @extend .btn-toolbar
+  @extend .card-header
 
 .proposition_tabs
-  @extend .btn-group
+  @extend .nav
+  @extend .nav-tabs
+  @extend .card-header-tabs
 
 .search_button
   @extend .btn
