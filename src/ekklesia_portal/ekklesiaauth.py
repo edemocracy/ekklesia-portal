@@ -8,6 +8,8 @@ class EkklesiaNotAuthorized(Exception):
 
 
 class EkklesiaAuthRequest(Request):
+    
+    browser_session = None
 
     def __init__(self, environ, app, **kw):
         Request.__init__(self, environ, app, **kw)
