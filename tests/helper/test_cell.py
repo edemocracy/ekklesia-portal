@@ -3,7 +3,8 @@ from munch import Munch
 from pytest import fixture, raises
 import ekklesia_portal.helper.cell
 from ekklesia_portal.helper.cell import Cell, JinjaCellEnvironment
-from ekklesia_portal.app import make_jinja_env, CustomRequest
+from ekklesia_portal.app import make_jinja_env
+from ekklesia_portal.request import EkklesiaPortalRequest
 from webob.request import BaseRequest
 
 
@@ -18,13 +19,13 @@ def model():
 @fixture
 def request_for_cell(app):
     environ = BaseRequest.blank('test').environ
-    return MagicMock(spec=CustomRequest(environ, app))
+    return MagicMock(spec=EkklesiaPortalRequest(environ, app))
 
 
 @fixture
 def jinja_env(app):
     import jinja2
-    template_loader = jinja2.loaders.PackageLoader("ekklesia_portal.tests")
+    template_loader = jinja2.loaders.PackageLoader("tests")
     return make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=app)
 
 

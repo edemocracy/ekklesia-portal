@@ -5,4 +5,8 @@ ekklesia:
     authorization_url: "https://id_local/oauth2/authorize/"
     token_url: "https://id_local/oauth2/token/"
 database:
-    uri: "postgresql+psycopg2://ekklesia_portal:e@127.0.0.1/ekklesia_portal"
+    uri: "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
+test_section:
+    test_setting: test
+app:
+    instance_name: test

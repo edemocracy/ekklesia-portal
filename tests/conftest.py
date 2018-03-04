@@ -2,7 +2,8 @@ from os import path
 from morepath.request import BaseRequest
 from pytest import fixture
 from webtest import TestApp as Client
-from ekklesia_portal.app import make_wsgi_app, CustomRequest
+from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition
 
@@ -29,7 +30,7 @@ def client(app):
 @fixture
 def request(app):
     environ = BaseRequest.blank('test').environ
-    return CustomRequest(environ, app)
+    return EkklesiaPortalRequest(environ, app)
 
 
 @fixture
