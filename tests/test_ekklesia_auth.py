@@ -4,10 +4,11 @@ from urllib.parse import urljoin
 from pytest import fixture, raises
 
 import morepath
+from munch import Munch 
 import responses
 from webtest import TestApp as Client
 
-from ekklesia_portal.ekklesiaauth import EkklesiaAuthApp, EkklesiaAuthRequest, EkklesiaAuth, EkklesiaNotAuthorized
+from ekklesia_portal.ekklesia_auth import EkklesiaAuthPathApp, EkklesiaAuthRequest, EkklesiaAuth, EkklesiaNotAuthorized
 
 
 morepath.autoscan()
@@ -25,10 +26,14 @@ EKKLESIAAUTH_SETTINGS = {
     'token_url': TOKEN_URL,
 }
 
-
 @fixture
 def browser_session():
-    return {}
+    return Munch()
+
+
+@fixture
+def fake_request_with_session(browser_session):
+    return Munch(browser_session=browser_session)
 
 
 @fixture
@@ -43,17 +48,28 @@ def token():
 
 
 @fixture
-def app(browser_session):
+def test_request_class(browser_session):
     class TestRequest(EkklesiaAuthRequest):
+
         @property
         def browser_session(self):
             return browser_session
 
-    class TestApp(EkklesiaAuthApp):
-        request_class = TestRequest
-        pass
+    return TestRequest
 
-    @TestApp.setting_section(section='ekklesiaauth')
+
+@fixture
+def request(test_request_class):
+    return test_request_class()
+
+
+@fixture
+def app(test_request_class):
+
+    class TestApp(EkklesiaAuthPathApp):
+        request_class = test_request_class
+
+    @TestApp.setting_section(section='ekklesia_auth')
     def settings():
         return EKKLESIAAUTH_SETTINGS
 
@@ -73,7 +89,7 @@ def client(app, allow_insecure_transport):
 
 
 def test_make_app(app):
-    settings = app.settings.ekklesiaauth
+    settings = app.settings.ekklesia_auth
     assert settings.client_id == EKKLESIAAUTH_SETTINGS['client_id']
 
 
@@ -95,49 +111,53 @@ def test_oauth_callback(client, browser_session, token):
     assert loc == 'http://localhost/'
 
 
-def test_session_and_authorized(app, browser_session, token):
-    browser_session['oauth_token'] = token
-    ekklesiaauth = EkklesiaAuth(app.settings.ekklesiaauth, browser_session)
-    assert ekklesiaauth.authorized
-    assert ekklesiaauth.session
+def test_session_and_authorized(app, fake_request_with_session, token):
+    req = fake_request_with_session
+    req.browser_session['oauth_token'] = token
+    ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, req)
+    assert ekklesia_auth.authorized
+    assert ekklesia_auth.session
 
 
-def test_not_authorized(app, browser_session):
-    ekklesiaauth = EkklesiaAuth(app.settings.ekklesiaauth, browser_session)
-    assert not ekklesiaauth.authorized
+def test_not_authorized(app, fake_request_with_session):
+    ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, fake_request_with_session)
+    assert not ekklesia_auth.authorized
     with raises(EkklesiaNotAuthorized):
-        ekklesiaauth.session
+        ekklesia_auth.session
 
 
 @responses.activate
-def test_session(app, browser_session, allow_insecure_transport, token):
-    browser_session['oauth_token'] = token
+def test_session(app, allow_insecure_transport, fake_request_with_session, token):
+    request = fake_request_with_session
+    request.browser_session.oauth_token=token
     req_url = urljoin(API_BASE_URL, 'fake')
-    ekklesiaauth = EkklesiaAuth(app.settings.ekklesiaauth, browser_session)
+    ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, request)
 
     with responses.RequestsMock() as rsps:
         rsps.add(responses.GET, req_url, body="test")  # @UndefinedVariable
-        res = ekklesiaauth.session.get(req_url)
+        res = ekklesia_auth.session.get(req_url)
 
     assert res.content == b'test'
 
 
 @responses.activate
-def test_session_token_refresh(app, browser_session, allow_insecure_transport, token):
+def test_session_token_refresh(app, browser_session, allow_insecure_transport, token, fake_request_with_session):
+    request = fake_request_with_session
     outdated_token = dict(token, expires_at=token['expires_at'] - 1000, access_token='outdated')
-    browser_session['oauth_token'] = outdated_token
+    request.browser_session.oauth_token=outdated_token
     refreshed_token = dict(token, access_token='refreshed')
     req_url = urljoin(API_BASE_URL, 'fake')
-    ekklesiaauth = EkklesiaAuth(app.settings.ekklesiaauth, browser_session)
+    ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, request)
 
     with responses.RequestsMock() as rsps:
         rsps.add(responses.POST, TOKEN_URL, body=json.dumps(refreshed_token))  # @UndefinedVariable
         rsps.add(responses.GET, req_url, body="test")  # @UndefinedVariable
-        ekklesiaauth.session.get(req_url)
+        ekklesia_auth.session.get(req_url)
 
     assert browser_session['oauth_token']['access_token'] == 'refreshed'
 
 
+@responses.activate
 def test_oauth_dance(app, client, browser_session, token):
     client.get('/login')
     state = browser_session['oauth_state']

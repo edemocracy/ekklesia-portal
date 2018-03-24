@@ -8,6 +8,9 @@
     dt User logged in?
     dd= current_user.is_authenticated
 
+    dt Session
+    dd= _request.browser_session|tojson
+
     dt Translation of "hello"
     dd= _("hello")
 

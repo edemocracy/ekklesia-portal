@@ -13,12 +13,13 @@ from ekklesia_portal import database
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.templating import make_jinja_env
 from ekklesia_portal.request import EkklesiaPortalRequest
+from ekklesia_portal.ekklesia_auth import EkklesiaAuthApp, EkklesiaAuthPathApp
 
 
 logg = logging.getLogger(__name__)
 
 
-class App(TransactionApp, BabelApp, BrowserSessionApp):
+class App(TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
     request_class = EkklesiaPortalRequest
 
     def __init__(self):
@@ -36,6 +37,12 @@ def get_identity_policy():
 @App.verify_identity()
 def verify_identity(identity):
     return True
+
+
+@App.mount(path='ekklesia_auth', app=EkklesiaAuthPathApp)
+def mount_ekklesia_auth_path():
+    app = EkklesiaAuthPathApp()
+    return app
 
 
 def get_app_settings(settings_filepath):
@@ -63,6 +70,7 @@ def make_wsgi_app(settings_filepath=None):
     morepath.autoscan()
     settings = get_app_settings(settings_filepath)
     App.init_settings(settings)
+    EkklesiaAuthPathApp.init_settings(settings)
     App.commit()
 
     app = App()

@@ -45,7 +45,7 @@ body
             if current_user.is_authenticated
               a.btn.nav-link(href="#")= current_user.display_name
             else
-              a.btn.nav-link(href=url_for("ekklesia.login"))= _("login")
+              a.btn.nav-link(href='/login')= _("login")
 
 
     - block messages

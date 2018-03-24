@@ -1,3 +1,4 @@
+from unittest.mock import Mock
 from pytest import fixture
 from ekklesia_portal.views.proposition import PropositionCell
 from ekklesia_portal.database.datamodel import Argument
@@ -5,7 +6,7 @@ from ekklesia_portal.database.datamodel import Argument
 
 @fixture
 def proposition_cell(app, proposition):
-    return PropositionCell(proposition, None)
+    return PropositionCell(proposition, Mock())
 
 
 def test_proposition_cell(proposition_cell):

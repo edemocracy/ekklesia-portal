@@ -1,3 +1,4 @@
+import datetime
 import logging
 from ekklesia_portal.app import App
 from ekklesia_portal.cells.pagetest import PageTestCell
@@ -17,4 +18,6 @@ def test_page():
 
 @App.html(model=PageTest)
 def show_test_page(self, request):
+    request.browser_session['old'] = request.browser_session.get('test')
+    request.browser_session['test'] = datetime.datetime.now().isoformat()
     return PageTestCell(self, request).show()

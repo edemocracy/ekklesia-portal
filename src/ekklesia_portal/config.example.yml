@@ -1,4 +1,4 @@
-ekklesia:
+ekklesia_auth:
     client_id: "ekklesia_portal"
     client_secret: "ekklesia_portal_secret"
     api_base_url: "https://identity-server.invalid/api/v1/"

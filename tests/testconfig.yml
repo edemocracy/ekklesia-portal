@@ -1,9 +1,3 @@
-ekklesia:
-    client_id: "ekklesia_portal"
-    client_secret: "ekklesia_portal_secret"
-    api_base_url: "https://id_local/api/v1/"
-    authorization_url: "https://id_local/oauth2/authorize/"
-    token_url: "https://id_local/oauth2/token/"
 database:
     uri: "postgresql+psycopg2://ekklesia_portal:e@127.0.0.1/ekklesia_portal"
 test_section:
