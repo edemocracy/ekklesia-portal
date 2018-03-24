@@ -4,6 +4,7 @@ import os
 import jinja2
 import morepath
 from more.babel_i18n import BabelApp
+from more.browser_session import BrowserSessionApp
 import more.itsdangerous
 from more.transaction import TransactionApp
 import yaml
@@ -17,7 +18,7 @@ from ekklesia_portal.request import EkklesiaPortalRequest
 logg = logging.getLogger(__name__)
 
 
-class App(TransactionApp, BabelApp):
+class App(TransactionApp, BabelApp, BrowserSessionApp):
     request_class = EkklesiaPortalRequest
 
     def __init__(self):
