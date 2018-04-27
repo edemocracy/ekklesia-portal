@@ -1,6 +1,7 @@
 from datetime import datetime
 import os.path
 import jinja2.runtime
+from more.babel_i18n.request_utils import BabelRequestUtils
 from pytest import fixture
 from ekklesia_portal.helper.templating import make_jinja_env
 
@@ -25,6 +26,7 @@ def jinja_env(app):
 
 @fixture
 def render_string(jinja_env, request):
+    request.i18n = BabelRequestUtils(request)
     def render_string(template_string, **ctx):
         template = jinja_env.from_string(template_string)
         res = template.render(_request=request, **ctx)
