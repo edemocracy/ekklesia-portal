@@ -1,0 +1,24 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+charset = utf-8
+
+[*.py]
+max_line_length = 140
+
+[*.j2.jade]
+indent_size = 2
+
+[**.min.js]
+indent_style = ignore
+insert_final_newline = ignore
+
+[Makefile]
+indent_style = tab
