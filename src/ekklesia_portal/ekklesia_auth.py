@@ -13,10 +13,10 @@ class EkklesiaAuthRequest(Request):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.ekklesia_auth = EkklesiaAuth(self.app.settings.ekklesia_auth, self)
 
 
 class EkklesiaAuth:
+    """Wraps the OAuth2 session and provides helpers for Ekklesia ID server API access."""
 
     def __init__(self, settings, request):
         self.settings = settings
@@ -67,7 +67,11 @@ class EkklesiaAuth:
 
 
 class EkklesiaAuthApp(App):
-    pass
+    """Provides Ekklesia authentication features to Morepath apps.
+    Requests done via subclasses of this get an `ekklesia_auth` attribute which 
+    can be used for checking if authorization is granted and to retrieve data
+    from the Ekklesia ID server API.
+    """
 
 
 @EkklesiaAuthApp.setting_section(section='ekklesia_auth')
@@ -81,8 +85,19 @@ def ekklesia_auth_setting_section():
     }
 
 
+@EkklesiaAuthApp.tween_factory()
+def make_ekklesia_auth_tween(app, handler):
+    def ekklesia_auth_tween(request):
+       request.ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, request)
+       return handler(request)
+
+    return ekklesia_auth_tween
+
+
 class EkklesiaAuthPathApp(App):
-    pass
+    """Provides paths for getting OAuth2 authorization ("login") and info.
+    Should be mounted under a App subclassing `EkklesiaApp`.
+    """
 
 
 class EkklesiaLogin:

@@ -1,11 +1,10 @@
+import morepath
 from morepath import reify
-from more.babel_i18n import BabelRequest
 
-from ekklesia_portal.ekklesia_auth import EkklesiaAuthRequest
 from ekklesia_portal import database
 
 
-class EkklesiaPortalRequest(BabelRequest, EkklesiaAuthRequest):
+class EkklesiaPortalRequest(morepath.Request):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

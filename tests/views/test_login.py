@@ -9,7 +9,7 @@ def test_show_login(client):
 def test_submit_login(client):
     res = client.post("/login", dict(username="testuser", password="test"), status=302)
     assert "Set-Cookie" in res.headers
-    assert res.headers["Set-Cookie"].startswith("userid=testuser")
+    assert res.headers["Set-Cookie"].startswith("session=")
 
 
 def test_submit_login_wrong_password(client):

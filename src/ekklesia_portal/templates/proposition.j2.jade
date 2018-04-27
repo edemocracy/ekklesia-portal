@@ -15,11 +15,11 @@
 
 - macro proposition_actions(proposition, user, goto_label)
   
-  vote = user_vote(user) if user.is_authenticated else None
+  vote = user_vote(user) if user is not none else None
   upvoted = vote != None
 
   div
-    if user.is_authenticated
+    if user is not none
       button.btn.btn-primary(hidden=upvoted
           data-action="proposition_vote"
           data-proposition-id=id)

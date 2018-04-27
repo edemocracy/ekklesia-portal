@@ -35,6 +35,7 @@ class Cell(metaclass=CellMeta):
     def __init__(self, model, request, collection=None, layout=None, template_path=None, **options):
         self._model = model
         self._request = request
+        self.current_user = request.identity.user if request.identity.userid else None
         self._app = request.app
         self.collection = collection
         self._template_path = template_path

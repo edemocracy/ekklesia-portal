@@ -2,7 +2,7 @@ from morepath import redirect
 from morepath import Response
 from ekklesia_portal.app import App
 from ekklesia_portal.cells.login import LoginCell
-from ekklesia_portal.models.login import Login
+from ekklesia_portal.models.login import Login, UserNotFound
 import morepath
 
 
@@ -22,13 +22,16 @@ def show_login(self, request):
 @App.html(model=Login, request_method="POST")
 def submit_login(self, request):
     try:
-        verified = self.verify_password()
+        self.find_user()
+    except UserNotFound:
+        return Response(status=404)
     except ValueError:
         return Response(status=400)
-    if verified:
+
+    if self.verify_password():
         @request.after
         def remember(response):
-            identity = morepath.Identity(self.username)
+            identity = morepath.Identity(self.user.id, user=self.user)
             request.app.remember_identity(response, request, identity)
 
         return redirect("/")

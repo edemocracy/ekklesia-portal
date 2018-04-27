@@ -98,7 +98,6 @@ def make_jinja_env(jinja_environment_class, jinja_options, app):
 
     jinja_globals = dict(url_for=lambda *a, **k: "#",
                          g=Munch(locale="de"),
-                         current_user=Munch(is_authenticated=False),
                          ngettext=fake_translate,
                          get_flashed_messages=lambda *a, **k: [])
 

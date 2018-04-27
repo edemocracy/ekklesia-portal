@@ -6,7 +6,11 @@
 - block content
   dl
     dt User logged in?
-    dd= current_user.is_authenticated
+    dd= current_user is not none
+
+    if current_user is not none
+      dt Username
+      dd= current_user.name
 
     dt Session
     dd= _request.browser_session|tojson

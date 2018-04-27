@@ -2,7 +2,7 @@
   - extends "layout.j2.jade"
   
 - macro argument_voting()
-  vote = user_vote(user) if current_user.is_authenticated else None
+  vote = None if current_user is none else user_vote(user)
   upvoted = vote.is_upvote if vote else False
   downvoted = vote.is_downvote if vote else False
 

@@ -5,7 +5,6 @@ import jinja2
 import morepath
 from more.babel_i18n import BabelApp
 from more.browser_session import BrowserSessionApp
-import more.itsdangerous
 from more.transaction import TransactionApp
 import yaml
 
@@ -14,6 +13,7 @@ from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.templating import make_jinja_env
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthApp, EkklesiaAuthPathApp
+from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 
 logg = logging.getLogger(__name__)
@@ -30,8 +30,7 @@ class App(TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
 
 @App.identity_policy()
 def get_identity_policy():
-    # XXX: secure=False only for testing
-    return more.itsdangerous.IdentityPolicy(secure=False)
+    return EkklesiaPortalIdentityPolicy()
 
 
 @App.verify_identity()

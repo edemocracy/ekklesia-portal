@@ -55,6 +55,10 @@ def test_request_class(browser_session):
         def browser_session(self):
             return browser_session
 
+        @property
+        def ekklesia_auth(self):
+            return EkklesiaAuth(self.app.settings.ekklesia_auth, self)
+
     return TestRequest
 
 
@@ -174,9 +178,9 @@ def test_oauth_dance(app, client, browser_session, token):
             'type': 'system user',
             'verified': False
         }
-        rsps.add(responses.GET, urljoin(API_BASE_URL, 'profile'), body=json.dumps(profile))  # @UndefinedVariable
-        rsps.add(responses.GET, urljoin(API_BASE_URL, 'auid'), body=json.dumps(auid))  # @UndefinedVariable
-        rsps.add(responses.GET, urljoin(API_BASE_URL, 'membership'), body=json.dumps(membership))  # @UndefinedVariable
+        rsps.add(responses.GET, urljoin(API_BASE_URL, 'user/profile'), body=json.dumps(profile))  # @UndefinedVariable
+        rsps.add(responses.GET, urljoin(API_BASE_URL, 'user/auid'), body=json.dumps(auid))  # @UndefinedVariable
+        rsps.add(responses.GET, urljoin(API_BASE_URL, 'user/membership'), body=json.dumps(membership))  # @UndefinedVariable
 
         res = client.get('/info')
         assert res.json['auid'] == auid

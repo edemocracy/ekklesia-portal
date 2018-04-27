@@ -14,7 +14,7 @@ def sijax_err(resp, msg):
 
 
 def proposition_vote(resp, proposition_id, value):
-    if not current_user.is_authenticated:
+    if current_user is None:
         sijax_err(resp, "not logged in, anonymous users can't vote")
         return
 
@@ -59,7 +59,7 @@ def proposition_vote(resp, proposition_id, value):
 
 
 def argument_vote(resp, argument_id, value):
-    if not current_user.is_authenticated:
+    if current_user is None:
         sijax_err(resp, "not logged in, anonymous users can't vote")
         return
 

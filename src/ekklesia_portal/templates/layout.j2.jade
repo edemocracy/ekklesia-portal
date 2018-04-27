@@ -12,7 +12,7 @@ head
   script(src="/static/js/sijax/sijax.js")
   //script= g.sijax.get_js()|safe
   script.
-    var current_user = { "is_authenticated": {{ current_user.is_authenticated|tojson }} };
+    var current_user = { "is_authenticated": {{ current_user is not none|tojson }} };
 
 body
   - block navbar
@@ -42,7 +42,7 @@ body
 
         ul.top_usercontrols
           li.nav-item
-            if current_user.is_authenticated
+            if current_user is not none
               a.btn.nav-link(href="#")= current_user.display_name
             else
               a.btn.nav-link(href='/login')= _("login")
