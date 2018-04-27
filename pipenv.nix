@@ -3,10 +3,10 @@
 pipenv.overrideAttrs(oldAttrs: rec {
   inherit (oldAttrs) pname;
   name = "${pname}-${version}";
-  version = "11.0.2";
+  version = "11.10.1";
 
   src = python36Packages.fetchPypi {
     inherit pname version;
-    sha256 = "0qqnbsryj8ihjkalbyfvhpjj237sgq9yv1ra6fwjc2mhg18cp5h7";
+    sha256 = "1jw25l66j7g68wq7pdg460y9ij868li12li57pn3avm3nvad9kws";
   };
 })
