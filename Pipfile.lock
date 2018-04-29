@@ -243,9 +243,9 @@
         },
         "sqlalchemy-utils": {
             "hashes": [
-                "sha256:986930124da1386208c2bcdcdb149df88c095ab62d666fae865639ede1edc5f6"
+                "sha256:4119204ff302906015516992b7481e5aabeeaa61c7b04329f9113e42c097b855"
             ],
-            "version": "==0.33.2"
+            "version": "==0.33.3"
         },
         "transaction": {
             "hashes": [
@@ -803,9 +803,9 @@
         },
         "sqlalchemy-utils": {
             "hashes": [
-                "sha256:986930124da1386208c2bcdcdb149df88c095ab62d666fae865639ede1edc5f6"
+                "sha256:4119204ff302906015516992b7481e5aabeeaa61c7b04329f9113e42c097b855"
             ],
-            "version": "==0.33.2"
+            "version": "==0.33.3"
         },
         "traitlets": {
             "hashes": [
