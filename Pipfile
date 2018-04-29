@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 morepath = "*"
 "more.transaction" = "*"
 "psycopg2" = "*"
@@ -21,10 +18,9 @@ attrs = "*"
 passlib = "*"
 "more.itsdangerous" = "*"
 requests-oauthlib = "*"
-
+"more.forwarded" = "*"
 
 [dev-packages]
-
 "e1839a8" = {path = ".", editable = true}
 werkzeug = "*"
 coverage = "*"
@@ -39,7 +35,5 @@ when-changed = "*"
 ipdb = "*"
 "38f2bc8" = {path = "./../more.browser_session", editable = true}
 
-
 [requires]
-
 python_version = "3.6"

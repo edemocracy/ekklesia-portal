@@ -5,6 +5,7 @@ import jinja2
 import morepath
 from more.babel_i18n import BabelApp
 from more.browser_session import BrowserSessionApp
+from more.forwarded import ForwardedApp
 from more.transaction import TransactionApp
 import yaml
 
@@ -19,7 +20,7 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
-class App(TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
+class App(ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
     request_class = EkklesiaPortalRequest
 
     def __init__(self):
