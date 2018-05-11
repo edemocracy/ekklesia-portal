@@ -1,30 +1,40 @@
+from functools import partial
+import logging
+import dectate
 from morepath import redirect, App, reify, Request
+from ekklesia_portal.database.datamodel import UserProfile, User
 from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
+import transaction
+
+
+logg = logging.getLogger(__name__)
 
 
 class EkklesiaNotAuthorized(Exception):
     pass
 
 
-class EkklesiaAuthRequest(Request):
-    
-    browser_session = None
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
 class EkklesiaAuth:
     """Wraps the OAuth2 session and provides helpers for Ekklesia ID server API access."""
 
-    def __init__(self, settings, request):
+    def __init__(self, settings, token=None, get_token=None, set_token=None):
         self.settings = settings
-        self.request = request
+        if token is not None and get_token is not None:
+            raise RuntimeError('token and get_token arguments cannot be used at the same time')
+        if token is None and get_token is None:
+            raise RuntimeError('one of the arguments token or get_token must be specified')
+        self._get_token = get_token
+        self._set_token = set_token
+        self._token = token
 
-    @property
-    def browser_session(self):
-        return self.request.browser_session
+    @reify
+    def token(self):
+        if self._token is not None:
+            return self._token
+
+        logg.debug('no token yet, using getter')
+        return self._get_token()
 
     @reify
     def session(self):
@@ -32,15 +42,15 @@ class EkklesiaAuth:
             raise EkklesiaNotAuthorized()
 
         extra = {'client_secret': self.settings.client_secret}
-        return OAuth2Session(token=self._get_token(),
+        return OAuth2Session(token=self.token,
                              client_id=self.settings.client_id,
                              auto_refresh_url=self.settings.token_url,
                              auto_refresh_kwargs=extra,
-                             token_updater=self._update_token)
+                             token_updater=self._set_token)
 
     @property
     def authorized(self):
-        return 'oauth_token' in self.browser_session
+        return self.token is not None
 
     def api_request(self, method, path, **kwargs):
         url = urljoin(self.settings.api_base_url, path)
@@ -59,19 +69,69 @@ class EkklesiaAuth:
     def membership(self):
         return self.api_request('GET', 'user/membership')
 
-    def _update_token(self, token):
-        self.browser_session['oauth_token'] = token
 
-    def _get_token(self):
-        return self.browser_session.get('oauth_token')
+class GetOAuthTokenAction(dectate.Action):
+    config = {}
+    app_class_arg = True
+
+    def __init__(self):
+        pass
+
+    def identifier(self, **_kw):
+        return ()
+
+    def perform(self, obj, app_class):
+        app_class._get_oauth_token = obj
+
+
+class SetOAuthTokenAction(dectate.Action):
+    config = {}
+    app_class_arg = True
+
+    def __init__(self):
+        pass
+
+    def identifier(self, **_kw):
+        return ()
+
+    def perform(self, obj, app_class):
+        app_class._set_oauth_token = obj
+
+
+class AfterAuthAction(dectate.Action):
+
+    config = {
+        'after_oauth_callbacks': dict
+    }
+
+    def __init__(self, name=None):
+        self.name = name
+
+    def identifier(self, **_kw):
+        return self.name
+
+    def perform(self, obj, after_oauth_callbacks):
+        after_oauth_callbacks[obj.__name__] = obj
 
 
 class EkklesiaAuthApp(App):
     """Provides Ekklesia authentication features to Morepath apps.
-    Requests done via subclasses of this get an `ekklesia_auth` attribute which 
+    Requests done via subclasses of this get an `ekklesia_auth` attribute which
     can be used for checking if authorization is granted and to retrieve data
     from the Ekklesia ID server API.
     """
+
+    def _get_oauth_token(*_args, **_kw):
+        raise Exception("not set")
+
+    get_oauth_token = dectate.directive(GetOAuthTokenAction)
+
+    def _set_oauth_token(*_args, **_kw):
+        raise Exception("not set")
+
+    set_oauth_token = dectate.directive(SetOAuthTokenAction)
+
+    after_oauth_callback = dectate.directive(AfterAuthAction)
 
 
 @EkklesiaAuthApp.setting_section(section='ekklesia_auth')
@@ -88,8 +148,11 @@ def ekklesia_auth_setting_section():
 @EkklesiaAuthApp.tween_factory()
 def make_ekklesia_auth_tween(app, handler):
     def ekklesia_auth_tween(request):
-       request.ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, request)
-       return handler(request)
+        get_oauth_token = partial(app.root._get_oauth_token, request)
+        set_oauth_token = partial(app.root._set_oauth_token, request)
+        logg.debug('ekklesia_auth tween')
+        request.ekklesia_auth = EkklesiaAuth(app.root.settings.ekklesia_auth, get_token=get_oauth_token, set_token=set_oauth_token)
+        return handler(request)
 
     return ekklesia_auth_tween
 
@@ -98,9 +161,11 @@ class EkklesiaAuthPathApp(App):
     """Provides paths for getting OAuth2 authorization ("login") and info.
     Should be mounted under a App subclassing `EkklesiaApp`.
     """
+    pass
 
 
 class EkklesiaLogin:
+
     def __init__(self, settings=None, session=None):
         self.settings = settings
         self.session = session
@@ -115,10 +180,9 @@ class EkklesiaLogin:
         return authorization_url
 
 
-
 @EkklesiaAuthPathApp.path(model=EkklesiaLogin, path="/login")
 def oauth_login(request):
-    return EkklesiaLogin(request.app.settings.ekklesia_auth, request.browser_session)
+    return EkklesiaLogin(request.app.root.settings.ekklesia_auth, request.browser_session)
 
 
 @EkklesiaAuthPathApp.view(model=EkklesiaLogin)
@@ -128,38 +192,39 @@ def get_oauth_login(self, _):
 
 
 class OAuthCallback:
-    def __init__(self, settings, session, base_callback_url, called_url):
-        self.settings = settings
-        self.called_url = called_url
-        self.session = session
-        self.oauth = OAuth2Session(client_id=settings.client_id, redirect_uri=base_callback_url, state=session.get('oauth_state'))
+    def __init__(self, request):
+        self.request = request
+        self.settings = request.app.root.settings.ekklesia_auth
+        self.session = request.browser_session
+        self.called_url = request.url
+        self.oauth = OAuth2Session(client_id=self.settings.client_id, redirect_uri=request.link(self), state=self.session.get('oauth_state'))
 
     @property
     def redirect_after_success_url(self):
         return "/"
 
-    def set_token(self, token):
-        self.session['oauth_token'] = token
-
     def fetch_token(self):
-        token = self.oauth.fetch_token(token_url=self.settings.token_url,
-                                       authorization_response=self.called_url,
-                                       client_secret=self.settings.client_secret)
+        self.token = self.oauth.fetch_token(token_url=self.settings.token_url,
+                                            authorization_response=self.called_url,
+                                            client_secret=self.settings.client_secret)
 
-        self.set_token(token)
+    def after_auth(self):
+        root_app = self.request.app.root
+        if root_app.config.after_oauth_callbacks:
+            ekklesia_auth = EkklesiaAuth(root_app.settings.ekklesia_auth, self.token)
+            for callback in root_app.config.after_oauth_callbacks.values():
+                callback(request=self.request, ekklesia_auth=ekklesia_auth)
 
 
 @EkklesiaAuthPathApp.path(model=OAuthCallback, path="/callback")
 def oauth_callback(request):
-    return OAuthCallback(request.app.settings.ekklesia_auth,
-                         request.browser_session,
-                         request.class_link(OAuthCallback),
-                         request.url)
+    return OAuthCallback(request)
 
 
 @EkklesiaAuthPathApp.view(model=OAuthCallback)
 def get_oauth_callback(self, _):
     self.fetch_token()
+    self.after_auth()
     return redirect(self.redirect_after_success_url)
 
 
@@ -170,8 +235,9 @@ class OAuthInfo:
     @property
     def info(self):
         if not self.ekklesia_auth.authorized:
+            logg.debug('oauth info: error not authorized')
             return {'error': 'not authorized'}
-        
+
         return {
             'membership': self.ekklesia_auth.membership,
             'profile': self.ekklesia_auth.profile,
