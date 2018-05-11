@@ -13,6 +13,14 @@ class EkklesiaPortalRequest(morepath.Request):
     def db_session(self):
         return database.Session()
 
+    @property
+    def current_user(self):
+        user = self.identity.user
+        if user is None:
+            return
+        user = self.db_session.merge(user)
+        return user
+
     def q(self, *args, **kwargs):
         return self.db_session.query(*args, **kwargs)
 
