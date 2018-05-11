@@ -1,3 +1,4 @@
+import logging
 from os import path
 from morepath.request import BaseRequest
 from pytest import fixture
@@ -6,6 +7,11 @@ from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition
+
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('morepath').setLevel(logging.INFO)
 
 
 BASEDIR = path.dirname(__file__)
