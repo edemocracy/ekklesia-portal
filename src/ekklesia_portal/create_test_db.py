@@ -5,7 +5,7 @@ if __name__ == "__main__":
     import transaction
     from ekklesia_portal.app import make_wsgi_app
 
-    app = make_wsgi_app("../config.yml")
+    app = make_wsgi_app("./config.yml")
 
     logg = logging.getLogger(__name__)
 
