@@ -28,12 +28,12 @@ body
 
           li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
             a.nav-link(href=url_for("propositions", tag=tag|default(None)))= _("sorted")
-          
+
           li.nav-item(class=("active" if mode=="top" else ""))
             a.nav-link(href=url_for("propositions", mode="top", tag=tag|default(None)))= _("top")
 
           //li.nav-item(class=("active" if mode=="custom" else ""))
-          //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen 
+          //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen
 
         form.top_search(action=url_for("propositions"))
           input.form-control(type="text", placeholder=_("search_for"), name="q")
@@ -43,7 +43,7 @@ body
         ul.top_usercontrols
           li.nav-item
             if current_user is not none
-              a.btn.nav-link(href="#")= current_user.display_name
+              a.btn.nav-link(href="#")= current_user.name
             else
               a.btn.nav-link(href='/login')= _("login")
 
