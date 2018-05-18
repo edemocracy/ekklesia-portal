@@ -63,7 +63,7 @@ class User(Base):
     # from user/membership/ all_nested_groups
     departments = association_proxy('member_departments', 'department')  # <-DepartmentMember-> Department
     areas = association_proxy('member_areas', 'area')  # <-AreaMember-> SubjectArea
-    supports = association_proxy('member_proposition', 'proposition')  # <-Supporter-> Proposition
+    supports = association_proxy('member_propositions', 'proposition')  # <-Supporter-> Proposition
     arguments = relationship("Argument", back_populates="author")
     secret_voters = association_proxy('member_secretvoters', 'secretvoter')  # <-SecretVoter-> Ballot
     urns = association_proxy('member_urns', 'urn')  # <-UrnSupporter-> Urn
@@ -316,7 +316,7 @@ class Proposition(Base):
     status = Column(String(10), nullable=False, default="draft")
     ballot_id = Column(Integer, ForeignKey('ballots.id'))
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
-    supporters = association_proxy('member_propositions', 'member')  # <-Supporter-> User
+    supporters = association_proxy('propositions_member', 'member')  # <-Supporter-> User
     # in state draft only submitters may become supporters §3.3
     tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
 
@@ -362,9 +362,9 @@ class PropositionTag(Base):
 class Supporter(Base):  # §3.5
     __tablename__ = 'supporters'
     member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    member = relationship("User", backref=backref("propositions_member", cascade="all, delete-orphan"))
+    member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
-    proposition = relationship("Proposition", backref=backref("member_propositions", cascade="all, delete-orphan"))
+    proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
     submitter = Column(Boolean, nullable=False, default=False)  # submitter or regular
     status = Column(String(10), nullable=False, default="active")  # active,expired,retracted
     last_change = Column(Date, nullable=False, server_default="NOW()")  # time of submitted/supported/retracted

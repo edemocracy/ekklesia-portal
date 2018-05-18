@@ -6,7 +6,7 @@ from webtest import TestApp as Client
 from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
-from ekklesia_portal.database.datamodel import Proposition
+from ekklesia_portal.database.datamodel import Proposition, User
 
 
 import logging
@@ -47,3 +47,8 @@ def session(app):
 @fixture
 def proposition(session):
     return session.query(Proposition).get(1)
+
+
+@fixture
+def user(session):
+    return session.query(User).get(1)
