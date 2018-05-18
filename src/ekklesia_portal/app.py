@@ -10,6 +10,7 @@ from more.transaction import TransactionApp
 import yaml
 
 from ekklesia_portal import database
+from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.templating import make_jinja_env
 from ekklesia_portal.request import EkklesiaPortalRequest
@@ -37,6 +38,54 @@ def get_identity_policy():
 @App.verify_identity()
 def verify_identity(identity):
     return True
+
+
+@App.after_oauth_callback()
+def create_or_update_user(request, ekklesia_auth):
+    auid = ekklesia_auth.auid['auid']
+    profile = ekklesia_auth.profile
+    membership = ekklesia_auth.membership
+    token = ekklesia_auth.token
+    name = profile['username']
+    user_profile = request.q(UserProfile).filter_by(auid=auid).scalar()
+
+    if user_profile is None:
+        user_profile = UserProfile(auid=auid)
+        oauth_token = OAuthToken(provider='ekklesia', token=token)
+        user = User(name=name, auth_type='oauth', profile=user_profile, oauth_token=oauth_token)
+        logg.debug("created new ekklesia user with auid %s, name %s", auid, name)
+        request.db_session.add(user)
+    else:
+        user = user_profile.user
+        user.name = profile['username']
+        user.oauth_token.token = token
+        logg.debug("updated ekklesia user with auid %s, name %s", auid, name)
+
+    user_profile.user_type = membership.get('type')
+    user_profile.verified = membership.get('verified')
+    user_profile.profile = membership.get('profile')
+    user_profile.avatar = membership.get('avatar')
+
+    request.db_session.flush()
+
+    @request.after
+    def remember(response):
+        identity = morepath.Identity(user.id, user=user)
+        request.app.root.remember_identity(response, request, identity)
+
+
+@App.get_oauth_token()
+def get_oauth_token_from_user(app, request):
+    logg.debug('get_oauth_token_from_user')
+    user = request.current_user
+    if user is None or user.auth_type != 'oauth':
+        return None
+    return user.oauth_token.token
+
+
+@App.set_oauth_token()
+def set_oauth_token_from_user(app, request, token):
+    request.current_user.oauth_token = OAuthToken(provider='ekklesia', token=token)
 
 
 @App.mount(path='ekklesia_auth', app=EkklesiaAuthPathApp)
