@@ -5,7 +5,6 @@ from morepath import redirect, App, reify, Request
 from ekklesia_portal.database.datamodel import UserProfile, User
 from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
-import transaction
 
 
 logg = logging.getLogger(__name__)
@@ -222,7 +221,7 @@ def oauth_callback(request):
 
 
 @EkklesiaAuthPathApp.view(model=OAuthCallback)
-def get_oauth_callback(self, _):
+def get_oauth_callback(self, _request):
     self.fetch_token()
     self.after_auth()
     return redirect(self.redirect_after_success_url)
