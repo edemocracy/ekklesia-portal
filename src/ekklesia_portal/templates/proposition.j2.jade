@@ -14,19 +14,15 @@
 
 
 - macro proposition_actions(proposition, user, goto_label)
-  
-  vote = user_vote(user) if user is not none else None
-  upvoted = vote != None
-
   div
     if user is not none
-      button.btn.btn-primary(hidden=upvoted
+      button.btn.btn-primary(hidden=is_supported_by_current_user
           data-action="proposition_vote"
           data-proposition-id=id)
           i.far.fa-thumbs-up &nbsp;
           | Unterstützen
 
-      button.btn.btn-secondary(hidden=(not upvoted)
+      button.btn.btn-secondary(hidden=(not is_supported_by_current_user)
           data-action="proposition_revoke_vote"
           data-proposition-id=id)
           i.far.fa-remove &nbsp;
@@ -44,7 +40,7 @@
       i.far.fa-comments &nbsp;
       = goto_label
 
-      
+
 - block title
   title= title
 
@@ -69,17 +65,17 @@
             a(href=self_link)= title
 
   else
-    .proposition(id="proposition_{{ id }}", 
+    .proposition(id="proposition_{{ id }}",
               class=("" if options.margin else "proposition_no_margin"))
       if options.show_tabs
         .proposition_toolbar
           ul.proposition_tabs
             li.nav-item(class=("active" if active_tab == "discussion" else ""))
               a.nav-link.active(href=self_link)= _("discussion")
-              
+
             li.nav-item(class=("active" if active_tab == "associated" else ""))
               a.nav-link(href=self_link)= _("associated")
-    
+
       .card-body
         .row
           .proposition_sidebar
@@ -124,7 +120,7 @@
         .proposition_col.pro
           = render_cell(collection=pro_arguments)
 
-          a(href=new_argument_url("pro")) 
+          a(href=new_argument_url("pro"))
             .button_add_related
               i.far.fa-thumbs-up &nbsp;
               = _("add_pro_argument")
@@ -132,7 +128,7 @@
         .proposition_col.con
           = render_cell(collection=contra_arguments)
 
-          a(href=new_argument_url("con")) 
+          a(href=new_argument_url("con"))
             .button_add_related
               i.far.fa-thumbs-down &nbsp;
               = _("add_con_argument")
@@ -165,7 +161,7 @@
 
 
     change_proposition_vote_actions = function(proposition_id, old_value, value) {
-      
+
       vote_btn = $(`[data-action='proposition_vote'][data-proposition-id='${proposition_id}']`);
       revoke_vote_btn = $(`[data-action='proposition_revoke_vote'][data-proposition-id='${proposition_id}']`);
 

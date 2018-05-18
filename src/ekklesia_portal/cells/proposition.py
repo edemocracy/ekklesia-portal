@@ -7,6 +7,11 @@ class PropositionCell(Cell):
     model = Proposition
     model_properties = ['id', 'title', 'content', 'motivation', 'created_at']
 
+    @reify
+    def is_supported_by_current_user(self):
+        return self.current_user in self._model.supporters
+
+
     def new_argument_url(self, argument_type):
         return "#"
         self.class_link(Argument, dict(argument_type=argument_type), 'new')
