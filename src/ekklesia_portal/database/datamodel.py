@@ -31,6 +31,7 @@ from sqlalchemy import (
     Time,
     ForeignKey,
     Sequence,
+    JSON,
     func
 )
 from sqlalchemy.orm import relationship, backref
@@ -81,17 +82,23 @@ class UserProfile(Base):
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     user = relationship("User", back_populates="profile")
     auid = Column(String(36), unique=True)  # from user/auid/
-
-    access_token = Column(Text)  # from oauth2/token/
-    refresh_token = Column(Text)  # from oauth2/revoke_token/
-    token_expires = Column(DateTime)
   # possibly cached variables from IDserver
-    type = Column(String(8), nullable=False)  # deleted,guest,member,eligible # from user/membership/
+    user_type = Column(String(30), nullable=False)  # deleted, guest, plain member, eligible member, system user # from user/membership/
+    verified = Column(Boolean)
     profile = Column(Text)  # from user/profile/
     public_id = Column(Text)  # from user/profile/
     avatar = Column(Text)  # from user/profile/
   # possible extensions
-    privacy = Column(String(10), nullable=False)  # default,anonymous,trusted,members,users,public
+    privacy = Column(String(10))  # default,anonymous,trusted,members,users,public
+
+
+class OAuthToken(Base):
+    __tablename__ = 'oauth_token'
+    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    user = relationship("User", backref=backref("oauth_token", uselist=False))
+    token = Column(JSON)
+    provider = Column(Text)
+    created_at = Column(DateTime, nullable=False, server_default="NOW()")
 
 
 class GroupMember(Base):
