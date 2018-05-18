@@ -53,7 +53,7 @@ class User(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     email = Column(String(254), unique=True)  # optional, for notifications, otherwise use user/mails/
-    usertype = Column(String(8), nullable=False, default="system")  # deleted,system,virtual,oauth(has UserProfile)
+    auth_type = Column(String(8), nullable=False, default="system")  # deleted,system,virtual,oauth(has UserProfile)
     joined = Column(Date, nullable=False, default=func.now())
     active = Column(Boolean, nullable=False, default=True)
     last_active = Column(Date, nullable=False, default=func.now())  # last relevant activity (to be considered active member §2.2)
