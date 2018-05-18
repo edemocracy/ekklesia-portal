@@ -21,9 +21,11 @@ if __name__ == "__main__":
 
     ug1 = Group(name="Deppengruppe")
 
-    u1 = User(name="testuser", usertype="system")
+    u1 = User(name="testuser", auth_type="system")
     u1.password = UserPassword(hashed_password=password_context.hash("test", scheme="plaintext"))
-    u2 = User(name="egon", usertype="system")
+    u2_profile = UserProfile(auid='auid_egon', user_type='plain member', verified=True, avatar='xxx', profile='ich halt')
+    u2_oauth_token = OAuthToken(provider='ekklesia', token={})
+    u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
     ug1.members.extend([u1, u2])
 
     t1 = Tag(name="Tag1")
