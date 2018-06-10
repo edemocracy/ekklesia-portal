@@ -6,3 +6,10 @@ app:
     instance_name: test
 browser_session:
     secret_key: 'test'
+    cookie_secure: false
+ekklesia_auth:
+    client_id: client_id_test
+    client_secret: test_secret
+    api_base_url: "http://id.invalid/api/v1/"
+    authorization_url: "http://id.invalid/oauth2/authorize/"
+    token_url: "http://id.invalid/oauth2/token"
