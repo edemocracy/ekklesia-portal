@@ -400,7 +400,7 @@ class ArgumentVote(Base):
     member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     member = relationship("User", backref=backref("member_argumentvotes", cascade="all, delete-orphan"))
     relation_id = Column(Integer, ForeignKey('argumentrelations.id'), primary_key=True)
-    relation = relationship("ArgumentRelation", backref=backref("relation_voters", cascade="all, delete-orphan"))
+    relation = relationship("ArgumentRelation", backref=backref("relation_votes", cascade="all, delete-orphan"))
     weight = Column(Integer, nullable=False)  # if extendedDiscussion: --,-,0,+,++ , otherwise -1 and +1
 
 
