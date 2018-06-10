@@ -1,10 +1,11 @@
 from functools import partial
 import logging
 import dectate
-from morepath import redirect, App, reify, Request
-from ekklesia_portal.database.datamodel import UserProfile, User
+from morepath import redirect, App, Request
 from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
+from ekklesia_portal.database.datamodel import UserProfile, User
+from ekklesia_portal.helper.utils import cached_property
 
 
 logg = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class EkklesiaAuth:
         self._set_token = set_token
         self._token = token
 
-    @reify
+    @cached_property
     def token(self):
         if self._token is not None:
             return self._token
@@ -35,7 +36,7 @@ class EkklesiaAuth:
         logg.debug('no token yet, using getter')
         return self._get_token()
 
-    @reify
+    @cached_property
     def session(self):
         if not self.authorized:
             raise EkklesiaNotAuthorized()
@@ -56,15 +57,15 @@ class EkklesiaAuth:
         res = self.session.request(method, url, **kwargs)
         return res.json()
 
-    @reify
+    @cached_property
     def profile(self):
         return self.api_request('GET', 'user/profile')
 
-    @reify
+    @cached_property
     def auid(self):
         return self.api_request('GET', 'user/auid')
 
-    @reify
+    @cached_property
     def membership(self):
         return self.api_request('GET', 'user/membership')
 
@@ -169,7 +170,7 @@ class EkklesiaLogin:
         self.settings = settings
         self.session = session
 
-    @reify
+    @cached_property
     def oauth(self):
         return OAuth2Session(client_id=self.settings.client_id)
 

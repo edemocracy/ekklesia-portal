@@ -1,5 +1,5 @@
 import jinja2
-from morepath import reify
+from ekklesia_portal.helper.utils import cached_property
 from markupsafe import Markup
 
 
@@ -90,7 +90,7 @@ class Cell(metaclass=CellMeta):
         else:
             return self.cell(model, layout=layout, **options).show()
 
-    @reify
+    @cached_property
     def self_link(self):
         return self.link(self._model)
 

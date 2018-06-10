@@ -1,5 +1,5 @@
 import morepath
-from morepath import reify
+from ekklesia_portal.helper.utils import cached_property
 
 from ekklesia_portal import database
 
@@ -9,7 +9,7 @@ class EkklesiaPortalRequest(morepath.Request):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    @reify
+    @cached_property
     def db_session(self):
         return database.Session()
 
