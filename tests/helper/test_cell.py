@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 from munch import Munch
 from pytest import fixture, raises
 import ekklesia_portal.helper.cell
@@ -19,7 +19,7 @@ def model():
 @fixture
 def request_for_cell(app):
     environ = BaseRequest.blank('test').environ
-    return MagicMock(spec=EkklesiaPortalRequest(environ, app))
+    return Mock(spec=EkklesiaPortalRequest(environ, app))
 
 
 @fixture
@@ -39,12 +39,12 @@ def render_template(jinja_env):
 
 
 @fixture
-def cell(model, request_for_cell):
-    _model = model
-
+def cell_class(model):
     class DummyMarkup(str):
         def __init__(self, content):
             self.content = content
+
+    _model = model
 
     class TestCell(Cell):
         model = _model.__class__
@@ -55,7 +55,26 @@ def cell(model, request_for_cell):
         def test_url(self):
             return "https://example.com/test"
 
-    return TestCell(model, request_for_cell)
+        def alternate_view(self, **k):
+            return self.render_template('alternate_template', **k)
+
+    return TestCell
+
+
+@fixture
+def cell(cell_class, model, request_for_cell):
+    return cell_class(model, request_for_cell)
+
+
+def test_root_cell_uses_layout(cell):
+    assert cell.layout
+
+
+def test_nested_cells(model, cell):
+    parent = cell
+    child = parent.cell(model)
+    assert child.parent == parent
+    assert not child.layout
 
 
 def test_cell_is_registrated(cell, model):
@@ -99,23 +118,33 @@ def test_cell_template_path(cell, model):
 
 
 def test_cell_show(cell, model):
-    res = cell.show()
-    assert res.content.render_template.called_with(cell.template_path, cell)
+    cell.render_template = Mock()
+    cell.show()
+    cell.render_template.assert_called_with(cell.template_path)
 
 
-def test_cell_render_cell(cell, model):
-    res = cell.render_cell(model, some_option=42)
-    assert res.content.render_template.called_with(model, cell._request, some_option=42)
+def test_cell_render_cell(cell, model, request_for_cell):
+    cell.render_cell(model)
+    request_for_cell.render_template.assert_called
+    assert request_for_cell.render_template.call_args[0][0] == cell.template_path
+
+
+def test_cell_render_cell_nonstandard_view(cell, model, request_for_cell):
+    cell.render_cell(model, 'alternate_view', some_option=42)
+    request_for_cell.render_template.assert_called
+    assert request_for_cell.render_template.call_args[0][0] == 'alternate_template'
 
 
 def test_cell_render_cell_collection(cell, model):
     model2 = model.copy()
     model2.title = "test2"
     models = [model, model2]
-    cell.render_template = MagicMock()
-    cell.render_cell(collection=models, some_option=42)
-    assert cell.render_template.called_with(model, cell._request, some_option=42)
-    assert cell.render_template.called_with(model2, cell._request, some_option=42)
+    cell.cell = Mock(cell)
+    cell.cell.return_value.show = Mock(return_value='test')
+    result = cell.render_cell(collection=models, separator='&', some_option=42)
+    assert result == 'test&test'
+    cell.cell.assert_any_call(model, layout=None, some_option=42)
+    cell.cell.assert_any_call(model2, layout=None, some_option=42)
 
 
 def test_cell_render_cell_model_and_collection_not_allowed(cell, model):

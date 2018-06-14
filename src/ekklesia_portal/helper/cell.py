@@ -32,16 +32,24 @@ class Cell(metaclass=CellMeta):
     #: class that should be used to mark safe HTML output
     markup_class = Markup
 
-    def __init__(self, model, request, collection=None, layout=None, template_path=None, **options):
+    def __init__(self, model, request, collection=None, layout=None, parent=None, template_path=None, **options):
+        """
+        """
         self._model = model
         self._request = request
         self.current_user = request.current_user
         self._app = request.app
+        self.parent = parent
         self.collection = collection
         self._template_path = template_path
         self.options = options
+        # if no parent is set, the layout is enabled by default. This can be overriden by the `layout` arg
         if layout is not None:
             self.layout = layout
+        elif parent is None:
+            self.layout = True
+        else:
+            self.layout = False
 
     @property
     def template_path(self):
@@ -65,22 +73,23 @@ class Cell(metaclass=CellMeta):
     def class_link(self, model_class, variables, name='', *args, **kwargs):
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
 
-    def cell(self, model, layout=False, view_name='', **options):
+    def cell(self, model, layout=None, view_name='', **options):
         """Look up a cell by model and create an instance.
-        Cells created with this method are rendered without layout by default.
+        The parent cell is set to self which also means that it will be rendered without layout by default.
         """
         cell_class = find_cell_by_model_instance(model)
-        return cell_class(model, self._request, layout=layout, **options)
+        return cell_class(model, self._request, layout=layout, parent=self, **options)
 
-    def render_cell(self, model=None, collection=None, separator=None, layout=False, view_name='', **options):
+    def render_cell(self, model=None, view_name=None, collection=None, separator=None, layout=None, **options):
         """Look up a cell by model and render it to HTML.
-        Cells are rendered without layout by default.
+        The parent cell is set to self which also means that it will be rendered without layout by default.
         """
+        view_method = view_name if view_name is not None else 'show'
         if collection is not None:
             if model is not None:
                 raise ValueError("model and collection arguments cannot be used together!")
 
-            parts = [self.cell(item, layout=layout, **options).show() for item in collection]
+            parts = [getattr(self.cell(item, layout=layout, **options), view_method)() for item in collection]
 
             if separator is None:
                 separator = "\n"
@@ -88,7 +97,7 @@ class Cell(metaclass=CellMeta):
             return self.__class__.markup_class(separator.join(parts))
 
         else:
-            return self.cell(model, layout=layout, **options).show()
+            return getattr(self.cell(model, layout=layout, **options), view_method)()
 
     @cached_property
     def self_link(self):
