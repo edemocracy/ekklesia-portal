@@ -10,4 +10,4 @@ def propositions(request, searchterm, tag, mode="sorted"):
 
 @App.html(model=Propositions)
 def propositions_html(self, request):
-    return PropositionsCell(self, request, layout=True).show()
+    return PropositionsCell(self, request).show()

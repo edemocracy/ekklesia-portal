@@ -47,7 +47,7 @@ def proposition(request, id):
 
 @App.html(model=Proposition)
 def proposition_show(self, request):
-    cell = PropositionCell(self, request, layout=True, show_tabs=True, show_details=True, show_actions=True, show_arguments=True)
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, show_arguments=True)
     return cell.show()
 
 
