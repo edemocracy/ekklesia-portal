@@ -5,6 +5,6 @@ def test_argumentrelation(client):
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content  # proposition title
     # argument
-    assert 'Ein Contra-Argument' in content  # title
-    assert 'dagegen' in content  # abstract
-    assert 'aus Gründen' in content  # details
+    assert 'Ein Contra-Argument' in content, 'argument title'
+    assert 'dagegen' in content, 'argument abstract'
+    assert 'aus Gründen' in content, 'argument details'

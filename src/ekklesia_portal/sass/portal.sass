@@ -28,6 +28,16 @@ a.btn
   @extend .my-2
   @extend .d-block
 
+.argument_vote_btn.disabled
+  background-color: white
+  border: 0
+
+.argument_vote_btn i
+  color: white
+
+.argument_vote_btn.disabled i
+  color: $black
+
 .argument
   @extend .card
   @extend .mb-1
@@ -54,7 +64,7 @@ a.btn
   @extend .mt-1
   @extend .row
 
-.con 
+.con
   .authoring_info
     @extend .text-sm-right
 
@@ -68,8 +78,9 @@ a.btn
 
 .argument_sidebar
   @extend .col-sm-2
+  @extend .text-center
 
-.pro 
+.pro
   .argument_sidebar
     @extend .order-10
 
@@ -98,7 +109,7 @@ a.btn
 .proposition_col
   @extend .col-sm-6
 
-.arguments 
+.arguments
   @extend .mt-2
 
 .author

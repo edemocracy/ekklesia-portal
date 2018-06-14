@@ -34,10 +34,11 @@ from sqlalchemy import (
     JSON,
     func
 )
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 
 from ekklesia_portal.database import Base, TimeStamp
+from ekklesia_portal.helper.utils import cached_property
 
 
 class Group(Base):
@@ -393,6 +394,13 @@ class ArgumentRelation(Base):
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
     argument_type = Column(String(8), nullable=False)  # pro/extends,contra/refutes,question,answer
     # if not extendedDiscussion: only pro/contra/refutes
+
+    def user_vote(self, user):
+        return object_session(self).query(ArgumentVote).filter_by(relation=self, member=user).scalar()
+
+    @cached_property
+    def score(self):
+        return sum(rv.weight for rv in self.relation_votes)
 
 
 class ArgumentVote(Base):

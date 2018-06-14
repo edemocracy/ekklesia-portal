@@ -1,29 +1,68 @@
+- macro argument_voting()
+  form(method='POST', action=vote_action_url)
+    button.argument_vote_btn(type="submit", name="weight", value=1, class=upvote_button_disabled_class)
+      i.fas.fa-arrow-up
+
+    button.argument_vote_btn(type="submit", name="weight", value=0, class=revoke_vote_button_disabled_class)
+      i.far.fa-circle
+
+    button.argument_vote_btn(type="submit", name="weight", value=-1, class=downvote_button_disabled_class)
+      i.fas.fa-arrow-down
+
+
+- macro argument_relation(extended=false)
+  .argument
+    a(name="argument_relation_{{ id }}")
+    .argument_body
+      .row
+        .argument_sidebar
+          strong.large_number= "%+i" |format(score)
+          if show_voting
+            .argument_voting
+              = argument_voting()
+
+        = render_cell(argument, header_link=self_link, extended=extended)
+
+      .argument_actions
+        .counter_arguments
+          if show_ca_button
+            num_counter_arguments = counter_arguments|length
+            a.counter_arguments_btn(href="#")
+              strong.large_number= num_counter_arguments
+              |&nbsp;
+              span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
+
+    = render_cell(argument, "footer")
+
+
 - if layout
   - extends "layout.j2.jade"
 
-- block title
-  title= title
+  - block title
+    title= title
 
-- block content
-  ol.breadcrumb
-    li
-      a(href=proposition_url)
-        = _("discussion")
+  - block content
+    ol.breadcrumb
+      li
+        a(href=proposition_url)
+          = _("discussion")
+          |:
+          = proposition_title
+
+      li.active
+        a(href=argument_url)
+        = _("argument")
         |:
-        = proposition_title
+        = argument_title
 
-    li.active 
-      a(href=argument_url)
-      = _("argument")
-      |:
-      = argument_title
+    = render_cell(proposition, margin=False)
 
-  = render_cell(proposition, margin=False)
+    hr.argument_separator
 
-  hr.argument_separator
-
-  .arguments
-      = render_cell(argument, extended=True, show_voting=True)
+    .arguments
+        = argument_relation(extended=true)
+- else
+  = argument_relation()
 
 
 // generated from jade

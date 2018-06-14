@@ -118,7 +118,7 @@
         a(name="bottom")
 
         .proposition_col.pro
-          = render_cell(collection=pro_arguments)
+          = render_cell(collection=pro_argument_relations)
 
           a(href=new_argument_url("pro"))
             .button_add_related
@@ -126,7 +126,7 @@
               = _("add_pro_argument")
 
         .proposition_col.con
-          = render_cell(collection=contra_arguments)
+          = render_cell(collection=contra_argument_relations)
 
           a(href=new_argument_url("con"))
             .button_add_related

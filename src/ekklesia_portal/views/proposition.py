@@ -4,7 +4,6 @@ import logging
 #from flask_wtf import Form
 #from wtforms import TextField
 #from wtforms.validators import DataRequired
-#import flask_sijax
 import requests
 
 from ekklesia_portal.app import App
@@ -30,18 +29,10 @@ QUESTION_ASSOCIATION_TYPES = {
 #    details = TextField("details", default="")
 #    tags = TextField("tags", default="")
 
-#@flask_sijax.route(app, "/<proposition_url>")
-@App.path(model=Proposition, path="/propositions/{id}")
-def proposition(request, id):
-    # XXX: this line should be moved to a decorator wrapping flask_sijax.route because we need this for all sijax views.
-    # g.sijax.set_request_uri(request.path)
 
-    # if g.sijax.is_sijax_request:
-    #    g.sijax.register_callback('argument_vote', argument_vote)
-    #    g.sijax.register_callback('proposition_vote', proposition_vote)
-    #    return g.sijax.process_request()
-
-    proposition = request.q(Proposition).get(id)
+@App.path(model=Proposition, path="/propositions/{proposition_id}", variables=lambda o: dict(proposition_id=o.id))
+def proposition(request, proposition_id):
+    proposition = request.q(Proposition).get(proposition_id)
     return proposition
 
 

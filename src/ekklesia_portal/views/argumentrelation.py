@@ -5,8 +5,10 @@ import logging
 #from wtforms import TextField
 #from wtforms.validators import DataRequired
 #import flask_sijax
+from morepath import redirect
+from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import ArgumentRelation
+from ekklesia_portal.database.datamodel import ArgumentRelation, ArgumentVote
 from ekklesia_portal.cells.argumentrelation import ArgumentRelationCell
 
 
@@ -18,15 +20,32 @@ logg = logging.getLogger(__name__)
 #    abstract = TextField("abstract", validators=[DataRequired()])
 #    details = TextField("details")
 
-@App.path(model=ArgumentRelation, path="/propositions/{id}/arguments/{argument_id}")
-def argument_relation(request, id, argument_id):
-    argument_relation = request.q(ArgumentRelation).filter_by(proposition_id=id, argument_id=argument_id).scalar()
+@App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")
+def argument_relation(request, proposition_id, argument_id):
+    argument_relation = request.q(ArgumentRelation).filter_by(proposition_id=proposition_id, argument_id=argument_id).scalar()
     return argument_relation
 
 
 @App.html(model=ArgumentRelation)
 def show_argument_relation(self, request):
     return ArgumentRelationCell(self, request).show()
+
+
+@App.html(model=ArgumentRelation, name='vote', request_method='POST')
+def post_vote(self, request):
+    vote_weight = request.POST.get('weight')
+    if vote_weight not in ('-1', '0', '1'):
+        raise HTTPBadRequest()
+
+    vote = request.db_session.query(ArgumentVote).filter_by(relation=self, member=request.current_user).scalar()
+    if vote is None:
+        vote = ArgumentVote(relation=self, member=request.current_user, weight=int(vote_weight))
+        request.db_session.add(vote)
+    else:
+        vote.weight = int(vote_weight)
+
+    redirect_url = request.link(self.proposition) + '#argument_relation_' + str(self.id)
+    return redirect(redirect_url)
 
 
 #@app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])

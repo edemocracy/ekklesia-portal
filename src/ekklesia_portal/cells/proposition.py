@@ -21,12 +21,12 @@ class PropositionCell(Cell):
         return len(self._model.supporters)
 
     @cached_property
-    def pro_arguments(self):
-        return [p.argument for p in self._model.proposition_arguments if p.argument_type == "pro"]
+    def pro_argument_relations(self):
+        return [p for p in self._model.proposition_arguments if p.argument_type == "pro"]
 
     @cached_property
-    def contra_arguments(self):
-        return [p.argument for p in self._model.proposition_arguments if p.argument_type == "con"]
+    def contra_argument_relations(self):
+        return [p for p in self._model.proposition_arguments if p.argument_type == "con"]
 
     @cached_property
     def argument_count(self):
