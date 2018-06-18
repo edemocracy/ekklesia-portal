@@ -309,8 +309,9 @@ class Proposition(Base):
     __tablename__ = 'propositions'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     title = Column(Text, nullable=False)
+    short = Column(Text, nullable=False, default='""')
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
-    motivation = Column(Text, nullable=False, default="")
+    motivation = Column(Text, nullable=False, default='""')
     submitted = Column(Date)  # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
     qualified = Column(Date)  # optional, when qualified
     # draft, submitted, changing, abandoned, qualified, planned, voting, finished
