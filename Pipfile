@@ -19,6 +19,7 @@ passlib = "*"
 "more.itsdangerous" = "*"
 requests-oauthlib = "*"
 "more.forwarded" = "*"
+deform = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
