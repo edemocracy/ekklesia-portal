@@ -6,6 +6,5 @@ class PropositionsCell(Cell):
     model = Propositions
     model_properties = ['mode', 'tag', 'searchterm']
 
-    @property
     def propositions(self):
         return self._model.propositions(self._request.q)

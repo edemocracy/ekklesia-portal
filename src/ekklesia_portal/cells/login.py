@@ -7,7 +7,6 @@ class LoginCell(Cell):
     model = Login
     model_properties = ['username']
 
-    @property
     def ekklesia_login_url(self):
         ekklesia_app = self._app.child(EkklesiaAuthPathApp)
         return self.link(EkklesiaLogin(), app=ekklesia_app)
