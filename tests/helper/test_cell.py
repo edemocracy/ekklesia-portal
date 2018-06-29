@@ -1,3 +1,4 @@
+import inspect
 from unittest.mock import Mock
 from munch import Munch
 from pytest import fixture, raises
@@ -51,12 +52,16 @@ def cell_class(model):
         model_properties = ['id', 'title']
         markup_class = DummyMarkup
 
-        @property
         def test_url(self):
             return "https://example.com/test"
 
+        @Cell.view
         def alternate_view(self, **k):
             return self.render_template('alternate_template', **k)
+
+        @Cell.view
+        def view_without_params(self):
+            pass
 
     return TestCell
 
@@ -90,6 +95,13 @@ def test_cell_getattr(cell, model):
     assert cell.id == model.id
     assert cell.title == model.title
 
+def test_cell_automatic_properties(cell):
+    assert cell.test_url == 'https://example.com/test'
+    assert inspect.ismethod(cell.alternate_view)
+    assert inspect.ismethod(cell.view_without_params)
+
+def test_cell_view_methods(cell):
+    assert cell.alternate_view._view == True
 
 def test_cell_getitem(cell, model):
     assert cell["id"] == model.id

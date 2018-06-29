@@ -1,3 +1,4 @@
+import inspect
 import jinja2
 from ekklesia_portal.helper.utils import cached_property
 from markupsafe import Markup
@@ -19,6 +20,16 @@ class CellMeta(type):
         if cls.model:
             _cell_registry[cls.model] = cls
         return super().__init__(name, bases, attrs)
+
+    def __new__(meta, name, bases, dct):
+        # only for subclasses, not for Cell class
+        if bases:
+            for k, v in dct.items():
+                # turn functions with single argument (self) into cached properties
+                if not k.startswith('_') and inspect.isfunction(v) and not hasattr(v, '_view') and len(inspect.signature(v).parameters) == 1:
+                    dct[k] = cached_property(v)
+
+        return super().__new__(meta, name, bases, dct)
 
 
 class Cell(metaclass=CellMeta):
@@ -98,6 +109,14 @@ class Cell(metaclass=CellMeta):
 
         else:
             return getattr(self.cell(model, layout=layout, **options), view_method)()
+
+    @staticmethod
+    def view(func):
+        """Decorator for cell methods that can be used as alternative views.
+        """
+        func._view = True
+        return func
+
 
     @cached_property
     def self_link(self):
