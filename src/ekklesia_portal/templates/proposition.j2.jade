@@ -48,21 +48,25 @@
 - block content
 
   if options.small
-    .associated_proposition(class=("associated_proposition_" + side))
-      .row
-        .col-sm-2
-          .authoring_info
-            small.author=_("authored_at", dt=created_at)
+    .proposition_small
+      .proposition_small_content
+        .proposition_small_body
+          h5.proposition_small_title
+            a(href=self_link)= title
 
-          .points
+          = short
+
+      .proposition_small_footer
+        .row
+          .col-sm-6.points
             i.far.fa-thumbs-up &nbsp;
             strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
             span= ngettext("supporter", "supporters", supporter_count)
 
-        .col-sm-8
-          h5.associated_proposition_title
-            a(href=self_link)= title
+          .col-sm-6.authoring_info
+            small= _("authored_at", dt=created_at|datetimeformat)
+
 
   else
     .proposition(id="proposition_{{ id }}",
@@ -70,11 +74,11 @@
       if options.show_tabs
         .proposition_toolbar
           ul.proposition_tabs
-            li.nav-item(class=("active" if active_tab == "discussion" else ""))
-              a.nav-link.active(href=self_link)= _("discussion")
+            li.nav-item
+              a.nav-link(href=discussion_url, class=discussion_link_class)= _("discussion")
 
-            li.nav-item(class=("active" if active_tab == "associated" else ""))
-              a.nav-link(href=self_link)= _("associated")
+            li.nav-item
+              a.nav-link(href=associated_url, class=associated_link_class)= _("associated")
 
       .card-body
         .row
@@ -111,9 +115,7 @@
             if options.show_actions
               = proposition_actions(_model, current_user, _("goto_arguments"))
 
-
-
-    if options.show_arguments
+    if options.active_tab == 'discussion'
       .row.arguments
         a(name="bottom")
 
@@ -133,6 +135,25 @@
               i.far.fa-thumbs-down &nbsp;
               = _("add_con_argument")
 
+    if options.active_tab == 'associated'
+      .row.arguments
+        a(name="bottom")
+
+        .proposition_col.change
+          = render_cell(collection=derivations, small=True, side='left')
+
+          a(href=new_associated_proposition_url("change"))
+            .button_add_related
+              i.far.fa-circle &nbsp;
+              = _("add_change_proposition")
+
+        .proposition_col.counter
+          = render_cell(collection=replacements, small=True, side='right')
+
+          a(href=new_associated_proposition_url("counter"))
+            .button_add_related
+              i.fas.fa-circle &nbsp;
+              = _("add_counter_proposition")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

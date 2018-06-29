@@ -38,24 +38,24 @@ a.btn
 .argument_vote_btn.disabled i
   color: $black
 
-.argument
+.argument, .proposition_small
   @extend .card
   @extend .mb-1
 
-.argument_title
+.argument_title, .proposition_small_title
   @extend .card-title
 
 .argument_content
   @extend .col-sm
 
-.argument_body
+.argument_body, .proposition_small_body
   @extend .p-3
   @extend .card-body
 
 .argument_text
   @extend .card-text
 
-.argument_footer
+.argument_footer, .proposition_small_footer
   @extend .card-footer
   @extend .text-muted
   @extend .py-2
@@ -64,7 +64,7 @@ a.btn
   @extend .mt-1
   @extend .row
 
-.con
+.con, .change
   .authoring_info
     @extend .text-sm-right
 
@@ -80,7 +80,7 @@ a.btn
   @extend .col-sm-2
   @extend .text-center
 
-.pro
+.pro, .counter
   .argument_sidebar
     @extend .order-10
 
@@ -90,13 +90,6 @@ a.btn
 
 .argument_score
   @extend .text-sm-center
-
-.associated_proposition
-  @extend .card
-  @extend .card-body
-
-.associated_proposition_title
-  @extend .card-title
 
 .counter_arguments
   @extend .col-sm

@@ -14,14 +14,6 @@ from ekklesia_portal.cells.proposition import PropositionCell
 logg = logging.getLogger(__name__)
 
 
-# XXX: we support two association types, make it configurable
-QUESTION_ASSOCIATION_TYPES = {
-    "left": "change",
-    "right": "counter",
-    "": ""
-}
-
-
 # class PropositionForm(Form):
 #    associated_with_proposition_url = TextField(default="")
 #    association_type = TextField(default="")
@@ -38,20 +30,14 @@ def proposition(request, proposition_id):
 
 @App.html(model=Proposition)
 def proposition_show(self, request):
-    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, show_arguments=True)
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
     return cell.show()
 
 
-#@app.route("/<proposition_url>/associated")
-def proposition_associated(proposition_url):
-    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
-    associated_propositions_left = proposition.associated_propositions(QUESTION_ASSOCIATION_TYPES["left"])
-    associated_propositions_right = proposition.associated_propositions(QUESTION_ASSOCIATION_TYPES["right"])
-
-    return render_template("proposition_associated.j2.jade",
-                           proposition=proposition,
-                           associated_propositions_left=associated_propositions_left,
-                           associated_propositions_right=associated_propositions_right)
+@App.html(model=Proposition, name='associated')
+def proposition_show_associated(self, request):
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
+    return cell.show()
 
 
 def _handle_post_new_proposition(form):
