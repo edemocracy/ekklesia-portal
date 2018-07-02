@@ -40,33 +40,6 @@ def proposition_show_associated(self, request):
     return cell.show()
 
 
-def _handle_post_new_proposition(form):
-    proposition = Proposition(url=form.title.data.replace(" ", "-"),
-                              details=form.details.data,
-                              title=form.title.data)
-
-    associated_with_proposition_url = form.associated_with_proposition_url.data
-    if associated_with_proposition_url:
-        associated_with_proposition = Proposition.query.filter_by(url=associated_with_proposition_url).scalar()
-        qrel = PropositionAssociation(left=associated_with_proposition,
-                                      right=proposition, association_type=form.association_type.data)
-        db.session.add(qrel)
-
-    tags = [t.strip() for t in form.tags.data.split(",") if t.strip()]
-    existing_tags = Tag.query.filter(Tag.tag.in_(tags)).all()
-    proposition.tags.extend(existing_tags)
-    new_tags = set(tags) - {t.tag for t in existing_tags}
-
-    for tag_name in new_tags:
-        tag = Tag(tag=tag_name)
-        proposition.tags.append(tag)
-        db.session.add(tag)
-
-    db.session.add(proposition)
-    db.session.commit()
-    return redirect(url_for("proposition", proposition_url=proposition.url))
-
-
 def _import_discourse_post(base_url, from_data):
     post_id = int(from_data)
     post_url = "{}/posts/{}".format(base_url, post_id)

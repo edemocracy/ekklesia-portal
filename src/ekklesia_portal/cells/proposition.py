@@ -1,4 +1,5 @@
 from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
+from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
 
 
@@ -22,12 +23,11 @@ class PropositionCell(Cell):
         return 'active' if self.options.get('active_tab') == 'associated' else ''
 
     def new_argument_url(self, argument_type):
-        return "#"
-        self.class_link(Argument, dict(argument_type=argument_type), 'new')
+        return '#'
+        return self.class_link(Argument, dict(argument_type=argument_type), 'new')
 
     def new_associated_proposition_url(self, association_type):
-        return "#"
-        self.class_link(Proposition, dict(association_type=association_type), 'new')
+        return self.class_link(Proposition, dict(association_type=association_type), 'new')
 
     def supporter_count(self):
         return len(self._model.supporters)
@@ -40,3 +40,15 @@ class PropositionCell(Cell):
 
     def argument_count(self):
         return len(self._model.proposition_arguments)
+
+
+class NewPropositionCell(Cell):
+    model = PropositionForm
+
+    def __init__(self, form, request, form_data, collection=None, layout=None, parent=None, template_path=None, **options):
+        self.form = form
+        self.form_data = form_data or {}
+        super().__init__(form, request, collection, layout, parent, template_path, **options)
+
+    def form_html(self):
+        return Cell.markup_class(self.form.render(self.form_data))

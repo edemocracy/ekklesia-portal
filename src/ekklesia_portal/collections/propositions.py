@@ -1,4 +1,8 @@
+from deform import Form
+from ekklesia_portal.helper.utils import cached_property
 from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_portal.schema import PropositionSchema
+from ekklesia_portal.forms import PropositionForm
 
 
 class Propositions:
@@ -11,7 +15,7 @@ class Propositions:
         propositions = q(Proposition)
 
         if self.searchterm:
-            propositions = propositions.search(self.searchterm)
+            propositions = propotemplate_pathsitions.search(self.searchterm)
 
         if self.tag:
             propositions = propositions.join(Tag, Proposition.tags).filter_by(tag=self.tag)
@@ -26,3 +30,6 @@ class Propositions:
             raise NotImplementedError()
 
         return propositions
+
+    def form(self, action):
+        return PropositionForm(action)
