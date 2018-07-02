@@ -1,3 +1,4 @@
+import case_conversion
 import inspect
 import jinja2
 from ekklesia_portal.helper.utils import cached_property
@@ -65,7 +66,7 @@ class Cell(metaclass=CellMeta):
     @property
     def template_path(self):
         if self._template_path is None:
-            name = self._model.__class__.__name__.lower()
+            name = case_conversion.snakecase(self._model.__class__.__name__)
             self._template_path = name + ".j2.jade"
 
         return self._template_path

@@ -126,7 +126,7 @@ def test_cannot_access_private_attr_from_cell(cell, model):
 
 
 def test_cell_template_path(cell, model):
-    assert cell.template_path == "testmodel.j2.jade"
+    assert cell.template_path == "test_model.j2.jade"
 
 
 def test_cell_show(cell, model):

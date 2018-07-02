@@ -20,6 +20,7 @@ passlib = "*"
 requests-oauthlib = "*"
 "more.forwarded" = "*"
 deform = "*"
+case-conversion = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
