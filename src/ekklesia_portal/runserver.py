@@ -73,7 +73,8 @@ def run():
     wsgi_app = make_wsgi_app(args.config_file)
 
     wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
-        '/static': ("ekklesia_portal", 'static')
+        '/static': ("ekklesia_portal", 'static'),
+        '/static/deform': ("deform", 'static')
     })
 
     if args.stackdump:

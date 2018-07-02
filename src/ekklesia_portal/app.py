@@ -8,6 +8,7 @@ from more.browser_session import BrowserSessionApp
 from more.forwarded import ForwardedApp
 from more.transaction import TransactionApp
 import yaml
+from werkzeug.wsgi import SharedDataMiddleware
 
 from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
