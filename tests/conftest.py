@@ -16,6 +16,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('morepath').setLevel(logging.INFO)
 
+logg = logging.getLogger('test')
 
 BASEDIR = path.dirname(__file__)
 
@@ -55,3 +56,10 @@ def proposition(session):
 @fixture
 def user(session):
     return session.query(User).get(1)
+
+@fixture
+def no_db_commit(monkeypatch):
+    def dummy_commit(*a, **kw):
+        logg.info('would commit now')
+
+    monkeypatch.setattr('transaction.manager.commit', dummy_commit)
