@@ -8,6 +8,14 @@ def test_index(client):
     assert 'Q1' in content
 
 
+def test_show(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get("/propositions/1")
+    content = res.body.decode()
+    assert content.startswith("<!DOCTYPE html5>")
+    assert 'Ein Titel' in content
+
+
 def test_new_with_data_import(client):
     from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 

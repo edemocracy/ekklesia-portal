@@ -1,3 +1,4 @@
+from ekklesia_portal.collections.propositions import Propositions
 from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
 from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
@@ -52,3 +53,11 @@ class NewPropositionCell(Cell):
 
     def form_html(self):
         return Cell.markup_class(self.form.render(self.form_data))
+
+
+class PropositionsCell(Cell):
+    model = Propositions
+    model_properties = ['mode', 'tag', 'searchterm']
+
+    def propositions(self):
+        return self._model.propositions(self._request.q)

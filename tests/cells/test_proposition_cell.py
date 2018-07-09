@@ -1,6 +1,6 @@
 from unittest.mock import Mock
 from pytest import fixture
-from ekklesia_portal.views.proposition import PropositionCell
+from ekklesia_portal.cells.proposition import PropositionCell
 from ekklesia_portal.database.datamodel import ArgumentRelation
 
 

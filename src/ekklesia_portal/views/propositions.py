@@ -4,14 +4,31 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.database.datamodel import Proposition, Tag
-from ekklesia_portal.cells.propositions import PropositionsCell
-from ekklesia_portal.cells.proposition import NewPropositionCell
+from ekklesia_portal.cells.proposition import PropositionCell, PropositionsCell, NewPropositionCell
 from ekklesia_portal.collections.propositions import Propositions
 
 
 @App.path(model=Propositions, path='propositions')
 def propositions(request, searchterm=None, tag=None, mode="sorted"):
     return Propositions(mode, searchterm, tag)
+
+
+@App.path(model=Proposition, path="/propositions/{proposition_id}", variables=lambda o: dict(proposition_id=o.id))
+def proposition(request, proposition_id):
+    proposition = request.q(Proposition).get(proposition_id)
+    return proposition
+
+
+@App.html(model=Proposition)
+def show(self, request):
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
+    return cell.show()
+
+
+@App.html(model=Proposition, name='associated')
+def show_associated(self, request):
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
+    return cell.show()
 
 
 @App.html(model=Propositions)
