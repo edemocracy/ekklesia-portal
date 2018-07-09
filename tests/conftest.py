@@ -1,5 +1,7 @@
 import logging
+import os
 from os import path
+import sys
 from morepath.request import BaseRequest
 from pytest import fixture
 from webtest import TestApp as Client
@@ -8,6 +10,7 @@ from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition, User
 
+sys.path.append(os.path.join(os.path.dirname(__file__), 'helpers'))
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
