@@ -4,7 +4,6 @@ import logging
 #from flask_wtf import Form
 #from wtforms import TextField
 #from wtforms.validators import DataRequired
-#import flask_sijax
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App

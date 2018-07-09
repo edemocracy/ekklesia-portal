@@ -10,7 +10,6 @@ from pprint import pformat
 #from flask_dance.consumer.backend.sqla import SQLAlchemyBackend
 #from flask.ext.misaka import Misaka
 #from flask_login import current_user, LoginManager, login_user
-#import flask_sijax
 from werkzeug.contrib.fixers import ProxyFix
 
 
@@ -173,12 +172,6 @@ def make_app(debug=False, **app_options):
 
     # OAuth2 using flask-dance
     init_oauth_ext(app)
-
-    # ajax lib flask-sijax
-    path = os.path.join('.', os.path.dirname(__file__), 'static/js/sijax/')
-    app.config['SIJAX_STATIC_PATH'] = path
-    app.config['SIJAX_JSON_URI'] = '/static/js/sijax/json2.js'
-    flask_sijax.Sijax(app)
 
     @app.before_request
     def set_locale():

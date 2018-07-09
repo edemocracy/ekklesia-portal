@@ -4,7 +4,6 @@ import logging
 #from flask_wtf import Form
 #from wtforms import TextField
 #from wtforms.validators import DataRequired
-#import flask_sijax
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Argument
 from ekklesia_portal.cells.argument import ArgumentCell

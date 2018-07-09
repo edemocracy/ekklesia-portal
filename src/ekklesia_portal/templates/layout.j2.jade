@@ -10,8 +10,6 @@ head
   link(rel="stylesheet", href="/static/css/portal.css")
   //script(src=url_for("static", filename="js/jquery-2.2.3.js"))
   script(src="/static/js/jquery-2.2.3.js")
-  script(src="/static/js/sijax/sijax.js")
-  //script= g.sijax.get_js()|safe
   script(src='/static/deform/scripts/deform.js')
   script.
     var current_user = { "is_authenticated": {{ current_user is not none|tojson }} };
@@ -74,19 +72,6 @@ body
           a(href="#")= _("imprint")
         li.list-inline-item
           a(href="https://github.com/dpausp/ekklesia-portal")= _("source code")
-
-  script.
-
-    change_locale_sijax_callback = function() {
-      location.reload();
-    }
-
-    $(function() {
-      $("#locale_select").change(function() {
-        Sijax.request("change_locale", [this.value])
-        console.log("locale changed to " + this.value);
-      });
-    });
 
   - block script
     // empty

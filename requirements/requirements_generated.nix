@@ -193,29 +193,6 @@ self: {
   };
 
 
-
-  "Flask-Sijax" = python.mkDerivation {
-    name = "Flask-Sijax-0.4.1";
-    src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/97/0e/b2c803d8af324c7161608339496b7a8b05af4711d3da329f8e8d7fc7c49d/Flask-Sijax-0.4.1.tar.gz";
-      sha256= "fb2bf2d4f75408185102195055d75549fee8d9c9e954dca2427186925cdc429f";
-    };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."Flask"
-      self."Sijax"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.bsdOriginal;
-      description = "An extension for the Flask microframework that adds Sijax support.";
-    };
-    passthru.top_level = false;
-  };
-
-
-
   "Flask-WTF" = python.mkDerivation {
     name = "Flask-WTF-0.12";
     src = pkgs.fetchurl {
@@ -383,28 +360,6 @@ self: {
       homepage = "";
       license = licenses.bsdOriginal;
       description = "Various utility functions for SQLAlchemy.";
-    };
-    passthru.top_level = false;
-  };
-
-
-
-  "Sijax" = python.mkDerivation {
-    name = "Sijax-0.3.2";
-    src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/3a/08/32c4e77caafc7542195cfb00e0ee400f1d9e29c4259842c3b32441b39bd3/Sijax-0.3.2.tar.gz";
-      sha256= "11b062f4a8b2aad95c87e7c09e5daf5a6b0d0f08abf9efe5f91a0075c6be7c0d";
-    };
-    doCheck = commonDoCheck;
-    buildInputs = commonBuildInputs;
-    propagatedBuildInputs = [
-      self."future"
-      self."six"
-    ];
-    meta = with pkgs.stdenv.lib; {
-      homepage = "";
-      license = licenses.bsdOriginal;
-      description = "An easy to use AJAX library based on jQuery.ajax";
     };
     passthru.top_level = false;
   };
