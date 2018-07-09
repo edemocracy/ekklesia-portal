@@ -14,7 +14,7 @@ def propositions(request, searchterm=None, tag=None, mode="sorted"):
 
 
 @App.html(model=Propositions)
-def propositions_html(self, request):
+def index(self, request):
     return PropositionsCell(self, request).show()
 
 
@@ -24,7 +24,7 @@ def new(self, request):
 
 
 @App.html(model=Propositions, request_method='POST')
-def proposition_create(self, request):
+def create(self, request):
     controls = request.POST.items()
     form = self.form(request.class_link(Propositions))
     try:
