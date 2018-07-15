@@ -16,7 +16,7 @@ class PropositionCell(Cell):
         return self.link(self._model)
 
     def is_supported_by_current_user(self):
-        return self.current_user in self._model.supporters
+        return self._model.support_by_user(self.current_user) is not None
 
     def discussion_link_class(self):
         return 'active' if self.options.get('active_tab') == 'discussion' else ''
@@ -39,6 +39,9 @@ class PropositionCell(Cell):
 
     def supporter_count(self):
         return len(self._model.supporters)
+
+    def support_action(self):
+        return self.link(self._model, 'support')
 
     def pro_argument_relations(self):
         return [p for p in self._model.proposition_arguments if p.argument_type == "pro"]

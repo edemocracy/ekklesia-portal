@@ -1,3 +1,4 @@
+from ekklesia_portal.database.datamodel import Supporter
 from webtest_helpers import assert_deform
 
 def test_index(client):
@@ -36,3 +37,36 @@ def test_new_with_data_import(client):
         'content': 'pre-filled content'
     }
     assert_deform(res, expected)
+
+
+def test_support(client, db_session, user, monkeypatch):
+    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.current_user', user)
+
+    def assert_supporter(status):
+        qq = db_session.query(Supporter).filter_by(member_id=user.id, proposition_id=3)
+        if status is None:
+            assert qq.scalar() is None, 'supporter present but should not be present'
+        else:
+            assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
+
+    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    assert_supporter('active')
+
+    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    assert_supporter('retracted')
+
+    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    assert_supporter('retracted')
+
+    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    assert_supporter('active')
+
+    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    assert_supporter('active')
+
+    res = client.post('/propositions/3/support', dict(invalid=True), status=400)
+    assert_supporter('active')
+
+    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    assert_supporter('retracted')
+

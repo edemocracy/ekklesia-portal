@@ -3,7 +3,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter
 from ekklesia_portal.cells.proposition import PropositionCell, PropositionsCell, NewPropositionCell
 from ekklesia_portal.collections.propositions import Propositions
 
@@ -25,10 +25,23 @@ def show(self, request):
     return cell.show()
 
 
-@App.html(model=Proposition, name='associated')
-def show_associated(self, request):
-    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
-    return cell.show()
+@App.html(model=Proposition, request_method='POST', name='support')
+def support(self, request):
+    if 'support' not in request.POST and 'retract' not in request.POST:
+        raise HTTPBadRequest()
+
+    user_id = request.current_user.id
+    supporter = request.db_session.query(Supporter).filter_by(member_id=user_id, proposition_id=self.id).scalar()
+    if 'support' in request.POST:
+        if supporter is None:
+            supporter = Supporter(member_id=user_id, proposition_id=self.id)
+            request.db_session.add(supporter)
+        elif supporter.status in ('retracted', 'expired'):
+            supporter.status = 'active'
+    elif 'retract' in request.POST and supporter is not None and supporter.status != 'retracted':
+        supporter.status = 'retracted'
+
+    return redirect(request.link(self))
 
 
 @App.html(model=Propositions)

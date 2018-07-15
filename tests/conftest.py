@@ -44,18 +44,18 @@ def request(app):
 
 
 @fixture
-def session(app):
+def db_session(app):
     return Session()
 
 
 @fixture
-def proposition(session):
-    return session.query(Proposition).get(1)
+def proposition(db_session):
+    return db_session.query(Proposition).get(1)
 
 
 @fixture
-def user(session):
-    return session.query(User).get(1)
+def user(db_session):
+    return db_session.query(User).get(1)
 
 @fixture
 def no_db_commit(monkeypatch):

@@ -331,6 +331,10 @@ class Proposition(Base):
     discussion_url = Column(Text)
 
     created_at = Column(DateTime, nullable=False, server_default="NOW()")
+
+    def support_by_user(self, user):
+        return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status='active').scalar()
+
     """
    submission data: content, submitters, conflicts
    perform daily checks
