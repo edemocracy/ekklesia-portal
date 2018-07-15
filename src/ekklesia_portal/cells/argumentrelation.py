@@ -1,5 +1,6 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.database.datamodel import ArgumentRelation
+from ekklesia_portal.forms import ArgumentForPropositionForm
 
 
 class ArgumentRelationCell(Cell):
@@ -38,3 +39,16 @@ class ArgumentRelationCell(Cell):
 
     def vote_action_url(self):
         return self.link(self._model, 'vote')
+
+
+class NewArgumentForPropositionCell(Cell):
+    model = ArgumentForPropositionForm
+
+    def __init__(self, form, request, form_data, proposition, collection=None, layout=None, parent=None, template_path=None, **options):
+        self.form = form
+        self.form_data = form_data or {}
+        self.proposition = proposition
+        super().__init__(form, request, collection, layout, parent, template_path, **options)
+
+    def form_html(self):
+        return Cell.markup_class(self.form.render(self.form_data))

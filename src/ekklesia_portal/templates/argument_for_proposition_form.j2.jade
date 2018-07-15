@@ -1,0 +1,19 @@
+- extends "layout.j2.jade"
+
+- block title
+  title
+    = proposition.title
+    | -
+    = _("new_argument")
+
+- block content
+
+  //= proposition_tabline(proposition, "discussion")
+
+  //= proposition_box(proposition, current_user, no_margin=True)
+
+  h3= _("new_argument")
+
+  = form_html
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

@@ -1,4 +1,5 @@
 from ekklesia_portal.collections.propositions import Propositions
+from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
 from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
@@ -29,6 +30,12 @@ class PropositionCell(Cell):
 
     def new_associated_proposition_url(self, association_type):
         return self.class_link(Proposition, dict(association_type=association_type), 'new')
+
+    def new_pro_argument_url(self):
+        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='pro'), '+new')
+
+    def new_con_argument_url(self):
+        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='con'), '+new')
 
     def supporter_count(self):
         return len(self._model.supporters)

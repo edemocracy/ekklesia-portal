@@ -122,7 +122,7 @@
         .proposition_col.pro
           = render_cell(collection=pro_argument_relations)
 
-          a(href=new_argument_url("pro"))
+          a(href=new_pro_argument_url)
             .button_add_related
               i.far.fa-thumbs-up &nbsp;
               = _("add_pro_argument")
@@ -130,7 +130,7 @@
         .proposition_col.con
           = render_cell(collection=contra_argument_relations)
 
-          a(href=new_argument_url("con"))
+          a(href=new_con_argument_url)
             .button_add_related
               i.far.fa-thumbs-down &nbsp;
               = _("add_con_argument")

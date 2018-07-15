@@ -26,3 +26,14 @@ class PropositionSchema(MappingSchema):
     tags = list_property(missing=tuple())
     relation_type = string_property(validator=OneOf(['replaces', 'modifies']), missing=None)
     related_proposition_id = int_property(missing=None)
+
+
+class ArgumentSchema(MappingSchema):
+    title = string_property(validator=Length(min=5, max=80))
+    abstract = string_property(validator=Length(min=5, max=140))
+    details = string_property(validator=Length(min=10, max=4096), missing='')
+
+
+class ArgumentForPropositionSchema(ArgumentSchema):
+    proposition_id = int_property()
+    relation_type = string_property(validator=OneOf(['pro', 'con']))

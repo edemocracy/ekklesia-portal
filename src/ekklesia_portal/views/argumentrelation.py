@@ -1,28 +1,25 @@
 import logging
-#from flask.ext.babelex import _
-#from flask_login import current_user
-#from flask_wtf import Form
-#from wtforms import TextField
-#from wtforms.validators import DataRequired
+from deform import ValidationFailure
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import ArgumentRelation, ArgumentVote
-from ekklesia_portal.cells.argumentrelation import ArgumentRelationCell
+from ekklesia_portal.collections.argument_relations import ArgumentRelations
+from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
+from ekklesia_portal.cells.argumentrelation import ArgumentRelationCell, NewArgumentForPropositionCell
 
 
 logg = logging.getLogger(__name__)
 
 
-# class ArgumentForm(Form):
-#    title = TextField("headline", validators=[DataRequired()])
-#    abstract = TextField("abstract", validators=[DataRequired()])
-#    details = TextField("details")
-
 @App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")
 def argument_relation(request, proposition_id, argument_id):
     argument_relation = request.q(ArgumentRelation).filter_by(proposition_id=proposition_id, argument_id=argument_id).scalar()
     return argument_relation
+
+
+@App.path(model=ArgumentRelations, path="/propositions/{proposition_id}/arguments")
+def argument_relations(request, proposition_id, relation_type=None):
+    return ArgumentRelations(proposition_id, relation_type)
 
 
 @App.html(model=ArgumentRelation)
@@ -47,17 +44,29 @@ def post_vote(self, request):
     return redirect(redirect_url)
 
 
-#@app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])
-def new_argument_relation(proposition_url, argument_type):
-    logg.debug("new argument form: %s", request.form)
-    proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
-    form = ArgumentForm()
+@App.html(model=ArgumentRelations, name='new')
+def new(self, request):
+    form_data ={
+        'relation_type': self.relation_type,
+        'proposition_id': self.proposition_id,
+    }
+    proposition = request.db_session.query(Proposition).get(self.proposition_id)
+    return NewArgumentForPropositionCell(self.form(request.link(self)), request, form_data, proposition).show()
 
-    if request.method == "POST" and form.validate():
-        arg = Argument(url=form.title.data.replace(" ", "-"), details=form.details.data, title=form.title.data,
-                       abstract=form.abstract.data, argument_type=argument_type, proposition=proposition, author=current_user)
-        db.session.add(arg)
-        db.session.commit()
-        return redirect(url_for("proposition", proposition_url=proposition.url))
 
-    return render_template("new_argument.j2.jade", proposition=proposition, argument_type=argument_type)
+@App.html(model=ArgumentRelations, request_method='POST')
+def create(self, request):
+    controls = request.POST.items()
+    form = self.form(request.link(self))
+    proposition = request.db_session.query(Proposition).get(self.proposition_id)
+    try:
+        appstruct = form.validate(controls)
+    except ValidationFailure as e:
+        return NewArgumentForPropositionCell(form, request, None, proposition).show()
+
+    argument = Argument(title=appstruct['title'], abstract=appstruct['abstract'], details=appstruct['details'])
+    argument_relation = ArgumentRelation(proposition=proposition, argument=argument, argument_type=appstruct['relation_type'])
+    request.db_session.add(argument)
+    request.db_session.add(argument_relation)
+    request.db_session.flush()
+    return redirect(request.link(proposition))
