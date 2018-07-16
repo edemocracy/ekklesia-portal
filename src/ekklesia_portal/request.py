@@ -21,6 +21,9 @@ class EkklesiaPortalRequest(morepath.Request):
         user = self.db_session.merge(user)
         return user
 
+    def permitted_for_current_user(self, obj, permission):
+        return self.app._permits(self.identity, obj, permission)
+
     def q(self, *args, **kwargs):
         return self.db_session.query(*args, **kwargs)
 
