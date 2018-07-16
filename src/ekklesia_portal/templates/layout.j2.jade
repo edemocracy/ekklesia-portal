@@ -46,7 +46,11 @@ body
             button.logout_button(type="submit")
               i.fas.fa-sign-out-alt &nbsp;Abmelden
         else
-          a.btn.nav-link(href='/login')= _("login")
+            a.login_button(href='/login')
+              i.fas.fa-sign-in-alt
+                |&nbsp;
+                = _("login")
+
 
 
     - block messages
