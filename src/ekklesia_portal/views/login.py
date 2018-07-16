@@ -28,7 +28,7 @@ def submit_login(self, request):
     except ValueError:
         return Response(status=400)
 
-    if self.verify_password():
+    if self.verify_password(insecure_empty_password_ok=request.app.settings.app.insecure_development_mode):
         @request.after
         def remember(response):
             identity = morepath.Identity(self.user.id, user=self.user)

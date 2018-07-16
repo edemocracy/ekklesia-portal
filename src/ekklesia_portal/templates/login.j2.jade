@@ -1,26 +1,31 @@
 - if layout
   - extends "layout.j2.jade"
-  
-  
+
+
 - block content
 
   h2 Login über Ekklesia-ID-Testserver
 
   a.btn.btn-primary(href=ekklesia_login_url) Ekklesia-Login
 
-  h2 Interner Login
+  if internal_login_enabled or insecure_development_mode_enabled
+    hr
+    h2 Interner Login
 
-  form(action="/login", method="POST")
-    p
-      label(for="username") Username
-      input(name="username" value=username)
-      
-    p
-      label(for="password") Password
-      input(name="password")
-      
-      
-    input(type="submit")
+    if insecure_development_mode_enabled
+      .alert.alert-danger
+        strong Warnung: Entwicklungsmodus: Login ohne Passwort möglich!
+
+    form(action="/login", method="POST")
+      p
+        label(for="username") Username
+        input(name="username" value=username)
+
+      p
+        label(for="password") Password
+        input(name="password")
+
+      input(type="submit")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

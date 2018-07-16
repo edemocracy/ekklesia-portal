@@ -6,3 +6,6 @@ ekklesia_auth:
     token_url: "https://identity-server.invalid/oauth2/token/"
 database:
     uri: "postgresql+psycopg2://ekklesia_portal_db_user:ekklesia_portal_db_password@127.0.0.1/ekklesia_portal_db_name"
+app:
+    instance_name: my_ekklesia_portal
+    insecure_development_mode: false
