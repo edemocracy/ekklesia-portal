@@ -6,6 +6,18 @@ from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter
 from ekklesia_portal.cells.proposition import PropositionCell, PropositionsCell, NewPropositionCell
 from ekklesia_portal.collections.propositions import Propositions
+from ekklesia_portal.identity_policy import NoIdentity
+from ekklesia_portal.permission import CreatePermission, SupportPermission
+
+
+@App.permission_rule(model=Propositions, permission=CreatePermission)
+def propositions_create_permission(identity, model, permission):
+    return identity != NoIdentity
+
+
+@App.permission_rule(model=Proposition, permission=SupportPermission)
+def proposition_support_permission(identity, model, permission):
+    return identity != NoIdentity
 
 
 @App.path(model=Propositions, path='propositions')
@@ -25,7 +37,7 @@ def show(self, request):
     return cell.show()
 
 
-@App.html(model=Proposition, request_method='POST', name='support')
+@App.html(model=Proposition, request_method='POST', name='support', permission=SupportPermission)
 def support(self, request):
     if 'support' not in request.POST and 'retract' not in request.POST:
         raise HTTPBadRequest()
@@ -49,7 +61,7 @@ def index(self, request):
     return PropositionsCell(self, request).show()
 
 
-@App.html(model=Propositions, name='new')
+@App.html(model=Propositions, name='new', permission=CreatePermission)
 def new(self, request):
     from_data = request.GET.get("from_data")
     source = request.GET.get("source")
@@ -74,7 +86,7 @@ def new(self, request):
     return NewPropositionCell(self.form(request.class_link(Propositions)), request, form_data).show()
 
 
-@App.html(model=Propositions, request_method='POST')
+@App.html(model=Propositions, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
     form = self.form(request.class_link(Propositions))

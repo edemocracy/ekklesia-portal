@@ -15,7 +15,7 @@
 
 - macro proposition_actions(proposition, user, goto_label)
   div
-    if user is not none
+    if show_support_actions
       form.form-inline(action=support_action, method="POST")
         button.btn.btn-primary(hidden=is_supported_by_current_user, type="submit", name="support")
             i.far.fa-thumbs-up &nbsp;
@@ -119,18 +119,20 @@
         .proposition_col.pro
           = render_cell(collection=pro_argument_relations)
 
-          a(href=new_pro_argument_url)
-            .button_add_related
-              i.far.fa-thumbs-up &nbsp;
-              = _("add_pro_argument")
+          if show_create_argument
+            a(href=new_pro_argument_url)
+              .button_add_related
+                i.far.fa-thumbs-up &nbsp;
+                = _("add_pro_argument")
 
         .proposition_col.con
           = render_cell(collection=contra_argument_relations)
 
-          a(href=new_con_argument_url)
-            .button_add_related
-              i.far.fa-thumbs-down &nbsp;
-              = _("add_con_argument")
+          if show_create_argument
+            a(href=new_con_argument_url)
+              .button_add_related
+                i.far.fa-thumbs-down &nbsp;
+                = _("add_con_argument")
 
     if options.active_tab == 'associated'
       .row.arguments

@@ -6,9 +6,21 @@ from ekklesia_portal.app import App
 from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
 from ekklesia_portal.cells.argumentrelation import ArgumentRelationCell, NewArgumentForPropositionCell
+from ekklesia_portal.identity_policy import NoIdentity
+from ekklesia_portal.permission import CreatePermission, VotePermission
 
 
 logg = logging.getLogger(__name__)
+
+
+@App.permission_rule(model=ArgumentRelations, permission=CreatePermission)
+def argument_relation_create_permission(identity, model, permission):
+    return identity != NoIdentity
+
+
+@App.permission_rule(model=ArgumentRelation, permission=VotePermission)
+def argument_relation_vote_permission(identity, model, permission):
+    return identity != NoIdentity
 
 
 @App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")
@@ -27,7 +39,7 @@ def show_argument_relation(self, request):
     return ArgumentRelationCell(self, request).show()
 
 
-@App.html(model=ArgumentRelation, name='vote', request_method='POST')
+@App.html(model=ArgumentRelation, name='vote', request_method='POST', permission=VotePermission)
 def post_vote(self, request):
     vote_weight = request.POST.get('weight')
     if vote_weight not in ('-1', '0', '1'):
@@ -44,7 +56,7 @@ def post_vote(self, request):
     return redirect(redirect_url)
 
 
-@App.html(model=ArgumentRelations, name='new')
+@App.html(model=ArgumentRelations, name='new', permission=CreatePermission)
 def new(self, request):
     form_data ={
         'relation_type': self.relation_type,
@@ -54,7 +66,7 @@ def new(self, request):
     return NewArgumentForPropositionCell(self.form(request.link(self)), request, form_data, proposition).show()
 
 
-@App.html(model=ArgumentRelations, request_method='POST')
+@App.html(model=ArgumentRelations, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
     form = self.form(request.link(self))

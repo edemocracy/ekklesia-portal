@@ -1,6 +1,7 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.database.datamodel import ArgumentRelation
 from ekklesia_portal.forms import ArgumentForPropositionForm
+from ekklesia_portal.permission import VotePermission
 
 
 class ArgumentRelationCell(Cell):
@@ -8,7 +9,7 @@ class ArgumentRelationCell(Cell):
     model_properties = ['id', 'proposition', 'argument', 'score']
 
     def show_voting(self):
-        return self.current_user is not None
+        return self._request.permitted_for_current_user(self._model, VotePermission)
 
     def show_ca_button(self):
         return # self.current_user is not None

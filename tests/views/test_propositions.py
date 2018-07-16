@@ -17,7 +17,7 @@ def test_show(client):
     assert 'Ein Titel' in content
 
 
-def test_new_with_data_import(client):
+def test_new_with_data_import(client, logged_in_user):
     from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 
     import_content = 'pre-filled content'
@@ -39,11 +39,10 @@ def test_new_with_data_import(client):
     assert_deform(res, expected)
 
 
-def test_support(client, db_session, user, monkeypatch):
-    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.current_user', user)
+def test_support(client, db_session, logged_in_user):
 
     def assert_supporter(status):
-        qq = db_session.query(Supporter).filter_by(member_id=user.id, proposition_id=3)
+        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=3)
         if status is None:
             assert qq.scalar() is None, 'supporter present but should not be present'
         else:

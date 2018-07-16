@@ -12,7 +12,7 @@ def test_argumentrelation(client):
     assert 'aus Gründen' in content, 'argument details'
 
 
-def test_new(client):
+def test_new(client, logged_in_user):
     res = client.get("/propositions/1/arguments/+new?relation_type=pro")
     form = res.forms['deform']
 
@@ -23,7 +23,7 @@ def test_new(client):
     assert_deform(res, expected)
 
 
-def test_create(client):
+def test_create(client, logged_in_user):
     data = {
         'proposition_id': 1,
         'relation_type': 'pro',

@@ -3,6 +3,7 @@ from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
 from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
+from ekklesia_portal.permission import SupportPermission, CreatePermission
 
 
 class PropositionCell(Cell):
@@ -51,6 +52,12 @@ class PropositionCell(Cell):
 
     def argument_count(self):
         return len(self._model.proposition_arguments)
+
+    def show_support_actions(self):
+        return self._request.permitted_for_current_user(self._model, SupportPermission)
+
+    def show_create_argument(self):
+        return self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
 
 class NewPropositionCell(Cell):

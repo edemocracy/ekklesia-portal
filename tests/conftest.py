@@ -6,6 +6,7 @@ from morepath.request import BaseRequest
 from pytest import fixture
 from webtest import TestApp as Client
 from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.identity_policy import UserIdentity
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition, User
@@ -56,6 +57,13 @@ def proposition(db_session):
 @fixture
 def user(db_session):
     return db_session.query(User).get(1)
+
+
+@fixture
+def logged_in_user(user, monkeypatch):
+    user_identity = UserIdentity(user)
+    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    return user
 
 @fixture
 def no_db_commit(monkeypatch):
