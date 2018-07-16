@@ -40,12 +40,13 @@ body
           button.search_button(type="submit")
             i.fas.fa-search &nbsp;Suche
 
-        ul.top_usercontrols
-          li.nav-item
-            if current_user is not none
-              a.btn.nav-link(href="#")= current_user.name
-            else
-              a.btn.nav-link(href='/login')= _("login")
+        if current_user is not none
+          a.top_username(href="#")= current_user.name
+          form.top_logout(action='/logout', method="POST")
+            button.logout_button(type="submit")
+              i.fas.fa-sign-out-alt &nbsp;Abmelden
+        else
+          a.btn.nav-link(href='/login')= _("login")
 
 
     - block messages

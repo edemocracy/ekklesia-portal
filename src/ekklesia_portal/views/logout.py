@@ -1,13 +1,16 @@
-#from flask import flash, redirect, url_for
-#from flask_login import login_required, logout_user
-#from flask.ext.babelex import _
+from morepath import redirect
+from ekklesia_portal.app import App
 
-from ekklesia_portal import app
+@App.path(path='/logout')
+class Logout:
+    pass
 
 
-#@app.route("/logout")
-#@login_required
-def logout():
-    logout_user()
-    flash(_("logged_out"))
-    return redirect(url_for("propositions"))
+@App.html(model=Logout, request_method='POST')
+def logout(self, request):
+
+    @request.after
+    def forget(response):
+        request.app.forget_identity(response, request)
+
+    return redirect('/')
