@@ -8,7 +8,7 @@ from ekklesia_portal.permission import SupportPermission, CreatePermission
 
 class PropositionCell(Cell):
     model = Proposition
-    model_properties = ['id', 'title', 'short', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
+    model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
 
     def associated_url(self):
         return self.link(self._model, 'associated')

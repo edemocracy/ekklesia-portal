@@ -20,7 +20,7 @@ def list_property(**kwargs):
 
 class PropositionSchema(MappingSchema):
     title = string_property(validator=Length(min=5, max=512))
-    short = string_property(validator=Length(min=5, max=2048))
+    abstract = string_property(validator=Length(min=5, max=2048))
     content = string_property(validator=Length(min=10, max=65536))
     motivation = string_property(missing='')
     tags = list_property(missing=tuple())

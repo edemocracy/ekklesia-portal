@@ -8,7 +8,7 @@ def test_user_creates_proposition(client, logged_in_user):
     assert form.action.endswith('propositions')
 
     form['title'] = 'test title'
-    form['short'] = 'short'
+    form['abstract'] = 'abstract'
     form['content'] = 'test content'
 
     # user should be redirected and see new proposition
