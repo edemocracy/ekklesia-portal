@@ -337,7 +337,8 @@ class Proposition(Base):
 
     created_at = Column(DateTime, nullable=False, server_default="NOW()")
 
-    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation'))
+    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation',
+                                        weights={'title': 'A', 'abstract': 'B', 'content': 'C', 'motivation': 'D'}))
 
     def support_by_user(self, user):
         return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status='active').scalar()
