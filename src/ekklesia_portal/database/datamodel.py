@@ -36,9 +36,14 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy_searchable import make_searchable
+from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base, TimeStamp
 from ekklesia_portal.helper.utils import cached_property
+
+
+make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
 
 
 class Group(Base):
@@ -309,8 +314,8 @@ class Proposition(Base):
     __tablename__ = 'propositions'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     title = Column(Text, nullable=False)
-    abstract = Column(Text, nullable=False, server_default='""')
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
+    abstract = Column(Text, nullable=False, server_default='""')
     motivation = Column(Text, nullable=False, server_default='""')
     submitted = Column(Date)  # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
     qualified = Column(Date)  # optional, when qualified
@@ -331,6 +336,8 @@ class Proposition(Base):
     discussion_url = Column(Text)
 
     created_at = Column(DateTime, nullable=False, server_default="NOW()")
+
+    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation'))
 
     def support_by_user(self, user):
         return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status='active').scalar()

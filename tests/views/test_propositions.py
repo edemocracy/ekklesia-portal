@@ -9,6 +9,14 @@ def test_index(client):
     assert 'Q1' in content
 
 
+def test_index_search(client):
+    # german search, should find singular "volltextsuche"
+    res = client.get('/propositions?search=volltextsuchen')
+    content = res.body.decode()
+    assert content.startswith("<!DOCTYPE html5>")
+    assert 'Volltextsuche' in content
+    assert 'Titel' not in content
+
 def test_show(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get("/propositions/1")

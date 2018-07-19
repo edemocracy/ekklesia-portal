@@ -5,23 +5,23 @@
   title Arguments - {{ _("overview") }}
 
 - block content
-  if searchterm
+  if search
     ol.breadcrumb
       li
         a(href=self_link)
           = _("overview")
       li.active
         = _("search_for")
-        |: 
-        strong= searchterm
-        
+        |:
+        strong= search
+
   if tag
     ol.breadcrumb
       li
         a(href=self_link)
           = _("overview")
       li.active
-        | Nur Anträge mit Tag: 
+        | Nur Anträge mit Tag:
         span.tag_text= tag
 
   = render_cell(collection=propositions)

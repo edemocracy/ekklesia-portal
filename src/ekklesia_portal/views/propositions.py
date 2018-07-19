@@ -21,8 +21,8 @@ def proposition_support_permission(identity, model, permission):
 
 
 @App.path(model=Propositions, path='propositions')
-def propositions(request, searchterm=None, tag=None, mode="sorted"):
-    return Propositions(mode, searchterm, tag)
+def propositions(request, search=None, tag=None, mode="sorted"):
+    return Propositions(mode, search, tag)
 
 
 @App.path(model=Proposition, path="/propositions/{proposition_id}", variables=lambda o: dict(proposition_id=o.id))

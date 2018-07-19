@@ -74,7 +74,7 @@ class NewPropositionCell(Cell):
 
 class PropositionsCell(Cell):
     model = Propositions
-    model_properties = ['mode', 'tag', 'searchterm']
+    model_properties = ['mode', 'tag', 'search']
 
     def propositions(self):
         return self._model.propositions(self._request.q)

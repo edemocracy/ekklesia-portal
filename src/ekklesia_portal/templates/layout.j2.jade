@@ -35,8 +35,8 @@ body
           //li.nav-item(class=("active" if mode=="custom" else ""))
           //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen
 
-        form.top_search(action=url_for("propositions"))
-          input.form-control(type="text", placeholder=_("search_for"), name="q")
+        form.top_search(action='/propositions')
+          input.form-control(type="text", placeholder=_("search_for"), name="search")
           button.search_button(type="submit")
             i.fas.fa-search &nbsp;Suche
 

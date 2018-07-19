@@ -1,4 +1,5 @@
 if __name__ == "__main__":
+    import sqlalchemy.orm
     import logging
     from ekklesia_portal.lib.password import password_context
     logging.basicConfig(level=logging.INFO)
@@ -13,6 +14,8 @@ if __name__ == "__main__":
     from ekklesia_portal.database.datamodel import *
 
     logg.info("using db url %s", app.settings.database.uri)
+
+    sqlalchemy.orm.configure_mappers()
 
     db_metadata.drop_all()
     db_metadata.create_all()
@@ -37,7 +40,7 @@ if __name__ == "__main__":
     q1_counter = Proposition(title="Gegenantrag zu Q1", content="will was anderes", replaces=q1)
     s.add(q1_counter)
 
-    q1_counter_2 = Proposition(title="Noch ein Gegenantrag zu Q1", content="will was ganz anderes", replaces=q1)
+    q1_counter_2 = Proposition(title="Noch ein Gegenantrag zu Q1 mit Volltextsuche", content="will was ganz anderes, ich will Volltextsuche", replaces=q1)
     s.add(q1_counter_2)
 
     q1_change = Proposition(title="Änderungsantrag zu Q1", content="will was ändern", modifies=q1)

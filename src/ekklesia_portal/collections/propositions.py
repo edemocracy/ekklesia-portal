@@ -3,19 +3,20 @@ from ekklesia_portal.helper.utils import cached_property
 from ekklesia_portal.database.datamodel import Proposition, Tag
 from ekklesia_portal.schema import PropositionSchema
 from ekklesia_portal.forms import PropositionForm
+from sqlalchemy_searchable import search
 
 
 class Propositions:
-    def __init__(self, mode=None, searchterm=None, tag=None):
-        self.searchterm = searchterm
+    def __init__(self, mode=None, search=None, tag=None):
+        self.search = search
         self.mode = mode
         self.tag = tag
 
     def propositions(self, q):
         propositions = q(Proposition)
 
-        if self.searchterm:
-            propositions = propotemplate_pathsitions.search(self.searchterm)
+        if self.search:
+            propositions = search(propositions, self.search)
 
         if self.tag:
             propositions = propositions.join(Tag, Proposition.tags).filter_by(tag=self.tag)
