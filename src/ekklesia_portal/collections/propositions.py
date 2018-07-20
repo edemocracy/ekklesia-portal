@@ -16,7 +16,7 @@ class Propositions:
         propositions = q(Proposition)
 
         if self.search:
-            propositions = search(propositions, self.search)
+            propositions = search(propositions, self.search, sort=True)
 
         if self.tag:
             propositions = propositions.join(Tag, Proposition.tags).filter_by(tag=self.tag)
