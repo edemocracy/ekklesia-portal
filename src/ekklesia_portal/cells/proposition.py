@@ -1,3 +1,4 @@
+from ekklesia_portal.cells.layout import LayoutCell
 from ekklesia_portal.collections.propositions import Propositions
 from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
@@ -6,7 +7,7 @@ from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.permission import SupportPermission, CreatePermission
 
 
-class PropositionCell(Cell):
+class PropositionCell(LayoutCell):
     model = Proposition
     model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
 
@@ -60,7 +61,7 @@ class PropositionCell(Cell):
         return self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
 
-class NewPropositionCell(Cell):
+class NewPropositionCell(LayoutCell):
     model = PropositionForm
 
     def __init__(self, form, request, form_data, collection=None, layout=None, parent=None, template_path=None, **options):
@@ -72,7 +73,7 @@ class NewPropositionCell(Cell):
         return Cell.markup_class(self.form.render(self.form_data))
 
 
-class PropositionsCell(Cell):
+class PropositionsCell(LayoutCell):
     model = Propositions
     model_properties = ['mode', 'tag', 'search']
 

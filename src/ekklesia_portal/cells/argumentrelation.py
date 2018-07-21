@@ -1,10 +1,11 @@
 from ekklesia_portal.helper.cell import Cell
+from ekklesia_portal.cells.layout import LayoutCell
 from ekklesia_portal.database.datamodel import ArgumentRelation
 from ekklesia_portal.forms import ArgumentForPropositionForm
 from ekklesia_portal.permission import VotePermission
 
 
-class ArgumentRelationCell(Cell):
+class ArgumentRelationCell(LayoutCell):
     model = ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
 
@@ -42,7 +43,7 @@ class ArgumentRelationCell(Cell):
         return self.link(self._model, 'vote')
 
 
-class NewArgumentForPropositionCell(Cell):
+class NewArgumentForPropositionCell(LayoutCell):
     model = ArgumentForPropositionForm
 
     def __init__(self, form, request, form_data, proposition, collection=None, layout=None, parent=None, template_path=None, **options):

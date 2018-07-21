@@ -1,8 +1,9 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.database.datamodel import Argument
+from ekklesia_portal.cells.layout import LayoutCell
 
 
-class ArgumentCell(Cell):
+class ArgumentCell(LayoutCell):
     model = Argument
     model_properties = ['id', 'title', 'abstract', 'details', 'created_at', 'author']
 
