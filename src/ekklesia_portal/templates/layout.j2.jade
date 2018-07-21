@@ -1,23 +1,19 @@
 !!! html5
 head
   - block title
-    title Arguments
+    title= brand_title
   meta(charset="utf8")
   meta(name="viewport",content="width=device-width, initial-scale=1, shrink-to-fit=no")
   meta(http-equiv="x-ua-compatible", content="ie=edge")
-  //link(rel="stylesheet", href=url_for("static", filename="css/arguments.css"))
   link(rel='stylesheet', href='/static/deform/css/form.css')
   link(rel="stylesheet", href="/static/css/portal.css")
-  //script(src=url_for("static", filename="js/jquery-2.2.3.js"))
   script(src="/static/js/jquery-2.2.3.js")
   script(src='/static/deform/scripts/deform.js')
-  script.
-    var current_user = { "is_authenticated": {{ current_user is not none|tojson }} };
 
 body
   - block navbar
     nav.top_navbar
-      a.navbar-brand(href=plain_propositions_url) Ekklesia Portal
+      a.navbar-brand(href=plain_propositions_url)= brand_title
       .collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item
@@ -31,9 +27,6 @@ body
 
           li.nav-item(class=("active" if mode=="top" else ""))
             a.nav-link(href=propositions_url(mode="top", tag=tag|default))= _("top")
-
-          //li.nav-item(class=("active" if mode=="custom" else ""))
-          //  a.nav-link(href=url_for("propositions", mode="custom")) Antragsgruppen
 
         form.top_search(action=plain_propositions_url)
           input.form-control(type="text", placeholder=_("search_for"), name="search")
@@ -67,16 +60,16 @@ body
 
     footer.footer
       ul.list-inline
+        li.list-inline-item(hidden=(custom_footer_url is none))
+          a(href=custom_footer_url)= _("link_other")
+        li.list-inline-item(hidden=(custom_footer_url is none))
+          a(href=faq_url) FAQ
+        li.list-inline-item(hidden=(tos_url is none))
+          a(href=tos_url)= _("terms_of_use")
+        li.list-inline-item(hidden=(imprint_url is none))
+          a(href=imprint_url)= _("imprint")
         li.list-inline-item
-          a(href="#")= _("link_other")
-        li.list-inline-item
-          a(href="#") FAQ
-        li.list-inline-item
-          a(href="#")= _("terms_of_use")
-        li.list-inline-item
-          a(href="#")= _("imprint")
-        li.list-inline-item
-          a(href="https://github.com/dpausp/ekklesia-portal")= _("source code")
+          a(href=source_code_url)= _("source code")
 
   - block script
     // empty

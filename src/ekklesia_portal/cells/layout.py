@@ -5,6 +5,9 @@ from ekklesia_portal.collections.propositions import Propositions
 
 class LayoutCell(Cell):
 
+    def brand_title(self):
+        return self._s.app.title
+
     def plain_propositions_url(self):
         return self.link(Propositions())
 
@@ -17,3 +20,18 @@ class LayoutCell(Cell):
 
     def logout_action(self):
         return self.link(Logout())
+
+    def custom_footer_url(self):
+        return self._s.app.custom_footer_url
+
+    def tos_url(self):
+        return self._s.app.tos_url
+
+    def faq_url(self):
+        return self._s.app.faq_url
+
+    def imprint_url(self):
+        return self._s.app.imprint_url
+
+    def source_code_url(self):
+        return 'https://github.com/dpausp/ekklesia-portal'

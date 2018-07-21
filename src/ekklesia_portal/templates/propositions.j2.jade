@@ -2,7 +2,10 @@
   - extends "layout.j2.jade"
 
 - block title
-  title Arguments - {{ _("overview") }}
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _("overview")
 
 - block content
   if search
