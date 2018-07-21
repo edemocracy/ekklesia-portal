@@ -51,6 +51,7 @@ class Cell(metaclass=CellMeta):
         self._request = request
         self.current_user = request.current_user
         self._app = request.app
+        self._s = request.app.settings
         self.parent = parent
         self.collection = collection
         self._template_path = template_path
