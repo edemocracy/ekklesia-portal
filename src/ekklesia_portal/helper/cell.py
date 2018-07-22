@@ -26,8 +26,11 @@ class CellMeta(type):
         # only for subclasses, not for Cell class
         if bases:
             for k, v in dct.items():
-                # turn functions with single argument (self) into cached properties
-                if not k.startswith('_') and inspect.isfunction(v) and not hasattr(v, '_view') and len(inspect.signature(v).parameters) == 1:
+                if (not k.startswith('_')
+                        and inspect.isfunction(v)
+                        and not hasattr(v, '_view')
+                        and len(inspect.signature(v).parameters) == 1):
+                    # turn functions with single argument (self) into cached properties
                     dct[k] = cached_property(v)
 
         return super().__new__(meta, name, bases, dct)

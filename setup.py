@@ -16,11 +16,9 @@ def read_install_requires():
         return [s.strip() for s in f.readlines()]
 
 
-from setuptools import setup
 setup(install_requires=read_install_requires(),
       version=find_version(),
       packages=find_packages(where="src"),
       package_dir={"": "src"},
       include_package_data=True,
-      python_requires="~=3.6"
-)
+      python_requires="~=3.6")

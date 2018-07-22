@@ -88,13 +88,13 @@ class UserProfile(Base):
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     user = relationship("User", back_populates="profile")
     auid = Column(String(36), unique=True)  # from user/auid/
-  # possibly cached variables from IDserver
+    # possibly cached variables from IDserver
     user_type = Column(String(30), nullable=False)  # deleted, guest, plain member, eligible member, system user # from user/membership/
     verified = Column(Boolean)
     profile = Column(Text)  # from user/profile/
     public_id = Column(Text)  # from user/profile/
     avatar = Column(Text)  # from user/profile/
-  # possible extensions
+    # possible extensions
     privacy = Column(String(10))  # default,anonymous,trusted,members,users,public
 
 
@@ -281,9 +281,9 @@ class SecretVoter(Base):  # §3.7, §4.4
 
     status = Column(String(10), nullable=False)  # active,expired,retracted
     last_change = Column(Date, nullable=False)  # time of requested/retracted
-  # can only be requested before deadline before voting starts §4.4
-  # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
-  #  calculate quorum, if supporters >= quorum, set ballot to secret
+    # can only be requested before deadline before voting starts §4.4
+    # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
+    #  calculate quorum, if supporters >= quorum, set ballot to secret
 
 
 class VotingPhase(Base):  # Abstimmungsperiode
@@ -295,11 +295,11 @@ class VotingPhase(Base):  # Abstimmungsperiode
     # <- urns    Urn[]
     urns = relationship("Urn", back_populates="voting")
     postal_votes = association_proxy('voting_postal', 'member')  # <-PostalVote-> User
- # send announcement before deadline §4.1
- # send voting invitation before deadline §4.3
- # deadline for vote registration before voting starts $5.6
- # shall not assign more than recommended votings per period §5.2
- # ask submitters for veto for move to other phase §5.3
+    # send announcement before deadline §4.1
+    # send voting invitation before deadline §4.3
+    # deadline for vote registration before voting starts $5.6
+    # shall not assign more than recommended votings per period §5.2
+    # ask submitters for veto for move to other phase §5.3
 
 
 class VotingResult(Base):  # §4.6, move to ballot?
@@ -353,7 +353,8 @@ class Proposition(Base):
     3a. if takeover within timelimit, submit new version as new conflicting proposition and remove old supporters, original status=submitted
     3b. otherwise set original to abandoned
    retraction: when all retracted and timelimit passed, set to status abandoned, remove from conflicts
-   qualification §3.5 (immediate check): for each area count members (minimum number §3.6), calculate quorum, if  supporters >= quorum, set to state qualified
+   qualification §3.5 (immediate check): for each area count members (minimum number §3.6), calculate quorum,
+   if  supporters >= quorum, set to state qualified
    expiration: for submitted proposition, if supporter > expiration time, set to expired
      if proposition in submitted state for proposition expiration time §3.8, set to abandoned, expire supporters?
      if vote on Parteitag, set to finished with results §3.8
@@ -431,9 +432,9 @@ class PostalVote(Base):  # §5.4
     member = relationship("User", backref=backref("member_postal", cascade="all, delete-orphan"))
     voting_id = Column(Integer, ForeignKey('votingphases.id'), primary_key=True)  # option, empty=permanent
     voting = relationship("VotingPhase", backref=backref("voting_postal", cascade="all, delete-orphan"))
-  # can only be requested before deadline before voting starts §5.4
-  # deleted when member becomes inactive
-  # must not be urn supporter
+    # can only be requested before deadline before voting starts §5.4
+    # deleted when member becomes inactive
+    # must not be urn supporter
 
 
 class Urn(Base):
@@ -446,7 +447,7 @@ class Urn(Base):
     description = Column(Text)
     opening = Column(Time)  # §5b.5
     supporters = association_proxy('urn_members', 'member')  # <-UrnSupporter-> User
-  # see deadlines and requirements in config
+    # see deadlines and requirements in config
 
 
 class UrnSupporter(Base):  # §5b.2
@@ -458,4 +459,4 @@ class UrnSupporter(Base):  # §5b.2
 
     type = Column(String(12), nullable=False)  # responsible, request, voter # §5b.2+4
     voted = Column(Boolean, nullable=False, default=False)  # §5b.6
-  # urn merge if below min. no of voters §5b.6
+    # urn merge if below min. no of voters §5b.6
