@@ -37,6 +37,12 @@ def show(self, request):
     return cell.show()
 
 
+@App.html(model=Proposition, name='associated')
+def associated(self, request):
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
+    return cell.show()
+
+
 @App.html(model=Proposition, request_method='POST', name='support', permission=SupportPermission)
 def support(self, request):
     if 'support' not in request.POST and 'retract' not in request.POST:

@@ -26,12 +26,8 @@ class PropositionCell(LayoutCell):
     def associated_link_class(self):
         return 'active' if self.options.get('active_tab') == 'associated' else ''
 
-    def new_argument_url(self, argument_type):
-        return '#'
-        return self.class_link(Argument, dict(argument_type=argument_type), 'new')
-
     def new_associated_proposition_url(self, association_type):
-        return self.class_link(Proposition, dict(association_type=association_type), 'new')
+        return self.class_link(Propositions, dict(association_type=association_type), '+new')
 
     def new_pro_argument_url(self):
         return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='pro'), '+new')
