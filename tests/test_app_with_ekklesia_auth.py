@@ -11,6 +11,7 @@ from webtest import TestApp as Client
 
 morepath.autoscan()
 
+
 @fixture
 def token():
     return {
@@ -35,6 +36,7 @@ def client(app, allow_insecure_transport):
 def decode_session(app, client):
     serializer = app.browser_session_interface.get_signing_serializer(app)
     return serializer.loads(client.cookies['session'])
+
 
 @responses.activate
 def test_oauth_new_user(app, client, token):

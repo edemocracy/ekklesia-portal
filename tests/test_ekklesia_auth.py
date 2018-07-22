@@ -26,6 +26,7 @@ EKKLESIAAUTH_SETTINGS = {
     'token_url': TOKEN_URL,
 }
 
+
 @fixture
 def browser_session():
     return Munch()
@@ -180,7 +181,7 @@ def test_not_authorized(app):
 @responses.activate
 def test_session(app, allow_insecure_transport, fake_request_with_session, token):
     request = fake_request_with_session
-    request.browser_session.oauth_token=token
+    request.browser_session.oauth_token = token
     req_url = urljoin(API_BASE_URL, 'fake')
     ekklesia_auth = EkklesiaAuth(app.settings.ekklesia_auth, token)
 
@@ -195,7 +196,7 @@ def test_session(app, allow_insecure_transport, fake_request_with_session, token
 def test_session_token_refresh(app, browser_session, allow_insecure_transport, token, fake_request_with_session):
     request = fake_request_with_session
     outdated_token = dict(token, expires_at=token['expires_at'] - 1000, access_token='outdated')
-    browser_session.oauth_token=outdated_token
+    browser_session.oauth_token = outdated_token
     refreshed_token = dict(token, access_token='refreshed')
     req_url = urljoin(API_BASE_URL, 'fake')
 

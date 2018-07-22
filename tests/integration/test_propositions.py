@@ -1,6 +1,7 @@
 import pytest
 from webtest_helpers import assert_deform
 
+
 @pytest.mark.integration
 def test_user_creates_proposition(client, logged_in_user):
     res = client.get('/propositions/+new')

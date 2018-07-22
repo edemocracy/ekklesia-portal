@@ -4,6 +4,7 @@ def test_index(client):
     assert content.startswith("<!DOCTYPE html5>")
     assert '<a href="http://localhost/propositions' in content
 
+
 def decode_session(app, client):
     serializer = app.browser_session_interface.get_signing_serializer(app)
     return serializer.loads(client.cookies['session'])

@@ -65,6 +65,7 @@ def logged_in_user(user, monkeypatch):
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return user
 
+
 @fixture
 def no_db_commit(monkeypatch):
     def dummy_commit(*a, **kw):

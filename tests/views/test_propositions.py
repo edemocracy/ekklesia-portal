@@ -1,6 +1,7 @@
 from ekklesia_portal.database.datamodel import Supporter
 from webtest_helpers import assert_deform
 
+
 def test_index(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get("/propositions")
@@ -16,6 +17,7 @@ def test_index_search(client):
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Volltextsuche' in content
     assert 'Titel' not in content
+
 
 def test_show(client):
     """XXX: depends on content from create_test_db.py"""
@@ -76,4 +78,3 @@ def test_support(client, db_session, logged_in_user):
 
     res = client.post('/propositions/3/support', dict(retract=True), status=302)
     assert_supporter('retracted')
-
