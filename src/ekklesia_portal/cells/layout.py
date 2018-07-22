@@ -12,6 +12,9 @@ class LayoutCell(Cell):
     def change_language_action(self):
         return self.link(Index(), name='change_language')
 
+    def search_query(self):
+        return self._request.GET.get('search')
+
     def brand_title(self):
         return self._s.app.title
 

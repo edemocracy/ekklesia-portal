@@ -31,7 +31,7 @@ body
             a.nav-link(href=propositions_url(mode="top", tag=tag|default))= _("top")
 
         form.top_search(action=plain_propositions_url)
-          input.form-control(type="text", placeholder=_("search_for"), name="search")
+          input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
           button.search_button(type="submit")
             i.fas.fa-search &nbsp;Suche
 
