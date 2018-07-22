@@ -246,7 +246,7 @@ class Ballot(Base):  # conflicting qualified propositions
     __tablename__ = 'ballots'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    #<- propositions Proposition[]
+    # <- propositions Proposition[]
     status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
     election = Column(Integer, nullable=False, default=0)  # 0=no election, otherwise nr of positions, §5d.4+5
     # §3.8, one proposition is for qualification of election itself
@@ -264,9 +264,9 @@ class Ballot(Base):  # conflicting qualified propositions
     secret_voters = association_proxy('ballot_members', 'member')  # <-SecretVoter-> User
 
     propositions = relationship("Proposition", back_populates="ballot")
-    #<-result   VotingResult # optional
+    # <-result   VotingResult # optional
     result = relationship("VotingResult", uselist=False, back_populates="ballot")
-    #<-  propositions Proposition[]
+    # <-  propositions Proposition[]
     # requirements for assignment:
     #  deadline for first and conflicting proposition before target date §4.2
     #  later conflicting proposition are assigned to a new independent ballot
@@ -292,7 +292,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
     target = Column(Date, nullable=False)  # constrained by §4.1
     secret = Column(Boolean, nullable=False, default=False)  # whether any secret votes will take place (decision deadline §4.2)
     ballots = relationship("Ballot", back_populates="voting")
-    #<- urns    Urn[]
+    # <- urns    Urn[]
     urns = relationship("Urn", back_populates="voting")
     postal_votes = association_proxy('voting_postal', 'member')  # <-PostalVote-> User
  # send announcement before deadline §4.1

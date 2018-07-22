@@ -197,7 +197,8 @@ class OAuthCallback:
         self.settings = request.app.root.settings.ekklesia_auth
         self.session = request.browser_session
         self.called_url = request.url
-        self.oauth = OAuth2Session(client_id=self.settings.client_id, redirect_uri=request.link(self), state=self.session.get('oauth_state'))
+        self.oauth = OAuth2Session(client_id=self.settings.client_id, redirect_uri=request.link(self),
+                                   state=self.session.get('oauth_state'))
 
     @property
     def redirect_after_success_url(self):
@@ -243,7 +244,6 @@ class OAuthInfo:
             'profile': self.ekklesia_auth.profile,
             'auid': self.ekklesia_auth.auid
         }
-
 
 
 @EkklesiaAuthPathApp.path(model=OAuthInfo, path="/info")

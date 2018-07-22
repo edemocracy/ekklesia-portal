@@ -2,6 +2,7 @@ from colander import SchemaNode, MappingSchema, \
     Int, String, Boolean, List, Tuple, \
     Length, OneOf
 
+
 def string_property(**kwargs):
     return SchemaNode(String(), **kwargs)
 

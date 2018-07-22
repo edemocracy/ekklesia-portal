@@ -40,7 +40,8 @@ if __name__ == "__main__":
     q1_counter = Proposition(title="Gegenantrag zu Q1", content="will was anderes", replaces=q1)
     s.add(q1_counter)
 
-    q1_counter_2 = Proposition(title="Noch ein Gegenantrag zu Q1 mit Volltextsuche", content="will was ganz anderes, ich will Volltextsuche", replaces=q1)
+    q1_counter_2 = Proposition(title="Noch ein Gegenantrag zu Q1 mit Volltextsuche",
+                               content="will was ganz anderes, ich will Volltextsuche", replaces=q1)
     s.add(q1_counter_2)
 
     q1_change = Proposition(title="Änderungsantrag zu Q1", content="will was ändern", modifies=q1)

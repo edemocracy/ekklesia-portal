@@ -119,7 +119,6 @@ class Cell(metaclass=CellMeta):
         func._view = True
         return func
 
-
     @cached_property
     def self_link(self):
         return self.link(self._model)

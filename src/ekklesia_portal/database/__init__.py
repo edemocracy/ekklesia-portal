@@ -57,6 +57,7 @@ def update_model(self, **kwargs):
     for name, value in kwargs.items():
         setattr(self, name, value)
 
+
 Base.update = update_model
 
 # some pretty printing for SQLAlchemy objects ;)
@@ -84,7 +85,7 @@ def before_cursor_execute(conn, cursor, statement,
 
 @event.listens_for(Engine, "after_cursor_execute")
 def after_cursor_execute(conn, cursor, statement,
-                          parameters, context, executemany):
+                         parameters, context, executemany):
     total = time.time() - conn.info['query_start_time'].pop(-1)
     # total in seconds
     if total > SLOW_QUERY_SECONDS:

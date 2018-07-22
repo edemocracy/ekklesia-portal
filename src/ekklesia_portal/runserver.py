@@ -65,7 +65,6 @@ def stackdump_setup():
         signal.signal(signal.SIGQUIT, dumpstacks)
 
 
-
 def run():
     from ekklesia_portal.app import make_wsgi_app
     args = parser.parse_args()

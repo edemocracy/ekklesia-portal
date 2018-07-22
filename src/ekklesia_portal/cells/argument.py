@@ -16,5 +16,3 @@ class ArgumentCell(LayoutCell):
             return self.options['header_link']
 
         return self.self_link
-
-

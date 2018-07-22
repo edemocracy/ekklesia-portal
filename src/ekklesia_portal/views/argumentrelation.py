@@ -58,7 +58,7 @@ def post_vote(self, request):
 
 @App.html(model=ArgumentRelations, name='new', permission=CreatePermission)
 def new(self, request):
-    form_data ={
+    form_data = {
         'relation_type': self.relation_type,
         'proposition_id': self.proposition_id,
     }

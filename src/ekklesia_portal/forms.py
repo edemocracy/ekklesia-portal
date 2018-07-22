@@ -22,6 +22,7 @@ argument_widgets = {
     'details': TextAreaWidget(rows=4)
 }
 
+
 class ArgumentForm(Form):
 
     def __init__(self, action):

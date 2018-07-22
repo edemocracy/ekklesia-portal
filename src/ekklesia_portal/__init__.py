@@ -27,12 +27,12 @@ def init_oauth_ext(app):
     global ekklesia
 
     ekklesia = OAuth2ConsumerBlueprint(
-            'ekklesia', __name__,
-            client_id=app.config["EKKLESIA_CLIENT_ID"],
-            client_secret=app.config["EKKLESIA_CLIENT_SECRET"],
-            base_url=app.config["EKKLESIA_API_BASE_URL"],
-            token_url=app.config["EKKLESIA_TOKEN_URL"],
-            authorization_url=app.config["EKKLESIA_AUTHORIZATION_URL"])
+        'ekklesia', __name__,
+        client_id=app.config["EKKLESIA_CLIENT_ID"],
+        client_secret=app.config["EKKLESIA_CLIENT_SECRET"],
+        base_url=app.config["EKKLESIA_API_BASE_URL"],
+        token_url=app.config["EKKLESIA_TOKEN_URL"],
+        authorization_url=app.config["EKKLESIA_AUTHORIZATION_URL"])
 
     app.register_blueprint(ekklesia, url_prefix="/login")
 

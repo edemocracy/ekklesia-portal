@@ -17,4 +17,3 @@ class LoginCell(LayoutCell):
 
     def internal_login_enabled(self):
         return self._app.settings.app.internal_login_enabled
-

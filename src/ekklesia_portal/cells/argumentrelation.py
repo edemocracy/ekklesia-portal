@@ -13,7 +13,7 @@ class ArgumentRelationCell(LayoutCell):
         return self._request.permitted_for_current_user(self._model, VotePermission)
 
     def show_ca_button(self):
-        return # self.current_user is not None
+        return  # self.current_user is not None
 
     def vote(self):
         return self._model.user_vote(self.current_user)

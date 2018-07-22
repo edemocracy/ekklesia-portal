@@ -28,7 +28,7 @@ def show_argument(self, request):
     return ArgumentCell(self, request, extended=True).show()
 
 
-#@app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])
+# @app.route("/<proposition_url>/<argument_type>/new", methods=["GET", "POST"])
 def new_argument_relation(proposition_url, argument_type):
     logg.debug("new argument form: %s", request.form)
     proposition = Proposition.query.filter_by(url=proposition_url).first_or_404()
