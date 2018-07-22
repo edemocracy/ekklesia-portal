@@ -13,7 +13,6 @@ from ekklesia_portal.database.datamodel import Proposition, User
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'helpers'))
 
-import logging
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('morepath').setLevel(logging.INFO)
 

@@ -103,7 +103,7 @@ def test_cell_automatic_properties(cell):
 
 
 def test_cell_view_methods(cell):
-    assert cell.alternate_view._view == True
+    assert cell.alternate_view._view
 
 
 def test_cell_getitem(cell, model):

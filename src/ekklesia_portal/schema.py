@@ -1,5 +1,5 @@
 from colander import SchemaNode, MappingSchema, \
-    Int, String, Boolean, List, Tuple, \
+    Int, String, Boolean, List, \
     Length, OneOf
 
 

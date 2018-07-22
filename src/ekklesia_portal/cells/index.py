@@ -1,4 +1,3 @@
-from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.cells.layout import LayoutCell
 from ekklesia_portal.collections.propositions import Propositions
 

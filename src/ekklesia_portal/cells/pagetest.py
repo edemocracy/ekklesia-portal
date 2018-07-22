@@ -1,7 +1,6 @@
 from markupsafe import Markup
 
 from ekklesia_portal.cells.layout import LayoutCell
-from ekklesia_portal.helper.cell import Cell
 
 
 class PageTestCell(LayoutCell):

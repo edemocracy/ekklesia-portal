@@ -15,7 +15,6 @@ def test_argumentrelation(client):
 
 def test_new(client, logged_in_user):
     res = client.get("/propositions/1/arguments/+new?relation_type=pro")
-    form = res.forms['deform']
 
     expected = {
         'proposition_id': '1',
@@ -33,4 +32,4 @@ def test_create(client, logged_in_user):
         'details': 'test details'
     }
 
-    res = client.post("/propositions/1/arguments/", data, status=302)
+    client.post("/propositions/1/arguments/", data, status=302)

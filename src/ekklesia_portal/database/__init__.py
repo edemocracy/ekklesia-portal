@@ -2,10 +2,9 @@ import logging
 import time
 
 import yaml
-import sqlalchemy
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc, create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import relationship, backref, Query, Mapper, sessionmaker
+from sqlalchemy.orm import relationship, backref, Mapper, sessionmaker
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
 import zope.sqlalchemy
 

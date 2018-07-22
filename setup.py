@@ -1,6 +1,6 @@
 # see setup.cfg for metadata and options; only requirements are loaded here
 import os.path
-from setuptools import find_packages
+from setuptools import find_packages, setup
 
 
 here = os.path.abspath(os.path.dirname(__file__))

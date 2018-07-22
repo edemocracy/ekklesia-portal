@@ -40,8 +40,6 @@ def test_new_with_data_import(client, logged_in_user):
     PROPOSITION_IMPORT_HANDLERS['test_source'] = import_test
 
     res = client.get('/propositions/+new?source=test&from_data=1')
-    form = res.forms['deform']
-
     expected = {
         'title': 'pre-filled title',
         'content': 'pre-filled content'
@@ -58,23 +56,23 @@ def test_support(client, db_session, logged_in_user):
         else:
             assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
 
-    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/propositions/3/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/propositions/3/support', dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/propositions/3/support', dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/propositions/3/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    res = client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/propositions/3/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    res = client.post('/propositions/3/support', dict(invalid=True), status=400)
+    client.post('/propositions/3/support', dict(invalid=True), status=400)
     assert_supporter('active')
 
-    res = client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/propositions/3/support', dict(retract=True), status=302)
     assert_supporter('retracted')

@@ -27,7 +27,7 @@ def test_remember(identity_policy, identity, request):
 
 def test_identify(identity_policy, request):
     request.browser_session = {'user_id': 1}
-    res = identity_policy.identify(request)
+    identity_policy.identify(request)
 
 
 def test_forget(identity_policy, request):

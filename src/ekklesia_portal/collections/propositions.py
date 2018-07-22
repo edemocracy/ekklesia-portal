@@ -1,7 +1,4 @@
-from deform import Form
-from ekklesia_portal.helper.utils import cached_property
 from ekklesia_portal.database.datamodel import Proposition, Tag
-from ekklesia_portal.schema import PropositionSchema
 from ekklesia_portal.forms import PropositionForm
 from sqlalchemy_searchable import search
 

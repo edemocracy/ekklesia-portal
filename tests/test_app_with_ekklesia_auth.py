@@ -1,10 +1,9 @@
 import time
 import json
 from urllib.parse import urljoin
-from pytest import fixture, raises
+from pytest import fixture
 
 import morepath
-from munch import Munch
 import responses
 from webtest import TestApp as Client
 

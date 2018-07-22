@@ -1,4 +1,3 @@
-import morepath
 import werkzeug.serving
 import werkzeug.wsgi
 

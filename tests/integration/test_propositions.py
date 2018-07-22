@@ -1,5 +1,4 @@
 import pytest
-from webtest_helpers import assert_deform
 
 
 @pytest.mark.integration

@@ -88,7 +88,7 @@ def app(test_request_class, browser_session):
         browser_session['oauth_token'] = token
 
     @TestApp.after_oauth_callback()
-    def set_oauth_token(request, ekklesia_auth):
+    def after_oauth_callback(request, ekklesia_auth):
         browser_session['oauth_token'] = ekklesia_auth.token
 
     TestApp.commit()
@@ -194,7 +194,6 @@ def test_session(app, allow_insecure_transport, fake_request_with_session, token
 
 @responses.activate
 def test_session_token_refresh(app, browser_session, allow_insecure_transport, token, fake_request_with_session):
-    request = fake_request_with_session
     outdated_token = dict(token, expires_at=token['expires_at'] - 1000, access_token='outdated')
     browser_session.oauth_token = outdated_token
     refreshed_token = dict(token, access_token='refreshed')

@@ -1,7 +1,7 @@
 from ekklesia_portal.cells.layout import LayoutCell
 from ekklesia_portal.collections.propositions import Propositions
 from ekklesia_portal.collections.argument_relations import ArgumentRelations
-from ekklesia_portal.database.datamodel import Proposition, Tag, Argument, ArgumentRelation
+from ekklesia_portal.database.datamodel import Proposition
 from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.permission import SupportPermission, CreatePermission

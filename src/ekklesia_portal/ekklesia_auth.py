@@ -1,10 +1,9 @@
 from functools import partial
 import logging
 import dectate
-from morepath import redirect, App, Request
+from morepath import redirect, App
 from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
-from ekklesia_portal.database.datamodel import UserProfile, User
 from ekklesia_portal.helper.utils import cached_property
 
 

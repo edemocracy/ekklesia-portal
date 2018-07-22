@@ -21,7 +21,6 @@
 
 from sqlalchemy import (
     Column,
-    Table,
     Integer,
     Boolean,
     Text,
@@ -39,7 +38,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
-from ekklesia_portal.database import Base, TimeStamp
+from ekklesia_portal.database import Base
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -354,7 +353,7 @@ class Proposition(Base):
     3b. otherwise set original to abandoned
    retraction: when all retracted and timelimit passed, set to status abandoned, remove from conflicts
    qualification §3.5 (immediate check): for each area count members (minimum number §3.6), calculate quorum,
-   if  supporters >= quorum, set to state qualified
+   if supporters >= quorum, set to state qualified
    expiration: for submitted proposition, if supporter > expiration time, set to expired
      if proposition in submitted state for proposition expiration time §3.8, set to abandoned, expire supporters?
      if vote on Parteitag, set to finished with results §3.8
