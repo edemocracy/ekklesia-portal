@@ -38,6 +38,7 @@ ipdb = "*"
 "38f2bc8" = {path = "./../more.browser_session", editable = true}
 pytest-factoryboy = "*"
 pylama = "*"
+"autopep8" = "*"
 
 [requires]
 python_version = "3.6"
