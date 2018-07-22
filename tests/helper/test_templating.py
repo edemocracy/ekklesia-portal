@@ -27,6 +27,9 @@ def jinja_env(app):
 @fixture
 def render_string(jinja_env, request):
     request.i18n = BabelRequestUtils(request)
+    request.i18n.babel.locale_selector_func = None
+    request.browser_session = {}
+
     def render_string(template_string, **ctx):
         template = jinja_env.from_string(template_string)
         res = template.render(_request=request, **ctx)

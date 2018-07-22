@@ -1,9 +1,16 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.views.logout import Logout
+from ekklesia_portal.views.index import Index
 from ekklesia_portal.collections.propositions import Propositions
 
 
 class LayoutCell(Cell):
+
+    def language(self):
+        return self._request.i18n.get_locale().language
+
+    def change_language_action(self):
+        return self.link(Index(), name='change_language')
 
     def brand_title(self):
         return self._s.app.title

@@ -1,16 +1,24 @@
+from morepath import redirect
+from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.cells.index import IndexCell
 
 
+@App.path(path='')
 class Index:
     pass
 
 
-@App.path(model=Index, path="")
-def index():
-    return Index()
-
-
 @App.html(model=Index)
-def show_index(self, request):
+def show(self, request):
+    from ekklesia_portal.cells.index import IndexCell
     return IndexCell(self, request).show()
+
+
+@App.html(model=Index, name='change_language', request_method='POST')
+def change_language(self, request):
+    lang = request.POST.get('lang')
+    if lang not in ('de', 'en', 'fr'):
+        raise HTTPBadRequest()
+
+    request.browser_session['lang'] = lang
+    return redirect('/')

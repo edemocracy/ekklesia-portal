@@ -15,13 +15,14 @@ body
     nav.top_navbar
       a.navbar-brand(href=plain_propositions_url)= brand_title
       .collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
-          li.nav-item
-            select.form-control#locale_select
-              option(selected=(g.locale == "de"), value="de") Deutsch
-              option(selected=(g.locale == "en"), value="en") English
-              option(selected=(g.locale == "fr"), value="fr") Français
 
+        form.top_lang_controls(action=change_language_action, method='POST')
+          .btn-group
+            button.lang_select_button(type="submit", name="lang", value="de", class=("active" if language == "de")) DE
+            button.lang_select_button(type="submit", name="lang", value="en", class=("active" if language == "en")) EN
+            button.lang_select_button(type="submit", name="lang", value="fr", class=("active" if language == "fr")) FR
+
+        ul.navbar-nav.mr-auto
           li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
             a.nav-link(href=propositions_url(tag=tag|default))= _("sorted")
 

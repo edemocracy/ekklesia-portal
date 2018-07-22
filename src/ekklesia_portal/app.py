@@ -116,6 +116,17 @@ def get_app_settings(settings_filepath):
     return settings
 
 
+def get_locale(request):
+    locale = request.browser_session.get('lang')
+    if locale:
+        logg.debug('locale from session: %s', locale)
+    else:
+        locale = request.accept_language.best_match(['de', 'en', 'fr'])
+        logg.debug('locale from request: %s', locale)
+
+    return locale
+
+
 def make_wsgi_app(settings_filepath=None):
     morepath.autoscan()
     settings = get_app_settings(settings_filepath)
@@ -126,4 +137,5 @@ def make_wsgi_app(settings_filepath=None):
     app = App()
     database.configure_sqlalchemy(app.settings.database)
     app.babel_init()
+    app.babel.localeselector(get_locale)
     return app
