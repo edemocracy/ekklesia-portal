@@ -98,7 +98,7 @@ def create(self, request):
     form = self.form(request.class_link(Propositions))
     try:
         appstruct = form.validate(controls)
-    except ValidationFailure as e:
+    except ValidationFailure:
         return NewPropositionCell(form, request, None).show()
 
     tag_names = appstruct['tags']
