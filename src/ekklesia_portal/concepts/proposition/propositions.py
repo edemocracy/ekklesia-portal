@@ -1,6 +1,6 @@
 from ekklesia_portal.database.datamodel import Proposition, Tag
-from ekklesia_portal.forms import PropositionForm
 from sqlalchemy_searchable import search
+from .proposition_contracts import PropositionForm
 
 
 class Propositions:

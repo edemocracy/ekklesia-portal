@@ -1,7 +1,7 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.views.logout import Logout
 from ekklesia_portal.views.index import Index
-from ekklesia_portal.collections.propositions import Propositions
+from ekklesia_portal.concepts.proposition.propositions import Propositions
 
 
 class LayoutCell(Cell):

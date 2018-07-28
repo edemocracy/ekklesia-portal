@@ -1,5 +1,5 @@
 from ekklesia_portal.cells.layout import LayoutCell
-from ekklesia_portal.collections.propositions import Propositions
+from ekklesia_portal.concepts.proposition.propositions import Propositions
 
 
 class IndexCell(LayoutCell):

@@ -1,15 +1,20 @@
 from ekklesia_portal.cells.layout import LayoutCell
-from ekklesia_portal.collections.propositions import Propositions
 from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Proposition
-from ekklesia_portal.forms import PropositionForm
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.permission import SupportPermission, CreatePermission
+from .propositions import Propositions
+from .proposition_contracts import PropositionForm
 
 
 class PropositionCell(LayoutCell):
     model = Proposition
     model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
+
+    def __init__(self, model, request, collection=None, layout=None, parent=None, template_path=None, **options):
+        if template_path is None:
+            template_path = 'proposition/proposition.j2.jade'
+        super().__init__(model, request, collection, layout, parent, template_path, **options)
 
     def associated_url(self):
         return self.link(self._model, 'associated')
@@ -63,6 +68,8 @@ class NewPropositionCell(LayoutCell):
     def __init__(self, form, request, form_data, collection=None, layout=None, parent=None, template_path=None, **options):
         self.form = form
         self.form_data = form_data or {}
+        if template_path is None:
+            template_path = 'proposition/proposition_form.j2.jade'
         super().__init__(form, request, collection, layout, parent, template_path, **options)
 
     def form_html(self):
@@ -72,6 +79,11 @@ class NewPropositionCell(LayoutCell):
 class PropositionsCell(LayoutCell):
     model = Propositions
     model_properties = ['mode', 'tag', 'search']
+
+    def __init__(self, model, request, collection=None, layout=None, parent=None, template_path=None, **options):
+        if template_path is None:
+            template_path = 'proposition/propositions.j2.jade'
+        super().__init__(model, request, collection, layout, parent, template_path, **options)
 
     def propositions(self):
         return self._model.propositions(self._request.q)

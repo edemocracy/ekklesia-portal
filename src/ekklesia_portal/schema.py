@@ -19,16 +19,6 @@ def list_property(**kwargs):
     return SchemaNode(List(), **kwargs)
 
 
-class PropositionSchema(MappingSchema):
-    title = string_property(validator=Length(min=5, max=512))
-    abstract = string_property(validator=Length(min=5, max=2048))
-    content = string_property(validator=Length(min=10, max=65536))
-    motivation = string_property(missing='')
-    tags = list_property(missing=tuple())
-    relation_type = string_property(validator=OneOf(['replaces', 'modifies']), missing=None)
-    related_proposition_id = int_property(missing=None)
-
-
 class ArgumentSchema(MappingSchema):
     title = string_property(validator=Length(min=5, max=80))
     abstract = string_property(validator=Length(min=5, max=140))

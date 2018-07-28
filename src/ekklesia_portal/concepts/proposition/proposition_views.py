@@ -4,10 +4,10 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter
-from ekklesia_portal.cells.proposition import PropositionCell, PropositionsCell, NewPropositionCell
-from ekklesia_portal.collections.propositions import Propositions
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, SupportPermission
+from .proposition_cells import PropositionCell, PropositionsCell, NewPropositionCell
+from .propositions import Propositions
 
 
 @App.permission_rule(model=Propositions, permission=CreatePermission)

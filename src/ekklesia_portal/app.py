@@ -1,6 +1,7 @@
 import logging
 import os
 
+import dectate
 import jinja2
 import morepath
 from more.babel_i18n import BabelApp
@@ -21,12 +22,29 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
+class ConceptAction(dectate.Action):
+    config = {
+        'concepts': dict
+    }
+
+    def __init__(self, name):
+        self.name = name
+
+    def identifier(self, **_kw):
+        return self.name
+
+    def perform(self, obj, concepts):
+        concepts[self.name] = obj
+
+
 class App(ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
     request_class = EkklesiaPortalRequest
+    concept = dectate.directive(ConceptAction)
 
     def __init__(self):
         super().__init__()
-        template_loader = jinja2.PackageLoader("ekklesia_portal")
+        loader_mapping = {p: jinja2.PackageLoader(f"ekklesia_portal.concepts.{p}") for p in App.config.concepts}
+        template_loader = jinja2.ChoiceLoader([jinja2.PrefixLoader(loader_mapping), jinja2.PackageLoader("ekklesia_portal")])
         self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=self)
 
 
