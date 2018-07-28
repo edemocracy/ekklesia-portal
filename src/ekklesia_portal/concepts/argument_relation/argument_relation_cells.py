@@ -1,13 +1,14 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.cells.layout import LayoutCell
 from ekklesia_portal.database.datamodel import ArgumentRelation
-from ekklesia_portal.forms import ArgumentForPropositionForm
 from ekklesia_portal.permission import VotePermission
+from .argument_relation_contracts import ArgumentForPropositionForm
 
 
 class ArgumentRelationCell(LayoutCell):
     model = ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
+    template_prefix = 'argument_relation'
 
     def show_voting(self):
         return self._request.permitted_for_current_user(self._model, VotePermission)
@@ -45,6 +46,7 @@ class ArgumentRelationCell(LayoutCell):
 
 class NewArgumentForPropositionCell(LayoutCell):
     model = ArgumentForPropositionForm
+    template_prefix = 'argument_relation'
 
     def __init__(self, form, request, form_data, proposition, collection=None, layout=None, parent=None, template_path=None, **options):
         self.form = form

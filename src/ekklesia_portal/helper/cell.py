@@ -71,7 +71,10 @@ class Cell(metaclass=CellMeta):
     def template_path(self):
         if self._template_path is None:
             name = case_conversion.snakecase(self._model.__class__.__name__)
-            self._template_path = name + ".j2.jade"
+            if hasattr(self.__class__, 'template_prefix'):
+                self._template_path = f"{self.__class__.template_prefix}/{name}.j2.jade"
+            else:
+                self._template_path = f"{name}.j2.jade"
 
         return self._template_path
 

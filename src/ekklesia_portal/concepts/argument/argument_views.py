@@ -1,7 +1,7 @@
 import logging
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Argument
-from ekklesia_portal.cells.argument import ArgumentCell
+from .argument_cells import ArgumentCell
 
 
 logg = logging.getLogger(__name__)

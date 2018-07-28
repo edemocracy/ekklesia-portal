@@ -3,11 +3,11 @@ from deform import ValidationFailure
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.collections.argument_relations import ArgumentRelations
 from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
-from ekklesia_portal.cells.argumentrelation import ArgumentRelationCell, NewArgumentForPropositionCell
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, VotePermission
+from .argument_relations import ArgumentRelations
+from .argument_relation_cells import ArgumentRelationCell, NewArgumentForPropositionCell
 
 
 logg = logging.getLogger(__name__)
@@ -73,7 +73,7 @@ def create(self, request):
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
     try:
         appstruct = form.validate(controls)
-    except ValidationFailure as e:
+    except ValidationFailure:
         return NewArgumentForPropositionCell(form, request, None, proposition).show()
 
     argument = Argument(title=appstruct['title'], abstract=appstruct['abstract'], details=appstruct['details'])

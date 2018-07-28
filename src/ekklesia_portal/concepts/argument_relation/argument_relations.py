@@ -1,4 +1,4 @@
-from ekklesia_portal.forms import ArgumentForPropositionForm
+from .argument_relation_contracts import ArgumentForPropositionForm
 
 
 class ArgumentRelations:
