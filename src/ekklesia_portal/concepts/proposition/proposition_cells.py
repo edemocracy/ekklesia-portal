@@ -10,7 +10,6 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 class PropositionCell(LayoutCell):
     model = Proposition
     model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
-    template_prefix = 'proposition'
 
     def associated_url(self):
         return self.link(self._model, 'associated')
@@ -60,7 +59,6 @@ class PropositionCell(LayoutCell):
 
 class NewPropositionCell(LayoutCell):
     model = PropositionForm
-    template_prefix = 'proposition'
 
     def __init__(self, form, request, form_data, collection=None, layout=None, parent=None, template_path=None, **options):
         self.form = form
@@ -74,7 +72,6 @@ class NewPropositionCell(LayoutCell):
 class PropositionsCell(LayoutCell):
     model = Propositions
     model_properties = ['mode', 'tag', 'search']
-    template_prefix = 'proposition'
 
     def propositions(self):
         return self._model.propositions(self._request.q)

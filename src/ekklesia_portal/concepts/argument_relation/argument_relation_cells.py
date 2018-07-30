@@ -8,7 +8,6 @@ from .argument_relation_contracts import ArgumentForPropositionForm
 class ArgumentRelationCell(LayoutCell):
     model = ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
-    template_prefix = 'argument_relation'
 
     def show_voting(self):
         return self._request.permitted_for_current_user(self._model, VotePermission)
@@ -46,7 +45,6 @@ class ArgumentRelationCell(LayoutCell):
 
 class NewArgumentForPropositionCell(LayoutCell):
     model = ArgumentForPropositionForm
-    template_prefix = 'argument_relation'
 
     def __init__(self, form, request, form_data, proposition, collection=None, layout=None, parent=None, template_path=None, **options):
         self.form = form

@@ -4,7 +4,5 @@ from ekklesia_portal.concepts.proposition.propositions import Propositions
 
 class IndexCell(LayoutCell):
 
-    template_prefix = 'ekklesia_portal'
-
     def proposition_url(self):
         return self.link(Propositions())

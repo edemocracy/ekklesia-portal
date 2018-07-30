@@ -20,6 +20,11 @@ class CellMeta(type):
     def __init__(cls, name, bases, attrs, **kwargs):
         if cls.model:
             _cell_registry[cls.model] = cls
+        if 'template_prefix' not in cls.__dict__:
+            module_path = cls.__module__.split('.')
+            if module_path[1] == 'concepts':
+                cls.template_prefix = module_path[2]
+
         return super().__init__(name, bases, attrs)
 
     def __new__(meta, name, bases, dct):

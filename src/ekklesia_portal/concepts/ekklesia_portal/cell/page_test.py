@@ -4,7 +4,6 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 
 
 class PageTestCell(LayoutCell):
-    template_prefix = 'ekklesia_portal'
     test_str = "test"
     test_int = 42
     test_url = "http://example.com"

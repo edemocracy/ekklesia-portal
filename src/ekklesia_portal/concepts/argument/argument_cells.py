@@ -6,7 +6,6 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 class ArgumentCell(LayoutCell):
     model = Argument
     model_properties = ['id', 'title', 'abstract', 'details', 'created_at', 'author']
-    template_prefix = 'argument'
 
     @Cell.view
     def footer(self):

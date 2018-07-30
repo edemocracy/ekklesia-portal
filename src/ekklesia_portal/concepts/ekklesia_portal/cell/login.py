@@ -6,7 +6,6 @@ from ..login import Login
 class LoginCell(LayoutCell):
     model = Login
     model_properties = ['username']
-    template_prefix = 'ekklesia_portal'
 
     def ekklesia_login_url(self):
         ekklesia_app = self._app.child(EkklesiaAuthPathApp)
