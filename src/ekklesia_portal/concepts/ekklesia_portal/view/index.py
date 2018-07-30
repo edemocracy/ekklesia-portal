@@ -1,16 +1,17 @@
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
+from ..index import Index
 
 
-@App.path(path='')
-class Index:
-    pass
+@App.path(model=Index,  path='')
+def ekklesia_portal():
+    return Index()
 
 
 @App.html(model=Index)
-def show(self, request):
-    from ekklesia_portal.cells.index import IndexCell
+def index(self, request):
+    from ..cell.index import IndexCell
     return IndexCell(self, request).show()
 
 

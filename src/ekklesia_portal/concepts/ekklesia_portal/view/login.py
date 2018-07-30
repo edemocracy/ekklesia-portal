@@ -1,9 +1,9 @@
+import morepath
 from morepath import redirect
 from morepath import Response
 from ekklesia_portal.app import App
-from ekklesia_portal.cells.login import LoginCell
-from ekklesia_portal.models.login import Login, UserNotFound
-import morepath
+from ..login import Login, UserNotFound
+from ..cell.login import LoginCell
 
 
 @App.path(model=Login, path="/login")

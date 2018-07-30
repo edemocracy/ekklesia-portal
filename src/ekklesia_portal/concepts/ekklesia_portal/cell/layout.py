@@ -1,6 +1,4 @@
 from ekklesia_portal.helper.cell import Cell
-from ekklesia_portal.views.logout import Logout
-from ekklesia_portal.views.index import Index
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 
 
@@ -10,6 +8,7 @@ class LayoutCell(Cell):
         return self._request.i18n.get_locale().language
 
     def change_language_action(self):
+        from ..view.index import Index
         return self.link(Index(), name='change_language')
 
     def search_query(self):
@@ -25,10 +24,11 @@ class LayoutCell(Cell):
         return self.link(Propositions(mode=mode, tag=tag))
 
     def login_url(self):
-        from ekklesia_portal.views.login import Login
+        from ..view.login import Login
         return self.link(Login())
 
     def logout_action(self):
+        from ..view.logout import Logout
         return self.link(Logout())
 
     def custom_footer_url(self):

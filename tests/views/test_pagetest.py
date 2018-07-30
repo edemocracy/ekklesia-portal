@@ -1,4 +1,4 @@
-from ekklesia_portal.views.pagetest import PageTestCell
+from ekklesia_portal.concepts.ekklesia_portal.cell.page_test import PageTestCell
 
 
 def test_pagetest(client):

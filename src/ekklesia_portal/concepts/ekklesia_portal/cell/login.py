@@ -1,11 +1,12 @@
-from ekklesia_portal.cells.layout import LayoutCell
-from ekklesia_portal.models.login import Login
+from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.ekklesia_auth import EkklesiaLogin, EkklesiaAuthPathApp
+from ..login import Login
 
 
 class LoginCell(LayoutCell):
     model = Login
     model_properties = ['username']
+    template_prefix = 'ekklesia_portal'
 
     def ekklesia_login_url(self):
         ekklesia_app = self._app.child(EkklesiaAuthPathApp)

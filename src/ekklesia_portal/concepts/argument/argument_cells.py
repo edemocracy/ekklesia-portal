@@ -1,6 +1,6 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.database.datamodel import Argument
-from ekklesia_portal.cells.layout import LayoutCell
+from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 
 
 class ArgumentCell(LayoutCell):

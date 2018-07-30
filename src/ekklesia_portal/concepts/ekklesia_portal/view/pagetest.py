@@ -1,7 +1,7 @@
 import datetime
 import logging
 from ekklesia_portal.app import App
-from ekklesia_portal.cells.pagetest import PageTestCell
+from ..cell.page_test import PageTestCell
 
 
 logg = logging.getLogger(__name__)
