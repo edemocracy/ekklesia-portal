@@ -14,7 +14,7 @@ let
 
   src = builtins.filterSource src-filter ./.;
   python = import ./requirements/requirements.nix { inherit pkgs; };
-  deps = builtins.attrValues python.packages ++ (lib.optional lib.inNixShell (with pkgs.python36Packages; [ ipython ipdb pkgs.sassc ]));
+  deps = builtins.attrValues python.packages ++ (lib.optional lib.inNixShell (with pkgs.python37Packages; [ ipython ipdb pkgs.sassc ]));
 
 in python.mkDerivation rec {
   pname = pythonPackageName;
