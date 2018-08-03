@@ -1,13 +1,12 @@
-import werkzeug.serving
-import werkzeug.wsgi
-
+import sys
 import argparse
 import datetime
 import os.path
 import tempfile
+import werkzeug.serving
+import werkzeug.wsgi
 
 tmpdir = tempfile.gettempdir()
-
 parser = argparse.ArgumentParser("Ekklesia Portal runserver.py")
 
 parser.add_argument("-b", "--bind", default="ekklesia-portal-localhost", help="hostname / IP to bind to, default ekklesia-portal-localhost")
@@ -77,6 +76,14 @@ def run():
 
     if args.stackdump:
         stackdump_setup()
+
+    # use ipdb as default breakpoint() hook (Python 3.7 feature)
+    try:
+        import ipdb
+    except:
+        pass
+    else:
+        sys.breakpointhook = ipdb.set_trace
 
     with open(os.path.join(tmpdir, "ekklesia_portal.started"), "w") as wf:
         wf.write(datetime.datetime.now().isoformat())
