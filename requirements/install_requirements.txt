@@ -1,11 +1,17 @@
 attrs
+case-conversion
+deform
 jinja2
+more.forwarded
+more.itsdangerous
 more.transaction
 morepath
 munch
+passlib
 psycopg2
 pyjade
 pyyaml
+requests-oauthlib
 sqlalchemy
 sqlalchemy-searchable
 zope.sqlalchemy
