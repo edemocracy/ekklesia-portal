@@ -1,6 +1,5 @@
 let
   pkgs = import ./requirements/nixpkgs.nix;
-  pipenvCustom = pkgs.callPackage ./pipenv.nix {};
   pipenv = pkgs.pipenv;
 in with pkgs; stdenv.mkDerivation {
   src = null;
