@@ -128,6 +128,20 @@ def test_cannot_access_private_attr_from_cell(cell, model):
         cell.private
 
 
+def test_missing_cell_attribute_raises_exception(cell, model):
+    with raises(AttributeError) as excinfo:
+        cell.does_not_exist
+
+    assert 'does_not_exist' in str(excinfo.value)
+
+
+def test_missing_cell_item_raises_exception(cell, model):
+    with raises(KeyError) as excinfo:
+        cell['does_not_exist']
+
+    assert 'does_not_exist' in str(excinfo.value)
+
+
 def test_cell_template_path(cell, model):
     assert cell.template_path == "test_model.j2.jade"
 

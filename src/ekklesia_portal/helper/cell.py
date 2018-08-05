@@ -140,16 +140,15 @@ class Cell(metaclass=CellMeta):
         if name in self.model_properties:
             return getattr(self._model, name)
 
-        raise AttributeError()
+        raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'." \
+                             " Is it from the model? Did you forget to add it to 'model_properties'?")
 
     def __getitem__(self, name):
-        if hasattr(self, name):
+        try:
             return getattr(self, name)
-
-        if name in self.model_properties:
-            return getattr(self._model, name)
-
-        raise KeyError()
+        except AttributeError as e:
+            # standard __getitem__ raises an KeyError, let's do the same
+            raise KeyError(e.args[0])
 
     def __contains__(self, name):
         return name in self.model_properties or hasattr(self, name)
