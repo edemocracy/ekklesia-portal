@@ -70,7 +70,6 @@ class EkklesiaAuth:
 
 
 class GetOAuthTokenAction(dectate.Action):
-    config = {}
     app_class_arg = True
 
     def __init__(self):
@@ -84,7 +83,6 @@ class GetOAuthTokenAction(dectate.Action):
 
 
 class SetOAuthTokenAction(dectate.Action):
-    config = {}
     app_class_arg = True
 
     def __init__(self):
