@@ -18,3 +18,5 @@ requirements/all_deps
 requirements/dev_deps
 config.yml
 .pytest_cache
+result
+.mypy_cache/
