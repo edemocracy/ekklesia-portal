@@ -5,8 +5,8 @@ from ekklesia_portal.database.datamodel import ArgumentRelation
 
 
 @fixture
-def proposition_cell(app, proposition):
-    return PropositionCell(proposition, Mock())
+def proposition_cell(app, proposition_with_arguments):
+    return PropositionCell(proposition_with_arguments, Mock())
 
 
 def test_proposition_cell(proposition_cell):

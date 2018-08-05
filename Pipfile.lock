@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "34ab7327c1f6e93c760bf8a96379aab9fa16009a201de4c325d69391cafe3bfd"
+            "sha256": "079542c73d7cd75ebd411c65bf75072dfd774c586b63e6aba664598ce6fcf5b2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -696,6 +696,21 @@
                 "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"
             ],
             "version": "==0.6.1"
+        },
+        "mimesis": {
+            "hashes": [
+                "sha256:2a17aa98cc8aff2c0b1828312e213a515030ed57a1c7b61fc07a87150cb0f25f",
+                "sha256:4b856023acdaaefe2e10bbfea9fd4cb6fa9adbbbe9618a8f796aa8887b58e6f2"
+            ],
+            "version": "==2.1.0"
+        },
+        "mimesis-factory": {
+            "hashes": [
+                "sha256:5f69f9994395e5309ddd8ed1b2c8012718f14077788c80361cf359718dab8f8f",
+                "sha256:918656d9cf084b2d55fd75ec5ddd97977fd1371ce2ba4156518b9ddc00e185b9"
+            ],
+            "index": "pypi",
+            "version": "==0.1.0"
         },
         "more-itertools": {
             "hashes": [

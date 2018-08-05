@@ -1,10 +1,21 @@
-"""XXX: depends on content from create_test_db.py"""
+import pytest
+from ekklesia_portal.database.datamodel import Supporter
+
+def test_proposition(db_session, user, user_two, proposition, proposition_two):
+    supporters = [
+        Supporter(proposition=proposition, member=user),
+        Supporter(proposition=proposition, member=user_two),
+        Supporter(proposition=proposition_two, member=user_two)
+    ]
+    db_session.add_all(supporters)
+
+    assert len(proposition.supporters) == 2
+    assert len(user.supports) == 1
+    assert user_two in user.supports[0].supporters
 
 
-def test_proposition(proposition):
-    assert len(proposition.supporters) == 1
+@pytest.mark.parametrize('user__name', ['hans', 'wurst'])
+def test_user(user, user__name):
+    """This test isn't really useful but a good example for factory parametrization ;)"""
+    assert user.name == user__name
 
-
-def test_user_proposition(user):
-    assert len(user.supports) == 2
-    assert user in user.supports[0].supporters

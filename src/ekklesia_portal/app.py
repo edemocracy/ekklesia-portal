@@ -144,7 +144,7 @@ def get_locale(request):
     return locale
 
 
-def make_wsgi_app(settings_filepath=None):
+def make_wsgi_app(settings_filepath=None, testing=False):
     morepath.autoscan()
     settings = get_app_settings(settings_filepath)
     App.init_settings(settings)
@@ -152,7 +152,7 @@ def make_wsgi_app(settings_filepath=None):
     App.commit()
 
     app = App()
-    database.configure_sqlalchemy(app.settings.database)
+    database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
     return app

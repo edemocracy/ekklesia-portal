@@ -48,7 +48,6 @@ def test_new_with_data_import(client, logged_in_user):
 
 
 def test_support(client, db_session, logged_in_user):
-
     def assert_supporter(status):
         qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=3)
         if status is None:

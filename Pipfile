@@ -39,6 +39,7 @@ ipdb = "*"
 pytest-factoryboy = "*"
 pylama = "*"
 "autopep8" = "*"
+mimesis-factory = "*"
 
 [requires]
 python_version = "3.7"

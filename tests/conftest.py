@@ -20,6 +20,7 @@ logg = logging.getLogger('test')
 
 BASEDIR = path.dirname(__file__)
 
+from .factories import *
 
 @fixture(scope="session")
 def config_filepath():
@@ -28,7 +29,7 @@ def config_filepath():
 
 @fixture(scope="session")
 def app(config_filepath):
-    app = make_wsgi_app(config_filepath)
+    app = make_wsgi_app(config_filepath, testing=True)
     return app
 
 
@@ -38,7 +39,7 @@ def client(app):
 
 
 @fixture
-def request(app):
+def req(app):
     environ = BaseRequest.blank('test').environ
     return EkklesiaPortalRequest(environ, app)
 
@@ -49,13 +50,14 @@ def db_session(app):
 
 
 @fixture
-def proposition(db_session):
-    return db_session.query(Proposition).get(1)
-
-
-@fixture
-def user(db_session):
-    return db_session.query(User).get(1)
+def proposition_with_arguments(user, user_two, proposition, argument_factory, argument_relation_factory):
+    arg1 = argument_factory(author=user, title='Ein Pro-Argument', abstract='dafür abstract', details='dafür')
+    arg2 = argument_factory(author=user_two, title='Ein zweites Pro-Argument', abstract='dafür!!!')
+    arg3 = argument_factory(author=user, title='Ein Contra-Argument', abstract='dagegen!!!', details='aus Gründen')
+    arg1_rel = argument_relation_factory(proposition=proposition, argument=arg1, argument_type='pro')
+    arg2_rel = argument_relation_factory(proposition=proposition, argument=arg2, argument_type='pro')
+    arg3_rel = argument_relation_factory(proposition=proposition, argument=arg3, argument_type='con')
+    return proposition
 
 
 @fixture
