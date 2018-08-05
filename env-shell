@@ -1,0 +1,1 @@
+PYTHONPATH= SHELL=`which zsh` pipenv shell --fancy
