@@ -1,7 +1,7 @@
 import requests
 
 
-def import_discourse_post_as_proposition(base_url, from_data):
+def import_discourse_post_as_proposition(base_url: str, from_data):
     post_id = int(from_data)
     post_url = "{}/posts/{}".format(base_url, post_id)
 

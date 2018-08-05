@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import os
+from typing import Union
 from munch import Munch
 from pyjade.ext.jinja import Compiler as JinjaCompiler
 from pyjade.ext.jinja import PyJadeExtension as JinjaJadeExtension
@@ -57,7 +58,7 @@ def select_jinja_autoescape(filename):
     return filename.endswith(('.html', '.htm', '.xml', '.xhtml', '.jade'))
 
 
-def format_datetime(timestamp_or_dt):
+def format_datetime(timestamp_or_dt: Union[float, datetime]) -> str:
     """Format a timestamp for display."""
     if isinstance(timestamp_or_dt, datetime):
         return timestamp_or_dt.strftime('%Y-%m-%d @ %H:%M')
