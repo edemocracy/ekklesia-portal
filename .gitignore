@@ -20,3 +20,4 @@ config.yml
 .pytest_cache
 result
 .mypy_cache/
+.coverage

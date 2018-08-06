@@ -41,6 +41,10 @@ pylama = "*"
 "autopep8" = "*"
 mimesis-factory = "*"
 mypy = "*"
+pytest-cov = "*"
+pytest-instafail = "*"
+pytest-print = "*"
+pytest-pspec = "*"
 
 [requires]
 python_version = "3.7"
