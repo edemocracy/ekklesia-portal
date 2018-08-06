@@ -21,3 +21,4 @@ config.yml
 result
 .mypy_cache/
 .coverage
+mypy_stubs
