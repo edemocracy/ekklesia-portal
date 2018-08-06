@@ -45,6 +45,8 @@ pytest-cov = "*"
 pytest-instafail = "*"
 pytest-print = "*"
 pytest-pspec = "*"
+pytest-mock = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.7"
