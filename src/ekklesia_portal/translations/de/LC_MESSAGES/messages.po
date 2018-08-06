@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-27 20:28+0000\n"
+"POT-Creation-Date: 2018-08-06 20:59+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -16,183 +16,208 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: arguments/__init__.py:48
-msgid "login_fail_with"
-msgstr "Login über %(auth_title)s ist fehlgeschlagen"
+#: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
+msgid "authored_at_by"
+msgstr "Eingetragen um %(dt)s von %(author_name)s"
 
-#: arguments/__init__.py:84
-msgid "login_success_with"
-msgstr "Login über %(auth_title)s war erfolgreich"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_for_proposition_form.j2.jade:3
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_for_proposition_form.j2.jade:7
+msgid "new_argument"
+msgstr "Neues Argument"
 
-#: arguments/templates/argument.j2.jade:6
-#: arguments/templates/counter_arguments.j2.jade:6
-#: arguments/templates/new_argument.j2.jade:8
-#: arguments/templates/proposition_macros.j2.jade:40
-msgid "discussion"
-msgstr "Diskussion"
-
-#: arguments/templates/argument.j2.jade:8
-#: arguments/templates/counter_arguments.j2.jade:8
-#: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/proposition_macros.j2.jade:44
-msgid "follow"
-msgstr "Folgen"
-
-#: arguments/templates/argument.j2.jade:10
-msgid "argument"
-msgstr "Zu den Argumenten"
-
-#: arguments/templates/argument_macros.j2.jade:4
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:19
 msgid "counter_argument"
 msgid_plural "counter_arguments"
 msgstr[0] "Gegenargument"
 msgstr[1] "Gegenargumente"
 
-#: arguments/templates/argument_macros.j2.jade:10
-msgid "point"
-msgid_plural "points"
-msgstr[0] "Punkt"
-msgstr[1] "Punkte"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:26
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:40
+msgid "discussion"
+msgstr "Diskussion"
 
-#: arguments/templates/argument_macros.j2.jade:14
-msgid "authored_at_by"
-msgstr "Eingetragen um %(dt)s von %(author_name)s"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:29
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:53
+msgid "argument"
+msgid_plural "arguments"
+msgstr[0] "Argument"
+msgstr[1] "Argumente"
 
-#: arguments/templates/counter_arguments.j2.jade:10
-msgid "counterarguments_for"
-msgstr "Gegenargument zu"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:1
+msgid "propositions"
+msgstr "Anträge"
 
-#: arguments/templates/layout.j2.jade:29
-msgid "login"
-msgstr "Anmelden"
-
-#: arguments/templates/layout.j2.jade:35
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:24
 msgid "sorted"
 msgstr "Sortiert"
 
-#: arguments/templates/layout.j2.jade:37
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
 msgid "top"
 msgstr "Top"
 
-#: arguments/templates/layout.j2.jade:43
-#: arguments/templates/proposition_macros.j2.jade:33
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:8
 msgid "search_for"
 msgstr "Suchen nach"
 
-#: arguments/templates/layout.j2.jade:55
-msgid "terms_of_use"
-msgstr "Nutzungsbedingungen"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
+msgid "search"
+msgstr "Suchen"
 
-#: arguments/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
+msgid "logout"
+msgstr "Ausloggen"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:37
+msgid "login"
+msgstr "Anmelden"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:46
 msgid "link_other"
 msgstr "Zur aktuellen Abstimmung"
 
-#: arguments/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:48
+msgid "faq"
+msgstr "FAQ"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
+msgid "terms_of_use"
+msgstr "Nutzungsbedingungen"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
 msgid "imprint"
 msgstr "Impressum"
 
-#: arguments/templates/new_argument.j2.jade:3
-#: arguments/templates/new_argument.j2.jade:12
-msgid "new_argument"
-msgstr "Neues Argument"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
+msgid "source code"
+msgstr "Quellcode"
 
-#: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/proposition_macros.j2.jade:44
-msgid "unfollow"
-msgstr "Entfolgen"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
+msgid "hello"
+msgstr "Hallo"
 
-#: arguments/templates/new_argument.j2.jade:18
-#: arguments/templates/new_proposition.j2.jade:7
-msgid "title"
-msgstr "Titel"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10
+msgid "support"
+msgstr "unterstützen"
 
-#: arguments/templates/new_argument.j2.jade:23
-msgid "abstract"
-msgstr "Zusammenfassung"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:12
+msgid "retract_support"
+msgstr "Unterstützung zurückziehen"
 
-#: arguments/templates/new_argument.j2.jade:28
-#: arguments/templates/new_proposition.j2.jade:12
-msgid "details"
-msgstr "Details"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:15
+msgid "report"
+msgstr "melden"
 
-#: arguments/templates/new_argument.j2.jade:33
-#: arguments/templates/new_proposition.j2.jade:35
-msgid "submit"
-msgstr "Abschicken"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
+msgid "share"
+msgstr "teilen"
 
-#: arguments/templates/new_proposition.j2.jade:2
-msgid "new_proposition"
-msgstr "Neue Frage"
-
-#: arguments/templates/new_proposition.j2.jade:17
-msgid "associated_with_proposition_url"
-msgstr "Beziehung zu Antrag"
-
-#: arguments/templates/new_proposition.j2.jade:22
-msgid "association_type"
-msgstr "Beziehungstyp"
-
-#: arguments/templates/new_proposition.j2.jade:25
-msgid "change_proposition"
-msgstr "Änderungsantrag"
-
-#: arguments/templates/new_proposition.j2.jade:26
-msgid "counter_proposition"
-msgstr "Gegenantrag"
-
-#: arguments/templates/new_proposition.j2.jade:30
-msgid "tags"
-msgstr "Tags"
-
-#: arguments/templates/proposition.j2.jade:4
-msgid "goto_arguments"
-msgstr "Zu den Argumenten"
-
-#: arguments/templates/proposition.j2.jade:10
-msgid "add_pro_argument"
-msgstr "Pro-Argument hinzufügen"
-
-#: arguments/templates/proposition.j2.jade:16
-msgid "add_con_argument"
-msgstr "Gegen-Argument hinzufügen"
-
-#: arguments/templates/proposition_associated.j2.jade:4
-msgid "goto_associated_propositions"
-msgstr "Gehe zu zugehörigen Anträgen"
-
-#: arguments/templates/proposition_associated.j2.jade:8
-msgid "add_change_proposition"
-msgstr "Änderungsantrag stellen"
-
-#: arguments/templates/proposition_associated.j2.jade:12
-msgid "add_counter_proposition"
-msgstr "Gegenantrag stellen"
-
-#: arguments/templates/proposition_macros.j2.jade:9
-#: arguments/templates/proposition_macros.j2.jade:51
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:30
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Unterstützer"
 msgstr[1] "Unterstützer"
 
-#: arguments/templates/proposition_macros.j2.jade:21
-#: arguments/templates/proposition_macros.j2.jade:57
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:32
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:49
 msgid "authored_at"
 msgstr "Eingetragen um %(dt)s"
 
-#: arguments/templates/proposition_macros.j2.jade:42
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:42
 msgid "associated"
 msgstr "Zugehörig (Änderungs- und Gegenanträge)"
 
-#: arguments/templates/propositions.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:64
+msgid "goto_arguments"
+msgstr "Zu den Argumenten"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
+msgid "add_pro_argument"
+msgstr "Pro-Argument hinzufügen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:75
+msgid "add_con_argument"
+msgstr "Gegen-Argument hinzufügen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
+msgid "add_change_proposition"
+msgstr "Änderungsantrag stellen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:85
+msgid "add_counter_proposition"
+msgstr "Gegenantrag stellen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:3
+msgid "new_proposition"
+msgstr "Neue Frage"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:12
 msgid "overview"
 msgstr "Übersicht"
 
-#: arguments/views/logout.py:12
-msgid "logged_out"
-msgstr "Abgemeldet"
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:14
+msgid "tagged_propositions"
+msgstr "Anträge mit Tag"
 
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
+
+#~ msgid "follow"
+#~ msgstr "Folgen"
+
+#~ msgid "point"
+#~ msgid_plural "points"
+#~ msgstr[0] "Punkt"
+#~ msgstr[1] "Punkte"
+
+#~ msgid "unfollow"
+#~ msgstr "Entfolgen"
+
+#~ msgid "title"
+#~ msgstr "Titel"
+
+#~ msgid "abstract"
+#~ msgstr "Zusammenfassung"
+
+#~ msgid "details"
+#~ msgstr "Details"
+
+#~ msgid "submit"
+#~ msgstr "Abschicken"
+
+#~ msgid "associated_with_proposition_url"
+#~ msgstr "Beziehung zu Antrag"
+
+#~ msgid "association_type"
+#~ msgstr "Beziehungstyp"
+
+#~ msgid "change_proposition"
+#~ msgstr "Änderungsantrag"
+
+#~ msgid "counter_proposition"
+#~ msgstr "Gegenantrag"
+
+#~ msgid "tags"
+#~ msgstr "Tags"
+
+#~ msgid "goto_associated_propositions"
+#~ msgstr "Gehe zu zugehörigen Anträgen"
+
+#~ msgid "logged_out"
+#~ msgstr "Abgemeldet"
+
+#~ msgid "counterarguments_for"
+#~ msgstr "Gegenargument zu"
+
+#~ msgid "login_fail_with"
+#~ msgstr "Login über %(auth_title)s ist fehlgeschlagen"
+
+#~ msgid "login_success_with"
+#~ msgstr "Login über %(auth_title)s war erfolgreich"
+

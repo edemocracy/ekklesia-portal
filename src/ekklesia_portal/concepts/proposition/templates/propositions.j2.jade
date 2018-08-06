@@ -24,7 +24,7 @@
         a(href=self_link)
           = _("overview")
       li.active
-        | Nur Anträge mit Tag:
+        = _('tagged_propositions')
         span.tag_text= tag
 
   = render_cell(collection=propositions)

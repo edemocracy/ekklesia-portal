@@ -65,8 +65,8 @@ def test_filter_datetimeformat_in_germany(app, render_string):
 
 def test_translation(app, render_string):
     app.settings.babel_i18n.default_locale = "en_US"
-    res = render_string("{{ _('login') }}")
-    assert res == "Login"
+    res = render_string("{{ _('terms_of_use') }}")
+    assert res == "Terms of Use"
 
 
 def test_translation_with_args(app, render_string):

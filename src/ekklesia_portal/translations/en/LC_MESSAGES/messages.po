@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-27 20:28+0000\n"
+"POT-Creation-Date: 2018-08-06 20:59+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,181 +16,205 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: arguments/__init__.py:48
-msgid "login_fail_with"
-msgstr "Login with %(auth_title) failed"
+#: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
+msgid "authored_at_by"
+msgstr "Added at %(dt)s by %(author_name)s"
 
-#: arguments/__init__.py:84
-msgid "login_success_with"
-msgstr "Login with %(auth_title) succeeded"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_for_proposition_form.j2.jade:3
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_for_proposition_form.j2.jade:7
+msgid "new_argument"
+msgstr "New Argument"
 
-#: arguments/templates/argument.j2.jade:6
-#: arguments/templates/counter_arguments.j2.jade:6
-#: arguments/templates/new_argument.j2.jade:8
-#: arguments/templates/proposition_macros.j2.jade:40
-msgid "discussion"
-msgstr "Discussion"
-
-#: arguments/templates/argument.j2.jade:8
-#: arguments/templates/counter_arguments.j2.jade:8
-#: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/proposition_macros.j2.jade:44
-msgid "follow"
-msgstr "Follow"
-
-#: arguments/templates/argument.j2.jade:10
-msgid "argument"
-msgstr "Argument"
-
-#: arguments/templates/argument_macros.j2.jade:4
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:19
 msgid "counter_argument"
 msgid_plural "counter_arguments"
 msgstr[0] "Counter argument"
 msgstr[1] "Counter arguments"
 
-#: arguments/templates/argument_macros.j2.jade:10
-msgid "point"
-msgid_plural "points"
-msgstr[0] "Point"
-msgstr[1] "Points"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:26
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:40
+msgid "discussion"
+msgstr "Discussion"
 
-#: arguments/templates/argument_macros.j2.jade:14
-msgid "authored_at_by"
-msgstr "Added at %(dt)s by %(author_name)s"
+#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:29
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:53
+msgid "argument"
+msgid_plural "arguments"
+msgstr[0] "Argument"
+msgstr[1] "Arguments"
 
-#: arguments/templates/counter_arguments.j2.jade:10
-msgid "counterarguments_for"
-msgstr "Counterargument for"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:1
+msgid "propositions"
+msgstr "Propositions"
 
-#: arguments/templates/layout.j2.jade:29
-msgid "login"
-msgstr "Login"
-
-#: arguments/templates/layout.j2.jade:35
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:24
 msgid "sorted"
 msgstr "Sorted"
 
-#: arguments/templates/layout.j2.jade:37
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
 msgid "top"
 msgstr "Top"
 
-#: arguments/templates/layout.j2.jade:43
-#: arguments/templates/proposition_macros.j2.jade:33
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:8
 msgid "search_for"
 msgstr "Search for"
 
-#: arguments/templates/layout.j2.jade:55
-msgid "terms_of_use"
-msgstr "Terms Of Use"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
+msgid "search"
+msgstr "search"
 
-#: arguments/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
+msgid "logout"
+msgstr "logout"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:37
+msgid "login"
+msgstr "login"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:46
 msgid "link_other"
 msgstr "Go to current voting"
 
-#: arguments/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:48
+msgid "faq"
+msgstr "FAQ"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
+msgid "terms_of_use"
+msgstr "Terms of Use"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
 msgid "imprint"
 msgstr "Imprint"
 
-#: arguments/templates/new_argument.j2.jade:3
-#: arguments/templates/new_argument.j2.jade:12
-msgid "new_argument"
-msgstr "New Argument"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
+msgid "source code"
+msgstr "source code"
 
-#: arguments/templates/new_argument.j2.jade:10
-#: arguments/templates/proposition_macros.j2.jade:44
-msgid "unfollow"
-msgstr "Unfollow"
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
+msgid "hello"
+msgstr "hello"
 
-#: arguments/templates/new_argument.j2.jade:18
-#: arguments/templates/new_proposition.j2.jade:7
-msgid "title"
-msgstr "Title"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10
+msgid "support"
+msgstr "support"
 
-#: arguments/templates/new_argument.j2.jade:23
-msgid "abstract"
-msgstr "Abstract"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:12
+msgid "retract_support"
+msgstr "retract support"
 
-#: arguments/templates/new_argument.j2.jade:28
-#: arguments/templates/new_proposition.j2.jade:12
-msgid "details"
-msgstr "Details"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:15
+msgid "report"
+msgstr "report"
 
-#: arguments/templates/new_argument.j2.jade:33
-#: arguments/templates/new_proposition.j2.jade:35
-msgid "submit"
-msgstr "Send"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
+msgid "share"
+msgstr "share"
 
-#: arguments/templates/new_proposition.j2.jade:2
-msgid "new_proposition"
-msgstr "New Proposition"
-
-#: arguments/templates/new_proposition.j2.jade:17
-msgid "associated_with_proposition_url"
-msgstr "Related to motion"
-
-#: arguments/templates/new_proposition.j2.jade:22
-msgid "association_type"
-msgstr "Relation type"
-
-#: arguments/templates/new_proposition.j2.jade:25
-msgid "change_proposition"
-msgstr "change motion"
-
-#: arguments/templates/new_proposition.j2.jade:26
-msgid "counter_proposition"
-msgstr "counter motion"
-
-#: arguments/templates/new_proposition.j2.jade:30
-msgid "tags"
-msgstr "Tags"
-
-#: arguments/templates/proposition.j2.jade:4
-msgid "goto_arguments"
-msgstr "Go To Arguments"
-
-#: arguments/templates/proposition.j2.jade:10
-msgid "add_pro_argument"
-msgstr "Add Pro Argument"
-
-#: arguments/templates/proposition.j2.jade:16
-msgid "add_con_argument"
-msgstr "Add Contra Argument"
-
-#: arguments/templates/proposition_associated.j2.jade:4
-msgid "goto_associated_propositions"
-msgstr ""
-
-#: arguments/templates/proposition_associated.j2.jade:8
-msgid "add_change_proposition"
-msgstr "Add change motion"
-
-#: arguments/templates/proposition_associated.j2.jade:12
-msgid "add_counter_proposition"
-msgstr "Add counter motion"
-
-#: arguments/templates/proposition_macros.j2.jade:9
-#: arguments/templates/proposition_macros.j2.jade:51
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:30
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporter"
 msgstr[1] "Supporters"
 
-#: arguments/templates/proposition_macros.j2.jade:21
-#: arguments/templates/proposition_macros.j2.jade:57
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:32
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:49
 msgid "authored_at"
 msgstr "Added at %(dt)s"
 
-#: arguments/templates/proposition_macros.j2.jade:42
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:42
 msgid "associated"
 msgstr "Related (change and counter motions)"
 
-#: arguments/templates/propositions.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:64
+msgid "goto_arguments"
+msgstr "Go To Arguments"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
+msgid "add_pro_argument"
+msgstr "Add Pro Argument"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:75
+msgid "add_con_argument"
+msgstr "Add Contra Argument"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
+msgid "add_change_proposition"
+msgstr "Add change motion"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:85
+msgid "add_counter_proposition"
+msgstr "Add counter motion"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:3
+msgid "new_proposition"
+msgstr "New Proposition"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:12
 msgid "overview"
 msgstr "Overview"
 
-#: arguments/views/logout.py:12
-msgid "logged_out"
-msgstr ""
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:14
+msgid "tagged_propositions"
+msgstr "Tagged propositions"
+
+#~ msgid "follow"
+#~ msgstr "Follow"
+
+#~ msgid "point"
+#~ msgid_plural "points"
+#~ msgstr[0] "Point"
+#~ msgstr[1] "Points"
+
+#~ msgid "unfollow"
+#~ msgstr "Unfollow"
+
+#~ msgid "title"
+#~ msgstr "Title"
+
+#~ msgid "abstract"
+#~ msgstr "Abstract"
+
+#~ msgid "details"
+#~ msgstr "Details"
+
+#~ msgid "submit"
+#~ msgstr "Send"
+
+#~ msgid "associated_with_proposition_url"
+#~ msgstr "Related to motion"
+
+#~ msgid "association_type"
+#~ msgstr "Relation type"
+
+#~ msgid "change_proposition"
+#~ msgstr "change motion"
+
+#~ msgid "counter_proposition"
+#~ msgstr "counter motion"
+
+#~ msgid "tags"
+#~ msgstr "Tags"
+
+#~ msgid "goto_associated_propositions"
+#~ msgstr ""
+
+#~ msgid "logged_out"
+#~ msgstr ""
+
+#~ msgid "counterarguments_for"
+#~ msgstr "Counterargument for"
+
+#~ msgid "login_fail_with"
+#~ msgstr "Login with %(auth_title) failed"
+
+#~ msgid "login_success_with"
+#~ msgstr "Login with %(auth_title) succeeded"
 

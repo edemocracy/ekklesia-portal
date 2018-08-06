@@ -19,19 +19,19 @@
       form.form-inline(action=support_action, method="POST")
         button.btn.btn-primary(hidden=is_supported_by_current_user, type="submit", name="support")
             i.far.fa-thumbs-up &nbsp;
-            | Unterstützen
+            = _('support')
 
         button.btn.btn-secondary(hidden=(not is_supported_by_current_user), type="submit", name="retract")
             i.far.fa-remove &nbsp;
-            | Unterstützung zurückziehen
+            = _('retract_support')
 
       button.btn.btn-danger-outline
         i.far.fa-thumbs-down &nbsp;
-        | Melden
+        = _('report')
 
     button.btn.btn-secondary
       i.far.fa-share-square &nbsp;
-      | Teilen
+      = _('share')
 
     a.btn.btn-secondary(href="#bottom")
       i.far.fa-comments &nbsp;
