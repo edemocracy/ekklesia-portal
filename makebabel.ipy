@@ -1,23 +1,35 @@
 from __future__ import print_function
+from pathlib import Path
+import os.path
 import sys
+
+BASEDIR = Path('src/ekklesia_portal')
+TDIR = BASEDIR / 'translations'
+POT_PATH = TDIR / 'messages.pot'
+SRCS = ['concepts']
+SRC_PATHS = " ".join(str(BASEDIR / src) for src in SRCS)
 
 argv = sys.argv
 def main():
     cmd = argv[1]
 
+
     if cmd == "compile":
-        !pybabel compile -d ekklesia_portal/translations
+        !pybabel compile -d $TDIR
         !date > .babelcompiled
+    elif cmd == "info":
+        !echo translations dir: $TDIR
+        !echo src paths for string extraction: $SRC_PATHS
     elif cmd == "init":
         lang = argv[2]
-        !pybabel init -i ekklesia_portal/translations/messages.pot -d ekklesia_portal/translations -l $lang
+        !pybabel init -i $TDIR/messages.pot -d $TDIR -l $lang
     elif cmd == "extract":
-        !pybabel extract -F babel.cfg -o ekklesia_portal/translations/messages.pot .
+        !pybabel extract -F babel.cfg -o $POT_PATH $SRC_PATHS
     elif cmd == "extractupdate":
-        !pybabel extract -F babel.cfg -o ekklesia_portal/translations/messages.pot .
-        !pybabel update -d ekklesia_portal/translations -i ekklesia_portal/translations/messages.pot
+        !pybabel extract -F babel.cfg -o $POT_PATH $SRC_PATHS
+        !pybabel update -d $TDIR -i $POT_PATH
     elif cmd == "update":
-        !pybabel update -d ekklesia_portal/translations -i ekklesia_portal/translations/messages.pot
+        !pybabel update -d $TDIR -i $POT_PATH
     else:
         raise Exception("!? unknown command")
 
