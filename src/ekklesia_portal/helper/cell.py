@@ -1,6 +1,6 @@
 from __future__ import annotations
 from webob import Request
-from typing import Any, Iterable, Dict
+from typing import Any, Iterable, Dict, Type, ClassVar
 import case_conversion
 import inspect
 import jinja2
@@ -52,12 +52,12 @@ class Cell(metaclass=CellMeta):
     View model base class which is basically a wrapper around a template.
     Templates can access attributes of the cell and some selected model properties directly.
     """
-    model: Any
+    model: ClassVar[Any]
     model_properties: Iterable[str] = []
     layout = True
-    template_prefix: str
-    #: class that should be used to mark safe HTML output
-    markup_class = Markup
+    template_prefix: ClassVar[str]
+    #: class that should be used to mark safe HTML output. Must be a subclass of str.
+    markup_class: Type[str] = Markup
 
     def __init__(self,
                  model,
@@ -118,7 +118,13 @@ class Cell(metaclass=CellMeta):
         cell_class = find_cell_by_model_instance(model)
         return cell_class(model, self._request, layout=layout, parent=self, **options)
 
-    def render_cell(self, model=None, view_name: str=None, collection: Iterable=None, separator: str=None, layout: bool=None, **options):
+    def render_cell(self,
+                    model=None,
+                    view_name: str=None,
+                    collection: Iterable=None,
+                    separator: str=None,
+                    layout: bool=None,
+                    **options) -> str:
         """Look up a cell by model and render it to HTML.
         The parent cell is set to self which also means that it will be rendered without layout by default.
         """
