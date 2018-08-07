@@ -6,6 +6,9 @@ from pytest import fixture
 import morepath
 import responses
 from webtest import TestApp as Client
+from ekklesia_portal.app import create_or_update_user
+from ekklesia_portal.ekklesia_auth import EkklesiaAuthData
+from ekklesia_portal.database.datamodel import User
 
 
 morepath.autoscan()
@@ -37,6 +40,14 @@ def decode_session(app, client):
     return serializer.loads(client.cookies['session'])
 
 
+def test_create_or_update_user_should_create_new_user(db_session, req, ekklesia_auth_data: EkklesiaAuthData):
+    create_or_update_user(req, ekklesia_auth_data)
+    user = db_session.query(User).filter_by(name=ekklesia_auth_data.profile.username).one()
+    assert user.name == ekklesia_auth_data.profile.username
+    assert user.profile.auid == ekklesia_auth_data.auid.auid
+    assert user.profile.user_type == ekklesia_auth_data.membership.type
+
+
 @responses.activate
 def test_oauth_new_user(app, client, token):
     res = client.get('/ekklesia_auth/login')
@@ -45,7 +56,7 @@ def test_oauth_new_user(app, client, token):
 
     with responses.RequestsMock() as rsps:
         auid = {'auid': 'auid_new_user'}
-        profile = {'avatar': 'ava', 'username': 'new_user'}
+        profile = {'avatar': 'ava', 'username': 'new_user', 'profile': 'profile'}
         membership = {
             'all_nested_groups': [1, 2],
             'nested_groups': [1, 2],
@@ -63,7 +74,6 @@ def test_oauth_new_user(app, client, token):
         session_cookie = client.cookies['session']
         client.set_cookie('session', session_cookie)
         res = client.get('/ekklesia_auth/info')
-        assert 'error' not in res.json
         assert res.json['auid'] == auid
         assert res.json['profile'] == profile
         assert res.json['membership'] == membership

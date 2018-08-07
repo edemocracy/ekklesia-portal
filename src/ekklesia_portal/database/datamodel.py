@@ -19,6 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # For more details see the file COPYING.
 
+import enum
 from sqlalchemy import (
     Column,
     Integer,
@@ -31,7 +32,8 @@ from sqlalchemy import (
     ForeignKey,
     Sequence,
     JSON,
-    func
+    func,
+    Enum
 )
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -39,6 +41,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base
+from ekklesia_portal.enums import EkklesiaUserType
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -88,7 +91,7 @@ class UserProfile(Base):
     user = relationship("User", back_populates="profile")
     auid = Column(String(36), unique=True)  # from user/auid/
     # possibly cached variables from IDserver
-    user_type = Column(String(30), nullable=False)  # deleted, guest, plain member, eligible member, system user # from user/membership/
+    user_type = Column(Enum(EkklesiaUserType), nullable=False)  # from user/membership/
     verified = Column(Boolean)
     profile = Column(Text)  # from user/profile/
     public_id = Column(Text)  # from user/profile/

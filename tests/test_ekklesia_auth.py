@@ -142,7 +142,7 @@ def test_ekklesia_auth_app_config():
     assert TestApp._set_oauth_token != EkklesiaAuthApp._set_oauth_token
 
 
-def test_oauth_login(client):
+def test_login_should_redirect_to_auth_url(client):
     res = client.get('/ekklesia_auth/login', status=302)
     loc = res.headers['Location']
     assert loc.startswith(AUTHORIZATION_URL)
@@ -220,7 +220,7 @@ def test_oauth_dance(app, client, browser_session, token):
 
     with responses.RequestsMock() as rsps:
         auid = {'auid': 'auid_egon'}
-        profile = {'avatar': False, 'username': 'test'}
+        profile = {'avatar': False, 'username': 'test', 'profile': 'profile'}
         membership = {
             'all_nested_groups': [1, 2],
             'nested_groups': [1, 2],

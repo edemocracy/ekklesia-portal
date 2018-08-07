@@ -4,6 +4,7 @@ import os
 import dectate
 import jinja2
 import morepath
+from morepath import Request
 from more.babel_i18n import BabelApp
 from more.browser_session import BrowserSessionApp
 from more.forwarded import ForwardedApp
@@ -14,8 +15,9 @@ from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.templating import make_jinja_env
+import ekklesia_portal.helper.json
 from ekklesia_portal.request import EkklesiaPortalRequest
-from ekklesia_portal.ekklesia_auth import EkklesiaAuthApp, EkklesiaAuthPathApp
+from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthData, EkklesiaAuthPathApp
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 
@@ -59,13 +61,13 @@ def verify_identity(identity):
 
 
 @App.after_oauth_callback()
-def create_or_update_user(request, ekklesia_auth):
-    auid = ekklesia_auth.auid['auid']
+def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
+    auid = ekklesia_auth.auid.auid
     profile = ekklesia_auth.profile
     membership = ekklesia_auth.membership
     token = ekklesia_auth.token
-    name = profile['username']
-    user_profile = request.q(UserProfile).filter_by(auid=auid).scalar()
+    name = profile.username
+    user_profile: UserProfile = request.q(UserProfile).filter_by(auid=auid).scalar()
 
     if user_profile is None:
         user_profile = UserProfile(auid=auid)
@@ -75,14 +77,14 @@ def create_or_update_user(request, ekklesia_auth):
         request.db_session.add(user)
     else:
         user = user_profile.user
-        user.name = profile['username']
+        user.name = profile.username
         user.oauth_token.token = token
         logg.debug("updated ekklesia user with auid %s, name %s", auid, name)
 
-    user_profile.user_type = membership.get('type')
-    user_profile.verified = membership.get('verified')
-    user_profile.profile = membership.get('profile')
-    user_profile.avatar = membership.get('avatar')
+    user_profile.user_type = membership.type
+    user_profile.verified = membership.verified
+    user_profile.profile = profile.profile
+    user_profile.avatar = profile.avatar
 
     request.db_session.flush()
 

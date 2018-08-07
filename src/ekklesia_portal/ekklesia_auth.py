@@ -1,9 +1,17 @@
+from enum import Enum
+import dataclasses
+from dataclasses import dataclass
 from functools import partial
+import json
 import logging
+from typing import List, NewType
 import dectate
 from morepath import redirect, App
 from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
+from webob.exc import HTTPForbidden
+from ekklesia_portal.enums import EkklesiaUserType
+import ekklesia_portal.helper.json
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -12,6 +20,37 @@ logg = logging.getLogger(__name__)
 
 class EkklesiaNotAuthorized(Exception):
     pass
+
+
+@dataclass
+class EkklesiaProfileData:
+    username: str
+    avatar: str = ''
+    profile: str = ''
+
+
+AUID = NewType('AUID', str)
+
+
+@dataclass
+class EkklesiaAUIDData:
+    auid: AUID
+
+
+@dataclass
+class EkklesiaMembershipData:
+    nested_groups: List[int]
+    all_nested_groups: List[int]
+    type: EkklesiaUserType
+    verified: bool
+
+
+@dataclass
+class EkklesiaAuthData:
+    auid: EkklesiaAUIDData
+    profile: EkklesiaProfileData
+    membership: EkklesiaMembershipData
+    token: str = ''
 
 
 class EkklesiaAuth:
@@ -56,17 +95,25 @@ class EkklesiaAuth:
         res = self.session.request(method, url, **kwargs)
         return res.json()
 
-    @cached_property
-    def profile(self):
-        return self.api_request('GET', 'user/profile')
+    @property
+    def profile(self) -> EkklesiaProfileData:
+        res = self.api_request('GET', 'user/profile')
+        return EkklesiaProfileData(**res)
 
-    @cached_property
-    def auid(self):
-        return self.api_request('GET', 'user/auid')
+    @property
+    def auid(self) -> EkklesiaAUIDData:
+        res = self.api_request('GET', 'user/auid')
+        return EkklesiaAUIDData(**res)
 
-    @cached_property
-    def membership(self):
-        return self.api_request('GET', 'user/membership')
+    @property
+    def membership(self) -> EkklesiaMembershipData:
+        res = self.api_request('GET', 'user/membership')
+        res['type'] = EkklesiaUserType(res['type'])
+        return EkklesiaMembershipData(**res)
+
+    @property
+    def data(self) -> EkklesiaAuthData:
+        return EkklesiaAuthData(profile=self.profile, auid=self.auid, membership=self.membership)
 
 
 class GetOAuthTokenAction(dectate.Action):
@@ -161,6 +208,11 @@ class EkklesiaAuthPathApp(App):
     pass
 
 
+@EkklesiaAuthPathApp.dump_json(model=EkklesiaAuthData)
+def dump_ekklesia_auth_data_json(self, _request):
+    return dataclasses.asdict(self)
+
+
 class EkklesiaLogin:
 
     def __init__(self, settings=None, session=None):
@@ -226,28 +278,15 @@ def get_oauth_callback(self, _request):
     return redirect(self.redirect_after_success_url)
 
 
-class OAuthInfo:
-    def __init__(self, ekklesia_auth):
-        self.ekklesia_auth = ekklesia_auth
-
-    @property
-    def info(self):
-        if not self.ekklesia_auth.authorized:
-            logg.debug('oauth info: error not authorized')
-            return {'error': 'not authorized'}
-
-        return {
-            'membership': self.ekklesia_auth.membership,
-            'profile': self.ekklesia_auth.profile,
-            'auid': self.ekklesia_auth.auid
-        }
-
-
-@EkklesiaAuthPathApp.path(model=OAuthInfo, path="/info")
+@EkklesiaAuthPathApp.path(model=EkklesiaAuthData, path="/info")
 def oauth_info(request):
-    return OAuthInfo(request.ekklesia_auth)
+    if not request.ekklesia_auth.authorized:
+        logg.debug('oauth info: error not authorized')
+        raise HTTPForbidden()
+
+    return request.ekklesia_auth.data
 
 
-@EkklesiaAuthPathApp.json(model=OAuthInfo)
+@EkklesiaAuthPathApp.json(model=EkklesiaAuthData)
 def oauth_info_json(self, _):
-    return self.info
+    return self
