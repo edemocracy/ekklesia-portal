@@ -21,4 +21,5 @@ config.yml
 result
 .mypy_cache/
 .coverage
+htmlcov/
 mypy_stubs
