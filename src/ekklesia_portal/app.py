@@ -119,7 +119,7 @@ def get_app_settings(settings_filepath):
         logg.info("no config file given")
     elif os.path.isfile(settings_filepath):
         with open(settings_filepath) as config:
-            settings_from_file = yaml.load(config)
+            settings_from_file = yaml.safe_load(config)
         logg.info("loaded config from %s", settings_filepath)
 
         for section_name, section in settings_from_file.items():
