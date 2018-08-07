@@ -23,7 +23,7 @@ def app(config_filepath):
     return app
 
 
-@fixture(scope="session")
+@fixture
 def client(app):
     return Client(app)
 
