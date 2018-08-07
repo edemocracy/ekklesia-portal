@@ -47,6 +47,7 @@ pytest-print = "*"
 pytest-pspec = "*"
 pytest-mock = "*"
 typing-extensions = "*"
+bandit = "*"
 
 [requires]
 python_version = "3.7"
