@@ -80,7 +80,7 @@ def run():
     # use ipdb as default breakpoint() hook (Python 3.7 feature)
     try:
         import ipdb
-    except:
+    except ImportError:
         pass
     else:
         sys.breakpointhook = ipdb.set_trace
