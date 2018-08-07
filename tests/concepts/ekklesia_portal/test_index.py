@@ -1,3 +1,6 @@
+from tests.helpers.webtest_helpers import get_session
+
+
 def test_index(client):
     res = client.get("/")
     content = res.body.decode()
@@ -5,18 +8,13 @@ def test_index(client):
     assert '<a href="http://localhost/propositions' in content
 
 
-def decode_session(app, client):
-    serializer = app.browser_session_interface.get_signing_serializer(app)
-    return serializer.loads(client.cookies['session'])
-
-
 def test_change_language(app, client):
     client.post("/change_language", {'lang': 'de'})
-    session = decode_session(app, client)
+    session = get_session(app, client)
     assert session['lang'] == 'de'
 
     client.post("/change_language", {'lang': 'fr'})
-    session = decode_session(app, client)
+    session = get_session(app, client)
     assert session['lang'] == 'fr'
 
     client.post("/change_language", {'lang': 'invalid'}, status=400)

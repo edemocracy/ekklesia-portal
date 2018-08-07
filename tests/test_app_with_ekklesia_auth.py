@@ -9,6 +9,7 @@ from webtest import TestApp as Client
 from ekklesia_portal.app import create_or_update_user
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData
 from ekklesia_portal.database.datamodel import User
+from tests.helpers.webtest_helpers import get_session
 
 
 morepath.autoscan()
@@ -35,11 +36,6 @@ def client(app, allow_insecure_transport):
     return Client(app)
 
 
-def decode_session(app, client):
-    serializer = app.browser_session_interface.get_signing_serializer(app)
-    return serializer.loads(client.cookies['session'])
-
-
 def test_create_or_update_user_should_create_new_user(db_session, req, ekklesia_auth_data: EkklesiaAuthData):
     create_or_update_user(req, ekklesia_auth_data)
     user = db_session.query(User).filter_by(name=ekklesia_auth_data.profile.username).one()
@@ -51,7 +47,7 @@ def test_create_or_update_user_should_create_new_user(db_session, req, ekklesia_
 @responses.activate
 def test_oauth_new_user(app, client, token):
     res = client.get('/ekklesia_auth/login')
-    session = decode_session(app, client)
+    session = get_session(app, client)
     state = session['oauth_state']
 
     with responses.RequestsMock() as rsps:
@@ -70,7 +66,7 @@ def test_oauth_new_user(app, client, token):
         rsps.add(responses.POST, settings.token_url, body=json.dumps(token))  # @UndefinedVariable
 
         res = client.get(f'/ekklesia_auth/callback?code=deadbeef&state={state}', status=302)
-        session = decode_session(app, client)
+        session = get_session(app, client)
         session_cookie = client.cookies['session']
         client.set_cookie('session', session_cookie)
         res = client.get('/ekklesia_auth/info')
