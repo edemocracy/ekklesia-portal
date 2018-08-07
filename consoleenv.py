@@ -7,6 +7,8 @@ if __name__ == "__main__":
     from ekklesia_portal.app import App
     from ekklesia_portal.database.datamodel import *
 
+    from tests.factories import *
+
     s = database.Session()
     q = s.query
 
