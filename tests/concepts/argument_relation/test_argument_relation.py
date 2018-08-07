@@ -6,11 +6,19 @@ def test_argumentrelation(client):
     res = client.get("/propositions/1/arguments/3")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
+    assert 'argument_vote_btn' not in content
     assert 'Ein Titel' in content  # proposition title
     # argument
     assert 'Ein Contra-Argument' in content, 'argument title'
     assert 'dagegen' in content, 'argument abstract'
     assert 'aus Gründen' in content, 'argument details'
+
+
+def test_argumentrelation_with_logged_in_user(client, logged_in_user):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get("/propositions/1/arguments/3")
+    content = res.body.decode()
+    assert 'argument_vote_btn' in content
 
 
 def test_new(client, logged_in_user):
