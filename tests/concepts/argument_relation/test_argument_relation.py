@@ -1,4 +1,6 @@
 from webtest_helpers import assert_deform
+from assert_helpers import assert_difference, assert_no_difference
+from ekklesia_portal.database.datamodel import ArgumentVote, ArgumentRelation
 
 
 def test_argumentrelation(client):
@@ -31,7 +33,7 @@ def test_new(client, logged_in_user):
     assert_deform(res, expected)
 
 
-def test_create(client, logged_in_user):
+def test_create(db_query, client, logged_in_user):
     data = {
         'proposition_id': 1,
         'relation_type': 'pro',
@@ -40,4 +42,37 @@ def test_create(client, logged_in_user):
         'details': 'test details'
     }
 
-    client.post("/propositions/1/arguments/", data, status=302)
+    with assert_difference(db_query(ArgumentRelation).count, 1):
+        client.post("/propositions/1/arguments/", data, status=302)
+
+
+def test_does_not_create_without_title(db_query, client, logged_in_user):
+    data = {
+        'proposition_id': 1,
+        'relation_type': 'pro',
+        'abstract': 'test abstract',
+        'details': 'test details'
+    }
+
+    with assert_no_difference(db_query(ArgumentRelation).count):
+        client.post("/propositions/1/arguments/", data)
+
+
+def test_vote(db_query, client, logged_in_user):
+    client.post("/propositions/1/arguments/3/vote", {'weight': 1}, status=302)
+    qq = db_query(ArgumentVote).filter_by(member_id=logged_in_user.id, relation_id=3).one
+    vote = qq()
+    assert vote.weight == 1
+
+    client.post("/propositions/1/arguments/3/vote", {'weight': 0}, status=302)
+    vote = qq()
+    assert vote.weight == 0
+
+    client.post("/propositions/1/arguments/3/vote", {'weight': -1}, status=302)
+    vote = qq()
+    assert vote.weight == -1
+
+    client.post("/propositions/1/arguments/3/vote", {'weight': -2}, status=400)
+    vote = qq()
+    assert vote.weight == -1
+

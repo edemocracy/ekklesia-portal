@@ -38,6 +38,10 @@ def req(app):
 def db_session(app):
     return Session()
 
+@fixture
+def db_query(app):
+    return Session().query
+
 
 @fixture
 def proposition_with_arguments(user, user_two, proposition, argument_factory, argument_relation_factory):
