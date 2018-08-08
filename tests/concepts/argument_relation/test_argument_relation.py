@@ -55,7 +55,7 @@ def test_does_not_create_without_title(db_query, client, logged_in_user):
     }
 
     with assert_no_difference(db_query(ArgumentRelation).count):
-        client.post("/propositions/1/arguments/", data)
+        client.post("/propositions/1/arguments/", data, status=200)
 
 
 def test_vote(db_query, client, logged_in_user):
