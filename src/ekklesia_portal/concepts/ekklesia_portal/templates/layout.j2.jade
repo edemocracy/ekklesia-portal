@@ -25,27 +25,27 @@ body
 
         ul.navbar-nav.mr-auto
           li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
-            a.nav-link(href=propositions_url(tag=tag|default))= _("sorted")
+            a.nav-link(href=propositions_url(tag=tag|default))= _("menu_sorted")
 
           li.nav-item(class=("active" if mode=="top" else ""))
-            a.nav-link(href=propositions_url(mode="top", tag=tag|default))= _("top")
+            a.nav-link(href=propositions_url(mode="top", tag=tag|default))= _("menu_top")
 
         form.top_search(action=plain_propositions_url)
           input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
           button.search_button(type="submit")
             i.fas.fa-search &nbsp;
-              = _('search')
+              = _('button_search')
 
         if current_user is not none
           a.top_username(href="#")= current_user.name
           form.top_logout(action=logout_action, method="POST")
             button.logout_button(type="submit")
               i.fas.fa-sign-out-alt &nbsp;
-                = _('logout')
+                = _('button_logout')
         else
             a.login_button(href=login_url)
               i.fas.fa-sign-in-alt &nbsp;
-                = _("login")
+                = _("button_login")
 
 
     - block messages

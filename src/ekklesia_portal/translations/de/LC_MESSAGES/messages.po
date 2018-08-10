@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-06 20:59+0000\n"
+"POT-Creation-Date: 2018-08-10 12:49+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -34,7 +34,6 @@ msgstr[0] "Gegenargument"
 msgstr[1] "Gegenargumente"
 
 #: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:26
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:40
 msgid "discussion"
 msgstr "Diskussion"
 
@@ -50,11 +49,11 @@ msgid "propositions"
 msgstr "Anträge"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:24
-msgid "sorted"
+msgid "menu_sorted"
 msgstr "Sortiert"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
-msgid "top"
+msgid "menu_top"
 msgstr "Top"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
@@ -63,15 +62,15 @@ msgid "search_for"
 msgstr "Suchen nach"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
-msgid "search"
+msgid "button_search"
 msgstr "Suchen"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
-msgid "logout"
+msgid "button_logout"
 msgstr "Ausloggen"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:37
-msgid "login"
+msgid "button_login"
 msgstr "Anmelden"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:46
@@ -94,25 +93,29 @@ msgstr "Impressum"
 msgid "source code"
 msgstr "Quellcode"
 
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
+msgid "warning_development_mode"
+msgstr "Warnung: Entwicklungsmodus: Login ohne Passwort möglich!"
+
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
 msgid "hello"
 msgstr "Hallo"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10
-msgid "support"
-msgstr "unterstützen"
+msgid "button_support"
+msgstr "Unterstützen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:12
-msgid "retract_support"
+msgid "button_retract_support"
 msgstr "Unterstützung zurückziehen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:15
-msgid "report"
-msgstr "melden"
+msgid "button_report"
+msgstr "Melden"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
-msgid "share"
-msgstr "teilen"
+msgid "button_share"
+msgstr "Teilen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:30
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
@@ -126,33 +129,37 @@ msgstr[1] "Unterstützer"
 msgid "authored_at"
 msgstr "Eingetragen um %(dt)s"
 
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:40
+msgid "tab_discussion"
+msgstr "Diskussion"
+
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:42
-msgid "associated"
+msgid "tab_associated"
 msgstr "Zugehörig (Änderungs- und Gegenanträge)"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:64
-msgid "goto_arguments"
+msgid "button_goto_arguments"
 msgstr "Zu den Argumenten"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
-msgid "add_pro_argument"
+msgid "button_add_pro_argument"
 msgstr "Pro-Argument hinzufügen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:75
-msgid "add_con_argument"
-msgstr "Gegen-Argument hinzufügen"
+msgid "button_add_con_argument"
+msgstr "Contra-Argument hinzufügen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
-msgid "add_change_proposition"
+msgid "button_add_change_proposition"
 msgstr "Änderungsantrag stellen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:85
-msgid "add_counter_proposition"
+msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:3
-msgid "new_proposition"
+msgid "title_new_proposition"
 msgstr "Neue Frage"
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3

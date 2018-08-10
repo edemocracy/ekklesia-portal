@@ -14,7 +14,7 @@
 
     if insecure_development_mode_enabled
       .alert.alert-danger
-        strong Warnung: Entwicklungsmodus: Login ohne Passwort möglich!
+        strong = _('warning_development_mode')
 
     form(action="/login", method="POST")
       p

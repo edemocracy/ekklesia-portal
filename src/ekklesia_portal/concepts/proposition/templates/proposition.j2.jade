@@ -19,19 +19,19 @@
       form.form-inline(action=support_action, method="POST")
         button.btn.btn-primary(hidden=is_supported_by_current_user, type="submit", name="support")
             i.far.fa-thumbs-up &nbsp;
-            = _('support')
+            = _('button_support')
 
         button.btn.btn-secondary(hidden=(not is_supported_by_current_user), type="submit", name="retract")
             i.far.fa-remove &nbsp;
-            = _('retract_support')
+            = _('button_retract_support')
 
       button.btn.btn-danger-outline
         i.far.fa-thumbs-down &nbsp;
-        = _('report')
+        = _('button_report')
 
     button.btn.btn-secondary
       i.far.fa-share-square &nbsp;
-      = _('share')
+      = _('button_share')
 
     a.btn.btn-secondary(href="#bottom")
       i.far.fa-comments &nbsp;
@@ -72,10 +72,10 @@
         .proposition_toolbar
           ul.proposition_tabs
             li.nav-item
-              a.nav-link(href=discussion_url, class=discussion_link_class)= _("discussion")
+              a.nav-link(href=discussion_url, class=discussion_link_class)= _("tab_discussion")
 
             li.nav-item
-              a.nav-link(href=associated_url, class=associated_link_class)= _("associated")
+              a.nav-link(href=associated_url, class=associated_link_class)= _("tab_associated")
 
       .card-body
         .row
@@ -110,7 +110,7 @@
                   = motivation|markdown
 
             if options.show_actions
-              = proposition_actions(_model, current_user, _("goto_arguments"))
+              = proposition_actions(_model, current_user, _("button_goto_arguments"))
 
     if options.active_tab == 'discussion'
       .row.arguments
@@ -123,7 +123,7 @@
             a(href=new_pro_argument_url)
               .button_add_related
                 i.far.fa-thumbs-up &nbsp;
-                = _("add_pro_argument")
+                = _("button_add_pro_argument")
 
         .proposition_col.con
           = render_cell(collection=contra_argument_relations)
@@ -132,7 +132,7 @@
             a(href=new_con_argument_url)
               .button_add_related
                 i.far.fa-thumbs-down &nbsp;
-                = _("add_con_argument")
+                = _("button_add_con_argument")
 
     if options.active_tab == 'associated'
       .row.arguments
@@ -144,7 +144,7 @@
           a(href=new_associated_proposition_url("change"))
             .button_add_related
               i.far.fa-circle &nbsp;
-              = _("add_change_proposition")
+              = _("button_add_change_proposition")
 
         .proposition_col.counter
           = render_cell(collection=replacements, small=True, side='right')
@@ -152,7 +152,7 @@
           a(href=new_associated_proposition_url("counter"))
             .button_add_related
               i.fas.fa-circle &nbsp;
-              = _("add_counter_proposition")
+              = _("button_add_counter_proposition")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
