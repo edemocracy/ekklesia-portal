@@ -1,3 +1,4 @@
+import logging
 import os.path
 from pytest import fixture
 from morepath.request import BaseRequest
@@ -10,6 +11,7 @@ from ekklesia_portal.database.datamodel import Proposition, User
 
 
 BASEDIR = os.path.dirname(__file__)
+logg = logging.getLogger(__name__)
 
 
 @fixture(scope="session")
@@ -61,9 +63,9 @@ def logged_in_user(user, monkeypatch):
     return user
 
 
-@fixture
+@fixture(autouse=True)
 def no_db_commit(monkeypatch):
     def dummy_commit(*a, **kw):
-        logg.info('would commit now')
+        logg.debug('would commit now')
 
     monkeypatch.setattr('transaction.manager.commit', dummy_commit)
