@@ -29,5 +29,5 @@ class Propositions:
 
         return propositions
 
-    def form(self, action):
-        return PropositionForm(action)
+    def form(self, action, request):
+        return PropositionForm(request, action)

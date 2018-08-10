@@ -89,13 +89,13 @@ def new(self, request):
     else:
         form_data = {}
 
-    return NewPropositionCell(self.form(request.class_link(Propositions)), request, form_data).show()
+    return NewPropositionCell(self.form(request.class_link(Propositions), request), request, form_data).show()
 
 
 @App.html(model=Propositions, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
-    form = self.form(request.class_link(Propositions))
+    form = self.form(request.class_link(Propositions), request)
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:

@@ -1,7 +1,6 @@
 from colander import Length, OneOf
-from deform import Form
 from deform.widget import TextAreaWidget, TextInputCSVWidget, SelectWidget
-from ekklesia_portal.helper.contract import Schema, string_property, list_property, int_property
+from ekklesia_portal.helper.contract import Schema, string_property, list_property, int_property, Form
 
 
 class PropositionSchema(Schema):
@@ -16,8 +15,8 @@ class PropositionSchema(Schema):
 
 class PropositionForm(Form):
 
-    def __init__(self, action):
-        super().__init__(PropositionSchema(), action, buttons=("submit", ))
+    def __init__(self, request, action):
+        super().__init__(PropositionSchema(), request, action, buttons=("submit", ))
         self.set_widgets({
             'title': TextAreaWidget(rows=2),
             'abstract': TextAreaWidget(rows=4),

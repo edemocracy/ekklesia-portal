@@ -12,8 +12,8 @@ class ArgumentForPropositionSchema(ArgumentSchema):
 
 class ArgumentForPropositionForm(Form):
 
-    def __init__(self, action):
-        super().__init__(ArgumentForPropositionSchema(), action, buttons=("submit", ))
+    def __init__(self, request, action):
+        super().__init__(ArgumentForPropositionSchema(), request, action, buttons=("submit", ))
         self.set_widgets({
             'proposition_id': HiddenWidget(),
             'relation_type': HiddenWidget(),

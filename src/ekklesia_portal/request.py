@@ -30,3 +30,6 @@ class EkklesiaPortalRequest(morepath.Request):
     def render_template(self, template, **context):
         template = self.app.jinja_env.get_template(template)
         return template.render(**context)
+
+
+Request = EkklesiaPortalRequest

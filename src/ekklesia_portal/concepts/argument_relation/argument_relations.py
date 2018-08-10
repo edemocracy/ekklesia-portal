@@ -6,5 +6,5 @@ class ArgumentRelations:
         self.proposition_id = proposition_id
         self.relation_type = relation_type
 
-    def form(self, action):
-        return ArgumentForPropositionForm(action)
+    def form(self, action, request):
+        return ArgumentForPropositionForm(action, request)

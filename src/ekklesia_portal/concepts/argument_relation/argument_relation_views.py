@@ -63,13 +63,13 @@ def new(self, request):
         'proposition_id': self.proposition_id,
     }
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
-    return NewArgumentForPropositionCell(self.form(request.link(self)), request, form_data, proposition).show()
+    return NewArgumentForPropositionCell(self.form(request.link(self), request), request, form_data, proposition).show()
 
 
 @App.html(model=ArgumentRelations, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
-    form = self.form(request.link(self))
+    form = self.form(request.link(self), request)
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
     try:
         appstruct = form.validate(controls)
