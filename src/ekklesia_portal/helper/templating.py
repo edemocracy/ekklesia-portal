@@ -66,11 +66,6 @@ def format_datetime(timestamp_or_dt: Union[float, datetime]) -> str:
         return datetime.utcfromtimestamp(timestamp_or_dt).strftime('%Y-%m-%d @ %H:%M')
 
 
-def fake_translate(name, *a, **k):
-    el = [str(e) for e in [name, a if a else None, list(k.values()) if k else None] if e]
-    return ", ".join(el)
-
-
 def make_jinja_env(jinja_environment_class, jinja_options, app):
 
     def make_babel_filter(func_name):
@@ -98,8 +93,6 @@ def make_jinja_env(jinja_environment_class, jinja_options, app):
     babel_filters = {name: make_babel_filter(func_name) for name, func_name in babel_filter_names}
 
     jinja_globals = dict(url_for=lambda *a, **k: "#",
-                         g=Munch(locale="de"),
-                         ngettext=fake_translate,
                          get_flashed_messages=lambda *a, **k: [])
 
     default_jinja_options = ImmutableDict(
