@@ -193,7 +193,7 @@ msgstr "Gegenantrag stellen"
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_form.j2.jade:3
 msgid "title_new_proposition"
-msgstr "Neue Frage"
+msgstr "Neuer Antrag"
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
