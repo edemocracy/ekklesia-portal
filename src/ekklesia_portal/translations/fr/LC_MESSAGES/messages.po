@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-10 12:49+0000\n"
+"POT-Creation-Date: 2018-08-10 15:55+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -100,7 +100,15 @@ msgid "warning_development_mode"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:15
+#, fuzzy
 msgid "hello"
+msgid_plural "hellos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:13
+msgid "hello_date"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-10 12:49+0000\n"
+"POT-Creation-Date: 2018-08-10 15:55+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -98,8 +98,15 @@ msgid "warning_development_mode"
 msgstr "Warnung: Entwicklungsmodus: Login ohne Passwort möglich!"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:15
 msgid "hello"
-msgstr "Hallo"
+msgid_plural "hellos"
+msgstr[0] "Hallo"
+msgstr[1] "Hallos"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:13
+msgid "hello_date"
+msgstr "Hallo, heute ist der %(date)s. Es ist jetzt %(time)s."
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10
 msgid "button_support"
