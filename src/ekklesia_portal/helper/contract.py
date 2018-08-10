@@ -28,6 +28,7 @@ class Schema(MappingSchema):
 
 COLANDER_TRANSLATION_DIR = resource_filename('colander', 'locale/')
 DEFORM_TRANSLATION_DIR = resource_filename('deform', 'locale/')
+EKKLESIA_PORTAL_TRANSLATION_DIR = resource_filename('ekklesia_portal', 'translations/')
 DEFORM_TEMPLATE_DIRS = [resource_filename('deform', 'templates/')]
 
 
@@ -39,15 +40,17 @@ class Form(deform.Form):
     def __init__(self, schema: Schema, request: Request, *args, **kwargs) -> None:
 
         # Domain depends on request, so it must be created here
-        colander_domain = Domain(request=request, dirname=COLANDER_TRANSLATION_DIR, domain='colander')
-        deform_domain = Domain(request=request, dirname=DEFORM_TRANSLATION_DIR, domain='deform')
+        domains = {
+            'colander': Domain(request=request, dirname=COLANDER_TRANSLATION_DIR, domain='colander'),
+            'deform': Domain(request=request, dirname=DEFORM_TRANSLATION_DIR, domain='deform'),
+            'messages': Domain(request=request, dirname=EKKLESIA_PORTAL_TRANSLATION_DIR, domain='messages')
+        }
 
         def translator(term):
-            translated = deform_domain.gettext(term)
-            if translated != term:
-                return translated
-            # no translation happened, try again with other domain
-            return colander_domain.gettext(term)
+            domain = domains.get(term.domain)
+            if domain is None:
+                return term
+            return domain.gettext(term)
 
         renderer = deform.ZPTRendererFactory(
             DEFORM_TEMPLATE_DIRS,

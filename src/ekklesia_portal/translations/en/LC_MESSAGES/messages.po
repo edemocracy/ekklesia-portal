@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-10 15:55+0000\n"
+"POT-Creation-Date: 2018-08-10 21:59+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -17,6 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:8
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:8
+msgid "title"
+msgstr "Title"
+
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:9
+msgid "abstract"
+msgstr "Abstract"
+
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:10
+msgid "details"
+msgstr "Details"
 
 #: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
 msgid "authored_at_by"
@@ -98,15 +112,27 @@ msgid "warning_development_mode"
 msgstr "Warning: insecure development mode. Login without password possible!"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
+msgid "hello_date"
+msgstr "hello, today is %(date)s and the time is %(time)s."
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:13
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:15
 msgid "hello"
 msgid_plural "hellos"
 msgstr[0] "Hello"
 msgstr[1] "Hellos"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:13
-msgid "hello_date"
-msgstr "hello, today is %(date)s and the time is %(time)s."
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:10
+msgid "content"
+msgstr "Content"
+
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:11
+msgid "motivation"
+msgstr "Motivation"
+
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:12
+msgid "tags"
+msgstr "Tags"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:10
 msgid "button_support"

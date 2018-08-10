@@ -2,12 +2,13 @@ from colander import Length
 from deform import Form
 from deform.widget import TextAreaWidget
 from ekklesia_portal.helper.contract import Schema, string_property
+from ekklesia_portal.helper.translation import _
 
 
 class ArgumentSchema(Schema):
-    title = string_property(validator=Length(min=5, max=80))
-    abstract = string_property(validator=Length(min=5, max=140))
-    details = string_property(validator=Length(min=10, max=4096), missing='')
+    title = string_property(title=_('title'), validator=Length(min=5, max=80))
+    abstract = string_property(title=_('abstract'), validator=Length(min=5, max=140))
+    details = string_property(title=_('details'), validator=Length(min=10, max=4096), missing='')
 
 
 argument_widgets = {
