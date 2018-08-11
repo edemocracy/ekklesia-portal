@@ -1,3 +1,4 @@
+import glob
 import sys
 import argparse
 import datetime
@@ -89,7 +90,9 @@ def run():
         wf.write(datetime.datetime.now().isoformat())
         wf.write("\n")
 
-    werkzeug.serving.run_simple(args.bind, args.http_port, wrapped_app, use_reloader=args.debug, use_debugger=args.debug)
+    # reload when translation MO files change
+    extra_reload_files = glob.glob('src/ekklesia_portal/translations/**/*.mo', recursive=True)
+    werkzeug.serving.run_simple(args.bind, args.http_port, wrapped_app, use_reloader=args.debug, extra_files=extra_reload_files, use_debugger=args.debug)
 
 
 if __name__ == "__main__":
