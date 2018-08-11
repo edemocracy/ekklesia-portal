@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-11 14:20+0000\n"
+"POT-Creation-Date: 2018-08-11 17:17+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -173,23 +173,27 @@ msgstr ""
 msgid "tab_associated"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:64
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:60
+msgid "title_motivation"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
 msgid "button_goto_arguments"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:69
 msgid "button_add_pro_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:75
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:73
 msgid "button_add_con_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:79
 msgid "button_add_change_proposition"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:85
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:83
 msgid "button_add_counter_proposition"
 msgstr ""
 
@@ -245,11 +249,11 @@ msgstr ""
 msgid "label_profile"
 msgstr ""
 
-#: src/ekklesia_portal/helper/templating.py:76
+#: src/ekklesia_portal/helper/templating.py:78
 msgid "yes"
 msgstr ""
 
-#: src/ekklesia_portal/helper/templating.py:78
+#: src/ekklesia_portal/helper/templating.py:80
 msgid "no"
 msgstr ""
 

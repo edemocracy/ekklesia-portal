@@ -16,7 +16,7 @@
 - macro proposition_actions(proposition, user, goto_label)
   div
     if show_support_actions
-      form.form-inline(action=support_action, method="POST")
+      form.support_form(action=support_action, method="POST")
         button.btn.btn-primary(hidden=is_supported_by_current_user, type="submit", name="support")
             i.far.fa-thumbs-up &nbsp;
             = _('button_support')
@@ -25,9 +25,9 @@
             i.far.fa-remove &nbsp;
             = _('button_retract_support')
 
-      button.btn.btn-danger-outline
-        i.far.fa-thumbs-down &nbsp;
-        = _('button_report')
+    button.btn.btn-danger-outline
+      i.far.fa-thumbs-down &nbsp;
+      = _('button_report')
 
     button.btn.btn-secondary
       i.far.fa-share-square &nbsp;
@@ -104,12 +104,14 @@
 
             if options.show_details
               .proposition_details
-                p
-                  = content|markdown
-                p
+                = content|markdown
+
+                if motivation
+                  h4= _('title_motivation')
                   = motivation|markdown
 
             if options.show_actions
+              hr
               = proposition_actions(_model, current_user, _("button_goto_arguments"))
 
     if options.active_tab == 'discussion'
