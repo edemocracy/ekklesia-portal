@@ -10,6 +10,7 @@ from pyjade.utils import process
 from werkzeug.datastructures import ImmutableDict
 from jinja2.filters import contextfilter
 from jinja2 import Undefined
+from ekklesia_portal.helper.translation import _
 
 
 class JinjaAutoescapeCompiler(JinjaCompiler):
@@ -66,6 +67,17 @@ def format_datetime(timestamp_or_dt: Union[float, datetime]) -> str:
         return datetime.utcfromtimestamp(timestamp_or_dt).strftime('%Y-%m-%d @ %H:%M')
 
 
+@contextfilter
+def yesno(context, val):
+    request = context.get("_request")
+    _ = request.i18n.gettext
+
+    if val:
+        return _('yes')
+    else:
+        return _('no')
+
+
 def make_jinja_env(jinja_environment_class, jinja_options, app):
 
     def make_babel_filter(func_name):
@@ -104,6 +116,7 @@ def make_jinja_env(jinja_environment_class, jinja_options, app):
     jinja_env.globals.update(jinja_globals)
     jinja_env.filters.update(babel_filters)
     jinja_env.filters['markdown'] = lambda t: t
+    jinja_env.filters['yesno'] = yesno
 
     def jinja_ngettext(s, p, n):
         # using the translation for zero is better than throwing an exception when the number is undefined, I think
