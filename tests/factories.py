@@ -1,4 +1,5 @@
 import string
+import factory
 from factory import Factory, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
@@ -7,12 +8,30 @@ from pytest_factoryboy import register
 from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User
+from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea
+
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
     class Meta:
         sqlalchemy_session = Session
+
+
+@register
+class SubjectAreaFactory(SQLAFactory):
+    class Meta:
+        model = SubjectArea
+
+    name = MimesisField('word')
+
+
+@register
+class DepartmentFactory(SQLAFactory):
+    class Meta:
+        model = Department
+
+    name = MimesisField('word')
+    areas = factory.List([SubFactory(SubjectAreaFactory), SubFactory(SubjectAreaFactory)])
 
 
 @register
@@ -25,6 +44,19 @@ class UserFactory(SQLAFactory):
 
 
 register(UserFactory, 'user_two')
+
+
+class UserWithDepartmentsFactory(UserFactory):
+
+    departments = factory.List([SubFactory(DepartmentFactory), SubFactory(DepartmentFactory)])
+
+    @factory.post_generation
+    def add_subject_areas(self, create, extracted, **kwargs):
+        for department in self.departments:
+            self.areas.extend(department.areas)
+
+
+register(UserWithDepartmentsFactory, 'user_with_departments')
 
 
 @register

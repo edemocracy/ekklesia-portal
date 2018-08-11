@@ -1,0 +1,41 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+
+- block title
+  title= _('title_profile', name=name)
+
+
+- block content
+  h2= _('title_profile', name=name)
+
+  dl
+    dt= _('label_joined')
+    dd= joined|datetimeformat
+
+    dt= _('label_last_active')
+    dd= last_active|datetimeformat
+
+
+  if profile
+    = render_cell(profile)
+
+
+  if departments or groups
+    hr
+
+  if departments
+    h3= _('label_departments_subject_areas')
+    ul
+      for department, areas in departments_with_subject_areas
+        li= department.name
+        if areas
+          ul
+            for area in areas
+              li= area.name
+
+  if groups
+    h3= _('label_groups')
+    ul
+      for group in groups
+        li= group.name

@@ -22,6 +22,13 @@ if __name__ == "__main__":
 
     s = Session()
 
+    department_pps = Department(name='PPS')
+    department_zs = Department(name='Zentralschweiz')
+
+    subject_area_pps_in = SubjectArea(name='Innerparteiliches', department=department_pps)
+    subject_area_zs_in = SubjectArea(name='Innerparteiliches', department=department_zs)
+    subject_area_pps_pol = SubjectArea(name='Politik', department=department_pps)
+
     ug1 = Group(name="Deppengruppe")
 
     u1 = User(name="testuser", auth_type="system")
@@ -30,6 +37,10 @@ if __name__ == "__main__":
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
     ug1.members.extend([u1, u2])
+    u1.departments.extend([department_pps])
+    u2.departments.extend([department_pps, department_zs])
+    u1.areas.extend([subject_area_pps_in])
+    u2.areas.extend([subject_area_pps_in, subject_area_pps_pol, subject_area_zs_in])
 
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")

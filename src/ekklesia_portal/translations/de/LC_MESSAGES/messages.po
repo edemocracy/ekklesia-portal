@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-10 21:59+0000\n"
+"POT-Creation-Date: 2018-08-11 14:20+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:8
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:8
 msgid "title"
 msgstr "Titel"
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:10
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:9
 msgid "abstract"
 msgstr "Zusammenfassung"
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:10
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:11
 msgid "details"
 msgstr "Ausführlich"
 
@@ -204,6 +204,51 @@ msgstr "Übersicht"
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:14
 msgid "tagged_propositions"
 msgstr "Anträge mit Tag"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:2
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:3
+msgid "title_profile"
+msgstr "Profil - %(name)s"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:5
+msgid "label_joined"
+msgstr "Registriert seit"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:7
+msgid "label_last_active"
+msgstr "Letzte Aktivität"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:11
+msgid "label_departments_subject_areas"
+msgstr "Gliederungen und Themenbereiche"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:18
+msgid "label_groups"
+msgstr "Gruppen"
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:2
+msgid "label_eligible_to_vote"
+msgstr "Stimmberechtigt"
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:4
+msgid "label_verified"
+msgstr "Verifiziert"
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:6
+msgid "label_auid"
+msgstr "AUID (Anwendungsspezifische ID)"
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:9
+msgid "label_profile"
+msgstr "Profiltext"
+
+#: src/ekklesia_portal/helper/templating.py:76
+msgid "yes"
+msgstr "ja"
+
+#: src/ekklesia_portal/helper/templating.py:78
+msgid "no"
+msgstr "nein"
 
 #~ msgid "translation"
 #~ msgstr "Übersetzung"

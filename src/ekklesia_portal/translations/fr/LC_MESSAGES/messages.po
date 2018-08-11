@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-08-10 21:59+0000\n"
+"POT-Creation-Date: 2018-08-11 14:20+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:8
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:8
 msgid "title"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:10
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:9
 msgid "abstract"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/argument/argument_contracts.py:10
+#: src/ekklesia_portal/concepts/argument/argument_contracts.py:11
 msgid "details"
 msgstr ""
 
@@ -206,6 +206,51 @@ msgstr "Aperçu"
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:14
 msgid "tagged_propositions"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:2
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:3
+msgid "title_profile"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:5
+msgid "label_joined"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:7
+msgid "label_last_active"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:11
+msgid "label_departments_subject_areas"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:18
+msgid "label_groups"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:2
+msgid "label_eligible_to_vote"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:4
+msgid "label_verified"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:6
+msgid "label_auid"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:9
+msgid "label_profile"
+msgstr ""
+
+#: src/ekklesia_portal/helper/templating.py:76
+msgid "yes"
+msgstr ""
+
+#: src/ekklesia_portal/helper/templating.py:78
+msgid "no"
 msgstr ""
 
 #~ msgid "follow"

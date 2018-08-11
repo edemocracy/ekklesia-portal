@@ -27,6 +27,9 @@ class LayoutCell(Cell):
         from ..view.login import Login
         return self.link(Login())
 
+    def profile_url(self):
+        return self.link(self.current_user)
+
     def logout_action(self):
         from ..view.logout import Logout
         return self.link(Logout())

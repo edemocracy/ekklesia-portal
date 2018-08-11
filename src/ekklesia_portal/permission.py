@@ -8,3 +8,7 @@ class SupportPermission:
 
 class VotePermission:
     pass
+
+
+class ViewPermission:
+    pass
