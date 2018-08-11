@@ -62,9 +62,9 @@ class User(Base):
     name = Column(String(64), unique=True, nullable=False)
     email = Column(String(254), unique=True)  # optional, for notifications, otherwise use user/mails/
     auth_type = Column(String(8), nullable=False, default="system")  # deleted,system,virtual,oauth(has UserProfile)
-    joined = Column(Date, nullable=False, default=func.now())
+    joined = Column(DateTime, nullable=False, default=func.now())
     active = Column(Boolean, nullable=False, default=True)
-    last_active = Column(Date, nullable=False, default=func.now())  # last relevant activity (to be considered active member §2.2)
+    last_active = Column(DateTime, nullable=False, default=func.now())  # last relevant activity (to be considered active member §2.2)
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
     groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
@@ -171,11 +171,16 @@ class DepartmentMember(Base):
     member = relationship("User", backref=backref("member_departments", cascade="all, delete-orphan"))
     is_admin = Column(Boolean, nullable=False, default=False)
 
+    def __init__(self, department=None, member=None, is_admin=None):
+        self.department = department
+        self.member = member
+        self.is_admin = is_admin
+
 
 class SubjectArea(Base):  # Themenbereich §2.3+4
     __tablename__ = 'subjectareas'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    name = Column(String(64), unique=True, nullable=False)
+    name = Column(String(64), nullable=False)
     description = Column(Text)
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
     department = relationship("Department", back_populates="areas")
@@ -191,6 +196,10 @@ class AreaMember(Base):
     area = relationship("SubjectArea", backref=backref("area_members", cascade="all, delete-orphan"))
     member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     member = relationship("User", backref=backref("member_areas", cascade="all, delete-orphan"))
+
+    def __init__(self, area=None, member=None):
+        self.area = area
+        self.member = member
 
 
 class Policy(Base):  # Regelwerk
