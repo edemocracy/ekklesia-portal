@@ -26,9 +26,9 @@ class Login:
     def verify_password(self, insecure_empty_password_ok):
         if self.user is None:
             raise ValueError("user is not set!")
-        if self.user.password is None:
-            return False
         if insecure_empty_password_ok and self.password == '':
             return True
+        if self.user.password is None:
+            return False
 
         return password_context.verify(self.password, self.user.password.hashed_password)
