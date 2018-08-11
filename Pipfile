@@ -21,6 +21,8 @@ requests-oauthlib = "*"
 "more.forwarded" = "*"
 deform = "*"
 case-conversion = "*"
+markdown = "*"
+py-gfm = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}

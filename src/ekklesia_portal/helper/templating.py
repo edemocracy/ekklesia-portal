@@ -3,6 +3,7 @@
 from datetime import datetime
 import os
 from typing import Union
+from markupsafe import Markup
 from munch import Munch
 from pyjade.ext.jinja import Compiler as JinjaCompiler
 from pyjade.ext.jinja import PyJadeExtension as JinjaJadeExtension
@@ -11,6 +12,7 @@ from werkzeug.datastructures import ImmutableDict
 from jinja2.filters import contextfilter
 from jinja2 import Undefined
 from ekklesia_portal.helper.translation import _
+import ekklesia_portal.helper.markdown as md
 
 
 class JinjaAutoescapeCompiler(JinjaCompiler):
@@ -78,6 +80,10 @@ def yesno(context, val):
         return _('no')
 
 
+def markdown(text):
+    return Markup(md.convert(text))
+
+
 def make_jinja_env(jinja_environment_class, jinja_options, app):
 
     def make_babel_filter(func_name):
@@ -115,7 +121,7 @@ def make_jinja_env(jinja_environment_class, jinja_options, app):
     jinja_env = jinja_environment_class(**default_jinja_options, **jinja_options)
     jinja_env.globals.update(jinja_globals)
     jinja_env.filters.update(babel_filters)
-    jinja_env.filters['markdown'] = lambda t: t
+    jinja_env.filters['markdown'] = markdown
     jinja_env.filters['yesno'] = yesno
 
     def jinja_ngettext(s, p, n):
