@@ -37,7 +37,10 @@ body
               = _('button_search')
 
         if current_user is not none
-          a.top_username(href=profile_url)= current_user.name
+          | &nbsp;
+          a.top_username(href=profile_url)
+            i.fas.fa-user &nbsp;
+            = current_user.name
           form.top_logout(action=logout_action, method="POST")
             button.logout_button(type="submit")
               i.fas.fa-sign-out-alt &nbsp;
