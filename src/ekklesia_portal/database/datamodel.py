@@ -41,7 +41,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base
-from ekklesia_portal.enums import EkklesiaUserType
+from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -52,7 +52,7 @@ class Group(Base):
     __tablename__ = 'groups'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    permissions = Column(Integer, default=0)
+    permissions = Column(Integer, server_default='0')
     members = association_proxy('group_members', 'member')  # <-GroupMember-> User
 
 
@@ -61,10 +61,10 @@ class User(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     email = Column(String(254), unique=True)  # optional, for notifications, otherwise use user/mails/
-    auth_type = Column(String(8), nullable=False, default="system")  # deleted,system,virtual,oauth(has UserProfile)
-    joined = Column(DateTime, nullable=False, default=func.now())
-    active = Column(Boolean, nullable=False, default=True)
-    last_active = Column(DateTime, nullable=False, default=func.now())  # last relevant activity (to be considered active member §2.2)
+    auth_type = Column(String(8), nullable=False, server_default='system')  # deleted,system,virtual,oauth(has UserProfile)
+    joined = Column(DateTime, nullable=False, server_default=func.now())
+    active = Column(Boolean, nullable=False, server_default='true')
+    last_active = Column(DateTime, nullable=False, server_default=func.now())  # last relevant activity (to be considered active member §2.2)
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
     groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
@@ -106,7 +106,7 @@ class OAuthToken(Base):
     user = relationship("User", backref=backref("oauth_token", uselist=False))
     token = Column(JSON)
     provider = Column(Text)
-    created_at = Column(DateTime, nullable=False, server_default="NOW()")
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
 
 class GroupMember(Base):
@@ -169,7 +169,7 @@ class DepartmentMember(Base):
     department = relationship("Department", backref=backref("department_members", cascade="all, delete-orphan"))
     member_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     member = relationship("User", backref=backref("member_departments", cascade="all, delete-orphan"))
-    is_admin = Column(Boolean, nullable=False, default=False)
+    is_admin = Column(Boolean, nullable=False, server_default='false')
 
     def __init__(self, department=None, member=None, is_admin=None):
         self.department = department
@@ -240,7 +240,7 @@ class Tag(Base):
     name = Column(String(64), unique=True, nullable=False)
     parent_id = Column(Integer, ForeignKey('tags.id'))  # optional
     children = relationship("Tag", backref=backref('parent', remote_side=[id]))
-    mut_exclusive = Column(Boolean, nullable=False, default=False)  # whether all children are mutually exclusive
+    mut_exclusive = Column(Boolean, nullable=False, server_default='false')  # whether all children are mutually exclusive
     propositions = association_proxy('tag_propositions', 'proposition')  # <-PropositionTag-> Proposition
 
 
@@ -259,7 +259,7 @@ class Ballot(Base):  # conflicting qualified propositions
     name = Column(String(64), unique=True, nullable=False)
     # <- propositions Proposition[]
     status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
-    election = Column(Integer, nullable=False, default=0)  # 0=no election, otherwise nr of positions, §5d.4+5
+    election = Column(Integer, nullable=False, server_default='0')  # 0=no election, otherwise nr of positions, §5d.4+5
     # §3.8, one proposition is for qualification of election itself
     type = Column(String(8), nullable=False)  # online, urn, assembly, board
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
@@ -301,7 +301,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     target = Column(Date, nullable=False)  # constrained by §4.1
-    secret = Column(Boolean, nullable=False, default=False)  # whether any secret votes will take place (decision deadline §4.2)
+    secret = Column(Boolean, nullable=False, server_default='false')  # whether any secret votes will take place (decision deadline §4.2)
     ballots = relationship("Ballot", back_populates="voting")
     # <- urns    Urn[]
     urns = relationship("Urn", back_populates="voting")
@@ -326,12 +326,11 @@ class Proposition(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     title = Column(Text, nullable=False)
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
-    abstract = Column(Text, nullable=False, server_default='""')
-    motivation = Column(Text, nullable=False, server_default='""')
+    abstract = Column(Text, nullable=False, server_default='')
+    motivation = Column(Text, nullable=False, server_default='')
     submitted = Column(Date)  # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
     qualified = Column(Date)  # optional, when qualified
-    # draft, submitted, changing, abandoned, qualified, planned, voting, finished
-    status = Column(String(10), nullable=False, server_default='"draft"')
+    status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
     ballot_id = Column(Integer, ForeignKey('ballots.id'))
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
     supporters = association_proxy('propositions_member', 'member')  # <-Supporter-> User
@@ -346,13 +345,13 @@ class Proposition(Base):
 
     discussion_url = Column(Text)
 
-    created_at = Column(DateTime, nullable=False, server_default="NOW()")
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
     search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation',
                                         weights={'title': 'A', 'abstract': 'B', 'content': 'C', 'motivation': 'D'}))
 
     def support_by_user(self, user):
-        return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status='active').scalar()
+        return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status=SupporterStatus.ACTIVE).scalar()
 
     """
    submission data: content, submitters, conflicts
@@ -391,9 +390,9 @@ class Supporter(Base):  # §3.5
     member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
-    submitter = Column(Boolean, nullable=False, default=False)  # submitter or regular
-    status = Column(String(10), nullable=False, default="active")  # active,expired,retracted
-    last_change = Column(Date, nullable=False, server_default="NOW()")  # time of submitted/supported/retracted
+    submitter = Column(Boolean, nullable=False, server_default='false')  # submitter or regular
+    status = Column(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
+    last_change = Column(Date, nullable=False, server_default=func.now())  # time of submitted/supported/retracted
 
 
 class Argument(Base):
@@ -404,7 +403,7 @@ class Argument(Base):
     details = Column(Text)
     author_id = Column(Integer, ForeignKey('users.id'))
     author = relationship("User", backref=backref("member_arguments", cascade="all, delete-orphan"))
-    created_at = Column(DateTime, nullable=False, server_default="NOW()")
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
 
 class ArgumentRelation(Base):
@@ -453,7 +452,7 @@ class Urn(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     voting_id = Column(Integer, ForeignKey('votingphases.id'), nullable=False)
     voting = relationship("VotingPhase", back_populates="urns")
-    accepted = Column(Boolean, nullable=False, default=False)
+    accepted = Column(Boolean, nullable=False, server_default='false')
     location = Column(Text, nullable=False)
     description = Column(Text)
     opening = Column(Time)  # §5b.5
@@ -469,5 +468,5 @@ class UrnSupporter(Base):  # §5b.2
     urn = relationship("Urn", backref=backref("urn_members", cascade="all, delete-orphan"))
 
     type = Column(String(12), nullable=False)  # responsible, request, voter # §5b.2+4
-    voted = Column(Boolean, nullable=False, default=False)  # §5b.6
+    voted = Column(Boolean, nullable=False, server_default='false')  # §5b.6
     # urn merge if below min. no of voters §5b.6

@@ -9,3 +9,20 @@ class EkklesiaUserType(str, Enum):
     SYSTEM_USER = 'system user'
     DELETED = 'deleted user'
     GUEST = 'guest'
+
+
+class PropositionStatus(str, Enum):
+    DRAFT = 'draft'
+    SUBMITTED = 'submitted'
+    CHANGING = 'changing'
+    ABANDONED = 'abandoned'
+    QUALIFIED = 'qualified'
+    PLANNED = 'planned'
+    VOTING = 'voting'
+    FINISHED = 'finished'
+
+
+class SupporterStatus(str, Enum):
+    ACTIVE = 'active'
+    EXPIRED = 'expired'
+    RETRACTED = 'retracted'
