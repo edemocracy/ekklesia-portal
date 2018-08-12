@@ -1,4 +1,5 @@
 from ekklesia_portal.database.datamodel import Proposition, Tag
+from sqlalchemy import desc
 from sqlalchemy_searchable import search
 from .proposition_contracts import PropositionForm
 
@@ -19,7 +20,7 @@ class Propositions:
             propositions = propositions.join(*Proposition.tags.attr).filter_by(name=self.tag)
 
         if self.mode == "top":
-            propositions = propositions.order_by(Proposition.score.desc())
+            propositions = propositions.order_by(desc(Proposition.active_supporter_count))
 
         elif self.mode == "sorted":
             propositions = propositions.order_by(Proposition.title)

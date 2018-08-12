@@ -13,6 +13,13 @@ def test_index(client):
     assert 'Q1' in content
 
 
+def test_index_mode_top(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get("/propositions?mode=top")
+    content = res.body.decode()
+    assert 'Q1' in content
+
+
 def test_index_search(client):
     # german search, should find singular "volltextsuche"
     res = client.get('/propositions?search=volltextsuchen')

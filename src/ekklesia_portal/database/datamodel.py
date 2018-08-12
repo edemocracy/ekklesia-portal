@@ -21,6 +21,7 @@
 
 import enum
 from sqlalchemy import (
+    select,
     Column,
     Integer,
     Boolean,
@@ -37,6 +38,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
@@ -351,7 +353,17 @@ class Proposition(Base):
                                         weights={'title': 'A', 'abstract': 'B', 'content': 'C', 'motivation': 'D'}))
 
     def support_by_user(self, user):
-        return object_session(self).query(Supporter).filter_by(proposition=self, member=user, status=SupporterStatus.ACTIVE).scalar()
+        for s in self.propositions_member:
+            if s.member_id == user.id and s.status == SupporterStatus.ACTIVE:
+                return s
+
+    @hybrid_property
+    def active_supporter_count(self):
+        return len([s for s in self.propositions_member if s.status == SupporterStatus.ACTIVE])
+
+    @active_supporter_count.expression
+    def active_supporter_count(cls):
+        return select([func.count()]).where(Supporter.proposition_id == cls.id).where(Supporter.status == SupporterStatus.ACTIVE)
 
     """
    submission data: content, submitters, conflicts

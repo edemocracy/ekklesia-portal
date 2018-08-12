@@ -39,7 +39,7 @@ class PropositionCell(LayoutCell):
         return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='con'), '+new')
 
     def supporter_count(self):
-        return len(self._model.supporters)
+        return self._model.active_supporter_count
 
     def support_action(self):
         return self.link(self._model, 'support')

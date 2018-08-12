@@ -80,6 +80,10 @@ if __name__ == "__main__":
     s.add(qv2)
     qv3 = Supporter(member=u1, proposition=q2)
     s.add(qv3)
+    qv4 = Supporter(member=u2, proposition=q1, status=SupporterStatus.RETRACTED)
+    s.add(qv4)
+    qv5 = Supporter(member=u2, proposition=q2, status=SupporterStatus.EXPIRED)
+    s.add(qv5)
 
     qv1 = ArgumentVote(member=u1, relation=arg1_rel, weight=1)
     s.add(qv1)
