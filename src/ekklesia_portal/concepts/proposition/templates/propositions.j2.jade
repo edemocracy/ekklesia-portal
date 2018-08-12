@@ -1,33 +1,41 @@
 - if layout
-  - extends "ekklesia_portal/layout.j2.jade"
+  - extends 'ekklesia_portal/layout.j2.jade'
 
 - block title
   title
     = brand_title
     |&nbsp;-&nbsp;
-    = _("overview")
+    = _('overview')
 
 - block content
   if search
-    ol.breadcrumb
-      li
-        a(href=self_link)
-          = _("overview")
-      li.active
-        = _("search_for")
-        |:
-        strong= search
+    nav
+      ol.breadcrumb
+        li.breadcrumb-item
+          a(href='/')
+            = _('overview')
+        li.breadcrumb-item.active
+          a(href=self_link)
+            = _('search_for')
+            |:&nbsp;
+            strong= search
 
   if tag
-    ol.breadcrumb
-      li
-        a(href=self_link)
-          = _("overview")
-      li.active
-        = _('tagged_propositions')
-        span.tag_text= tag
+    nav
+      ol.breadcrumb
+        li.breadcrumb-item
+          a(href='/')
+            = _('overview')
+        li.breadcrumb-item.active
+          a(href=self_link)
+            = _('tagged_propositions')
+            |:&nbsp;
+            span.tag_text= tag
 
-  = render_cell(collection=propositions)
+  if propositions
+    = render_cell(collection=propositions)
+  else
+    = _('no_propositions_found')
 
 
 // generated from jade

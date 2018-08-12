@@ -3,14 +3,10 @@
 
 - macro proposition_tags(tags)
   ul.list-inline
-    li.list-inline-item
-      a(href="#")
-        span.tag_text Ein Tag
-
     for tag in tags
       li.list-inline-item
-        a(href="/tags/{{ tag.tag }}")
-          span.tag_text= tag.tag
+        a(href=propositions_tag_url(tag))
+          span.tag_text= tag.name
 
 
 - macro proposition_actions(proposition, user, goto_label)
@@ -25,11 +21,11 @@
             i.far.fa-remove &nbsp;
             = _('button_retract_support')
 
-    button.btn.btn-danger-outline
+    button.btn
       i.far.fa-thumbs-down &nbsp;
       = _('button_report')
 
-    button.btn.btn-secondary
+    button.btn
       i.far.fa-share-square &nbsp;
       = _('button_share')
 

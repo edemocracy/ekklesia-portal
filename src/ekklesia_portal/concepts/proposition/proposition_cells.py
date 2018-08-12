@@ -9,13 +9,16 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 
 class PropositionCell(LayoutCell):
     model = Proposition
-    model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations']
+    model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations', 'tags']
 
     def associated_url(self):
         return self.link(self._model, 'associated')
 
     def discussion_url(self):
         return self.link(self._model)
+
+    def propositions_tag_url(self, tag):
+        return self.class_link(Propositions, dict(tag=tag.name))
 
     def is_supported_by_current_user(self):
         return self._model.support_by_user(self.current_user) is not None
@@ -74,4 +77,4 @@ class PropositionsCell(LayoutCell):
     model_properties = ['mode', 'tag', 'search']
 
     def propositions(self):
-        return self._model.propositions(self._request.q)
+        return list(self._model.propositions(self._request.q))

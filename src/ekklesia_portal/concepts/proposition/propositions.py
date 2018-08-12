@@ -16,7 +16,7 @@ class Propositions:
             propositions = search(propositions, self.search, sort=True)
 
         if self.tag:
-            propositions = propositions.join(Tag, Proposition.tags).filter_by(tag=self.tag)
+            propositions = propositions.join(*Proposition.tags.attr).filter_by(name=self.tag)
 
         if self.mode == "top":
             propositions = propositions.order_by(Proposition.score.desc())
