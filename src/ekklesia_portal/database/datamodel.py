@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding: utf-8
 #
 # Portal models
@@ -62,11 +61,11 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    email = Column(String(254), unique=True)  # optional, for notifications, otherwise use user/mails/
-    auth_type = Column(String(8), nullable=False, server_default='system')  # deleted,system,virtual,oauth(has UserProfile)
+    email = Column(String(254), unique=True, comment='optional, for notifications, otherwise use user/mails/')
+    auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,virtual,oauth(has UserProfile)')
     joined = Column(DateTime, nullable=False, server_default=func.now())
     active = Column(Boolean, nullable=False, server_default='true')
-    last_active = Column(DateTime, nullable=False, server_default=func.now())  # last relevant activity (to be considered active member §2.2)
+    last_active = Column(DateTime, nullable=False, server_default=func.now(), comment='last relevant activity (to be considered active member §2.2)')
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
     groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
@@ -93,11 +92,11 @@ class UserProfile(Base):
     user = relationship("User", back_populates="profile")
     auid = Column(String(36), unique=True)  # from user/auid/
     # possibly cached variables from IDserver
-    user_type = Column(Enum(EkklesiaUserType), nullable=False)  # from user/membership/
+    user_type = Column(Enum(EkklesiaUserType), nullable=False, comment='from ID user/membership/')
     verified = Column(Boolean)
-    profile = Column(Text)  # from user/profile/
-    public_id = Column(Text)  # from user/profile/
-    avatar = Column(Text)  # from user/profile/
+    profile = Column(Text, comment='from ID user/profile/')
+    public_id = Column(Text, comment='from ID user/profile/')
+    avatar = Column(Text, comment='from ID user/profile/')
     # possible extensions
     privacy = Column(String(10))  # default,anonymous,trusted,members,users,public
 
@@ -240,9 +239,9 @@ class Tag(Base):
     __tablename__ = 'tags'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    parent_id = Column(Integer, ForeignKey('tags.id'))  # optional
+    parent_id = Column(Integer, ForeignKey('tags.id'))
     children = relationship("Tag", backref=backref('parent', remote_side=[id]))
-    mut_exclusive = Column(Boolean, nullable=False, server_default='false')  # whether all children are mutually exclusive
+    mut_exclusive = Column(Boolean, nullable=False, server_default='false', comment='whether all children are mutually exclusive')
     propositions = association_proxy('tag_propositions', 'proposition')  # <-PropositionTag-> Proposition
 
 
@@ -302,8 +301,8 @@ class SecretVoter(Base):  # §3.7, §4.4
 class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    target = Column(Date, nullable=False)  # constrained by §4.1
-    secret = Column(Boolean, nullable=False, server_default='false')  # whether any secret votes will take place (decision deadline §4.2)
+    target = Column(Date, nullable=False, comment='constrained by §4.1')
+    secret = Column(Boolean, nullable=False, server_default='false', comment='whether any secret votes will take place (decision deadline §4.2)')
     ballots = relationship("Ballot", back_populates="voting")
     # <- urns    Urn[]
     urns = relationship("Urn", back_populates="voting")
@@ -330,8 +329,8 @@ class Proposition(Base):
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
     abstract = Column(Text, nullable=False, server_default='')
     motivation = Column(Text, nullable=False, server_default='')
-    submitted = Column(Date)  # optional, §3.1, for order of voting §5.3, date of change if original (§3.4)
-    qualified = Column(Date)  # optional, when qualified
+    submitted = Column(Date, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
+    qualified = Column(Date, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
     ballot_id = Column(Integer, ForeignKey('ballots.id'))
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
@@ -339,7 +338,7 @@ class Proposition(Base):
     # in state draft only submitters may become supporters §3.3
     tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
 
-    modifies_id = Column(Integer, ForeignKey('propositions.id'))  # optional, only one level allowed
+    modifies_id = Column(Integer, ForeignKey('propositions.id'), comment='only one level allowed')
     derivations = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]))
 
     replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
@@ -402,9 +401,9 @@ class Supporter(Base):  # §3.5
     member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
-    submitter = Column(Boolean, nullable=False, server_default='false')  # submitter or regular
+    submitter = Column(Boolean, nullable=False, server_default='false', comment='submitter or regular')
     status = Column(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
-    last_change = Column(Date, nullable=False, server_default=func.now())  # time of submitted/supported/retracted
+    last_change = Column(Date, nullable=False, server_default=func.now(), comment='last status change')
 
 
 class Argument(Base):
@@ -421,7 +420,7 @@ class Argument(Base):
 class ArgumentRelation(Base):
     __tablename__ = 'argumentrelations'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    parent_id = Column(Integer, ForeignKey('argumentrelations.id'))  # optional for inter-arguments
+    parent_id = Column(Integer, ForeignKey('argumentrelations.id'), comment='only for inter-arguments')
     children = relationship("ArgumentRelation", backref=backref('parent', remote_side=[id]))
 
     argument_id = Column(Integer, ForeignKey('arguments.id'))
@@ -445,7 +444,7 @@ class ArgumentVote(Base):
     member = relationship("User", backref=backref("member_argumentvotes", cascade="all, delete-orphan"))
     relation_id = Column(Integer, ForeignKey('argumentrelations.id'), primary_key=True)
     relation = relationship("ArgumentRelation", backref=backref("relation_votes", cascade="all, delete-orphan"))
-    weight = Column(Integer, nullable=False)  # if extendedDiscussion: --,-,0,+,++ , otherwise -1 and +1
+    weight = Column(Integer, nullable=False, comment='if extendedDiscussion: --(-2),-,0,+,++(+2) , otherwise -1 and +1')
 
 
 class PostalVote(Base):  # §5.4
