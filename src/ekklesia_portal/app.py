@@ -14,6 +14,7 @@ import yaml
 from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
+from ekklesia_portal.helper.concept import ConceptApp
 from ekklesia_portal.helper.templating import make_jinja_env
 import ekklesia_portal.helper.json
 from ekklesia_portal.request import EkklesiaPortalRequest
@@ -24,24 +25,9 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
-class ConceptAction(dectate.Action):
-    config = {
-        'concepts': dict
-    }
 
-    def __init__(self, name):
-        self.name = name
-
-    def identifier(self, **_kw):
-        return self.name
-
-    def perform(self, obj, concepts):
-        concepts[self.name] = obj
-
-
-class App(ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
+class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp):
     request_class = EkklesiaPortalRequest
-    concept = dectate.directive(ConceptAction)
 
     def __init__(self):
         super().__init__()
