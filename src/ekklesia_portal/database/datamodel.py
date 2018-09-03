@@ -41,8 +41,8 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
-from ekklesia_portal.database import Base
-from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus
+from ekklesia_portal.database import Base, integer_pk, C
+from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus, VotingType
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -128,6 +128,7 @@ class Department(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     description = Column(Text)
+    voting_phases = relationship('VotingPhase', back_populates='department', cascade='all, delete-orphan')
     members = association_proxy('department_members', 'member')  # <-DepartmentMember-> User
     areas = relationship("SubjectArea", back_populates="department")
     # parent, depth?
@@ -262,7 +263,7 @@ class Ballot(Base):  # conflicting qualified propositions
     status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
     election = Column(Integer, nullable=False, server_default='0')  # 0=no election, otherwise nr of positions, §5d.4+5
     # §3.8, one proposition is for qualification of election itself
-    type = Column(String(8), nullable=False)  # online, urn, assembly, board
+    voting_type = Column(Enum(VotingType), nullable=False)  # online, urn, assembly, board
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship("PropositionType", back_populates="ballots")
 
@@ -298,12 +299,28 @@ class SecretVoter(Base):  # §3.7, §4.4
     #  calculate quorum, if supporters >= quorum, set ballot to secret
 
 
+class VotingPhaseType(Base):
+    __tablename__ = 'voting_phase_types'
+    id = integer_pk()
+    name = C(Text, server_default='', comment='readable name')
+    abbreviation = C(Text, server_default='', comment='abbreviated name')
+    secret_voting_possible = C(Boolean, nullable=False)
+    voting_type = C(Enum(VotingType), nullable=False)  # online, urn, assembly, board
+
+
 class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    target = Column(Date, nullable=False, comment='constrained by §4.1')
+    target = Column(Date, comment='constrained by §4.1')
+    department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
+    voting_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
     secret = Column(Boolean, nullable=False, server_default='false', comment='whether any secret votes will take place (decision deadline §4.2)')
+    name = Column(Text, server_default='', comment='short, readable name which can be used for URLs')
+    title = Column(Text, server_default='')
+    description = Column(Text, server_default='')
     ballots = relationship("Ballot", back_populates="voting")
+    department = relationship('Department', back_populates='voting_phases')
+    phase_type = relationship('VotingPhaseType')
     # <- urns    Urn[]
     urns = relationship("Urn", back_populates="voting")
     postal_votes = association_proxy('voting_postal', 'member')  # <-PostalVote-> User

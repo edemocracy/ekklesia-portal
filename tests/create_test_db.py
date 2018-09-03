@@ -42,6 +42,18 @@ if __name__ == "__main__":
     u1.areas.extend([subject_area_pps_in])
     u2.areas.extend([subject_area_pps_in, subject_area_pps_pol, subject_area_zs_in])
 
+    voting_phase_type_pv = VotingPhaseType(name='Piratenversammlung', voting_type=VotingType.ASSEMBLY, abbreviation='PV', secret_voting_possible=True)
+    voting_phase_type_ur = VotingPhaseType(name='Online-Urabstimmung', voting_type=VotingType.ONLINE, abbreviation='UR', secret_voting_possible=False)
+
+    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2018-11-11')
+    voting_phase_pps_pv = VotingPhase(phase_type=voting_phase_type_pv,
+                                      secret=True,
+                                      title='Piratenversammlung 2018.2',
+                                      name='pv182',
+                                      description='eine **Piratenversammlung** in der Schweiz')
+
+    department_pps.voting_phases.extend([voting_phase_pps_online, voting_phase_pps_pv])
+
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")

@@ -26,3 +26,10 @@ class SupporterStatus(str, Enum):
     ACTIVE = 'active'
     EXPIRED = 'expired'
     RETRACTED = 'retracted'
+
+
+class VotingType(str, Enum):
+    ONLINE = 'online'
+    ASSEMBLY = 'assembly'
+    BOARD = 'board'
+    URN = 'urn'
