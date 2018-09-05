@@ -120,6 +120,21 @@ let
       };
     };
 
+    "Markdown" = python.mkDerivation {
+      name = "Markdown-2.6.11";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/b3/73/fc5c850f44af5889192dff783b7b0d8f3fe8d30b65c8e3f78f8f0265fecf/Markdown-2.6.11.tar.gz"; sha256 = "a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81"; };
+      doCheck = commonDoCheck;
+      checkPhase = "";
+      installCheckPhase = "";
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://Python-Markdown.github.io/";
+        license = licenses.bsdOriginal;
+        description = "Python implementation of Markdown.";
+      };
+    };
+
     "MarkupSafe" = python.mkDerivation {
       name = "MarkupSafe-1.0";
       src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz"; sha256 = "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"; };
@@ -151,8 +166,8 @@ let
     };
 
     "SQLAlchemy" = python.mkDerivation {
-      name = "SQLAlchemy-1.2.10";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/8a/c2/29491103fd971f3988e90ee3a77bb58bad2ae2acd6e8ea30a6d1432c33a3/SQLAlchemy-1.2.10.tar.gz"; sha256 = "72325e67fb85f6e9ad304c603d83626d1df684fdf0c7ab1f0352e71feeab69d8"; };
+      name = "SQLAlchemy-1.2.11";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/aa/cc/348eec885d81f7260b07d961b3ececfc0aa82f7d4a8f45ff997e0d3f44ba/SQLAlchemy-1.2.11.tar.gz"; sha256 = "ef6569ad403520ee13e180e1bfd6ed71a0254192a934ec1dbd3dbf48f4aa9524"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
@@ -224,8 +239,8 @@ let
     };
 
     "attrs" = python.mkDerivation {
-      name = "attrs-18.1.0";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e4/ac/a04671e118b57bee87dabca1e0f2d3bda816b7a551036012d0ca24190e71/attrs-18.1.0.tar.gz"; sha256 = "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"; };
+      name = "attrs-18.2.0";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0f/9e/26b1d194aab960063b266170e53c39f73ea0d0d3f5ce23313e0ec8ee9bdf/attrs-18.2.0.tar.gz"; sha256 = "10cbf6e27dbce8c30807caf056c8eb50917e0eaafe86347671b57254006c3e69"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
@@ -235,7 +250,7 @@ let
       self."zope.interface"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://www.attrs.org/";
+        homepage = "https://www.attrs.org/";
         license = licenses.mit;
         description = "Classes Without Boilerplate";
       };
@@ -259,8 +274,8 @@ let
     };
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2018.4.16";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/4d/9c/46e950a6f4d6b4be571ddcae21e7bc846fcbb88f1de3eff0f6dd0a6be55d/certifi-2018.4.16.tar.gz"; sha256 = "13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7"; };
+      name = "certifi-2018.8.24";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e1/0f/f8d5e939184547b3bdc6128551b831a62832713aa98c2ccdf8c47ecc7f17/certifi-2018.8.24.tar.gz"; sha256 = "376690d6f16d32f9d1fe8932551d80b23e9d393a8578c5633a2ed39a64861638"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
@@ -337,8 +352,8 @@ let
     };
 
     "deform" = python.mkDerivation {
-      name = "deform-2.0.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/0c/b1/ba711d5808c12538c8504f534d79c124ed834f19ac36f0ac5391c3bbd1c1/deform-2.0.5.tar.gz"; sha256 = "874d3346a02c500432efdcc73b1a7174aa0ea69cd52a99bb9a812967f54f6f79"; };
+      name = "deform-2.0.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/44/89/0d734745d000492e2609e128923c066fa3e7954138ab12a6866ebe0b48a8/deform-2.0.6.tar.gz"; sha256 = "bda0b809c8a668e105e30650a6766103207eafdd12c313acd59274ccd2c4d297"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
@@ -352,7 +367,7 @@ let
       self."zope.deprecation"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://docs.pylonsproject.org/projects/deform/en/latest/";
+        homepage = "https://docs.pylonsproject.org/projects/deform/en/latest/";
         license = "BSD-derived (http://www.repoze.org/LICENSE.txt)";
         description = "Form library with advanced features like nested forms";
       };
@@ -389,8 +404,8 @@ let
     };
 
     "iso8601" = python.mkDerivation {
-      name = "iso8601-0.1.11";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/c0/75/c9209ee4d1b5975eb8c2cba4428bde6b61bd55664a98290dd015cdb18e98/iso8601-0.1.11.tar.gz"; sha256 = "e8fb52f78880ae063336c94eb5b87b181e6a0cc33a6c008511bac9a6e980ef30"; };
+      name = "iso8601-0.1.12";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/45/13/3db24895497345fb44c4248c08b16da34a9eb02643cea2754b21b5ed08b0/iso8601-0.1.12.tar.gz"; sha256 = "49c4b20e1f38aa5cf109ddcd39647ac419f928512c869dc01d5c7098eddede82"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
@@ -540,15 +555,15 @@ let
     };
 
     "peppercorn" = python.mkDerivation {
-      name = "peppercorn-0.5";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/45/ec/a62ec317d1324a01567c5221b420742f094f05ee48097e5157d32be3755c/peppercorn-0.5.tar.gz"; sha256 = "921cba5d51fa211e6da0fbd2120b9a98d663422a80f5bb669ad81ffb0909774b"; };
+      name = "peppercorn-0.6";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/e4/77/93085de7108cdf1a0b092ff443872a8f9442c736d7ddebdf2f27627935f4/peppercorn-0.6.tar.gz"; sha256 = "96d7681d7a04545cfbaf2c6fb66de67b29cfc42421aa263e4c78f2cbb85be4c6"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://docs.pylonsproject.org/projects/peppercorn/en/latest/";
+        homepage = "https://docs.pylonsproject.org/projects/peppercorn/en/latest/";
         license = "BSD-derived (http://www.repoze.org/LICENSE.txt)";
         description = "A library for converting a token stream into a data structure for use in web form posts";
       };
@@ -566,6 +581,23 @@ let
         homepage = "http://initd.org/psycopg/";
         license = licenses.lgpl2;
         description = "psycopg2 - Python-PostgreSQL Database Adapter";
+      };
+    };
+
+    "py-gfm" = python.mkDerivation {
+      name = "py-gfm-0.1.3";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/12/e4/6b3d8678da04f97d7490d8264d8de51c2dc9fb91209ccee9c515c95e14c5/py-gfm-0.1.3.tar.gz"; sha256 = "f107e43248eba6236b19ceda78531f40c7bdb85ba4a219f478c92920397f4f98"; };
+      doCheck = commonDoCheck;
+      checkPhase = "";
+      installCheckPhase = "";
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."Markdown"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/zopieux/py-gfm";
+        license = licenses.bsdOriginal;
+        description = "An implementation of Github-Flavored Markdown written as an extension to the Python Markdown library.";
       };
     };
 
@@ -604,8 +636,8 @@ let
     };
 
     "regex" = python.mkDerivation {
-      name = "regex-2018.7.11";
-      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/9f/79/adbe79373ec3c56ae61670bbed30609fe4a9b6af835478fa12bf8795cdec/regex-2018.07.11.tar.gz"; sha256 = "9308dbce8e5ff4ee06b172a777f6c7f650a5835a5ad41a6080eb501639c27a2f"; };
+      name = "regex-2018.8.29";
+      src = pkgs.fetchurl { url = "https://files.pythonhosted.org/packages/2a/0a/944977367c8a6cfcfa6fcb8ac6b1f0f9a667c1f34194091c766b5d7c44d7/regex-2018.08.29.tar.gz"; sha256 = "b73cea07117dca888b0c3671770b501bef19aac9c45c8ffdb5bea2cca2377b0a"; };
       doCheck = commonDoCheck;
       checkPhase = "";
       installCheckPhase = "";
