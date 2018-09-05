@@ -1,4 +1,5 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
 from ekklesia_portal.database.datamodel import Proposition
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.permission import SupportPermission, CreatePermission
@@ -60,16 +61,8 @@ class PropositionCell(LayoutCell):
         return self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
 
-class NewPropositionCell(LayoutCell):
-    model = PropositionForm
-
-    def __init__(self, form, request, form_data, collection=None, layout=None, parent=None, template_path=None, **options):
-        self.form = form
-        self.form_data = form_data or {}
-        super().__init__(form, request, collection, layout, parent, template_path, **options)
-
-    def form_html(self):
-        return Cell.markup_class(self.form.render(self.form_data))
+class NewPropositionCell(FormCell):
+    pass
 
 
 class PropositionsCell(LayoutCell):
