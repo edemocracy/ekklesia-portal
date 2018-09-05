@@ -89,7 +89,12 @@ class Cell(metaclass=CellMeta):
     @property
     def template_path(self) -> str:
         if self._template_path is None:
-            name = case_conversion.snakecase(self._model.__class__.__name__)
+            cell_name = self.__class__.__name__
+            if not cell_name.endswith('Cell'):
+                raise Exception('Cell name does not end with Cell, you must override template_path!')
+
+            name = case_conversion.snakecase(cell_name[:-len('Cell')])
+
             if self.template_prefix is not None:
                 self._template_path = f"{self.template_prefix}/{name}.j2.jade"
             else:
@@ -205,3 +210,4 @@ class JinjaCellEnvironment(jinja2.Environment):
     Example jinja environment class which uses the JinjaCellContext
     """
     context_class = JinjaCellContext
+

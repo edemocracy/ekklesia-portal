@@ -143,7 +143,7 @@ def test_missing_cell_item_raises_exception(cell, model):
 
 
 def test_cell_template_path(cell, model):
-    assert cell.template_path == "test_model.j2.jade"
+    assert cell.template_path == "test.j2.jade"
 
 
 def test_cell_show(cell, model):
