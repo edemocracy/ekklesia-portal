@@ -1,5 +1,5 @@
 from colander import SchemaNode, MappingSchema, \
-    Int, String, Boolean, List
+    Int, String, Boolean, List, Date, DateTime
 import deform
 from more.babel_i18n.domain import Domain
 from pkg_resources import resource_filename
@@ -20,6 +20,14 @@ def bool_property(**kwargs):
 
 def list_property(**kwargs):
     return SchemaNode(List(), **kwargs)
+
+
+def date_property(**kwargs):
+    return SchemaNode(Date(), **kwargs)
+
+
+def datetime_property(**kwargs):
+    return SchemaNode(DateTime(), **kwargs)
 
 
 class Schema(MappingSchema):
