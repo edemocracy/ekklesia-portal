@@ -60,6 +60,9 @@ class PropositionCell(LayoutCell):
     def show_create_argument(self):
         return self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
+    def show_create_associated_proposition(self):
+        return self._request.permitted_for_current_user(self._model, CreatePermission)
+
 
 class NewPropositionCell(FormCell):
     pass

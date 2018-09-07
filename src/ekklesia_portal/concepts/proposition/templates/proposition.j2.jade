@@ -139,18 +139,20 @@
         .proposition_col.change
           = render_cell(collection=derivations, small=True, side='left')
 
-          a(href=new_associated_proposition_url("change"))
-            .button_add_related
-              i.far.fa-circle &nbsp;
-              = _("button_add_change_proposition")
+          if show_create_associated_proposition
+            a(href=new_associated_proposition_url("change"))
+              .button_add_related
+                i.far.fa-circle &nbsp;
+                = _("button_add_change_proposition")
 
         .proposition_col.counter
           = render_cell(collection=replacements, small=True, side='right')
 
-          a(href=new_associated_proposition_url("counter"))
-            .button_add_related
-              i.fas.fa-circle &nbsp;
-              = _("button_add_counter_proposition")
+          if show_create_associated_proposition
+            a(href=new_associated_proposition_url("counter"))
+              .button_add_related
+                i.fas.fa-circle &nbsp;
+                = _("button_add_counter_proposition")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
