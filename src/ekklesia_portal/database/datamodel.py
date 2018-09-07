@@ -313,7 +313,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     target = Column(Date, comment='constrained by §4.1')
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
-    voting_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
+    phase_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
     secret = Column(Boolean, nullable=False, server_default='false', comment='whether any secret votes will take place (decision deadline §4.2)')
     name = Column(Text, server_default='', comment='short, readable name which can be used for URLs')
     title = Column(Text, server_default='')
