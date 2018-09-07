@@ -24,11 +24,14 @@ body
             button.lang_select_button(type="submit", name="lang", value="fr", class=("active" if language == "fr")) FR
 
         ul.navbar-nav.mr-auto
-          li.nav-item(class=("active" if not mode or mode=="sorted" else ""))
+          li.nav-item(class=("active" if mode=="sorted" else ""))
             a.nav-link(href=propositions_url(tag=tag|default))= _("menu_sorted")
 
           li.nav-item(class=("active" if mode=="top" else ""))
             a.nav-link(href=propositions_url(mode="top", tag=tag|default))= _("menu_top")
+
+          li.nav-item
+            a.nav-link(href=voting_phases_url)= _("voting_phases")
 
         form.top_search(action=plain_propositions_url)
           input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)

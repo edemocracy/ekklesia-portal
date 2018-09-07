@@ -2,6 +2,10 @@ class CreatePermission:
     pass
 
 
+class EditPermission:
+    pass
+
+
 class SupportPermission:
     pass
 

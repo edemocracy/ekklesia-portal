@@ -1,0 +1,41 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('voting_phase')
+    |&nbsp;-&nbsp;
+    = title or phase_type.name
+
+
+- block content
+
+  .voting_phase.container
+    h4
+      a(href=self_link)= title or phase_type.name
+      if name
+        |&nbsp;({{ name }})
+
+      if show_edit_button
+        a.edit_button(href=edit_url)
+          i.far.fa-edit
+          |&nbsp;
+          = _('edit_button')
+
+    dl
+      dt= _('voting_phase_type')
+      dd= phase_type.name
+      dt= _('target_date')
+      dd= target or 'nicht festgelegt'
+      dt= _('departments')
+      dd= department.name
+
+    if show_description
+      .description
+        = description|markdown
+
+    if show_ballots and ballots
+      h4= _('ballots')
+      = render_cell(collection=ballots)

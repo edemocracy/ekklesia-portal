@@ -1,3 +1,4 @@
+import datetime
 import string
 import factory
 from factory import Factory, SubFactory
@@ -6,15 +7,16 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 from ekklesia_portal.database import Session
-from ekklesia_portal.enums import EkklesiaUserType
+from ekklesia_portal.enums import EkklesiaUserType, VotingType
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea
+from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType
 
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
     class Meta:
         sqlalchemy_session = Session
+        sqlalchemy_session_persistence = 'flush'
 
 
 @register
@@ -31,7 +33,6 @@ class DepartmentFactory(SQLAFactory):
         model = Department
 
     name = MimesisField('word')
-    areas = factory.List([SubFactory(SubjectAreaFactory), SubFactory(SubjectAreaFactory)])
 
 
 @register
@@ -90,10 +91,7 @@ class EkklesiaMembershipDataFactory(Factory):
         model = EkklesiaMembershipData
 
     nested_groups = all_nested_groups = [1, 2, 3]
-    type = FuzzyChoice([EkklesiaUserType.PLAIN_MEMBER,
-                        EkklesiaUserType.ELIGIBLE_MEMBER,
-                        EkklesiaUserType.GUEST,
-                        EkklesiaUserType.SYSTEM_USER])
+    type = FuzzyChoice(list(EkklesiaUserType))
     verified = FuzzyChoice([True, False])
 
 
@@ -124,3 +122,28 @@ class EkklesiaAuthDataFactory(Factory):
     profile = SubFactory(EkklesiaProfileDataFactory)
     auid = SubFactory(EkklesiaAUIDDataFactory)
     token = FuzzyText(length=30, chars=string.ascii_letters + string.digits)
+
+
+@register
+class VotingPhaseTypeFactory(SQLAFactory):
+    class Meta:
+        model = VotingPhaseType
+
+    name = MimesisField('word')
+    abbreviation = MimesisField('word')
+    secret_voting_possible = True
+    voting_type = FuzzyChoice(list(VotingType))
+
+
+@register
+class VotingPhaseFactory(SQLAFactory):
+    class Meta:
+        model = VotingPhase
+
+    title = MimesisField('title')
+    name = MimesisField('word')
+    target = datetime.date.today()
+    secret = True
+    description = MimesisField('text', quantity=10)
+    department = SubFactory(DepartmentFactory)
+    phase_type = SubFactory(VotingPhaseTypeFactory)
