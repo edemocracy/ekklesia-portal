@@ -159,6 +159,18 @@ class Cell(metaclass=CellMeta):
     def self_link(self) -> str:
         return self.link(self._model)
 
+    @cached_property
+    def self_url(self) -> str:
+        return self.link(self._model)
+
+    @cached_property
+    def edit_url(self) -> str:
+        return self.link(self._model, '+edit')
+
+    @cached_property
+    def new_url(self) -> str:
+        return self.link(self._model, '+new')
+
     # magic starts here...
 
     def __getattr__(self, name):
