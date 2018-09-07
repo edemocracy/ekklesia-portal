@@ -1,7 +1,20 @@
 - extends "ekklesia_portal/layout.j2.jade"
 
 - block content
-  a(href=proposition_url)= _('propositions')
+
+  h2 Ekklesia-Portal
+
+  if insecure_development_mode_enabled
+    .alert.alert-danger
+      strong= _('warning_development_mode')
+
+  ul
+    li
+      a(href=plain_propositions_url)= _('propositions')
+    li
+      a(href=new_proposition_url)= _('new_proposition')
+    li
+      a(href=profile_url)= _('profile')
 
 
 // generated from jade
