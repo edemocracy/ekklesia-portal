@@ -7,7 +7,6 @@ from .voting_phases import VotingPhases
 
 class VotingPhasesCell(LayoutCell):
     model = VotingPhases
-    model_properties = ['voting_phases']
 
     def voting_phases(self):
         return list(self._model.voting_phases(self._request.q))
