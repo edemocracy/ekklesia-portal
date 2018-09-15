@@ -15,14 +15,19 @@ Portal of the Ekklesia e-democracy platform.
 ### Quick Start
 
 The shell environment for development can be prepared using the [Nix Package Manager](https://nixos.org/nix).
-It includes Python 3.7, PostgreSQL 10, a SASS compiler and [Pipenv](https://pipenv.org) which is used to install Python development dependencies.
+It includes Python 3.7, PostgreSQL 10, a SASS compiler and [Pipenv](https://pipenv.org) which is used to install Python development dependencies. The following instructions assume that the Nix package manager is already installed and `nix-shell` is available in PATH.
 
-1. Install Nix and run `nix-shell` in the project root folder to open a shell which makes the shell environment available.
-2. Inside the Nix shell, install Python dependencies with `pipenv install --three --dev`.
-3. Make Python dependencies available: `pipenv shell`
-4. Create a config file named `config.yml` using the config template from `src/ekklesia_portal/config.example.yml` or skip this to use the default settings from `src/ekklesia_portal/default_settings.py`.
-5. Initialize the test database: `python tests/create_test_db.py`
-6. The development server can be run with a custom config file by executing `python src/ekklesia_portal/runserver.py --debug -c config.yml`
+1. Clone the repository and its submodules with `git clone --recurse-submodules https://github.com/dpausp/ekklesia-portal`
+2. Clone more.browser_session with `git clone https://github.com/dpausp/more.browser_session`
+3. Clone more.babel_i18n with `git clone https://github.com/dpausp/more.babel_i18n`
+4. Run `nix-shell` in the project root folder to open a shell which makes the shell environment available.
+5. Inside the Nix shell, install Python dependencies with `pipenv install --three --dev`.
+6. Make Python dependencies available: `pipenv shell`
+7. Create a config file named `config.yml` using the config template from `src/ekklesia_portal/config.example.yml` or skip this to use the default settings from `src/ekklesia_portal/default_settings.py`.
+8. Initialize the test database: `python tests/create_test_db.py`
+9. Create the CSS file: `sassc src/ekklesia_portal/sass/portal.sass src/ekklesia_portal/static/css/portal.css`
+10. Compile translations: `ipython makebabel.ipy compile`
+11. The development server can be run with a custom config file by executing `python src/ekklesia_portal/runserver.py --debug -c config.yml`
 
 ## History
 
