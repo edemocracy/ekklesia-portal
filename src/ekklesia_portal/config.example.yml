@@ -9,3 +9,10 @@ database:
 app:
     instance_name: my_ekklesia_portal
     insecure_development_mode: false
+browser_session:
+    secret_key: devkey
+    cookie_secure: false
+    permanent_lifetime: 999999
+app:
+    instance_name: ekklesia_portal_local
+insecure_development_mode: true
