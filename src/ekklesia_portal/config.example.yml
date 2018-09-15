@@ -6,6 +6,7 @@ ekklesia_auth:
     token_url: "https://identity-server.invalid/oauth2/token/"
 database:
     uri: "postgresql+psycopg2://ekklesia_portal_db_user:ekklesia_portal_db_password@127.0.0.1/ekklesia_portal_db_name"
+    fts_language: 'german'
 app:
     instance_name: my_ekklesia_portal
     insecure_development_mode: false
@@ -13,6 +14,7 @@ browser_session:
     secret_key: devkey
     cookie_secure: false
     permanent_lifetime: 999999
-app:
-    instance_name: ekklesia_portal_local
-insecure_development_mode: true
+importer:
+    testdiscourse:
+        schema: discourse_post
+        base_url: http://testdiscourse-local
