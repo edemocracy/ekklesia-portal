@@ -1,3 +1,6 @@
+import random, string
+letters = string.ascii_lowercase
+
 settings = {
     "app": {
         "title": "Ekklesia Portal Dev",
@@ -11,5 +14,9 @@ settings = {
     },
     "database": {
         "uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
+    },
+    "browser_session": {
+        "secret_key": "".join(random.choice(letters) for x in range(32)),
+        "cookie_secure": False
     }
 }
