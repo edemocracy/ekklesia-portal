@@ -1,7 +1,7 @@
 import datetime
 import string
 import factory
-from factory import Factory, SubFactory
+from factory import Factory, SubFactory, RelatedFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
 from mimesis_factory import MimesisField
@@ -33,6 +33,11 @@ class DepartmentFactory(SQLAFactory):
         model = Department
 
     name = MimesisField('word')
+
+    @factory.post_generation
+    def add_subject_areas(self, create, extracted, **kwargs):
+        for _ in range(2):
+            self.areas.append(SubjectAreaFactory(department_id=self.id))
 
 
 @register
