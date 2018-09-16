@@ -15,7 +15,7 @@ from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.concept import ConceptApp
-from ekklesia_portal.helper.templating import make_jinja_env
+from ekklesia_portal.helper.templating import make_jinja_env, make_template_loader
 import ekklesia_portal.helper.json
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthData, EkklesiaAuthPathApp
@@ -31,9 +31,9 @@ class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp,
 
     def __init__(self):
         super().__init__()
-        loader_mapping = {p: jinja2.PackageLoader(f"ekklesia_portal.concepts.{p}") for p in App.config.concepts}
-        template_loader = jinja2.ChoiceLoader([jinja2.PrefixLoader(loader_mapping), jinja2.PackageLoader("ekklesia_portal")])
-        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment, jinja_options=dict(loader=template_loader), app=self)
+        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment,
+                                        jinja_options=dict(loader=make_template_loader(App.config, 'ekklesia_portal')),
+                                        app=self)
 
 
 @App.identity_policy()

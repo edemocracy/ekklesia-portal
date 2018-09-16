@@ -10,7 +10,7 @@ from pyjade.ext.jinja import PyJadeExtension as JinjaJadeExtension
 from pyjade.utils import process
 from werkzeug.datastructures import ImmutableDict
 from jinja2.filters import contextfilter
-from jinja2 import Undefined
+from jinja2 import Undefined, PackageLoader, ChoiceLoader, PrefixLoader
 from ekklesia_portal.helper.translation import _
 import ekklesia_portal.helper.markdown as md
 
@@ -82,6 +82,12 @@ def yesno(context, val):
 
 def markdown(text):
     return Markup(md.convert(text))
+
+
+def make_template_loader(app_config, package_name):
+    loader_mapping = {p: PackageLoader(f"{package_name}.concepts.{p}") for p in app_config.concepts}
+    template_loader = ChoiceLoader([PrefixLoader(loader_mapping), PackageLoader(package_name)])
+    return template_loader
 
 
 def make_jinja_env(jinja_environment_class, jinja_options, app):
