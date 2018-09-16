@@ -1,10 +1,9 @@
 let
   pkgs = import ./requirements/nixpkgs.nix;
-  pipenv = pkgs.pipenv;
-in with pkgs; stdenv.mkDerivation {
+in pkgs.stdenv.mkDerivation {
   src = null;
   name = "ekklesia_portal-dev-env";
   phases = [];
-  buildInputs = with python37Packages; [ sassc pyflakes pipenv zsh postgresql100 python ];
+  buildInputs = with pkgs.python37Packages; [ pkgs.sassc pyflakes pkgs.pipenv pkgs.zsh pkgs.postgresql100 python  ];
   #shellHook = "PYTHONPATH= SHELL=`which zsh` pipenv shell --fancy";
 }
