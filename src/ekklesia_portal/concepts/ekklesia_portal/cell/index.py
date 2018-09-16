@@ -12,4 +12,4 @@ class IndexCell(LayoutCell):
         return self.link(Propositions(), '+new')
 
     def new_voting_phase_url(self):
-        return self.link(VotingPhases(), 'new')
+        return self.link(VotingPhases(), '+new')
