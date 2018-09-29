@@ -65,7 +65,8 @@ class User(Base):
     auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,virtual,oauth(has UserProfile)')
     joined = Column(DateTime, nullable=False, server_default=func.now())
     active = Column(Boolean, nullable=False, server_default='true')
-    last_active = Column(DateTime, nullable=False, server_default=func.now(), comment='last relevant activity (to be considered active member §2.2)')
+    last_active = Column(DateTime, nullable=False, server_default=func.now(),
+                         comment='last relevant activity (to be considered active member §2.2)')
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
     groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
@@ -314,7 +315,8 @@ class VotingPhase(Base):  # Abstimmungsperiode
     target = Column(Date, comment='constrained by §4.1')
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
     phase_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
-    secret = Column(Boolean, nullable=False, server_default='false', comment='whether any secret votes will take place (decision deadline §4.2)')
+    secret = Column(Boolean, nullable=False, server_default='false',
+                    comment='whether any secret votes will take place (decision deadline §4.2)')
     name = Column(Text, server_default='', comment='short, readable name which can be used for URLs')
     title = Column(Text, server_default='')
     description = Column(Text, server_default='')

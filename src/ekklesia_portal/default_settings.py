@@ -1,4 +1,5 @@
-import random, string
+import random
+import string
 letters = string.ascii_lowercase
 
 settings = {

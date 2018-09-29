@@ -62,10 +62,10 @@ class Cell(metaclass=CellMeta):
     def __init__(self,
                  model,
                  request: Request,
-                 collection: Iterable=None,
-                 layout: bool=None,
-                 parent: Cell=None,
-                 template_path: str=None,
+                 collection: Iterable = None,
+                 layout: bool = None,
+                 parent: Cell = None,
+                 template_path: str = None,
                  **options) -> None:
         """
         """
@@ -116,7 +116,7 @@ class Cell(metaclass=CellMeta):
     def class_link(self, model_class, variables: Dict[str, Any], name='', *args, **kwargs) -> str:
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
 
-    def cell(self, model, layout: bool=None, view_name='', **options) -> Cell:
+    def cell(self, model, layout: bool = None, view_name='', **options) -> Cell:
         """Look up a cell by model and create an instance.
         The parent cell is set to self which also means that it will be rendered without layout by default.
         """
@@ -125,10 +125,10 @@ class Cell(metaclass=CellMeta):
 
     def render_cell(self,
                     model=None,
-                    view_name: str=None,
-                    collection: Iterable=None,
-                    separator: str=None,
-                    layout: bool=None,
+                    view_name: str = None,
+                    collection: Iterable = None,
+                    separator: str = None,
+                    layout: bool = None,
                     **options) -> str:
         """Look up a cell by model and render it to HTML.
         The parent cell is set to self which also means that it will be rendered without layout by default.
@@ -177,7 +177,7 @@ class Cell(metaclass=CellMeta):
         if name in self.model_properties:
             return getattr(self._model, name)
 
-        raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'." \
+        raise AttributeError(f"{self.__class__.__name__} has no attribute '{name}'."
                              " Is it from the model? Did you forget to add it to 'model_properties'?")
 
     def __getitem__(self, name):
@@ -222,4 +222,3 @@ class JinjaCellEnvironment(jinja2.Environment):
     Example jinja environment class which uses the JinjaCellContext
     """
     context_class = JinjaCellContext
-

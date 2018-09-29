@@ -9,7 +9,7 @@ class UserCell(LayoutCell):
     model_properties = ['name', 'joined', 'profile', 'departments', 'areas', 'groups', 'last_active']
 
     def departments_with_subject_areas(self):
-        department_to_areas = { d: [] for d in self._model.departments }
+        department_to_areas = {d: [] for d in self._model.departments}
         for area in self._model.areas:
             department_to_areas[area.department].append(area)
 
