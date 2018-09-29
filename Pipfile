@@ -21,7 +21,6 @@ requests-oauthlib = "*"
 "more.forwarded" = "*"
 deform = "*"
 case-conversion = "*"
-markdown = "*"
 py-gfm = "*"
 
 [dev-packages]
