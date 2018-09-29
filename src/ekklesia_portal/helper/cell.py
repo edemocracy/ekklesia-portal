@@ -8,10 +8,10 @@ from ekklesia_portal.helper.utils import cached_property
 from markupsafe import Markup
 
 
-_cell_registry: Dict[Any, Cell] = {}
+_cell_registry: Dict[Any, 'Cell'] = {}
 
 
-def find_cell_by_model_instance(model) -> Cell:
+def find_cell_by_model_instance(model) -> 'Cell':
     return _cell_registry[model.__class__]
 
 
@@ -64,7 +64,7 @@ class Cell(metaclass=CellMeta):
                  request: Request,
                  collection: Iterable = None,
                  layout: bool = None,
-                 parent: Cell = None,
+                 parent: 'Cell' = None,
                  template_path: str = None,
                  **options) -> None:
         """
@@ -116,7 +116,7 @@ class Cell(metaclass=CellMeta):
     def class_link(self, model_class, variables: Dict[str, Any], name='', *args, **kwargs) -> str:
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
 
-    def cell(self, model, layout: bool = None, view_name='', **options) -> Cell:
+    def cell(self, model, layout: bool = None, view_name='', **options) -> 'Cell':
         """Look up a cell by model and create an instance.
         The parent cell is set to self which also means that it will be rendered without layout by default.
         """
