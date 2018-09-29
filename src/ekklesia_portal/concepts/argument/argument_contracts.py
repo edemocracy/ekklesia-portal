@@ -20,5 +20,5 @@ argument_widgets = {
 class ArgumentForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(ArgumentSchema(), request, action, renderer=renderer, buttons=("submit", ))
+        super().__init__(ArgumentSchema(), request, action, buttons=("submit", ))
         self.set_widgets(argument_widgets)
