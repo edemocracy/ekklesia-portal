@@ -49,6 +49,7 @@ pytest-pspec = "*"
 pytest-mock = "*"
 typing-extensions = "*"
 bandit = "*"
+pylava = "*"
 
 [requires]
 python_version = "3.7"
