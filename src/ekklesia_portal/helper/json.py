@@ -4,7 +4,7 @@ import inspect
 import json
 from ekklesia_portal import enums
 
-PUBLIC_ENUMS = {e.__name__: e for e in inspect.getmembers(enums) if inspect.isclass(e) and issubclass(e, Enum)}
+PUBLIC_ENUMS = {name: value for name, value in inspect.getmembers(enums) if inspect.isclass(value) and issubclass(value, Enum)}
 
 
 class JSONEncoder(json.JSONEncoder):
