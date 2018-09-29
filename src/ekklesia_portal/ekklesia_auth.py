@@ -1,8 +1,6 @@
-from enum import Enum
 import dataclasses
 from dataclasses import dataclass
 from functools import partial
-import json
 import logging
 from typing import List, NewType
 import dectate
@@ -11,7 +9,6 @@ from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
 from webob.exc import HTTPForbidden
 from ekklesia_portal.enums import EkklesiaUserType
-import ekklesia_portal.helper.json
 from ekklesia_portal.helper.utils import cached_property
 
 

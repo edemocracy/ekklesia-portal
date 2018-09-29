@@ -4,7 +4,7 @@ import time
 import yaml
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc, create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import relationship, backref, Mapper, sessionmaker, scoped_session
+from sqlalchemy.orm import relationship, backref, sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
 import zope.sqlalchemy
 

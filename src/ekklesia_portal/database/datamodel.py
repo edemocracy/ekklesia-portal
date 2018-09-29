@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # For more details see the file COPYING.
 
-import enum
 from sqlalchemy import (
     select,
     Column,

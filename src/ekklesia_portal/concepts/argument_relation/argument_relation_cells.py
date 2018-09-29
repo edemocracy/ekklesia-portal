@@ -1,9 +1,7 @@
-from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
 from ekklesia_portal.database.datamodel import ArgumentRelation
 from ekklesia_portal.permission import VotePermission
-from .argument_relation_contracts import ArgumentForPropositionForm
 
 
 class ArgumentRelationCell(LayoutCell):

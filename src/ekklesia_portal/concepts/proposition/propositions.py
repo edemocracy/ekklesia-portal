@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_portal.database.datamodel import Proposition
 from sqlalchemy import desc
 from sqlalchemy_searchable import search
 from .proposition_contracts import PropositionForm

@@ -1,5 +1,5 @@
-from colander import Length, OneOf
-from deform.widget import TextAreaWidget, TextInputCSVWidget, SelectWidget
+from colander import Length
+from deform.widget import TextAreaWidget, TextInputCSVWidget
 from ekklesia_portal.helper.contract import Schema, string_property, list_property, int_property, bool_property, date_property, Form
 from ekklesia_portal.helper.translation import _
 

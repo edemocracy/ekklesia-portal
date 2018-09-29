@@ -1,10 +1,7 @@
 import logging
 import os
 
-import dectate
-import jinja2
 import morepath
-from morepath import Request
 from more.babel_i18n import BabelApp
 from more.browser_session import BrowserSessionApp
 from more.forwarded import ForwardedApp
@@ -16,9 +13,8 @@ from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
 from ekklesia_portal.helper.concept import ConceptApp
 from ekklesia_portal.helper.templating import make_jinja_env, make_template_loader
-import ekklesia_portal.helper.json
 from ekklesia_portal.request import EkklesiaPortalRequest
-from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthData, EkklesiaAuthPathApp
+from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 

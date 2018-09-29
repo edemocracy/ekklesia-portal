@@ -1,10 +1,8 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
 from ekklesia_portal.database.datamodel import Proposition
-from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.permission import SupportPermission, CreatePermission
 from .propositions import Propositions
-from .proposition_contracts import PropositionForm
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 
 

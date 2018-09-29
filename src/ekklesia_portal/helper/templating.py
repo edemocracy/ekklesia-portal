@@ -4,14 +4,12 @@ from datetime import datetime
 import os
 from typing import Union
 from markupsafe import Markup
-from munch import Munch
 from pyjade.ext.jinja import Compiler as JinjaCompiler
 from pyjade.ext.jinja import PyJadeExtension as JinjaJadeExtension
 from pyjade.utils import process
 from werkzeug.datastructures import ImmutableDict
 from jinja2.filters import contextfilter
 from jinja2 import Undefined, PackageLoader, ChoiceLoader, PrefixLoader
-from ekklesia_portal.helper.translation import _
 import ekklesia_portal.helper.markdown as md
 
 
