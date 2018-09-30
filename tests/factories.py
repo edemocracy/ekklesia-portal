@@ -20,14 +20,6 @@ class SQLAFactory(SQLAlchemyModelFactory):
 
 
 @register
-class SubjectAreaFactory(SQLAFactory):
-    class Meta:
-        model = SubjectArea
-
-    name = MimesisField('word')
-
-
-@register
 class DepartmentFactory(SQLAFactory):
     class Meta:
         model = Department
@@ -37,7 +29,15 @@ class DepartmentFactory(SQLAFactory):
     @factory.post_generation
     def add_subject_areas(self, create, extracted, **kwargs):
         for _ in range(2):
-            self.areas.append(SubjectAreaFactory(department_id=self.id))
+            SubjectAreaFactory(department=self)
+
+@register
+class SubjectAreaFactory(SQLAFactory):
+    class Meta:
+        model = SubjectArea
+
+    name = MimesisField('word')
+    department = SubFactory(DepartmentFactory)
 
 
 @register
@@ -60,7 +60,6 @@ class UserWithDepartmentsFactory(UserFactory):
     def add_subject_areas(self, create, extracted, **kwargs):
         for department in self.departments:
             self.areas.extend(department.areas)
-
 
 register(UserWithDepartmentsFactory, 'user_with_departments')
 
