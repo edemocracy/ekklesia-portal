@@ -1,6 +1,7 @@
 from colander import SchemaNode, MappingSchema, \
     Int, String, Boolean, List, Date, DateTime
 import deform
+from deform.widget import Select2Widget, HiddenWidget
 from more.babel_i18n.domain import Domain
 from pkg_resources import resource_filename
 from ekklesia_portal.request import Request
@@ -65,3 +66,14 @@ class Form(deform.Form):
             translator=translator
         )
         super().__init__(schema, *args, renderer=renderer, **kwargs)
+
+
+def select2_widget_or_hidden(values):
+    """ Render a select2 widget or a hidden field if no values were given.
+    XXX: Is there a better way to hide unwanted fields?
+    """
+    if values is None:
+        return HiddenWidget(hidden=True)
+    else:
+        return Select2Widget(values=values)
+
