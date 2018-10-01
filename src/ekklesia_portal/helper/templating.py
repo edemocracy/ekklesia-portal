@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import os
+import case_conversion
 from typing import Union
 from markupsafe import Markup
 from pyjade.ext.jinja import Compiler as JinjaCompiler
@@ -77,6 +78,17 @@ def yesno(context, val):
     else:
         return _('no')
 
+@contextfilter
+def enum_value(context, val):
+    request = context.get("_request")
+    _ = request.i18n.gettext
+    enum_name = case_conversion.snakecase(val.__class__.__name__)
+
+    if val:
+        return _('_'.join([enum_name, val]))
+    else:
+        return val
+
 
 def markdown(text):
     return Markup(md.convert(text))
@@ -127,6 +139,7 @@ def make_jinja_env(jinja_environment_class, jinja_options, app):
     jinja_env.filters.update(babel_filters)
     jinja_env.filters['markdown'] = markdown
     jinja_env.filters['yesno'] = yesno
+    jinja_env.filters['enum_value'] = enum_value
 
     def jinja_ngettext(s, p, n):
         # using the translation for zero is better than throwing an exception when the number is undefined, I think
