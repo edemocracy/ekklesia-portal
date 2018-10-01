@@ -1,5 +1,4 @@
-from colander import SchemaNode, MappingSchema, \
-    Int, String, Boolean, List, Date, DateTime
+import colander
 import deform
 from deform.widget import Select2Widget, HiddenWidget
 from more.babel_i18n.domain import Domain
@@ -8,30 +7,34 @@ from ekklesia_portal.request import Request
 
 
 def string_property(**kwargs):
-    return SchemaNode(String(), **kwargs)
+    return colander.SchemaNode(colander.String(), **kwargs)
 
 
 def int_property(**kwargs):
-    return SchemaNode(Int(), **kwargs)
+    return colander.SchemaNode(colander.Int(), **kwargs)
 
 
 def bool_property(**kwargs):
-    return SchemaNode(Boolean(), **kwargs)
+    return colander.SchemaNode(colander.Boolean(), **kwargs)
 
 
 def list_property(**kwargs):
-    return SchemaNode(List(), **kwargs)
+    return colander.SchemaNode(colander.List(), **kwargs)
 
 
 def date_property(**kwargs):
-    return SchemaNode(Date(), **kwargs)
+    return colander.SchemaNode(colander.Date(), **kwargs)
+
+
+def enum_property(enum_cls, **kwargs):
+    return colander.SchemaNode(colander.Enum(enum_cls), **kwargs)
 
 
 def datetime_property(**kwargs):
-    return SchemaNode(DateTime(), **kwargs)
+    return colander.SchemaNode(colander.DateTime(), **kwargs)
 
 
-class Schema(MappingSchema):
+class Schema(colander.MappingSchema):
     pass
 
 
