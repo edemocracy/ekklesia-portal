@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-09-07 22:19+0000\n"
+"POT-Creation-Date: 2018-10-01 18:55+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:9
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:8
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:9
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:10
 msgid "title"
 msgstr "Titel"
 
@@ -59,6 +59,74 @@ msgstr[1] "Argumente"
 msgid "new_argument"
 msgstr "Neues Argument"
 
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:9
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:9
+msgid "name"
+msgstr "Name"
+
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:10
+msgid "is_election?"
+msgstr "Ist eine Wahl?"
+
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:11
+msgid "election_positions"
+msgstr "Anzahl der zu vergebenden Posten"
+
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:12
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:18
+msgid "subject_area"
+msgstr "Themenbereich"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:3
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
+msgid "ballot"
+msgstr "Abstimmung"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:9
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:9
+msgid "edit_button"
+msgstr "Bearbeiten"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:12
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:3
+msgid "voting_phase"
+msgstr "Abstimmungszeitraum"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:14
+msgid "number_of_propositions"
+msgstr "Anzahl der Anträge"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:16
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:18
+msgid "department"
+msgstr "Gliederung"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:21
+#: src/ekklesia_portal/concepts/ballot/templates/ballots.j2.jade:5
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:14
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:23
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:17
+msgid "ballots"
+msgstr "Abstimmungen"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballots.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:15
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:3
+msgid "overview"
+msgstr "Übersicht"
+
+#: src/ekklesia_portal/concepts/ballot/templates/ballots.j2.jade:6
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:6
+msgid "new_button"
+msgstr "Neu"
+
+#: src/ekklesia_portal/concepts/ballot/templates/edit_ballot.j2.jade:2
+#: src/ekklesia_portal/concepts/ballot/templates/edit_ballot.j2.jade:3
+msgid "title_edit_ballot"
+msgstr "Abstimmung bearbeiten"
+
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:3
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
 msgid "warning_development_mode"
@@ -82,7 +150,7 @@ msgstr "Abstimmungszeiträume"
 msgid "new_voting_phase"
 msgstr "Neuer Abstimmungszeitraum"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:14
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:16
 msgid "profile"
 msgstr "Profil"
 
@@ -219,13 +287,6 @@ msgstr "Änderungsantrag stellen"
 msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:7
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:15
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:3
-msgid "overview"
-msgstr "Übersicht"
-
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:17
 msgid "tagged_propositions"
 msgstr "Anträge mit Tag"
@@ -271,26 +332,22 @@ msgstr "AUID (Anwendungsspezifische ID)"
 msgid "label_profile"
 msgstr "Profiltext"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:8
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:14
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:11
+msgid "voting_status"
+msgstr "Status"
+
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:12
 msgid "target"
 msgstr "Stichtag"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:10
-msgid "name"
-msgstr "Name"
-
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:11
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:13
 msgid "secret_voting_possible"
 msgstr "Geheime Abstimmung möglich?"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:12
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:16
 msgid "description"
 msgstr "Beschreibung"
-
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:21
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:13
-msgid "ballots"
-msgstr "Abstimmungen"
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:3
@@ -302,35 +359,19 @@ msgstr "Abstimmungszeitraum bearbeiten"
 msgid "title_new_voting_phase"
 msgstr "Neuer Abstimmungszeitraum"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:3
-msgid "voting_phase"
-msgstr "Abstimmungszeitraum"
-
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:9
-msgid "edit_button"
-msgstr "Bearbeiten"
-
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:12
 msgid "voting_phase_type"
 msgstr "Art des Abstimmungszeitraums"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:14
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:16
 msgid "target_date"
 msgstr "Stichtag"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:16
-msgid "departments"
-msgstr "Gliederung"
-
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:6
-msgid "new_button"
-msgstr "Neu"
-
-#: src/ekklesia_portal/helper/templating.py:78
+#: src/ekklesia_portal/helper/templating.py:76
 msgid "yes"
 msgstr "ja"
 
-#: src/ekklesia_portal/helper/templating.py:80
+#: src/ekklesia_portal/helper/templating.py:78
 msgid "no"
 msgstr "nein"
 
@@ -389,4 +430,7 @@ msgstr "nein"
 
 #~ msgid "login_success_with"
 #~ msgstr "Login über %(auth_title)s war erfolgreich"
+
+#~ msgid "departments"
+#~ msgstr "Gliederung"
 

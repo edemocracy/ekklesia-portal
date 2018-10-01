@@ -1,8 +1,15 @@
+from enum import Enum
+
+
 def python_to_deform_value(py_value):
     if py_value == True:
         return 'true'
     elif py_value == False:
         return 'false'
+    elif py_value is None:
+        return ''
+    elif isinstance(py_value, Enum):
+        return py_value.name
     else:
         return str(py_value)
 
@@ -15,8 +22,14 @@ def assert_deform(response, expected_form_data={}):
         if field == 'id':
             continue
 
+        try:
+            form_field = form[field]
+        except AssertionError:
+            raise AssertionError(f"expected form field '{field}' is missing")
         form_value = form[field].value
-        assert form_value == python_to_deform_value(value), f'form field {field}: form value {form_value} != {value}'
+
+        deform_value = python_to_deform_value(value)
+        assert form_value == deform_value, f'form field {field}: form value {form_value} != expected {deform_value}'
 
     return form
 
