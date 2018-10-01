@@ -45,7 +45,7 @@ if __name__ == "__main__":
     voting_phase_type_pv = VotingPhaseType(name='Piratenversammlung', voting_type=VotingType.ASSEMBLY, abbreviation='PV', secret_voting_possible=True)
     voting_phase_type_ur = VotingPhaseType(name='Online-Urabstimmung', voting_type=VotingType.ONLINE, abbreviation='UR', secret_voting_possible=False)
 
-    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2018-11-11')
+    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2018-11-11', status=VotingStatus.SCHEDULED)
     voting_phase_pps_pv = VotingPhase(phase_type=voting_phase_type_pv,
                                       secret=True,
                                       title='Piratenversammlung 2018.2',

@@ -33,3 +33,11 @@ class VotingType(str, Enum):
     ASSEMBLY = 'assembly'
     BOARD = 'board'
     URN = 'urn'
+
+
+class VotingStatus(str, Enum):
+    PREPARING = 'preparing' # no target date set
+    SCHEDULED = 'scheduled' # target date set, but voting has not started
+    VOTING = 'voting' # ballots have been transferred to a voting module and voting is open
+    FINISHED = 'finished' # voting is closed, results have been fetched
+    ABORTED = 'aborted' # voting stopped by administration

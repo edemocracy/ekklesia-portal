@@ -32,7 +32,8 @@ from sqlalchemy import (
     Sequence,
     JSON,
     func,
-    Enum
+    Enum,
+    CheckConstraint
 )
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -41,7 +42,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base, integer_pk, C
-from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus, VotingType
+from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus, VotingType, VotingStatus
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -310,7 +311,11 @@ class VotingPhaseType(Base):
 
 class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
+    __table_args__ = (
+        CheckConstraint("(status='PREPARING' AND target IS NULL) OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'),
+    )
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    status = Column(Enum(VotingStatus), nullable=False, server_default='PREPARING')
     target = Column(Date, comment='constrained by §4.1')
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
     phase_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
