@@ -14,6 +14,12 @@ def test_proposition(db_session, user, user_two, proposition, proposition_two):
     assert user_two in user.supports[0].supporters
 
 
+def test_managed_departments(department_admin):
+    managed = department_admin.managed_departments
+    assert len(managed) == 1
+    assert managed[0].description == 'admin'
+
+
 @pytest.mark.parametrize('user__name', ['hans', 'wurst'])
 def test_user(user, user__name):
     """This test isn't really useful but a good example for factory parametrization ;)"""

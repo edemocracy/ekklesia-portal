@@ -25,6 +25,7 @@ class DepartmentFactory(SQLAFactory):
         model = Department
 
     name = MimesisField('word')
+    description = MimesisField('text', quantity=5)
 
     @factory.post_generation
     def add_subject_areas(self, create, extracted, **kwargs):

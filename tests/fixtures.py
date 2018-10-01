@@ -7,7 +7,7 @@ from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.identity_policy import UserIdentity
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
-from ekklesia_portal.database.datamodel import Proposition, User
+from ekklesia_portal.database.datamodel import Proposition, User, DepartmentMember
 
 
 BASEDIR = os.path.dirname(__file__)
@@ -60,6 +60,17 @@ def proposition_with_arguments(user, user_two, proposition, argument_factory, ar
 def logged_in_user(user, monkeypatch):
     user_identity = UserIdentity(user)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    return user
+
+
+@fixture
+def department_admin(db_session, user_factory, department_factory):
+    user = user_factory()
+    d1 = department_factory(description='admin')
+    d2 = department_factory(description='not admin')
+    dm = DepartmentMember(member=user, department=d1, is_admin=True)
+    db_session.add(dm)
+    user.departments.append(d2)
     return user
 
 

@@ -79,6 +79,9 @@ class User(Base):
     urns = association_proxy('member_urns', 'urn')  # <-UrnSupporter-> Urn
     postal_votes = association_proxy('member_postal', 'voting')  # <-PostalVote-> VotingPhase
 
+    def managed_departments(self):
+        return [md.department for md in self.member_departments if md.is_admin]
+
 
 class UserPassword(Base):
     __tablename__ = 'userpassword'

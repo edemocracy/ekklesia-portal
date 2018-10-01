@@ -76,7 +76,7 @@ msgstr "New Proposition"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
 msgid "voting_phases"
-msgstr "Voting phase"
+msgstr "Voting phases"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:12
 msgid "new_voting_phase"

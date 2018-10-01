@@ -37,7 +37,7 @@ if __name__ == "__main__":
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
     ug1.members.extend([u1, u2])
-    u1.departments.extend([department_pps])
+    s.add(DepartmentMember(department=department_pps, member=u1, is_admin=True))
     u2.departments.extend([department_pps, department_zs])
     u1.areas.extend([subject_area_pps_in])
     u2.areas.extend([subject_area_pps_in, subject_area_pps_pol, subject_area_zs_in])
