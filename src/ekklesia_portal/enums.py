@@ -1,6 +1,7 @@
 """A place for public enums"""
 
 from enum import Enum
+from ekklesia_portal.helper.translation import _
 
 
 class EkklesiaUserType(str, Enum):
@@ -41,3 +42,11 @@ class VotingStatus(str, Enum):
     VOTING = 'voting' # ballots have been transferred to a voting module and voting is open
     FINISHED = 'finished' # voting is closed, results have been fetched
     ABORTED = 'aborted' # voting stopped by administration
+
+# XXX: add Enum support to babel extractor
+
+_('voting_status_preparing')
+_('voting_status_scheduled')
+_('voting_status_voting')
+_('voting_status_finished')
+_('voting_status_aborted')

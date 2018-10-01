@@ -6,7 +6,7 @@ import sys
 BASEDIR = Path('src/ekklesia_portal')
 TDIR = BASEDIR / 'translations'
 POT_PATH = TDIR / 'messages.pot'
-SRCS = ['concepts', 'helper']
+SRCS = ['concepts', 'helper', 'enums.py']
 SRC_PATHS = " ".join(str(BASEDIR / src) for src in SRCS)
 
 argv = sys.argv
