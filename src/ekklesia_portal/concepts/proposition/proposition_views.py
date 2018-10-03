@@ -3,7 +3,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter
+from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter, Ballot
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, SupportPermission
 from .proposition_cells import PropositionCell, PropositionsCell, NewPropositionCell
@@ -121,12 +121,18 @@ def create(self, request):
         if related_proposition is None:
             raise HTTPBadRequest()
 
+        # modifiying and replacing propositions are put in the existing ballot of the related proposition
+        ballot = related_proposition.ballot
+
         if relation_type == 'modifies':
             appstruct['modifies'] = related_proposition
         elif relation_type == 'replaces':
             appstruct['replaces'] = related_proposition
+    else:
+        # create a new ballot as "container" for the proposition
+        ballot = Ballot()
 
-    proposition = Proposition(**appstruct)
+    proposition = Proposition(ballot=ballot, **appstruct)
     request.db_session.add(proposition)
     request.db_session.flush()
 

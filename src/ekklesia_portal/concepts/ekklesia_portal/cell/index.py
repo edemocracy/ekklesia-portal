@@ -1,6 +1,7 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
+from ekklesia_portal.concepts.ballot.ballots import Ballots
 
 
 class IndexCell(LayoutCell):
@@ -13,3 +14,6 @@ class IndexCell(LayoutCell):
 
     def new_voting_phase_url(self):
         return self.link(VotingPhases(), '+new')
+
+    def ballots_url(self):
+        return self.link(Ballots())

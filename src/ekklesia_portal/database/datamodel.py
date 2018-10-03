@@ -79,6 +79,7 @@ class User(Base):
     urns = association_proxy('member_urns', 'urn')  # <-UrnSupporter-> Urn
     postal_votes = association_proxy('member_postal', 'voting')  # <-PostalVote-> VotingPhase
 
+    @property
     def managed_departments(self):
         return [md.department for md in self.member_departments if md.is_admin]
 
@@ -262,12 +263,13 @@ class PropositionType(Base):  # Antragsart
 class Ballot(Base):  # conflicting qualified propositions
     __tablename__ = 'ballots'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    name = Column(String(64), unique=True, nullable=False)
+    name = Column(String(64))
     # <- propositions Proposition[]
-    status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
+    # XXX: not sure if we need a status here. Add missing states to PropositionStatus or the other way round?
+    # status = Column(String(8), nullable=False)  # submitted?, qualified, locked, obsolete # §4.8 §5.2
     election = Column(Integer, nullable=False, server_default='0')  # 0=no election, otherwise nr of positions, §5d.4+5
     # §3.8, one proposition is for qualification of election itself
-    voting_type = Column(Enum(VotingType), nullable=False)  # online, urn, assembly, board
+    voting_type = Column(Enum(VotingType))  # online, urn, assembly, board
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship("PropositionType", back_populates="ballots")
 
@@ -339,6 +341,10 @@ class VotingPhase(Base):  # Abstimmungsperiode
     # shall not assign more than recommended votings per period §5.2
     # ask submitters for veto for move to other phase §5.3
 
+    @property
+    def ballots_can_be_added(self):
+        return self.status in (VotingStatus.PREPARING, VotingStatus.SCHEDULED)
+
 
 class VotingResult(Base):  # §4.6, move to ballot?
     __tablename__ = 'votingresults'
@@ -358,7 +364,7 @@ class Proposition(Base):
     submitted = Column(Date, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
     qualified = Column(Date, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
-    ballot_id = Column(Integer, ForeignKey('ballots.id'))
+    ballot_id = Column(Integer, ForeignKey('ballots.id'), nullable=False)
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
     supporters = association_proxy('propositions_member', 'member')  # <-Supporter-> User
     # in state draft only submitters may become supporters §3.3

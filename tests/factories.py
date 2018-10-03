@@ -9,7 +9,7 @@ from pytest_factoryboy import register
 from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, VotingType, VotingStatus
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType
+from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType, Ballot
 
 
 
@@ -66,6 +66,16 @@ register(UserWithDepartmentsFactory, 'user_with_departments')
 
 
 @register
+class BallotFactory(SQLAFactory):
+    class Meta:
+        model = Ballot
+
+    name = MimesisField('word')
+    election = FuzzyChoice([0, 4, 8])
+    voting_type = FuzzyChoice(list(VotingType))
+
+
+@register
 class PropositionFactory(SQLAFactory):
     class Meta:
         model = Proposition
@@ -73,6 +83,7 @@ class PropositionFactory(SQLAFactory):
     title = MimesisField('title')
     content = MimesisField('text', quantity=100)
     abstract = MimesisField('text', quantity=20)
+    ballot = SubFactory(BallotFactory)
 
 
 register(PropositionFactory, 'proposition_two')

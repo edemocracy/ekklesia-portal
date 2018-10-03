@@ -16,3 +16,7 @@ def items_for_voting_phase_select_widgets(phase_types, departments, voting_phase
     department_items = [(d.id, d.name) for d in departments]
 
     return {'status': status_items, 'phase_type': phase_type_items, 'department': department_items}
+
+
+def voting_phase_title(voting_phase):
+    return voting_phase.name or (f'{voting_phase.phase_type.name} #{voting_phase.id}')

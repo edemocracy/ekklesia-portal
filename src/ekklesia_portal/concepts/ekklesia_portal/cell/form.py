@@ -5,7 +5,7 @@ class FormCell(LayoutCell):
 
     def __init__(self, form, request, form_data=None, model=None, layout=None, parent=None, template_path=None, **options):
         self._form = form
-        self._form_data = form_data or {}
+        self._form_data = {k: v for k, v in form_data.items() if v is not None} if form_data is not None else {}
         super().__init__(model, request, None, layout, parent, template_path, **options)
 
     def _prepare_form_for_render(self):

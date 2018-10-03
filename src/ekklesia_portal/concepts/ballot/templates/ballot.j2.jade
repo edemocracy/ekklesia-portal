@@ -1,0 +1,55 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('ballot')
+    if name
+      |&nbsp;-&nbsp;
+      = name
+
+
+- block content
+  .ballot.container
+    h4
+      a(href=self_link)
+        = _('ballot')
+        |&nbsp;#
+        = id
+
+      if show_edit_button
+        a.edit_button(href=edit_url)
+          i.far.fa-edit
+          |&nbsp;
+          = _('edit_button')
+
+    dl
+      dt= _('voting_phase')
+      dd
+        if voting
+          a(href=link(voting))= voting_phase_title
+        else
+          = _('not_determined')
+
+      dt= _('is_election?')
+      dd= (election != 0)|yesno
+
+      if election != 0
+        dt= _('election_positions')
+        dd= election
+      else
+        dt= _('number_of_propositions')
+        dd= propositions|length
+
+      if area
+        dt= _('department')
+        dd= area.department.name
+        dt= _('subject_area')
+        dd= area.name
+
+    if options.show_propositions and propositions
+      hr
+      h4= _('propositions')
+      = render_cell(collection=propositions)
