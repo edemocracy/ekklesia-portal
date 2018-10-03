@@ -14,5 +14,3 @@ class VotingPhases:
 
         return query.filter(department_id=self.department)
 
-    def form(self, action, request):
-        return VotingPhaseForm(request, action)

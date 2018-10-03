@@ -27,9 +27,11 @@
     dl
       dt= _('voting_phase_type')
       dd= phase_type.name
+      dt= _('voting_status')
+      dd= status|enum_value
       dt= _('target_date')
       dd= target or 'nicht festgelegt'
-      dt= _('departments')
+      dt= _('department')
       dd= department.name
 
     if show_description

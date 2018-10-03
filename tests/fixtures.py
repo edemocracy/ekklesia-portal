@@ -73,6 +73,12 @@ def department_admin(db_session, user_factory, department_factory):
     user.departments.append(d2)
     return user
 
+@fixture
+def logged_in_department_admin(department_admin, monkeypatch):
+    user_identity = UserIdentity(department_admin)
+    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    return department_admin
+
 
 @fixture(autouse=True)
 def no_db_commit(monkeypatch):

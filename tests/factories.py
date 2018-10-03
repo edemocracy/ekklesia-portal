@@ -7,7 +7,7 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 from ekklesia_portal.database import Session
-from ekklesia_portal.enums import EkklesiaUserType, VotingType
+from ekklesia_portal.enums import EkklesiaUserType, VotingType, VotingStatus
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
 from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType
 
@@ -147,7 +147,9 @@ class VotingPhaseFactory(SQLAFactory):
 
     title = MimesisField('title')
     name = MimesisField('word')
-    target = datetime.date.today()
+    # when setting the target date, another status than PREPARING must be set!
+    target = None
+    status = VotingStatus.PREPARING
     secret = True
     description = MimesisField('text', quantity=10)
     department = SubFactory(DepartmentFactory)

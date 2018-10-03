@@ -1,12 +1,15 @@
 from deform import ValidationFailure
 from morepath import redirect
+from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import VotingPhase
+from ekklesia_portal.database.datamodel import VotingPhase, Department, VotingPhaseType
+from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .voting_phase_cells import VotingPhaseCell, VotingPhasesCell, NewVotingPhaseCell, EditVotingPhaseCell
 from .voting_phases import VotingPhases
 from .voting_phase_contracts import VotingPhaseForm
+from .voting_phase_helper import items_for_voting_phase_select_widgets
 
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
@@ -32,18 +35,25 @@ def index(self, request):
 
 @App.html(model=VotingPhases, name='new', permission=CreatePermission)
 def new(self, request):
-    form_data = {}
-    return NewVotingPhaseCell(self.form(request.class_link(VotingPhases), request), request, form_data).show()
+    form = VotingPhaseForm(request, request.class_link(VotingPhases))
+    return NewVotingPhaseCell(request, form, form_data={}).show()
 
 
 @App.html(model=VotingPhases, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
-    form = self.form(request.class_link(VotingPhases), request)
+    form = VotingPhaseForm(request, request.class_link(VotingPhases))
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:
-        return NewVotingPhaseCell(form, request, None).show()
+        return NewVotingPhaseCell(request, form).show()
+
+    department_id = appstruct['department_id']
+    department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+    voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])
+
+    if not department_allowed or voting_phase_type is None:
+        return HTTPBadRequest()
 
     voting_phase = VotingPhase(**appstruct)
     request.db_session.add(voting_phase)
@@ -59,9 +69,8 @@ def voting_phase(request, id, slug):
 
 @App.html(model=VotingPhase, name='edit', permission=EditPermission)
 def edit(self, request):
-    form_data = self.to_dict()
     form = VotingPhaseForm(request, request.link(self))
-    return EditVotingPhaseCell(form, request, form_data).show()
+    return EditVotingPhaseCell(self, request, form).show()
 
 
 @App.html(model=VotingPhase, request_method='POST', permission=EditPermission)
@@ -71,7 +80,18 @@ def update(self, request):
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:
-        return EditVotingPhaseCell(form, request, None).show()
+        return EditVotingPhaseCell(self, request, form).show()
+
+    department_id = appstruct['department_id']
+    department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+    voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])
+
+    if not department_allowed or voting_phase_type is None:
+        return HTTPBadRequest()
+
+    # after setting a target date, the state of the voting phase transitions to SCHEDULED
+    if appstruct['target'] and self.target is None:
+        appstruct['status'] = VotingStatus.SCHEDULED
 
     self.update(**appstruct)
     return redirect(request.link(self))

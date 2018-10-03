@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-01 18:55+0000\n"
+"POT-Creation-Date: 2018-10-01 19:15+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -367,13 +367,37 @@ msgstr "Voting Phase Type"
 msgid "target_date"
 msgstr "Target Date"
 
-#: src/ekklesia_portal/helper/templating.py:76
+#: src/ekklesia_portal/helper/templating.py:77
 msgid "yes"
 msgstr "yes"
 
-#: src/ekklesia_portal/helper/templating.py:78
+#: src/ekklesia_portal/helper/templating.py:79
 msgid "no"
 msgstr "no"
+
+#: src/ekklesia_portal/helper/templating.py:88
+msgid "_"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:48
+msgid "voting_status_preparing"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:49
+msgid "voting_status_scheduled"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:50
+msgid "voting_status_voting"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:51
+msgid "voting_status_finished"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:52
+msgid "voting_status_aborted"
+msgstr ""
 
 #~ msgid "follow"
 #~ msgstr "Follow"
