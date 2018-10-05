@@ -35,14 +35,14 @@ def index(self, request):
 
 @App.html(model=VotingPhases, name='new', permission=CreatePermission)
 def new(self, request):
-    form = VotingPhaseForm(request, request.class_link(VotingPhases))
+    form = VotingPhaseForm(request, request.link(self))
     return NewVotingPhaseCell(request, form, form_data={}).show()
 
 
 @App.html(model=VotingPhases, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
-    form = VotingPhaseForm(request, request.class_link(VotingPhases))
+    form = VotingPhaseForm(request, request.link(self))
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:
