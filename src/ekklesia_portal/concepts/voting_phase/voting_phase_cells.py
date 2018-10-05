@@ -37,7 +37,8 @@ class NewVotingPhaseCell(NewFormCell):
 class EditVotingPhaseCell(EditFormCell):
 
     def _prepare_form_for_render(self):
-        self._form_data = self._model.to_dict()
+        form_data = self._model.to_dict()
+        self.set_form_data(form_data)
         departments = self._request.current_user.managed_departments
         phase_types = self._request.q(VotingPhaseType)
         items = items_for_voting_phase_select_widgets(phase_types, departments, self._model)
