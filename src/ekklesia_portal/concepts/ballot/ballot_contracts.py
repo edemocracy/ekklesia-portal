@@ -14,12 +14,13 @@ class BallotSchema(Schema):
 
 class BallotForm(Form):
 
-    def __init__(self, request, action=None, items_for_select_widgets={}):
+    def __init__(self, request, action):
         super().__init__(BallotSchema(), request, action, buttons=("submit", ))
 
-        if items_for_select_widgets:
-            widgets = {
-                'area_id': Select2Widget(values=items_for_select_widgets['area']),
-                'voting_id': Select2Widget(values=items_for_select_widgets['voting'])
-            }
-            self.set_widgets(widgets)
+
+    def prepare_for_render(self, items_for_selects):
+        widgets = {
+            'area_id': Select2Widget(values=items_for_selects['area']),
+            'voting_id': Select2Widget(values=items_for_selects['voting'])
+        }
+        self.set_widgets(widgets)

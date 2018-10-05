@@ -8,7 +8,6 @@ from ekklesia_portal.permission import EditPermission
 from .ballot_cells import BallotCell, BallotsCell, EditBallotCell
 from .ballots import Ballots
 from .ballot_contracts import BallotForm
-from .ballot_helper import items_for_ballot_select_widgets
 
 
 @App.permission_rule(model=Ballot, permission=EditPermission)
@@ -34,22 +33,18 @@ def ballot(request, id):
 
 @App.html(model=Ballot, name='edit', permission=EditPermission)
 def edit(self, request):
-    form_data = self.to_dict()
-    items = items_for_ballot_select_widgets(self, departments=request.current_user.managed_departments)
-    form = BallotForm(request, request.link(self), items)
-    return EditBallotCell(form, request, form_data).show()
+    form = BallotForm(request, request.link(self))
+    return EditBallotCell(self, request, form).show()
 
 
 @App.html(model=Ballot, request_method='POST', permission=EditPermission)
 def update(self, request):
     controls = request.POST.items()
-    form = BallotForm(request)
+    form = BallotForm(request, request.link(self))
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:
-        items = items_for_ballot_select_widgets(self, departments=request.current_user.managed_departments)
-        form = BallotForm(request, request.link(self), items)
-        return EditBallotCell(form, request, None).show()
+        return EditBallotCell(self, request, form).show()
 
     area = request.q(SubjectArea).get(appstruct['area_id']) if appstruct['area_id'] else None
     voting_phase = request.q(VotingPhase).get(appstruct['voting_id']) if appstruct['voting_id'] else None
