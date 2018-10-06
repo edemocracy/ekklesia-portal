@@ -13,7 +13,7 @@ class EkklesiaPortalRequest(morepath.Request):
     def db_session(self):
         return database.Session()
 
-    @property
+    @cached_property
     def current_user(self):
         user = self.identity.user
         if user is None:
