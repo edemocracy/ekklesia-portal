@@ -22,6 +22,10 @@ def list_property(**kwargs):
     return colander.SchemaNode(colander.List(), **kwargs)
 
 
+def set_property(**kwargs):
+    return colander.SchemaNode(colander.Set(), **kwargs)
+
+
 def date_property(**kwargs):
     return colander.SchemaNode(colander.Date(), **kwargs)
 
