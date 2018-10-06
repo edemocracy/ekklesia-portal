@@ -1,6 +1,7 @@
 if __name__ == "__main__":
     import sqlalchemy.orm
     import logging
+    import mimesis
     from ekklesia_portal.lib.password import password_context
     logging.basicConfig(level=logging.INFO)
     import transaction
@@ -21,6 +22,8 @@ if __name__ == "__main__":
     db_metadata.create_all()
 
     s = Session()
+
+    gen_de = mimesis.Generic('de')
 
     department_pps = Department(name='PPS')
     department_zs = Department(name='Zentralschweiz')
@@ -60,7 +63,7 @@ if __name__ == "__main__":
 
     b1 = Ballot(area=subject_area_pps_in)
     s.add(b1)
-    q1 = Proposition(title="Ein Titel", content="blah")
+    q1 = Proposition(title="Ein Titel", content=gen_de.text.text(quantity=40))
 
     q1_counter = Proposition(title="Gegenantrag zu Q1", content="will was anderes", replaces=q1)
 
@@ -69,7 +72,10 @@ if __name__ == "__main__":
     q1_change = Proposition(title="Änderungsantrag zu Q1", content="will was ändern", modifies=q1)
     b1.propositions.extend([q1, q1_counter, q1_counter_2, q1_change])
 
-    arg1 = Argument(author=u1, title="Ein Pro-Argument", abstract="dafür abstract", details="dafür")
+    arg1 = Argument(author=u1,
+                    title="Ein Pro-Argument",
+                    abstract=gen_de.text.text(quantity=2)[:140],
+                    details=gen_de.text.text(quantity=10))
     arg2 = Argument(author=u2, title="Ein zweites Pro-Argument", abstract="dafür!!!")
     arg3 = Argument(author=u1, title="Ein Contra-Argument", abstract="dagegen!!!", details="aus Gründen")
 
@@ -83,7 +89,7 @@ if __name__ == "__main__":
 
     b2 = Ballot(area=subject_area_pps_pol)
     s.add(b2)
-    q2 = Proposition(title="Noch Ein Titel", content="blah")
+    q2 = Proposition(title="Noch Ein Titel", content=gen_de.text.text(quantity=20))
     q2.tags.append(t3)
     b2.propositions.append(q2)
 
