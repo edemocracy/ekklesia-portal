@@ -3,10 +3,11 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter, Ballot
+from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter, Ballot, SubjectArea
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, SupportPermission
 from .proposition_cells import PropositionCell, PropositionsCell, NewPropositionCell
+from .proposition_contracts import PropositionForm
 from .propositions import Propositions
 
 
@@ -89,17 +90,18 @@ def new(self, request):
     else:
         form_data = {}
 
-    return NewPropositionCell(self.form(request.class_link(Propositions), request), request, form_data).show()
+    form = PropositionForm(request, request.class_link(Propositions))
+    return NewPropositionCell(request, form, form_data).show()
 
 
 @App.html(model=Propositions, request_method='POST', permission=CreatePermission)
 def create(self, request):
     controls = request.POST.items()
-    form = self.form(request.class_link(Propositions), request)
+    form = PropositionForm(request, request.class_link(Propositions))
     try:
         appstruct = form.validate(controls)
     except ValidationFailure:
-        return NewPropositionCell(form, request, None).show()
+        return NewPropositionCell(request, form).show()
 
     tag_names = appstruct['tags']
 
@@ -130,7 +132,14 @@ def create(self, request):
             appstruct['replaces'] = related_proposition
     else:
         # create a new ballot as "container" for the proposition
-        ballot = Ballot()
+        area = request.q(SubjectArea).get(appstruct['area_id']) if appstruct['area_id'] else None
+
+        if area is None or area.department not in request.current_user.departments:
+            return HTTPBadRequest()
+
+        ballot = Ballot(area=area)
+
+    del appstruct['area_id']
 
     proposition = Proposition(ballot=ballot, **appstruct)
     request.db_session.add(proposition)

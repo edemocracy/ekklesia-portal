@@ -5,7 +5,10 @@ class FormCell(LayoutCell):
 
     def __init__(self, form, request, form_data=None, model=None, layout=None, parent=None, template_path=None, **options):
         self._form = form
-        self.set_form_data(form_data) if form_data is not None else {}
+        if form_data:
+            self.set_form_data(form_data or {})
+        else:
+            self._form_data = None
         super().__init__(model, request, None, layout, parent, template_path, **options)
 
     def _prepare_form_for_render(self):
@@ -16,7 +19,11 @@ class FormCell(LayoutCell):
 
     def form_html(self):
         self._prepare_form_for_render()
-        html = self._form.render(self._form_data)
+        if self._form_data is None:
+            html = self._form.render()
+        else:
+            html = self._form.render(self._form_data)
+
         return self.__class__.markup_class(html)
 
 

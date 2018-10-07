@@ -29,6 +29,3 @@ class Propositions:
             raise NotImplementedError()
 
         return propositions
-
-    def form(self, action, request):
-        return PropositionForm(request, action)

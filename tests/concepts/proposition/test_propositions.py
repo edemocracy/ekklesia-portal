@@ -75,11 +75,13 @@ def test_new_with_data_import(client, logged_in_user):
     assert_deform(res, expected)
 
 
-def test_create(db_query, client, proposition_factory, logged_in_user):
+def test_create(db_query, client, proposition_factory, logged_in_user_with_departments):
+    user = logged_in_user_with_departments
     # XXX: this is stubid... Is there a better way to get a simple dict from factory boy? Do we need a new strategy?
     data = dict(proposition_factory.stub().__dict__)
     data['tags'] = 'Tag1,' + "".join(random.choices(string.ascii_lowercase, k=10)).capitalize()
 
+    data['area_id'] = user.departments[0].areas[0].id
     data['related_proposition_id'] = 3
     data['relation_type'] = 'modifies'
 

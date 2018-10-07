@@ -57,7 +57,27 @@ def proposition_with_arguments(user, user_two, proposition, argument_factory, ar
 
 
 @fixture
+def user_with_departments(user_factory, department_factory):
+    user = user_factory()
+    departments = [department_factory(), department_factory()]
+    user.departments = departments
+
+    for department in departments:
+        user.areas.extend(department.areas)
+
+    return user
+
+
+@fixture
 def logged_in_user(user, monkeypatch):
+    user_identity = UserIdentity(user)
+    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    return user
+
+
+@fixture
+def logged_in_user_with_departments(user_with_departments, monkeypatch):
+    user = user_with_departments
     user_identity = UserIdentity(user)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return user

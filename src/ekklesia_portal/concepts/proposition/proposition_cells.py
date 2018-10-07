@@ -1,9 +1,11 @@
+import colander
+from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
-from ekklesia_portal.database.datamodel import Proposition
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
+from ekklesia_portal.database.datamodel import Proposition, Tag
 from ekklesia_portal.permission import SupportPermission, CreatePermission
 from .propositions import Propositions
-from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
+from .proposition_helper import items_for_proposition_select_widgets
 
 
 class PropositionCell(LayoutCell):
@@ -62,8 +64,19 @@ class PropositionCell(LayoutCell):
         return self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-class NewPropositionCell(FormCell):
-    pass
+class NewPropositionCell(NewFormCell):
+
+    def _prepare_form_for_render(self):
+        departments = self._request.current_user.departments
+        tags = self._request.q(Tag).all()
+
+        if self._form.error is None or self._form.cstruct['tags'] is colander.null:
+            selected_tags = None
+        else:
+            selected_tags = self._form.cstruct['tags'] if self._form.error is not None else None
+
+        items = items_for_proposition_select_widgets(departments, tags, selected_tags)
+        self._form.prepare_for_render(items)
 
 
 class PropositionsCell(LayoutCell):
