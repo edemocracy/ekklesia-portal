@@ -45,7 +45,7 @@ class Schema(colander.MappingSchema):
 COLANDER_TRANSLATION_DIR = resource_filename('colander', 'locale/')
 DEFORM_TRANSLATION_DIR = resource_filename('deform', 'locale/')
 EKKLESIA_PORTAL_TRANSLATION_DIR = resource_filename('ekklesia_portal', 'translations/')
-DEFORM_TEMPLATE_DIRS = [resource_filename('deform', 'templates/')]
+DEFORM_TEMPLATE_DIRS = [resource_filename('ekklesia_portal', 'deform/templates/'), resource_filename('deform', 'templates/')]
 
 
 class Form(deform.Form):
