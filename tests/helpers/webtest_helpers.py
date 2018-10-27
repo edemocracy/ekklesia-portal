@@ -40,12 +40,21 @@ def get_session(app, client):
     return serializer.loads(client.cookies['session'])
 
 
-def fill_form(form, data, field_names=None):
+def _set_form_field_value(form, data, field_name, enum_field_names):
+    if field_name in enum_field_names:
+        value = data[field_name].name
+    else:
+        value = data[field_name]
+
+    form.set(field_name, value)
+
+
+def fill_form(form, data, field_names=None, enum_field_names=[]):
     if field_names is None:
-        for field_name, value in data.items():
-            form.set(field_name, value)
+        for field_name in data:
+            _set_form_field_value(form, data, field_name, enum_field_names)
     else:
         for field_name in field_names:
-            form.set(field_name, data[field_name])
+            _set_form_field_value(form, data, field_name, enum_field_names)
 
     return form
