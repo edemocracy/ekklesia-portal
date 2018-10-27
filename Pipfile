@@ -50,6 +50,8 @@ pytest-mock = "*"
 typing-extensions = "*"
 bandit = "*"
 pylava = "*"
+cookiecutter = "*"
+inflect = "*"
 
 [requires]
 python_version = "3.7"
