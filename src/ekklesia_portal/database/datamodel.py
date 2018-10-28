@@ -29,6 +29,7 @@ from sqlalchemy import (
     DateTime,
     Time,
     ForeignKey,
+    Numeric,
     Sequence,
     JSON,
     func,
@@ -42,7 +43,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base, integer_pk, C
-from ekklesia_portal.enums import EkklesiaUserType, PropositionStatus, SupporterStatus, VotingType, VotingStatus
+from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -141,32 +142,32 @@ class Department(Base):
     """
     durations as INT+ENUM(days,weeks,months,periods)? quorum as num/denum(INT)?
 
-     expireActivity DURATION # inactive after periods (2) §2.2 (active by which actions?)
-     memberTolerance DURATION # non-member tolerance duration (3 months) §3.6
-     targetDayDistance DURATION # min. duration between target days (4 weeks, NRW 8 weeks) §4.1
-     phaseDeadline DURATION # deadline for sending date announcement before target date (6 weeks) §4.1
-     reorderPropositions BOOL # reorder propositions (false, NRW: true) §4.2
-     votingsPerPeriod INT # recommended votings per period (20) §5.2
-     assignementDeadline DURATION # deadline for secret/assignments before target date (5 weeks) §4.2
-     qualificationDeadline DURATION # deadline for first proposition before target date (7 weeks) §4.2
-     conflictingDeadline DURATION # deadline for conflicting proposition before target date (5 weeks) §4.2
-     invitationDeadline DURATION # deadline for sending voting invitations before target date (4 weeks) §4.3
-     postalVoteDeadline DURATION # deadline for secret vote request before voting starts (1 weeks) §4.4
      anonymousVoting BOOL # (false,NRW true) §5.1
-     urnVoting BOOL # (true) §5.1
+     assignementDeadline DURATION # deadline for secret/assignments before target date (5 weeks) §4.2
+     conflictingDeadline DURATION # deadline for conflicting proposition before target date (5 weeks) §4.2
+     expireActivity DURATION # inactive after periods (2) §2.2 (active by which actions?)
+     extendedDiscussion BOOL #  (false) whether all argument relations are supported, otherwised only pro/contra and 1 level of refusal
+     invitationDeadline DURATION # deadline for sending voting invitations before target date (4 weeks) §4.3
+     memberTolerance DURATION # non-member tolerance duration (3 months) §3.6
+     phaseDeadline DURATION # deadline for sending date announcement before target date (6 weeks) §4.1
      postalVoteDeadline DURATION # deadline for postal vote request before target date (1 week) $5.4
+     postalVoteDeadline DURATION # deadline for secret vote request before voting starts (1 weeks) §4.4
+     qualificationDeadline DURATION # deadline for first proposition before target date (7 weeks) §4.2
      registrationDeadline DURATION # deadline for vote registration before voting starts (3 days) $5.6
+     reorderPropositions BOOL # reorder propositions (false, NRW: true) §4.2
+     targetDayDistance DURATION # min. duration between target days (4 weeks, NRW 8 weeks) §4.1
+     urnAcceptance DURATION # notification deadline for urn acceptance (3 weeks) §5b.2
+     urnAssignments DURATION # notification deadline for urn assignment before target day (2 weeks) §5b.4
+     urnClosing TIME # urn closing time (18:00) §5b.5
+     urnDeadline DURATION # deadline for urn proposition before target day (4 weeks) §5b.2, §4.3
+     urnDuration TIME # urn minimum duration (2 hours) §5b.5
+     urnFinalAssignments DURATION # notification deadline for final urn assignments before target day (3 days) §5b.3
+     urnMergeLimit INT # urn merge limit (10) §5b.6
+     urnReassignment DURATION # deadline for urn reassignment before target day (1 week) §5b.4
      urnResponsible INT # minimum responsible members for urn (2) §5b.2
      urnVoters INT  # minimum urn voters (Bund/NRW 10, BY/HE 5) §5b.2
-     urnDeadline DURATION # deadline for urn proposition before target day (4 weeks) §5b.2, §4.3
-     urnAcceptance DURATION # notification deadline for urn acceptance (3 weeks) §5b.2
-     urnFinalAssignments DURATION # notification deadline for final urn assignments before target day (3 days) §5b.3
-     urnAssignments DURATION # notification deadline for urn assignment before target day (2 weeks) §5b.4
-     urnReassignment DURATION # deadline for urn reassignment before target day (1 week) §5b.4
-     urnClosing TIME # urn closing time (18:00) §5b.5
-     urnDuration TIME # urn minimum duration (2 hours) §5b.5
-     urnMergeLimit INT # urn merge limit (10) §5b.6
-     extendedDiscussion BOOL #  (false) whether all argument relations are supported, otherwised only pro/contra and 1 level of refusal
+     urnVoting BOOL # (true) §5.1
+     votingsPerPeriod INT # recommended votings per period (20) §5.2
     """
 
 
@@ -214,30 +215,41 @@ class Policy(Base):  # Regelwerk
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     proposition_types = relationship("PropositionType", back_populates="policy")
-    configuration = Column(Text)  # JSON
+    majority = C(Enum(Majority))
+    proposition_expiration = C(Integer, comment='days to reach the qualification (supporter) quorum')
+    qualification_minimum = C(Integer, comment='minimum for qualification quorum')
+    qualification_quorum = C(Numeric(3, 2), comment='fraction of area members that must support a proposition for reaching the qualified state')
+    range_max = C(Integer, comment='maximum score used when the number of options is at least `range_small_options`')
+    range_small_max = C(Integer, comment='maximum score used when the number of options is less than `range_small_options`')
+    range_small_options = C(Integer, comment='largest number of options for which `range_small_max` is used as maximum score')
+    secret_minimum = C(Integer, comment='minimum for secret voting quorum')
+    secret_quorum = C(Numeric(3, 2), comment='quorum to force a secret voting')
+    submitter_minimum = C(Integer, comment='minimum number of submitters for a proposition')
+    voting_duration = C(Integer, comment='voting duration in days; ends at target date')
+    voting_system = C(Enum(VotingSystem))
     """
     configuration values also see department
-         submissionQuorum INT # (5) §3.3
-         retractionDuration DURATION # (1 week) §3.4
-         takeoverSupporters INT # (5) §3.4
-         supportExpiration DURATION # support expiration time (12 weeks) §3.5
-         qualificationQuorum FRACTION # (10%) §3.5
-         qualificationElection INT # absolute qualification quorum (20) §3.9
+         alwayssecret BOOL # §3.8
          areaMinimum INT # min. subject area members (500, BY/HE/NRW 250) §3.6
-         secretQuorum FRACTION # secret vote quorum (5%) §3.5
-         secretMinimum INT # min. secret vote members (50, BY/HE/NRW 25) §3.7
-         propositionExpiration DURATION # (6 months) §3.8
-         votingDuration DURATION # (2 weeks) §4.5
          certificateDuration DURATION # for secret ballot before voting starts (NRW 2 weeks) §4.5
-         minCertificates INT # minimum valid certs for secret ballot(NRW 2) §5d.3+5
-         topicLockDuration DURATION # (12 month) §4.8
+         election BOOL # §3.8
          majority FRACTION # (1/2) $5d.1
-         votingSystem ENUM # (range+approve voting) $5d.3
+         minCertificates INT # minimum valid certs for secret ballot(NRW 2) §5d.3+5
+         propositionExpiration DURATION # (6 months) §3.8
+         qualificationElection INT # absolute qualification quorum (20) §3.9
+         qualificationQuorum FRACTION # (10%) §3.5
          rangeMax INT # (9) $5d.3
          rangeSmallMax INT # (3) $5d.3
          rangeSmallOptions INT # (5) $5d.3
-         alwayssecret BOOL # §3.8
-         election BOOL # §3.8
+         retractionDuration DURATION # (1 week) §3.4
+         secretMinimum INT # min. secret vote members (50, BY/HE/NRW 25) §3.7
+         secretQuorum FRACTION # secret vote quorum (5%) §3.5
+         submissionQuorum INT # (5) §3.3
+         supportExpiration DURATION # support expiration time (12 weeks) §3.5
+         takeoverSupporters INT # (5) §3.4
+         topicLockDuration DURATION # (12 month) §4.8
+         votingDuration DURATION # (2 weeks) §4.5
+         votingSystem ENUM # (range+approve voting) $5d.3
     """
 
 

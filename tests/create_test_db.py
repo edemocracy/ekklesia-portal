@@ -1,6 +1,7 @@
 if __name__ == "__main__":
-    import sqlalchemy.orm
+    from datetime import timedelta
     import logging
+    import sqlalchemy.orm
     import mimesis
     from ekklesia_portal.lib.password import password_context
     logging.basicConfig(level=logging.INFO)
@@ -56,6 +57,23 @@ if __name__ == "__main__":
                                       description='eine **Piratenversammlung** in der Schweiz')
 
     department_pps.voting_phases.extend([voting_phase_pps_online, voting_phase_pps_pv])
+
+    policy_default = Policy(
+        name='default',
+        majority=Majority.SIMPLE,
+        proposition_expiration=180,
+        qualification_quorum=0.1,
+        qualification_minimum=50,
+        range_max=9,
+        range_small_max=3,
+        range_small_options=5,
+        secret_minimum=20,
+        secret_quorum=0.05,
+        submitter_minimum=5,
+        voting_duration=14,
+        voting_system=VotingSystem.RANGE_APPROVAL)
+
+    s.add(policy_default)
 
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")

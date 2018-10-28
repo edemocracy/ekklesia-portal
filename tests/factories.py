@@ -3,14 +3,13 @@ import string
 import factory
 from factory import Factory, SubFactory, RelatedFactory
 from factory.alchemy import SQLAlchemyModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyText
+from factory.fuzzy import FuzzyChoice, FuzzyText, FuzzyDecimal, FuzzyInteger
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 from ekklesia_portal.database import Session
-from ekklesia_portal.enums import EkklesiaUserType, VotingType, VotingStatus
+from ekklesia_portal.enums import EkklesiaUserType, Majority, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType, Ballot
-
+from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType, Ballot, Policy
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
@@ -31,6 +30,7 @@ class DepartmentFactory(SQLAFactory):
     def add_subject_areas(self, create, extracted, **kwargs):
         for _ in range(2):
             SubjectAreaFactory(department=self)
+
 
 @register
 class SubjectAreaFactory(SQLAFactory):
@@ -61,6 +61,7 @@ class UserWithDepartmentsFactory(UserFactory):
     def add_subject_areas(self, create, extracted, **kwargs):
         for department in self.departments:
             self.areas.extend(department.areas)
+
 
 register(UserWithDepartmentsFactory, 'user_with_departments')
 
@@ -165,3 +166,23 @@ class VotingPhaseFactory(SQLAFactory):
     description = MimesisField('text', quantity=10)
     department = SubFactory(DepartmentFactory)
     phase_type = SubFactory(VotingPhaseTypeFactory)
+
+
+@register
+class PolicyFactory(SQLAFactory):
+    class Meta:
+        model = Policy
+
+    name = MimesisField('word')
+    majority = FuzzyChoice(list(Majority))
+    proposition_expiration = FuzzyInteger(0, 10000)
+    qualification_quorum = FuzzyDecimal(0, 1)
+    qualification_minimum = FuzzyInteger(0, 1000)
+    range_max = FuzzyInteger(6, 10)
+    range_small_max = FuzzyInteger(3, 5)
+    range_small_options = FuzzyInteger(1, 10)
+    secret_minimum = FuzzyInteger(0, 1000)
+    secret_quorum = FuzzyDecimal(0, 1)
+    submitter_minimum = FuzzyInteger(0, 1000)
+    voting_duration = FuzzyInteger(0, 10000)
+    voting_system = FuzzyChoice(list(VotingSystem))
