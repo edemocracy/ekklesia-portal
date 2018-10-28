@@ -3,7 +3,7 @@ let
   nixpkgs = _systemNixpkgs.fetchFromGitHub {
     owner = "NixOS";
     repo = "nixpkgs";
-    rev = "c5668bd18356391cd09e79d0465c4a4f3fe4a10a";
-    sha256 = "0v5095835g8s0xszsqwmn1a48az5aba2581snljzjgy32zd3gxcb";
+    rev = "bea4b361a0e3a21b1e9a69d56f1ebd16fb38a296";
+    sha256 = "0ybslsfvib4lrq6vj5mibmpjvwcd5xljjr2zp23zmihcjvc4d1r9";
   };
 in import nixpkgs {}
