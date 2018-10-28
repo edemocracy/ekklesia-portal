@@ -1,0 +1,48 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('policy')
+
+
+- block content
+
+  .policy.container
+    h4
+      a(href=self_link)= name
+
+      if show_edit_button
+        a.edit_button(href=edit_url)
+          i.far.fa-edit
+          |&nbsp;
+          = _('edit_button')
+
+    if options.show_details
+      dl
+        dt= _('majority')
+        dd= majority|enum_value
+        dt= _('proposition_expiration')
+        dd {{ proposition_expiration }} {{ _('days') }}
+        dt= _('qualification_minimum')
+        dd= qualification_minimum
+        dt= _('qualification_quorum')
+        dd= qualification_quorum|percentformat
+        dt= _('range_max')
+        dd= range_max
+        dt= _('range_small_max')
+        dd= range_small_max
+        dt= _('range_small_options')
+        dd= range_small_options
+        dt= _('secret_minimum')
+        dd= secret_minimum
+        dt= _('secret_quorum')
+        dd= secret_quorum|percentformat
+        dt= _('submitter_minimum')
+        dd= submitter_minimum
+        dt= _('voting_duration')
+        dd {{ voting_duration }} {{ _('days') }}
+        dt= _('voting_system')
+        dd= voting_system|enum_value

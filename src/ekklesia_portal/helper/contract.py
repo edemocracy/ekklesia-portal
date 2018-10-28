@@ -10,6 +10,10 @@ def string_property(**kwargs):
     return colander.SchemaNode(colander.String(), **kwargs)
 
 
+def decimal_property(**kwargs):
+    return colander.SchemaNode(colander.Decimal(), **kwargs)
+
+
 def int_property(**kwargs):
     return colander.SchemaNode(colander.Int(), **kwargs)
 
