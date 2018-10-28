@@ -67,6 +67,37 @@ register(UserWithDepartmentsFactory, 'user_with_departments')
 
 
 @register
+class PolicyFactory(SQLAFactory):
+    class Meta:
+        model = Policy
+
+    name = MimesisField('word')
+    description = MimesisField('text', quantity=5)
+    majority = FuzzyChoice(list(Majority))
+    proposition_expiration = FuzzyInteger(0, 10000)
+    qualification_quorum = FuzzyDecimal(0, 1)
+    qualification_minimum = FuzzyInteger(0, 1000)
+    range_max = FuzzyInteger(6, 10)
+    range_small_max = FuzzyInteger(3, 5)
+    range_small_options = FuzzyInteger(1, 10)
+    secret_minimum = FuzzyInteger(0, 1000)
+    secret_quorum = FuzzyDecimal(0, 1)
+    submitter_minimum = FuzzyInteger(0, 1000)
+    voting_duration = FuzzyInteger(0, 10000)
+    voting_system = FuzzyChoice(list(VotingSystem))
+
+
+@register
+class PropositionTypeFactory(SQLAFactory):
+    class Meta:
+        model = PropositionType
+
+    name = MimesisField('word')
+    description = MimesisField('text', quantity=5)
+    policy = SubFactory(PolicyFactory)
+
+
+@register
 class BallotFactory(SQLAFactory):
     class Meta:
         model = Ballot
@@ -74,6 +105,7 @@ class BallotFactory(SQLAFactory):
     name = MimesisField('word')
     election = FuzzyChoice([0, 4, 8])
     voting_type = FuzzyChoice(list(VotingType))
+    proposition_type = SubFactory(PropositionTypeFactory)
 
 
 @register
@@ -166,34 +198,3 @@ class VotingPhaseFactory(SQLAFactory):
     description = MimesisField('text', quantity=10)
     department = SubFactory(DepartmentFactory)
     phase_type = SubFactory(VotingPhaseTypeFactory)
-
-
-@register
-class PolicyFactory(SQLAFactory):
-    class Meta:
-        model = Policy
-
-    name = MimesisField('word')
-    description = MimesisField('text', quantity=5)
-    majority = FuzzyChoice(list(Majority))
-    proposition_expiration = FuzzyInteger(0, 10000)
-    qualification_quorum = FuzzyDecimal(0, 1)
-    qualification_minimum = FuzzyInteger(0, 1000)
-    range_max = FuzzyInteger(6, 10)
-    range_small_max = FuzzyInteger(3, 5)
-    range_small_options = FuzzyInteger(1, 10)
-    secret_minimum = FuzzyInteger(0, 1000)
-    secret_quorum = FuzzyDecimal(0, 1)
-    submitter_minimum = FuzzyInteger(0, 1000)
-    voting_duration = FuzzyInteger(0, 10000)
-    voting_system = FuzzyChoice(list(VotingSystem))
-
-
-@register
-class PropositionTypeFactory(SQLAFactory):
-    class Meta:
-        model = PropositionType
-
-    name = MimesisField('word')
-    description = MimesisField('text', quantity=5)
-    policy = SubFactory(PolicyFactory)

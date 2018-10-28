@@ -10,6 +10,7 @@ class BallotSchema(Schema):
     election = int_property(title=_('election_positions'), missing=0)
     area_id = int_property(title=_('subject_area'), missing=None)
     voting_id = int_property(title=('voting_phase'), missing=None)
+    proposition_type_id = int_property(title=('proposition_type'), missing=None)
 
 
 class BallotForm(Form):
@@ -21,6 +22,7 @@ class BallotForm(Form):
     def prepare_for_render(self, items_for_selects):
         widgets = {
             'area_id': Select2Widget(values=items_for_selects['area']),
-            'voting_id': Select2Widget(values=items_for_selects['voting'])
+            'voting_id': Select2Widget(values=items_for_selects['voting']),
+            'proposition_type_id': Select2Widget(values=items_for_selects['proposition_type'])
         }
         self.set_widgets(widgets)

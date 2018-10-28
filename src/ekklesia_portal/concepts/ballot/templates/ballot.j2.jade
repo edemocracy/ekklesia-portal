@@ -49,6 +49,10 @@
         dt= _('subject_area')
         dd= area.name
 
+      if proposition_type
+        dt= _('proposition_type')
+        dd= proposition_type.name
+
     if options.show_propositions and propositions
       hr
       h4= _('propositions')

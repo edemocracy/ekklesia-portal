@@ -3,7 +3,7 @@ from ekklesia_portal.concepts.voting_phase import voting_phase_helper
 from ekklesia_portal.helper.translation import _
 
 
-def items_for_ballot_select_widgets(ballot, departments):
+def items_for_ballot_select_widgets(ballot, departments, proposition_types):
     area_items = [('', _('not_determined'))]
     voting_phase_items = [('', _('not_determined'))]
 
@@ -16,4 +16,6 @@ def items_for_ballot_select_widgets(ballot, departments):
                 voting_phase_title = voting_phase_helper.voting_phase_title(voting_phase)
                 voting_phase_items.append((voting_phase.id, f'{department.name} - {voting_phase_title}'))
 
-    return {'area': area_items, 'voting': voting_phase_items}
+    proposition_type_items = [('', _('not_determined'))] + [(t.id, t.name) for t in proposition_types]
+
+    return {'area': area_items, 'voting': voting_phase_items, 'proposition_type': proposition_type_items}
