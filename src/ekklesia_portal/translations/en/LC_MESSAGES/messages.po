@@ -489,23 +489,23 @@ msgstr "Two-thirds majority"
 
 #: src/ekklesia_portal/enums.py:60
 msgid "voting_status_aborted"
-msgstr ""
+msgstr "Aborted"
 
 #: src/ekklesia_portal/enums.py:61
 msgid "voting_status_finished"
-msgstr ""
+msgstr "Finished"
 
 #: src/ekklesia_portal/enums.py:62
 msgid "voting_status_preparing"
-msgstr ""
+msgstr "Preparing"
 
 #: src/ekklesia_portal/enums.py:63
 msgid "voting_status_scheduled"
-msgstr ""
+msgstr "Scheduled"
 
 #: src/ekklesia_portal/enums.py:64
 msgid "voting_status_voting"
-msgstr ""
+msgstr "Voting"
 
 #: src/ekklesia_portal/enums.py:65
 msgid "voting_system_range_approval"
