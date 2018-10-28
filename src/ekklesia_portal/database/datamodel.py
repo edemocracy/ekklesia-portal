@@ -214,6 +214,7 @@ class Policy(Base):  # Regelwerk
     __tablename__ = 'policies'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
+    description = Column(Text, server_default='')
     proposition_types = relationship("PropositionType", back_populates="policy")
     majority = C(Enum(Majority))
     proposition_expiration = C(Integer, comment='days to reach the qualification (supporter) quorum')
@@ -267,6 +268,7 @@ class PropositionType(Base):  # Antragsart
     __tablename__ = 'propositiontypes'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
+    description = Column(Text, server_default='')
     policy_id = Column(Integer, ForeignKey('policies.id'), nullable=False)
     policy = relationship("Policy", back_populates="proposition_types")
     ballots = relationship("Ballot", back_populates="proposition_type")

@@ -59,6 +59,7 @@ if __name__ == "__main__":
     department_pps.voting_phases.extend([voting_phase_pps_online, voting_phase_pps_pv])
 
     policy_default = Policy(
+        description=gen_de.text.text(quantity=3),
         name='default',
         majority=Majority.SIMPLE,
         proposition_expiration=180,
@@ -74,6 +75,9 @@ if __name__ == "__main__":
         voting_system=VotingSystem.RANGE_APPROVAL)
 
     s.add(policy_default)
+
+    ptype_pol = PropositionType(name='Politische Position', description=gen_de.text.text(quantity=3), policy=policy_default)
+    s.add(ptype_pol)
 
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")

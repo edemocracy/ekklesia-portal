@@ -174,6 +174,7 @@ class PolicyFactory(SQLAFactory):
         model = Policy
 
     name = MimesisField('word')
+    description = MimesisField('text', quantity=5)
     majority = FuzzyChoice(list(Majority))
     proposition_expiration = FuzzyInteger(0, 10000)
     qualification_quorum = FuzzyDecimal(0, 1)
