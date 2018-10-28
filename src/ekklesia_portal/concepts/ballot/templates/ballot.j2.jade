@@ -25,33 +25,34 @@
           |&nbsp;
           = _('edit_button')
 
-    dl
-      dt= _('voting_phase')
-      dd
-        if voting
-          a(href=link(voting))= voting_phase_title
+    if options.show_details
+      dl
+        dt= _('voting_phase')
+        dd
+          if voting
+            a(href=link(voting))= voting_phase_title
+          else
+            = _('not_determined')
+
+        dt= _('is_election?')
+        dd= (election != 0)|yesno
+
+        if election != 0
+          dt= _('election_positions')
+          dd= election
         else
-          = _('not_determined')
+          dt= _('number_of_propositions')
+          dd= propositions|length
 
-      dt= _('is_election?')
-      dd= (election != 0)|yesno
+        if area
+          dt= _('department')
+          dd= area.department.name
+          dt= _('subject_area')
+          dd= area.name
 
-      if election != 0
-        dt= _('election_positions')
-        dd= election
-      else
-        dt= _('number_of_propositions')
-        dd= propositions|length
-
-      if area
-        dt= _('department')
-        dd= area.department.name
-        dt= _('subject_area')
-        dd= area.name
-
-      if proposition_type
-        dt= _('proposition_type')
-        dd= proposition_type.name
+        if proposition_type
+          dt= _('proposition_type')
+          dd= proposition_type.name
 
     if options.show_propositions and propositions
       hr

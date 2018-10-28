@@ -30,6 +30,11 @@ def index(self, request):
 def ballot(request, id):
     return request.q(Ballot).get(id)
 
+@App.html(model=Ballot)
+def show(self, request):
+    cell = BallotCell(self, request, show_edit_button=True, show_details=True, show_propositions=True)
+    return cell.show()
+
 
 @App.html(model=Ballot, name='edit', permission=EditPermission)
 def edit(self, request):
@@ -67,9 +72,3 @@ def update(self, request):
 
     self.update(**appstruct)
     return redirect(request.link(self))
-
-
-@App.html(model=Ballot)
-def show(self, request):
-    cell = BallotCell(self, request, show_edit_button=True, show_propositions=True)
-    return cell.show()
