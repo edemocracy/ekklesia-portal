@@ -9,7 +9,7 @@ from pytest_factoryboy import register
 from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, Majority, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType, Ballot, Policy
+from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
@@ -187,3 +187,13 @@ class PolicyFactory(SQLAFactory):
     submitter_minimum = FuzzyInteger(0, 1000)
     voting_duration = FuzzyInteger(0, 10000)
     voting_system = FuzzyChoice(list(VotingSystem))
+
+
+@register
+class PropositionTypeFactory(SQLAFactory):
+    class Meta:
+        model = PropositionType
+
+    name = MimesisField('word')
+    description = MimesisField('text', quantity=5)
+    policy = SubFactory(PolicyFactory)
