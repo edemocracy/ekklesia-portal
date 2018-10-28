@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-27 22:55+0000\n"
+"POT-Creation-Date: 2018-10-28 01:08+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -63,6 +63,8 @@ msgstr "Nouveau Argument"
 
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:9
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:9
+#: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:8
+#: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:9
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:9
 msgid "name"
 msgstr ""
@@ -91,6 +93,7 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:9
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:7
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:9
 msgid "edit_button"
 msgstr ""
@@ -124,6 +127,7 @@ msgstr ""
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:15
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_types.j2.jade:3
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:3
 msgid "overview"
 msgstr "Aperçu"
@@ -166,6 +170,11 @@ msgstr ""
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:18
 #: src/ekklesia_portal/concepts/policy/templates/policies.j2.jade:5
 msgid "policies"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:20
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_types.j2.jade:5
+msgid "proposition_types"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:27
@@ -303,11 +312,14 @@ msgid "title_new_policy"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/policy/templates/policies.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_types.j2.jade:6
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:6
 msgid "new_button"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:10
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:10
 msgid "policy"
 msgstr ""
 
@@ -401,6 +413,25 @@ msgstr ""
 msgid "no_propositions_found"
 msgstr ""
 
+#: src/ekklesia_portal/concepts/proposition_type/templates/edit_proposition_type.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition_type/templates/edit_proposition_type.j2.jade:3
+msgid "title_edit_proposition_type"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition_type/templates/new_proposition_type.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition_type/templates/new_proposition_type.j2.jade:3
+msgid "title_new_proposition_type"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:3
+msgid "proposition_type"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:12
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:16
+msgid "description"
+msgstr ""
+
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:2
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:3
 msgid "title_profile"
@@ -454,10 +485,6 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:15
 msgid "secret_voting_possible"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:16
-msgid "description"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
