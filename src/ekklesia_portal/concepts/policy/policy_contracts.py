@@ -1,5 +1,5 @@
 from colander import Length
-from deform.widget import SelectWidget
+from deform.widget import SelectWidget, TextAreaWidget
 from ekklesia_portal.enums import Majority, VotingSystem
 from ekklesia_portal.helper.contract import Schema, Form, decimal_property, int_property, string_property, enum_property
 from ekklesia_portal.helper.translation import _
@@ -7,6 +7,7 @@ from ekklesia_portal.helper.translation import _
 
 class PolicySchema(Schema):
     name = string_property(title=_('name'), validator=Length(max=64))
+    description = string_property(title=_('description'), validator=Length(max=4000), missing='')
     majority = enum_property(Majority, title=_('majority'))
     proposition_expiration = int_property(title=_('proposition_expiration'))
     qualification_minimum = int_property(title=_('qualification_minimum'))
@@ -28,6 +29,7 @@ class PolicyForm(Form):
 
     def prepare_for_render(self, items_for_selects):
         widgets = {
+            'description': TextAreaWidget(rows=8),
             'majority': SelectWidget(values=items_for_selects['majority']),
             'voting_system': SelectWidget(values=items_for_selects['voting_system']),
         }
