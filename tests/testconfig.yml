@@ -4,6 +4,7 @@ test_section:
     test_setting: test
 app:
     instance_name: test
+    fail_on_form_validation_errors: true
 browser_session:
     secret_key: 'test'
     cookie_secure: false

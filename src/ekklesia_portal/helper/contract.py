@@ -1,5 +1,10 @@
+from functools import wraps
 import colander
+import dectate
 import deform
+import morepath
+from morepath.directive import HtmlAction, ViewAction
+from morepath.view import render_html
 from deform.widget import Select2Widget, HiddenWidget
 from more.babel_i18n.domain import Domain
 from pkg_resources import resource_filename
@@ -33,6 +38,9 @@ def set_property(**kwargs):
 def date_property(**kwargs):
     return colander.SchemaNode(colander.Date(), **kwargs)
 
+
+def datetime_property(**kwargs):
+    return colander.SchemaNode(colander.DateTime(), **kwargs)
 
 def enum_property(enum_cls, **kwargs):
     return colander.SchemaNode(colander.Enum(enum_cls), **kwargs)
@@ -79,6 +87,17 @@ class Form(deform.Form):
         super().__init__(schema, *args, renderer=renderer, **kwargs)
 
 
+def get_form_data(model, form_class, cell_class, request):
+    form = form_class(request, request.link(model))
+    controls = request.POST.items()
+    try:
+        return form.validate(controls), None
+    except deform.ValidationFailure:
+        if request.app.settings.app.fail_on_form_validation_error:
+            raise form.error
+        return None, cell_class(request, form).show()
+
+
 def select2_widget_or_hidden(values):
     """ Render a select2 widget or a hidden field if no values were given.
     XXX: Is there a better way to hide unwanted fields?
@@ -88,3 +107,35 @@ def select2_widget_or_hidden(values):
     else:
         return Select2Widget(values=values)
 
+
+class HtmlFormAction(HtmlAction):
+    group_class = ViewAction
+
+    def __init__(self, model, form, cell, render=None, template=None, load=None, permission=None, internal=False, **predicates):
+        self.form = form
+        self.cell = cell
+        if 'request_method' not in predicates:
+            predicates['request_method'] = 'POST'
+
+        super().__init__(model, render or render_html, template, load, permission, internal, **predicates)
+
+    def perform(self, obj, template_engine_registry, app_class):
+        form_class = self.form
+        model_class = self.model
+        cell_class = self.cell
+
+        @wraps(obj)
+        def wrapped(self, request):
+            appstruct, failure_response = get_form_data(self, form_class, cell_class, request)
+
+            if failure_response:
+                return failure_response
+
+            return obj(self, request, appstruct)
+
+        super().perform(wrapped, template_engine_registry, app_class)
+
+
+class FormApp(morepath.App):
+
+    html_form_post = dectate.directive(HtmlFormAction)
