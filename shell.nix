@@ -15,5 +15,6 @@ in pkgs.stdenv.mkDerivation {
   name = "ekklesia_portal-dev-env";
   phases = [];
   buildInputs = with pkgs.python37Packages; [ pkgs.sassc pipenv pkgs.zsh pkgs.postgresql100 python ];
-  #shellHook = "PYTHONPATH= SHELL=`which zsh` pipenv shell --fancy";
+  shellHook = "export PYTHONPATH=";
+  #shellHook = SHELL=`which zsh` pipenv shell --fancy";
 }
