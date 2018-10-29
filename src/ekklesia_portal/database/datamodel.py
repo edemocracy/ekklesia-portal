@@ -137,13 +137,11 @@ class Department(Base):
     voting_phases = relationship('VotingPhase', back_populates='department', cascade='all, delete-orphan')
     members = association_proxy('department_members', 'member')  # <-DepartmentMember-> User
     areas = relationship("SubjectArea", back_populates="department")
-    # parent, depth?
-    configuration = Column(Text)  # JSON
     """
     durations as INT+ENUM(days,weeks,months,periods)? quorum as num/denum(INT)?
 
      anonymousVoting BOOL # (false,NRW true) §5.1
-     assignementDeadline DURATION # deadline for secret/assignments before target date (5 weeks) §4.2
+     assignmentDeadline DURATION # deadline for secret/assignments before target date (5 weeks) §4.2
      conflictingDeadline DURATION # deadline for conflicting proposition before target date (5 weeks) §4.2
      expireActivity DURATION # inactive after periods (2) §2.2 (active by which actions?)
      extendedDiscussion BOOL #  (false) whether all argument relations are supported, otherwised only pro/contra and 1 level of refusal
