@@ -3,6 +3,7 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import SupportPermission, CreatePermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
@@ -34,10 +35,10 @@ class PropositionCell(LayoutCell):
         return self.class_link(Propositions, dict(association_type=association_type), '+new')
 
     def new_pro_argument_url(self):
-        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='pro'), '+new')
+        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.PRO), '+new')
 
     def new_con_argument_url(self):
-        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type='con'), '+new')
+        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA), '+new')
 
     def supporter_count(self):
         return self._model.active_supporter_count
@@ -46,10 +47,10 @@ class PropositionCell(LayoutCell):
         return self.link(self._model, 'support')
 
     def pro_argument_relations(self):
-        return [p for p in self._model.proposition_arguments if p.argument_type == "pro"]
+        return [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.PRO]
 
     def contra_argument_relations(self):
-        return [p for p in self._model.proposition_arguments if p.argument_type == "con"]
+        return [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.CONTRA]
 
     def argument_count(self):
         return len(self._model.proposition_arguments)

@@ -8,6 +8,7 @@ from ekklesia_portal.identity_policy import UserIdentity
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition, User, DepartmentMember
+from ekklesia_portal.enums import ArgumentType
 
 
 BASEDIR = os.path.dirname(__file__)
@@ -50,9 +51,9 @@ def proposition_with_arguments(user, user_two, proposition, argument_factory, ar
     arg1 = argument_factory(author=user, title='Ein Pro-Argument', abstract='dafür abstract', details='dafür')
     arg2 = argument_factory(author=user_two, title='Ein zweites Pro-Argument', abstract='dafür!!!')
     arg3 = argument_factory(author=user, title='Ein Contra-Argument', abstract='dagegen!!!', details='aus Gründen')
-    arg1_rel = argument_relation_factory(proposition=proposition, argument=arg1, argument_type='pro')
-    arg2_rel = argument_relation_factory(proposition=proposition, argument=arg2, argument_type='pro')
-    arg3_rel = argument_relation_factory(proposition=proposition, argument=arg3, argument_type='con')
+    arg1_rel = argument_relation_factory(proposition=proposition, argument=arg1, argument_type=ArgumentType.PRO)
+    arg2_rel = argument_relation_factory(proposition=proposition, argument=arg2, argument_type=ArgumentType.PRO)
+    arg3_rel = argument_relation_factory(proposition=proposition, argument=arg3, argument_type=ArgumentType.CONTRA)
     return proposition
 
 

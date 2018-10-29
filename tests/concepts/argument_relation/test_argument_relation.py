@@ -1,6 +1,7 @@
 from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.database.datamodel import ArgumentVote, ArgumentRelation
+from ekklesia_portal.enums import ArgumentType
 
 
 def test_argumentrelation(client):
@@ -28,7 +29,7 @@ def test_new(client, logged_in_user):
 
     expected = {
         'proposition_id': '1',
-        'relation_type': 'pro'
+        'relation_type': 'PRO'
     }
     assert_deform(res, expected)
 
@@ -36,7 +37,7 @@ def test_new(client, logged_in_user):
 def test_create(db_query, client, logged_in_user):
     data = {
         'proposition_id': 1,
-        'relation_type': 'pro',
+        'relation_type': 'PRO',
         'title': 'test title',
         'abstract': 'test abstract',
         'details': 'test details'
@@ -49,7 +50,7 @@ def test_create(db_query, client, logged_in_user):
 def test_does_not_create_without_title(db_query, client, logged_in_user):
     data = {
         'proposition_id': 1,
-        'relation_type': 'pro',
+        'relation_type': 'PRO',
         'abstract': 'test abstract',
         'details': 'test details'
     }

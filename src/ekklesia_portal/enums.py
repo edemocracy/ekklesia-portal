@@ -4,6 +4,11 @@ from enum import Enum
 from ekklesia_portal.helper.translation import _
 
 
+class ArgumentType(str, Enum):
+    PRO = 'pro'
+    CONTRA = 'contra'
+
+
 class EkklesiaUserType(str, Enum):
     PLAIN_MEMBER = 'plain member'
     ELIGIBLE_MEMBER = 'eligible member'

@@ -43,7 +43,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType
 
 from ekklesia_portal.database import Base, integer_pk, C
-from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
+from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.helper.utils import cached_property
 
 
@@ -473,8 +473,7 @@ class ArgumentRelation(Base):
     argument = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
     proposition_id = Column(Integer, ForeignKey('propositions.id'))  # also show parent proposition arguments if still valid?
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
-    argument_type = Column(String(8), nullable=False)  # pro/extends,contra/refutes,question,answer
-    # if not extendedDiscussion: only pro/contra/refutes
+    argument_type = Column(Enum(ArgumentType), nullable=False)
 
     def user_vote(self, user):
         return object_session(self).query(ArgumentVote).filter_by(relation=self, member=user).scalar()

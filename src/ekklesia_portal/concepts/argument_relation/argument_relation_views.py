@@ -4,6 +4,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
+from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, VotePermission
 from .argument_relations import ArgumentRelations
@@ -59,7 +60,7 @@ def post_vote(self, request):
 @App.html(model=ArgumentRelations, name='new', permission=CreatePermission)
 def new(self, request):
     form_data = {
-        'relation_type': self.relation_type,
+        'relation_type': ArgumentType(self.relation_type),
         'proposition_id': self.proposition_id,
     }
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
