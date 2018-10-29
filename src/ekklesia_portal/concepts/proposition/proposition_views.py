@@ -94,15 +94,10 @@ def new(self, request):
     return NewPropositionCell(request, form, form_data).show()
 
 
-@App.html(model=Propositions, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = PropositionForm(request, request.class_link(Propositions))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return NewPropositionCell(request, form).show()
-
+# this level of abstraction is nice, but the goal is:
+# @App.html_create(Proposition)
+@App.html_form_post(model=Propositions, form=PropositionForm, cell=NewPropositionCell, permission=CreatePermission)
+def create(self, request, appstruct):
     tag_names = appstruct['tags']
 
     if tag_names:
