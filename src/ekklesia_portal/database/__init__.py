@@ -6,6 +6,7 @@ from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import relationship, backref, sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
+import sqlalchemy_utils
 import zope.sqlalchemy
 
 rel = relationship
@@ -24,6 +25,8 @@ sqllog = logging.getLogger("sqllog")
 
 
 Session = scoped_session(sessionmaker())
+
+sqlalchemy_utils.force_auto_coercion()
 
 
 def dynamic_rel(*args, **kwargs):
