@@ -40,7 +40,7 @@ from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_searchable import make_searchable
-from sqlalchemy_utils.types import TSVectorType
+from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
 
 from ekklesia_portal.database import Base, integer_pk, C
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
@@ -62,7 +62,7 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    email = Column(String(254), unique=True, comment='optional, for notifications, otherwise use user/mails/')
+    email = Column(EmailType, unique=True, comment='optional, for notifications, otherwise use user/mails/')
     auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,virtual,oauth(has UserProfile)')
     joined = Column(DateTime, nullable=False, server_default=func.now())
     active = Column(Boolean, nullable=False, server_default='true')
@@ -375,8 +375,8 @@ class Proposition(Base):
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
     abstract = Column(Text, nullable=False, server_default='')
     motivation = Column(Text, nullable=False, server_default='')
-    submitted = Column(Date, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
-    qualified = Column(Date, comment='optional, when qualified')
+    submitted = Column(DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
+    qualified = Column(DateTime, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
     ballot_id = Column(Integer, ForeignKey('ballots.id'), nullable=False)
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
@@ -390,7 +390,7 @@ class Proposition(Base):
     replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
 
-    discussion_url = Column(Text)
+    discussion_url = Column(URLType)
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
@@ -449,7 +449,7 @@ class Supporter(Base):  # §3.5
     proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
     submitter = Column(Boolean, nullable=False, server_default='false', comment='submitter or regular')
     status = Column(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
-    last_change = Column(Date, nullable=False, server_default=func.now(), comment='last status change')
+    last_change = Column(DateTime, nullable=False, server_default=func.now(), comment='last status change')
 
 
 class Argument(Base):
