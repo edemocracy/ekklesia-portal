@@ -524,3 +524,27 @@ class UrnSupporter(Base):  # §5b.2
     type = Column(String(12), nullable=False)  # responsible, request, voter # §5b.2+4
     voted = Column(Boolean, nullable=False, server_default='false')  # §5b.6
     # urn merge if below min. no of voters §5b.6
+
+
+class VotingModule(Base):
+    __tablename__ = "voting_module"
+    id = integer_pk()
+    name = C(String(16), unique=True, nullable=False)
+    description = C(Text)
+    base_url = C(URLType, nullable=False)
+    module_type = C(String(16), nullable=False)
+
+    __mapper_args__ = {
+        "polymorphic_on": module_type
+    }
+
+
+class VVVoteVotingModule(VotingModule):
+    __mapper_args__ = {
+        "polymorphic_identity": "vvvote"
+    }
+
+    @property
+    def url_new_election(self):
+        from urllib.parse import urljoin
+        return urljoin(self.base_url, "newelection.php")
