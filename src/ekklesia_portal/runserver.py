@@ -92,6 +92,9 @@ def run():
 
     # reload when translation MO files change
     extra_reload_files = glob.glob('src/ekklesia_portal/translations/**/*.mo', recursive=True)
+    if args.config_file is not None:
+        extra_reload_files.append(args.config_file)
+
     werkzeug.serving.run_simple(args.bind, args.http_port, wrapped_app, use_reloader=args.debug,
                                 extra_files=extra_reload_files, use_debugger=args.debug)
 
