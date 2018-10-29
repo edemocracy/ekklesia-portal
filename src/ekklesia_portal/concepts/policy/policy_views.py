@@ -39,19 +39,11 @@ def new(self, request):
     return NewPolicyCell(request, form, form_data={}).show()
 
 
-@App.html(model=Policies, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = PolicyForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return NewPolicyCell(request, form).show()
-
+@App.html_form_post(model=Policies, form=PolicyForm, cell=NewPolicyCell, permission=CreatePermission)
+def create(self, request, appstruct):
     policy = Policy(**appstruct)
     request.db_session.add(policy)
     request.db_session.flush()
-
     return redirect(request.link(policy))
 
 
@@ -72,14 +64,7 @@ def edit(self, request):
     return EditPolicyCell(self, request, form).show()
 
 
-@App.html(model=Policy, request_method='POST', permission=EditPermission)
-def update(self, request):
-    controls = request.POST.items()
-    form = PolicyForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return EditPolicyCell(self, request, form).show()
-
+@App.html_form_post(model=Policy, form=PolicyForm, cell=EditPolicyCell, permission=EditPermission)
+def update(self, request, appstruct):
     self.update(**appstruct)
     return redirect(request.link(self))

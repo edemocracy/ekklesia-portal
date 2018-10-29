@@ -42,15 +42,8 @@ def edit(self, request):
     return EditBallotCell(self, request, form).show()
 
 
-@App.html(model=Ballot, request_method='POST', permission=EditPermission)
-def update(self, request):
-    controls = request.POST.items()
-    form = BallotForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return EditBallotCell(self, request, form).show()
-
+@App.html_form_post(model=Ballot, form=BallotForm, cell=EditBallotCell, permission=EditPermission)
+def update(self, request, appstruct):
     area = request.q(SubjectArea).get(appstruct['area_id']) if appstruct['area_id'] else None
     voting_phase = request.q(VotingPhase).get(appstruct['voting_id']) if appstruct['voting_id'] else None
 

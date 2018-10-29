@@ -39,15 +39,8 @@ def new(self, request):
     return NewVotingPhaseCell(request, form, form_data={}).show()
 
 
-@App.html(model=VotingPhases, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = VotingPhaseForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return NewVotingPhaseCell(request, form).show()
-
+@App.html_form_post(model=VotingPhases, form=VotingPhaseForm, cell=NewVotingPhaseCell, permission=CreatePermission)
+def create(self, request, appstruct):
     department_id = appstruct['department_id']
     department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
     voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])
@@ -73,15 +66,8 @@ def edit(self, request):
     return EditVotingPhaseCell(self, request, form).show()
 
 
-@App.html(model=VotingPhase, request_method='POST', permission=EditPermission)
-def update(self, request):
-    controls = request.POST.items()
-    form = VotingPhaseForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return EditVotingPhaseCell(self, request, form).show()
-
+@App.html_form_post(model=VotingPhase, form=VotingPhaseForm, cell=EditVotingPhaseCell, permission=EditPermission)
+def update(self, request, appstruct):
     department_id = appstruct['department_id']
     department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
     voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])

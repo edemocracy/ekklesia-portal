@@ -36,19 +36,11 @@ def new(self, request):
     return NewPropositionTypeCell(request, form, form_data={}).show()
 
 
-@App.html(model=PropositionTypes, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = PropositionTypeForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return NewPropositionTypeCell(request, form).show()
-
+@App.html_form_post(model=PropositionTypes, form=PropositionTypeForm, cell=NewPropositionTypeCell, permission=CreatePermission)
+def create(self, request, appstruct):
     proposition_type = PropositionType(**appstruct)
     request.db_session.add(proposition_type)
     request.db_session.flush()
-
     return redirect(request.link(proposition_type))
 
 
@@ -69,14 +61,7 @@ def edit(self, request):
     return EditPropositionTypeCell(self, request, form).show()
 
 
-@App.html(model=PropositionType, request_method='POST', permission=EditPermission)
-def update(self, request):
-    controls = request.POST.items()
-    form = PropositionTypeForm(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return EditPropositionTypeCell(self, request, form).show()
-
+@App.html_form_post(model=PropositionType, form=PropositionTypeForm, cell=EditPropositionTypeCell, permission=EditPermission)
+def update(self, request, appstruct):
     self.update(**appstruct)
     return redirect(request.link(self))
