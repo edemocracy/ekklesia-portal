@@ -95,7 +95,7 @@ def get_form_data(model, form_class, cell_class, request):
     except deform.ValidationFailure:
         if request.app.settings.app.fail_on_form_validation_error:
             raise form.error
-        return None, cell_class(request, form).show()
+        return None, cell_class(request, form, model=model).show()
 
 
 def select2_widget_or_hidden(values):

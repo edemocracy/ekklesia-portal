@@ -1,6 +1,6 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
-from ekklesia_portal.database.datamodel import ArgumentRelation
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
+from ekklesia_portal.database.datamodel import ArgumentRelation, Proposition
 from ekklesia_portal.permission import VotePermission
 
 
@@ -42,8 +42,7 @@ class ArgumentRelationCell(LayoutCell):
         return self.link(self._model, 'vote')
 
 
-class NewArgumentForPropositionCell(FormCell):
+class NewArgumentForPropositionCell(NewFormCell):
 
-    def __init__(self, form, request, form_data, proposition, collection=None, layout=None, parent=None, template_path=None, **options):
-        self.proposition = proposition
-        super().__init__(form, request, form_data, collection, layout, parent, template_path, **options)
+    def proposition(self):
+        return self._request.db_session.query(Proposition).get(self._model.proposition_id)

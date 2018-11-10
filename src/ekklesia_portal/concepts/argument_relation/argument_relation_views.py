@@ -1,5 +1,4 @@
 import logging
-from deform import ValidationFailure
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
@@ -9,6 +8,7 @@ from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, VotePermission
 from .argument_relations import ArgumentRelations
 from .argument_relation_cells import ArgumentRelationCell, NewArgumentForPropositionCell
+from .argument_relation_contracts import ArgumentForPropositionForm
 
 
 logg = logging.getLogger(__name__)
@@ -63,19 +63,15 @@ def new(self, request):
         'relation_type': ArgumentType(self.relation_type),
         'proposition_id': self.proposition_id,
     }
-    proposition = request.db_session.query(Proposition).get(self.proposition_id)
-    return NewArgumentForPropositionCell(self.form(request.link(self), request), request, form_data, proposition).show()
+    form = ArgumentForPropositionForm(request, request.link(self))
+    return NewArgumentForPropositionCell(request, form, form_data, model=self).show()
 
 
-@App.html(model=ArgumentRelations, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = self.form(request.link(self), request)
+@App.html_form_post(model=ArgumentRelations, form=ArgumentForPropositionForm, cell=NewArgumentForPropositionCell, permission=CreatePermission)
+def create(self, request, appstruct):
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return NewArgumentForPropositionCell(form, request, None, proposition).show()
+    if proposition is None:
+        raise HTTPBadRequest()
 
     argument = Argument(title=appstruct['title'], abstract=appstruct['abstract'], details=appstruct['details'])
     argument_relation = ArgumentRelation(proposition=proposition, argument=argument, argument_type=appstruct['relation_type'])
