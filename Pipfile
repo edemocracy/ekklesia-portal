@@ -22,7 +22,6 @@ requests-oauthlib = "*"
 deform = "*"
 case-conversion = "*"
 py-gfm = "*"
-transaction = "<2.4"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
