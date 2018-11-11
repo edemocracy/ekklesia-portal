@@ -25,23 +25,13 @@ class SchemeMode(str, Enum):
     QUORUM = 'quorum'
 
 
-class AuthData:
-    pass
-
-
 @dataclass_json
 @dataclass
-class OAuthConfig(AuthData):
-
+class AuthData:
     RegistrationEndDate: datetime.datetime
     RegistrationStartDate: datetime.datetime
     VotingStart: datetime.datetime
     VotingEnd: datetime.datetime
-    eligible: bool
-    listId: str
-    nested_groups: List[str]
-    serverId: str
-    verified: bool
 
     def __post_init__(self):
         if isinstance(self.RegistrationStartDate, datetime.datetime):
@@ -55,6 +45,22 @@ class OAuthConfig(AuthData):
 
         if isinstance(self.VotingEnd, datetime.datetime):
             self.VotingEnd = self.VotingEnd.isoformat()
+
+
+@dataclass_json
+@dataclass
+class OAuthConfig(AuthData):
+    eligible: bool
+    listId: str
+    nested_groups: List[str]
+    serverId: str
+    verified: bool
+
+
+@dataclass_json
+@dataclass
+class SharedPasswordConfig(AuthData):
+    sharedPassw: str
 
 
 @dataclass_json

@@ -1,5 +1,6 @@
 from dataclasses import asdict
 import datetime
+from uuid import uuid4
 from pytest import fixture
 from ekklesia_portal.lib.vvvote.schema import Auth, ElectionConfig, OAuthConfig, Option, ScoreScheme, YesNoScheme, SchemeMode, Tally, Question
 
@@ -93,7 +94,8 @@ def test_yes_no_scheme(yes_no_scheme):
 
 def test_election_config(oauth_config, question):
     questions = [question]
-    config = ElectionConfig(electionId='test',
+    config = ElectionConfig(electionId=str(uuid4()),
+                            electionTitle='test',
                             auth=Auth.OAUTH,
                             authData=oauth_config,
                             tally=Tally.CONFIGURABLE,

@@ -114,8 +114,9 @@ class PropositionFactory(SQLAFactory):
         model = Proposition
 
     title = MimesisField('title')
-    content = MimesisField('text', quantity=100)
-    abstract = MimesisField('text', quantity=20)
+    content = MimesisField('text', quantity=5)
+    motivation = MimesisField('text', quantity=8)
+    abstract = MimesisField('text', quantity=2)
     ballot = SubFactory(BallotFactory)
 
 
