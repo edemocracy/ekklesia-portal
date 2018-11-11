@@ -1,6 +1,8 @@
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json
 from enum import Enum
-from colander import SchemaNode, MappingSchema, SequenceSchema
-from ekklesia_portal.helper.contract import bool_property, datetime_property, enum_property, int_property, list_property, string_property
+import datetime
+from typing import List, Union, Optional
 
 
 class Auth(str, Enum):
@@ -9,77 +11,117 @@ class Auth(str, Enum):
 
 
 class Tally(str, Enum):
+    PUBLISH_ONLY = 'publishOnly'
     CONFIGURABLE = 'configurableTally'
 
 
 class SchemeName(str, Enum):
     YES_NO = 'yesNo'
     SCORE = 'score'
+    RANDOM = 'random'
 
 
 class SchemeMode(str, Enum):
     QUORUM = 'quorum'
 
 
-class AuthData(MappingSchema):
+class AuthData:
     pass
 
 
+@dataclass_json
+@dataclass
 class OAuthConfig(AuthData):
-    RegistrationEndDate = datetime_property()
-    RegistrationStartDate = datetime_property()
-    eligible = bool_property()
-    listId = string_property()
-    nested_groups = list_property()
-    serverId = string_property()
-    verified = bool_property()
+
+    RegistrationEndDate: datetime.datetime
+    RegistrationStartDate: datetime.datetime
+    VotingStart: datetime.datetime
+    VotingEnd: datetime.datetime
+    eligible: bool
+    listId: str
+    nested_groups: List[str]
+    serverId: str
+    verified: bool
+
+    def __post_init__(self):
+        if isinstance(self.RegistrationStartDate, datetime.datetime):
+            self.RegistrationStartDate = self.RegistrationStartDate.isoformat()
+
+        if isinstance(self.RegistrationEndDate, datetime.datetime):
+            self.RegistrationEndDate = self.RegistrationEndDate.isoformat()
+
+        if isinstance(self.VotingStart, datetime.datetime):
+            self.VotingStart = self.VotingStart.isoformat()
+
+        if isinstance(self.VotingEnd, datetime.datetime):
+            self.VotingEnd = self.VotingEnd.isoformat()
 
 
-class Scheme(MappingSchema):
-    name = enum_property(SchemeName)
+@dataclass_json
+@dataclass
+class Scheme:
+    name: SchemeName
 
 
+@dataclass_json
+@dataclass
 class YesNoScheme(Scheme):
-    abstention = bool_property()
-    abstentionAsNo = bool_property()
-    mode = enum_property(SchemeMode)
-    quorum = int_property()
+    abstention: bool
+    abstentionAsNo: bool
+    mode: SchemeMode
+    quorum: int
+
+    def __post_init__(self):
+        if not isinstance(self.mode, SchemeMode):
+            self.mode = SchemeMode(self.mode)
 
 
+@dataclass_json
+@dataclass
 class ScoreScheme(Scheme):
-    minScore = int_property()
-    maxScore = int_property()
+    minScore: int
+    maxScore: int
 
 
-class Option(MappingSchema):
-    optionID = int_property()
-    proponents = list_property(missing=None)
-    optionTitle = string_property()
-    optionDesc = string_property()
-    reasons = string_property(missing=None)
+@dataclass_json
+@dataclass
+class Option:
+    optionID: int
+    proponents: List[str]
+    optionTitle: str
+    optionDesc: str
+    reasons: Optional[str] = None
 
 
-class Options(SequenceSchema):
-    option = Option()
+@dataclass_json
+@dataclass
+class Question:
+    questionID: int
+    questionWording: str
+    options: List[Option]
+    scheme: Optional[List[Scheme]] = None
+    findWinner: Optional[List[SchemeName]] = None
+
+    def __post_init__(self):
+        if not self.findWinner:
+            return
+
+        if not isinstance(self.findWinner[0], SchemeName):
+            self.findWinner = [SchemeName(name) for name in self.findWinner]
 
 
-class Question(MappingSchema):
-    questionID = int_property()
-    questionWording = string_property()
-    scheme = Scheme()
-    findWinner = list_property()
-    options = Options()
+@dataclass_json
+@dataclass
+class ElectionConfig:
+    auth: Auth
+    authData: OAuthConfig
+    electionId: str
+    questions: List[Question]
+    tally: Tally
 
+    def __post_init__(self):
+        if not isinstance(self.tally, Tally):
+            self.tally = Tally(self.tally)
 
-class Questions(SequenceSchema):
-    question = Question()
-
-
-class ElectionConfig(MappingSchema):
-    auth = enum_property(Auth)
-    authData = OAuthConfig()
-    electionId = string_property()
-    questions = Questions()
-    tally = string_property()
-
-
+        if not isinstance(self.auth, Auth):
+            self.auth = Auth(self.auth)

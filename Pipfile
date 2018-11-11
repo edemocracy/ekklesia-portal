@@ -22,6 +22,7 @@ requests-oauthlib = "*"
 deform = "*"
 case-conversion = "*"
 py-gfm = "*"
+dataclasses-json = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
@@ -55,3 +56,6 @@ inflect = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
