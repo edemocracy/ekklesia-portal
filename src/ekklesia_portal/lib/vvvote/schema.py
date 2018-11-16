@@ -33,19 +33,6 @@ class AuthData:
     VotingStart: datetime.datetime
     VotingEnd: datetime.datetime
 
-    def __post_init__(self):
-        if isinstance(self.RegistrationStartDate, datetime.datetime):
-            self.RegistrationStartDate = self.RegistrationStartDate.isoformat()
-
-        if isinstance(self.RegistrationEndDate, datetime.datetime):
-            self.RegistrationEndDate = self.RegistrationEndDate.isoformat()
-
-        if isinstance(self.VotingStart, datetime.datetime):
-            self.VotingStart = self.VotingStart.isoformat()
-
-        if isinstance(self.VotingEnd, datetime.datetime):
-            self.VotingEnd = self.VotingEnd.isoformat()
-
 
 @dataclass_json
 @dataclass
@@ -122,6 +109,7 @@ class ElectionConfig:
     auth: Auth
     authData: OAuthConfig
     electionId: str
+    electionTitle: str
     questions: List[Question]
     tally: Tally
 

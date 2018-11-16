@@ -7,7 +7,7 @@ from ekklesia_portal.lib.vvvote.schema import Auth, ElectionConfig, OAuthConfig,
 
 @fixture
 def oauth_config():
-    start_dt = datetime.datetime.now()
+    start_dt = datetime.datetime.now(datetime.timezone.utc)
     end_dt = start_dt + datetime.timedelta(days=4)
 
     return OAuthConfig(
@@ -72,11 +72,6 @@ def test_oauth_config(oauth_config):
     jso = oauth_config.to_json()
     assert 'server' in jso
     assert '["a", "b"]' in jso
-    assert oauth_config.RegistrationStartDate in jso
-    assert oauth_config.RegistrationEndDate in jso
-    assert oauth_config.VotingStart in jso
-    assert oauth_config.VotingEnd in jso
-
     dc_back = OAuthConfig.from_json(jso)
     assert dc_back == oauth_config
 
