@@ -1,3 +1,4 @@
+{ usePipenvShell ? true }:
 let
   pkgs = import ./requirements/nixpkgs.nix;
   pipenv = (pkgs.pipenv.override { python3Packages = pkgs.python37Packages; }).overrideAttrs(oldAttrs: {
@@ -15,6 +16,5 @@ in pkgs.stdenv.mkDerivation {
   name = "ekklesia_portal-dev-env";
   phases = [];
   buildInputs = with pkgs.python37Packages; [ pkgs.sassc pipenv pkgs.zsh pkgs.postgresql100 python ];
-  shellHook = "export PYTHONPATH=";
-  #shellHook = SHELL=`which zsh` pipenv shell --fancy";
+  shellHook = if usePipenvShell then "PYTHONPATH= SHELL=`which zsh` exec pipenv shell --fancy" else "export PYTHONPATH=";
 }
