@@ -5,7 +5,7 @@ def test_index(client):
     res = client.get("/")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
-    assert '<a href="http://localhost/propositions' in content
+    assert '<a href="http://localhost/p' in content
 
 
 def test_change_language(app, client):

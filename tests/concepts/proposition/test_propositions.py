@@ -7,7 +7,7 @@ from assert_helpers import assert_difference, assert_no_difference
 
 def test_index(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/propositions")
+    res = client.get("/p")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Q1' in content
@@ -15,14 +15,14 @@ def test_index(client):
 
 def test_index_mode_top(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/propositions?mode=top")
+    res = client.get("/p?mode=top")
     content = res.body.decode()
     assert 'Q1' in content
 
 
 def test_index_search(client):
     # german search, should find singular "volltextsuche"
-    res = client.get('/propositions?search=volltextsuchen')
+    res = client.get('/p?search=volltextsuchen')
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Volltextsuche' in content
@@ -31,7 +31,7 @@ def test_index_search(client):
 
 def test_index_tag(db_query, client):
     tag = db_query(Tag).filter_by(name='Tag1').one()
-    res = client.get('/propositions?tag=Tag1')
+    res = client.get('/p?tag=Tag1')
     content = res.body.decode()
     assert tag.name in content
     assert 'Ein Titel' in content
@@ -39,7 +39,7 @@ def test_index_tag(db_query, client):
 
 def test_show(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/propositions/1")
+    res = client.get("/p/1/a")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content
@@ -47,7 +47,7 @@ def test_show(client):
 
 def test_show_associated(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/propositions/1/associated")
+    res = client.get("/p/1/a/associated")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content
@@ -67,7 +67,7 @@ def test_new_with_data_import(client, logged_in_user):
 
     PROPOSITION_IMPORT_HANDLERS['test_source'] = import_test
 
-    res = client.get('/propositions/+new?source=test&from_data=1')
+    res = client.get('/p/+new?source=test&from_data=1')
     expected = {
         'title': 'pre-filled title',
         'content': 'pre-filled content'
@@ -87,14 +87,14 @@ def test_create(db_query, client, proposition_factory, logged_in_user_with_depar
 
     with assert_difference(db_query(Proposition).count, 1, 'proposition'):
         with assert_difference(db_query(Tag).count, 1, 'tag'):
-            client.post('/propositions', data, status=302)
+            client.post('/p', data, status=302)
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
     other_proposition = db_query(Proposition).get(3)
     assert proposition.modifies == other_proposition
 
     data['relation_type'] = 'replaces'
-    client.post('/propositions', data, status=302)
+    client.post('/p', data, status=302)
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
     assert proposition.replaces == other_proposition
@@ -106,7 +106,7 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
     del data['title']
 
     with assert_no_difference(db_query(Proposition).count):
-        client.post('/propositions', data, status=200)
+        client.post('/p', data, status=200)
 
 
 def test_support(client, db_session, logged_in_user):
@@ -117,23 +117,23 @@ def test_support(client, db_session, logged_in_user):
         else:
             assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
 
-    client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/p/3/a/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/p/3/a/support', dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/p/3/a/support', dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/p/3/a/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/propositions/3/support', dict(support=True), status=302)
+    client.post('/p/3/a/support', dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/propositions/3/support', dict(invalid=True), status=400)
+    client.post('/p/3/a/support', dict(invalid=True), status=400)
     assert_supporter('active')
 
-    client.post('/propositions/3/support', dict(retract=True), status=302)
+    client.post('/p/3/a/support', dict(retract=True), status=302)
     assert_supporter('retracted')

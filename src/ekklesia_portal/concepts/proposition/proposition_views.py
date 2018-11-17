@@ -1,3 +1,4 @@
+import case_conversion
 from deform import ValidationFailure
 from morepath import redirect
 from webob.exc import HTTPBadRequest
@@ -21,14 +22,14 @@ def proposition_support_permission(identity, model, permission):
     return identity != NoIdentity
 
 
-@App.path(model=Propositions, path='propositions')
+@App.path(model=Propositions, path='p')
 def propositions(request, search=None, tag=None, mode="sorted"):
     return Propositions(mode, search, tag)
 
 
-@App.path(model=Proposition, path="/propositions/{proposition_id}", variables=lambda o: dict(proposition_id=o.id))
-def proposition(request, proposition_id):
-    proposition = request.q(Proposition).get(proposition_id)
+@App.path(model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title)))
+def proposition(request, id, slug):
+    proposition = request.q(Proposition).get(id)
     return proposition
 
 

@@ -4,9 +4,9 @@ import pytest
 @pytest.mark.integration
 def test_user_creates_proposition(client, logged_in_user_with_departments):
     user = logged_in_user_with_departments
-    res = client.get('/propositions/+new')
+    res = client.get('/p/+new')
     form = res.forms['deform']
-    assert form.action.endswith('propositions')
+    assert form.action.endswith('p')
 
     form['title'] = 'test title'
     form['abstract'] = 'abstract'
@@ -20,6 +20,6 @@ def test_user_creates_proposition(client, logged_in_user_with_departments):
     assert 'test content' in content
 
     # user should see the proposition on the index page
-    res = client.get('/propositions')
+    res = client.get('/p')
     content = res.body.decode()
     assert 'test title' in content
