@@ -20,15 +20,16 @@ def ballots():
     return Ballots()
 
 
+@App.path(model=Ballot, path='b/{id}')
+def ballot(request, id):
+    return request.q(Ballot).get(id)
+
+
 @App.html(model=Ballots)
 def index(self, request):
     cell = BallotsCell(self, request)
     return cell.show()
 
-
-@App.path(model=Ballot, path='b/{id}')
-def ballot(request, id):
-    return request.q(Ballot).get(id)
 
 @App.html(model=Ballot)
 def show(self, request):

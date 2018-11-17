@@ -27,6 +27,11 @@ def voting_phases():
     return VotingPhases()
 
 
+@App.path(model=VotingPhase, path='v/{id}/{slug}',  variables=lambda o: dict(id=o.id, slug=o.name or o.target or o.id))
+def voting_phase(request, id, slug):
+    return request.q(VotingPhase).get(id)
+
+
 @App.html(model=VotingPhases)
 def index(self, request):
     cell = VotingPhasesCell(self, request)
@@ -53,11 +58,6 @@ def create(self, request, appstruct):
     request.db_session.flush()
 
     return redirect(request.link(voting_phase))
-
-
-@App.path(model=VotingPhase, path='v/{id}/{slug}',  variables=lambda o: dict(id=o.id, slug=o.name or o.target or o.id))
-def voting_phase(request, id, slug):
-    return request.q(VotingPhase).get(id)
 
 
 @App.html(model=VotingPhase, name='edit', permission=EditPermission)

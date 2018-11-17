@@ -26,6 +26,11 @@ def {{ cookiecutter.concept_names }}():
     return {{ cookiecutter.ConceptNames }}()
 
 
+@App.path(model={{ cookiecutter.ConceptName }}, path='{{ cookiecutter.concept_names }}/{id}')
+def {{ cookiecutter.concept_name }}(request, id):
+    return request.q({{ cookiecutter.ConceptName }}).get(id)
+
+
 @App.html(model={{ cookiecutter.ConceptNames }})
 def index(self, request):
     cell = {{ cookiecutter.ConceptNames }}Cell(self, request, show_new_button=True)
@@ -52,11 +57,6 @@ def create(self, request):
     request.db_session.flush()
 
     return redirect(request.link({{ cookiecutter.concept_name }}))
-
-
-@App.path(model={{ cookiecutter.ConceptName }}, path='{{ cookiecutter.concept_names }}/{id}')
-def {{ cookiecutter.concept_name }}(request, id):
-    return request.q({{ cookiecutter.ConceptName }}).get(id)
 
 
 @App.html(model={{ cookiecutter.ConceptName }})

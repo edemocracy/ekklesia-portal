@@ -27,6 +27,11 @@ def policies():
     return Policies()
 
 
+@App.path(model=Policy, path='policies/{id}')
+def policy(request, id):
+    return request.q(Policy).get(id)
+
+
 @App.html(model=Policies)
 def index(self, request):
     cell = PoliciesCell(self, request, show_new_button=True)
@@ -45,11 +50,6 @@ def create(self, request, appstruct):
     request.db_session.add(policy)
     request.db_session.flush()
     return redirect(request.link(policy))
-
-
-@App.path(model=Policy, path='policies/{id}')
-def policy(request, id):
-    return request.q(Policy).get(id)
 
 
 @App.html(model=Policy)
