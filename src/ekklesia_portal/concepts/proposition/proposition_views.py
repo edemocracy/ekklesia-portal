@@ -95,8 +95,6 @@ def new(self, request):
     return NewPropositionCell(request, form, form_data).show()
 
 
-# this level of abstraction is nice, but the goal is:
-# @App.html_create(Proposition)
 @App.html_form_post(model=Propositions, form=PropositionForm, cell=NewPropositionCell, permission=CreatePermission)
 def create(self, request, appstruct):
     tag_names = appstruct['tags']

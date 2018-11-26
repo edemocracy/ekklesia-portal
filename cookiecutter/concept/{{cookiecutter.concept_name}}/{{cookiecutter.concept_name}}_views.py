@@ -43,19 +43,13 @@ def new(self, request):
     return New{{ cookiecutter.ConceptName }}Cell(request, form, form_data={}).show()
 
 
-@App.html(model={{ cookiecutter.ConceptNames }}, request_method='POST', permission=CreatePermission)
-def create(self, request):
-    controls = request.POST.items()
-    form = {{ cookiecutter.ConceptName }}Form(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return New{{ cookiecutter.ConceptName }}Cell(request, form).show()
-
+# this level of abstraction is nice, but the goal is:
+# @App.html_create({{ cookiecutter.ConceptName }})
+@App.html_form_post(model={{ cookiecutter.ConceptNames }}, form={{ cookiecutter.ConceptName }}Form, cell=New{{ cookiecutter.ConceptName }}Cell, permission=CreatePermission)
+def create(self, request, appstruct):
     {{ cookiecutter.concept_name }} = {{ cookiecutter.ConceptName }}(**appstruct)
     request.db_session.add({{ cookiecutter.concept_name }})
     request.db_session.flush()
-
     return redirect(request.link({{ cookiecutter.concept_name }}))
 
 
@@ -71,14 +65,9 @@ def edit(self, request):
     return Edit{{ cookiecutter.ConceptName }}Cell(self, request, form).show()
 
 
-@App.html(model={{ cookiecutter.ConceptName }}, request_method='POST', permission=EditPermission)
-def update(self, request):
-    controls = request.POST.items()
-    form = {{ cookiecutter.ConceptName }}Form(request, request.link(self))
-    try:
-        appstruct = form.validate(controls)
-    except ValidationFailure:
-        return Edit{{ cookiecutter.ConceptName }}Cell(self, request, form).show()
-
+# this level of abstraction is nice, but the goal is:
+# @App.html_update({{ cookiecutter.ConceptName }})
+@App.html_form_post(model={{ cookiecutter.ConceptName }}, form={{ cookiecutter.ConceptName }}Form, cell=Edit{{ cookiecutter.ConceptName }}Cell, permission=EditPermission)
+def update(self, request, appstruct):
     self.update(**appstruct)
     return redirect(request.link(self))
