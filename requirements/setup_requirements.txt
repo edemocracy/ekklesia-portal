@@ -1,2 +1,0 @@
-pytest-runner
-setuptools-git
