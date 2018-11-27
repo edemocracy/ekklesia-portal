@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "15e221cb19d606fc36a21eb2e899012b4883e4c9272979d4e61275c1115b4ac9"
+            "sha256": "ab1c81fb5e3e3b2462b2c62fd9988d0e70d9665e7aa9464002e6b9207fe097a4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -57,6 +57,14 @@
                 "sha256:d86b9e1fb42c80c68b26040e32dad584aa168abf3175133b36f5dace392350a1"
             ],
             "version": "==1.5.1"
+        },
+        "colorama": {
+            "hashes": [
+                "sha256:05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d",
+                "sha256:f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"
+            ],
+            "index": "pypi",
+            "version": "==0.4.1"
         },
         "dataclasses-json": {
             "hashes": [
@@ -361,6 +369,14 @@
                 "sha256:ba46933fb4575a9a45f74a69572e2ca17988da1f9f5cfbd1eee2c48a1cef5dbc"
             ],
             "version": "==0.33.8"
+        },
+        "structlog": {
+            "hashes": [
+                "sha256:e361edb3b9aeaa85cd38a1bc9ddbb60cda8a991fc29de9db26832f6300e81eb4",
+                "sha256:e912c03a3cf6876803c3f1b1e4b09dd4b9e4bcd0977586cb59cf538351ba6b1b"
+            ],
+            "index": "pypi",
+            "version": "==18.2.0"
         },
         "transaction": {
             "hashes": [

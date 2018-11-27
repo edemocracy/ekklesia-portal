@@ -23,6 +23,8 @@ deform = "*"
 case-conversion = "*"
 py-gfm = "*"
 dataclasses-json = "*"
+structlog = "*"
+colorama = "*"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
