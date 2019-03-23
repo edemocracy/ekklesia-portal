@@ -85,6 +85,10 @@ class Form(deform.Form):
             translator=translator
         )
         super().__init__(schema, *args, renderer=renderer, **kwargs)
+    
+    def prepare_for_render(self):
+        # Can be used by subclasses to customize field widgets, for example.
+        pass
 
 
 def get_form_data(model, form_class, cell_class, request):

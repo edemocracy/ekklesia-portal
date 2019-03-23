@@ -32,13 +32,16 @@ class NewFormCell(FormCell):
     def __init__(self, request, form, form_data=None, layout=None, parent=None, template_path=None, **options):
         super().__init__(form, request, form_data, layout=layout, parent=parent, template_path=template_path, **options)
 
+    def _prepare_form_for_render(self):
+        self._form.prepare_for_render()
 
 class EditFormCell(FormCell):
+
+    def __init__(self, model, request, form, layout=None, parent=None, template_path=None, **options):
+        super().__init__(form, request, model=model, layout=layout, parent=parent, template_path=template_path, **options)
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()
         self.set_form_data(form_data)
-
-    def __init__(self, model, request, form, layout=None, parent=None, template_path=None, **options):
-        super().__init__(form, request, model=model, layout=layout, parent=parent, template_path=template_path, **options)
+        self._form.prepare_for_render()
 
