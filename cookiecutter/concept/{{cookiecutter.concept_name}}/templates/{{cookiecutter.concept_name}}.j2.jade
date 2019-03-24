@@ -9,9 +9,11 @@
 
 
 - block content
+    if layout
+      h2 = _('{{cookiecutter.concept_name}}')
 
   .{{cookiecutter.concept_name}}.container
-    h4
+    h3
       a(href=self_link)= title
 
       if show_edit_button
