@@ -19,6 +19,6 @@ def test_update_{{ cookiecutter.concept_name }}(db_session, client, {{ cookiecut
     res = client.get(f'/{{cookiecutter.concept_names}}/{{ "{" }} {{ cookiecutter.concept_name }}.id{{ "}" }}/+edit')
     expected = {{ cookiecutter.concept_name }}.to_dict()
     form = assert_deform(res, expected)
-    form['title'] = 'new title'
+    form['name'] = 'new name'
     form.submit(status=302)
-    assert {{ cookiecutter.concept_name }}.title == 'new title'
+    assert {{ cookiecutter.concept_name }}.name == 'new name'
