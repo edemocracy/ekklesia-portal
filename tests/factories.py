@@ -28,8 +28,10 @@ class DepartmentFactory(SQLAFactory):
 
     @factory.post_generation
     def add_subject_areas(self, create, extracted, **kwargs):
-        for _ in range(2):
-            SubjectAreaFactory(department=self)
+        # self can also be a dict if factory.build(dict) is used
+        if isinstance(self, Department):
+            for _ in range(2):
+                SubjectAreaFactory(department=self)
 
 
 @register
