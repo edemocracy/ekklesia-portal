@@ -7,6 +7,7 @@ in pkgs.stdenv.mkDerivation {
   phases = [];
   buildInputs = with pkgs; [ 
     entr
+    openssl.dev
     pipenv
     postgresql_11
     python37Packages.python 
