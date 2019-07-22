@@ -6,6 +6,7 @@ in pkgs.stdenv.mkDerivation {
   name = "ekklesia_portal-dev-env";
   phases = [];
   buildInputs = with pkgs; [ 
+    entr
     pipenv
     postgresql_11
     python37Packages.python 

@@ -37,7 +37,6 @@ webtest = "*"
 "7e87fbd" = {path = "../more.babel_i18n", editable = true}
 responses = "*"
 pylint = "*"
-when-changed = "*"
 ipdb = "*"
 "38f2bc8" = {path = "./../more.browser_session", editable = true}
 pytest-factoryboy = "*"
