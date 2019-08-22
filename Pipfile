@@ -23,22 +23,21 @@ deform = "*"
 case-conversion = "*"
 py-gfm = "*"
 dataclasses-json = "*"
-structlog = "*"
-colorama = "*"
+more-browser-session = {editable = true,git = "https://github.com/dpausp/more.browser_session"}
+more-babel-i18n = {editable = true,git = "https://github.com/dpausp/more.babel_i18n"}
 
 [dev-packages]
-"e1839a8" = {path = ".", editable = true}
+e1839a8 = {path = ".",editable = true}
 werkzeug = "*"
 coverage = "*"
+colorama = "*"
 pytest = "*"
 pytest-localserver = "*"
 requests = "*"
 webtest = "*"
-"7e87fbd" = {path = "../more.babel_i18n", editable = true}
 responses = "*"
 pylint = "*"
 ipdb = "*"
-"38f2bc8" = {path = "./../more.browser_session", editable = true}
 pytest-factoryboy = "*"
 "autopep8" = "*"
 mimesis-factory = "*"
