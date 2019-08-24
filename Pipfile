@@ -28,7 +28,6 @@ more-babel-i18n = {editable = true,git = "https://github.com/dpausp/more.babel_i
 
 [dev-packages]
 e1839a8 = {path = ".",editable = true}
-werkzeug = "*"
 coverage = "*"
 colorama = "*"
 pytest = "*"
@@ -36,21 +35,14 @@ pytest-localserver = "*"
 requests = "*"
 webtest = "*"
 responses = "*"
-pylint = "*"
-ipdb = "*"
 pytest-factoryboy = "*"
-"autopep8" = "*"
 mimesis-factory = "*"
-mypy = "*"
 pytest-cov = "*"
 pytest-instafail = "*"
-pytest-print = "*"
 pytest-pspec = "*"
 pytest-mock = "*"
 typing-extensions = "*"
-bandit = "*"
 pylava = "*"
-cookiecutter = "*"
 inflect = "*"
 
 [requires]
