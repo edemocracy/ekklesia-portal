@@ -8,6 +8,7 @@ from more.forwarded import ForwardedApp
 from more.transaction import TransactionApp
 import yaml
 
+import ekklesia_portal
 from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_portal.helper.cell import JinjaCellEnvironment
@@ -130,6 +131,7 @@ def get_locale(request):
 
 def make_wsgi_app(settings_filepath=None, testing=False):
     morepath.autoscan()
+    morepath.scan(ekklesia_portal)
     settings = get_app_settings(settings_filepath)
     App.init_settings(settings)
     EkklesiaAuthPathApp.init_settings(settings)
