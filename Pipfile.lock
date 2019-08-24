@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a21ffcb1e4305330ba3b89334b307e4a4bd2d99133ed4809f975073a25efad7a"
+            "sha256": "bc7f2e7c094f5bfc9358e403f4c1d27e51c01ce11f62647e471e5552bb3c9fc1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -185,15 +185,21 @@
             ],
             "version": "==1.5.1"
         },
-        "more-babel-i18n": {
-            "editable": true,
-            "git": "https://github.com/dpausp/more.babel_i18n",
-            "ref": "7ff495596b6bc0a39af3af549efc9948dddc7c0c"
+        "more.babel-i18n": {
+            "hashes": [
+                "sha256:8dc494090569517c6a2430e38a3afe008af889804e1a7f5959c48b39ec6dc173",
+                "sha256:a4827fee1bc31b3261185d16a2aedfc01214bc84899e848ef616c527e2cf4d7b"
+            ],
+            "index": "pypi",
+            "version": "==0.1.dev2"
         },
-        "more-browser-session": {
-            "editable": true,
-            "git": "https://github.com/dpausp/more.browser_session",
-            "ref": "de3e96534d2fc605c6183f725fe2b42f6b410fa9"
+        "more.browser-session": {
+            "hashes": [
+                "sha256:15e6b0191a5408925f671ed49daa778b11c4a9dcebe6ee0a94872819759f61b2",
+                "sha256:3cff11b976e6bd3fdb8f31972256ea31009c427ccd4f625f39364fc651ce4b09"
+            ],
+            "index": "pypi",
+            "version": "==0.1.dev1"
         },
         "more.forwarded": {
             "hashes": [

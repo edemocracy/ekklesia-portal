@@ -23,8 +23,8 @@ deform = "*"
 case-conversion = "*"
 py-gfm = "*"
 dataclasses-json = "*"
-more-browser-session = {editable = true,git = "https://github.com/dpausp/more.browser_session"}
-more-babel-i18n = {editable = true,git = "https://github.com/dpausp/more.babel_i18n"}
+"more.browser_session" = "*"
+"more.babel_i18n" = "*"
 
 [dev-packages]
 e1839a8 = {path = ".",editable = true}
