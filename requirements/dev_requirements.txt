@@ -1,0 +1,16 @@
+colorama
+coverage
+inflect
+mimesis-factory
+pylava
+pytest
+pytest-cov
+pytest-factoryboy
+pytest-instafail
+pytest-localserver
+pytest-mock
+pytest-pspec
+requests
+responses
+typing-extensions
+webtest

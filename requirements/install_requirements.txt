@@ -1,7 +1,10 @@
 attrs
 case-conversion
+dataclasses-json
 deform
 jinja2
+more.babel-i18n
+more.browser-session
 more.forwarded
 more.itsdangerous
 more.transaction
@@ -9,6 +12,7 @@ morepath
 munch
 passlib
 psycopg2
+py-gfm
 pyjade
 pyyaml
 requests-oauthlib

@@ -2,7 +2,7 @@
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -I nixpkgs=/home/ts/git/nixpkgs -V 3.7 -r pypi2nix_source_deps -E postgresql -E libffi
+#   pypi2nix -V 3.7 -r frozen_install_requirements.txt -E postgresql -E libffi --basename install_requirements
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -435,12 +435,11 @@ let
     };
 
     "more-babel-i18n" = python.mkDerivation {
-      name = "more-babel-i18n-0.1.dev1";
-      src = pkgs.fetchgit {
-        url = "https://github.com/dpausp/more.babel_i18n";
-        sha256 = "1w9ww3yi9f7fcf8lz0j65vq9x8lvsvans9ggpdr1snjancy9fx8v";
-        rev = "c229b3048f994a716fc31b944172fb1800648f34";
-      };
+      name = "more-babel-i18n-19.8.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/0f/9c/36481507a50f28cb71f4e8279dca0df2b93eb12e09e4751cd7829a2845a8/more.babel_i18n-19.8.0.tar.gz";
+        sha256 = "8b0cd6e7a7edf9ba46cb3412b7ae8ba305944de67e957a289bcfd76858d150ab";
+};
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
@@ -449,19 +448,18 @@ let
         self."morepath"
       ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "UNKNOWN";
+        homepage = "https://github.com/dpausp/more.babel_i18n";
         license = licenses.bsdOriginal;
-        description = "i18n/l10n support for morepath applications and Jinja2 templates";
+        description = "i18n/l10n support for Morepath applications and Jinja2 templates";
       };
     };
 
     "more-browser-session" = python.mkDerivation {
-      name = "more-browser-session-0.1.dev1";
-      src = pkgs.fetchgit {
-        url = "https://github.com/dpausp/more.browser_session";
-        sha256 = "0h15wdi35m1lgph476fvq48fy94xxjz233g8myv088nibvwiz25q";
-        rev = "de3e96534d2fc605c6183f725fe2b42f6b410fa9";
-      };
+      name = "more-browser-session-19.8.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/a0/e8/d9588492ffe4a8541daecac1454cbbb58d00fb0ecaca272e7c4a10d94c46/more.browser_session-19.8.0.tar.gz";
+        sha256 = "80ebd95865a1270687d5bbb9f2dc3b6e7fe27f06a2711515278b74b534cfef55";
+};
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
@@ -470,9 +468,9 @@ let
         self."werkzeug"
       ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "UNKNOWN";
+        homepage = "https://github.com/dpausp/more.browser_session";
         license = licenses.bsdOriginal;
-        description = "HTTP Session support for Morepath applications";
+        description = "Session support for Morepath applications";
       };
     };
 
@@ -1077,7 +1075,7 @@ let
       };
     };
   };
-  localOverridesFile = ./requirements_override.nix;
+  localOverridesFile = ./install_requirements_override.nix;
   localOverrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
     
