@@ -124,6 +124,22 @@ let
       };
     };
 
+    "boltons" = python.mkDerivation {
+      name = "boltons-19.1.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/27/4b/ebac172f3b17bd395ea1fa1121fc85e1cd5f9dbb6d4836d2bccc44a6e333/boltons-19.1.0.tar.gz";
+        sha256 = "c32b2d121331a9bc7c220050d4273f3aa359b7569cb4794188e71524603113dc";
+};
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/mahmoud/boltons";
+        license = licenses.bsdOriginal;
+        description = "When they're not builtins, they're boltons.";
+      };
+    };
+
     "case-conversion" = python.mkDerivation {
       name = "case-conversion-2.1.0";
       src = pkgs.fetchurl {
@@ -282,6 +298,27 @@ let
         homepage = "https://docs.pylonsproject.org/projects/deform/en/latest/";
         license = "BSD-derived (http://www.repoze.org/LICENSE.txt)";
         description = "Form library with advanced features like nested forms";
+      };
+    };
+
+    "eliot" = python.mkDerivation {
+      name = "eliot-1.10.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/cc/c0/2489a69c5bdffdb5b784f9d1c9ece404afad1720e91a5ea5feedbbeab994/eliot-1.10.0.tar.gz";
+        sha256 = "c76e22f234766be9a81eed83e636a5d77f696364adc04558722940b8761dc71e";
+};
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [
+        self."boltons"
+        self."pyrsistent"
+        self."six"
+        self."zope-interface"
+      ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/itamarst/eliot/";
+        license = licenses.asl20;
+        description = "Logging library that tells you why it happened";
       };
     };
 
@@ -682,6 +719,24 @@ let
         homepage = "http://github.com/syrusakbary/pyjade";
         license = licenses.mit;
         description = "Jade syntax template adapter for Django, Jinja2, Mako and Tornado templates";
+      };
+    };
+
+    "pyrsistent" = python.mkDerivation {
+      name = "pyrsistent-0.15.4";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/b9/66/b2638d96a2d128b168d0dba60fdc77b7800a9b4a5340cefcc5fc4eae6295/pyrsistent-0.15.4.tar.gz";
+        sha256 = "34b47fa169d6006b32e99d4b3c4031f155e6e68ebcc107d6454852e8e0ee6533";
+};
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [
+        self."six"
+      ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://github.com/tobgu/pyrsistent/";
+        license = licenses.mit;
+        description = "Persistent/Functional/Immutable data structures";
       };
     };
 

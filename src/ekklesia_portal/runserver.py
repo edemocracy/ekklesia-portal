@@ -67,7 +67,6 @@ def stackdump_setup():
 def run():
     from ekklesia_portal.app import make_wsgi_app
     args = parser.parse_args()
-    print("cmdline args:", args)
     wsgi_app = make_wsgi_app(args.config_file)
 
     wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {

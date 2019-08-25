@@ -4,6 +4,7 @@ let
   niv = (import sources.niv { }).niv;
   lib = pkgs.lib;
   bandit = (import nix/bandit.nix { inherit pkgs; }).packages.bandit;
+  eliotTree = (import nix/eliot_tree.nix { inherit pkgs; }).packages.eliot-tree;
   installRequirements = import nix/install_requirements.nix { inherit pkgs; };
   devRequirements = import nix/dev_requirements.nix { inherit pkgs; };
   python = pkgs.python37.buildEnv.override {
@@ -20,6 +21,7 @@ in pkgs.mkShell {
   name = "ekklesia_portal-dev-env";
   buildInputs = [
     bandit
+    eliotTree
     niv
     python
   ] ++
