@@ -1,10 +1,11 @@
-{ usePipenvShell ? false }:
+{ usePipenvShell ? false, sources ? import ./nix/sources.nix }:
 let
-  pkgs = import ./requirements/nixpkgs.nix;
+  pkgs = import sources.nixpkgs { };
+  niv = (import sources.niv { }).niv;
   lib = pkgs.lib;
-  bandit = (import requirements/bandit.nix { inherit pkgs; }).packages.bandit;
-  installRequirements = import requirements/install_requirements.nix { inherit pkgs; };
-  devRequirements = import requirements/dev_requirements.nix { inherit pkgs; };
+  bandit = (import nix/bandit.nix { inherit pkgs; }).packages.bandit;
+  installRequirements = import nix/install_requirements.nix { inherit pkgs; };
+  devRequirements = import nix/dev_requirements.nix { inherit pkgs; };
   envVars = ''
     export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session:$PYTHONPATH
     export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
@@ -18,6 +19,7 @@ in pkgs.stdenv.mkDerivation {
     bandit
     cacert
     entr
+    niv
     openssl.dev
     pipenv
     postgresql_11

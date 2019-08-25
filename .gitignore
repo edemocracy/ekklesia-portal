@@ -10,11 +10,7 @@ src/ekklesia_portal.egg-info/
 .cache/
 .eggs/
 src/ekklesia_portal/config.py
-requirements/pypi2nix_source_deps
-requirements/pypi2nix_source_deps_with_hash
-requirements/requirements_frozen.txt
-requirements/all_deps
-requirements/dev_deps
+nix/*_frozen.txt
 config.yml
 .pytest_cache
 result
