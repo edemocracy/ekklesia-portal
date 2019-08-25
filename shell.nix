@@ -1,4 +1,4 @@
-{ usePipenvShell ? false, sources ? import ./nix/sources.nix }:
+{ sources ? import ./nix/sources.nix }:
 let
   pkgs = import sources.nixpkgs { };
   niv = (import sources.niv { }).niv;
@@ -12,10 +12,6 @@ let
                 (builtins.attrValues installRequirements.packages);
     ignoreCollisions = true;
   };
-  envVars = ''
-    export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session:${python}/${python.sitePackages}
-    export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
-  '';
 
 in pkgs.mkShell {
   name = "ekklesia_portal-dev-env";
@@ -44,6 +40,8 @@ in pkgs.mkShell {
     werkzeug
   ]) 
   ;
-  shellHook = envVars + (lib.optionalString 
-                         usePipenvShell "SHELL=`which zsh` exec pipenv shell --fancy");
+  shellHook = ''
+    export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session:${python}/${python.sitePackages}
+    export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
+  '';
 }
