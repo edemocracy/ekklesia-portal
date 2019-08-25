@@ -1,16 +1,17 @@
 import dataclasses
+import logging
 from dataclasses import dataclass
 from functools import partial
-import logging
 from typing import List, NewType
-import dectate
-from morepath import redirect, App
-from requests_oauthlib import OAuth2Session
 from urllib.parse import urljoin
+
+import dectate
+from morepath import App, redirect
+from requests_oauthlib import OAuth2Session
 from webob.exc import HTTPForbidden
+
 from ekklesia_portal.enums import EkklesiaUserType
 from ekklesia_portal.helper.utils import cached_property
-
 
 logg = logging.getLogger(__name__)
 
