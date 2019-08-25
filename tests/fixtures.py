@@ -41,6 +41,7 @@ def req(app):
 def db_session(app):
     return Session()
 
+
 @fixture
 def db_query(app):
     return Session().query
@@ -93,6 +94,7 @@ def department_admin(db_session, user_factory, department_factory):
     db_session.add(dm)
     user.departments.append(d2)
     return user
+
 
 @fixture
 def logged_in_department_admin(department_admin, monkeypatch):

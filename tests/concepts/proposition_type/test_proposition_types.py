@@ -11,7 +11,7 @@ def test_create_proposition_type(client, db_query, proposition_type_factory, log
     fill_form(form, data, ['name'])
 
     with assert_difference(db_query(PropositionType).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_proposition_type(db_session, client, proposition_type_factory, logged_in_department_admin):

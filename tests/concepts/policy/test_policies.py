@@ -11,7 +11,7 @@ def test_create_policy(client, db_query, policy_factory, logged_in_department_ad
     fill_form(form, data, enum_field_names=['majority', 'voting_system'])
 
     with assert_difference(db_query(Policy).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_policy(db_session, client, policy_factory, logged_in_department_admin):

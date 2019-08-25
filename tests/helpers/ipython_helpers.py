@@ -30,7 +30,7 @@ def embed_ipython():
     """
     config = load_config_for_embed_ipython()
     config.InteractiveShellEmbed = config.TerminalInteractiveShell
-    #save ps1/ps2 if defined
+    # save ps1/ps2 if defined
     ps1 = None
     ps2 = None
     try:
@@ -38,7 +38,7 @@ def embed_ipython():
         ps2 = sys.ps2
     except AttributeError:
         pass
-    #save previous instance
+    # save previous instance
     saved_shell_instance = InteractiveShell._instance
     if saved_shell_instance is not None:
         cls = type(saved_shell_instance)
@@ -48,7 +48,7 @@ def embed_ipython():
     shell = InteractiveShellEmbed.instance(_init_location_id=location, config=config)
     shell(header=location, stack_depth=2, _call_location_id=location)
     InteractiveShellEmbed.clear_instance()
-    #restore previous instance
+    # restore previous instance
     if saved_shell_instance is not None:
         cls = type(saved_shell_instance)
         cls.clear_instance()
@@ -57,4 +57,3 @@ def embed_ipython():
     if ps1 is not None:
         sys.ps1 = ps1
         sys.ps2 = ps2
-

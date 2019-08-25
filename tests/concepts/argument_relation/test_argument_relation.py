@@ -76,4 +76,3 @@ def test_vote(db_query, client, logged_in_user):
     client.post("/propositions/1/arguments/3/vote", {'weight': -2}, status=400)
     vote = qq()
     assert vote.weight == -1
-

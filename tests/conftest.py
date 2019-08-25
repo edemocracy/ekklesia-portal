@@ -1,3 +1,5 @@
+from .fixtures import *
+from .factories import *
 import logging
 import os.path
 import sys
@@ -8,6 +10,3 @@ logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('morepath').setLevel(logging.INFO)
 
 logg = logging.getLogger('test')
-
-from .factories import *
-from .fixtures import *

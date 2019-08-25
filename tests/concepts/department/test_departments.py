@@ -11,7 +11,7 @@ def test_create_department(client, db_query, department_factory, logged_in_depar
     fill_form(form, data)
 
     with assert_difference(db_query(Department).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_department(db_session, client, department_factory, logged_in_department_admin):

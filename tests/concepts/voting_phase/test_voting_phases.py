@@ -19,7 +19,7 @@ def test_create_voting_phase(client, db_query, voting_phase_type, voting_phase_f
     form['status'] = VotingStatus.PREPARING.name
 
     with assert_difference(db_query(VotingPhase).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_voting_phase(db_session, client, voting_phase_factory, logged_in_department_admin):

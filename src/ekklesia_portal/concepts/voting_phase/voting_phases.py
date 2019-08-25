@@ -13,4 +13,3 @@ class VotingPhases:
             return query
 
         return query.filter(department_id=self.department)
-

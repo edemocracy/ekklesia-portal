@@ -8,7 +8,7 @@ from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .policy_cells import PolicyCell, PoliciesCell, NewPolicyCell, EditPolicyCell
 from .policy_contracts import PolicyForm
-#from .policy_helper import
+# from .policy_helper import
 from .policies import Policies
 
 

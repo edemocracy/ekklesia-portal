@@ -7,7 +7,7 @@ from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .department_cells import DepartmentCell, DepartmentsCell, NewDepartmentCell, EditDepartmentCell
 from .department_contracts import DepartmentForm
-#from .department_helper import
+# from .department_helper import
 from .departments import Departments
 
 

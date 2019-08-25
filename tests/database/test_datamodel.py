@@ -1,6 +1,7 @@
 import pytest
 from ekklesia_portal.database.datamodel import Supporter
 
+
 def test_proposition(db_session, user, user_two, proposition, proposition_two):
     supporters = [
         Supporter(proposition=proposition, member=user),
@@ -24,4 +25,3 @@ def test_managed_departments(department_admin):
 def test_user(user, user__name):
     """This test isn't really useful but a good example for factory parametrization ;)"""
     assert user.name == user__name
-

@@ -3,6 +3,7 @@ Simplified version of runserver to check if the app runs with production deps on
 """
 import morepath
 
+
 def run():
     from ekklesia_portal.app import make_wsgi_app
     wsgi_app = make_wsgi_app()

@@ -52,17 +52,17 @@ def voting_phase_to_vvvote_election_config(phase):
     later = now + datetime.timedelta(hours=1, minutes=15)
 
     auth_data = vvvote_schema.SharedPasswordConfig(
-                    sharedPassw='t',
-                    RegistrationStartDate=now,
-                    RegistrationEndDate=later,
-                    VotingStart=now,
-                    VotingEnd=later,
-                )
+        sharedPassw='t',
+        RegistrationStartDate=now,
+        RegistrationEndDate=later,
+        VotingStart=now,
+        VotingEnd=later,
+    )
     config = vvvote_schema.ElectionConfig(
-                electionId=str(uuid4()),
-                electionTitle=phase.title or phase.phase_type.name,
-                tally=vvvote_schema.Tally.CONFIGURABLE,
-                auth=vvvote_schema.Auth.SHARED_PASSWORD,
-                authData=auth_data,
-                questions=questions)
+        electionId=str(uuid4()),
+        electionTitle=phase.title or phase.phase_type.name,
+        tally=vvvote_schema.Tally.CONFIGURABLE,
+        auth=vvvote_schema.Auth.SHARED_PASSWORD,
+        authData=auth_data,
+        questions=questions)
     return config

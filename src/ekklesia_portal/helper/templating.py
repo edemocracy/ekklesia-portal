@@ -78,6 +78,7 @@ def yesno(context, val):
     else:
         return _('no')
 
+
 @contextfilter
 def enum_value(context, val):
     request = context.get("_request")

@@ -217,7 +217,8 @@ class Policy(Base):  # Regelwerk
     majority = C(Enum(Majority))
     proposition_expiration = C(Integer, comment='days to reach the qualification (supporter) quorum')
     qualification_minimum = C(Integer, comment='minimum for qualification quorum')
-    qualification_quorum = C(Numeric(3, 2), comment='fraction of area members that must support a proposition for reaching the qualified state')
+    qualification_quorum = C(
+        Numeric(3, 2), comment='fraction of area members that must support a proposition for reaching the qualified state')
     range_max = C(Integer, comment='maximum score used when the number of options is at least `range_small_options`')
     range_small_max = C(Integer, comment='maximum score used when the number of options is less than `range_small_options`')
     range_small_options = C(Integer, comment='largest number of options for which `range_small_max` is used as maximum score')

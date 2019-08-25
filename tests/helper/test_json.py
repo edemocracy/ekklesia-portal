@@ -4,16 +4,15 @@ import json
 import ekklesia_portal.helper.json
 from ekklesia_portal.helper.json import JSONEncoder
 
+
 def test_json_encoder():
 
     @dataclass
     class AB:
         a: int
 
-
     class E(Enum):
         A = 'a'
-
 
     @dataclass
     class A:

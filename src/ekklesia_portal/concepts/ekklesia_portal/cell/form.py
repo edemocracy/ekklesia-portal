@@ -35,6 +35,7 @@ class NewFormCell(FormCell):
     def _prepare_form_for_render(self):
         self._form.prepare_for_render()
 
+
 class EditFormCell(FormCell):
 
     def __init__(self, model, request, form, layout=None, parent=None, template_path=None, **options):
@@ -44,4 +45,3 @@ class EditFormCell(FormCell):
         form_data = self._model.to_dict()
         self.set_form_data(form_data)
         self._form.prepare_for_render()
-

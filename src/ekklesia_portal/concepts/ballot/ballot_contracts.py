@@ -18,7 +18,6 @@ class BallotForm(Form):
     def __init__(self, request, action):
         super().__init__(BallotSchema(), request, action, buttons=("submit", ))
 
-
     def prepare_for_render(self, items_for_selects):
         widgets = {
             'area_id': Select2Widget(values=items_for_selects['area']),

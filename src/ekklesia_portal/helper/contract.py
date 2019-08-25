@@ -42,6 +42,7 @@ def date_property(**kwargs):
 def datetime_property(**kwargs):
     return colander.SchemaNode(colander.DateTime(), **kwargs)
 
+
 def enum_property(enum_cls, **kwargs):
     return colander.SchemaNode(colander.Enum(enum_cls), **kwargs)
 
@@ -85,7 +86,7 @@ class Form(deform.Form):
             translator=translator
         )
         super().__init__(schema, *args, renderer=renderer, **kwargs)
-    
+
     def prepare_for_render(self):
         # Can be used by subclasses to customize field widgets, for example.
         pass

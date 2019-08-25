@@ -23,7 +23,6 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
-
 class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp, FormApp):
     request_class = EkklesiaPortalRequest
 
