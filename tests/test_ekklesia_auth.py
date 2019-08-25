@@ -60,7 +60,7 @@ def test_request_class(browser_session):
 
 
 @fixture
-def request(test_request_class):
+def req(test_request_class):
     return test_request_class()
 
 
@@ -80,15 +80,15 @@ def app(test_request_class, browser_session):
         return EKKLESIAAUTH_SETTINGS
 
     @TestApp.get_oauth_token()
-    def get_oauth_token(app, request):
+    def get_oauth_token(app, req):
         return browser_session.get('oauth_token')
 
     @TestApp.set_oauth_token()
-    def set_oauth_token(app, request, token):
+    def set_oauth_token(app, req, token):
         browser_session['oauth_token'] = token
 
     @TestApp.after_oauth_callback()
-    def after_oauth_callback(request, ekklesia_auth):
+    def after_oauth_callback(req, ekklesia_auth):
         browser_session['oauth_token'] = ekklesia_auth.token
 
     TestApp.commit()
