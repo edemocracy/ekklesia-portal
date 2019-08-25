@@ -10,4 +10,6 @@ logging.captureWarnings(True)
 
 logg = logging.getLogger(__name__)
 
+logging.getLogger("parso").setLevel(logging.WARN)
+
 logg.info("init")
