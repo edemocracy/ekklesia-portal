@@ -67,7 +67,8 @@ def new(self, request):
     return NewArgumentForPropositionCell(request, form, form_data, model=self).show()
 
 
-@App.html_form_post(model=ArgumentRelations, form=ArgumentForPropositionForm, cell=NewArgumentForPropositionCell, permission=CreatePermission)
+@App.html_form_post(model=ArgumentRelations, form=ArgumentForPropositionForm,
+                    cell=NewArgumentForPropositionCell, permission=CreatePermission)
 def create(self, request, appstruct):
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
     if proposition is None:

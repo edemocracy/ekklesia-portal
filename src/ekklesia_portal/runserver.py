@@ -26,7 +26,7 @@ def stackdump_setup():
     import traceback
     try:
         import IPython.core.ultratb as ultratb
-    except:
+    except BaseException:
         ultratb = None
 
     if ultratb is None:

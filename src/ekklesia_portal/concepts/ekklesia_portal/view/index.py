@@ -4,7 +4,7 @@ from ekklesia_portal.app import App
 from ..index import Index
 
 
-@App.path(model=Index,  path='')
+@App.path(model=Index, path='')
 def ekklesia_portal():
     return Index()
 
