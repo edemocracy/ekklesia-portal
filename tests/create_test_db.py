@@ -1,23 +1,44 @@
-if __name__ == "__main__":
-    from datetime import timedelta
-    import logging
-    import sqlalchemy.orm
-    import mimesis
-    from ekklesia_portal.lib.password import password_context
-    logging.basicConfig(level=logging.INFO)
-    import transaction
-    from ekklesia_portal.app import make_wsgi_app
+import argparse
+import logging
+from datetime import timedelta
+from logging import config
 
-    app = make_wsgi_app("./config.yml")
+import mimesis
+import sqlalchemy.orm
+import transaction
+
+from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.lib.password import password_context
+
+logging.basicConfig(level=logging.INFO)
+
+parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
+parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
+
+
+if __name__ == "__main__":
 
     logg = logging.getLogger(__name__)
+
+    args = parser.parse_args()
+
+    app = make_wsgi_app(args.config_file)
+
 
     from ekklesia_portal.database import db_metadata, Session
     from ekklesia_portal.database.datamodel import *
 
-    logg.info("using db url %s", app.settings.database.uri)
+    print(f"using config file {args.config_file}")
+    print(f"using db url {app.settings.database.uri}")
+
+    engine = sqlalchemy.create_engine(app.settings.database.uri)
+    connection = engine.connect()
+    connection.execute("select")
 
     sqlalchemy.orm.configure_mappers()
+
+    print(80 * "=")
+    input("press Enter to drop and create the database...")
 
     db_metadata.drop_all()
     db_metadata.create_all()
