@@ -21,6 +21,7 @@ let
   (with pkgs; [ 
     cacert
     entr
+    jq
     openssl.dev
     pipenv
     postgresql_11
