@@ -12,10 +12,7 @@ let
                 (builtins.attrValues installRequirements.packages);
     ignoreCollisions = true;
   };
-
-in pkgs.mkShell {
-  name = "ekklesia_portal-dev-env";
-  buildInputs = [
+  inputs = [
     bandit
     eliotTree
     niv
@@ -38,10 +35,16 @@ in pkgs.mkShell {
     pip-tools
     pylint
     werkzeug
-  ]) 
-  ;
+  ]);
+
+  path = lib.makeBinPath inputs;
+
+in pkgs.mkShell {
+  name = "ekklesia_portal-dev-env";
+  buildInputs = inputs;
   shellHook = ''
-    export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session:${python}/${python.sitePackages}
+    export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session
+    export PATH=${path}
     export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
   '';
 }
