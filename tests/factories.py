@@ -55,19 +55,6 @@ class UserFactory(SQLAFactory):
 register(UserFactory, 'user_two')
 
 
-class UserWithDepartmentsFactory(UserFactory):
-
-    departments = factory.List([SubFactory(DepartmentFactory), SubFactory(DepartmentFactory)])
-
-    @factory.post_generation
-    def add_subject_areas(self, create, extracted, **kwargs):
-        for department in self.departments:
-            self.areas.extend(department.areas)
-
-
-register(UserWithDepartmentsFactory, 'user_with_departments')
-
-
 @register
 class PolicyFactory(SQLAFactory):
     class Meta:

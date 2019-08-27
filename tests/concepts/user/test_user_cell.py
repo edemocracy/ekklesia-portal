@@ -4,9 +4,8 @@ from ekklesia_portal.concepts.user.user_cells import UserCell
 
 
 @fixture
-def user_cell(app, user_with_departments_factory):
-    # XXX: pytest_factoryboy bug?: using the fixture user_with_departments results in an error complaining about a missing 'list' fixture
-    return UserCell(user_with_departments_factory(), Mock())
+def user_cell(app, user_with_departments):
+    return UserCell(user_with_departments, Mock())
 
 
 def test_user_cell(user_cell):

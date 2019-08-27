@@ -117,11 +117,11 @@ def test_ekklesia_auth_app_config():
         pass
 
     @TestApp.after_oauth_callback()
-    def after_auth_first():
+    def after_auth_first(_req, _ekklesia_auth):
         pass
 
     @TestApp.after_oauth_callback('second')
-    def after_auth_second():
+    def after_auth_second(_req, _ekklesia_auth):
         pass
 
     @TestApp.set_oauth_token()
