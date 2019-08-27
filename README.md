@@ -94,4 +94,5 @@ AGPLv3, see LICENSE
 
 ## Authors
 
-Tobias 'dpausp'
+* Tobias 'dpausp'
+* Joscha ’GamesGamble’
