@@ -1,5 +1,4 @@
 from ekklesia_portal.database.datamodel import VotingPhase
-from .voting_phase_contracts import VotingPhaseForm
 
 
 class VotingPhases:

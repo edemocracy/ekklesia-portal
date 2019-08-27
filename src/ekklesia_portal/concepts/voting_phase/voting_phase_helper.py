@@ -1,5 +1,3 @@
-from operator import attrgetter
-from sqlalchemy.orm import object_session
 from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.helper.translation import _
 

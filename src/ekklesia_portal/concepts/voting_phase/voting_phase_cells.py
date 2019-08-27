@@ -3,7 +3,6 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, Edit
 from ekklesia_portal.database.datamodel import VotingPhase, VotingPhaseType
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .voting_phases import VotingPhases
-from .voting_phase_contracts import VotingPhaseForm
 from .voting_phase_helper import items_for_voting_phase_select_widgets
 
 

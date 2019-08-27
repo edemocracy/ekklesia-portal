@@ -1,4 +1,3 @@
-from deform import ValidationFailure
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App

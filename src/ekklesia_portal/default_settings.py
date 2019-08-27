@@ -1,10 +1,5 @@
-import random
 import secrets
-import string
-import token
-from secrets import token_urlsafe
 
-letters = string.ascii_lowercase
 
 settings = {
     "app": {
