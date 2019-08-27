@@ -1,5 +1,9 @@
 import random
+import secrets
 import string
+import token
+from secrets import token_urlsafe
+
 letters = string.ascii_lowercase
 
 settings = {
@@ -18,7 +22,7 @@ settings = {
         "uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
     },
     "browser_session": {
-        "secret_key": "".join(random.choice(letters) for x in range(32)),
+        "secret_key": secrets.token_urlsafe(32),
         "cookie_secure": False
     }
 }
