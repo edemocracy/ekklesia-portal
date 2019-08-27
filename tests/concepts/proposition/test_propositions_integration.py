@@ -1,6 +1,8 @@
 import pytest
 
 
+# XXX: This test modifies the test database.
+# We need a way to reset the database after the test, possibly with an outer transaction.
 @pytest.mark.integration
 def test_user_creates_proposition(client, logged_in_user_with_departments):
     user = logged_in_user_with_departments

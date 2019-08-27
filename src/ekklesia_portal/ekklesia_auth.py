@@ -261,7 +261,7 @@ class OAuthCallback:
         if root_app.config.after_oauth_callbacks:
             ekklesia_auth = EkklesiaAuth(root_app.settings.ekklesia_auth, self.token)
             for callback in root_app.config.after_oauth_callbacks.values():
-                callback(request=self.request, ekklesia_auth=ekklesia_auth)
+                callback(self.request, ekklesia_auth)
 
 
 @EkklesiaAuthPathApp.path(model=OAuthCallback, path="/callback")

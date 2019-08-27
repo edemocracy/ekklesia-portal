@@ -1,4 +1,3 @@
-import json
 from ekklesia_portal.lib.vvvote.election_config import ballot_to_vvvote_question, voting_phase_to_vvvote_election_config
 
 
@@ -25,5 +24,3 @@ def test_voting_phase_to_vvvote_election_config(db_session, ballot_factory, prop
     assert len(config.questions[0].options) == 1
     assert len(config.questions[1].options) == 3
     assert len(config.questions[2].options) == 5
-    with open('/home/ts/data_git/vvvote/voting_example_from_portal_test.json', 'w') as wf:
-        json.dump(json.loads(config.to_json()), wf, indent=2)

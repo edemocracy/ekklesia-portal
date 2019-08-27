@@ -26,7 +26,7 @@ def oauth_config():
 @fixture
 def yes_no_scheme():
     return YesNoScheme(
-        name='yesno',
+        name='yesNo',
         abstention=True,
         abstentionAsNo=True,
         quorum=3,
@@ -79,7 +79,7 @@ def test_oauth_config(oauth_config):
 def test_yes_no_scheme(yes_no_scheme):
     """Tests enum value handling and dataclass inheritance"""
     jso = yes_no_scheme.to_json()
-    assert 'yesno' in jso
+    assert 'yesNo' in jso
     assert 'quorum' in jso
     assert '3' in jso
 
