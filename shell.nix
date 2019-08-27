@@ -30,6 +30,7 @@ let
   (with pkgs.python37Packages; [
     autopep8
     ipdb
+    ipython
     mypy
     pip
     pip-tools
@@ -43,7 +44,7 @@ in pkgs.mkShell {
   name = "ekklesia_portal-dev-env";
   buildInputs = inputs;
   shellHook = ''
-    export PYTHONPATH=./src:../more.babel_i18n:../more.browser_session
+    export PYTHONPATH=./src
     export PATH=${path}
     export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
   '';
