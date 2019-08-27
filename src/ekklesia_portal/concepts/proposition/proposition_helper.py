@@ -1,5 +1,4 @@
 from operator import attrgetter
-from ekklesia_portal.helper.translation import _
 
 
 def items_for_proposition_select_widgets(departments, tags, selected_tags=None):

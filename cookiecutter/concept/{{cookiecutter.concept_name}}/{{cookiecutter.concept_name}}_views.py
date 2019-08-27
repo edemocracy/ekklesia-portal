@@ -1,4 +1,3 @@
-from deform import ValidationFailure
 from morepath import redirect
 #from webob.exc import HTTPBadRequest
 from {{ cookiecutter.app_name }}.app import App

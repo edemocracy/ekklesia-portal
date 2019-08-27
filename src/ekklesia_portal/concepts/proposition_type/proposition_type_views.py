@@ -1,4 +1,3 @@
-from deform import ValidationFailure
 from morepath import redirect
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import PropositionType
