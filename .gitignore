@@ -18,3 +18,4 @@ result
 .coverage
 htmlcov/
 mypy_stubs
+pyenv
