@@ -1,5 +1,6 @@
 import logging
 import os.path
+from pathlib import Path
 from pytest import fixture
 from morepath.request import BaseRequest
 from webtest import TestApp as Client
@@ -10,14 +11,13 @@ from ekklesia_portal.database import Session
 from ekklesia_portal.database.datamodel import Proposition, User, DepartmentMember
 from ekklesia_portal.enums import ArgumentType
 
-
-BASEDIR = os.path.dirname(__file__)
+ROOT_DIR = Path(__file__).absolute().parent.parent
 logg = logging.getLogger(__name__)
 
 
 @fixture(scope="session")
 def config_filepath():
-    return os.path.join(BASEDIR, "testconfig.yml")
+    return ROOT_DIR / "testconfig.yml"
 
 
 @fixture(scope="session")
