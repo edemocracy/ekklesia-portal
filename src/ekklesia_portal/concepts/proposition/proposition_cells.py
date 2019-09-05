@@ -11,7 +11,18 @@ from .proposition_helper import items_for_proposition_select_widgets
 
 class PropositionCell(LayoutCell):
     model = Proposition
-    model_properties = ['id', 'title', 'abstract', 'content', 'motivation', 'created_at', 'replacements', 'derivations', 'tags']
+    model_properties = [
+        'abstract',
+        'content',
+        'created_at',
+        'derivations',
+        'external_discussion_url',
+        'id',
+        'motivation',
+        'replacements',
+        'tags',
+        'title'
+    ]
 
     def associated_url(self):
         return self.link(self._model, 'associated')

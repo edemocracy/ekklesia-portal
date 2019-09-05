@@ -29,6 +29,11 @@
       i.fas.fa-link &nbsp;
       = _('button_share')
 
+    if external_discussion_url
+      a.btn.btn-secondary.btn-sm(href=external_discussion_url, target="ekklesia-portal-external-discussion")
+        i.fas.fa-external-link-alt &nbsp;
+        = _('button_external_discussion_url')
+
     a.btn.btn-secondary.btn-sm(href="#bottom")
       i.far.fa-comments &nbsp;
       = goto_label

@@ -12,6 +12,7 @@ def test_user_creates_proposition(client, logged_in_user_with_departments):
 
     form['title'] = 'test title'
     form['abstract'] = 'abstract'
+    form['external_discussion_url'] = 'http://example.com'
     form['content'] = 'test content'
     form['area_id'] = user.departments[0].areas[0].id
 

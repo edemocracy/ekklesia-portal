@@ -3,7 +3,7 @@ import requests
 
 def import_discourse_post_as_proposition(base_url: str, from_data):
     post_id = int(from_data)
-    post_url = "{}/posts/{}".format(base_url, post_id)
+    post_url = f"{base_url}/posts/{post_id}"
 
     res = requests.get(post_url, headers=dict(Accept="application/json"))
     post_data = res.json()
@@ -16,7 +16,7 @@ def import_discourse_post_as_proposition(base_url: str, from_data):
     if topic_id is None:
         raise ValueError("malformed discourse post JSON, key 'topic_id' not found!")
 
-    topic_url = "{}/t/{}".format(base_url, topic_id)
+    topic_url = f"{base_url}/t/{topic_id}"
     res = requests.get(topic_url, headers=dict(Accept="application/json"))
     topic_data = res.json()
 
@@ -26,5 +26,6 @@ def import_discourse_post_as_proposition(base_url: str, from_data):
 
     return {
         'title': title,
-        'content': content
+        'content': content,
+        'external_discussion_url': topic_url
     }
