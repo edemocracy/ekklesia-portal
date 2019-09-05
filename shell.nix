@@ -9,7 +9,8 @@ let
   devRequirements = import nix/dev_requirements.nix { inherit pkgs; };
   python = pkgs.python37.buildEnv.override {
     extraLibs = (builtins.attrValues devRequirements.packages) ++ 
-                (builtins.attrValues installRequirements.packages);
+                (builtins.attrValues installRequirements.packages) ++
+                [ pkgs.python37Packages.ipython ];
     ignoreCollisions = true;
   };
   inputs = [
@@ -31,7 +32,6 @@ let
   (with pkgs.python37Packages; [
     autopep8
     ipdb
-    ipython
     mypy
     pip
     pip-tools
