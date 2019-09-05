@@ -134,7 +134,9 @@ if __name__ == "__main__":
 
     b2 = Ballot(area=subject_area_pps_pol)
     s.add(b2)
-    q2 = Proposition(title="Noch Ein Titel", content=gen_de.text.text(quantity=20))
+    q2 = Proposition(title="Noch Ein Titel", 
+                     content=gen_de.text.text(quantity=20),
+                     external_discussion_url="http://example.com")
     q2.tags.append(t3)
     b2.propositions.append(q2)
 

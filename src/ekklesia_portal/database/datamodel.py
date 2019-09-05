@@ -36,6 +36,7 @@ from sqlalchemy import (
     Enum,
     CheckConstraint
 )
+
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -389,7 +390,7 @@ class Proposition(Base):
     replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
 
-    discussion_url = Column(URLType)
+    external_discussion_url = Column(URLType)
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
