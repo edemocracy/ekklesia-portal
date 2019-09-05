@@ -84,6 +84,7 @@ def test_create(db_query, client, proposition_factory, logged_in_user_with_depar
     data['area_id'] = user.departments[0].areas[0].id
     data['related_proposition_id'] = 3
     data['relation_type'] = 'modifies'
+    data['external_discussion_url'] = 'http://example.com'
 
     with assert_difference(db_query(Proposition).count, 1, 'proposition'):
         with assert_difference(db_query(Tag).count, 1, 'tag'):
