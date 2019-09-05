@@ -13,23 +13,23 @@
   div
     if show_support_actions
       form.support_form(action=support_action, method="POST")
-        button.btn.btn-primary(hidden=is_supported_by_current_user, type="submit", name="support")
+        button.btn.btn-primary.btn-sm(hidden=is_supported_by_current_user, type="submit", name="support")
             i.far.fa-thumbs-up &nbsp;
             = _('button_support')
 
-        button.btn.btn-secondary(hidden=(not is_supported_by_current_user), type="submit", name="retract")
+        button.btn.btn-secondary.btn-sm(hidden=(not is_supported_by_current_user), type="submit", name="retract")
             i.far.fa-remove &nbsp;
             = _('button_retract_support')
 
-    button.btn
-      i.far.fa-thumbs-down &nbsp;
+    button.btn.btn-sm
+      i.fas.fa-flag &nbsp;
       = _('button_report')
 
-    button.btn
-      i.far.fa-share-square &nbsp;
+    button.btn.btn-sm
+      i.fas.fa-link &nbsp;
       = _('button_share')
 
-    a.btn.btn-secondary(href="#bottom")
+    a.btn.btn-secondary.btn-sm(href="#bottom")
       i.far.fa-comments &nbsp;
       = goto_label
 
