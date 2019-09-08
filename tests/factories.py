@@ -82,6 +82,7 @@ class PropositionTypeFactory(SQLAFactory):
         model = PropositionType
 
     name = MimesisField('word')
+    abbreviation = FuzzyText(length=3, chars=string.ascii_uppercase)
     description = MimesisField('text', quantity=5)
     policy = SubFactory(PolicyFactory)
 

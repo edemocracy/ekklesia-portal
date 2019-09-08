@@ -99,7 +99,10 @@ if __name__ == "__main__":
 
     s.add(policy_default)
 
-    ptype_pol = PropositionType(name='Politische Position', description=gen_de.text.text(quantity=3), policy=policy_default)
+    ptype_pol = PropositionType(name='Politische Position', 
+                                abbreviation='PP',
+                                description=gen_de.text.text(quantity=3),
+                                policy=policy_default)
     s.add(ptype_pol)
 
     t1 = Tag(name="Tag1")
