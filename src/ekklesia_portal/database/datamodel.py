@@ -268,6 +268,7 @@ class PropositionType(Base):  # Antragsart
     __tablename__ = 'propositiontypes'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
+    abbreviation = Column(String(10), unique=True, nullable=False)
     description = Column(Text, server_default='')
     policy_id = Column(Integer, ForeignKey('policies.id'), nullable=False)
     policy = relationship("Policy", back_populates="proposition_types")

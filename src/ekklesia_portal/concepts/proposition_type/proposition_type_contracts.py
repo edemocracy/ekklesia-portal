@@ -6,7 +6,8 @@ from ekklesia_portal.helper.translation import _
 
 class PropositionTypeSchema(Schema):
     name = string_property(title=_('name'), validator=Length(max=64))
-    description = string_property(title=_('name'), validator=Length(min=10, max=4000), missing='')
+    abbreviation = string_property(title=_('abbreviation'), validator=Length(max=3))
+    description = string_property(title=_('description'), validator=Length(min=10, max=4000), missing='')
     policy_id = int_property(title=_('policy'))
 
 
