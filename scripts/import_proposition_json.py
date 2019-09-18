@@ -1,13 +1,11 @@
 import argparse
 import json
 import logging
-import sqlalchemy.orm
-import transaction
 from eliot import log_call, start_task
 
-logging.basicConfig(level=logging.INFO)
-
-from ekklesia_portal.app import make_wsgi_app
+import sqlalchemy.orm
+import transaction
+from case_conversion import case_conversion
 
 
 @log_call
@@ -15,42 +13,46 @@ def load_proposition_json_file(filepath):
     with open(filepath) as f:
         json_data = json.load(f)
 
-        # TODO: Slugify tag_names!
-        required_fields = {
-            'title',
-            'author',
-            'abstract',
-            'content'
-        }
+    required_fields = {
+        'title',
+        'author',
+        'abstract',
+        'content'
+    }
 
-        optional_fields = {
-            'motivation',
-            'tags',
-            'external_discussion_url'
-        }
+    optional_fields = {
+        'motivation',
+        'tags',
+        'external_discussion_url'
+    }
 
-        imported = {}
+    missing_fields = required_fields - set(json_data)
 
-        # TODO: Use Sets to find out which keys are missing!
-        for key in required_fields:
-            try:
-                value = json_data[key]
-            except KeyError:
-                raise KeyError(f"malformed wiki json_data JSON, key '{key}' not found!")
-            imported[key] = value
+    if missing_fields:
+        raise Exception(f"JSON: missing fields: {missing_fields}")
 
-        for key in optional_fields:
-            imported[key] = json_data.get(key)
+    imported = {}
 
-        if "type" in json_data:
-            imported["tags"].append(json_data["type"])
+    for key in required_fields:
+        imported[key] = json_data[key]
 
-        if "group" in json_data:
-            imported["tags"].append(json_data["group"])
+    imported["author"] = case_conversion.dashcase(imported["author"])[:64]
 
-        imported["tags"] = list(set(imported["tags"]))
+    for key in optional_fields:
+        imported[key] = json_data.get(key)
 
-        return imported
+    if "tags" not in imported:
+        imported["tags"] = []
+
+    if "type" in json_data:
+        imported["tags"].append(json_data["type"])
+
+    if "group" in json_data:
+        imported["tags"].append(json_data["group"])
+
+    imported["tags"] = list(set(case_conversion.dashcase(tag) for tag in imported["tags"]))
+
+    return imported
 
 
 @log_call
@@ -62,6 +64,7 @@ def insert_proposition(department_name, title, abstract, content, motivation, au
         raise ValueError("Subject area 'Allgemein' not found! Please create it!")
 
     subject_area = maybe_subject_area[0]
+    # TODO: Adding support for multiple proposition submitters
     user = session.query(User).filter_by(name=author).scalar()
 
     if user is None:
@@ -87,9 +90,12 @@ parser.add_argument("-d", "--department", help=f"Choose the department to import
 parser.add_argument('filenames', nargs='+')
 
 if __name__ == "__main__":
+
     logg = logging.getLogger(__name__)
 
     args = parser.parse_args()
+
+    from ekklesia_portal.app import make_wsgi_app
 
     app = make_wsgi_app(args.config_file)
 
