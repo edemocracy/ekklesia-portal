@@ -49,10 +49,12 @@ if __name__ == "__main__":
 
     department_pps = Department(name='PPS')
     department_zs = Department(name='Zentralschweiz')
+    department_ppd = Department(name='Piratenpartei Deutschland')
 
     subject_area_pps_in = SubjectArea(name='Innerparteiliches', department=department_pps)
     subject_area_zs_in = SubjectArea(name='Innerparteiliches', department=department_zs)
     subject_area_pps_pol = SubjectArea(name='Politik', department=department_pps)
+    subject_area_ppd_allg = SubjectArea(name='Allgemein', department=department_ppd)
 
     ug1 = Group(name="Deppengruppe")
 
@@ -63,9 +65,9 @@ if __name__ == "__main__":
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
     ug1.members.extend([u1, u2])
     s.add(DepartmentMember(department=department_pps, member=u1, is_admin=True))
-    u2.departments.extend([department_pps, department_zs])
+    u2.departments.extend([department_pps, department_zs, department_ppd])
     u1.areas.extend([subject_area_pps_in])
-    u2.areas.extend([subject_area_pps_in, subject_area_pps_pol, subject_area_zs_in])
+    u2.areas.extend([subject_area_pps_in, subject_area_pps_pol, subject_area_zs_in, subject_area_ppd_allg])
 
     voting_phase_type_pv = VotingPhaseType(name='Piratenversammlung', voting_type=VotingType.ASSEMBLY,
                                            abbreviation='PV', secret_voting_possible=True)
@@ -99,7 +101,7 @@ if __name__ == "__main__":
 
     s.add(policy_default)
 
-    ptype_pol = PropositionType(name='Politische Position', 
+    ptype_pol = PropositionType(name='Politische Position',
                                 abbreviation='PP',
                                 description=gen_de.text.text(quantity=3),
                                 policy=policy_default)
@@ -137,7 +139,7 @@ if __name__ == "__main__":
 
     b2 = Ballot(area=subject_area_pps_pol)
     s.add(b2)
-    q2 = Proposition(title="Noch Ein Titel", 
+    q2 = Proposition(title="Noch Ein Titel",
                      content=gen_de.text.text(quantity=20),
                      external_discussion_url="http://example.com")
     q2.tags.append(t3)
