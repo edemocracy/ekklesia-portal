@@ -1,7 +1,6 @@
 import argparse
 import json
-import logging
-from eliot import log_call, start_task
+from eliot import log_call, start_task, Message, write_traceback
 
 import sqlalchemy.orm
 import transaction
@@ -9,7 +8,7 @@ from case_conversion import case_conversion
 
 
 @log_call
-def load_proposition_json_file(filepath):
+def load_proposition_json_file(filepath, log_level="INFO"):
     with open(filepath) as f:
         json_data = json.load(f)
 
@@ -29,7 +28,7 @@ def load_proposition_json_file(filepath):
     missing_fields = required_fields - set(json_data)
 
     if missing_fields:
-        raise Exception(f"JSON: missing fields: {missing_fields}")
+        raise MissingFieldsException(f"JSON: missing fields: {missing_fields}")
 
     imported = {}
 
@@ -41,7 +40,7 @@ def load_proposition_json_file(filepath):
     for key in optional_fields:
         imported[key] = json_data.get(key)
 
-    if "tags" not in imported:
+    if imported["tags"] is None:
         imported["tags"] = []
 
     if "type" in json_data:
@@ -56,7 +55,7 @@ def load_proposition_json_file(filepath):
 
 
 @log_call
-def insert_proposition(department_name, title, abstract, content, motivation, author, tags, external_discussion_url):
+def insert_proposition(department_name, title, abstract, content, motivation, author, tags, external_discussion_url, log_level="INFO"):
     department = session.query(Department).filter_by(name=department_name).one()
     maybe_subject_area = [area for area in department.areas if area.name == "Allgemein"]
 
@@ -84,14 +83,16 @@ def insert_proposition(department_name, title, abstract, content, motivation, au
     session.add(supporter)
 
 
+class MissingFieldsException(Exception):
+    pass
+
+
 parser = argparse.ArgumentParser("Ekklesia Portal import_proposition_json.py")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
 parser.add_argument("-d", "--department", help=f"Choose the department to import to.")
 parser.add_argument('filenames', nargs='+')
 
 if __name__ == "__main__":
-
-    logg = logging.getLogger(__name__)
 
     args = parser.parse_args()
 
@@ -106,9 +107,20 @@ if __name__ == "__main__":
 
     sqlalchemy.orm.configure_mappers()
 
-    for fp in args.filenames:
-        with start_task(action_type="import_proposition"):
-            imported_data = load_proposition_json_file(fp)
-            insert_proposition(args.department, **imported_data)
+    failed_propositions = {}
 
-    transaction.commit()
+    for fp in args.filenames:
+        with start_task(log_level="INFO", action_type="import_proposition"):
+            try:
+                imported_data = load_proposition_json_file(fp)
+                insert_proposition(args.department, **imported_data)
+            except MissingFieldsException as e:
+                failed_propositions[fp] = e.args[0]
+            except:
+                write_traceback()
+
+    if set(args.filenames) - set(failed_propositions):
+        transaction.commit()
+
+    if failed_propositions:
+        Message.log(log_level="ERROR", message_type="failed_propositions", exceptions=failed_propositions)
