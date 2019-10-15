@@ -4,8 +4,7 @@
 { sources ? null }:
 let
   deps = import ./nix/deps.nix { inherit sources; };
-  pkgs = deps.pkgs;
-  lib = pkgs.lib;
+  inherit (deps) buildPythonPackage lib pkgs;
   version =
     lib.replaceStrings
       ["\n"]
@@ -16,7 +15,7 @@ let
           { src = ./.; buildInputs = [ pkgs.gitMinimal ]; }
           "cd $src; git describe --long --tags --dirty --always > $out"));
 
-in pkgs.python37Packages.buildPythonPackage rec {
+in buildPythonPackage rec {
   pname = "ekklesia-portal";
   name = "${pname}";
   src = pkgs.nix-gitignore.gitignoreSource [] ./.;

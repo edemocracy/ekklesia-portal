@@ -5,21 +5,23 @@ let
   niv = (import sources_.niv { }).niv;
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
-  lib = pkgs.lib;
   installRequirements = import ./install_requirements.nix { inherit pkgs; };
   devRequirements = import ./dev_requirements.nix { inherit pkgs; };
-
-  setuptools = pkgs.python37Packages.setuptools;
+  pythonPackages = pkgs.python37Packages;
+  setuptools = pythonPackages.setuptools;
 
 in rec {
   inherit pkgs;
+  inherit (pkgs) lib;
+  inherit (pythonPackages) buildPythonPackage;
+  buildPythonEnv = pkgs.python37.buildEnv;
 
-  gunicorn = pkgs.python37Packages.gunicorn.overrideAttrs(old: {
+  gunicorn = pythonPackages.gunicorn.overrideAttrs(old: {
     propagatedBuildInputs = [ setuptools ];
   });
 
   # Can be imported in Python code or run directly as debug tools
-  debugLibsAndTools = with pkgs.python37Packages; [
+  debugLibsAndTools = with pythonPackages; [
     ipdb
     ipython
   ];
@@ -27,14 +29,14 @@ in rec {
   install = builtins.attrValues installRequirements.packages;
   dev = builtins.attrValues devRequirements.packages;
 
-  python = pkgs.python37.buildEnv.override {
+  python = buildPythonEnv.override {
     extraLibs = install ++
                 [ eliotPkgs.eliot setuptools ] ++
                 debugLibsAndTools;
     ignoreCollisions = true;
   };
 
-  pythonDev = pkgs.python37.buildEnv.override {
+  pythonDev = buildPythonEnv.override {
     extraLibs = dev ++
                 install ++
                 [ eliotPkgs.eliot setuptools ] ++
@@ -43,7 +45,7 @@ in rec {
   };
 
   # Code style and security tools
-  linters = with pkgs.python37Packages; [
+  linters = with pythonPackages; [
     bandit
     mypy
     pylama
@@ -52,7 +54,7 @@ in rec {
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools = with pkgs; with python37Packages; [
+  shellTools = with pkgs; with pythonPackages; [
     eliotPkgs.eliot-tree
     entr
     gunicorn
