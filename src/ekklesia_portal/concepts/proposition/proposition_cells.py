@@ -1,3 +1,4 @@
+import urllib.parse
 import colander
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
@@ -26,6 +27,47 @@ class PropositionCell(LayoutCell):
 
     def associated_url(self):
         return self.link(self._model, 'associated')
+
+    def share_url(self):
+        if self._app.settings.share.use_url_shortener:
+            from ekklesia_portal.helper.url_shortener import make_tiny
+            return make_tiny(self.self_link)
+        else:
+            return self.self_link[0:69]
+
+    def share_email_url(self):
+        share_email_topic_options = {
+            "en": self._app.settings.share_email_topic.en,
+            "de": self._app.settings.share_email_topic.de,
+            "fr": self._app.settings.share_email_topic.fr
+        }
+        share_email_body_options = {
+            "en": self._app.settings.share_email_body.en,
+            "de": self._app.settings.share_email_body.de,
+            "fr": self._app.settings.share_email_body.fr
+        }
+        share_email_topic = share_email_topic_options[self.language]
+        share_email_body = share_email_body_options[self.language] + self.share_url
+        email_url = urllib.parse.urlencode({'subject': share_email_topic,
+                                            'body': share_email_body},
+                                           quote_via=urllib.parse.quote)
+        email_url = 'mailto:?' + email_url
+        return email_url
+
+    def share_twitter_url(self):
+        share_tweet_msg_options = {
+            "en": self._app.settings.share_tweet_msg.en,
+            "de": self._app.settings.share_tweet_msg.de,
+            "fr": self._app.settings.share_tweet_msg.fr
+        }
+        share_tweet_msg = share_tweet_msg_options[self.language]
+        twitter_url = urllib.parse.urlencode({'hashtags': self._app.settings.share.hashtag,
+                                              'related': self._app.settings.share.promote_account,
+                                              'text': share_tweet_msg,
+                                              'tw_p': 'tweetbutton',
+                                              'url': self.share_url})
+        twitter_url = 'https://twitter.com/intent/tweet?' + twitter_url
+        return twitter_url
 
     def discussion_url(self):
         return self.link(self._model)

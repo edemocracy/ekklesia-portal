@@ -9,3 +9,8 @@ def test_proposition_cell(proposition_with_arguments, req):
     assert len(cell.contra_argument_relations) == 1
     assert isinstance(cell.pro_argument_relations[0], ArgumentRelation)
     assert isinstance(cell.contra_argument_relations[0], ArgumentRelation)
+
+
+def test_proposition_share_url(proposition_with_arguments, req):
+    cell = PropositionCell(proposition_with_arguments, req)
+    assert req.link(proposition_with_arguments).startswith(cell.share_url)
