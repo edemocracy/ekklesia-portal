@@ -1,52 +1,17 @@
-{ sources ? import ./nix/sources.nix }:
+{ sources ? null }:
 let
-  pkgs = import sources.nixpkgs { };
-  niv = (import sources.niv { }).niv;
-  lib = pkgs.lib;
-  bandit = (import nix/bandit.nix { inherit pkgs; }).packages.bandit;
-  eliotTree = (import nix/eliot_tree.nix { inherit pkgs; }).packages.eliot-tree;
-  installRequirements = import nix/install_requirements.nix { inherit pkgs; };
-  devRequirements = import nix/dev_requirements.nix { inherit pkgs; };
-  python = pkgs.python37.buildEnv.override {
-    extraLibs = (builtins.attrValues devRequirements.packages) ++ 
-                (builtins.attrValues installRequirements.packages) ++
-                [ pkgs.python37Packages.ipython ];
-    ignoreCollisions = true;
-  };
-  inputs = [
-    bandit
-    eliotTree
-    niv
-    python
-  ] ++
-  (with pkgs; [ 
-    cacert
-    entr
-    jq
-    openssl.dev
-    pipenv
-    postgresql_11
-    sassc
-    zsh
-  ]) ++
-  (with pkgs.python37Packages; [
-    autopep8
-    ipdb
-    mypy
-    pip
-    pip-tools
-    pylint
-    werkzeug
-  ]);
-
-  path = lib.makeBinPath inputs;
+  deps = import ./nix/deps.nix { inherit sources; };
+  pkgs = deps.pkgs;
+  caBundle = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
 in pkgs.mkShell {
-  name = "ekklesia_portal-dev-env";
-  buildInputs = inputs;
+  name = "ekklesia-portal";
+  buildInputs = deps.shellInputs;
+  # A pure nix shell breaks SSL for git and nix tools which is fixed by setting the path to the certificate bundle.
   shellHook = ''
     export PYTHONPATH=./src
-    export PATH=${path}
-    export GIT_SSL_CAINFO="${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; 
+    export PATH=${deps.shellPath}
+    export NIX_SSL_CERT_FILE=${caBundle}
+    export SSL_CERT_FILE=${caBundle}
   '';
 }

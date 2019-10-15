@@ -1,31 +1,36 @@
-{ pkgs ? import ./requirements/nixpkgs.nix }:
+# Build Python package.
+# Can be installed in the current user profile with:
+# nix-env -if .
+{ sources ? null }:
 let
-  inherit (pkgs) lib pythonPackages;
+  deps = import ./nix/deps.nix { inherit sources; };
+  pkgs = deps.pkgs;
+  lib = pkgs.lib;
+  version =
+    lib.replaceStrings
+      ["\n"]
+      [""]
+      (lib.readFile
+        (pkgs.runCommand
+          "git-version"
+          { src = ./.; buildInputs = [ pkgs.gitMinimal ]; }
+          "cd $src; git describe --long --tags --dirty --always > $out"));
 
-  pythonPackageName = "ekklesia_portal";
-
-  basename = path: with pkgs.lib; with builtins; last (splitString "/" path);
-  src-filter = path: type: with pkgs.lib;
-    let
-      ext = last (splitString "." path);
-    in
-      !elem (basename path) [".git" "__pycache__" ".eggs" "result"] &&
-      !elem ext ["egg-info" "pyc" "nix" ];
-
-  src = builtins.filterSource src-filter ./.;
-  python = import ./requirements/requirements.nix { inherit pkgs; };
-  deps = builtins.attrValues python.packages ++ (lib.optional lib.inNixShell (with pkgs.python37Packages; [ ipython ipdb pkgs.sassc ]));
-
-in python.mkDerivation rec {
-  pname = pythonPackageName;
-  name = "${pname}-${version}";
-  version = lib.removeSuffix "\n" ( builtins.readFile ( ./. + "/src/${pythonPackageName}/VERSION" ) );
-  inherit src;
-  propagatedBuildInputs = deps;
+in pkgs.python37Packages.buildPythonPackage rec {
+  pname = "ekklesia-portal";
+  name = "${pname}";
+  src = pkgs.nix-gitignore.gitignoreSource [] ./.;
   doCheck = false;
-  passthru.deps = deps;
-  passthru.env = python.interpreter.interpreter.withPackages ( ps: deps );
-  passthru.interpreter = python.interpreter;
-  passthru.pythonPackage = pythonPackageName;
-  passthru.wsgiCallable = "app";
+  catchConflicts = false;
+
+  propagatedBuildInputs = with deps;
+    install ++
+    dev ++
+    debugLibsAndTools;
+
+
+  passthru = {
+    inherit deps;
+    inherit (deps) python;
+  };
 }

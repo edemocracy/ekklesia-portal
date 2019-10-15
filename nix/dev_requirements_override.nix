@@ -3,7 +3,7 @@
 with pkgs.python37Packages;
 
 let
-  addBuiltInputs = packageName: inputs: 
+  addBuiltInputs = packageName: inputs:
     {
       "${packageName}" = python.overrideDerivation super."${packageName}" (old: {
         buildInputs = old.buildInputs ++ inputs;
@@ -26,10 +26,6 @@ self: super: {
 
   "pytest-mock" = python.overrideDerivation super."pytest-mock" (old: {
     buildInputs = old.buildInputs ++ [ setuptools_scm ];
-  });
-
-  "mccabe" = python.overrideDerivation super."mccabe" (old: {
-    buildInputs = old.buildInputs ++ [ pytestrunner ];
   });
 
   "zipp" = python.overrideDerivation super."zipp" (old: {

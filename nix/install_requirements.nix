@@ -2,7 +2,7 @@
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V 3.7 -r frozen_install_requirements.txt -E postgresql -E libffi --basename install_requirements
+#   pypi2nix -V python37 -r ../generated_requirements/frozen_install_requirements.txt -E postgresql -E libffi -E openssl.dev --basename install_requirements
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -19,23 +19,9 @@ let
     inherit pkgs;
     inherit (pkgs) stdenv;
     python = pkgs.python37;
-    # patching pip so it does not try to remove files when running nix-shell
-    overrides =
-      self: super: {
-        bootstrapped-pip = super.bootstrapped-pip.overrideDerivation (old: {
-          patchPhase = old.patchPhase + ''
-            if [ -e $out/${pkgs.python37.sitePackages}/pip/req/req_install.py ]; then
-              sed -i \
-                -e "s|paths_to_remove.remove(auto_confirm)|#paths_to_remove.remove(auto_confirm)|"  \
-                -e "s|self.uninstalled = paths_to_remove|#self.uninstalled = paths_to_remove|"  \
-                $out/${pkgs.python37.sitePackages}/pip/req/req_install.py
-            fi
-          '';
-        });
-      };
   };
 
-  commonBuildInputs = with pkgs; [ postgresql libffi ];
+  commonBuildInputs = with pkgs; [ postgresql libffi openssl.dev ];
   commonDoCheck = false;
 
   withPackages = pkgs':
@@ -124,22 +110,6 @@ let
       };
     };
 
-    "boltons" = python.mkDerivation {
-      name = "boltons-19.1.0";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/27/4b/ebac172f3b17bd395ea1fa1121fc85e1cd5f9dbb6d4836d2bccc44a6e333/boltons-19.1.0.tar.gz";
-        sha256 = "c32b2d121331a9bc7c220050d4273f3aa359b7569cb4794188e71524603113dc";
-};
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/mahmoud/boltons";
-        license = licenses.bsdOriginal;
-        description = "When they're not builtins, they're boltons.";
-      };
-    };
-
     "case-conversion" = python.mkDerivation {
       name = "case-conversion-2.1.0";
       src = pkgs.fetchurl {
@@ -159,10 +129,10 @@ let
     };
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2019.6.16";
+      name = "certifi-2019.9.11";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/c5/67/5d0548226bcc34468e23a0333978f0e23d28d0b3f0c71a151aef9c3f7680/certifi-2019.6.16.tar.gz";
-        sha256 = "945e3ba63a0b9f577b1395204e13c3a231f9bc0223888be653286534e5873695";
+        url = "https://files.pythonhosted.org/packages/62/85/7585750fd65599e88df0fed59c74f5075d4ea2fe611deceb95dd1c2fb25b/certifi-2019.9.11.tar.gz";
+        sha256 = "e4f3620cfea4f83eedc95b24abd9cd56f3c4b146dd0177e83a21b4eb49e21e50";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
@@ -301,27 +271,6 @@ let
       };
     };
 
-    "eliot" = python.mkDerivation {
-      name = "eliot-1.10.0";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/cc/c0/2489a69c5bdffdb5b784f9d1c9ece404afad1720e91a5ea5feedbbeab994/eliot-1.10.0.tar.gz";
-        sha256 = "c76e22f234766be9a81eed83e636a5d77f696364adc04558722940b8761dc71e";
-};
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [
-        self."boltons"
-        self."pyrsistent"
-        self."six"
-        self."zope-interface"
-      ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/itamarst/eliot/";
-        license = licenses.asl20;
-        description = "Logging library that tells you why it happened";
-      };
-    };
-
     "idna" = python.mkDerivation {
       name = "idna-2.8";
       src = pkgs.fetchurl {
@@ -395,7 +344,6 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
-        self."babel"
         self."markupsafe"
       ];
       meta = with pkgs.stdenv.lib; {
@@ -607,10 +555,10 @@ let
     };
 
     "mypy-extensions" = python.mkDerivation {
-      name = "mypy-extensions-0.4.1";
+      name = "mypy-extensions-0.4.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/c2/92/3cc05d1206237d54db7b2565a58080a909445330b4f90a6436302a49f0f8/mypy_extensions-0.4.1.tar.gz";
-        sha256 = "37e0e956f41369209a3d5f34580150bcacfabaa57b33a15c0b25f4b5725e0812";
+        url = "https://files.pythonhosted.org/packages/1e/2f/7bba47eb58f62a473387cd7658dedd0bedb4b0fa9d530bbbfa0a6d23034a/mypy_extensions-0.4.2.tar.gz";
+        sha256 = "a161e3b917053de87dbe469987e173e49fb454eca10ef28b48b384538cc11458";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
@@ -719,24 +667,6 @@ let
         homepage = "http://github.com/syrusakbary/pyjade";
         license = licenses.mit;
         description = "Jade syntax template adapter for Django, Jinja2, Mako and Tornado templates";
-      };
-    };
-
-    "pyrsistent" = python.mkDerivation {
-      name = "pyrsistent-0.15.4";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/b9/66/b2638d96a2d128b168d0dba60fdc77b7800a9b4a5340cefcc5fc4eae6295/pyrsistent-0.15.4.tar.gz";
-        sha256 = "34b47fa169d6006b32e99d4b3c4031f155e6e68ebcc107d6454852e8e0ee6533";
-};
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [
-        self."six"
-      ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/tobgu/pyrsistent/";
-        license = licenses.mit;
-        description = "Persistent/Functional/Immutable data structures";
       };
     };
 
@@ -886,9 +816,7 @@ let
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [
-        self."psycopg2"
-      ];
+      propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "http://www.sqlalchemy.org";
         license = licenses.mit;
@@ -925,11 +853,6 @@ let
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
-        self."babel"
-        self."jinja2"
-        self."passlib"
-        self."psycopg2"
-        self."pytz"
         self."six"
         self."sqlalchemy"
       ];
@@ -1009,17 +932,14 @@ let
     };
 
     "urllib3" = python.mkDerivation {
-      name = "urllib3-1.25.3";
+      name = "urllib3-1.25.6";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/4c/13/2386233f7ee40aa8444b47f7463338f3cbdf00c316627558784e3f542f07/urllib3-1.25.3.tar.gz";
-        sha256 = "dbe59173209418ae49d485b87d1681aefa36252ee85884c31346debd19463232";
+        url = "https://files.pythonhosted.org/packages/ff/44/29655168da441dff66de03952880c6e2d17b252836ff1aa4421fba556424/urllib3-1.25.6.tar.gz";
+        sha256 = "9a107b99a5393caf59c7aa3c1249c16e6879447533d0887f4336dde834c7be86";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [
-        self."certifi"
-        self."idna"
-      ];
+      propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://urllib3.readthedocs.io/";
         license = licenses.mit;
@@ -1063,10 +983,10 @@ let
     };
 
     "werkzeug" = python.mkDerivation {
-      name = "werkzeug-0.15.5";
+      name = "werkzeug-0.16.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/c7/fb/56734c47bc5bb4d00898c2581bc08166cb6fea72b6894cf279053521c25a/Werkzeug-0.15.5.tar.gz";
-        sha256 = "a13b74dd3c45f758d4ebdb224be8f1ab8ef58b3c0ffc1783a8c7d9f4f50227e6";
+        url = "https://files.pythonhosted.org/packages/5e/fd/eb19e4f6a806cd6ee34900a687f181001c7a0059ff914752091aba84681f/Werkzeug-0.16.0.tar.gz";
+        sha256 = "7280924747b5733b246fe23972186c6b348f9ae29724135a6dfc1e53cea433e7";
 };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs ++ [ ];

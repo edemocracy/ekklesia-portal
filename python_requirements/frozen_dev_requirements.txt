@@ -17,17 +17,12 @@ idna==2.8                 # via requests
 importlib-metadata==0.19  # via pluggy, pytest
 inflect==2.1.0
 inflection==0.3.1         # via pytest-factoryboy
-mccabe==0.6.1             # via pylava
 mimesis-factory==1.0.0
 mimesis==3.3.0            # via mimesis-factory
 more-itertools==7.2.0     # via pytest
 packaging==19.1           # via pytest
 pluggy==0.12.0            # via pytest
 py==1.8.0                 # via pytest
-pycodestyle==2.5.0        # via pylava
-pydocstyle==4.0.1         # via pylava
-pyflakes==2.1.1           # via pylava
-pylava==0.2.2
 pyparsing==2.4.2          # via packaging
 pytest-cov==2.7.1
 pytest-factoryboy==2.0.3
@@ -40,7 +35,6 @@ python-dateutil==2.8.0    # via faker
 requests==2.22.0
 responses==0.10.6
 six==1.12.0               # via faker, packaging, pytest-pspec, python-dateutil, responses, webtest
-snowballstemmer==1.9.0    # via pydocstyle
 soupsieve==1.9.3          # via beautifulsoup4
 text-unidecode==1.2       # via faker
 typing-extensions==3.7.4

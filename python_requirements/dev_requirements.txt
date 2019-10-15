@@ -2,7 +2,6 @@ colorama
 coverage
 inflect
 mimesis-factory
-pylava
 pytest
 pytest-cov
 pytest-factoryboy

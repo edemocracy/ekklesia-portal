@@ -2,7 +2,7 @@
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V 3.7 -e eliot -e eliot-tree
+#   pypi2nix -V python37 -e eliot -e eliot-tree --basename eliot
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -19,20 +19,6 @@ let
     inherit pkgs;
     inherit (pkgs) stdenv;
     python = pkgs.python37;
-    # patching pip so it does not try to remove files when running nix-shell
-    overrides =
-      self: super: {
-        bootstrapped-pip = super.bootstrapped-pip.overrideDerivation (old: {
-          patchPhase = old.patchPhase + ''
-            if [ -e $out/${pkgs.python37.sitePackages}/pip/req/req_install.py ]; then
-              sed -i \
-                -e "s|paths_to_remove.remove(auto_confirm)|#paths_to_remove.remove(auto_confirm)|"  \
-                -e "s|self.uninstalled = paths_to_remove|#self.uninstalled = paths_to_remove|"  \
-                $out/${pkgs.python37.sitePackages}/pip/req/req_install.py
-            fi
-          '';
-        });
-      };
   };
 
   commonBuildInputs = [];
@@ -281,7 +267,7 @@ let
       };
     };
   };
-  localOverridesFile = ./eliot_tree_override.nix;
+  localOverridesFile = ./eliot_override.nix;
   localOverrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
     
