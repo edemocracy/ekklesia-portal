@@ -18,8 +18,8 @@ stdenv.mkDerivation rec {
   };
 
   installPhase = ''
-    mkdir -p $out
-    cp -r scss $out
+    mkdir -p $out/scss
+    cp -r scss $out/scss/bootstrap
     cp -r dist/js $out
   '';
 }
