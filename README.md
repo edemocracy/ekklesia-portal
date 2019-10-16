@@ -80,7 +80,7 @@ The repository includes compiled CSS so you don't have to run the following comm
 Generate CSS with:
 
 ~~~Shell
-sassc src/ekklesia_portal/sass/portal.sass \
+sassc -I $SASS_PATH src/ekklesia_portal/sass/portal.sass \
   src/ekklesia_portal/static/css/portal.css
 ~~~
 

@@ -4,6 +4,7 @@ let
   pkgs = import sources_.nixpkgs { };
   niv = (import sources_.niv { }).niv;
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
+  bootstrap = import ./bootstrap.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
   installRequirements = import ./install_requirements.nix { inherit pkgs; };
   devRequirements = import ./dev_requirements.nix { inherit pkgs; };
@@ -70,10 +71,11 @@ in rec {
 
   # Needed for a development nix shell
   shellInputs =
-    [ pythonDev ] ++
+    [ pythonDev bootstrap ] ++
     linters ++
     shellTools ++
     debugLibsAndTools;
 
   shellPath = lib.makeBinPath shellInputs;
+  sassPath = "${bootstrap}/scss";
 }

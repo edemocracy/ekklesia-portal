@@ -13,5 +13,6 @@ in pkgs.mkShell {
     export PATH=${deps.shellPath}
     export NIX_SSL_CERT_FILE=${caBundle}
     export SSL_CERT_FILE=${caBundle}
+    export SASS_PATH=${deps.sassPath}
   '';
 }
