@@ -5,6 +5,7 @@ let
   niv = (import sources_.niv { }).niv;
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   bootstrap = import ./bootstrap.nix { };
+  font-awesome = import ./font-awesome.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
   installRequirements = import ./install_requirements.nix { inherit pkgs; };
   devRequirements = import ./dev_requirements.nix { inherit pkgs; };
@@ -77,5 +78,6 @@ in rec {
     debugLibsAndTools;
 
   shellPath = lib.makeBinPath shellInputs;
-  sassPath = "${bootstrap}/scss";
+  sassPath = "${bootstrap}/scss:${font-awesome}/scss";
+  webfontsPath = "${font-awesome}/webfonts";
 }

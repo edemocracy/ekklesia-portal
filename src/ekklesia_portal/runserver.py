@@ -2,6 +2,7 @@ import glob
 import sys
 import argparse
 import datetime
+import os
 import os.path
 import tempfile
 import werkzeug.serving
@@ -71,7 +72,8 @@ def run():
 
     wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
         '/static': ("ekklesia_portal", 'static'),
-        '/static/deform': ("deform", 'static')
+        '/static/deform': ("deform", 'static'),
+        '/static/webfonts': os.environ.get('WEBFONTS_PATH')
     })
 
     if args.stackdump:
