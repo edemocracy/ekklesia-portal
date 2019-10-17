@@ -20,7 +20,9 @@ def model():
 @fixture
 def request_for_cell(app):
     environ = BaseRequest.blank('test').environ
-    return Mock(spec=EkklesiaPortalRequest(environ, app))
+    m = Mock(spec=EkklesiaPortalRequest(environ, app))
+    m.i18n = Mock()
+    return m
 
 
 @fixture

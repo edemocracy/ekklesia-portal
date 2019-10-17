@@ -5,8 +5,10 @@ from ekklesia_portal.database.datamodel import ArgumentRelation, Tag
 
 
 @fixture
-def proposition_cell(app, proposition_with_arguments):
-    return PropositionCell(proposition_with_arguments, Mock())
+def proposition_cell(app, proposition_with_arguments, req):
+    m = Mock(spec=req)
+    m.i18n = Mock()
+    return PropositionCell(proposition_with_arguments, m)
 
 
 def test_proposition_cell(proposition_cell):
