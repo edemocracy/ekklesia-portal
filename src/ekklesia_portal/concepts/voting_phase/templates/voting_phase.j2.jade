@@ -30,7 +30,7 @@
       dt= _('voting_status')
       dd= status|enum_value
       dt= _('target_date')
-      dd= target or 'nicht festgelegt'
+      dd= target|dateformat or 'nicht festgelegt'
       dt= _('department')
       dd= department.name
       dt= _('ballots')
@@ -38,7 +38,7 @@
       dt= _('propositions')
       dd= propositions|length
 
-    if show_description
+    if options.show_description
       .description
         = description|markdown
 

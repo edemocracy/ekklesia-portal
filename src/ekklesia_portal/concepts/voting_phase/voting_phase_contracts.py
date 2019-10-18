@@ -14,7 +14,6 @@ class VotingPhaseSchema(Schema):
     phase_type_id = int_property(title=_('voting_phase_type'))
     secret = bool_property(title=_('secret_voting_possible'))
     description = string_property(title=_('description'), validator=Length(min=10, max=65536), missing='')
-    ballots = list_property(title=_('ballots'), missing=[])
 
 
 class VotingPhaseForm(Form):
@@ -26,7 +25,6 @@ class VotingPhaseForm(Form):
         widgets = {
             'title': TextAreaWidget(rows=2),
             'description': TextAreaWidget(rows=8),
-            'ballots': TextInputCSVWidget(),
             'status': SelectWidget(values=items_for_selects['status']),
             'phase_type_id': SelectWidget(values=items_for_selects['phase_type']),
             'department_id': SelectWidget(values=items_for_selects['department'])
