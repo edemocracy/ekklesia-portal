@@ -108,6 +108,12 @@ class PropositionCell(LayoutCell):
     def argument_count(self):
         return len(self._model.proposition_arguments)
 
+    def full_title(self):
+        if self._model.voting_identifier:
+            return self._model.voting_identifier + ': ' + self._model.title
+        else:
+            return self._model.title
+
     def show_support_actions(self):
         return self._request.permitted_for_current_user(self._model, SupportPermission)
 

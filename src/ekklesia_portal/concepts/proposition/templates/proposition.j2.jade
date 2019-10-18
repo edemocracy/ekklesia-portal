@@ -69,7 +69,7 @@
 
 
 - block title
-  title= title
+  title= full_title
 
 
 - block content
@@ -127,10 +127,14 @@
               span= ngettext("argument", "arguments", argument_count)
 
           .proposition_body
-            h4.proposition_title
-                a(href=self_link)= title
-
             = proposition_tags(tags)
+
+            h4.proposition_title
+                a(href=self_link)= full_title
+
+            if options.show_actions
+              = proposition_actions(_model, current_user, _("button_goto_arguments"))
+              hr
 
             if options.show_details
               .proposition_details
@@ -140,9 +144,6 @@
                   h4= _('title_motivation')
                   = motivation|markdown
 
-            if options.show_actions
-              hr
-              = proposition_actions(_model, current_user, _("button_goto_arguments"))
 
     if options.active_tab == 'discussion'
       .row.arguments
