@@ -51,4 +51,4 @@ class LayoutCell(Cell):
         return self._s.app.imprint_url
 
     def source_code_url(self):
-        return 'https://github.com/dpausp/ekklesia-portal'
+        return self._s.app.source_code_url
