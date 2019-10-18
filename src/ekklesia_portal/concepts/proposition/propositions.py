@@ -22,7 +22,7 @@ class Propositions:
             propositions = propositions.order_by(desc(Proposition.active_supporter_count))
 
         elif self.mode == "sorted":
-            propositions = propositions.order_by(Proposition.title)
+            propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
 
         elif self.mode == "custom":
             raise NotImplementedError()
