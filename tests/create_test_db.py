@@ -73,15 +73,28 @@ if __name__ == "__main__":
                                            abbreviation='PV', secret_voting_possible=True)
     voting_phase_type_ur = VotingPhaseType(name='Online-Urabstimmung', voting_type=VotingType.ONLINE,
                                            abbreviation='UR', secret_voting_possible=False)
+    voting_phase_type_bpt = VotingPhaseType(name='Bundesparteitag', voting_type=VotingType.ASSEMBLY,
+                                           abbreviation='BPT', secret_voting_possible=True)
 
-    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2018-11-11', status=VotingStatus.SCHEDULED)
+    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2020-11-11', status=VotingStatus.SCHEDULED)
     voting_phase_pps_pv = VotingPhase(phase_type=voting_phase_type_pv,
                                       secret=True,
-                                      title='Piratenversammlung 2018.2',
+                                      title='Piratenversammlung 2020.2',
                                       name='pv182',
                                       description='eine **Piratenversammlung** in der Schweiz')
 
     department_pps.voting_phases.extend([voting_phase_pps_online, voting_phase_pps_pv])
+
+    voting_phase_ppd_bpt = VotingPhase(phase_type=voting_phase_type_bpt,
+                                      secret=True,
+                                      title='BPT 2019.2',
+                                      name='bpt192',
+                                      status=VotingStatus.SCHEDULED,
+                                      target="2019-11-10",
+                                      description='Der BPT in Bad Homburg')
+
+    department_ppd.voting_phases.extend([voting_phase_ppd_bpt])
+
 
     policy_default = Policy(
         description=gen_de.text.text(quantity=3),
@@ -111,7 +124,7 @@ if __name__ == "__main__":
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")
 
-    b1 = Ballot(area=subject_area_pps_in)
+    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_pps_pv)
     s.add(b1)
     q1 = Proposition(title="Ein Titel", content=gen_de.text.text(quantity=40))
 
