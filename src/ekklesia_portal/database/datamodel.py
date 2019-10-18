@@ -396,8 +396,12 @@ class Proposition(Base):
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
-    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation',
-                                        weights={'title': 'A', 'abstract': 'B', 'content': 'C', 'motivation': 'D'}))
+    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation', 'voting_identifier',
+                                        weights={'title': 'A',
+                                                 'voting_identifier': 'A',
+                                                 'abstract': 'B',
+                                                 'content': 'C',
+                                                 'motivation': 'D'}))
 
     def support_by_user(self, user):
         for s in self.propositions_member:
