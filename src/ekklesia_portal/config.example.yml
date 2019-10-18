@@ -10,6 +10,10 @@ database:
 app:
     instance_name: my_ekklesia_portal
     insecure_development_mode: false
+share:
+    use_url_shortener: false
+    hashtag: "PIRATEN"
+    promote_account: "piratenpartei"
 browser_session:
     secret_key: devkey
     cookie_secure: false
