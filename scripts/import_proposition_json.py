@@ -1,10 +1,10 @@
 import argparse
 import json
-from eliot import log_call, start_task, Message, write_traceback
 
 import sqlalchemy.orm
 import transaction
 from case_conversion import case_conversion
+from eliot import Message, log_call, start_task, write_traceback
 
 
 @log_call
@@ -22,6 +22,7 @@ def load_proposition_json_file(filepath, log_level="INFO"):
     optional_fields = {
         'motivation',
         'tags',
+        'voting_identifier',
         'external_discussion_url'
     }
 
@@ -55,7 +56,8 @@ def load_proposition_json_file(filepath, log_level="INFO"):
 
 
 @log_call
-def insert_proposition(department_name, title, abstract, content, motivation, author, tags, external_discussion_url, log_level="INFO"):
+def insert_proposition(department_name, voting_phase_name, title, abstract, content, motivation,
+                       author, tags, voting_identifier, external_discussion_url, log_level="INFO"):
     department = session.query(Department).filter_by(name=department_name).one()
     maybe_subject_area = [area for area in department.areas if area.name == "Allgemein"]
 
@@ -63,15 +65,22 @@ def insert_proposition(department_name, title, abstract, content, motivation, au
         raise ValueError("Subject area 'Allgemein' not found! Please create it!")
 
     subject_area = maybe_subject_area[0]
+
+    if voting_phase_name:
+        voting_phase = session.query(VotingPhase).filter_by(name=voting_phase_name).one()
+    else:
+        voting_phase = None
+
     # TODO: Adding support for multiple proposition submitters
     user = session.query(User).filter_by(name=author).scalar()
 
     if user is None:
         user = User(name=author, auth_type="import")
 
-    ballot = Ballot(area=subject_area)
+    ballot = Ballot(area=subject_area, voting=voting_phase)
     proposition = Proposition(title=title, abstract=abstract, content=content, motivation=motivation,
-                              external_discussion_url=external_discussion_url, ballot=ballot)
+                              voting_identifier=voting_identifier, external_discussion_url=external_discussion_url,
+                              ballot=ballot)
 
     for tag_name in tags:
         tag = session.query(Tag).filter_by(name=tag_name).scalar()
@@ -90,6 +99,7 @@ class MissingFieldsException(Exception):
 parser = argparse.ArgumentParser("Ekklesia Portal import_proposition_json.py")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
 parser.add_argument("-d", "--department", help=f"Choose the department to import to.")
+parser.add_argument("-v", "--voting-phase", default=None, help=f"Voting phase to assign propositions to (optional)")
 parser.add_argument('filenames', nargs='+')
 
 if __name__ == "__main__":
@@ -100,7 +110,7 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
-    from ekklesia_portal.database.datamodel import Ballot, Department, Proposition, User, Supporter, Tag
+    from ekklesia_portal.database.datamodel import Ballot, Department, Proposition, User, VotingPhase, Supporter, Tag
     from ekklesia_portal.database import Session
 
     session = Session()
@@ -113,7 +123,7 @@ if __name__ == "__main__":
         with start_task(log_level="INFO", action_type="import_proposition"):
             try:
                 imported_data = load_proposition_json_file(fp)
-                insert_proposition(args.department, **imported_data)
+                insert_proposition(args.department, args.voting_phase, **imported_data)
             except MissingFieldsException as e:
                 failed_propositions[fp] = e.args[0]
             except:
