@@ -60,6 +60,8 @@ class VotingSystem(str, Enum):
 
 # XXX: add Enum support to babel extractor
 
+_('argument_type_pro')
+_('argument_type_contra')
 _('majority_1/2')
 _('majority_2/3')
 _('voting_status_aborted')

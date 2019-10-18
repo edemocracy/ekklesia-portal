@@ -1,10 +1,7 @@
 - extends "ekklesia_portal/layout.j2.jade"
 
 - block title
-  title
-    = proposition.title
-    | -
-    = _("new_argument")
+  title {{ _("new_argument") }} - {{ proposition.title }}
 
 - block content
 
@@ -12,7 +9,7 @@
 
   //= proposition_box(proposition, current_user, no_margin=True)
 
-  h3= _("new_argument")
+  h3 {{ _('new_argument') }} ({{ relation_type|enum_value }}) - {{ proposition.title }}
 
   = form_html
 
