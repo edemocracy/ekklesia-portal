@@ -138,3 +138,9 @@ def test_support(client, db_session, logged_in_user):
 
     client.post('/p/3/a/support', dict(retract=True), status=302)
     assert_supporter('retracted')
+
+
+def test_redirect_to_full_url(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p/1', status=302)
+    assert res.headers['Location'] == 'http://localhost/p/1/ein-titel'

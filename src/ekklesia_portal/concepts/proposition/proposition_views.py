@@ -1,12 +1,15 @@
 import case_conversion
 from morepath import redirect
 from webob.exc import HTTPBadRequest
+
 from ekklesia_portal.app import App
-from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.database.datamodel import Proposition, Tag, Supporter, Ballot, SubjectArea
+from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter, Tag
+from ekklesia_portal.enums import PropositionStatus
 from ekklesia_portal.identity_policy import NoIdentity
+from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.permission import CreatePermission, SupportPermission
-from .proposition_cells import PropositionCell, PropositionsCell, NewPropositionCell
+
+from .proposition_cells import NewPropositionCell, PropositionCell, PropositionsCell
 from .proposition_contracts import PropositionForm
 from .propositions import Propositions
 
@@ -30,6 +33,12 @@ def propositions(request, search=None, tag=None, mode="sorted"):
 def proposition(request, id, slug):
     proposition = request.q(Proposition).get(id)
     return proposition
+
+
+@App.path(path='/p/{id}')
+class PropositionRedirect:
+    def __init__(self, id):
+        self.id = id
 
 
 @App.html(model=Proposition)
@@ -138,4 +147,10 @@ def create(self, request, appstruct):
     request.db_session.add(proposition)
     request.db_session.flush()
 
+    return redirect(request.link(proposition))
+
+
+@App.view(model=PropositionRedirect)
+def proposition_redirect(self, request):
+    proposition = request.q(Proposition).get(self.id)
     return redirect(request.link(proposition))
