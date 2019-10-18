@@ -1,6 +1,7 @@
 import logging
 import os.path
 from pathlib import Path
+from munch import Munch
 from pytest import fixture
 from morepath.request import BaseRequest
 from webtest import TestApp as Client
@@ -34,7 +35,11 @@ def client(app):
 @fixture
 def req(app):
     environ = BaseRequest.blank('test').environ
-    return EkklesiaPortalRequest(environ, app)
+    req = EkklesiaPortalRequest(environ, app)
+    req.i18n = Munch(dict(gettext=(lambda s, *a, **k: s)))
+    req.browser_session = {}
+    return req
+
 
 
 @fixture
