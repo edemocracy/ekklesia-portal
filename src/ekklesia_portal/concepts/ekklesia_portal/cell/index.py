@@ -1,13 +1,20 @@
-from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.proposition.propositions import Propositions
-from ekklesia_portal.concepts.department.departments import Departments
-from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
 from ekklesia_portal.concepts.ballot.ballots import Ballots
+from ekklesia_portal.concepts.department.departments import Departments
+from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.policy.policies import Policies
+from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.proposition_type.proposition_types import PropositionTypes
+from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
+from ekklesia_portal.database.datamodel import VotingPhase
+from ekklesia_portal.enums import VotingStatus
 
 
 class IndexCell(LayoutCell):
+
+    def scheduled_voting_phases(self):
+        return self._request.q(VotingPhase).\
+            filter_by(status=VotingStatus.SCHEDULED).\
+            order_by(VotingPhase.target)
 
     def insecure_development_mode_enabled(self):
         return self._app.settings.app.insecure_development_mode
@@ -29,3 +36,6 @@ class IndexCell(LayoutCell):
 
     def departments_url(self):
         return self.link(Departments())
+
+    def welcome_text(self):
+        return self._s.app.welcome_text[self.language]

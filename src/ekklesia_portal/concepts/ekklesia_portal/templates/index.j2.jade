@@ -2,31 +2,38 @@
 
 - block content
 
-  h2 Ekklesia-Portal
-
   if insecure_development_mode_enabled
     .alert.alert-danger
       strong= _('warning_development_mode')
+    ul
+      li
+        a(href=plain_propositions_url)= _('propositions')
+      li
+        a(href=new_proposition_url)= _('new_proposition')
+      li
+        a(href=voting_phases_url)= _('voting_phases')
+      li
+        a(href=new_voting_phase_url)= _('new_voting_phase')
+      li
+        a(href=ballots_url)= _('ballots')
+      li
+        a(href=profile_url)= _('profile')
+      li
+        a(href=policies_url)= _('policies')
+      li
+        a(href=proposition_types_url)= _('proposition_types')
+      li
+        a(href=departments_url)= _('departments')
 
-  ul
-    li
-      a(href=plain_propositions_url)= _('propositions')
-    li
-      a(href=new_proposition_url)= _('new_proposition')
-    li
-      a(href=voting_phases_url)= _('voting_phases')
-    li
-      a(href=new_voting_phase_url)= _('new_voting_phase')
-    li
-      a(href=ballots_url)= _('ballots')
-    li
-      a(href=profile_url)= _('profile')
-    li
-      a(href=policies_url)= _('policies')
-    li
-      a(href=proposition_types_url)= _('proposition_types')
-    li
-      a(href=departments_url)= _('departments')
+    hr
+
+  = welcome_text|markdown
+
+  hr
+
+  h2= _('scheduled_voting_phases')
+
+  = render_cell(collection=scheduled_voting_phases)
 
 
 // generated from jade
