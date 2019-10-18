@@ -23,6 +23,9 @@ class VotingPhaseCell(LayoutCell):
     def show_edit_button(self):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
+    def propositions(self):
+        return [p for b in self._model.ballots for p in b.propositions]
+
 
 class NewVotingPhaseCell(NewFormCell):
 

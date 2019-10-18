@@ -33,11 +33,15 @@
       dd= target or 'nicht festgelegt'
       dt= _('department')
       dd= department.name
+      dt= _('ballots')
+      dd= ballots|length
+      dt= _('propositions')
+      dd= propositions|length
 
     if show_description
       .description
         = description|markdown
 
-    if show_ballots and ballots
-      h4= _('ballots')
-      = render_cell(collection=ballots)
+    if options.show_proposition_list and propositions
+      h4= _('propositions')
+      = render_cell(collection=propositions)

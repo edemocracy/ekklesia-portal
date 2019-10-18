@@ -84,5 +84,5 @@ def update(self, request, appstruct):
 
 @App.html(model=VotingPhase)
 def show(self, request):
-    cell = VotingPhaseCell(self, request, show_edit_button=True)
+    cell = VotingPhaseCell(self, request, show_edit_button=True, show_proposition_list=True)
     return cell.show()
