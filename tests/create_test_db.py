@@ -76,8 +76,10 @@ if __name__ == "__main__":
     voting_phase_type_bpt = VotingPhaseType(name='Bundesparteitag', voting_type=VotingType.ASSEMBLY,
                                            abbreviation='BPT', secret_voting_possible=True)
 
-    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur, target='2020-11-11', status=VotingStatus.SCHEDULED)
+    voting_phase_pps_online = VotingPhase(phase_type=voting_phase_type_ur)
     voting_phase_pps_pv = VotingPhase(phase_type=voting_phase_type_pv,
+                                      target='2020-11-11',
+                                      status=VotingStatus.SCHEDULED,
                                       secret=True,
                                       title='Piratenversammlung 2020.2',
                                       name='pv182',
@@ -126,7 +128,7 @@ if __name__ == "__main__":
 
     b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_pps_pv)
     s.add(b1)
-    q1 = Proposition(title="Ein Titel", content=gen_de.text.text(quantity=40))
+    q1 = Proposition(title="Ein Titel", content=gen_de.text.text(quantity=40), voting_identifier="PP001")
 
     q1_counter = Proposition(title="Gegenantrag zu Q1", content="will was anderes", replaces=q1)
 

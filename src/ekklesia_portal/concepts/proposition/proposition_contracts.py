@@ -8,6 +8,7 @@ from ekklesia_portal.helper.translation import _
 class PropositionSchema(Schema):
     area_id = int_property(title=_('subject_area'), missing=None)
     title = string_property(title=_('title'), validator=Length(min=5, max=512))
+    voting_identifier = string_property(title=_('voting_identifier'), validator=Length(max=10), missing=None)
     external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url)
     abstract = string_property(title=_('abstract'), validator=Length(min=5, max=2048))
     content = string_property(title=_('content'), validator=Length(min=10, max=65536))

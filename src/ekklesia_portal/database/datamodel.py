@@ -376,6 +376,7 @@ class Proposition(Base):
     content = Column(Text, nullable=False)  # modifies: generate diff to original dynamically
     abstract = Column(Text, nullable=False, server_default='')
     motivation = Column(Text, nullable=False, server_default='')
+    voting_identifier = Column(String(10))
     submitted = Column(DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
     qualified = Column(DateTime, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
