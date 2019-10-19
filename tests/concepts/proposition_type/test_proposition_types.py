@@ -4,7 +4,7 @@ from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.database.datamodel import PropositionType
 
 
-def test_create_proposition_type(client, db_query, proposition_type_factory, logged_in_department_admin):
+def test_create_proposition_type(client, db_query, proposition_type_factory, logged_in_global_admin):
     data = factory.build(dict, FACTORY_CLASS=proposition_type_factory)
     res = client.get('/proposition_types/+new')
     form = assert_deform(res)
@@ -14,7 +14,7 @@ def test_create_proposition_type(client, db_query, proposition_type_factory, log
         form.submit(status=302)
 
 
-def test_update_proposition_type(db_session, client, proposition_type_factory, logged_in_department_admin):
+def test_update_proposition_type(db_session, client, proposition_type_factory, logged_in_global_admin):
     proposition_type = proposition_type_factory()
     res = client.get(f'/proposition_types/{ proposition_type.id}/+edit')
     expected = proposition_type.to_dict()

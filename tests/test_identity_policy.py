@@ -21,9 +21,21 @@ def test_remember(identity_policy, identity, req):
     assert req.browser_session['user_id'] == 1
 
 
-def test_identify(identity_policy, req):
-    req.browser_session = {'user_id': 1}
-    identity_policy.identify(req)
+def test_identify(identity_policy, req, user_factory):
+    user = user_factory()
+    req.browser_session = {'user_id': user.id}
+    identity = identity_policy.identify(req)
+    assert identity.userid == user.id
+    assert identity.has_global_admin_permissions == False
+
+
+def test_identify_admin(identity_policy, req, user_factory, group_factory):
+    group = group_factory(is_admin_group=True)
+    user = user_factory()
+    group.members.append(user)
+    req.browser_session = {'user_id': user.id}
+    identity = identity_policy.identify(req)
+    assert identity.has_global_admin_permissions == True
 
 
 def test_forget(identity_policy, req):

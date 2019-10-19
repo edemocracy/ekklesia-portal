@@ -8,12 +8,14 @@ logg = logging.getLogger(__name__)
 
 class UserIdentity(morepath.Identity):
 
-    def __init__(self, user):
+    def __init__(self, user, has_global_admin_permissions=False):
         self.user = user
+        self.has_global_admin_permissions = has_global_admin_permissions
 
     @property
     def userid(self):
         return self.user.id
+
 
 
 class NoIdentity(morepath.Identity):
@@ -40,7 +42,8 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
             logg.info('user_id %s in session, but not found in the database!', user_id)
             return NoIdentity
 
-        return self.identity_class(user)
+
+        return self.identity_class(user, has_global_admin_permissions=any(g.is_admin_group for g in user.groups))
 
     def forget(self, response, request):
         del request.browser_session['user_id']

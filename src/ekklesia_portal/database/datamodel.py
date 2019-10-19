@@ -55,7 +55,7 @@ class Group(Base):
     __tablename__ = 'groups'
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
-    permissions = Column(Integer, server_default='0')
+    is_admin_group = Column(Boolean, nullable=False, server_default='false')
     members = association_proxy('group_members', 'member')  # <-GroupMember-> User
 
 

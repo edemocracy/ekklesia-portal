@@ -12,12 +12,12 @@ from .policies import Policies
 
 @App.permission_rule(model=Policies, permission=CreatePermission)
 def policies_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.permission_rule(model=Policy, permission=EditPermission)
 def policy_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=Policies, path='policies')

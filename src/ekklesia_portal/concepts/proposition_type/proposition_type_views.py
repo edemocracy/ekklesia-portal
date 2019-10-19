@@ -10,12 +10,12 @@ from .proposition_types import PropositionTypes
 
 @App.permission_rule(model=PropositionTypes, permission=CreatePermission)
 def proposition_types_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.permission_rule(model=PropositionType, permission=EditPermission)
 def proposition_type_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=PropositionTypes, path='proposition_types')

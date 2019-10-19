@@ -4,7 +4,7 @@ from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.database.datamodel import Department
 
 
-def test_create_department(client, db_query, department_factory, logged_in_department_admin):
+def test_create_department(client, db_query, department_factory, logged_in_global_admin):
     data = factory.build(dict, FACTORY_CLASS=department_factory)
     res = client.get('/departments/+new')
     form = assert_deform(res)
@@ -14,7 +14,7 @@ def test_create_department(client, db_query, department_factory, logged_in_depar
         form.submit(status=302)
 
 
-def test_update_department(db_session, client, department_factory, logged_in_department_admin):
+def test_update_department(db_session, client, department_factory, logged_in_global_admin):
     department = department_factory()
     res = client.get(f'/departments/{ department.id}/+edit')
     expected = department.to_dict()

@@ -91,6 +91,14 @@ def logged_in_user_with_departments(user_with_departments, monkeypatch):
 
 
 @fixture
+def global_admin(group_factory, user_factory):
+    user = user_factory()
+    group = group_factory()
+    group.members.append(user)
+    return user
+
+
+@fixture
 def department_admin(db_session, user_factory, department_factory):
     user = user_factory()
     d1 = department_factory(description='admin')
@@ -106,6 +114,13 @@ def logged_in_department_admin(department_admin, monkeypatch):
     user_identity = UserIdentity(department_admin)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return department_admin
+
+
+@fixture
+def logged_in_global_admin(global_admin, monkeypatch):
+    user_identity = UserIdentity(global_admin, has_global_admin_permissions=True)
+    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    return global_admin
 
 
 @fixture(autouse=True)

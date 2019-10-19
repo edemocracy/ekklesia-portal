@@ -4,7 +4,7 @@ from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.database.datamodel import Policy
 
 
-def test_create_policy(client, db_query, policy_factory, logged_in_department_admin):
+def test_create_policy(client, db_query, policy_factory, logged_in_global_admin):
     data = factory.build(dict, FACTORY_CLASS=policy_factory)
     res = client.get('/policies/+new')
     form = assert_deform(res)
@@ -14,7 +14,7 @@ def test_create_policy(client, db_query, policy_factory, logged_in_department_ad
         form.submit(status=302)
 
 
-def test_update_policy(db_session, client, policy_factory, logged_in_department_admin):
+def test_update_policy(db_session, client, policy_factory, logged_in_global_admin):
     policy = policy_factory()
     res = client.get(f'/policies/{policy.id}/+edit')
     expected = policy.to_dict()

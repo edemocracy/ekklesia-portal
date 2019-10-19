@@ -57,8 +57,14 @@ if __name__ == "__main__":
     subject_area_ppd_allg = SubjectArea(name='Allgemein', department=department_ppd)
 
     ug1 = Group(name="Deppengruppe")
+    admin_group = Group(name="Göttliche Admins", is_admin_group=True)
+    s.add(admin_group)
 
     u1 = User(name="testuser", auth_type="system")
+    admin = User(name="testadmin", auth_type="system")
+    admin.password = UserPassword(hashed_password=password_context.hash("admin", scheme="plaintext"))
+    admin_group.members.append(admin)
+
     u1.password = UserPassword(hashed_password=password_context.hash("test", scheme="plaintext"))
     u2_profile = UserProfile(auid='auid_egon', user_type=EkklesiaUserType.PLAIN_MEMBER, verified=True, avatar='xxx', profile='ich halt')
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})

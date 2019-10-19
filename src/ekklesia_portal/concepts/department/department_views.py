@@ -12,12 +12,12 @@ from .departments import Departments
 
 @App.permission_rule(model=Departments, permission=CreatePermission)
 def departments_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.permission_rule(model=Department, permission=EditPermission)
 def department_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=Departments, path='departments')
