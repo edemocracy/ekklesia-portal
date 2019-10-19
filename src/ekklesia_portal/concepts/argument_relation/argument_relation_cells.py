@@ -48,4 +48,4 @@ class NewArgumentForPropositionCell(NewFormCell):
         return self._request.db_session.query(Proposition).get(self._model.proposition_id)
 
     def relation_type(self):
-        return self._form_data['relation_type']
+        self._request.params['relation_type']
