@@ -1,4 +1,6 @@
 { sources ? null }:
+with builtins;
+
 let
   sources_ = if (sources == null) then import ./sources.nix else sources;
   pkgs = import sources_.nixpkgs { };
@@ -7,15 +9,17 @@ let
   bootstrap = import ./bootstrap.nix { };
   font-awesome = import ./font-awesome.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
-  installRequirements = import ./install_requirements.nix { inherit pkgs; };
-  devRequirements = import ./dev_requirements.nix { inherit pkgs; };
+  installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
+  testPkgs = (import ./test_requirements.nix { inherit pkgs; }).packages;
   pythonPackages = pkgs.python37Packages;
   setuptools = pythonPackages.setuptools;
 
+
 in rec {
   inherit pkgs;
-  inherit (pkgs) lib;
-  inherit (pythonPackages) buildPythonPackage;
+  inherit (pkgs) lib sassc;
+  inherit (installPkgs) babel deform;
+  inherit (pythonPackages) buildPythonApplication;
   buildPythonEnv = pkgs.python37.buildEnv;
 
   gunicorn = pythonPackages.gunicorn.overrideAttrs(old: {
@@ -28,20 +32,20 @@ in rec {
     ipython
   ];
 
-  install = builtins.attrValues installRequirements.packages;
-  dev = builtins.attrValues devRequirements.packages;
+  testLibs = (attrValues testPkgs) ++ [ setuptools ];
+
+  installLibs = (attrValues installPkgs) ++ [
+    eliotPkgs.eliot
+  ];
 
   python = buildPythonEnv.override {
-    extraLibs = install ++
-                [ eliotPkgs.eliot setuptools ] ++
-                debugLibsAndTools;
+    extraLibs = installLibs;
     ignoreCollisions = true;
   };
 
-  pythonDev = buildPythonEnv.override {
-    extraLibs = dev ++
-                install ++
-                [ eliotPkgs.eliot setuptools ] ++
+  pythonTest = buildPythonEnv.override {
+    extraLibs = testLibs ++
+                installLibs ++
                 debugLibsAndTools;
     ignoreCollisions = true;
   };
@@ -72,7 +76,7 @@ in rec {
 
   # Needed for a development nix shell
   shellInputs =
-    [ pythonDev bootstrap ] ++
+    [ pythonTest bootstrap ] ++
     linters ++
     shellTools ++
     debugLibsAndTools;

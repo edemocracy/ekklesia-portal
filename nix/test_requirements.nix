@@ -2,7 +2,7 @@
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V python37 -r ../generated_requirements/frozen_dev_requirements.txt --basename dev_requirements
+#   pypi2nix -V python37 -r ../generated_requirements/frozen_test_requirements.txt --basename test_requirements
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -820,10 +820,10 @@ let
       };
     };
   };
-  localOverridesFile = ./dev_requirements_override.nix;
+  localOverridesFile = ./test_requirements_override.nix;
   localOverrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
-    
+
   ];
   paramOverrides = [
     (overrides { inherit pkgs python; })

@@ -4,32 +4,29 @@
 { sources ? null }:
 let
   deps = import ./nix/deps.nix { inherit sources; };
-  inherit (deps) buildPythonPackage lib pkgs;
-  version =
-    lib.replaceStrings
-      ["\n"]
-      [""]
-      (lib.readFile
-        (pkgs.runCommand
-          "git-version"
-          { src = ./.; buildInputs = [ pkgs.gitMinimal ]; }
-          "cd $src; git describe --long --tags --dirty --always > $out"));
+  inherit (deps) buildPythonApplication lib pkgs babel installLibs testLibs;
+  version = import ./nix/version.nix;
 
-in buildPythonPackage rec {
+in buildPythonApplication rec {
   pname = "ekklesia-portal";
-  name = "${pname}";
-  src = pkgs.nix-gitignore.gitignoreSource [] ./.;
+  inherit version;
+
+  src = pkgs.nix-gitignore.gitignoreSource
+          [ "cookiecutter" "mockup" "old" ]
+          ./.;
+
   doCheck = false;
   catchConflicts = false;
 
-  propagatedBuildInputs = with deps;
-    install ++
-    dev ++
-    debugLibsAndTools;
+  buildInputs = testLibs;
+  propagatedBuildInputs = installLibs;
 
+  postInstall = ''
+    ${babel}/bin/pybabel compile -d $out/lib/*/site-packages/ekklesia_portal/translations
+  '';
 
   passthru = {
-    inherit deps;
+    inherit deps version;
     inherit (deps) python;
   };
 }

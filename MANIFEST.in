@@ -1,0 +1,4 @@
+include LICENSE setup.cfg
+recursive-include tests *
+recursive-include src/ekklesia_portal *.jade
+recursive-include src/ekklesia_portal/translations *

@@ -20,3 +20,8 @@ result
 htmlcov/
 mypy_stubs
 pyenv
+dist
+serve_static
+serve_app
+docker-image-ekklesia-portal-static.tar
+docker-image-ekklesia-portal-static.tar

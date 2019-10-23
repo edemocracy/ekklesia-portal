@@ -2,6 +2,7 @@ attrs
 case-conversion
 dataclasses-json
 deform
+eliot
 jinja2
 more.babel-i18n
 more.browser-session
