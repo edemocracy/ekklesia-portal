@@ -2,6 +2,6 @@ from passlib.context import CryptContext
 
 password_context = CryptContext(
     # use plaintext only for tests!!!
-    schemes=['bcrypt', 'plaintext'],
+    schemes=['pbkdf2_sha256', 'plaintext'],
     deprecated="auto"
 )
