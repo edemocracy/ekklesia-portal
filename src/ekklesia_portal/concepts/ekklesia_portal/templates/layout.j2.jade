@@ -5,14 +5,13 @@ head
   meta(charset="utf8")
   meta(name="viewport",content="width=device-width, initial-scale=1, shrink-to-fit=no")
   meta(http-equiv="x-ua-compatible", content="ie=edge")
-  link(rel='stylesheet', href='/static/deform/css/form.css')
-  link(rel="stylesheet" href="/static/deform/select2/select2.css")
-  link(rel="stylesheet", href="/static/css/portal.css")
-  script(src="/static/js/jquery-2.2.3.js")
-  script(src="/static/js/bootstrap-4.3.1.bundle.js")
-  script(src='/static/deform/scripts/deform.js')
-  script(src='/static/deform/select2.js')
-  script(src='/static/deform/select2/select2.js')
+  link(rel='stylesheet', href=static_url('deform/css/form.css'))
+  link(rel="stylesheet" href=static_url('deform/select2/select2.css'))
+  link(rel="stylesheet", href=static_url('css/portal.css'))
+  script(src=static_url('js/jquery-2.2.3.js'))
+  script(src=static_url('js/bootstrap-4.3.1.bundle.js'))
+  script(src=static_url('deform/scripts/deform.js'))
+  script(src=static_url('deform/select2/select2.js'))
 
 body
   - block navbar

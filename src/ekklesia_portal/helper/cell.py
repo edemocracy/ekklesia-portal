@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os.path
 from webob import Request
 from typing import Any, Iterable, Dict, Type, ClassVar
 import case_conversion
@@ -116,6 +117,9 @@ class Cell(metaclass=CellMeta):
 
     def class_link(self, model_class, variables: Dict[str, Any], name='', *args, **kwargs) -> str:
         return self._request.class_link(model_class, variables, name, *args, **kwargs)
+
+    def static_url(self, path):
+        return os.path.join(self._s.static_files.base_url, path)
 
     def cell(self, model, layout: bool = None, view_name='', **options) -> 'Cell':
         """Look up a cell by model and create an instance.
