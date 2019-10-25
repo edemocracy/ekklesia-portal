@@ -69,6 +69,7 @@ class User(Base):
     active = Column(Boolean, nullable=False, server_default='true')
     last_active = Column(DateTime, nullable=False, server_default=func.now(),
                          comment='last relevant activity (to be considered active member §2.2)')
+    can_login_until = C(DateTime, comment='optional expiration datetime after which login is no longer possible')
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
     groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
