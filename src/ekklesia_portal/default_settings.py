@@ -15,6 +15,7 @@ settings = {
         "custom_footer_url": None,
         "source_code_url": "https://github.com/Piratenpartei/ekklesia-portal",
         "tos_url": None,
+        "data_protection_url": None,
         "faq_url": None,
         "imprint_url": None
     },

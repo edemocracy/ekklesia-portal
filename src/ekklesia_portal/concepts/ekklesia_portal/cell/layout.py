@@ -48,6 +48,9 @@ class LayoutCell(Cell):
     def tos_url(self):
         return self._s.app.tos_url
 
+    def data_protection_url(self):
+        return self._s.app.data_protection_url
+
     def faq_url(self):
         return self._s.app.faq_url
 
