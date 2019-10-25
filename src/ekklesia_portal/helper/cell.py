@@ -126,7 +126,7 @@ class Cell(metaclass=CellMeta):
         The parent cell is set to self which also means that it will be rendered without layout by default.
         """
         cell_class = find_cell_by_model_instance(model)
-        return cell_class(model, self._request, layout=layout, parent=self, **options)
+        return cell_class(model=model, request=self._request, layout=layout, parent=self, **options)
 
     def render_cell(self,
                     model=None,
