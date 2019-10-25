@@ -4,12 +4,16 @@
 
 - block content
 
-  h2 Login über Ekklesia-ID-Testserver
+  if show_ekklesia_login
 
-  a.btn.btn-primary(href=ekklesia_login_url) Ekklesia-Login
+    h2 Login über zentralen Ekklesia-Login
 
-  if internal_login_enabled or insecure_development_mode_enabled
+    a.btn.btn-primary(href=ekklesia_login_url) Zum Ekklesia-Login
+
     hr
+
+
+  if show_internal_login
     h2 Interner Login
 
     if insecure_development_mode_enabled

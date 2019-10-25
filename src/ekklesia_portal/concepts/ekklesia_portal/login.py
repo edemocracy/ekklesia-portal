@@ -23,6 +23,7 @@ class Login:
 
         self.user = user
 
+
     def verify_password(self, insecure_empty_password_ok):
         if self.user is None:
             raise ValueError("user is not set!")

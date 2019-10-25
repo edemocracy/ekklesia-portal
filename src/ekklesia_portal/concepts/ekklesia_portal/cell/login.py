@@ -12,7 +12,10 @@ class LoginCell(LayoutCell):
         return self.link(EkklesiaLogin(), app=ekklesia_app)
 
     def insecure_development_mode_enabled(self):
-        return self._app.settings.app.insecure_development_mode
+        return self._s.app.insecure_development_mode
 
-    def internal_login_enabled(self):
-        return self._app.settings.app.internal_login_enabled
+    def show_internal_login(self):
+        return (self._s.app.internal_login_enabled or self.insecure_development_mode_enabled)
+
+    def show_ekklesia_login(self):
+        return (self._s.ekklesia_auth.enabled)
