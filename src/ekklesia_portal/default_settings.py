@@ -16,12 +16,7 @@ settings = {
         "source_code_url": "https://github.com/Piratenpartei/ekklesia-portal",
         "tos_url": None,
         "faq_url": None,
-        "imprint_url": None,
-        "welcome_text": {
-            "de": welcome_text,
-            "en": welcome_text,
-            "fr": welcome_text
-        }
+        "imprint_url": None
     },
     "share": {
         "use_url_shortener": False,

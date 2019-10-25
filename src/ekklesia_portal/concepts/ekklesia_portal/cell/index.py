@@ -38,4 +38,6 @@ class IndexCell(LayoutCell):
         return self.link(Departments())
 
     def welcome_text(self):
-        return self._s.app.welcome_text[self.language]
+        return (self._request.q(Page.text)
+                    .filter_by(name='content_welcome', lang=self.language)
+                    .scalar() or 'add your welcome page!')
