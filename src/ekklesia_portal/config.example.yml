@@ -1,15 +1,14 @@
-ekklesia_auth:
-    client_id: "ekklesia_portal"
-    client_secret: "ekklesia_portal_secret"
-    api_base_url: "https://identity-server.invalid/api/v1/"
-    authorization_url: "https://identity-server.invalid/oauth2/authorize/"
-    token_url: "https://identity-server.invalid/oauth2/token/"
 database:
     uri: "postgresql+psycopg2://ekklesia_portal_db_user:ekklesia_portal_db_password@127.0.0.1/ekklesia_portal_db_name"
     fts_language: 'german'
 app:
     instance_name: my_ekklesia_portal
     insecure_development_mode: false
+    force_ssl: true
+    tos_url: /pages/tos
+    imprint_url: /pages/imprint
+    data_protection_url: /pages/data_protection
+    faq_url: /pages/faq
 share:
     use_url_shortener: false
     hashtag: "PIRATEN"
