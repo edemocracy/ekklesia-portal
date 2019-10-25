@@ -1,6 +1,8 @@
+import json
 import logging
 import time
 
+from eliot import log_call
 import yaml
 from sqlalchemy import Column, ForeignKey, Table, event, Integer, DateTime, func as sqlfunc, create_engine
 from sqlalchemy.engine import Engine
@@ -74,8 +76,13 @@ def to_yaml(self):
     return yaml.dump(self.to_dict())
 
 
+def to_json(self):
+    return json.dumps(self.to_dict())
+
+
 Base.to_dict = to_dict
 Base.to_yaml = to_yaml
+Base.to_json = to_json
 
 
 @event.listens_for(Engine, "before_cursor_execute")
@@ -98,6 +105,7 @@ def after_cursor_execute(conn, cursor, statement,
         sqllog.warn("slow query %.1fms:\n%s", total * 1000, statement)
 
 
+@log_call
 def configure_sqlalchemy(db_settings, testing=False):
     logg.info("using SQLAlchemy connection uri %s", db_settings.uri)
     engine = create_engine(db_settings.uri)
