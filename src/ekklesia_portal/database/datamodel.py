@@ -556,3 +556,12 @@ class VVVoteVotingModule(VotingModule):
     def url_new_election(self):
         from urllib.parse import urljoin
         return urljoin(self.base_url, "newelection.php")
+
+
+class Page(Base):
+    __tablename__ = 'page'
+    name = C(String(255), primary_key=True)
+    lang = C(String(16), primary_key=True)
+    title = C(String(255))
+    text = C(Text)
+    permissions = C(JSON)

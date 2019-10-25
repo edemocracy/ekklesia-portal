@@ -10,7 +10,7 @@ from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, Majority, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
 from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
-    VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group
+    VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, Page
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
@@ -198,3 +198,15 @@ class VotingPhaseFactory(SQLAFactory):
     description = MimesisField('text', quantity=10)
     department = SubFactory(DepartmentFactory)
     phase_type = SubFactory(VotingPhaseTypeFactory)
+
+
+@register
+class PageFactory(SQLAFactory):
+    class Meta:
+        model = Page
+
+    name = MimesisField('name')
+    lang = 'en'
+    title = MimesisField('title')
+    text = MimesisField('text')
+    permissions = '{}'

@@ -1,6 +1,7 @@
 from ekklesia_portal.helper.cell import Cell
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
+from ekklesia_portal.concepts.page.pages import Pages
 
 
 class LayoutCell(Cell):
@@ -23,6 +24,9 @@ class LayoutCell(Cell):
 
     def voting_phases_url(self):
         return self.link(VotingPhases())
+
+    def pages_url(self):
+        return self.link(Pages())
 
     def propositions_url(self, mode='sorted', tag=None):
         return self.link(Propositions(mode=mode, tag=tag))
