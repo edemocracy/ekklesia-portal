@@ -42,6 +42,17 @@ def make_ekklesia_log_tween(app, handler):
     return ekklesia_log_tween
 
 
+@App.tween_factory()
+def make_ekklesia_customizations_tween(app, handler):
+    def ekklesia_customizations_tween(request):
+        if app.settings.app.force_ssl:
+            request.scheme = 'https'
+
+        return handler(request)
+
+    return ekklesia_customizations_tween
+
+
 @App.identity_policy()
 def get_identity_policy():
     return EkklesiaPortalIdentityPolicy()

@@ -8,6 +8,7 @@ settings = {
     "app": {
         "title": "Ekklesia Portal Dev",
         "fail_on_form_validation_error": False,
+        "force_ssl": False,
         "instance_name": "ekklesia_portal",
         "insecure_development_mode": False,
         "internal_login_enabled": True,
