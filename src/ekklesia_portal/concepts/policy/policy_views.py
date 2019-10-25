@@ -2,7 +2,6 @@ from morepath import redirect
 #from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Policy
-from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .policy_cells import PolicyCell, PoliciesCell, NewPolicyCell, EditPolicyCell
 from .policy_contracts import PolicyForm

@@ -3,7 +3,6 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import VotingPhase, Department, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
-from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .voting_phase_cells import VotingPhaseCell, VotingPhasesCell, NewVotingPhaseCell, EditVotingPhaseCell
 from .voting_phases import VotingPhases
@@ -13,12 +12,12 @@ from .voting_phase_helper import items_for_voting_phase_select_widgets
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
 def voting_phases_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.permission_rule(model=VotingPhase, permission=EditPermission)
 def voting_phase_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=VotingPhases, path='v')

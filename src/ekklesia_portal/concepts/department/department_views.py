@@ -2,7 +2,6 @@ from morepath import redirect
 #from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Department
-from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .department_cells import DepartmentCell, DepartmentsCell, NewDepartmentCell, EditDepartmentCell
 from .department_contracts import DepartmentForm

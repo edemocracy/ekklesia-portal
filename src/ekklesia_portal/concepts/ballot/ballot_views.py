@@ -2,7 +2,6 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Ballot, SubjectArea, VotingPhase
-from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import EditPermission
 from .ballot_cells import BallotCell, BallotsCell, EditBallotCell
 from .ballots import Ballots
@@ -11,7 +10,7 @@ from .ballot_contracts import BallotForm
 
 @App.permission_rule(model=Ballot, permission=EditPermission)
 def ballot_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=Ballots, path='b')
