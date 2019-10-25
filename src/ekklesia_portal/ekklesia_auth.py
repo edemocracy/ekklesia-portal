@@ -6,6 +6,7 @@ from typing import List, NewType
 from urllib.parse import urljoin
 
 import dectate
+from eliot import start_task
 from morepath import App, redirect
 from requests_oauthlib import OAuth2Session
 from webob.exc import HTTPForbidden
@@ -192,7 +193,6 @@ def make_ekklesia_auth_tween(app, handler):
     def ekklesia_auth_tween(request):
         get_oauth_token = partial(app.root._get_oauth_token, request)
         set_oauth_token = partial(app.root._set_oauth_token, request)
-        logg.debug('ekklesia_auth tween')
         request.ekklesia_auth = EkklesiaAuth(app.root.settings.ekklesia_auth, get_token=get_oauth_token, set_token=set_oauth_token)
         return handler(request)
 

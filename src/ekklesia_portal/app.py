@@ -1,6 +1,7 @@
 import logging
 import os
 
+from eliot import start_task, start_action, log_call
 import morepath
 from more.babel_i18n import BabelApp
 from more.browser_session import BrowserSessionApp
@@ -31,6 +32,14 @@ class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp,
         self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment,
                                         jinja_options=dict(loader=make_template_loader(App.config, 'ekklesia_portal')),
                                         app=self)
+
+@App.tween_factory()
+def make_ekklesia_log_tween(app, handler):
+    def ekklesia_log_tween(request):
+        with start_task(action_type='request'):
+            return handler(request)
+
+    return ekklesia_log_tween
 
 
 @App.identity_policy()
@@ -97,6 +106,7 @@ def mount_ekklesia_auth_path():
     return app
 
 
+@log_call
 def get_app_settings(settings_filepath):
     from ekklesia_portal.default_settings import settings
 
@@ -118,6 +128,7 @@ def get_app_settings(settings_filepath):
     return settings
 
 
+@log_call
 def get_locale(request):
     locale = request.browser_session.get('lang')
     if locale:
@@ -129,15 +140,21 @@ def get_locale(request):
     return locale
 
 
+@log_call
 def make_wsgi_app(settings_filepath=None, testing=False):
-    morepath.autoscan()
-    morepath.scan(ekklesia_portal)
-    settings = get_app_settings(settings_filepath)
-    App.init_settings(settings)
-    EkklesiaAuthPathApp.init_settings(settings)
-    App.commit()
+    with start_action(action_type='morepath_scan'):
+        morepath.autoscan()
+        morepath.scan(ekklesia_portal)
 
-    app = App()
+    with start_action(action_type='settings'):
+        settings = get_app_settings(settings_filepath)
+        App.init_settings(settings)
+        EkklesiaAuthPathApp.init_settings(settings)
+
+    with start_action(action_type='make_app'):
+        App.commit()
+        app = App()
+
     database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
