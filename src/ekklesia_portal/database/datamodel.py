@@ -64,7 +64,7 @@ class User(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     email = Column(EmailType, unique=True, comment='optional, for notifications, otherwise use user/mails/')
-    auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,virtual,oauth(has UserProfile)')
+    auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,token,virtual,oauth(has UserProfile)')
     joined = Column(DateTime, nullable=False, server_default=func.now())
     active = Column(Boolean, nullable=False, server_default='true')
     last_active = Column(DateTime, nullable=False, server_default=func.now(),
@@ -91,6 +91,14 @@ class UserPassword(Base):
     user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     user = relationship("User", backref=backref("password", uselist=False))
     hashed_password = Column(Text)
+
+
+class UserLoginToken(Base):
+    __tablename__ = 'user_login_token'
+    token = C(String(36), primary_key=True)
+    user_id = C(Integer, ForeignKey('users.id'))
+    user = relationship("User", backref=backref("login_token", uselist=False))
+    valid_until = Column(DateTime)
 
 
 class UserProfile(Base):

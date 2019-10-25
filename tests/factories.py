@@ -10,7 +10,7 @@ from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, Majority, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
 from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
-    VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, Page
+    VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, UserLoginToken, Page
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
@@ -62,6 +62,14 @@ class UserFactory(SQLAFactory):
 
 
 register(UserFactory, 'user_two')
+
+
+@register
+class UserLoginTokenFactory(SQLAFactory):
+    class Meta:
+        model = UserLoginToken
+
+    token = MimesisField('uuid')
 
 
 @register
