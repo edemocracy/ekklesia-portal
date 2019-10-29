@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-25 21:43+0000\n"
+"POT-Creation-Date: 2019-10-29 21:00+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -192,6 +192,10 @@ msgstr "New department"
 #: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:6
 msgid "tos_consent"
 msgstr "I agree to the terms of service"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:12
+msgid "submit"
+msgstr "Submit"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5

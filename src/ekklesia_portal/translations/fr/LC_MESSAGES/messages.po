@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-25 21:43+0000\n"
+"POT-Creation-Date: 2019-10-29 21:00+0000\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -193,6 +193,10 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:6
 msgid "tos_consent"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:12
+msgid "submit"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2

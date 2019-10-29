@@ -1,8 +1,9 @@
 #from colander import Length
+from deform import Button
 #from deform.widget import TextAreaWidget, Select2Widget
 #from {{ cookiecutter.app_name }}.enums import {{ cookiecutter.ConceptName }}Status
 from {{ cookiecutter.app_name }}.helper.contract import Schema, Form  #, string_property, enum_property
-#from {{ cookiecutter.app_name }}.helper.translation import _
+from {{ cookiecutter.app_name }}.helper.translation import _
 
 
 class {{ cookiecutter.ConceptName }}Schema(Schema):
@@ -17,7 +18,7 @@ class {{ cookiecutter.ConceptName }}Schema(Schema):
 class {{ cookiecutter.ConceptName }}Form(Form):
 
     def __init__(self, request, action):
-        super().__init__({{ cookiecutter.ConceptName }}Schema(), request, action, buttons=("submit", ))
+        super().__init__({{ cookiecutter.ConceptName }}Schema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         widgets = {
