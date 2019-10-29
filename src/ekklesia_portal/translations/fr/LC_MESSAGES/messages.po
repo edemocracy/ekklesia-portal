@@ -37,7 +37,7 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
 msgid "authored_at_by"
-msgstr "ajouté à %(dt)s par %(author_name)s"
+msgstr "ajouté à %(dt)s par %(author)s"
 
 #: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:19
 msgid "counter_argument"

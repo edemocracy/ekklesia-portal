@@ -36,7 +36,7 @@ msgstr "Ausführlich"
 
 #: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
 msgid "authored_at_by"
-msgstr "Eingetragen um %(dt)s von %(author_name)s"
+msgstr "Eingetragen %(dt)s von %(author)s"
 
 #: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:19
 msgid "counter_argument"
@@ -472,7 +472,7 @@ msgstr[1] "Unterstützer"
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:54
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
 msgid "authored_at"
-msgstr "Eingetragen um %(dt)s"
+msgstr "Eingetragen %(dt)s"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
 msgid "tab_discussion"

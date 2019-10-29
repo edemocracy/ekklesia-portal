@@ -74,8 +74,16 @@ def create(self, request, appstruct):
     if proposition is None:
         raise HTTPBadRequest()
 
-    argument = Argument(title=appstruct['title'], abstract=appstruct['abstract'], details=appstruct['details'])
-    argument_relation = ArgumentRelation(proposition=proposition, argument=argument, argument_type=appstruct['relation_type'])
+    argument = Argument(title=appstruct['title'],
+                        abstract=appstruct['abstract'],
+                        details=appstruct['details'],
+                        author=request.current_user)
+
+    argument_relation = ArgumentRelation(
+                            proposition=proposition,
+                            argument=argument,
+                            argument_type=appstruct['relation_type'])
+
     request.db_session.add(argument)
     request.db_session.add(argument_relation)
     request.db_session.flush()
