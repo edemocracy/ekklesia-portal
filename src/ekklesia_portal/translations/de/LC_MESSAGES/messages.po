@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-29 21:00+0000\n"
+"POT-Creation-Date: 2019-10-30 05:03+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -37,6 +37,11 @@ msgstr "Ausführlich"
 #: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
 msgid "authored_at_by"
 msgstr "Eingetragen %(dt)s von %(author)s"
+
+#: src/ekklesia_portal/concepts/argument_relation/argument_relation_contracts.py:17
+#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:13
+msgid "submit"
+msgstr "Senden"
 
 #: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:19
 msgid "counter_argument"
@@ -189,13 +194,13 @@ msgstr "Gliederung bearbeiten"
 msgid "title_new_department"
 msgstr "Neue Gliederung"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:6
+#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:7
 msgid "tos_consent"
 msgstr "Ich stimme den Nutzungsbedingungen zu, die ich natürlich auch gelesen habe"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:12
-msgid "submit"
-msgstr "Senden"
+#: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:7
+msgid "error_missing_consent"
+msgstr "Zustimmung ist erforderlich"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
