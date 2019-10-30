@@ -1,6 +1,7 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.database.datamodel import ArgumentRelation, Proposition
+from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import VotePermission
 
 
@@ -48,4 +49,4 @@ class NewArgumentForPropositionCell(NewFormCell):
         return self._request.db_session.query(Proposition).get(self._model.proposition_id)
 
     def relation_type(self):
-        self._request.params['relation_type']
+        return ArgumentType(self._request.params['relation_type'])
