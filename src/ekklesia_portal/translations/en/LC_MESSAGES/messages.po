@@ -245,8 +245,8 @@ msgid "scheduled_voting_phases"
 msgstr "Scheduled voting phases"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
-msgid "menu_sorted"
-msgstr "Sorted"
+msgid "menu_propositions"
+msgstr "Propositions"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
 msgid "menu_top"
