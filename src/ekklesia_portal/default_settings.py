@@ -17,7 +17,8 @@ settings = {
         "tos_url": None,
         "data_protection_url": None,
         "faq_url": None,
-        "imprint_url": None
+        "imprint_url": None,
+        "report_url": None
     },
     "share": {
         "use_url_shortener": False,

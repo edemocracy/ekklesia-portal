@@ -21,10 +21,6 @@
             i.far.fa-remove &nbsp;
             = _('button_retract_support')
 
-    button.btn.btn-sm
-      i.fas.fa-flag &nbsp;
-      = _('button_report')
-
     a.btn.btn-secondary.btn-sm(href='javascript:;', data-toggle='popover', data-popover-content='#a1')
       i.fas.fa-link &nbsp;
       = _('button_share')
@@ -66,6 +62,11 @@
     a.btn.btn-secondary.btn-sm(href="#bottom")
       i.far.fa-comments &nbsp;
       = goto_label
+
+    if report_url
+      a.btn.btn-sm(href=report_url)
+        i.fas.fa-flag &nbsp;
+        = _('button_report')
 
 
 - block title

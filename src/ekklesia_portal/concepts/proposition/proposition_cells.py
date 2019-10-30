@@ -28,6 +28,9 @@ class PropositionCell(LayoutCell):
     def associated_url(self):
         return self.link(self._model, 'associated')
 
+    def report_url(self):
+        return self._s.app.report_url
+
     def share_url(self):
         if self._app.settings.share.use_url_shortener:
             from ekklesia_portal.helper.url_shortener import make_tiny
