@@ -50,6 +50,8 @@ in rec {
     ignoreCollisions = true;
   };
 
+  pythonDev = pythonTest;
+
   # Code style and security tools
   linters = with pythonPackages; [
     bandit
