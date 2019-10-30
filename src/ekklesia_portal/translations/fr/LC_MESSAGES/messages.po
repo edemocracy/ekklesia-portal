@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-30 05:03+0000\n"
+"POT-Creation-Date: 2019-10-30 22:46+0100\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -35,6 +35,10 @@ msgstr ""
 msgid "details"
 msgstr ""
 
+#: src/ekklesia_portal/concepts/argument/templates/argument.j2.jade:8
+msgid "read_on"
+msgstr ""
+
 #: src/ekklesia_portal/concepts/argument/templates/argument_footer.j2.jade:2
 msgid "authored_at_by"
 msgstr "ajouté à %(dt)s par %(author)s"
@@ -53,14 +57,6 @@ msgstr[1] "contre-arguments"
 #: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:26
 msgid "discussion"
 msgstr "Discussion"
-
-#: src/ekklesia_portal/concepts/argument_relation/templates/argument_relation.j2.jade:29
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:75
-#, fuzzy
-msgid "argument"
-msgid_plural "arguments"
-msgstr[0] "Argument"
-msgstr[1] ""
 
 #: src/ekklesia_portal/concepts/argument_relation/templates/new_argument_for_proposition.j2.jade:2
 #: src/ekklesia_portal/concepts/argument_relation/templates/new_argument_for_proposition.j2.jade:5
@@ -214,7 +210,7 @@ msgid "new_proposition"
 msgstr ""
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:9
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:29
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
 msgid "voting_phases"
 msgstr ""
@@ -246,52 +242,52 @@ msgstr ""
 msgid "scheduled_voting_phases"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:25
 msgid "menu_propositions"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:27
 msgid "menu_top"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:34
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:33
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:9
 msgid "search_for"
 msgstr "Rechercher "
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:34
 msgid "button_search"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:39
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:38
 msgid "button_logout"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:41
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:40
 msgid "button_login"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:49
 msgid "link_other"
 msgstr "Autre lien"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:51
 msgid "faq"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:53
 msgid "terms_of_use"
 msgstr "Conditions d'utilisation"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:56
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:55
 msgid "data_protection"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:58
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:57
 msgid "imprint"
 msgstr "Contacts"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:60
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
 msgid "source code"
 msgstr ""
 
@@ -458,59 +454,66 @@ msgstr ""
 msgid "button_retract_support"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:13
-msgid "button_report"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:14
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:12
 msgid "button_share"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:40
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:38
 msgid "button_external_discussion_url"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:52
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:73
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:38
+msgid "button_report"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:50
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporteur"
 msgstr[1] "Supporteurs"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:54
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:52
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:69
 msgid "authored_at"
 msgstr "Ajouté à %(dt)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:60
 msgid "tab_discussion"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:64
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
 msgid "tab_associated"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:80
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:73
+#, fuzzy
+msgid "argument"
+msgid_plural "arguments"
+msgstr[0] "Argument"
+msgstr[1] ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:78
 msgid "button_goto_arguments"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:83
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
 msgid "title_motivation"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:91
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:89
 msgid "button_add_pro_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:95
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:93
 msgid "button_add_con_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:101
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:99
 msgid "button_add_change_proposition"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:105
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:103
 msgid "button_add_counter_proposition"
 msgstr ""
 
