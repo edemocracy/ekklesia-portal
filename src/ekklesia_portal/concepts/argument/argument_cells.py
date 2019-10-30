@@ -11,8 +11,8 @@ class ArgumentCell(LayoutCell):
     def footer(self):
         return self.render_template('argument/argument_footer.j2.jade')
 
-    def header_link(self):
-        if 'header_link' in self.options:
-            return self.options['header_link']
+    def details_link(self):
+        if 'details_link' in self.options:
+            return self.options['details_link']
 
         return self.self_link
