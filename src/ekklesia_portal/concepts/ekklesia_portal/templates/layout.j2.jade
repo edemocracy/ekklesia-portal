@@ -50,6 +50,7 @@ body
               i.fas.fa-sign-out-alt &nbsp;
                 = _('button_logout')
         else
+          if login_url
             a.login_button(href=login_url)
               i.fas.fa-sign-in-alt &nbsp;
                 = _("button_login")

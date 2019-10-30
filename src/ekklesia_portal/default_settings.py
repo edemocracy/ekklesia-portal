@@ -18,7 +18,8 @@ settings = {
         "data_protection_url": None,
         "faq_url": None,
         "imprint_url": None,
-        "report_url": None
+        "report_url": None,
+        "login_visible": False
     },
     "share": {
         "use_url_shortener": False,

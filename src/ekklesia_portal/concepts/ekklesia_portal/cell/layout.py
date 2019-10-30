@@ -32,8 +32,9 @@ class LayoutCell(Cell):
         return self.link(Propositions(mode=mode, tag=tag))
 
     def login_url(self):
-        from ..view.login import Login
-        return self.link(Login())
+        if self._s.app.login_visible:
+            from ..view.login import Login
+            return self.link(Login())
 
     def profile_url(self):
         return self.link(self.current_user)
