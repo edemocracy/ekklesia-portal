@@ -17,7 +17,9 @@
       p.argument_text= abstract
 
         if details
-          a.read_more(href=self_link) &nbsp;&nbsp;&gt;&gt;&gt;
+          a.read_more(href=details_link) 
+            |&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;
+            = _('read_on')|capitalize
 
 
 // generated from jade
