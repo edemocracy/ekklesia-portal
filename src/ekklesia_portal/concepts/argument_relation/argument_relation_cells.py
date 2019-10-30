@@ -25,7 +25,11 @@ class ArgumentRelationCell(LayoutCell):
         return self.link(self._model.argument)
 
     def proposition_title(self):
-        return self.proposition.title
+        proposition = self._model.proposition
+        if proposition.voting_identifier:
+            return proposition.voting_identifier + ': ' + proposition.title
+        else:
+            return proposition.title
 
     def argument_title(self):
         return self.argument.title

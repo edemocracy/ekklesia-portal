@@ -43,17 +43,14 @@
 
   - block content
     ol.breadcrumb
-      li
+      li.breadcrumb-item
         a(href=proposition_url)
           = _("discussion")
-          |:
+          |:&nbsp;
           = proposition_title
-
-      li.active
-        a(href=argument_url)
-        = _("argument")
-        |:
-        = argument_title
+      li.breadcrumb-item.active
+        a(href=self_link)
+          = argument_title
 
     = render_cell(proposition, margin=False)
 
