@@ -1,5 +1,6 @@
 import urllib.parse
 import colander
+from eliot import log_call
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
@@ -36,34 +37,29 @@ class PropositionCell(LayoutCell):
             from ekklesia_portal.helper.url_shortener import make_tiny
             return make_tiny(self.self_link)
         else:
-            return self.self_link[0:69]
+            return self.self_link[:69]
 
+    @log_call
     def share_email_url(self):
-        share_email_topic_options = {
-            "en": self._app.settings.share_email_topic.en,
-            "de": self._app.settings.share_email_topic.de,
-            "fr": self._app.settings.share_email_topic.fr
-        }
-        share_email_body_options = {
-            "en": self._app.settings.share_email_body.en,
-            "de": self._app.settings.share_email_body.de,
-            "fr": self._app.settings.share_email_body.fr
-        }
-        share_email_topic = share_email_topic_options[self.language]
-        share_email_body = share_email_body_options[self.language] + self.share_url
+        share_email_topic = (self._s.share.email_topic[self.language]
+                             .format(
+                                 voting_identifier=self._model.voting_identifier,
+                                 title=self._model.title[:140]))
+
+        share_email_body = self._s.share.email_body[self.language] + self.share_url
         email_url = urllib.parse.urlencode({'subject': share_email_topic,
                                             'body': share_email_body},
                                            quote_via=urllib.parse.quote)
         email_url = 'mailto:?' + email_url
         return email_url
 
+    @log_call
     def share_twitter_url(self):
-        share_tweet_msg_options = {
-            "en": self._app.settings.share_tweet_msg.en,
-            "de": self._app.settings.share_tweet_msg.de,
-            "fr": self._app.settings.share_tweet_msg.fr
-        }
-        share_tweet_msg = share_tweet_msg_options[self.language]
+        share_tweet_msg = (self._s.share.tweet_msg[self.language]
+                           .format(
+                               voting_identifier=self._model.voting_identifier,
+                               title=self._model.title[:70]))
+
         twitter_url = urllib.parse.urlencode({'hashtags': self._app.settings.share.hashtag,
                                               'related': self._app.settings.share.promote_account,
                                               'text': share_tweet_msg,

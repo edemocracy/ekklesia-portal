@@ -24,22 +24,19 @@ settings = {
     "share": {
         "use_url_shortener": False,
         "hashtag": '',
-        "promote_account": ''
-    },
-    "share_email_topic": {
-        "en": "Ekklesia Portal - Share Proposition",
-        "de": "Ekklesia Portal - Teile Antrag",
-        "fr": "Ekklesia Portal - Share Proposition"
-    },
-    "share_email_body": {
-        "en": "I just wanted to share a proposition from the Ekklesia Portal!\n",
-        "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!\n",
-        "fr": "I just wanted to share a proposition from the Ekklesia Portal!\n"
-    },
-    "share_tweet_msg": {
-        "en": "I just wanted to share a proposition from the Ekklesia Portal!",
-        "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!",
-        "fr": "I just wanted to share a proposition from the Ekklesia Portal!"
+        "promote_account": '',
+        "email_topic": {
+            "en": "Ekklesia Portal - Share Proposition",
+            "de": "Ekklesia Portal - Teile Antrag"
+        },
+        "email_body": {
+            "en": "I just wanted to share a proposition from the Ekklesia Portal!\n",
+            "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!\n"
+        },
+        "tweet_msg": {
+            "en": "I just wanted to share a proposition from the Ekklesia Portal!",
+            "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!"
+        },
     },
     "database": {
         "uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
