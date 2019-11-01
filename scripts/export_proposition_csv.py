@@ -27,8 +27,8 @@ def convert_ballots_to_proposition_rows(ballots, log_level="INFO"):
 
     for ballot in ballots:
         for proposition in ballot.propositions:
-            proposition_rows.append([proposition.id, "", proposition.title, md.convert(proposition.content),
-                                     md.convert(proposition.motivation), "", "", "", "ekklesia-portal"])
+            proposition_rows.append([proposition.voting_identifier, "", proposition.title, md.convert(proposition.content),
+                                     md.convert(proposition.motivation), "", "", proposition.ballot.name, "ekklesia-portal"])
 
     return proposition_rows
 
