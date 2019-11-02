@@ -6,7 +6,12 @@ Portal of the Ekklesia e-democracy platform.
 
 * Backend: [Python 3.7](https://www.python.org)
 * Web framework: [Morepath](http://morepath.readthedocs.org )
-* Frontend: Pyjade, [Bootstrap 4](https://getbootstrap.com), [Sass](https://sass-lang.com), Javascript
+* Frontend:
+  [Pyjade](https://github.com/syrusakbary/pyjade) (like [Pug](https://pugjs.org)),
+  [Jinja](https://jinja.palletsprojects.com),
+  [Bootstrap 4](https://getbootstrap.com),
+  [Sass](https://sass-lang.com),
+  Javascript
 * Database: [PostgreSQL 11](https://www.postgresql.com)
 * Package management: [Nix Package Manager](https://nixos.org/nix)
 
@@ -15,7 +20,7 @@ Portal of the Ekklesia e-democracy platform.
 ### Quick Start
 
 The shell environment for development can be prepared using the Nix Package Manager.
-It includes Python 3.7, PostgreSQL 11, development / testing tools and dependencies for the project itself. 
+It includes Python 3.7, PostgreSQL 11, development / testing tools and dependencies for the project itself.
 The following instructions assume that the Nix package manager is already installed, `nix-shell` is available in PATH and an empty + writable PostgreSQL database can be accessed somehow.
 
 1. Clone the repository with:
@@ -34,7 +39,7 @@ The following instructions assume that the Nix package manager is already instal
 4. Create a config file named `config.yml` using the config template from `src/ekklesia_portal/config.example.yml`
     or skip this to use the default settings from `src/ekklesia_portal/default_settings.py`.
     Make sure that the database connection string points to an empty + writable database.
-5. Initialize the dev database with a custom config file: 
+5. Initialize the dev database with a custom config file:
     ~~~Shell
     python tests/create_test_db.py -c config.yml
     ~~~
@@ -54,7 +59,7 @@ pg_ctl -D ~/postgresql init
 postgres -D ~/postgresql -k /tmp -h ''
 ~~~
 
-Create database (in another terminal): 
+Create database (in another terminal):
 
 ~~~Shell
 createdb -h /tmp ekklesia_portal
