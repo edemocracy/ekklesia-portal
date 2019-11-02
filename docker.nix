@@ -4,6 +4,9 @@
 # Import into docker with:
 # docker load -i docker-image-ekklesia-portal.tar
 { sources ? null }:
+
+with builtins;
+
 let
   serveApp = import ./nix/serve_app.nix {
     inherit sources;
@@ -14,7 +17,7 @@ let
 
   deps = import ./nix/deps.nix { inherit sources; };
   inherit (deps) pkgs;
-  version = import ./nix/version.nix;
+  version = import ./nix/git_version.nix { inherit pkgs; };
   user = "ekklesia-portal";
   passwd = pkgs.writeTextDir "etc/passwd" ''
     ${user}:x:10:10:${user}:/:/noshell
@@ -23,7 +26,7 @@ in
 
 pkgs.dockerTools.buildLayeredImage {
   name = "ekklesia-portal";
-  tag = version;
+  tag = trace "Tagging image with ${version}" version;
   contents = [ passwd ];
 
   config = {
