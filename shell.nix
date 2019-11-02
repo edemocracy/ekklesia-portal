@@ -14,6 +14,7 @@ in pkgs.mkShell {
     export NIX_SSL_CERT_FILE=${caBundle}
     export SSL_CERT_FILE=${caBundle}
     export SASS_PATH=${deps.sassPath}
+    export JS_PATH=${deps.jsPath}
     export WEBFONTS_PATH=${deps.webfontsPath}
   '';
 }

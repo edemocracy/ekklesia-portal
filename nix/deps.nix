@@ -7,6 +7,7 @@ let
   niv = (import sources_.niv { }).niv;
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   bootstrap = import ./bootstrap.nix { };
+  javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
   installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
@@ -16,7 +17,7 @@ let
 
 
 in rec {
-  inherit pkgs;
+  inherit pkgs bootstrap javascriptDeps;
   inherit (pkgs) lib sassc;
   inherit (installPkgs) babel deform;
   inherit (pythonPackages) buildPythonApplication;
@@ -85,5 +86,6 @@ in rec {
 
   shellPath = lib.makeBinPath shellInputs;
   sassPath = "${bootstrap}/scss:${font-awesome}/scss";
+  jsPath = "${javascriptDeps}/js";
   webfontsPath = "${font-awesome}/webfonts";
 }

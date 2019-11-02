@@ -73,7 +73,8 @@ def run():
     wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
         '/static': ("ekklesia_portal", 'static'),
         '/static/deform': ("deform", 'static'),
-        '/static/webfonts': os.environ.get('WEBFONTS_PATH')
+        '/static/webfonts': os.environ.get('WEBFONTS_PATH'),
+        '/static/js': os.environ.get('JS_PATH')
     })
 
     if args.stackdump:

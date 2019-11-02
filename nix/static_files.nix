@@ -1,7 +1,7 @@
 { sources ? null }:
 let
   deps = import ./deps.nix { inherit sources; };
-  inherit (deps) lib pkgs sassc webfontsPath sassPath deform;
+  inherit (deps) lib pkgs sassc javascriptDeps webfontsPath sassPath deform;
   version = import ./version.nix;
 
 in
@@ -13,7 +13,7 @@ pkgs.runCommand "ekklesia-portal-static-${version}" {
   outs=$out/static
   mkdir -p $outs
   #cp -r $src/static/img $outs
-  cp -r $src/static/js $outs
+  cp -r ${javascriptDeps}/js $outs
   cp -r ${webfontsPath} $outs
   cp -r ${deform}/lib/python3.7/site-packages/deform/static $outs/deform
 
