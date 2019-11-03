@@ -22,13 +22,13 @@ def load_ballots(log_level="INFO"):
 
 
 @log_call
-def convert_ballots_to_proposition_rows(ballots, log_level="INFO"):
+def convert_ballots_to_proposition_rows(instance_name, ballots, log_level="INFO"):
     proposition_rows = []
 
     for ballot in ballots:
         for proposition in ballot.propositions:
             proposition_rows.append([proposition.voting_identifier, "", proposition.title, md.convert(proposition.content),
-                                     md.convert(proposition.motivation), "", "", proposition.ballot.name, "ekklesia-portal"])
+                                     md.convert(proposition.motivation), "", "", proposition.ballot.name, instance_name])
 
     return proposition_rows
 
@@ -65,4 +65,7 @@ if __name__ == "__main__":
 
     sqlalchemy.orm.configure_mappers()
 
-    write_csv_file(args.out, convert_ballots_to_proposition_rows(load_ballots()))
+    ballots = load_ballots()
+    instance_name = app.settings.app.instance_name
+    rows = convert_ballots_to_proposition_rows(instance_name, ballots)
+    write_csv_file(args.out, rows)

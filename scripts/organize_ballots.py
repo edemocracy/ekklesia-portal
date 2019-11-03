@@ -1,5 +1,6 @@
 import argparse
 import csv
+from itertools import takewhile
 
 from eliot import log_call, Message, start_action
 import transaction
@@ -18,13 +19,14 @@ def load_and_organize(filepath, voting_phase, log_level="INFO"):
         with start_action(log_level="INFO", action_type="organize_row"):
             Message.log(row_number=row_number + 1, row=row)
             head_proposition = (session.query(Proposition)
-                                .filter_by(voting_identifier=row[0])
+                                .filter_by(voting_identifier=row[0].strip())
                                 .join(Ballot)
                                 .join(VotingPhase)
                                 .filter_by(name=voting_phase)).one()
 
+            tail_row = [identifier.strip() for identifier in row[1:]]
             tail_propositions = (session.query(Proposition)
-                                 .filter(Proposition.voting_identifier.in_(row[1:]))
+                                 .filter(Proposition.voting_identifier.in_(tail_row))
                                  .join(Ballot)
                                  .join(VotingPhase)
                                  .filter_by(name=voting_phase)).all()
@@ -59,10 +61,17 @@ def fixup_ballots(voting_phase, log_level="INFO"):
     return dict(modified_ballots=modified_ballots, deleted_ballots=deleted_ballots)
 
 
+
+def longest_common_prefix_len(strings):
+    return len(list(takewhile((lambda chars: len(set(chars)) == 1), zip(*strings))))
+
+
 @log_call
 def ballot_name(head_proposition, tail_propositions, log_level="INFO"):
     if tail_propositions:
-        return (head_proposition.voting_identifier + "/" + "/".join(p.voting_identifier for p in tail_propositions))[:63]
+        prefix_len = longest_common_prefix_len(p.voting_identifier for p in tail_propositions)
+        shortened = "/".join(p.voting_identifier[prefix_len-1:] for p in tail_propositions)
+        return (head_proposition.voting_identifier + "/" + shortened)[:63]
     else:
         return head_proposition.voting_identifier
 
