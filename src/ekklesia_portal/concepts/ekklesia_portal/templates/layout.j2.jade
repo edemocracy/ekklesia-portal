@@ -18,13 +18,13 @@ body
   - block navbar
     nav.top_navbar
       a.navbar-brand(href='/')= brand_title
+
+      form.top_lang_controls(action=change_language_action, method='POST')
+        .btn-group
+          button.lang_select_button(type="submit", name="lang", value="de", class=("active" if language == "de")) DE
+          button.lang_select_button(type="submit", name="lang", value="en", class=("active" if language == "en")) EN
+
       .collapse.navbar-collapse
-
-        form.top_lang_controls(action=change_language_action, method='POST')
-          .btn-group
-            button.lang_select_button(type="submit", name="lang", value="de", class=("active" if language == "de")) DE
-            button.lang_select_button(type="submit", name="lang", value="en", class=("active" if language == "en")) EN
-
         ul.navbar-nav.mr-auto
           li.nav-item(class=("active" if mode=="sorted" else ""))
             a.nav-link(href=propositions_url(tag=tag|default))= _("menu_propositions")
@@ -35,26 +35,26 @@ body
           li.nav-item
             a.nav-link(href=voting_phases_url)= _("voting_phases")
 
-        form.top_search(action=plain_propositions_url)
-          input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
-          button.search_button(type="submit")
-            i.fas.fa-search &nbsp;
-              = _('button_search')
+      form.top_search(action=plain_propositions_url)
+        input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
+        button.search_button(type="submit")
+          i.fas.fa-search &nbsp;
+            = _('button_search')
 
-        if current_user is not none
-          | &nbsp;
-          a.top_username(href=profile_url)
-            i.fas.fa-user &nbsp;
-            = current_user.name
-          form.top_logout(action=logout_action, method="POST")
-            button.logout_button(type="submit")
-              i.fas.fa-sign-out-alt &nbsp;
-                = _('button_logout')
-        else
-          if login_url
-            a.login_button(href=login_url)
-              i.fas.fa-sign-in-alt &nbsp;
-                = _("button_login")
+      if current_user is not none
+        | &nbsp;
+        a.top_username(href=profile_url)
+          i.fas.fa-user &nbsp;
+          = current_user.name
+        form.top_logout(action=logout_action, method="POST")
+          button.logout_button(type="submit")
+            i.fas.fa-sign-out-alt &nbsp;
+              = _('button_logout')
+      else
+        if login_url
+          a.login_button(href=login_url)
+            i.fas.fa-sign-in-alt &nbsp;
+              = _("button_login")
 
 
     - block messages
