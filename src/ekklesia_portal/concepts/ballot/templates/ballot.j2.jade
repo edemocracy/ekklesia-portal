@@ -15,9 +15,12 @@
   .ballot.container
     h4
       a(href=self_link)
-        = _('ballot')
-        |&nbsp;#
-        = id
+        if name
+          = name
+        else
+          = _('ballot')
+          |&nbsp;#
+          = id
 
       if show_edit_button
         a.edit_button(href=edit_url)
