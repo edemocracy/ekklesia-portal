@@ -10,6 +10,7 @@ let
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
+  pdbpp = (import ./pdbpp.nix { inherit pkgs; }).packages.pdbpp;
   installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
   testPkgs = (import ./test_requirements.nix { inherit pkgs; }).packages;
   pythonPackages = pkgs.python37Packages;
@@ -29,8 +30,8 @@ in rec {
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with pythonPackages; [
-    ipdb
     ipython
+    pdbpp
   ];
 
   testLibs = (attrValues testPkgs) ++ [ setuptools ];
