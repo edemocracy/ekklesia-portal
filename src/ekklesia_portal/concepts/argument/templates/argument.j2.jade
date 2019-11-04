@@ -2,24 +2,23 @@
   - extends "ekklesia_portal/layout.j2.jade"
 
 - block content
-  .argument_content
-    h5.argument_title
-      if details
-        a(href=details_link)= title
-      else
-        = title
-
-    if options.extended
-      small= abstract
-      hr
-      .argument_details_extended= (details or "")|markdown
+  h5.argument_title
+    if details
+      a(href=details_link)= title
     else
-      p.argument_text= abstract
+      = title
 
-        if details
-          a.read_more(href=details_link) 
-            |&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;
-            = _('read_on')|capitalize
+  if options.extended
+    small= abstract
+    hr
+    .argument_details_extended= (details or "")|markdown
+  else
+    p.argument_text= abstract
+
+      if details
+        a.read_more(href=details_link)
+          |&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;
+          = _('read_on')|capitalize
 
 
 // generated from jade

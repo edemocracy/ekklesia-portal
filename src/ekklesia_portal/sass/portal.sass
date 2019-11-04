@@ -21,6 +21,19 @@ a.btn
   @extend .alert
   @extend .alert-warning
 
+.argument_relation_body, .proposition_small_body
+  @extend .p-3
+  @extend .card-body
+  @extend .row
+
+.argument_relation_body
+  .argument_col
+    @extend .col-sm-10
+
+.argument_relation_sidebar
+  @extend .col-sm-2
+  @extend .text-center
+
 .argument_vote_btn
   @extend .btn
   @extend .btn-secondary
@@ -46,13 +59,6 @@ a.btn
 .argument_title, .proposition_small_title
   @extend .card-title
 
-.argument_content
-  @extend .col-sm
-
-.argument_body, .proposition_small_body
-  @extend .p-3
-  @extend .card-body
-
 .argument_text
   @extend .card-text
 
@@ -77,12 +83,8 @@ a.btn
     border-left-color: red
 
 
-.argument_sidebar
-  @extend .col-sm-2
-  @extend .text-center
-
 .pro, .counter
-  .argument_sidebar
+  .argument_relation_sidebar
     @extend .order-10
 
   .argument

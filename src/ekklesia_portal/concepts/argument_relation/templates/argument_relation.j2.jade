@@ -13,24 +13,24 @@
 - macro argument_relation(extended=false)
   .argument
     a(name="argument_relation_{{ id }}")
-    .argument_body
-      .row
-        .argument_sidebar
-          strong.large_number= "%+i" |format(score)
-          if show_voting
-            .argument_voting
-              = argument_voting()
+    .argument_relation_body
+      .argument_relation_sidebar
+        strong.large_number= "%+i" |format(score)
+        if show_voting
+          .argument_voting
+            = argument_voting()
 
+      .argument_col
         = render_cell(argument, details_link=self_link, extended=extended)
 
-      .argument_actions
-        .counter_arguments
-          if show_ca_button
-            num_counter_arguments = counter_arguments|length
-            a.counter_arguments_btn(href="#")
-              strong.large_number= num_counter_arguments
-              |&nbsp;
-              span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
+    .argument_relation_actions
+      .counter_arguments
+        if show_ca_button
+          num_counter_arguments = counter_arguments|length
+          a.counter_arguments_btn(href="#")
+            strong.large_number= num_counter_arguments
+            |&nbsp;
+            span= ngettext("counter_argument", "counter_arguments", num_counter_arguments)
 
     = render_cell(argument, "footer")
 
