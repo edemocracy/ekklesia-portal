@@ -1,7 +1,9 @@
 from functools import wraps
+from itertools import tee
 import colander
 import dectate
 import deform
+from eliot import log_call, start_action, Message
 import morepath
 from morepath.directive import HtmlAction, ViewAction
 from morepath.view import render_html
@@ -97,13 +99,17 @@ class Form(deform.Form):
 
 def get_form_data(model, form_class, cell_class, request):
     form = form_class(request, request.link(model))
-    controls = request.POST.items()
-    try:
-        return form.validate(controls), None
-    except deform.ValidationFailure:
-        if request.app.settings.app.fail_on_form_validation_error:
-            raise form.error
-        return None, cell_class(request=request, form=form, model=model).show()
+    controls = list(request.POST.items())
+    with start_action(action_type='validate_form',
+                    controls=dict(c for c in controls if not c[0].startswith('_')),
+                    form=form):
+        try:
+            return form.validate(controls), None
+        except deform.ValidationFailure:
+            Message.log(validation_errors=form.error.asdict())
+            if request.app.settings.app.fail_on_form_validation_error:
+                raise form.error
+            return None, cell_class(request=request, form=form, model=model).show()
 
 
 def select2_widget_or_hidden(values):
@@ -119,6 +125,7 @@ def select2_widget_or_hidden(values):
 class HtmlFormAction(HtmlAction):
     group_class = ViewAction
 
+    @log_call
     def __init__(self, model, form, cell, render=None, template=None, load=None, permission=None, internal=False, **predicates):
         self.form = form
         self.cell = cell
@@ -127,11 +134,13 @@ class HtmlFormAction(HtmlAction):
 
         super().__init__(model, render or render_html, template, load, permission, internal, **predicates)
 
+    @log_call
     def perform(self, obj, template_engine_registry, app_class):
         form_class = self.form
         model_class = self.model
         cell_class = self.cell
 
+        @log_call
         @wraps(obj)
         def wrapped(self, request):
             appstruct, failure_response = get_form_data(self, form_class, cell_class, request)
@@ -139,7 +148,9 @@ class HtmlFormAction(HtmlAction):
             if failure_response:
                 return failure_response
 
-            return obj(self, request, appstruct)
+            with start_action(action_type='call_view'):
+                response = obj(self, request, appstruct)
+            return response
 
         super().perform(wrapped, template_engine_registry, app_class)
 
