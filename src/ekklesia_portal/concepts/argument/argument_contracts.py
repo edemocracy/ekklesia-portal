@@ -1,18 +1,23 @@
 from colander import Length
 from deform import Form
-from deform.widget import TextAreaWidget
+from deform.widget import TextAreaWidget, TextInputWidget
 from ekklesia_portal.helper.contract import Schema, string_property
 from ekklesia_portal.helper.translation import _
 
 
+TITLE_MAXLENGTH = 80
+ABSTRACT_MAXLENGTH = 160
+
+
 class ArgumentSchema(Schema):
-    title = string_property(title=_('title'), validator=Length(min=5, max=80))
-    abstract = string_property(title=_('abstract'), validator=Length(min=5, max=140))
+    title = string_property(title=_('title'), validator=Length(min=5, max=TITLE_MAXLENGTH))
+    abstract = string_property(title=_('abstract'), validator=Length(min=5, max=ABSTRACT_MAXLENGTH))
     details = string_property(title=_('details'), validator=Length(min=10, max=4096), missing='')
 
 
 argument_widgets = {
-    'abstract': TextAreaWidget(rows=2),
+    'title': TextInputWidget(attributes={'maxlength': TITLE_MAXLENGTH}),
+    'abstract': TextAreaWidget(rows=2, attributes={'maxlength': ABSTRACT_MAXLENGTH}),
     'details': TextAreaWidget(rows=4)
 }
 
