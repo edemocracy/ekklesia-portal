@@ -6,6 +6,14 @@ self: super: {
 
   "setuptools-scm" = setuptools_scm;
 
+  "munch" = python.overrideDerivation super."munch" (old: {
+    buildInputs = old.buildInputs ++ [ pbr ];
+  });
+
+  "pyrsistent" = python.overrideDerivation super."pyrsistent" (old: {
+    buildInputs = old.buildInputs ++ [ pbr ];
+  });
+
   "more-babel-i18n" = python.overrideDerivation super."more-babel-i18n" (old: {
     buildInputs = old.buildInputs ++ [ setuptools_scm ];
   });
