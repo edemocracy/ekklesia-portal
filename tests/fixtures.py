@@ -111,7 +111,8 @@ def department_admin(db_session, user_factory, department_factory):
 
 @fixture
 def logged_in_department_admin(department_admin, monkeypatch):
-    user_identity = UserIdentity(department_admin)
+    # XXX: shouldn't have global admin permissions, but we only support global admins for now'''
+    user_identity = UserIdentity(department_admin, has_global_admin_permissions=True)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return department_admin
 

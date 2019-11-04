@@ -72,4 +72,4 @@ def test_translation(app, render_string):
 def test_translation_with_args(app, render_string):
     app.settings.babel_i18n.default_locale = "en_US"
     res = render_string("{{ _('authored_at', dt=datestring) }}", datestring=TEST_DATETIME_FORMATTED)
-    assert res == f"Added at {TEST_DATETIME_FORMATTED}"
+    assert res == f"Added {TEST_DATETIME_FORMATTED}"
