@@ -33,10 +33,21 @@ class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp,
                                         jinja_options=dict(loader=make_template_loader(App.config, 'ekklesia_portal')),
                                         app=self)
 
+
 @App.tween_factory()
 def make_ekklesia_log_tween(app, handler):
     def ekklesia_log_tween(request):
-        with start_task(action_type='request'):
+        request_data = {
+            'url': request.url,
+            'headers': dict(request.headers)
+        }
+
+        user = request.current_user
+
+        if user is not None:
+            request_data['user'] = user.id
+
+        with start_task(action_type='request', request=request_data):
             return handler(request)
 
     return ekklesia_log_tween

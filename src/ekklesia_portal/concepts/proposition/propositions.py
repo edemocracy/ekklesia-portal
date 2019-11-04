@@ -28,3 +28,10 @@ class Propositions:
             raise NotImplementedError()
 
         return propositions
+
+    def to_dict(self):
+        return {
+            'search': self.search,
+            'mode': self.mode,
+            'tag': self.tag
+        }
