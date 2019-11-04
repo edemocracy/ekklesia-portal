@@ -2,7 +2,7 @@ from pprint import pprint
 from setuptools.config import read_configuration
 conf = read_configuration('../setup.cfg')
 options = conf['options']
-pprint(conf)
+
 
 with open('install_requirements.txt', 'w') as wf:
     wf.write('\n'.join(options['install_requires']))
