@@ -25,11 +25,11 @@ def test_argumentrelation_with_logged_in_user(client, logged_in_user):
 
 
 def test_new(client, logged_in_user):
-    res = client.get("/propositions/1/arguments/+new?relation_type=pro")
+    res = client.get(f'/propositions/1/arguments/+new?relation_type={ArgumentType.PRO.name}')
 
     expected = {
         'proposition_id': '1',
-        'relation_type': 'PRO'
+        'relation_type': ArgumentType.PRO.name
     }
     assert_deform(res, expected)
 
@@ -37,7 +37,7 @@ def test_new(client, logged_in_user):
 def test_create(db_query, client, logged_in_user):
     data = {
         'proposition_id': 1,
-        'relation_type': 'PRO',
+        'relation_type': ArgumentType.PRO.name,
         'title': 'test title',
         'abstract': 'test abstract',
         'details': 'test details'
@@ -50,7 +50,7 @@ def test_create(db_query, client, logged_in_user):
 def test_does_not_create_without_title(db_query, client, logged_in_user):
     data = {
         'proposition_id': 1,
-        'relation_type': 'PRO',
+        'relation_type': ArgumentType.PRO.name,
         'abstract': 'test abstract',
         'details': 'test details'
     }

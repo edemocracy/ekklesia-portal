@@ -4,7 +4,7 @@ from enum import Enum
 from ekklesia_portal.helper.translation import _
 
 
-class ArgumentType(str, Enum):
+class ArgumentType(Enum):
     PRO = 'pro'
     CONTRA = 'contra'
 

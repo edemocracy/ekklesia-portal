@@ -87,10 +87,16 @@ class PropositionCell(LayoutCell):
         return self.class_link(Propositions, dict(association_type=association_type), '+new')
 
     def new_pro_argument_url(self):
-        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.PRO), '+new')
+        return self.class_link(
+            ArgumentRelations,
+            dict(proposition_id=self._model.id, relation_type=ArgumentType.PRO.name),
+            '+new')
 
     def new_con_argument_url(self):
-        return self.class_link(ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA), '+new')
+        return self.class_link(
+            ArgumentRelations,
+            dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA.name),
+            '+new')
 
     def supporter_count(self):
         return self._model.active_supporter_count

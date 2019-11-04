@@ -60,7 +60,7 @@ def post_vote(self, request):
 @App.html(model=ArgumentRelations, name='new', permission=CreatePermission)
 def new(self, request):
     form_data = {
-        'relation_type': ArgumentType(self.relation_type),
+        'relation_type': ArgumentType[self.relation_type],
         'proposition_id': self.proposition_id,
     }
     form = ArgumentForPropositionForm(request, request.link(self))
