@@ -77,23 +77,23 @@
 
   if options.small
     .proposition_small
-      .proposition_small_content
-        .proposition_small_body
-          h5.proposition_small_title
-            a(href=self_link)= title
+      .proposition_small_body
+        h5.proposition_small_title
+          a(href=self_link)= title
 
+        .card-text.proposition_small_abstract
           = abstract
 
       .proposition_small_footer
         .row
-          .col-sm-6.points
+          .col-sm-5.points
             i.far.fa-thumbs-up &nbsp;
             strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
             span= ngettext("supporter", "supporters", supporter_count)
 
-          .col-sm-6.authoring_info
-            small= _("authored_at", dt=created_at|datetimeformat)
+          .col-sm-7.authoring_info
+            = _("authored_at", dt=created_at|datetimeformat)
 
 
   else
@@ -134,7 +134,13 @@
                 a(href=self_link)= full_title
 
             if options.show_actions
-              = proposition_actions(_model, current_user, _("button_goto_arguments"))
+
+              if options.active_tab == 'discussion'
+                - set button_text = _("button_goto_arguments")
+              else
+                - set button_text = _("button_goto_associated")
+
+              = proposition_actions(_model, current_user, button_text)
               hr
 
             if options.show_details

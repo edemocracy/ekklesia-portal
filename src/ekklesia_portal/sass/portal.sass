@@ -21,7 +21,7 @@ a.btn
   @extend .alert
   @extend .alert-warning
 
-.argument_relation_body, .proposition_small_body
+.argument_relation_body
   @extend .p-3
   @extend .card-body
   @extend .row
@@ -52,17 +52,17 @@ a.btn
 .argument_vote_btn.disabled i
   color: $black
 
-.argument, .proposition_small
+.argument
   @extend .card
   @extend .mb-1
 
-.argument_title, .proposition_small_title
+.argument_title
   @extend .card-title
 
 .argument_text
   @extend .card-text
 
-.argument_footer, .proposition_small_footer
+.argument_footer
   @extend .card-footer
   @extend .text-muted
   @extend .py-2
@@ -73,7 +73,7 @@ a.btn
 
 .con, .change
   .authoring_info
-    @extend .text-sm-right
+    @extend .text-right
 
   .counter_arguments_btn
     @extend .float-right
@@ -151,7 +151,7 @@ footer.footer
 .proposition_info_text
   @extend .text-muted
 
-.proposition_title
+.proposition_title, .proposition_small_title
   @extend .card-title
 
 .proposition_body
@@ -159,6 +159,24 @@ footer.footer
 
 .proposition_sidebar
   @extend .col-sm-2
+
+.proposition_small
+  @extend .card
+  margin-bottom: 0.25rem
+
+.proposition_small_body
+  @extend .card-body
+
+.proposition_small_title
+  @extend .card-title
+
+.proposition_small_footer
+  @extend .card-footer
+  @extend .text-muted
+
+  .authoring_info
+    @extend .text-right
+    padding-top: 0.1rem
 
 .proposition_toolbar
   @extend .card-header
