@@ -15,6 +15,7 @@ class PropositionCell(LayoutCell):
     model = Proposition
     model_properties = [
         'abstract',
+        'ballot',
         'content',
         'created_at',
         'derivations',
@@ -69,6 +70,16 @@ class PropositionCell(LayoutCell):
                                               'url': self.share_url})
         twitter_url = 'https://twitter.com/intent/tweet?' + twitter_url
         return twitter_url
+
+    def ballot_url(self):
+        return self.link(self._model.ballot)
+
+    def ballot_title(self):
+        ballot = self._model.ballot
+        if ballot.name:
+            return ballot.name
+
+        return f'# {ballot.id}'
 
     def discussion_url(self):
         return self.link(self._model)
@@ -129,6 +140,9 @@ class PropositionCell(LayoutCell):
 
     def show_create_associated_proposition(self):
         return self._request.permitted_for_current_user(self._model, CreatePermission)
+
+    def voting_phase(self):
+        return self._model.ballot.voting
 
 
 class NewPropositionCell(NewFormCell):

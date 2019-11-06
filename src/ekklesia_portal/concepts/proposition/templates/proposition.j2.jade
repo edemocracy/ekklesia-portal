@@ -112,9 +112,6 @@
         .row
           .proposition_sidebar
 
-            .authoring_info
-              small.author=_("authored_at", dt=created_at|datetimeformat)
-
             .points
               i.far.fa-thumbs-up &nbsp;
               strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
@@ -126,6 +123,17 @@
               strong.proposition_info_number= argument_count
               | &nbsp;
               span= ngettext("argument", "arguments", argument_count)
+
+            if voting_phase
+              .voting
+                div
+                  i.fas.fa-person-booth &nbsp;
+                  = _('ballot')
+                  |:
+                div
+                  a(href=link(voting_phase))= voting_phase.title
+                div
+                  a(href=link(ballot))= ballot_title
 
           .proposition_body
             = proposition_tags(tags)
@@ -150,6 +158,14 @@
                 if motivation
                   h4= _('title_motivation')
                   = motivation|markdown
+
+          .proposition_sidebar
+            .authoring_info
+              small.author=_("authored_at", dt=created_at|datetimeformat)
+
+            if voting_phase.target
+              small
+                = _('target_date_at', date=voting_phase.target|dateformat)
 
 
     if options.active_tab == 'discussion'
