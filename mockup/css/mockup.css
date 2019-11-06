@@ -356,7 +356,8 @@ small,
   font-weight: 400; }
 
 mark,
-.mark {
+.mark,
+.form-group.has-error {
   padding: 0.2em;
   background-color: #fcf8e3; }
 
@@ -468,7 +469,7 @@ pre {
   margin-right: auto;
   margin-left: auto; }
 
-.row, .argument_actions {
+.row, .argument_relation_body, .argument_actions {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
@@ -483,7 +484,7 @@ pre {
     padding-left: 0; }
 
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
-.col-auto, .col-sm-1, .col-sm-2, .argument_sidebar, .proposition_sidebar, .proposition_left, .proposition_activity, .proposition_state, .proposition_info, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .proposition_col, .proposition_body.col-6, .col-sm-7, .col-sm-8, .proposition_body, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .argument_content, .counter_arguments,
+.col-auto, .col-sm-1, .col-sm-2, .argument_relation_sidebar, .proposition_sidebar, .proposition_left, .proposition_activity, .proposition_state, .proposition_info, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .proposition_col, .proposition_body.col-6, .col-sm-7, .col-sm-8, .proposition_body, .col-sm-9, .col-sm-10, .argument_relation_body .argument_col, .col-sm-11, .col-sm-12, .col-sm, .counter_arguments,
 .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md,
 .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
 .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl,
@@ -587,7 +588,7 @@ pre {
 .order-9 {
   order: 9; }
 
-.order-10, .pro .argument_sidebar, .counter .argument_sidebar {
+.order-10, .pro .argument_relation_sidebar, .counter .argument_relation_sidebar {
   order: 10; }
 
 .order-11 {
@@ -630,7 +631,7 @@ pre {
   margin-left: 91.6666666667%; }
 
 @media (min-width: 576px) {
-  .col-sm, .argument_content, .counter_arguments {
+  .col-sm, .counter_arguments {
     flex-basis: 0;
     flex-grow: 1;
     max-width: 100%; }
@@ -641,7 +642,7 @@ pre {
   .col-sm-1 {
     flex: 0 0 8.3333333333%;
     max-width: 8.3333333333%; }
-  .col-sm-2, .argument_sidebar, .proposition_sidebar, .proposition_left, .proposition_activity, .proposition_state, .proposition_info {
+  .col-sm-2, .argument_relation_sidebar, .proposition_sidebar, .proposition_left, .proposition_activity, .proposition_state, .proposition_info {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%; }
   .col-sm-3 {
@@ -665,7 +666,7 @@ pre {
   .col-sm-9 {
     flex: 0 0 75%;
     max-width: 75%; }
-  .col-sm-10 {
+  .col-sm-10, .argument_relation_body .argument_col {
     flex: 0 0 83.3333333333%;
     max-width: 83.3333333333%; }
   .col-sm-11 {
@@ -1385,7 +1386,7 @@ textarea.form-control {
 .form-group {
   margin-bottom: 1rem; }
 
-.form-text {
+.form-text, .help-block {
   display: block;
   margin-top: 0.25rem; }
 
@@ -1543,79 +1544,85 @@ textarea.form-control {
   background-color: rgba(220, 53, 69, 0.9);
   border-radius: 0.25rem; }
 
-.was-validated .form-control:invalid, .form-control.is-invalid {
+.was-validated .form-control:invalid, .form-control.is-invalid, .has-error .form-control {
   border-color: #dc3545;
   padding-right: calc(1.5em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
   background-repeat: no-repeat;
   background-position: center right calc(0.375em + 0.1875rem);
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
-  .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
+  .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus, .has-error .form-control:focus {
     border-color: #dc3545;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); }
   .was-validated .form-control:invalid ~ .invalid-feedback,
-  .was-validated .form-control:invalid ~ .invalid-tooltip, .form-control.is-invalid ~ .invalid-feedback,
-  .form-control.is-invalid ~ .invalid-tooltip {
+  .was-validated .form-control:invalid ~ .invalid-tooltip, .form-control.is-invalid ~ .invalid-feedback, .has-error .form-control ~ .invalid-feedback,
+  .form-control.is-invalid ~ .invalid-tooltip,
+  .has-error .form-control ~ .invalid-tooltip {
     display: block; }
 
-.was-validated textarea.form-control:invalid, textarea.form-control.is-invalid {
+.was-validated textarea.form-control:invalid, textarea.form-control.is-invalid, .has-error textarea.form-control {
   padding-right: calc(1.5em + 0.75rem);
   background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem); }
 
-.was-validated .custom-select:invalid, .custom-select.is-invalid {
+.was-validated .custom-select:invalid, .custom-select.is-invalid, .has-error .custom-select.form-control {
   border-color: #dc3545;
   padding-right: calc((1em + 0.75rem) * 3 / 4 + 1.75rem);
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E") #fff no-repeat center right 1.75rem/calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); }
-  .was-validated .custom-select:invalid:focus, .custom-select.is-invalid:focus {
+  .was-validated .custom-select:invalid:focus, .custom-select.is-invalid:focus, .has-error .custom-select.form-control:focus {
     border-color: #dc3545;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); }
   .was-validated .custom-select:invalid ~ .invalid-feedback,
-  .was-validated .custom-select:invalid ~ .invalid-tooltip, .custom-select.is-invalid ~ .invalid-feedback,
-  .custom-select.is-invalid ~ .invalid-tooltip {
+  .was-validated .custom-select:invalid ~ .invalid-tooltip, .custom-select.is-invalid ~ .invalid-feedback, .has-error .custom-select.form-control ~ .invalid-feedback,
+  .custom-select.is-invalid ~ .invalid-tooltip,
+  .has-error .custom-select.form-control ~ .invalid-tooltip {
     display: block; }
 
 .was-validated .form-control-file:invalid ~ .invalid-feedback,
-.was-validated .form-control-file:invalid ~ .invalid-tooltip, .form-control-file.is-invalid ~ .invalid-feedback,
-.form-control-file.is-invalid ~ .invalid-tooltip {
+.was-validated .form-control-file:invalid ~ .invalid-tooltip, .form-control-file.is-invalid ~ .invalid-feedback, .has-error .form-control-file.form-control ~ .invalid-feedback,
+.form-control-file.is-invalid ~ .invalid-tooltip,
+.has-error .form-control-file.form-control ~ .invalid-tooltip {
   display: block; }
 
-.was-validated .form-check-input:invalid ~ .form-check-label, .form-check-input.is-invalid ~ .form-check-label {
+.was-validated .form-check-input:invalid ~ .form-check-label, .form-check-input.is-invalid ~ .form-check-label, .has-error .form-check-input.form-control ~ .form-check-label {
   color: #dc3545; }
 
 .was-validated .form-check-input:invalid ~ .invalid-feedback,
-.was-validated .form-check-input:invalid ~ .invalid-tooltip, .form-check-input.is-invalid ~ .invalid-feedback,
-.form-check-input.is-invalid ~ .invalid-tooltip {
+.was-validated .form-check-input:invalid ~ .invalid-tooltip, .form-check-input.is-invalid ~ .invalid-feedback, .has-error .form-check-input.form-control ~ .invalid-feedback,
+.form-check-input.is-invalid ~ .invalid-tooltip,
+.has-error .form-check-input.form-control ~ .invalid-tooltip {
   display: block; }
 
-.was-validated .custom-control-input:invalid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label {
+.was-validated .custom-control-input:invalid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label, .has-error .custom-control-input.form-control ~ .custom-control-label {
   color: #dc3545; }
-  .was-validated .custom-control-input:invalid ~ .custom-control-label::before, .custom-control-input.is-invalid ~ .custom-control-label::before {
+  .was-validated .custom-control-input:invalid ~ .custom-control-label::before, .custom-control-input.is-invalid ~ .custom-control-label::before, .has-error .custom-control-input.form-control ~ .custom-control-label::before {
     border-color: #dc3545; }
 
 .was-validated .custom-control-input:invalid ~ .invalid-feedback,
-.was-validated .custom-control-input:invalid ~ .invalid-tooltip, .custom-control-input.is-invalid ~ .invalid-feedback,
-.custom-control-input.is-invalid ~ .invalid-tooltip {
+.was-validated .custom-control-input:invalid ~ .invalid-tooltip, .custom-control-input.is-invalid ~ .invalid-feedback, .has-error .custom-control-input.form-control ~ .invalid-feedback,
+.custom-control-input.is-invalid ~ .invalid-tooltip,
+.has-error .custom-control-input.form-control ~ .invalid-tooltip {
   display: block; }
 
-.was-validated .custom-control-input:invalid:checked ~ .custom-control-label::before, .custom-control-input.is-invalid:checked ~ .custom-control-label::before {
+.was-validated .custom-control-input:invalid:checked ~ .custom-control-label::before, .custom-control-input.is-invalid:checked ~ .custom-control-label::before, .has-error .custom-control-input.form-control:checked ~ .custom-control-label::before {
   border-color: #e4606d;
   background-color: #e4606d; }
 
-.was-validated .custom-control-input:invalid:focus ~ .custom-control-label::before, .custom-control-input.is-invalid:focus ~ .custom-control-label::before {
+.was-validated .custom-control-input:invalid:focus ~ .custom-control-label::before, .custom-control-input.is-invalid:focus ~ .custom-control-label::before, .has-error .custom-control-input.form-control:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); }
 
-.was-validated .custom-control-input:invalid:focus:not(:checked) ~ .custom-control-label::before, .custom-control-input.is-invalid:focus:not(:checked) ~ .custom-control-label::before {
+.was-validated .custom-control-input:invalid:focus:not(:checked) ~ .custom-control-label::before, .custom-control-input.is-invalid:focus:not(:checked) ~ .custom-control-label::before, .has-error .custom-control-input.form-control:focus:not(:checked) ~ .custom-control-label::before {
   border-color: #dc3545; }
 
-.was-validated .custom-file-input:invalid ~ .custom-file-label, .custom-file-input.is-invalid ~ .custom-file-label {
+.was-validated .custom-file-input:invalid ~ .custom-file-label, .custom-file-input.is-invalid ~ .custom-file-label, .has-error .custom-file-input.form-control ~ .custom-file-label {
   border-color: #dc3545; }
 
 .was-validated .custom-file-input:invalid ~ .invalid-feedback,
-.was-validated .custom-file-input:invalid ~ .invalid-tooltip, .custom-file-input.is-invalid ~ .invalid-feedback,
-.custom-file-input.is-invalid ~ .invalid-tooltip {
+.was-validated .custom-file-input:invalid ~ .invalid-tooltip, .custom-file-input.is-invalid ~ .invalid-feedback, .has-error .custom-file-input.form-control ~ .invalid-feedback,
+.custom-file-input.is-invalid ~ .invalid-tooltip,
+.has-error .custom-file-input.form-control ~ .invalid-tooltip {
   display: block; }
 
-.was-validated .custom-file-input:invalid:focus ~ .custom-file-label, .custom-file-input.is-invalid:focus ~ .custom-file-label {
+.was-validated .custom-file-input:invalid:focus ~ .custom-file-label, .custom-file-input.is-invalid:focus ~ .custom-file-label, .has-error .custom-file-input.form-control:focus ~ .custom-file-label {
   border-color: #dc3545;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); }
 
@@ -4192,7 +4199,7 @@ input[type="button"].btn-block {
     .navbar-dark .navbar-text a:hover, .navbar-dark .navbar-text a:focus {
       color: #fff; }
 
-.card, .argument, .proposition_small, .proposition {
+.card, .argument, .proposition, .proposition_small, .proposition_change_header, .proposition_counter_header {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -4202,21 +4209,21 @@ input[type="button"].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem; }
-  .card > hr, .argument > hr, .proposition_small > hr, .proposition > hr {
+  .card > hr, .argument > hr, .proposition > hr, .proposition_small > hr, .proposition_change_header > hr, .proposition_counter_header > hr {
     margin-right: 0;
     margin-left: 0; }
-  .card > .list-group:first-child .list-group-item:first-child, .argument > .list-group:first-child .list-group-item:first-child, .proposition_small > .list-group:first-child .list-group-item:first-child, .proposition > .list-group:first-child .list-group-item:first-child {
+  .card > .list-group:first-child .list-group-item:first-child, .argument > .list-group:first-child .list-group-item:first-child, .proposition > .list-group:first-child .list-group-item:first-child, .proposition_small > .list-group:first-child .list-group-item:first-child, .proposition_change_header > .list-group:first-child .list-group-item:first-child, .proposition_counter_header > .list-group:first-child .list-group-item:first-child {
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem; }
-  .card > .list-group:last-child .list-group-item:last-child, .argument > .list-group:last-child .list-group-item:last-child, .proposition_small > .list-group:last-child .list-group-item:last-child, .proposition > .list-group:last-child .list-group-item:last-child {
+  .card > .list-group:last-child .list-group-item:last-child, .argument > .list-group:last-child .list-group-item:last-child, .proposition > .list-group:last-child .list-group-item:last-child, .proposition_small > .list-group:last-child .list-group-item:last-child, .proposition_change_header > .list-group:last-child .list-group-item:last-child, .proposition_counter_header > .list-group:last-child .list-group-item:last-child {
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem; }
 
-.card-body, .argument_body, .proposition_small_body {
+.card-body, .argument_relation_body, .proposition_small_body {
   flex: 1 1 auto;
   padding: 1.25rem; }
 
-.card-title, .argument_title, .proposition_small_title, .proposition_title {
+.card-title, .argument_title, .proposition_title, .proposition_small_title, .proposition_change_header h4, .proposition_counter_header h4 {
   margin-bottom: 0.75rem; }
 
 .card-subtitle {
@@ -4284,14 +4291,14 @@ input[type="button"].btn-block {
 .card-deck {
   display: flex;
   flex-direction: column; }
-  .card-deck .card, .card-deck .argument, .card-deck .proposition_small, .card-deck .proposition {
+  .card-deck .card, .card-deck .argument, .card-deck .proposition, .card-deck .proposition_small, .card-deck .proposition_change_header, .card-deck .proposition_counter_header {
     margin-bottom: 15px; }
   @media (min-width: 576px) {
     .card-deck {
       flex-flow: row wrap;
       margin-right: -15px;
       margin-left: -15px; }
-      .card-deck .card, .card-deck .argument, .card-deck .proposition_small, .card-deck .proposition {
+      .card-deck .card, .card-deck .argument, .card-deck .proposition, .card-deck .proposition_small, .card-deck .proposition_change_header, .card-deck .proposition_counter_header {
         display: flex;
         flex: 1 0 0%;
         flex-direction: column;
@@ -4302,73 +4309,93 @@ input[type="button"].btn-block {
 .card-group {
   display: flex;
   flex-direction: column; }
-  .card-group > .card, .card-group > .argument, .card-group > .proposition_small, .card-group > .proposition {
+  .card-group > .card, .card-group > .argument, .card-group > .proposition, .card-group > .proposition_small, .card-group > .proposition_change_header, .card-group > .proposition_counter_header {
     margin-bottom: 15px; }
   @media (min-width: 576px) {
     .card-group {
       flex-flow: row wrap; }
-      .card-group > .card, .card-group > .argument, .card-group > .proposition_small, .card-group > .proposition {
+      .card-group > .card, .card-group > .argument, .card-group > .proposition, .card-group > .proposition_small, .card-group > .proposition_change_header, .card-group > .proposition_counter_header {
         flex: 1 0 0%;
         margin-bottom: 0; }
-        .card-group > .card + .card, .card-group > .argument + .card, .card-group > .proposition_small + .card, .card-group > .proposition + .card, .card-group > .card + .argument, .card-group > .argument + .argument, .card-group > .proposition_small + .argument, .card-group > .proposition + .argument, .card-group > .card + .proposition_small, .card-group > .argument + .proposition_small, .card-group > .proposition_small + .proposition_small, .card-group > .proposition + .proposition_small, .card-group > .card + .proposition, .card-group > .argument + .proposition, .card-group > .proposition_small + .proposition, .card-group > .proposition + .proposition {
+        .card-group > .card + .card, .card-group > .argument + .card, .card-group > .proposition + .card, .card-group > .proposition_small + .card, .card-group > .proposition_change_header + .card, .card-group > .proposition_counter_header + .card, .card-group > .card + .argument, .card-group > .argument + .argument, .card-group > .proposition + .argument, .card-group > .proposition_small + .argument, .card-group > .proposition_change_header + .argument, .card-group > .proposition_counter_header + .argument, .card-group > .card + .proposition, .card-group > .argument + .proposition, .card-group > .proposition + .proposition, .card-group > .proposition_small + .proposition, .card-group > .proposition_change_header + .proposition, .card-group > .proposition_counter_header + .proposition, .card-group > .card + .proposition_small, .card-group > .argument + .proposition_small, .card-group > .proposition + .proposition_small, .card-group > .proposition_small + .proposition_small, .card-group > .proposition_change_header + .proposition_small, .card-group > .proposition_counter_header + .proposition_small, .card-group > .card + .proposition_change_header, .card-group > .argument + .proposition_change_header, .card-group > .proposition + .proposition_change_header, .card-group > .proposition_small + .proposition_change_header, .card-group > .proposition_change_header + .proposition_change_header, .card-group > .proposition_counter_header + .proposition_change_header, .card-group > .card + .proposition_counter_header, .card-group > .argument + .proposition_counter_header, .card-group > .proposition + .proposition_counter_header, .card-group > .proposition_small + .proposition_counter_header, .card-group > .proposition_change_header + .proposition_counter_header, .card-group > .proposition_counter_header + .proposition_counter_header {
           margin-left: 0;
           border-left: 0; }
-        .card-group > .card:not(:last-child), .card-group > .argument:not(:last-child), .card-group > .proposition_small:not(:last-child), .card-group > .proposition:not(:last-child) {
+        .card-group > .card:not(:last-child), .card-group > .argument:not(:last-child), .card-group > .proposition:not(:last-child), .card-group > .proposition_small:not(:last-child), .card-group > .proposition_change_header:not(:last-child), .card-group > .proposition_counter_header:not(:last-child) {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0; }
-          .card-group > .card:not(:last-child) .card-img-top, .card-group > .argument:not(:last-child) .card-img-top, .card-group > .proposition_small:not(:last-child) .card-img-top, .card-group > .proposition:not(:last-child) .card-img-top,
+          .card-group > .card:not(:last-child) .card-img-top, .card-group > .argument:not(:last-child) .card-img-top, .card-group > .proposition:not(:last-child) .card-img-top, .card-group > .proposition_small:not(:last-child) .card-img-top, .card-group > .proposition_change_header:not(:last-child) .card-img-top, .card-group > .proposition_counter_header:not(:last-child) .card-img-top,
           .card-group > .card:not(:last-child) .card-header,
           .card-group > .argument:not(:last-child) .card-header,
-          .card-group > .proposition_small:not(:last-child) .card-header,
           .card-group > .proposition:not(:last-child) .card-header,
+          .card-group > .proposition_small:not(:last-child) .card-header,
+          .card-group > .proposition_change_header:not(:last-child) .card-header,
+          .card-group > .proposition_counter_header:not(:last-child) .card-header,
           .card-group > .card:not(:last-child) .proposition_toolbar,
           .card-group > .argument:not(:last-child) .proposition_toolbar,
+          .card-group > .proposition:not(:last-child) .proposition_toolbar,
           .card-group > .proposition_small:not(:last-child) .proposition_toolbar,
-          .card-group > .proposition:not(:last-child) .proposition_toolbar {
+          .card-group > .proposition_change_header:not(:last-child) .proposition_toolbar,
+          .card-group > .proposition_counter_header:not(:last-child) .proposition_toolbar {
             border-top-right-radius: 0; }
-          .card-group > .card:not(:last-child) .card-img-bottom, .card-group > .argument:not(:last-child) .card-img-bottom, .card-group > .proposition_small:not(:last-child) .card-img-bottom, .card-group > .proposition:not(:last-child) .card-img-bottom,
+          .card-group > .card:not(:last-child) .card-img-bottom, .card-group > .argument:not(:last-child) .card-img-bottom, .card-group > .proposition:not(:last-child) .card-img-bottom, .card-group > .proposition_small:not(:last-child) .card-img-bottom, .card-group > .proposition_change_header:not(:last-child) .card-img-bottom, .card-group > .proposition_counter_header:not(:last-child) .card-img-bottom,
           .card-group > .card:not(:last-child) .card-footer,
           .card-group > .argument:not(:last-child) .card-footer,
-          .card-group > .proposition_small:not(:last-child) .card-footer,
           .card-group > .proposition:not(:last-child) .card-footer,
+          .card-group > .proposition_small:not(:last-child) .card-footer,
+          .card-group > .proposition_change_header:not(:last-child) .card-footer,
+          .card-group > .proposition_counter_header:not(:last-child) .card-footer,
           .card-group > .card:not(:last-child) .argument_footer,
           .card-group > .argument:not(:last-child) .argument_footer,
-          .card-group > .proposition_small:not(:last-child) .argument_footer,
           .card-group > .proposition:not(:last-child) .argument_footer,
+          .card-group > .proposition_small:not(:last-child) .argument_footer,
+          .card-group > .proposition_change_header:not(:last-child) .argument_footer,
+          .card-group > .proposition_counter_header:not(:last-child) .argument_footer,
           .card-group > .card:not(:last-child) .proposition_small_footer,
           .card-group > .argument:not(:last-child) .proposition_small_footer,
+          .card-group > .proposition:not(:last-child) .proposition_small_footer,
           .card-group > .proposition_small:not(:last-child) .proposition_small_footer,
-          .card-group > .proposition:not(:last-child) .proposition_small_footer {
+          .card-group > .proposition_change_header:not(:last-child) .proposition_small_footer,
+          .card-group > .proposition_counter_header:not(:last-child) .proposition_small_footer {
             border-bottom-right-radius: 0; }
-        .card-group > .card:not(:first-child), .card-group > .argument:not(:first-child), .card-group > .proposition_small:not(:first-child), .card-group > .proposition:not(:first-child) {
+        .card-group > .card:not(:first-child), .card-group > .argument:not(:first-child), .card-group > .proposition:not(:first-child), .card-group > .proposition_small:not(:first-child), .card-group > .proposition_change_header:not(:first-child), .card-group > .proposition_counter_header:not(:first-child) {
           border-top-left-radius: 0;
           border-bottom-left-radius: 0; }
-          .card-group > .card:not(:first-child) .card-img-top, .card-group > .argument:not(:first-child) .card-img-top, .card-group > .proposition_small:not(:first-child) .card-img-top, .card-group > .proposition:not(:first-child) .card-img-top,
+          .card-group > .card:not(:first-child) .card-img-top, .card-group > .argument:not(:first-child) .card-img-top, .card-group > .proposition:not(:first-child) .card-img-top, .card-group > .proposition_small:not(:first-child) .card-img-top, .card-group > .proposition_change_header:not(:first-child) .card-img-top, .card-group > .proposition_counter_header:not(:first-child) .card-img-top,
           .card-group > .card:not(:first-child) .card-header,
           .card-group > .argument:not(:first-child) .card-header,
-          .card-group > .proposition_small:not(:first-child) .card-header,
           .card-group > .proposition:not(:first-child) .card-header,
+          .card-group > .proposition_small:not(:first-child) .card-header,
+          .card-group > .proposition_change_header:not(:first-child) .card-header,
+          .card-group > .proposition_counter_header:not(:first-child) .card-header,
           .card-group > .card:not(:first-child) .proposition_toolbar,
           .card-group > .argument:not(:first-child) .proposition_toolbar,
+          .card-group > .proposition:not(:first-child) .proposition_toolbar,
           .card-group > .proposition_small:not(:first-child) .proposition_toolbar,
-          .card-group > .proposition:not(:first-child) .proposition_toolbar {
+          .card-group > .proposition_change_header:not(:first-child) .proposition_toolbar,
+          .card-group > .proposition_counter_header:not(:first-child) .proposition_toolbar {
             border-top-left-radius: 0; }
-          .card-group > .card:not(:first-child) .card-img-bottom, .card-group > .argument:not(:first-child) .card-img-bottom, .card-group > .proposition_small:not(:first-child) .card-img-bottom, .card-group > .proposition:not(:first-child) .card-img-bottom,
+          .card-group > .card:not(:first-child) .card-img-bottom, .card-group > .argument:not(:first-child) .card-img-bottom, .card-group > .proposition:not(:first-child) .card-img-bottom, .card-group > .proposition_small:not(:first-child) .card-img-bottom, .card-group > .proposition_change_header:not(:first-child) .card-img-bottom, .card-group > .proposition_counter_header:not(:first-child) .card-img-bottom,
           .card-group > .card:not(:first-child) .card-footer,
           .card-group > .argument:not(:first-child) .card-footer,
-          .card-group > .proposition_small:not(:first-child) .card-footer,
           .card-group > .proposition:not(:first-child) .card-footer,
+          .card-group > .proposition_small:not(:first-child) .card-footer,
+          .card-group > .proposition_change_header:not(:first-child) .card-footer,
+          .card-group > .proposition_counter_header:not(:first-child) .card-footer,
           .card-group > .card:not(:first-child) .argument_footer,
           .card-group > .argument:not(:first-child) .argument_footer,
-          .card-group > .proposition_small:not(:first-child) .argument_footer,
           .card-group > .proposition:not(:first-child) .argument_footer,
+          .card-group > .proposition_small:not(:first-child) .argument_footer,
+          .card-group > .proposition_change_header:not(:first-child) .argument_footer,
+          .card-group > .proposition_counter_header:not(:first-child) .argument_footer,
           .card-group > .card:not(:first-child) .proposition_small_footer,
           .card-group > .argument:not(:first-child) .proposition_small_footer,
+          .card-group > .proposition:not(:first-child) .proposition_small_footer,
           .card-group > .proposition_small:not(:first-child) .proposition_small_footer,
-          .card-group > .proposition:not(:first-child) .proposition_small_footer {
+          .card-group > .proposition_change_header:not(:first-child) .proposition_small_footer,
+          .card-group > .proposition_counter_header:not(:first-child) .proposition_small_footer {
             border-bottom-left-radius: 0; } }
 
-.card-columns .card, .card-columns .argument, .card-columns .proposition_small, .card-columns .proposition {
+.card-columns .card, .card-columns .argument, .card-columns .proposition, .card-columns .proposition_small, .card-columns .proposition_change_header, .card-columns .proposition_counter_header {
   margin-bottom: 0.75rem; }
 
 @media (min-width: 576px) {
@@ -4377,25 +4404,25 @@ input[type="button"].btn-block {
     column-gap: 1.25rem;
     orphans: 1;
     widows: 1; }
-    .card-columns .card, .card-columns .argument, .card-columns .proposition_small, .card-columns .proposition {
+    .card-columns .card, .card-columns .argument, .card-columns .proposition, .card-columns .proposition_small, .card-columns .proposition_change_header, .card-columns .proposition_counter_header {
       display: inline-block;
       width: 100%; } }
 
-.accordion > .card, .accordion > .argument, .accordion > .proposition_small, .accordion > .proposition {
+.accordion > .card, .accordion > .argument, .accordion > .proposition, .accordion > .proposition_small, .accordion > .proposition_change_header, .accordion > .proposition_counter_header {
   overflow: hidden; }
-  .accordion > .card:not(:first-of-type) .card-header:first-child, .accordion > .argument:not(:first-of-type) .card-header:first-child, .accordion > .proposition_small:not(:first-of-type) .card-header:first-child, .accordion > .proposition:not(:first-of-type) .card-header:first-child, .accordion > .card:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .argument:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition_small:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition:not(:first-of-type) .proposition_toolbar:first-child {
+  .accordion > .card:not(:first-of-type) .card-header:first-child, .accordion > .argument:not(:first-of-type) .card-header:first-child, .accordion > .proposition:not(:first-of-type) .card-header:first-child, .accordion > .proposition_small:not(:first-of-type) .card-header:first-child, .accordion > .proposition_change_header:not(:first-of-type) .card-header:first-child, .accordion > .proposition_counter_header:not(:first-of-type) .card-header:first-child, .accordion > .card:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .argument:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition_small:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition_change_header:not(:first-of-type) .proposition_toolbar:first-child, .accordion > .proposition_counter_header:not(:first-of-type) .proposition_toolbar:first-child {
     border-radius: 0; }
-  .accordion > .card:not(:first-of-type):not(:last-of-type), .accordion > .argument:not(:first-of-type):not(:last-of-type), .accordion > .proposition_small:not(:first-of-type):not(:last-of-type), .accordion > .proposition:not(:first-of-type):not(:last-of-type) {
+  .accordion > .card:not(:first-of-type):not(:last-of-type), .accordion > .argument:not(:first-of-type):not(:last-of-type), .accordion > .proposition:not(:first-of-type):not(:last-of-type), .accordion > .proposition_small:not(:first-of-type):not(:last-of-type), .accordion > .proposition_change_header:not(:first-of-type):not(:last-of-type), .accordion > .proposition_counter_header:not(:first-of-type):not(:last-of-type) {
     border-bottom: 0;
     border-radius: 0; }
-  .accordion > .card:first-of-type, .accordion > .argument:first-of-type, .accordion > .proposition_small:first-of-type, .accordion > .proposition:first-of-type {
+  .accordion > .card:first-of-type, .accordion > .argument:first-of-type, .accordion > .proposition:first-of-type, .accordion > .proposition_small:first-of-type, .accordion > .proposition_change_header:first-of-type, .accordion > .proposition_counter_header:first-of-type {
     border-bottom: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0; }
-  .accordion > .card:last-of-type, .accordion > .argument:last-of-type, .accordion > .proposition_small:last-of-type, .accordion > .proposition:last-of-type {
+  .accordion > .card:last-of-type, .accordion > .argument:last-of-type, .accordion > .proposition:last-of-type, .accordion > .proposition_small:last-of-type, .accordion > .proposition_change_header:last-of-type, .accordion > .proposition_counter_header:last-of-type {
     border-top-left-radius: 0;
     border-top-right-radius: 0; }
-  .accordion > .card .card-header, .accordion > .argument .card-header, .accordion > .proposition_small .card-header, .accordion > .proposition .card-header, .accordion > .card .proposition_toolbar, .accordion > .argument .proposition_toolbar, .accordion > .proposition_small .proposition_toolbar, .accordion > .proposition .proposition_toolbar {
+  .accordion > .card .card-header, .accordion > .argument .card-header, .accordion > .proposition .card-header, .accordion > .proposition_small .card-header, .accordion > .proposition_change_header .card-header, .accordion > .proposition_counter_header .card-header, .accordion > .card .proposition_toolbar, .accordion > .argument .proposition_toolbar, .accordion > .proposition .proposition_toolbar, .accordion > .proposition_small .proposition_toolbar, .accordion > .proposition_change_header .proposition_toolbar, .accordion > .proposition_counter_header .proposition_toolbar {
     margin-bottom: -1px; }
 
 .breadcrumb {
@@ -6513,7 +6540,7 @@ footer.footer .list-inline {
 .mx-1 {
   margin-right: 0.25rem !important; }
 
-.mb-1, .argument, .proposition_small,
+.mb-1, .argument,
 .my-1,
 footer.footer .list-inline {
   margin-bottom: 0.25rem !important; }
@@ -6653,8 +6680,7 @@ footer.footer .list-inline {
 
 .pt-2,
 .py-2,
-.argument_footer,
-.proposition_small_footer {
+.argument_footer {
   padding-top: 0.5rem !important; }
 
 .pr-2,
@@ -6663,15 +6689,14 @@ footer.footer .list-inline {
 
 .pb-2,
 .py-2,
-.argument_footer,
-.proposition_small_footer {
+.argument_footer {
   padding-bottom: 0.5rem !important; }
 
 .pl-2,
 .px-2 {
   padding-left: 0.5rem !important; }
 
-.p-3, .argument_body, .proposition_small_body {
+.p-3, .argument_relation_body {
   padding: 1rem !important; }
 
 .pt-3,
@@ -7880,16 +7905,16 @@ footer.footer .list-inline {
 .text-left {
   text-align: left !important; }
 
-.text-right {
+.text-right, .con .authoring_info, .change .authoring_info, .proposition_small_footer .authoring_info, .proposition_change_header h4 {
   text-align: right !important; }
 
-.text-center, .argument_sidebar {
+.text-center, .argument_relation_sidebar {
   text-align: center !important; }
 
 @media (min-width: 576px) {
   .text-sm-left {
     text-align: left !important; }
-  .text-sm-right, .con .authoring_info, .change .authoring_info, .author {
+  .text-sm-right, .author {
     text-align: right !important; }
   .text-sm-center, .argument_score, .proposition_left {
     text-align: center !important; } }
@@ -7999,7 +8024,7 @@ a.text-dark:hover, a.text-dark:focus {
 .text-body {
   color: #212529 !important; }
 
-.text-muted, .argument_footer, .proposition_small_footer, .points_text, .proposition_info_text {
+.text-muted, .argument_footer, .points_text, .proposition_info_text, .proposition_small_footer {
   color: #6c757d !important; }
 
 .text-black-50 {
@@ -12547,6 +12572,18 @@ a.btn, a.argument_vote_btn, a.counter_arguments_btn, a.button_add_related, a.but
 
 .proposition_info_number {
   font-size: 1.2rem; }
+
+.proposition_small {
+  margin-bottom: 0.25rem; }
+
+.proposition_small_footer .authoring_info {
+  padding-top: 0.1rem; }
+
+.proposition_change_header {
+  border: 0; }
+
+.proposition_counter_header {
+  border: 0; }
 
 .support_form {
   display: inline; }
