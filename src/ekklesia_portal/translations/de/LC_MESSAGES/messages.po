@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-05 23:52+0000\n"
+"POT-Creation-Date: 2019-11-06 12:01+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -91,6 +91,7 @@ msgstr "nicht festgelegt"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:3
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:74
 msgid "ballot"
 msgstr "Abstimmung"
 
@@ -465,14 +466,14 @@ msgid "button_report"
 msgstr "Melden"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:50
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:69
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Unterstützer"
 msgstr[1] "Unterstützer"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:52
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:69
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:91
 msgid "authored_at"
 msgstr "Eingetragen %(dt)s"
 
@@ -484,53 +485,57 @@ msgstr "Diskussion"
 msgid "tab_associated"
 msgstr "Zugehörig (Konkurrenzanträge)"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:73
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:71
 msgid "argument"
 msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Argumente"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:78
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:84
 msgid "button_goto_arguments"
 msgstr "Zu den Argumenten"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:78
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:84
 msgid "button_goto_associated"
 msgstr "Zu den Konkurrenzanträgen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:81
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:87
 msgid "title_motivation"
 msgstr "Begründung"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:89
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:92
+msgid "target_date_at"
+msgstr "Stichtag %(date)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:99
 msgid "button_add_pro_argument"
 msgstr "Pro-Argument hinzufügen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:93
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:103
 msgid "button_add_con_argument"
 msgstr "Contra-Argument hinzufügen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:101
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:111
 msgid "title_proposition_modifies"
 msgstr "Ist Änderungsantrag zu"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:106
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:116
 msgid "title_proposition_derivations"
 msgstr "Änderungsanträge"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:109
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:119
 msgid "button_add_change_proposition"
 msgstr "Änderungsantrag stellen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:115
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:125
 msgid "title_proposition_replaces"
 msgstr "Ist Gegenantrag zu"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:120
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:130
 msgid "title_proposition_replacements"
 msgstr "Gegenanträge"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:123
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:133
 msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
