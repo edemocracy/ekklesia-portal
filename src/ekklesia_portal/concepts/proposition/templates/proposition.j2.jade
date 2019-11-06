@@ -25,7 +25,7 @@
       i.fas.fa-link &nbsp;
       = _('button_share')
 
-    #a1
+    #a1(hidden=True)
       .popover-body
         p(align='center')
           input(type='text', name='p_url', id='p_url', class='form-control', value=share_url, onclick='this.select()', readonly='')
@@ -36,23 +36,6 @@
           a.btn.btn-tw(type='button', href=share_twitter_url, target='_blank')
             i.fab.fa-twitter.pr-1
               |  Twitter
-
-      script.
-        var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
-        myDefaultWhiteList.input = ['type', 'name', 'id', 'class', 'value','onclick', 'readonly']
-        myDefaultWhiteList.a = ['type', 'href', 'target']
-        myDefaultWhiteList.p = ['align']
-        $(function () {
-          $('#a1').hide();
-          $("[data-toggle=popover]").popover({
-            html: true,
-            content: function () {
-              var content = $(this).attr("data-popover-content");
-              return $(content).children(".popover-body").html();
-            },
-            placement: "top",
-          });
-        });
 
     if external_discussion_url
       a.btn.btn-secondary.btn-sm(href=external_discussion_url, target="ekklesia-portal-external-discussion")
@@ -238,6 +221,22 @@
               .button_add_related
                 i.fas.fa-circle &nbsp;
                 = _("button_add_counter_proposition")
+
+  script.
+    var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
+    myDefaultWhiteList.input = ['type', 'name', 'id', 'class', 'value','onclick', 'readonly']
+    myDefaultWhiteList.a = ['type', 'href', 'target']
+    myDefaultWhiteList.p = ['align']
+    $(function () {
+      $("[data-toggle=popover]").popover({
+        html: true,
+        content: function () {
+          var content = $(this).attr("data-popover-content");
+          return $(content).children(".popover-body").html();
+        },
+        placement: "top",
+      });
+    });
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
