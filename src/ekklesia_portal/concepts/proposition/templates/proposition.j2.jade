@@ -179,6 +179,20 @@
         a(name="bottom")
 
         .proposition_col.change
+
+          if modifies
+            .proposition_change_header
+              .card-body
+                h4= _('title_proposition_modifies')
+
+            = render_cell(modifies, small=True, side='left')
+
+
+          if derivations
+            .proposition_change_header
+              .card-body
+                h4= _('title_proposition_derivations')
+
           = render_cell(collection=derivations, small=True, side='left')
 
           if show_create_associated_proposition
@@ -188,6 +202,19 @@
                 = _("button_add_change_proposition")
 
         .proposition_col.counter
+
+          if replaces
+            .proposition_counter_header
+              .card-body
+                h4= _('title_proposition_replaces')
+
+            = render_cell(replaces, small=True, side='right')
+
+          if replacements
+            .proposition_counter_header
+              .card-body
+                h4= _('title_proposition_replacements')
+
           = render_cell(collection=replacements, small=True, side='right')
 
           if show_create_associated_proposition

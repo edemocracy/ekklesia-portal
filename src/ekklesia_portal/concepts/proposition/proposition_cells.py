@@ -20,8 +20,10 @@ class PropositionCell(LayoutCell):
         'derivations',
         'external_discussion_url',
         'id',
+        'modifies',
         'motivation',
         'replacements',
+        'replaces',
         'tags',
         'title'
     ]
