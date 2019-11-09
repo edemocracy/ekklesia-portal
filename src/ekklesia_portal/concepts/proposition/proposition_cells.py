@@ -1,3 +1,4 @@
+from operator import attrgetter
 import urllib.parse
 import colander
 from eliot import log_call
@@ -118,10 +119,12 @@ class PropositionCell(LayoutCell):
         return self.link(self._model, 'support')
 
     def pro_argument_relations(self):
-        return [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.PRO]
+        relations = [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.PRO]
+        return sorted(relations, key=attrgetter('score'), reverse=True)
 
     def contra_argument_relations(self):
-        return [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.CONTRA]
+        relations = [p for p in self._model.proposition_arguments if p.argument_type == ArgumentType.CONTRA]
+        return sorted(relations, key=attrgetter('score'), reverse=True)
 
     def argument_count(self):
         return len(self._model.proposition_arguments)
