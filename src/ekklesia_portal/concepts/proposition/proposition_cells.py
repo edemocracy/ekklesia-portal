@@ -7,8 +7,10 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
-from ekklesia_portal.enums import ArgumentType
+from ekklesia_common.utils import cached_property
+from ekklesia_portal.enums import ArgumentType, PropositionStatus
 from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
@@ -35,6 +37,38 @@ class PropositionCell(LayoutCell):
     actions = Cell.fragment('proposition_actions')
     tabs = Cell.fragment('proposition_tabs')
     small = Cell.fragment('proposition_small')
+
+    @Cell.fragment
+    def status(self):
+        status_to_variant = {
+            PropositionStatus.DRAFT: 'submitted',
+            PropositionStatus.CHANGING: 'submitted',
+            PropositionStatus.SUBMITTED: 'submitted',
+            PropositionStatus.ABANDONED: 'submitted',
+            PropositionStatus.QUALIFIED: 'submitted',
+            PropositionStatus.SCHEDULED: 'scheduled',
+            PropositionStatus.VOTING: 'scheduled',
+            PropositionStatus.FINISHED: 'finished',
+        }
+        variant = status_to_variant[self._model.status]
+        template = f"proposition/proposition_status_{variant}.j2.jade"
+        return self.render_template(template)
+
+    @Cell.fragment
+    def history(self):
+        status_to_variant = {
+            PropositionStatus.DRAFT: 'submitted',
+            PropositionStatus.CHANGING: 'submitted',
+            PropositionStatus.SUBMITTED: 'submitted',
+            PropositionStatus.ABANDONED: 'submitted',
+            PropositionStatus.QUALIFIED: 'submitted',
+            PropositionStatus.SCHEDULED: 'scheduled',
+            PropositionStatus.VOTING: 'scheduled',
+            PropositionStatus.FINISHED: 'finished',
+        }
+        variant = status_to_variant[self._model.status]
+        template = f"proposition/proposition_history_{variant}.j2.jade"
+        return self.render_template(template)
 
     def associated_url(self):
         return self.link(self._model, 'associated')
@@ -153,9 +187,31 @@ class PropositionCell(LayoutCell):
     def voting_phase(self):
         return self._model.ballot.voting
 
+    @cached_property
+    def _voting_result_state(self):
+        result = self._model.ballot.result
+        if result:
+            return result.get(self._model.voting_identifier, {}).get("state")
+
+    def voting_result_symbol(self):
+        symbols = {
+            "not decided": "fas fa-spinner",
+            "accepted": "fas fa-check",
+            "declined": "fas fa-ban"
+        }
+        return symbols.get(self._voting_result_state)
+
+    def voting_result_description(self):
+        descriptions = {
+            "not decided": self._('voting_result_delayed'),
+            "accepted": self._('voting_result_accepted'),
+            "declined": self._('voting_result_declined')
+        }
+        return descriptions.get(self._voting_result_state)
+
     def show_edit_button(self):
        return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
- 
+
     def edit_url(self):
         return self.link(self._model, 'edit')
 
