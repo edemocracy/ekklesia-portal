@@ -100,4 +100,6 @@ if __name__ == "__main__":
 
     fixup_ballots(args.voting_phase)
 
+    input("press Enter to commit changes to the database, or CTRL-C to abort...")
+
     transaction.commit()
