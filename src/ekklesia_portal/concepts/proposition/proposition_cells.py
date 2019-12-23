@@ -5,10 +5,11 @@ from eliot import log_call
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.database.datamodel import Proposition, Tag
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType
-from ekklesia_portal.permission import SupportPermission, CreatePermission
+from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
 
@@ -152,6 +153,13 @@ class PropositionCell(LayoutCell):
     def voting_phase(self):
         return self._model.ballot.voting
 
+    def show_edit_button(self):
+       return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
+ 
+    def edit_url(self):
+        return self.link(self._model, 'edit')
+
+
 
 class NewPropositionCell(NewFormCell):
 
@@ -167,6 +175,15 @@ class NewPropositionCell(NewFormCell):
         items = items_for_proposition_select_widgets(departments, tags, selected_tags)
         self._form.prepare_for_render(items)
 
+class EditPropositionCell(EditFormCell):
+
+    def _prepare_form_for_render(self):
+        form_data = self._model.to_dict()
+        self.set_form_data(form_data)
+        departments = self._request.current_user.departments
+        tags = self._request.q(Tag).all()
+        items = items_for_proposition_select_widgets(departments, tags)
+        self._form.prepare_for_render(items)
 
 class PropositionsCell(LayoutCell):
     model = Propositions

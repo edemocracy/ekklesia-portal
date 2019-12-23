@@ -7,10 +7,10 @@ from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea,
 from ekklesia_portal.enums import PropositionStatus
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.permission import CreatePermission, SupportPermission
+from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
-from .proposition_cells import NewPropositionCell, PropositionCell, PropositionsCell
-from .proposition_contracts import PropositionForm
+from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, PropositionsCell
+from .proposition_contracts import PropositionForm, PropositionNewForm
 from .propositions import Propositions
 
 
@@ -23,6 +23,9 @@ def propositions_create_permission(identity, model, permission):
 def proposition_support_permission(identity, model, permission):
     return identity != NoIdentity
 
+@App.permission_rule(model=Proposition, permission=EditPermission)
+def proposition_edit_permission(identity, model, permission):
+    return identity.has_global_admin_permissions
 
 @App.path(model=Propositions, path='p')
 def propositions(request, search=None, tag=None, mode="sorted"):
@@ -43,7 +46,7 @@ class PropositionRedirect:
 
 @App.html(model=Proposition)
 def show(self, request):
-    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, show_edit_button=True, active_tab='discussion')
     return cell.show()
 
 
@@ -99,11 +102,11 @@ def new(self, request):
     else:
         form_data = {}
 
-    form = PropositionForm(request, request.class_link(Propositions))
+    form = PropositionNewForm(request, request.class_link(Propositions))
     return NewPropositionCell(request, form, form_data).show()
 
 
-@App.html_form_post(model=Propositions, form=PropositionForm, cell=NewPropositionCell, permission=CreatePermission)
+@App.html_form_post(model=Propositions, form=PropositionNewForm, cell=NewPropositionCell, permission=CreatePermission)
 def create(self, request, appstruct):
     tag_names = appstruct['tags']
 
@@ -154,3 +157,13 @@ def create(self, request, appstruct):
 def proposition_redirect(self, request):
     proposition = request.q(Proposition).get(self.id)
     return redirect(request.link(proposition))
+
+@App.html(model=Proposition, name='edit', permission=EditPermission)
+def edit(self, request):
+    form = PropositionForm(request, request.link(self))
+    return EditPropositionCell(self, request, form).show()
+
+@App.html_form_post(model=Proposition, form=PropositionForm, cell=EditPropositionCell, permission=EditPermission)
+def update(self, request, appstruct):
+    self.update(**appstruct)
+    return redirect(request.link(self))

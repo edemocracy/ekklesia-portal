@@ -531,6 +531,9 @@ msgstr "Add Change Motion"
 msgid "title_proposition_replaces"
 msgstr "Is Counter Motion For"
 
+msgid "title_edit_proposition"
+msgstr "Edit Proposition"
+
 #: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:130
 msgid "title_proposition_replacements"
 msgstr "Counter Motions"
@@ -689,6 +692,9 @@ msgstr "Board"
 #: src/ekklesia_portal/enums.py:75
 msgid "voting_type_online"
 msgstr "Online"
+
+msgid "status"
+msgstr "Status"
 
 #~ msgid "follow"
 #~ msgstr "Follow"
