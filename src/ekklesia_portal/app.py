@@ -1,5 +1,6 @@
 import logging
 import os
+from pkg_resources import resource_filename
 
 from eliot import start_task, start_action, log_call
 import morepath
@@ -12,10 +13,10 @@ import yaml
 import ekklesia_portal
 from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
-from ekklesia_portal.helper.cell import JinjaCellEnvironment
-from ekklesia_portal.helper.concept import ConceptApp
-from ekklesia_portal.helper.contract import FormApp
-from ekklesia_portal.helper.templating import make_jinja_env, make_template_loader
+from ekklesia_common.cell import JinjaCellEnvironment
+from ekklesia_common.concept import ConceptApp
+from ekklesia_common.contract import FormApp
+from ekklesia_common.templating import make_jinja_env, make_template_loader
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
@@ -26,6 +27,7 @@ logg = logging.getLogger(__name__)
 
 class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp, FormApp):
     request_class = EkklesiaPortalRequest
+    translation_dir = resource_filename('ekklesia_portal', 'translations/')
 
     def __init__(self):
         super().__init__()

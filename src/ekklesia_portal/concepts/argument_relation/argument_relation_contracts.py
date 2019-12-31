@@ -1,8 +1,8 @@
 from deform import Button
 from deform.widget import HiddenWidget
 from ekklesia_portal.enums import ArgumentType
-from ekklesia_portal.helper.contract import Form, enum_property, string_property, int_property
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.contract import Form, enum_property, string_property, int_property
+from ekklesia_common.translation import _
 from ekklesia_portal.concepts.argument.argument_contracts import argument_widgets, ArgumentSchema
 
 

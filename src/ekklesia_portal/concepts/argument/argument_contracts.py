@@ -1,8 +1,8 @@
 from colander import Length
 from deform import Form
 from deform.widget import TextAreaWidget, TextInputWidget
-from ekklesia_portal.helper.contract import Schema, string_property
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.contract import Schema, string_property
+from ekklesia_common.translation import _
 
 
 TITLE_MAXLENGTH = 80

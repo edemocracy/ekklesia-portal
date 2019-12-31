@@ -1,8 +1,8 @@
 from colander import Length
 from deform.widget import Select2Widget
 from sqlalchemy.orm import object_session
-from ekklesia_portal.helper.contract import Schema, Form, string_property, list_property, int_property, bool_property, select2_widget_or_hidden
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.contract import Schema, Form, string_property, list_property, int_property, bool_property, select2_widget_or_hidden
+from ekklesia_common.translation import _
 
 
 class BallotSchema(Schema):

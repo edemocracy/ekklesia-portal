@@ -1,5 +1,5 @@
 from ekklesia_portal.enums import VotingStatus
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.translation import _
 
 
 def items_for_voting_phase_select_widgets(phase_types, departments, voting_phase=None):

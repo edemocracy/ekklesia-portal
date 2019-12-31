@@ -45,7 +45,7 @@ from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
 
 from ekklesia_portal.database import Base, integer_pk, C
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
-from ekklesia_portal.helper.utils import cached_property
+from ekklesia_common.utils import cached_property
 
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})

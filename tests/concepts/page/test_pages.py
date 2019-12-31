@@ -1,8 +1,8 @@
+from ekklesia_common import md
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.database.datamodel import Page
-from ekklesia_portal.helper import markdown
 
 
 def test_page(client, db_query, page_factory):
@@ -10,7 +10,7 @@ def test_page(client, db_query, page_factory):
     res = client.get(f'/pages/{page.name}/{page.lang}')
     content = res.body.decode()
 
-    expected = markdown.convert(page.text)
+    expected = md.convert(page.text)
     assert expected in content
 
 

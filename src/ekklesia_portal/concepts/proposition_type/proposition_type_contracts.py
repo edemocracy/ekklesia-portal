@@ -1,7 +1,7 @@
 from colander import Length
 from deform.widget import TextAreaWidget, Select2Widget
-from ekklesia_portal.helper.contract import Schema, Form, int_property, string_property
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.contract import Schema, Form, int_property, string_property
+from ekklesia_common.translation import _
 
 
 class PropositionTypeSchema(Schema):

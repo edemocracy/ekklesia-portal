@@ -1,5 +1,5 @@
 from ekklesia_portal.enums import Majority, VotingSystem
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.translation import _
 
 
 def items_for_policy_select_widgets():

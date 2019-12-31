@@ -5,6 +5,7 @@ let
   sources_ = if (sources == null) then import ./sources.nix else sources;
   pkgs = import sources_.nixpkgs { };
   niv = (import sources_.niv { }).niv;
+  ekklesia-common = (import sources_.ekklesia-common { });
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
@@ -13,12 +14,13 @@ let
   pdbpp = (import ./pdbpp.nix { inherit pkgs; }).packages.pdbpp;
   installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
   testPkgs = (import ./test_requirements.nix { inherit pkgs; }).packages;
+
   pythonPackages = pkgs.python37Packages;
   setuptools = pythonPackages.setuptools;
 
 
 in rec {
-  inherit pkgs bootstrap javascriptDeps;
+  inherit pkgs bootstrap javascriptDeps ekklesia-common;
   inherit (pkgs) lib sassc;
   inherit (installPkgs) babel deform;
   inherit (pythonPackages) buildPythonApplication;
@@ -38,6 +40,7 @@ in rec {
 
   installLibs = (attrValues installPkgs) ++ [
     eliotPkgs.eliot
+    ekklesia-common
   ];
 
   python = buildPythonEnv.override {

@@ -1,7 +1,7 @@
 import argparse
 import csv
 
-import ekklesia_portal.helper.markdown as md
+from ekklesia_common import md
 from eliot import log_call, start_task, Message, write_traceback
 import sqlalchemy.orm
 

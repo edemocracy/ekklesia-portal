@@ -1,7 +1,7 @@
 """A place for public enums"""
 
 from enum import Enum
-from ekklesia_portal.helper.translation import _
+from ekklesia_common.translation import _
 
 
 class ArgumentType(Enum):

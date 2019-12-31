@@ -12,7 +12,7 @@ from requests_oauthlib import OAuth2Session
 from webob.exc import HTTPForbidden
 
 from ekklesia_portal.enums import EkklesiaUserType
-from ekklesia_portal.helper.utils import cached_property
+from ekklesia_common.utils import cached_property
 
 logg = logging.getLogger(__name__)
 
