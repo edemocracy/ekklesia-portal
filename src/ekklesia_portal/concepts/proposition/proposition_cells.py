@@ -6,6 +6,7 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import SupportPermission, CreatePermission
 from .propositions import Propositions
@@ -29,6 +30,22 @@ class PropositionCell(LayoutCell):
         'tags',
         'title'
     ]
+
+    @Cell.fragment
+    def actions(self):
+        return self.render_template('proposition/proposition_actions.j2.jade')
+
+    @Cell.fragment
+    def tabs(self):
+        return self.render_template('proposition/proposition_tabs.j2.jade')
+
+    @Cell.fragment
+    def small(self):
+        return self.render_template('proposition/proposition_small.j2.jade')
+
+    @Cell.fragment
+    def full(self):
+        return self.render_template('proposition/proposition_full.j2.jade')
 
     def associated_url(self):
         return self.link(self._model, 'associated')

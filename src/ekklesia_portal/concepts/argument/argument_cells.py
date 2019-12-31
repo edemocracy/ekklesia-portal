@@ -7,7 +7,7 @@ class ArgumentCell(LayoutCell):
     model = Argument
     model_properties = ['id', 'title', 'abstract', 'details', 'created_at', 'author']
 
-    @Cell.view
+    @Cell.fragment
     def footer(self):
         return self.render_template('argument/argument_footer.j2.jade')
 

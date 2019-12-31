@@ -1,56 +1,6 @@
 - if layout
   - extends "ekklesia_portal/layout.j2.jade"
 
-- macro proposition_tags(tags)
-  ul.list-inline
-    for tag in tags
-      li.list-inline-item
-        a(href=propositions_tag_url(tag))
-          span.tag_text= tag.name
-
-
-- macro proposition_actions(proposition, user, goto_label)
-  div
-    if show_support_actions
-      form.support_form(action=support_action, method="POST")
-        button.btn.btn-primary.btn-sm(hidden=is_supported_by_current_user, type="submit", name="support")
-            i.far.fa-thumbs-up &nbsp;
-            = _('button_support')
-
-        button.btn.btn-secondary.btn-sm(hidden=(not is_supported_by_current_user), type="submit", name="retract")
-            i.far.fa-remove &nbsp;
-            = _('button_retract_support')
-
-    a.btn.btn-secondary.btn-sm(href='javascript:;', data-toggle='popover', data-popover-content='#a1')
-      i.fas.fa-link &nbsp;
-      = _('button_share')
-
-    #a1(hidden=True)
-      .popover-body
-        p(align='center')
-          input(type='text', name='p_url', id='p_url', class='form-control', value=share_url, onclick='this.select()', readonly='')
-        p(align='center')
-          a.btn.btn-email(type='button', href=share_email_url)
-            i.fas.fa-envelope.pr-1
-              |  Email
-          a.btn.btn-tw(type='button', href=share_twitter_url, target='_blank')
-            i.fab.fa-twitter.pr-1
-              |  Twitter
-
-    if external_discussion_url
-      a.btn.btn-secondary.btn-sm(href=external_discussion_url, target="ekklesia-portal-external-discussion")
-        i.fas.fa-external-link-alt &nbsp;
-        = _('button_external_discussion_url')
-
-    a.btn.btn-secondary.btn-sm(href="#bottom")
-      i.far.fa-comments &nbsp;
-      = goto_label
-
-    if report_url
-      a.btn.btn-sm(href=report_url)
-        i.fas.fa-flag &nbsp;
-        = _('button_report')
-
 
 - block title
   title= full_title
@@ -58,185 +8,141 @@
 
 - block content
 
-  if options.small
-    .proposition_small
-      .proposition_small_body
-        h5.proposition_small_title
-          a(href=self_link)= title
+  .proposition(id="proposition_{{ id }}", class=("" if options.margin else "proposition_no_margin"))
+    if options.show_tabs
+      .proposition_toolbar
+        ul.proposition_tabs
+          li.nav-item
+            a.nav-link(href=discussion_url, class=discussion_link_class)= _("tab_discussion")
 
-        .card-text.proposition_small_abstract
-          = abstract
+          li.nav-item
+            a.nav-link(href=associated_url, class=associated_link_class)= _("tab_associated")
 
-      .proposition_small_footer
-        .row
-          .col-sm-5.points
+    .card-body
+      .row
+        .proposition_sidebar
+
+          .points
             i.far.fa-thumbs-up &nbsp;
             strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
             | &nbsp;
             span= ngettext("supporter", "supporters", supporter_count)
 
-          .col-sm-7.authoring_info
-            = _("authored_at", dt=created_at|datetimeformat)
+          .argument_count
+            i.far.fa-comments &nbsp;
+            strong.proposition_info_number= argument_count
+            | &nbsp;
+            span= ngettext("argument", "arguments", argument_count)
+
+          if voting_phase
+            .voting
+              div
+                i.fas.fa-person-booth &nbsp;
+                = _('ballot')
+                |:
+              div
+                a(href=link(voting_phase))= voting_phase.title
+              div
+                a(href=link(ballot))= ballot_title
+
+        .proposition_body
+          = render_cell(_model, 'tabs', **options)
+
+          h4.proposition_title
+              a(href=self_link)= full_title
+
+          if options.show_actions
+            = render_cell(_model, 'actions', **options)
+            hr
+
+          if options.show_details
+            .proposition_details
+              = content|markdown
+
+              if motivation
+                h4= _('title_motivation')
+                = motivation|markdown
+
+        .proposition_sidebar
+          .authoring_info
+            small.author=_("authored_at", dt=created_at|datetimeformat)
+
+          if voting_phase.target
+            small
+              = _('target_date_at', date=voting_phase.target|dateformat)
 
 
-  else
-    .proposition(id="proposition_{{ id }}",
-              class=("" if options.margin else "proposition_no_margin"))
-      if options.show_tabs
-        .proposition_toolbar
-          ul.proposition_tabs
-            li.nav-item
-              a.nav-link(href=discussion_url, class=discussion_link_class)= _("tab_discussion")
+  if options.active_tab == 'discussion'
+    .row.arguments
+      a(name="bottom")
 
-            li.nav-item
-              a.nav-link(href=associated_url, class=associated_link_class)= _("tab_associated")
+      .proposition_col.pro
+        = render_cell(collection=pro_argument_relations)
 
-      .card-body
-        .row
-          .proposition_sidebar
-
-            .points
+        if show_create_argument
+          a(href=new_pro_argument_url)
+            .button_add_related
               i.far.fa-thumbs-up &nbsp;
-              strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
-              | &nbsp;
-              span= ngettext("supporter", "supporters", supporter_count)
+              = _("button_add_pro_argument")
 
-            .argument_count
-              i.far.fa-comments &nbsp;
-              strong.proposition_info_number= argument_count
-              | &nbsp;
-              span= ngettext("argument", "arguments", argument_count)
+      .proposition_col.con
+        = render_cell(collection=contra_argument_relations)
 
-            if voting_phase
-              .voting
-                div
-                  i.fas.fa-person-booth &nbsp;
-                  = _('ballot')
-                  |:
-                div
-                  a(href=link(voting_phase))= voting_phase.title
-                div
-                  a(href=link(ballot))= ballot_title
-
-          .proposition_body
-            = proposition_tags(tags)
-
-            h4.proposition_title
-                a(href=self_link)= full_title
-
-            if options.show_actions
-
-              if options.active_tab == 'discussion'
-                - set button_text = _("button_goto_arguments")
-              else
-                - set button_text = _("button_goto_associated")
-
-              = proposition_actions(_model, current_user, button_text)
-              hr
-
-            if options.show_details
-              .proposition_details
-                = content|markdown
-
-                if motivation
-                  h4= _('title_motivation')
-                  = motivation|markdown
-
-          .proposition_sidebar
-            .authoring_info
-              small.author=_("authored_at", dt=created_at|datetimeformat)
-
-            if voting_phase.target
-              small
-                = _('target_date_at', date=voting_phase.target|dateformat)
+        if show_create_argument
+          a(href=new_con_argument_url)
+            .button_add_related
+              i.far.fa-thumbs-down &nbsp;
+              = _("button_add_con_argument")
 
 
-    if options.active_tab == 'discussion'
-      .row.arguments
-        a(name="bottom")
+  if options.active_tab == 'associated'
+    .row.arguments
+      a(name="bottom")
 
-        .proposition_col.pro
-          = render_cell(collection=pro_argument_relations)
+      .proposition_col.change
 
-          if show_create_argument
-            a(href=new_pro_argument_url)
-              .button_add_related
-                i.far.fa-thumbs-up &nbsp;
-                = _("button_add_pro_argument")
+        if modifies
+          .proposition_change_header
+            .card-body
+              h4= _('title_proposition_modifies')
 
-        .proposition_col.con
-          = render_cell(collection=contra_argument_relations)
-
-          if show_create_argument
-            a(href=new_con_argument_url)
-              .button_add_related
-                i.far.fa-thumbs-down &nbsp;
-                = _("button_add_con_argument")
-
-    if options.active_tab == 'associated'
-      .row.arguments
-        a(name="bottom")
-
-        .proposition_col.change
-
-          if modifies
-            .proposition_change_header
-              .card-body
-                h4= _('title_proposition_modifies')
-
-            = render_cell(modifies, small=True, side='left')
+          = render_cell(modifies, 'small', side='left')
 
 
-          if derivations
-            .proposition_change_header
-              .card-body
-                h4= _('title_proposition_derivations')
+        if derivations
+          .proposition_change_header
+            .card-body
+              h4= _('title_proposition_derivations')
 
-          = render_cell(collection=derivations, small=True, side='left')
+        = render_cell(collection=derivations, view_name='small', side='left')
 
-          if show_create_associated_proposition
-            a(href=new_associated_proposition_url("change"))
-              .button_add_related
-                i.far.fa-circle &nbsp;
-                = _("button_add_change_proposition")
+        if show_create_associated_proposition
+          a(href=new_associated_proposition_url("change"))
+            .button_add_related
+              i.far.fa-circle &nbsp;
+              = _("button_add_change_proposition")
 
-        .proposition_col.counter
+      .proposition_col.counter
 
-          if replaces
-            .proposition_counter_header
-              .card-body
-                h4= _('title_proposition_replaces')
+        if replaces
+          .proposition_counter_header
+            .card-body
+              h4= _('title_proposition_replaces')
 
-            = render_cell(replaces, small=True, side='right')
+          = render_cell(replaces, 'small', side='right')
 
-          if replacements
-            .proposition_counter_header
-              .card-body
-                h4= _('title_proposition_replacements')
+        if replacements
+          .proposition_counter_header
+            .card-body
+              h4= _('title_proposition_replacements')
 
-          = render_cell(collection=replacements, small=True, side='right')
+        = render_cell(collection=replacements, view_name='small', side='right')
 
-          if show_create_associated_proposition
-            a(href=new_associated_proposition_url("counter"))
-              .button_add_related
-                i.fas.fa-circle &nbsp;
-                = _("button_add_counter_proposition")
-
-  script.
-    var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
-    myDefaultWhiteList.input = ['type', 'name', 'id', 'class', 'value','onclick', 'readonly']
-    myDefaultWhiteList.a = ['type', 'href', 'target']
-    myDefaultWhiteList.p = ['align']
-    $(function () {
-      $("[data-toggle=popover]").popover({
-        html: true,
-        content: function () {
-          var content = $(this).attr("data-popover-content");
-          return $(content).children(".popover-body").html();
-        },
-        placement: "top",
-      });
-    });
+        if show_create_associated_proposition
+          a(href=new_associated_proposition_url("counter"))
+            .button_add_related
+              i.fas.fa-circle &nbsp;
+              = _("button_add_counter_proposition")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
