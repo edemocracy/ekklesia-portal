@@ -3,12 +3,12 @@
         "branch": "master",
         "description": null,
         "homepage": null,
-        "owner": "dpausp",
+        "owner": "Piratenpartei",
         "repo": "ekklesia-common",
         "rev": "ac84cb4d5f1c1afcbb12c56316e038c7ce8c94fa",
         "sha256": "1vg8whavqmy9wzgnfrl3985rciz1pb2jpnwpmfxxpn56halhl2i8",
         "type": "tarball",
-        "url": "https://github.com/dpausp/ekklesia-common/archive/ac84cb4d5f1c1afcbb12c56316e038c7ce8c94fa.tar.gz",
+        "url": "https://github.com/Piratenpartei/ekklesia-common/archive/ac84cb4d5f1c1afcbb12c56316e038c7ce8c94fa.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
