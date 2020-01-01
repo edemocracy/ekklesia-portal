@@ -10,9 +10,7 @@ class ArgumentRelationCell(LayoutCell):
     model = ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
 
-    @Cell.fragment
-    def voting(self):
-        return self.render_template('argument_relation/argument_relation_voting.j2.jade')
+    voting = Cell.fragment('argument_relation_voting')
 
     def show_voting(self):
         return self._request.permitted_for_current_user(self._model, VotePermission)

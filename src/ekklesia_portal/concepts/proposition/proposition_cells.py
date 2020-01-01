@@ -31,21 +31,9 @@ class PropositionCell(LayoutCell):
         'title'
     ]
 
-    @Cell.fragment
-    def actions(self):
-        return self.render_template('proposition/proposition_actions.j2.jade')
-
-    @Cell.fragment
-    def tabs(self):
-        return self.render_template('proposition/proposition_tabs.j2.jade')
-
-    @Cell.fragment
-    def small(self):
-        return self.render_template('proposition/proposition_small.j2.jade')
-
-    @Cell.fragment
-    def full(self):
-        return self.render_template('proposition/proposition_full.j2.jade')
+    actions = Cell.fragment('proposition_actions')
+    tabs = Cell.fragment('proposition_tabs')
+    small = Cell.fragment('proposition_small')
 
     def associated_url(self):
         return self.link(self._model, 'associated')
