@@ -561,6 +561,12 @@ msgstr "Antragsart bearbeiten"
 msgid "title_new_proposition_type"
 msgstr "Neue Antragsart"
 
+msgid "title_edit_proposition"
+msgstr "Antrag bearbeiten"
+
+msgid "menu_propositions"
+msgstr "Anträge"
+
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:2
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:3
 msgid "title_profile"
@@ -689,6 +695,9 @@ msgstr "Gremium"
 #: src/ekklesia_portal/enums.py:75
 msgid "voting_type_online"
 msgstr "Online"
+
+msgid "status"
+msgstr "Status"
 
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
