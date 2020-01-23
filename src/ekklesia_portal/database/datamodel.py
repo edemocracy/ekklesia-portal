@@ -36,6 +36,7 @@ from sqlalchemy import (
     Enum,
     CheckConstraint
 )
+from sqlalchemy.dialects.postgresql import JSONB
 
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -44,7 +45,8 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
 
 from ekklesia_portal.database import Base, integer_pk, C
-from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, VotingSystem
+from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, \
+    VotingSystem
 from ekklesia_common.utils import cached_property
 
 
@@ -308,7 +310,7 @@ class Ballot(Base):  # conflicting qualified propositions
 
     propositions = relationship("Proposition", back_populates="ballot")
     # <-result   VotingResult # optional
-    result = relationship("VotingResult", uselist=False, back_populates="ballot")
+    result = Column(JSONB)
     # <-  propositions Proposition[]
     # requirements for assignment:
     #  deadline for first and conflicting proposition before target date §4.2
@@ -368,14 +370,6 @@ class VotingPhase(Base):  # Abstimmungsperiode
     @property
     def ballots_can_be_added(self):
         return self.status in (VotingStatus.PREPARING, VotingStatus.SCHEDULED)
-
-
-class VotingResult(Base):  # §4.6, move to ballot?
-    __tablename__ = 'votingresults'
-    id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
-    data = Column(Text)  # JSON or ID share reference or compressed result?
-    ballot_id = Column(Integer, ForeignKey('ballots.id'))
-    ballot = relationship("Ballot", back_populates="result")
 
 
 class Proposition(Base):

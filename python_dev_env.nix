@@ -11,6 +11,7 @@ let
 
 in pkgs.buildEnv {
   name = "ekklesia-portal-dev-env";
+  ignoreCollisions = true;
   paths = with deps;
     [ pythonDev ] ++
     linters;

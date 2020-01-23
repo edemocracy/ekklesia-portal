@@ -1,0 +1,21 @@
+.points
+  i.far.fa-thumbs-up &nbsp;
+  strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
+  | &nbsp;
+  span= ngettext("supporter", "supporters", supporter_count)
+
+.argument_count
+  i.far.fa-comments &nbsp;
+  strong.proposition_info_number= argument_count
+  | &nbsp;
+  span= ngettext("argument", "arguments", argument_count)
+
+.voting
+  div
+    i.fas.fa-person-booth &nbsp;
+    = _('ballot')
+    |:
+  div
+    a(href=link(voting_phase))= voting_phase.title
+  div
+    a(href=link(ballot))= ballot_title

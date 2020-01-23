@@ -28,7 +28,7 @@ class PropositionStatus(str, Enum):
     CHANGING = 'changing'
     ABANDONED = 'abandoned'
     QUALIFIED = 'qualified'
-    PLANNED = 'planned'
+    SCHEDULED = 'scheduled'
     VOTING = 'voting'
     FINISHED = 'finished'
 

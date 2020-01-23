@@ -1,0 +1,11 @@
+.points
+  i.far.fa-thumbs-up &nbsp;
+  strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
+  | &nbsp;
+  span= ngettext("supporter", "supporters", supporter_count)
+
+.argument_count
+  i.far.fa-comments &nbsp;
+  strong.proposition_info_number= argument_count
+  | &nbsp;
+  span= ngettext("argument", "arguments", argument_count)

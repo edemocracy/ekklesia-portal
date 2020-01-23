@@ -8,6 +8,7 @@ from ekklesia_common.translation import _
 class BallotSchema(Schema):
     name = string_property(title=_('name'), validator=Length(min=2, max=23), missing='')
     election = int_property(title=_('election_positions'), missing=0)
+    result = string_property(title=_('voting_result'), missing="{}")
     area_id = int_property(title=_('subject_area'), missing=None)
     voting_id = int_property(title=('voting_phase'), missing=None)
     proposition_type_id = int_property(title=('proposition_type'), missing=None)

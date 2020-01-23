@@ -21,29 +21,7 @@
     .card-body
       .row
         .proposition_sidebar
-
-          .points
-            i.far.fa-thumbs-up &nbsp;
-            strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
-            | &nbsp;
-            span= ngettext("supporter", "supporters", supporter_count)
-
-          .argument_count
-            i.far.fa-comments &nbsp;
-            strong.proposition_info_number= argument_count
-            | &nbsp;
-            span= ngettext("argument", "arguments", argument_count)
-
-          if voting_phase
-            .voting
-              div
-                i.fas.fa-person-booth &nbsp;
-                = _('ballot')
-                |:
-              div
-                a(href=link(voting_phase))= voting_phase.title
-              div
-                a(href=link(ballot))= ballot_title
+          = render_cell(_model, 'status', **options)
 
         .proposition_body
           = render_cell(_model, 'tabs', **options)
@@ -64,12 +42,7 @@
                 = motivation|markdown
 
         .proposition_sidebar
-          .authoring_info
-            small.author=_("authored_at", dt=created_at|datetimeformat)
-
-          if voting_phase.target
-            small
-              = _('target_date_at', date=voting_phase.target|dateformat)
+          = render_cell(_model, 'history', **options)
 
 
   if options.active_tab == 'discussion'
