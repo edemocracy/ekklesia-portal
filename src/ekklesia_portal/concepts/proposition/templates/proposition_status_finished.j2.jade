@@ -12,9 +12,9 @@
     = _('result')
     |:
 
-  if voting_result_symbol
+  if voting_result_state
     i(class=voting_result_symbol) &nbsp;
-    = voting_result_description
+    = voting_result_state|enum_value
 
   div
     a(href=link(voting_phase))= voting_phase.title

@@ -9,8 +9,7 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.database.datamodel import Proposition, Tag
 from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
-from ekklesia_common.utils import cached_property
-from ekklesia_portal.enums import ArgumentType, PropositionStatus
+from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
 from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
@@ -187,34 +186,27 @@ class PropositionCell(LayoutCell):
     def voting_phase(self):
         return self._model.ballot.voting
 
-    @cached_property
-    def _voting_result_state(self):
+    def voting_result_state(self):
         result = self._model.ballot.result
         if result:
-            return result.get(self._model.voting_identifier, {}).get("state")
+            try:
+                return OpenSlidesVotingResult(result.get(self._model.voting_identifier, {}).get("state"))
+            except ValueError:
+                return
 
     def voting_result_symbol(self):
         symbols = {
-            "not decided": "fas fa-spinner",
-            "accepted": "fas fa-check",
-            "declined": "fas fa-ban"
+            OpenSlidesVotingResult.ACCEPTED: "fas fa-check",
+            OpenSlidesVotingResult.REJECTED: "fas fa-ban",
+            OpenSlidesVotingResult.NOT_DECIDED: "fas fa-spinner"
         }
-        return symbols.get(self._voting_result_state)
-
-    def voting_result_description(self):
-        descriptions = {
-            "not decided": self._('voting_result_delayed'),
-            "accepted": self._('voting_result_accepted'),
-            "declined": self._('voting_result_declined')
-        }
-        return descriptions.get(self._voting_result_state)
+        return symbols.get(self.voting_result_state)
 
     def show_edit_button(self):
-       return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
+        return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
     def edit_url(self):
         return self.link(self._model, 'edit')
-
 
 
 class NewPropositionCell(NewFormCell):
@@ -231,6 +223,7 @@ class NewPropositionCell(NewFormCell):
         items = items_for_proposition_select_widgets(departments, tags, selected_tags)
         self._form.prepare_for_render(items)
 
+
 class EditPropositionCell(EditFormCell):
 
     def _prepare_form_for_render(self):
@@ -240,6 +233,7 @@ class EditPropositionCell(EditFormCell):
         tags = self._request.q(Tag).all()
         items = items_for_proposition_select_widgets(departments, tags)
         self._form.prepare_for_render(items)
+
 
 class PropositionsCell(LayoutCell):
     model = Propositions
