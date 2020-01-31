@@ -37,6 +37,7 @@ from sqlalchemy import (
     CheckConstraint
 )
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.mutable import MutableDict
 
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
@@ -310,7 +311,7 @@ class Ballot(Base):  # conflicting qualified propositions
 
     propositions = relationship("Proposition", back_populates="ballot")
     # <-result   VotingResult # optional
-    result = Column(JSONB)
+    result = Column(MutableDict.as_mutable(JSONB))
     # <-  propositions Proposition[]
     # requirements for assignment:
     #  deadline for first and conflicting proposition before target date §4.2

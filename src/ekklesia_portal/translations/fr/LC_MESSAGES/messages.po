@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  arguments\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-23 12:07+0000\n"
+"POT-Creation-Date: 2020-01-30 12:37+0100\n"
 "PO-Revision-Date: 2015-09-16 10:34+0000\n"
 "Last-Translator: Moira Brülisauer <moosline@savvy.ch>\n"
 "Language: fr\n"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:3
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:20
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:6
 msgid "ballot"
 msgstr ""
 
@@ -429,18 +429,6 @@ msgstr ""
 msgid "days"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/proposition_cells.py:174
-msgid "voting_result_delayed"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/proposition_cells.py:175
-msgid "voting_result_accepted"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/proposition_cells.py:176
-msgid "voting_result_declined"
-msgstr ""
-
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:12
 msgid "voting_identifier"
 msgstr ""
@@ -488,70 +476,39 @@ msgstr ""
 msgid "tab_associated"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:15
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
-msgid "supporter"
-msgid_plural "supporters"
-msgstr[0] "Supporteur"
-msgstr[1] "Supporteurs"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
-#, fuzzy
-msgid "argument"
-msgid_plural "arguments"
-msgstr[0] "Argument"
-msgstr[1] ""
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:30
-msgid "result"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:44
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:21
 msgid "title_motivation"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:48
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:12
-msgid "authored_at"
-msgstr "Ajouté à %(dt)s"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:49
-msgid "target_date_at"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:49
-msgid "finished_date_at"
-msgstr ""
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:56
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:31
 msgid "button_add_pro_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:60
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:35
 msgid "button_add_con_argument"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:68
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:43
 msgid "title_proposition_modifies"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:73
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:48
 msgid "title_proposition_derivations"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:76
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
 msgid "button_add_change_proposition"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:82
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:57
 msgid "title_proposition_replaces"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:87
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
 msgid "title_proposition_replacements"
 msgstr ""
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:90
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:65
 msgid "button_add_counter_proposition"
 msgstr ""
 
@@ -582,6 +539,41 @@ msgstr ""
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:17
 msgid "button_report"
 msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:12
+msgid "authored_at"
+msgstr "Ajouté à %(dt)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:2
+msgid "finished_date_at"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:2
+msgid "target_date_at"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_submitted.j2.jade:1
+msgid "supporter"
+msgid_plural "supporters"
+msgstr[0] "Supporteur"
+msgstr[1] "Supporteurs"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_finished.j2.jade:4
+msgid "result"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_submitted.j2.jade:3
+#, fuzzy
+msgid "argument"
+msgid_plural "arguments"
+msgstr[0] "Argument"
+msgstr[1] ""
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:17
 msgid "tagged_propositions"
@@ -674,56 +666,72 @@ msgstr ""
 msgid "target_date"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:63
+#: src/ekklesia_portal/enums.py:69
 msgid "argument_type_pro"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:64
+#: src/ekklesia_portal/enums.py:70
 msgid "argument_type_contra"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:65
+#: src/ekklesia_portal/enums.py:71
 msgid "majority_1/2"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:66
+#: src/ekklesia_portal/enums.py:72
 msgid "majority_2/3"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:67
-msgid "voting_status_aborted"
-msgstr ""
-
-#: src/ekklesia_portal/enums.py:68
-msgid "voting_status_finished"
-msgstr ""
-
-#: src/ekklesia_portal/enums.py:69
+#: src/ekklesia_portal/enums.py:73
 msgid "voting_status_preparing"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:70
+#: src/ekklesia_portal/enums.py:74
 msgid "voting_status_scheduled"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:71
+#: src/ekklesia_portal/enums.py:75
 msgid "voting_status_voting"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:72
+#: src/ekklesia_portal/enums.py:76
+msgid "voting_status_finished"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:77
+msgid "voting_status_aborted"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:78
 msgid "voting_system_range_approval"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:73
+#: src/ekklesia_portal/enums.py:79
+msgid "voting_type_online"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:80
 msgid "voting_type_assembly"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:74
+#: src/ekklesia_portal/enums.py:81
 msgid "voting_type_board"
 msgstr ""
 
-#: src/ekklesia_portal/enums.py:75
-msgid "voting_type_online"
+#: src/ekklesia_portal/enums.py:82
+msgid "voting_type_urn"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:83
+msgid "open_slides_voting_result_accepted"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:84
+msgid "open_slides_voting_result_rejected"
+msgstr ""
+
+#: src/ekklesia_portal/enums.py:85
+msgid "open_slides_voting_result_not decided"
 msgstr ""
 
 #~ msgid "follow"
@@ -830,23 +838,3 @@ msgstr ""
 #~ msgid "departments"
 #~ msgstr ""
 
-#~ msgid "title_new_ballot"
-#~ msgstr ""
-
-#~ msgid "majority_simple"
-#~ msgstr ""
-
-#~ msgid "majority_two_thirds"
-#~ msgstr ""
-
-#~ msgid "discussion_url"
-#~ msgstr ""
-
-#~ msgid "share_email_topic"
-#~ msgstr ""
-
-#~ msgid "share_email_body"
-#~ msgstr ""
-
-#~ msgid "share_tweet_msg"
-#~ msgstr ""

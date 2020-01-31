@@ -239,8 +239,8 @@ if __name__ == "__main__":
     b5.propositions.extend([q5, q5_counter])
     b2.result = {q2.voting_identifier: {"rank": 1, "yes": 14, "no": 10, "abstention": 15, "points": 213}}
     b3.result = {q3.voting_identifier: {"state": "accepted"}}
-    b4.result = {q4.voting_identifier: {"state": "declined"}}
-    b5.result = {q5.voting_identifier: {"state": "not decided"}, q6.voting_identifier: {"state": "declined"}}
+    b4.result = {q4.voting_identifier: {"state": "rejected"}}
+    b5.result = {q5.voting_identifier: {"state": "not decided"}, q5_counter.voting_identifier: {"state": "rejected"}}
     qv1 = Supporter(member=u1, proposition=q1, submitter=True)
     s.add(qv1)
     qv2 = Supporter(member=u2, proposition=q1_counter, submitter=True)
