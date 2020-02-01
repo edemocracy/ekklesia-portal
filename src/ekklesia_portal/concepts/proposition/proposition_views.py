@@ -35,7 +35,10 @@ def propositions(request, search=None, tag=None, mode="sorted"):
 @App.path(model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title)))
 def proposition(request, id, slug):
     proposition = request.q(Proposition).get(id)
-    return proposition
+    if case_conversion.dashcase(proposition.title) == slug:
+        return proposition
+    else:
+        return redirect("/p/"+id+"/"+case_conversion.dashcase(proposition.title))
 
 
 @App.path(path='/p/{id}')
