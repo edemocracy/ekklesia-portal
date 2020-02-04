@@ -6,6 +6,8 @@
 @import font-awesome/brands
 @import custom
 
+$light-orange: lighten($orange, 15%)
+
 a.btn
   margin-left: 0.3rem
 
@@ -124,6 +126,9 @@ a.btn
 .content_area
   @extend .container
   @extend .my-2
+
+.card-body-supported
+  background-color: $light-orange
 
 .edit_button
   @extend .btn

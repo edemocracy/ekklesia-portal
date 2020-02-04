@@ -36,6 +36,7 @@ class PropositionCell(LayoutCell):
     actions = Cell.fragment('proposition_actions')
     tabs = Cell.fragment('proposition_tabs')
     small = Cell.fragment('proposition_small')
+    card = Cell.fragment('proposition_card')
 
     @Cell.fragment
     def status(self):

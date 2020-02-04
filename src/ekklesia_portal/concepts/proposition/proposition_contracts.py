@@ -19,6 +19,7 @@ class PropositionSchema(Schema):
     relation_type = string_property(validator=OneOf(['replaces', 'modifies']), missing=None)
     related_proposition_id = int_property(missing=None)
 
+
 class PropositionNewSchema(Schema):
     area_id = int_property(title=_('subject_area'), missing=None)
     title = string_property(title=_('title'), validator=Length(min=5, max=512))
@@ -48,6 +49,7 @@ class PropositionForm(Form):
             'related_proposition_id': HiddenWidget(),
             'area_id': Select2Widget(values=items_for_selects['area'])
         })
+
 
 class PropositionNewForm(Form):
 

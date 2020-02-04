@@ -23,9 +23,11 @@ def propositions_create_permission(identity, model, permission):
 def proposition_support_permission(identity, model, permission):
     return identity != NoIdentity
 
+
 @App.permission_rule(model=Proposition, permission=EditPermission)
 def proposition_edit_permission(identity, model, permission):
     return identity.has_global_admin_permissions
+
 
 @App.path(model=Propositions, path='p')
 def propositions(request, search=None, tag=None, mode="sorted"):
@@ -161,10 +163,12 @@ def proposition_redirect(self, request):
     proposition = request.q(Proposition).get(self.id)
     return redirect(request.link(proposition))
 
+
 @App.html(model=Proposition, name='edit', permission=EditPermission)
 def edit(self, request):
     form = PropositionForm(request, request.link(self))
     return EditPropositionCell(self, request, form).show()
+
 
 @App.html_form_post(model=Proposition, form=PropositionForm, cell=EditPropositionCell, permission=EditPermission)
 def update(self, request, appstruct):
