@@ -112,6 +112,9 @@ msgstr "Ballot"
 msgid "edit_button"
 msgstr "Edit"
 
+msgid "note_button"
+msgstr "Notes"
+
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:12
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:3
 msgid "voting_phase"
@@ -461,6 +464,15 @@ msgstr "Status"
 msgid "title_edit_proposition"
 msgstr "Edit Proposition"
 
+msgid "title_edit_proposition_note"
+msgstr "Edit Proposition Notes"
+
+msgid "notes"
+msgstr "Notes"
+
+msgid "vote"
+msgstr "Vote"
+
 #: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:3
 msgid "title_new_proposition"
@@ -730,6 +742,18 @@ msgstr "declined"
 #: src/ekklesia_portal/enums.py:85
 msgid "open_slides_voting_result_not decided"
 msgstr "deferred"
+
+msgid "vote_by_user_accept"
+msgstr "Yes"
+
+msgid "vote_by_user_decline"
+msgstr "No"
+
+msgid "vote_by_user_abstention"
+msgstr "Abstention"
+
+msgid "vote_by_user_unsure"
+msgstr "Unsure"
 
 #~ msgid "follow"
 #~ msgstr "Follow"

@@ -6,7 +6,7 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.database.datamodel import Proposition, Tag
+from ekklesia_portal.database.datamodel import Proposition, Tag, PropositionNote
 from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
@@ -208,6 +208,10 @@ class PropositionCell(LayoutCell):
 
     def edit_url(self):
         return self.link(self._model, 'edit')
+
+    def note_url(self):
+        tmp = self.class_link(PropositionNote, variables={'proposition_id': self._model.id, 'user_id': self._request.current_user.id}, name='edit')
+        return tmp
 
 
 class NewPropositionCell(NewFormCell):

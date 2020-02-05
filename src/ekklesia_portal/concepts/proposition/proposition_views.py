@@ -3,7 +3,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter, Tag
+from ekklesia_portal.database.datamodel import Ballot, Proposition, PropositionNote, SubjectArea, Supporter, Tag
 from ekklesia_portal.enums import PropositionStatus
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS

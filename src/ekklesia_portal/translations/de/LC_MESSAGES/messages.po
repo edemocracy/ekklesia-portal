@@ -112,6 +112,9 @@ msgstr "Abstimmung"
 msgid "edit_button"
 msgstr "Bearbeiten"
 
+msgid "note_button"
+msgstr "Notizen"
+
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:12
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:3
 msgid "voting_phase"
@@ -461,6 +464,15 @@ msgstr "Status"
 msgid "title_edit_proposition"
 msgstr "Antrag bearbeiten"
 
+msgid "title_edit_proposition_note"
+msgstr "Notizen zum Antrag bearbeiten"
+
+msgid "notes"
+msgstr "Notizen"
+
+msgid "vote"
+msgstr "Abstimmung"
+
 #: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:3
 msgid "title_new_proposition"
@@ -730,6 +742,18 @@ msgstr "abgelehnt"
 #: src/ekklesia_portal/enums.py:85
 msgid "open_slides_voting_result_not decided"
 msgstr "verschoben"
+
+msgid "vote_by_user_accept"
+msgstr "Ja"
+
+msgid "vote_by_user_decline"
+msgstr "Nein"
+
+msgid "vote_by_user_abstention"
+msgstr "Enthaltung"
+
+msgid "vote_by_user_unsure"
+msgstr "Vielleicht"
 
 #~ msgid "translation"
 #~ msgstr "Übersetzung"

@@ -4,6 +4,7 @@ import sys
 from eliot.stdlib import EliotHandler
 from eliot.json import EliotJSONEncoder
 
+
 class MyEncoder(EliotJSONEncoder):
     def default(self, obj):
 

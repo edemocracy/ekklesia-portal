@@ -47,6 +47,10 @@ div
       i.fas.fa-edit &nbsp;
       = _('edit_button')
 
+  a.btn.btn-secondary.btn-sm(href=note_url)
+    i.fas.fa-notes-medical &nbsp;
+    = _('note_button')
+
 script.
   var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
   myDefaultWhiteList.input = ['type', 'name', 'id', 'class', 'value','onclick', 'readonly']

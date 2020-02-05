@@ -41,7 +41,6 @@ def req(app):
     return req
 
 
-
 @fixture
 def db_session(app):
     return Session()

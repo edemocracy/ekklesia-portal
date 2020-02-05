@@ -61,7 +61,6 @@ def fixup_ballots(voting_phase, log_level="INFO"):
     return dict(modified_ballots=modified_ballots, deleted_ballots=deleted_ballots)
 
 
-
 def longest_common_prefix_len(strings):
     return len(list(takewhile((lambda chars: len(set(chars)) == 1), zip(*strings))))
 

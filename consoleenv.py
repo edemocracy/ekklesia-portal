@@ -12,6 +12,6 @@ if __name__ == "__main__":
     s = database.Session()
     q = s.query
 
-    ip = get_ipython() # type: ignore
+    ip = get_ipython()  # type: ignore
 
     ip.magic("autocall 2")

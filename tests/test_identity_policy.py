@@ -26,7 +26,7 @@ def test_identify(identity_policy, req, user_factory):
     req.browser_session = {'user_id': user.id}
     identity = identity_policy.identify(req)
     assert identity.userid == user.id
-    assert identity.has_global_admin_permissions == False
+    assert identity.has_global_admin_permissions is False
 
 
 def test_identify_admin(identity_policy, req, user_factory, group_factory):
@@ -35,7 +35,7 @@ def test_identify_admin(identity_policy, req, user_factory, group_factory):
     group.members.append(user)
     req.browser_session = {'user_id': user.id}
     identity = identity_policy.identify(req)
-    assert identity.has_global_admin_permissions == True
+    assert identity.has_global_admin_permissions is True
 
 
 def test_forget(identity_policy, req):

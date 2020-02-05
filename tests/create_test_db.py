@@ -24,7 +24,6 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
-
     from ekklesia_portal.database import db_metadata, Session
     from ekklesia_portal.database.datamodel import *
 
@@ -114,7 +113,6 @@ if __name__ == "__main__":
                                       description='Der BPT in Bad Homburg')
 
     department_ppd.voting_phases.extend([voting_phase_ppd_bpt])
-
 
     policy_default = Policy(
         description=gen_de.text.text(quantity=3),

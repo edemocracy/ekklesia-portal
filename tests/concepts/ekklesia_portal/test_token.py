@@ -42,4 +42,3 @@ def test_submit_token_wrong_token(db_query, client):
         res = client.post("/token/" + "1234", dict(tos_consent='true'), status=404)
 
     assert "Set-Cookie" not in res.headers
-
