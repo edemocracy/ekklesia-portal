@@ -18,6 +18,11 @@ let
   pythonPackages = pkgs.python37Packages;
   setuptools = pythonPackages.setuptools;
 
+  # Adds missing dependency on setuptools for Python packages
+  fixSetuptools = pkg: pkg.overrideAttrs(
+    attrs: {
+      propagatedBuildInputs = attrs.propagatedBuildInputs ++ [ setuptools ];
+    });
 
 in rec {
   inherit pkgs bootstrap javascriptDeps ekklesia-common;
@@ -26,9 +31,7 @@ in rec {
   inherit (pythonPackages) buildPythonApplication;
   buildPythonEnv = pkgs.python37.buildEnv;
 
-  gunicorn = pythonPackages.gunicorn.overrideAttrs(old: {
-    propagatedBuildInputs = [ setuptools ];
-  });
+  gunicorn = (fixSetuptools pythonPackages.gunicorn);
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with pythonPackages; [
@@ -61,7 +64,7 @@ in rec {
   linters = with pythonPackages; [
     bandit
     mypy
-    pylama
+    (fixSetuptools pylama)
     pylint
     autopep8
   ];
