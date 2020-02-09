@@ -2,8 +2,8 @@
 from deform import Button
 #from deform.widget import TextAreaWidget, Select2Widget
 #from {{ cookiecutter.app_name }}.enums import {{ cookiecutter.ConceptName }}Status
-from {{ cookiecutter.app_name }}.helper.contract import Schema, Form  #, string_property, enum_property
-from {{ cookiecutter.app_name }}.helper.translation import _
+from ekklesia_common.contract import Schema, Form  #, string_property, enum_property
+from ekklesia_common.translation import _
 
 
 class {{ cookiecutter.ConceptName }}Schema(Schema):
