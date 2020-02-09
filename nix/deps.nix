@@ -39,6 +39,10 @@ in rec {
     pdbpp
   ];
 
+  devLibs = with pythonPackages; [
+    cookiecutter
+  ];
+
   testLibs = (attrValues testPkgs) ++ [ setuptools ];
 
   installLibs = (attrValues installPkgs) ++ [
@@ -51,14 +55,16 @@ in rec {
     ignoreCollisions = true;
   };
 
-  pythonTest = buildPythonEnv.override {
+  pythonDevTest = buildPythonEnv.override {
     extraLibs = testLibs ++
                 installLibs ++
+                devLibs ++
                 debugLibsAndTools;
     ignoreCollisions = true;
   };
 
-  pythonDev = pythonTest;
+  pythonTest = pythonDevTest;
+  pythonDev = pythonDevTest;
 
   # Code style and security tools
   linters = with pythonPackages; [
