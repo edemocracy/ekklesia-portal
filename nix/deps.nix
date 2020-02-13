@@ -5,7 +5,7 @@ let
   sources_ = if (sources == null) then import ./sources.nix else sources;
   pkgs = import sources_.nixpkgs { };
   niv = (import sources_.niv { }).niv;
-  ekklesia-common = (import sources_.ekklesia-common { });
+  ekklesia-common = (import sources_.ekklesia-common { sources = sources_; });
   bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
