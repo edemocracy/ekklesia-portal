@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.database.datamodel import Policy, PropositionType
@@ -6,8 +7,8 @@ from .proposition_type_helper import items_for_proposition_type_select_widgets
 from .proposition_types import PropositionTypes
 
 
+@App.cell(PropositionTypes)
 class PropositionTypesCell(LayoutCell):
-    model = PropositionTypes
 
     def proposition_types(self):
         return list(self._model.proposition_types(self._request.q))
@@ -16,14 +17,15 @@ class PropositionTypesCell(LayoutCell):
         return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
+@App.cell(PropositionType)
 class PropositionTypeCell(LayoutCell):
-    model = PropositionType
     model_properties = ['name', 'description', 'policy']
 
     def show_edit_button(self):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
 
+@App.cell(PropositionTypes, 'new')
 class NewPropositionTypeCell(NewFormCell):
 
     def _prepare_form_for_render(self):
@@ -32,6 +34,7 @@ class NewPropositionTypeCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
+@App.cell(PropositionType, 'edit')
 class EditPropositionTypeCell(EditFormCell):
 
     def _prepare_form_for_render(self):

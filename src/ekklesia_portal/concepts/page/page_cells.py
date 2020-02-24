@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.database.datamodel import Page
@@ -5,8 +6,8 @@ from ekklesia_portal.permission import CreatePermission, EditPermission
 from .pages import Pages
 
 
+@App.cell(Pages)
 class PagesCell(LayoutCell):
-    model = Pages
 
     def pages(self):
         return list(self._model.pages(self._request.q))
@@ -18,8 +19,8 @@ class PagesCell(LayoutCell):
         return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
+@App.cell(Page)
 class PageCell(LayoutCell):
-    model = Page
 
     # Model attributes included here are available as variables in the template:
     # = name
@@ -32,6 +33,7 @@ class PageCell(LayoutCell):
         return self.options.get('show_edit_button') and self.can_edit
 
 
+@App.cell(Pages, 'new')
 class NewPageCell(NewFormCell):
     pass
 
@@ -43,6 +45,7 @@ class NewPageCell(NewFormCell):
         # self._form.prepare_for_render(items)
 
 
+@App.cell(Page, 'edit')
 class EditPageCell(EditFormCell):
     pass
 

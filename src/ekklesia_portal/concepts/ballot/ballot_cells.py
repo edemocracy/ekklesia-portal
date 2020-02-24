@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 import ekklesia_portal.concepts.voting_phase.voting_phase_helper as voting_phase_helper
@@ -7,15 +8,16 @@ from .ballot_helper import items_for_ballot_select_widgets
 from .ballots import Ballots
 
 
+@App.cell(Ballots)
 class BallotsCell(LayoutCell):
-    model = Ballots
 
     def ballots(self):
         return list(self._model.ballots(self._request.q))
 
 
+@App.cell(Ballot)
 class BallotCell(LayoutCell):
-    model = Ballot
+
     model_properties = ['area', 'election', 'id', 'name', 'proposition_type', 'propositions', 'result', 'status', 'voting']
 
     def show_edit_button(self):
@@ -25,6 +27,7 @@ class BallotCell(LayoutCell):
         return voting_phase_helper.voting_phase_title(self._model.voting)
 
 
+@App.cell(Ballot, 'edit')
 class EditBallotCell(EditFormCell):
 
     def _prepare_form_for_render(self):

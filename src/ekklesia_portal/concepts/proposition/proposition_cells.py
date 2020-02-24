@@ -2,6 +2,7 @@ from operator import attrgetter
 import urllib.parse
 import colander
 from eliot import log_call
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
@@ -15,8 +16,9 @@ from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
 
 
+@App.cell(Proposition)
 class PropositionCell(LayoutCell):
-    model = Proposition
+
     model_properties = [
         'abstract',
         'ballot',
@@ -210,6 +212,8 @@ class PropositionCell(LayoutCell):
         return self.link(self._model, 'edit')
 
 
+
+@App.cell(Propositions, 'new')
 class NewPropositionCell(NewFormCell):
 
     def _prepare_form_for_render(self):
@@ -236,8 +240,9 @@ class EditPropositionCell(EditFormCell):
         self._form.prepare_for_render(items)
 
 
+@App.cell(Propositions)
 class PropositionsCell(LayoutCell):
-    model = Propositions
+
     model_properties = ['mode', 'tag', 'search']
 
     def propositions(self):

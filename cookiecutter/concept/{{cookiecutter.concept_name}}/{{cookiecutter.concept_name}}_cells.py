@@ -1,3 +1,4 @@
+from {{ cookiecutter.app_name }}.app import App
 from {{ cookiecutter.app_name }}.concepts.{{ cookiecutter.app_name }}.cell.layout import LayoutCell
 from {{ cookiecutter.app_name }}.concepts.{{ cookiecutter.app_name }}.cell.form import NewFormCell, EditFormCell
 from {{ cookiecutter.app_name }}.database.datamodel import {{ cookiecutter.ConceptName }}
@@ -6,23 +7,23 @@ from {{ cookiecutter.app_name }}.permission import CreatePermission, EditPermiss
 from .{{ cookiecutter.concept_names }} import {{ cookiecutter.ConceptNames }}
 
 
+@App.cell({{ cookiecutter.ConceptNames }})
 class {{ cookiecutter.ConceptNames }}Cell(LayoutCell):
-    model = {{ cookiecutter.ConceptNames }}
 
     def {{ cookiecutter.concept_names }}(self):
         return list(self._model.{{ cookiecutter.concept_names }}(self._request.q))
 
-    # Methods from this class can be called from the template. 
+    # Methods from this class can be called from the template.
 
     # Methods with only the self argument can be used without call parentheses and their result value is cached.
     def show_new_button(self):
         return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
+@App.cell({{ cookiecutter.ConceptName }})
 class {{ cookiecutter.ConceptName }}Cell(LayoutCell):
-    model = {{ cookiecutter.ConceptName }}
 
-    # Model attributes included here are available as variables in the template: 
+    # Model attributes included here are available as variables in the template:
     # = name
     # model_properties = ['name']
 
@@ -30,6 +31,7 @@ class {{ cookiecutter.ConceptName }}Cell(LayoutCell):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
 
+@App.cell({{ cookiecutter.ConceptNames }}, 'new')
 class New{{ cookiecutter.ConceptName }}Cell(NewFormCell):
     pass
 
@@ -41,6 +43,7 @@ class New{{ cookiecutter.ConceptName }}Cell(NewFormCell):
         # self._form.prepare_for_render(items)
 
 
+@App.cell({{ cookiecutter.ConceptName }}, 'edit')
 class Edit{{ cookiecutter.ConceptName }}Cell(EditFormCell):
     pass
 
