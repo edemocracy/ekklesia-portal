@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.database.datamodel import ArgumentRelation, Proposition
@@ -6,8 +7,8 @@ from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import VotePermission
 
 
+@App.cell(ArgumentRelation)
 class ArgumentRelationCell(LayoutCell):
-    model = ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
 
     voting = Cell.fragment('argument_relation_voting')

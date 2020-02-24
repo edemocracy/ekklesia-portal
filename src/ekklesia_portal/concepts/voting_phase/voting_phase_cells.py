@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.database.datamodel import VotingPhase, VotingPhaseType
@@ -6,8 +7,8 @@ from .voting_phases import VotingPhases
 from .voting_phase_helper import items_for_voting_phase_select_widgets
 
 
+@App.cell(VotingPhases)
 class VotingPhasesCell(LayoutCell):
-    model = VotingPhases
 
     def voting_phases(self):
         return list(self._model.voting_phases(self._request.q))
@@ -16,8 +17,8 @@ class VotingPhasesCell(LayoutCell):
         return self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
+@App.cell(VotingPhase)
 class VotingPhaseCell(LayoutCell):
-    model = VotingPhase
     model_properties = ['ballots', 'department', 'description', 'name', 'phase_type', 'secret', 'status', 'target', 'title']
 
     def show_edit_button(self):
@@ -27,6 +28,7 @@ class VotingPhaseCell(LayoutCell):
         return [p for b in self._model.ballots for p in b.propositions]
 
 
+@App.cell(VotingPhases, 'new')
 class NewVotingPhaseCell(NewFormCell):
 
     def _prepare_form_for_render(self):
@@ -36,6 +38,7 @@ class NewVotingPhaseCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
+@App.cell(VotingPhase, 'edit')
 class EditVotingPhaseCell(EditFormCell):
 
     def _prepare_form_for_render(self):

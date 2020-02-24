@@ -1,3 +1,4 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.database.datamodel import Policy
@@ -6,8 +7,8 @@ from .policy_helper import items_for_policy_select_widgets
 from .policies import Policies
 
 
+@App.cell(Policies)
 class PoliciesCell(LayoutCell):
-    model = Policies
 
     def policies(self):
         return list(self._model.policies(self._request.q))
@@ -16,8 +17,8 @@ class PoliciesCell(LayoutCell):
         return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
+@App.cell(Policy)
 class PolicyCell(LayoutCell):
-    model = Policy
     model_properties = ['name', 'majority', 'proposition_expiration', 'qualification_minimum', 'qualification_quorum', 'range_max',
                         'range_small_max', 'range_small_options', 'secret_minimum', 'secret_quorum', 'submitter_minimum',
                         'voting_duration', 'voting_system']
@@ -26,6 +27,7 @@ class PolicyCell(LayoutCell):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
 
+@App.cell(Policies, 'new')
 class NewPolicyCell(NewFormCell):
 
     def _prepare_form_for_render(self):
@@ -33,6 +35,7 @@ class NewPolicyCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
+@App.cell(Policy, 'edit')
 class EditPolicyCell(EditFormCell):
 
     def _prepare_form_for_render(self):

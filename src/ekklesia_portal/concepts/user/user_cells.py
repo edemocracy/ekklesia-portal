@@ -1,11 +1,12 @@
+from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import EkklesiaUserType
 from ekklesia_portal.database.datamodel import User, UserProfile
 
 
+@App.cell(User)
 class UserCell(LayoutCell):
-    model = User
     model_properties = ['name', 'joined', 'profile', 'departments', 'areas', 'groups', 'last_active']
 
     def departments_with_subject_areas(self):
@@ -22,8 +23,8 @@ class UserCell(LayoutCell):
         return len(self._model.supports)
 
 
+@App.cell(UserProfile)
 class UserProfileCell(Cell):
-    model = UserProfile
     model_properties = ['auid', 'profile', 'verified', 'user_type']
 
     def eligible_to_vote(self):

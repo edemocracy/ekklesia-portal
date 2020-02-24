@@ -14,6 +14,7 @@ import ekklesia_portal
 from ekklesia_portal import database
 from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
 from ekklesia_common.cell import JinjaCellEnvironment
+from ekklesia_common.cell_app import CellApp
 from ekklesia_common.concept import ConceptApp
 from ekklesia_common.contract import FormApp
 from ekklesia_common.templating import make_jinja_env, make_template_loader
@@ -25,7 +26,7 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
-class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp, FormApp):
+class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp, CellApp, FormApp):
     request_class = EkklesiaPortalRequest
     translation_dir = resource_filename('ekklesia_portal', 'translations/')
 

@@ -20,7 +20,7 @@ class {{ cookiecutter.ConceptName }}Form(Form):
     def __init__(self, request, action):
         super().__init__({{ cookiecutter.ConceptName }}Schema(), request, action, buttons=[Button(title=_("submit"))])
 
-    def prepare_for_render(self, items_for_selects):
+    def prepare_for_render(self): #, items_for_selects):
         widgets = {
     #        'description': TextAreaWidget(rows=8),
     #        'status': Select2Widget(values=items_for_selects['{{ cookiecutter.concept_name }}_status']),
