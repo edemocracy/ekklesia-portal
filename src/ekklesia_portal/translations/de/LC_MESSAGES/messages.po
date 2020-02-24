@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-30 12:37+0100\n"
+"POT-Creation-Date: 2020-02-24 22:10+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -21,14 +21,14 @@ msgstr ""
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:13
 #: src/ekklesia_portal/concepts/page/page_contracts.py:10
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:11
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:24
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:25
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:10
 msgid "title"
 msgstr "Titel"
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:14
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:14
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:26
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:27
 msgid "abstract"
 msgstr "Zusammenfassung"
 
@@ -85,7 +85,7 @@ msgstr "Ergebnis"
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:12
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:23
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:10
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:23
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:24
 msgid "subject_area"
 msgstr "Themenbereich"
 
@@ -435,27 +435,27 @@ msgid "voting_identifier"
 msgstr "Kennung für Abstimmung"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:13
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:25
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:26
 msgid "external_discussion_url"
 msgstr "Link zur Diskussion"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:15
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:27
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:28
 msgid "content"
 msgstr "Text"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:16
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:28
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:29
 msgid "motivation"
 msgstr "Begründung"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:17
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:29
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:30
 msgid "tags"
 msgstr "Tags"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:18
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:30
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:31
 msgid "status"
 msgstr "Status"
 
@@ -486,39 +486,35 @@ msgstr "Diskussion"
 msgid "tab_associated"
 msgstr "Zugehörig (Konkurrenzanträge)"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:21
-msgid "title_motivation"
-msgstr "Begründung"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:31
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
 msgid "button_add_pro_argument"
 msgstr "Pro-Argument hinzufügen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:35
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:21
 msgid "button_add_con_argument"
 msgstr "Contra-Argument hinzufügen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:43
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:29
 msgid "title_proposition_modifies"
 msgstr "Ist Änderungsantrag zu"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:48
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:34
 msgid "title_proposition_derivations"
 msgstr "Änderungsanträge"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:37
 msgid "button_add_change_proposition"
 msgstr "Änderungsantrag stellen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:57
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:43
 msgid "title_proposition_replaces"
 msgstr "Ist Gegenantrag zu"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:62
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:48
 msgid "title_proposition_replacements"
 msgstr "Gegenanträge"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:65
+#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:51
 msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
@@ -549,6 +545,10 @@ msgstr "Zu den Konkurrenzanträgen"
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:17
 msgid "button_report"
 msgstr "Melden"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_card.j2.jade:9
+msgid "title_motivation"
+msgstr "Begründung"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:1
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:1
@@ -684,11 +684,11 @@ msgid "argument_type_contra"
 msgstr "Contra"
 
 #: src/ekklesia_portal/enums.py:71
-msgid "majority_1/2"
+msgid "majority_1_2"
 msgstr "Einfache Mehrheit"
 
 #: src/ekklesia_portal/enums.py:72
-msgid "majority_2/3"
+msgid "majority_2_3"
 msgstr "Zwei-Drittel-Mehrheit"
 
 #: src/ekklesia_portal/enums.py:73
