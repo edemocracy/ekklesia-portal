@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-24 22:10+0000\n"
+"POT-Creation-Date: 2020-02-24 22:20+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -663,73 +663,170 @@ msgstr "Neuer Abstimmungszeitraum"
 msgid "target_date"
 msgstr "Stichtag"
 
-#: src/ekklesia_portal/enums.py:69
+#. ArgumentType.PRO
+#: src/ekklesia_portal/enums.py:8
 msgid "argument_type_pro"
 msgstr "Pro"
 
-#: src/ekklesia_portal/enums.py:70
+#. ArgumentType.CONTRA
+#: src/ekklesia_portal/enums.py:9
 msgid "argument_type_contra"
 msgstr "Contra"
 
-#: src/ekklesia_portal/enums.py:71
+#. EkklesiaUserType.PLAIN_MEMBER
+#: src/ekklesia_portal/enums.py:13
+msgid "ekklesia_user_type_plain_member"
+msgstr ""
+
+#. EkklesiaUserType.ELIGIBLE_MEMBER
+#: src/ekklesia_portal/enums.py:14
+msgid "ekklesia_user_type_eligible_member"
+msgstr ""
+
+#. EkklesiaUserType.SYSTEM_USER
+#: src/ekklesia_portal/enums.py:15
+msgid "ekklesia_user_type_system_user"
+msgstr ""
+
+#. EkklesiaUserType.DELETED
+#: src/ekklesia_portal/enums.py:16
+msgid "ekklesia_user_type_deleted_user"
+msgstr ""
+
+#. EkklesiaUserType.GUEST
+#: src/ekklesia_portal/enums.py:17
+msgid "ekklesia_user_type_guest"
+msgstr ""
+
+#. Majority.SIMPLE
+#: src/ekklesia_portal/enums.py:21
 msgid "majority_1_2"
 msgstr "Einfache Mehrheit"
 
-#: src/ekklesia_portal/enums.py:72
+#. Majority.TWO_THIRDS
+#: src/ekklesia_portal/enums.py:22
 msgid "majority_2_3"
 msgstr "Zwei-Drittel-Mehrheit"
 
-#: src/ekklesia_portal/enums.py:73
-msgid "voting_status_preparing"
-msgstr "In Vorbereitung"
+#. PropositionStatus.DRAFT
+#: src/ekklesia_portal/enums.py:26
+msgid "proposition_status_draft"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:74
-msgid "voting_status_scheduled"
-msgstr "Geplant"
+#. PropositionStatus.SUBMITTED
+#: src/ekklesia_portal/enums.py:27
+msgid "proposition_status_submitted"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:75
-msgid "voting_status_voting"
-msgstr "In Abstimmung"
+#. PropositionStatus.CHANGING
+#: src/ekklesia_portal/enums.py:28
+msgid "proposition_status_changing"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:76
-msgid "voting_status_finished"
-msgstr "Abgeschlossen"
+#. PropositionStatus.ABANDONED
+#: src/ekklesia_portal/enums.py:29
+msgid "proposition_status_abandoned"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:77
-msgid "voting_status_aborted"
-msgstr "Abgebrochen"
+#. PropositionStatus.QUALIFIED
+#: src/ekklesia_portal/enums.py:30
+msgid "proposition_status_qualified"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:78
-msgid "voting_system_range_approval"
-msgstr "verbundene Einzelwahl mit Bewertungswahl"
+#. PropositionStatus.SCHEDULED
+#: src/ekklesia_portal/enums.py:31
+msgid "proposition_status_scheduled"
+msgstr ""
 
-#: src/ekklesia_portal/enums.py:79
+#. PropositionStatus.VOTING
+#: src/ekklesia_portal/enums.py:32
+msgid "proposition_status_voting"
+msgstr ""
+
+#. PropositionStatus.FINISHED
+#: src/ekklesia_portal/enums.py:33
+msgid "proposition_status_finished"
+msgstr ""
+
+#. SupporterStatus.ACTIVE
+#: src/ekklesia_portal/enums.py:37
+msgid "supporter_status_active"
+msgstr ""
+
+#. SupporterStatus.EXPIRED
+#: src/ekklesia_portal/enums.py:38
+msgid "supporter_status_expired"
+msgstr ""
+
+#. SupporterStatus.RETRACTED
+#: src/ekklesia_portal/enums.py:39
+msgid "supporter_status_retracted"
+msgstr ""
+
+#. VotingType.ONLINE
+#: src/ekklesia_portal/enums.py:43
 msgid "voting_type_online"
 msgstr "Online"
 
-#: src/ekklesia_portal/enums.py:80
+#. VotingType.ASSEMBLY
+#: src/ekklesia_portal/enums.py:44
 msgid "voting_type_assembly"
 msgstr "Versammlung"
 
-#: src/ekklesia_portal/enums.py:81
+#. VotingType.BOARD
+#: src/ekklesia_portal/enums.py:45
 msgid "voting_type_board"
 msgstr "Gremium"
 
-#: src/ekklesia_portal/enums.py:82
+#. VotingType.URN
+#: src/ekklesia_portal/enums.py:46
 msgid "voting_type_urn"
 msgstr "Urne"
 
-#: src/ekklesia_portal/enums.py:83
+#. VotingStatus.PREPARING
+#: src/ekklesia_portal/enums.py:50
+msgid "voting_status_preparing"
+msgstr "In Vorbereitung"
+
+#. VotingStatus.SCHEDULED
+#: src/ekklesia_portal/enums.py:51
+msgid "voting_status_scheduled"
+msgstr "Geplant"
+
+#. VotingStatus.VOTING
+#: src/ekklesia_portal/enums.py:52
+msgid "voting_status_voting"
+msgstr "In Abstimmung"
+
+#. VotingStatus.FINISHED
+#: src/ekklesia_portal/enums.py:53
+msgid "voting_status_finished"
+msgstr "Abgeschlossen"
+
+#. VotingStatus.ABORTED
+#: src/ekklesia_portal/enums.py:54
+msgid "voting_status_aborted"
+msgstr "Abgebrochen"
+
+#. OpenSlidesVotingResult.ACCEPTED
+#: src/ekklesia_portal/enums.py:58
 msgid "open_slides_voting_result_accepted"
 msgstr "akzeptiert"
 
-#: src/ekklesia_portal/enums.py:84
+#. OpenSlidesVotingResult.REJECTED
+#: src/ekklesia_portal/enums.py:59
 msgid "open_slides_voting_result_rejected"
 msgstr "abgelehnt"
 
-#: src/ekklesia_portal/enums.py:85
-msgid "open_slides_voting_result_not decided"
+#. OpenSlidesVotingResult.NOT_DECIDED
+#: src/ekklesia_portal/enums.py:60
+msgid "open_slides_voting_result_not_decided"
 msgstr "verschoben"
+
+#. VotingSystem.RANGE_APPROVAL
+#: src/ekklesia_portal/enums.py:64
+msgid "voting_system_range_approval"
+msgstr "verbundene Einzelwahl mit Bewertungswahl"
 
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
@@ -789,4 +886,3 @@ msgstr "verschoben"
 
 #~ msgid "departments"
 #~ msgstr "Gliederung"
-
