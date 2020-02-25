@@ -17,9 +17,9 @@ from ekklesia_common.cell import JinjaCellEnvironment
 from ekklesia_common.cell_app import CellApp
 from ekklesia_common.concept import ConceptApp
 from ekklesia_common.contract import FormApp
+from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp
 from ekklesia_common.templating import make_jinja_env, make_template_loader
 from ekklesia_portal.request import EkklesiaPortalRequest
-from ekklesia_portal.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 
