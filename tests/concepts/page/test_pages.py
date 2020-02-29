@@ -21,7 +21,7 @@ def test_create_page(client, db_query, page_factory, logged_in_global_admin):
     fill_form(form, data, ['name', 'lang', 'title', 'text'])
 
     with assert_difference(db_query(Page).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_page(db_session, client, page_factory, logged_in_global_admin):

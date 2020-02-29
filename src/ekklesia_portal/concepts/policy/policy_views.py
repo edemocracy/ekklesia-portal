@@ -1,5 +1,5 @@
 from morepath import redirect
-#from webob.exc import HTTPBadRequest
+# from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Policy
 from ekklesia_portal.permission import CreatePermission, EditPermission

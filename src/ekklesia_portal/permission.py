@@ -1,8 +1,10 @@
 from ekklesia_portal.app import App
 from ekklesia_portal.identity_policy import NoIdentity
 
+
 class WritePermission:
     pass
+
 
 class CreatePermission(WritePermission):
     pass

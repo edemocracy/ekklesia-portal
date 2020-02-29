@@ -64,6 +64,13 @@ class VotingSystem(str, Enum):
     RANGE_APPROVAL = 'range_approval'
 
 
+class VoteByUser(str, Enum):
+    UNSURE = 'unsure'
+    ACCEPT = 'accept'
+    DECLINE = 'decline'
+    ABSTENTION = 'abstention'
+
+
 # XXX: add Enum support to babel extractor
 
 _('argument_type_pro')
@@ -83,3 +90,7 @@ _('voting_type_urn')
 _('open_slides_voting_result_accepted')
 _('open_slides_voting_result_rejected')
 _('open_slides_voting_result_not decided')
+_('vote_by_user_accept')
+_('vote_by_user_decline')
+_('vote_by_user_abstention')
+_('vote_by_user_unsure')

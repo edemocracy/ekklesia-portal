@@ -17,7 +17,6 @@ class UserIdentity(morepath.Identity):
         return self.user.id
 
 
-
 class NoIdentity(morepath.Identity):
     user = None
     userid = None
@@ -41,7 +40,6 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
         if user is None:
             logg.info('user_id %s in session, but not found in the database!', user_id)
             return NoIdentity
-
 
         return self.identity_class(user, has_global_admin_permissions=any(g.is_admin_group for g in user.groups))
 

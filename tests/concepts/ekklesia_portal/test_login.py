@@ -43,10 +43,10 @@ def test_verify_password_without_user_raises_value_error():
 def test_verify_password_is_false_when_user_pw_is_none():
     login = Login()
     login.user = Munch(password=None)
-    assert login.verify_password(False) == False
+    assert login.verify_password(False) is False
 
 
 def test_verify_password_is_true_for_empty_pw_with_insecure_mode():
     login = Login(username='test', password='')
     login.user = Munch(password='pw')
-    assert login.verify_password(True) == True
+    assert login.verify_password(True) is True

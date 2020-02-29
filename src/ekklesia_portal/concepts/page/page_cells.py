@@ -36,25 +36,25 @@ class NewPageCell(NewFormCell):
     pass
 
     # def _prepare_form_for_render(self):
-        # By default, the form's prepare_for_render() method is called without arguments.
-        # You can pass additional args, for example to set values for select fields like this:
+    # By default, the form's prepare_for_render() method is called without arguments.
+    # You can pass additional args, for example to set values for select fields like this:
 
-        # items = items_for_page_select_widgets(self._model)
-        # self._form.prepare_for_render(items)
+    # items = items_for_page_select_widgets(self._model)
+    # self._form.prepare_for_render(items)
 
 
 class EditPageCell(EditFormCell):
     pass
 
     # def _prepare_form_for_render(self):
-        # By default, all fields from the model as given by to_dict() are passed to the form.
-        # You can customize the behaviour (inherited from the base class) here:
+    # By default, all fields from the model as given by to_dict() are passed to the form.
+    # You can customize the behaviour (inherited from the base class) here:
 
-        # form_data = self._model.to_dict()
-        # self.set_form_data(form_data)
+    # form_data = self._model.to_dict()
+    # self.set_form_data(form_data)
 
-        # By default, the form's prepare_for_render() method is called without arguments.
-        # You can pass additional args, for example to set values for select fields like this:
+    # By default, the form's prepare_for_render() method is called without arguments.
+    # You can pass additional args, for example to set values for select fields like this:
 
-        # items = items_for_page_select_widgets(self._model)
-        # self._form.prepare_for_render(items)
+    # items = items_for_page_select_widgets(self._model)
+    # self._form.prepare_for_render(items)

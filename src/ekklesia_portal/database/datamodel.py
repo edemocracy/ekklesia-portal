@@ -47,7 +47,7 @@ from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
 
 from ekklesia_portal.database import Base, integer_pk, C
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, \
-    VotingSystem
+    VotingSystem, VoteByUser
 from ekklesia_common.utils import cached_property
 
 
@@ -449,6 +449,20 @@ class PropositionTag(Base):
     def __init__(self, tag=None, proposition=None):
         self.tag = tag
         self.proposition = proposition
+
+
+class PropositionNote(Base):
+    __tablename__ = 'propositionnotes'
+    proposition_id = Column(Integer, ForeignKey('propositions.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    notes = Column(Text)
+    vote = Column(Enum(VoteByUser))
+
+    def __init__(self, user, id, notes=None, vote=VoteByUser.UNSURE):
+        self.proposition_id = id
+        self.user_id = user
+        self.notes = notes
+        self.vote = vote
 
 
 class Supporter(Base):  # §3.5

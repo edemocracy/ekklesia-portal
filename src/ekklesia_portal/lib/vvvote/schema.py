@@ -7,7 +7,7 @@ from typing import List, Union, Optional
 
 class Auth(str, Enum):
     OAUTH = 'oAuth2'
-    SHARED_PASSWORD = 'sharedPassw' #nosec
+    SHARED_PASSWORD = 'sharedPassw'  # nosec
 
 
 class Tally(str, Enum):

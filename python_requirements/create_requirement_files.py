@@ -10,4 +10,3 @@ with open('install_requirements.txt', 'w') as wf:
 
 with open('test_requirements.txt', 'w') as wf:
     wf.write('\n'.join(options['tests_require']))
-

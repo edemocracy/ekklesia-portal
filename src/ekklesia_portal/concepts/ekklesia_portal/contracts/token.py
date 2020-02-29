@@ -3,6 +3,7 @@ from deform import Button
 from ekklesia_common.contract import Schema, bool_property, Form
 from ekklesia_common.translation import _
 
+
 class TokenSchema(Schema):
     tos_consent = bool_property(title=_('tos_consent'), validator=NoneOf([False], msg_err=_('error_missing_consent')))
 
