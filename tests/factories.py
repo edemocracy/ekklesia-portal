@@ -8,7 +8,7 @@ from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
 from ekklesia_portal.database import Session
-from ekklesia_portal.enums import EkklesiaUserType, Majority, VotingType, VotingStatus, VotingSystem
+from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
     VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, UserLoginToken, Page
 
@@ -113,6 +113,7 @@ class BallotFactory(SQLAFactory):
     election = FuzzyChoice([0, 4, 8])
     voting_type = FuzzyChoice(list(VotingType))
     proposition_type = SubFactory(PropositionTypeFactory)
+    result = {}
 
 
 @register
@@ -124,6 +125,7 @@ class PropositionFactory(SQLAFactory):
     content = MimesisField('text', quantity=5)
     motivation = MimesisField('text', quantity=8)
     abstract = MimesisField('text', quantity=2)
+    status = FuzzyChoice([PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED])
     ballot = SubFactory(BallotFactory)
 
 

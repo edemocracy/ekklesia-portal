@@ -5,10 +5,10 @@
         "homepage": null,
         "owner": "Piratenpartei",
         "repo": "ekklesia-common",
-        "rev": "39da65024676d72a69c88265a11dfe7b2e7a1081",
-        "sha256": "1mwjxa54iclsqgy8vbsbw32qg90ar0zcba738nysrkwcqvxl5p4k",
+        "rev": "da78d80c8898ee1db781e6a716de29884bf3ce51",
+        "sha256": "1fcdb0d8qjp9z7dliacyj2cks5692rsln5ybcjpaqshrzqyhk87n",
         "type": "tarball",
-        "url": "https://github.com/Piratenpartei/ekklesia-common/archive/39da65024676d72a69c88265a11dfe7b2e7a1081.tar.gz",
+        "url": "https://github.com/Piratenpartei/ekklesia-common/archive/da78d80c8898ee1db781e6a716de29884bf3ce51.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {

@@ -1,5 +1,6 @@
 import random
 import string
+import factory
 from ekklesia_portal.database.datamodel import Supporter, Proposition, Tag
 from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
@@ -10,14 +11,14 @@ def test_index(client):
     res = client.get("/p")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
-    assert 'Q1' in content
+    assert 'Ein Titel' in content
 
 
 def test_index_mode_top(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get("/p?mode=top")
     content = res.body.decode()
-    assert 'Q1' in content
+    assert 'Ein Titel' in content
 
 
 def test_index_search(client):
@@ -39,7 +40,7 @@ def test_index_tag(db_query, client):
 
 def test_show(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/p/1/a")
+    res = client.get("/p/1/ein-titel")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content
@@ -47,7 +48,7 @@ def test_show(client):
 
 def test_show_associated(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/p/1/a/associated")
+    res = client.get("/p/1/ein-titel/associated")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Ein Titel' in content
@@ -77,10 +78,9 @@ def test_new_with_data_import(client, logged_in_user):
 
 def test_create(db_query, client, proposition_factory, logged_in_user_with_departments):
     user = logged_in_user_with_departments
-    # XXX: this is stubid... Is there a better way to get a simple dict from factory boy? Do we need a new strategy?
-    data = dict(proposition_factory.stub().__dict__)
+    data = factory.build(dict, FACTORY_CLASS=proposition_factory)
     data['tags'] = 'Tag1,' + "".join(random.choices(string.ascii_lowercase, k=10)).capitalize()
-
+    data['status'] = data['status'].name
     data['area_id'] = user.departments[0].areas[0].id
     data['related_proposition_id'] = 3
     data['relation_type'] = 'modifies'
@@ -102,8 +102,7 @@ def test_create(db_query, client, proposition_factory, logged_in_user_with_depar
 
 
 def test_does_not_create_without_title(db_query, client, proposition_factory, logged_in_user):
-    # XXX: this is stubid... Is there a better way to get a simple dict from factory boy? Do we need a new strategy?
-    data = dict(proposition_factory.stub().__dict__)
+    data = factory.build(dict, FACTORY_CLASS=proposition_factory)
     del data['title']
 
     with assert_no_difference(db_query(Proposition).count):
@@ -112,31 +111,33 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
 
 def test_support(client, db_session, logged_in_user):
     def assert_supporter(status):
-        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=3)
+        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=6)
         if status is None:
             assert qq.scalar() is None, 'supporter present but should not be present'
         else:
             assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
 
-    client.post('/p/3/a/support', dict(support=True), status=302)
+    support_url = '/p/6/qualifizierter-antrag/support'
+
+    client.post(support_url, dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/p/3/a/support', dict(retract=True), status=302)
+    client.post(support_url, dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    client.post('/p/3/a/support', dict(retract=True), status=302)
+    client.post(support_url, dict(retract=True), status=302)
     assert_supporter('retracted')
 
-    client.post('/p/3/a/support', dict(support=True), status=302)
+    client.post(support_url, dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/p/3/a/support', dict(support=True), status=302)
+    client.post(support_url, dict(support=True), status=302)
     assert_supporter('active')
 
-    client.post('/p/3/a/support', dict(invalid=True), status=400)
+    client.post(support_url, dict(invalid=True), status=400)
     assert_supporter('active')
 
-    client.post('/p/3/a/support', dict(retract=True), status=302)
+    client.post(support_url, dict(retract=True), status=302)
     assert_supporter('retracted')
 
 

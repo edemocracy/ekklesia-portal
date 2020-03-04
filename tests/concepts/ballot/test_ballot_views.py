@@ -1,7 +1,4 @@
-from webtest_helpers import assert_deform, fill_form
-from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.enums import VotingStatus
-from ekklesia_portal.database.datamodel import VotingPhase
+from webtest_helpers import assert_deform
 
 
 def test_update(db_session, client, ballot, voting_phase_factory, logged_in_department_admin):

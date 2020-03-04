@@ -1,5 +1,5 @@
 # some view / cell helper that could be used from another concept
-from enums import VoteByUser
+from ekklesia_portal.enums import VoteByUser
 from ekklesia_common.translation import _
 
 

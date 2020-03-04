@@ -204,33 +204,44 @@ if __name__ == "__main__":
     q1.tags.extend([t1, t2])
     s.add(q1)
     q2 = Proposition(title="Antrag mit nicht unterstütztem Ergebnisformat",
-                     content=gen_de.text.text(quantity=20), voting_identifier="PP001",
-                     external_discussion_url="http://example.com", status=PropositionStatus.FINISHED)
+                     content=gen_de.text.text(quantity=20),
+                     voting_identifier="PP001",
+                     external_discussion_url="http://example.com",
+                     status=PropositionStatus.FINISHED)
     q2.tags.append(t3)
     b2 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP001")
     s.add(b2)
     b2.propositions.append(q2)
     q3 = Proposition(title="Angenommener Antrag",
-                     content=gen_de.text.text(quantity=2), voting_identifier="PP005",
-                     external_discussion_url="http://example.com", status=PropositionStatus.FINISHED)
+                     content=gen_de.text.text(quantity=2),
+                     voting_identifier="PP005",
+                     external_discussion_url="http://example.com",
+                     status=PropositionStatus.FINISHED)
     q3.tags.append(t3)
     b3 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP005")
     s.add(b3)
     b3.propositions.append(q3)
     q4 = Proposition(title="Abgelehnter Antrag",
-                     content="Bla", voting_identifier="PP006",
-                     external_discussion_url="http://example.com", status=PropositionStatus.FINISHED)
+                     content="Bla",
+                     voting_identifier="PP006",
+                     external_discussion_url="http://example.com",
+                     status=PropositionStatus.FINISHED)
     q4.tags.append(t3)
     b4 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP006")
     s.add(b4)
     b4.propositions.append(q4)
     q5 = Proposition(title="Verschobener Antrag",
-                     content="Blubb", voting_identifier="PP007",
-                     external_discussion_url="http://example.com", status=PropositionStatus.FINISHED)
+                     content="Blubb",
+                     voting_identifier="PP007",
+                     external_discussion_url="http://example.com",
+                     status=PropositionStatus.FINISHED)
     q5.tags.append(t3)
     q5_counter = Proposition(title="Abgelehnter Gegenantrag zum Verschobenen Antrag PP007",
-                     content="Gegenantrag von PP008", voting_identifier="PP008",
-                     external_discussion_url="http://example.com", modifies=q5, status=PropositionStatus.FINISHED)
+                             content="Gegenantrag von PP008",
+                             voting_identifier="PP008",
+                             external_discussion_url="http://example.com",
+                             modifies=q5,
+                             status=PropositionStatus.FINISHED)
     q5_counter.tags.append(t3)
     b5 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP007/8")
     s.add(b5)
