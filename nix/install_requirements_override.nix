@@ -1,25 +1,17 @@
 { pkgs, python }:
 
-with pkgs.python37Packages;
+self: super: let
 
-self: super: {
+  addBuildInputs = packageName: inputs:
+    python.overrideDerivation super."${packageName}" (old: {
+      buildInputs = old.buildInputs ++ inputs;
+    });
 
-  "setuptools-scm" = setuptools_scm;
-
-  "munch" = python.overrideDerivation super."munch" (old: {
-    buildInputs = old.buildInputs ++ [ pbr ];
-  });
-
-  "pyrsistent" = python.overrideDerivation super."pyrsistent" (old: {
-    buildInputs = old.buildInputs ++ [ pbr ];
-  });
-
-  "more-babel-i18n" = python.overrideDerivation super."more-babel-i18n" (old: {
-    buildInputs = old.buildInputs ++ [ setuptools_scm ];
-  });
-
-  "more-browser-session" = python.overrideDerivation super."more-browser-session" (old: {
-    buildInputs = old.buildInputs ++ [ setuptools_scm ];
-  });
-
+  py = pkgs.python37Packages;
+in
+{
+  more-babel-i18n = addBuildInputs "more-babel-i18n" [ py.setuptools_scm ];
+  more-browser-session = addBuildInputs "more-browser-session" [ py.setuptools_scm ];
+  munch = addBuildInputs "munch" [ py.pbr ];
+  pyrsistent = addBuildInputs "pyrsistent" [ py.pbr ];
 }

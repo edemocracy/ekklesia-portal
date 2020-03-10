@@ -6,7 +6,7 @@ import os
 import os.path
 import tempfile
 import werkzeug.serving
-import werkzeug.wsgi
+from werkzeug.middleware.shared_data import SharedDataMiddleware
 
 tmpdir = tempfile.gettempdir()
 parser = argparse.ArgumentParser("Ekklesia Portal runserver.py")
@@ -70,7 +70,7 @@ def run():
     args = parser.parse_args()
     wsgi_app = make_wsgi_app(args.config_file)
 
-    wrapped_app = werkzeug.wsgi.SharedDataMiddleware(wsgi_app, {
+    wrapped_app = SharedDataMiddleware(wsgi_app, {
         '/static': ("ekklesia_portal", 'static'),
         '/static/deform': ("deform", 'static'),
         '/static/webfonts': os.environ.get('WEBFONTS_PATH'),
