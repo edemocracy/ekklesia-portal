@@ -76,6 +76,28 @@ let
   python = withPackages {};
 
   generated = self: {
+    "alembic" = python.mkDerivation {
+      name = "alembic-1.4.2";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/60/1e/cabc75a189de0fbb2841d0975243e59bde8b7822bacbb95008ac6fe9ad47/alembic-1.4.2.tar.gz";
+        sha256 = "035ab00497217628bf5d0be82d664d8713ab13d37b630084da8e1f98facf4dbf";
+};
+      doCheck = commonDoCheck;
+      format = "pyproject";
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [
+        self."mako"
+        self."python-dateutil"
+        self."python-editor"
+        self."sqlalchemy"
+      ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://alembic.sqlalchemy.org";
+        license = licenses.mit;
+        description = "A database migration tool for SQLAlchemy.";
+      };
+    };
+
     "attrs" = python.mkDerivation {
       name = "attrs-19.3.0";
       src = pkgs.fetchurl {
@@ -129,23 +151,6 @@ let
         homepage = "https://github.com/mahmoud/boltons";
         license = licenses.bsdOriginal;
         description = "When they're not builtins, they're boltons.";
-      };
-    };
-
-    "cachetools" = python.mkDerivation {
-      name = "cachetools-4.0.0";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/ff/e9/879bc23137b5c19f93c2133a6063874b83c8e1912ff1467a3d4331598921/cachetools-4.0.0.tar.gz";
-        sha256 = "9a52dd97a85f257f4e4127f15818e71a0c7899f121b34591fcc1173ea79a0198";
-};
-      doCheck = commonDoCheck;
-      format = "setuptools";
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "https://github.com/tkem/cachetools/";
-        license = licenses.mit;
-        description = "Extensible memoizing collections and decorators";
       };
     };
 
@@ -243,16 +248,15 @@ let
     };
 
     "dataclasses-json" = python.mkDerivation {
-      name = "dataclasses-json-0.4.1";
+      name = "dataclasses-json-0.4.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/82/8e/c103e8762775d2b4453119271c4e5629b445b9686a15069be548950e3ca4/dataclasses-json-0.4.1.tar.gz";
-        sha256 = "2d20a1deb0745b5976174d1a7c397771a84a081abda9deed9619fcdba82c332d";
+        url = "https://files.pythonhosted.org/packages/70/d2/138b0425d51a103d44fdcd775fef830dc1a829da338cd59040401d6d411c/dataclasses-json-0.4.2.tar.gz";
+        sha256 = "65ac9ae2f7ec152ee01bf42c8c024736d4cd6f6fb761502dec92bd553931e3d9";
 };
       doCheck = commonDoCheck;
       format = "pyproject";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
-        self."cachetools"
         self."marshmallow"
         self."marshmallow-enum"
         self."stringcase"
@@ -433,6 +437,25 @@ let
         homepage = "https://palletsprojects.com/p/jinja/";
         license = licenses.bsdOriginal;
         description = "A very fast and expressive template engine.";
+      };
+    };
+
+    "mako" = python.mkDerivation {
+      name = "mako-1.1.2";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/42/64/fc7c506d14d8b6ed363e7798ffec2dfe4ba21e14dda4cfab99f4430cba3a/Mako-1.1.2.tar.gz";
+        sha256 = "3139c5d64aa5d175dbafb95027057128b5fbd05a40c53999f3905ceb53366d9d";
+};
+      doCheck = commonDoCheck;
+      format = "setuptools";
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [
+        self."markupsafe"
+      ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://www.makotemplates.org/";
+        license = licenses.mit;
+        description = "A super-fast templating language that borrows the  best ideas from the existing templating languages.";
       };
     };
 
@@ -794,6 +817,46 @@ let
       };
     };
 
+    "python-dateutil" = python.mkDerivation {
+      name = "python-dateutil-2.8.1";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/be/ed/5bbc91f03fa4c839c4c7360375da77f9659af5f7086b7a7bdda65771c8e0/python-dateutil-2.8.1.tar.gz";
+        sha256 = "73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c";
+};
+      doCheck = commonDoCheck;
+      format = "pyproject";
+      buildInputs = commonBuildInputs ++ [
+        self."setuptools"
+        self."setuptools-scm"
+        self."wheel"
+      ];
+      propagatedBuildInputs = [
+        self."six"
+      ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://dateutil.readthedocs.io";
+        license = licenses.bsdOriginal;
+        description = "Extensions to the standard Python datetime module";
+      };
+    };
+
+    "python-editor" = python.mkDerivation {
+      name = "python-editor-1.0.4";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/0a/85/78f4a216d28343a67b7397c99825cff336330893f00601443f7c7b2f2234/python-editor-1.0.4.tar.gz";
+        sha256 = "51fda6bcc5ddbbb7063b2af7509e43bd84bfc32a4ff71349ec7847713882327b";
+};
+      doCheck = commonDoCheck;
+      format = "setuptools";
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/fmoo/python-editor";
+        license = licenses.asl20;
+        description = "Programmatically open an editor, capture the result.";
+      };
+    };
+
     "pytz" = python.mkDerivation {
       name = "pytz-2019.3";
       src = pkgs.fetchurl {
@@ -812,10 +875,10 @@ let
     };
 
     "pyyaml" = python.mkDerivation {
-      name = "pyyaml-5.3";
+      name = "pyyaml-5.3.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/3d/d9/ea9816aea31beeadccd03f1f8b625ecf8f645bd66744484d162d84803ce5/PyYAML-5.3.tar.gz";
-        sha256 = "e9f45bd5b92c7974e59bcd2dcc8631a6b6cc380a904725fce7bc08872e691615";
+        url = "https://files.pythonhosted.org/packages/64/c2/b80047c7ac2478f9501676c988a5411ed5572f35d1beff9cae07d321512c/PyYAML-5.3.1.tar.gz";
+        sha256 = "b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -925,10 +988,10 @@ let
     };
 
     "setuptools" = python.mkDerivation {
-      name = "setuptools-46.0.0";
+      name = "setuptools-46.1.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/df/ed/bea598a87a8f7e21ac5bbf464102077c7102557c07db9ff4e207bd9f7806/setuptools-46.0.0.zip";
-        sha256 = "2f00f25b780fbfd0787e46891dcccd805b08d007621f24629025f48afef444b5";
+        url = "https://files.pythonhosted.org/packages/bb/e7/28d295e0b3f3ddfea42843fb8528918c84cdaf26153242fac5ca6a212622/setuptools-46.1.1.zip";
+        sha256 = "7416e775d09a98aa0422fbe367d15ec0904e4f5aa01043e35bbcb98fa53038de";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -938,6 +1001,26 @@ let
         homepage = "https://github.com/pypa/setuptools";
         license = licenses.mit;
         description = "Easily download, build, install, upgrade, and uninstall Python packages";
+      };
+    };
+
+    "setuptools-scm" = python.mkDerivation {
+      name = "setuptools-scm-3.5.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/b2/f7/60a645aae001a2e06cf4b8db2fba9d9f36b8fd378f10647e3e218b61b74b/setuptools_scm-3.5.0.tar.gz";
+        sha256 = "5bdf21a05792903cafe7ae0c9501182ab52497614fa6b1750d9dbae7b60c1a87";
+};
+      doCheck = commonDoCheck;
+      format = "pyproject";
+      buildInputs = commonBuildInputs ++ [
+        self."setuptools"
+        self."wheel"
+      ];
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/pypa/setuptools_scm/";
+        license = licenses.mit;
+        description = "the blessed package to manage your versions by scm tags";
       };
     };
 
@@ -959,10 +1042,10 @@ let
     };
 
     "sqlalchemy" = python.mkDerivation {
-      name = "sqlalchemy-1.3.14";
+      name = "sqlalchemy-1.3.15";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/f5/d8/3cc1c814b29c6ac667200e19e9cf1879479f6ad561595fa313bcd99f3e0f/SQLAlchemy-1.3.14.tar.gz";
-        sha256 = "b92d2de62e43499d85b1780274d1b562e5159c7996f6f04a9bb46cf681ced45f";
+        url = "https://files.pythonhosted.org/packages/8c/30/4134e726dd5ed13728ff814fa91fc01c447ad8700504653fe99d91fdd34b/SQLAlchemy-1.3.15.tar.gz";
+        sha256 = "c4cca4aed606297afbe90d4306b49ad3a4cd36feb3f87e4bfd655c57fd9ef445";
 };
       doCheck = commonDoCheck;
       format = "pyproject";
@@ -997,10 +1080,10 @@ let
     };
 
     "sqlalchemy-utils" = python.mkDerivation {
-      name = "sqlalchemy-utils-0.36.1";
+      name = "sqlalchemy-utils-0.36.3";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/85/d8/e889f8071c17773ca0ea3a67a4897ca008e7aff4e5bde0e5b9ef1ee29f1f/SQLAlchemy-Utils-0.36.1.tar.gz";
-        sha256 = "4e637c88bf3ac5f99b7d72342092a1f636bea1287b2e3e17d441b0413771f86e";
+        url = "https://files.pythonhosted.org/packages/aa/24/68937e9b5c757f62795467e2f02a8f463a3a1fd3d08bd32a6b0583ba3dbf/SQLAlchemy-Utils-0.36.3.tar.gz";
+        sha256 = "f268af5bc03597fe7690d60df3e5f1193254a83e07e4686f720f61587ec4493a";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1216,10 +1299,10 @@ let
     };
 
     "zope-interface" = python.mkDerivation {
-      name = "zope-interface-4.7.2";
+      name = "zope-interface-5.0.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/f8/44/8531e65de6fde76e6055f5ce93e8a482dff534cea9bebcac7845e2273efd/zope.interface-4.7.2.tar.gz";
-        sha256 = "fd1101bd3fcb4f4cf3485bb20d6cb0b56909b94d3bd2a53a6cb9d381c3da3365";
+        url = "https://files.pythonhosted.org/packages/87/43/fb6d188e05c2637629792b1f4a84cb25de51325448be8d705c8bb2f184ac/zope.interface-5.0.1.tar.gz";
+        sha256 = "dd0bc4016ec9ffa6d327bf3ba2f044c3ff376880661e5cc38c622e1ae023076f";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
