@@ -73,6 +73,7 @@ in rec {
     (fixSetuptools pylama)
     pylint
     autopep8
+    yapf
   ];
 
   # Various tools for log files, deps management, running scripts and so on
