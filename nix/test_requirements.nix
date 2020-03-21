@@ -167,10 +167,10 @@ let
     };
 
     "coverage" = python.mkDerivation {
-      name = "coverage-5.0.3";
+      name = "coverage-5.0.4";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/6d/1d/d44ed71d9a254453f4dd296cadf497957454995a35defcc7a7424caec89d/coverage-5.0.3.tar.gz";
-        sha256 = "77afca04240c40450c331fa796b3eab6f1e15c5ecf8bf2b8bee9706cd5452fef";
+        url = "https://files.pythonhosted.org/packages/d1/7d/ac53d7350a5178c1f59ddf0f17552bf68e4bb3a202543f9a30bbaa46cf80/coverage-5.0.4.tar.gz";
+        sha256 = "1b60a95fc995649464e0cd48cecc8288bac5f4198f21d04b8229dc4097d76823";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -203,10 +203,10 @@ let
     };
 
     "faker" = python.mkDerivation {
-      name = "faker-4.0.1";
+      name = "faker-4.0.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/0e/6a/c9a88aca1baaaf0587bfd7b0779429ddfb4e404d066caf3c7a98631247fd/Faker-4.0.1.tar.gz";
-        sha256 = "440d68fe0e46c1658b1975b2497abe0c24a7f772e3892253f31e713ffcc48965";
+        url = "https://files.pythonhosted.org/packages/1c/a8/75be8ae84628c8cdaf59f1a60d873de5ecb5b8577889f0c8be38f1a90519/Faker-4.0.2.tar.gz";
+        sha256 = "2d3f866ef25e1a5af80e7b0ceeacc3c92dec5d0fdbad3e2cb6adf6e60b22188f";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -434,10 +434,10 @@ let
     };
 
     "pytest" = python.mkDerivation {
-      name = "pytest-5.3.5";
+      name = "pytest-5.4.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/f0/5f/41376614e41f7cdee02d22d1aec1ea028301b4c6c4523a5f7ef8e960fe0b/pytest-5.3.5.tar.gz";
-        sha256 = "0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d";
+        url = "https://files.pythonhosted.org/packages/6d/4e/572aed20422dee7fa2bd27995b2a53a32de90c1826e5531c9df6d3ea77ed/pytest-5.4.1.tar.gz";
+        sha256 = "84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970";
 };
       doCheck = commonDoCheck;
       format = "pyproject";
@@ -646,10 +646,10 @@ let
     };
 
     "setuptools" = python.mkDerivation {
-      name = "setuptools-46.0.0";
+      name = "setuptools-46.1.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/df/ed/bea598a87a8f7e21ac5bbf464102077c7102557c07db9ff4e207bd9f7806/setuptools-46.0.0.zip";
-        sha256 = "2f00f25b780fbfd0787e46891dcccd805b08d007621f24629025f48afef444b5";
+        url = "https://files.pythonhosted.org/packages/bb/e7/28d295e0b3f3ddfea42843fb8528918c84cdaf26153242fac5ca6a212622/setuptools-46.1.1.zip";
+        sha256 = "7416e775d09a98aa0422fbe367d15ec0904e4f5aa01043e35bbcb98fa53038de";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
