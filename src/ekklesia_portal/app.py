@@ -132,11 +132,14 @@ def mount_ekklesia_auth_path():
 
 
 @log_call
-def get_app_settings(settings_filepath):
+def get_app_settings(settings_filepath=None):
     from ekklesia_portal.default_settings import settings
 
     if settings_filepath is None:
-        logg.info("no config file given")
+        settings_filepath = os.environ.get('EKKLESIA_PORTAL_CONFIG')
+
+    if settings_filepath is None:
+        logg.info("no config file given, using defaults")
     elif os.path.isfile(settings_filepath):
         with open(settings_filepath) as config:
             settings_from_file = yaml.safe_load(config)
