@@ -2,7 +2,8 @@ import morepath
 from ekklesia_portal.app import get_app_settings
 
 
-def test_get_app_settings_default():
+def test_get_app_settings_default(monkeypatch):
+    monkeypatch.delenv("EKKLESIA_PORTAL_CONFIG")
     settings = get_app_settings(None)
     assert "app" in settings
     assert "database" in settings
