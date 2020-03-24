@@ -60,7 +60,7 @@ def update(self, request, appstruct):
     elif voting_phase:
         department_id = voting_phase.department_id
 
-    if department_id:
+    if department_id and not request.identity.has_global_admin_permissions:
         department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
         if not department_allowed:
             return HTTPBadRequest()
