@@ -16,6 +16,11 @@ ROOT_DIR = Path(__file__).absolute().parent.parent
 logg = logging.getLogger(__name__)
 
 
+@fixture
+def fixture_by_name(request):
+    return request.getfixturevalue(request.param)
+
+
 @fixture(scope="session")
 def config_filepath():
     return ROOT_DIR / "testconfig.yml"
