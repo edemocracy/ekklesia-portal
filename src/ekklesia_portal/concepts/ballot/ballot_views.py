@@ -10,7 +10,10 @@ from .ballot_contracts import BallotForm
 
 @App.permission_rule(model=Ballot, permission=EditPermission)
 def ballot_edit_permission(identity, model, permission):
-    return identity.has_global_admin_permissions
+    if identity.has_global_admin_permissions:
+        return True
+
+    return model.area.department in identity.user.managed_departments
 
 
 @App.path(model=Ballots, path='b')

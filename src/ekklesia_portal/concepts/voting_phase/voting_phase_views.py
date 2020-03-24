@@ -12,12 +12,18 @@ from .voting_phase_helper import items_for_voting_phase_select_widgets
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
 def voting_phases_create_permission(identity, model, permission):
-    return identity.has_global_admin_permissions
+    if identity.has_global_admin_permissions:
+        return True
+
+    return identity.user.managed_departments
 
 
 @App.permission_rule(model=VotingPhase, permission=EditPermission)
 def voting_phase_edit_permission(identity, model, permission):
-    return identity.has_global_admin_permissions
+    if identity.has_global_admin_permissions:
+        return True
+
+    return model.department in identity.user.managed_departments
 
 
 @App.path(model=VotingPhases, path='v')
