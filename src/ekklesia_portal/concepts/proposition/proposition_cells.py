@@ -7,7 +7,7 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.database.datamodel import Proposition, Tag, PropositionNote
+from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote
 from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
@@ -221,7 +221,11 @@ class PropositionCell(LayoutCell):
 class NewPropositionCell(NewFormCell):
 
     def _prepare_form_for_render(self):
-        departments = self._request.current_user.departments
+        if self._request.identity.has_global_admin_permissions:
+            departments = self._request.q(Department)
+        else:
+            departments = self._request.current_user.departments
+
         tags = self._request.q(Tag).all()
 
         if self._form.error is None or self._form.cstruct['tags'] is colander.null:
@@ -237,11 +241,32 @@ class EditPropositionCell(EditFormCell):
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()
+        form_data['area_id'] = self._model.ballot.area_id
         self.set_form_data(form_data)
-        departments = self._request.current_user.departments
+
+        if self._request.identity.has_global_admin_permissions:
+            departments = self._request.q(Department)
+        else:
+            departments = self._request.current_user.departments
+
         tags = self._request.q(Tag).all()
         items = items_for_proposition_select_widgets(departments, tags)
         self._form.prepare_for_render(items)
+
+    def department_name(self):
+        return self._model.ballot.area.department.name
+
+    def subject_area_name(self):
+        return self._model.ballot.area.name
+
+    def ballot_id(self):
+        return self._model.ballot.id
+
+    def ballot_name(self):
+        return self._model.ballot.name
+
+    def ballot_url(self):
+        return self.link(self._model.ballot)
 
 
 @App.cell(Propositions)

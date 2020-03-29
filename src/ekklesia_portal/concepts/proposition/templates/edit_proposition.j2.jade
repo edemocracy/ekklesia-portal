@@ -6,6 +6,21 @@
 - block content
   h2= _("title_edit_proposition")
 
+  dl
+    dt= _('department')
+    dd= department_name
+    dt= _('subject_area')
+    dd= subject_area_name
+    dt= _('ballot')
+    dd
+      a(href=ballot_url)
+        if ballot_name
+          = ballot_name
+        else
+          = _('ballot')
+          |&nbsp;#
+          = ballot_id
+
   = form_html
 
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

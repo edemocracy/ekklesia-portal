@@ -10,7 +10,7 @@ from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
 from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, PropositionsCell
-from .proposition_contracts import PropositionForm, PropositionNewForm
+from .proposition_contracts import PropositionNewForm, PropositionEditForm
 from .propositions import Propositions
 
 
@@ -166,11 +166,11 @@ def proposition_redirect(self, request):
 
 @App.html(model=Proposition, name='edit', permission=EditPermission)
 def edit(self, request):
-    form = PropositionForm(request, request.link(self))
+    form = PropositionEditForm(request, request.link(self))
     return EditPropositionCell(self, request, form).show()
 
 
-@App.html_form_post(model=Proposition, form=PropositionForm, cell=EditPropositionCell, permission=EditPermission)
+@App.html_form_post(model=Proposition, form=PropositionEditForm, cell=EditPropositionCell, permission=EditPermission)
 def update(self, request, appstruct):
     self.update(**appstruct)
     return redirect(request.link(self))
