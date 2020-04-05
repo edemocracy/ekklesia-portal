@@ -7,6 +7,21 @@ from case_conversion import case_conversion
 from eliot import Message, log_call, start_task, write_traceback
 
 
+PROPOSITION_TYPES = {}
+
+
+def get_proposition_type(name):
+    if name in PROPOSITION_TYPES:
+        proposition_type = PROPOSITION_TYPES[name]
+    else:
+        proposition_type = session.query(PropositionType).filter_by(name=name).scalar()
+        PROPOSITION_TYPES[name] = proposition_type
+        if proposition_type is None:
+            Message.log(log_level='WARNING', message="proposition type does not exist", name=name)
+
+    return proposition_type
+
+
 @log_call
 def load_proposition_json_file(filepath, log_level="INFO"):
     with open(filepath) as f:
@@ -20,6 +35,7 @@ def load_proposition_json_file(filepath, log_level="INFO"):
     }
 
     optional_fields = {
+        'type',
         'motivation',
         'tags',
         'voting_identifier',
@@ -57,7 +73,7 @@ def load_proposition_json_file(filepath, log_level="INFO"):
 
 @log_call
 def insert_proposition(department_name, voting_phase_name, title, abstract, content, motivation,
-                       author, tags, voting_identifier, external_discussion_url, log_level="INFO"):
+                       author, tags, voting_identifier, external_discussion_url, type, log_level="INFO"):
     department = session.query(Department).filter_by(name=department_name).one()
     maybe_subject_area = [area for area in department.areas if area.name == "Allgemein"]
 
@@ -78,6 +94,10 @@ def insert_proposition(department_name, voting_phase_name, title, abstract, cont
         user = User(name=author, auth_type="import")
 
     ballot = Ballot(area=subject_area, voting=voting_phase)
+
+    if type:
+        ballot.proposition_type = get_proposition_type(type)
+
     proposition = Proposition(title=title, abstract=abstract, content=content, motivation=motivation,
                               voting_identifier=voting_identifier, external_discussion_url=external_discussion_url,
                               ballot=ballot)
@@ -110,7 +130,8 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
-    from ekklesia_portal.database.datamodel import Ballot, Department, Proposition, User, VotingPhase, Supporter, Tag
+    from ekklesia_portal.database.datamodel import Ballot, Department, Proposition, PropositionType, \
+        User, VotingPhase, Supporter, Tag
     from ekklesia_portal.database import Session
 
     session = Session()

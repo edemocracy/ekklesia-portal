@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     s.add(policy_default)
 
-    ptype_pol = PropositionType(name='Politische Position',
+    ptype_pol = PropositionType(name='Positionspapier',
                                 abbreviation='PP',
                                 description=gen_de.text.text(quantity=3),
                                 policy=policy_default)
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")
 
-    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_pps_pv, name="PP001/2/3/4")
+    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_pps_pv, name="PP001/2/3/4", proposition_type=ptype_pol)
     s.add(b1)
     q1 = Proposition(title="Ein Titel", content=gen_de.text.text(quantity=40), voting_identifier="PP001",
                      external_discussion_url="http://example.com", status=PropositionStatus.SCHEDULED)
@@ -160,33 +160,33 @@ if __name__ == "__main__":
                      content="Einfach so fallengelassen...",
                      external_discussion_url="http://example.com", status=PropositionStatus.ABANDONED)
     q6.tags.append(t3)
-    b6 = Ballot(area=subject_area_pps_in)
+    b6 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b6)
     b6.propositions.append(q6)
     q7 = Proposition(title="Sich ändernder Antrag",
                      content="Einfach so ändernd...",
                      external_discussion_url="http://example.com", status=PropositionStatus.CHANGING)
     q7.tags.append(t3)
-    b7 = Ballot(area=subject_area_pps_in)
+    b7 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b7)
     b7.propositions.append(q7)
     q8 = Proposition(title="Entstehender Antrag",
                      content="Einfach so entstehend...",
                      status=PropositionStatus.DRAFT)
     q8.tags.append(t3)
-    b8 = Ballot(area=subject_area_pps_in)
+    b8 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b8)
     b8.propositions.append(q8)
     q9 = Proposition(title="Übertragener Antrag",
                      content="Einfach so Übertragen...",
                      external_discussion_url="http://example.com", status=PropositionStatus.SUBMITTED)
-    b9 = Ballot(area=subject_area_pps_in)
+    b9 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b9)
     b9.propositions.append(q9)
     q10 = Proposition(title="Qualifizierter Antrag",
                      content="Einfach so qualifiziert...",
                      status=PropositionStatus.QUALIFIED)
-    b10 = Ballot(area=subject_area_pps_in)
+    b10 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b10)
     b10.propositions.append(q10)
     arg1 = Argument(author=u1,
@@ -209,7 +209,7 @@ if __name__ == "__main__":
                      external_discussion_url="http://example.com",
                      status=PropositionStatus.FINISHED)
     q2.tags.append(t3)
-    b2 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP001")
+    b2 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP001", proposition_type=ptype_pol)
     s.add(b2)
     b2.propositions.append(q2)
     q3 = Proposition(title="Angenommener Antrag",
@@ -218,7 +218,7 @@ if __name__ == "__main__":
                      external_discussion_url="http://example.com",
                      status=PropositionStatus.FINISHED)
     q3.tags.append(t3)
-    b3 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP005")
+    b3 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP005", proposition_type=ptype_pol)
     s.add(b3)
     b3.propositions.append(q3)
     q4 = Proposition(title="Abgelehnter Antrag",
@@ -227,7 +227,7 @@ if __name__ == "__main__":
                      external_discussion_url="http://example.com",
                      status=PropositionStatus.FINISHED)
     q4.tags.append(t3)
-    b4 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP006")
+    b4 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP006", proposition_type=ptype_pol)
     s.add(b4)
     b4.propositions.append(q4)
     q5 = Proposition(title="Verschobener Antrag",
@@ -243,7 +243,7 @@ if __name__ == "__main__":
                              modifies=q5,
                              status=PropositionStatus.FINISHED)
     q5_counter.tags.append(t3)
-    b5 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP007/8")
+    b5 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP007/8", proposition_type=ptype_pol)
     s.add(b5)
     b5.propositions.extend([q5, q5_counter])
     b2.result = {q2.voting_identifier: {"rank": 1, "yes": 14, "no": 10, "abstention": 15, "points": 213}}
