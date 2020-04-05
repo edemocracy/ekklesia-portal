@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nix-build -o serve_static
 { sources ? null,
-  listen ? "127.0.0.1:8001",
+  listen ? "127.0.0.1:8081",
   serverName ? "localhost"
 }:
 let

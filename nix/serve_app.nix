@@ -1,7 +1,7 @@
 #!/usr/bin/env -S nix-build -o serve_app
 { sources ? null,
   appConfigFile ? null,
-  listen ? "127.0.0.1:8000",
+  listen ? "127.0.0.1:8080",
   tmpdir ? null
 }:
 let
