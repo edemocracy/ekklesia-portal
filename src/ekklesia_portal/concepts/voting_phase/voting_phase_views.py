@@ -1,5 +1,6 @@
 from morepath import redirect
 from webob.exc import HTTPBadRequest
+from ekklesia_common import md
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import VotingPhase, Department, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
@@ -91,3 +92,22 @@ def update(self, request, appstruct):
 def show(self, request):
     cell = VotingPhaseCell(self, request, show_edit_button=True, show_proposition_list=True, show_description=True)
     return cell.show()
+
+
+@App.json(model=VotingPhase, name='spickerrr')
+def spickerrr(self, request):
+    propositions = [p for b in self.ballots for p in b.propositions]
+
+    def serialize_proposition(proposition):
+        proposition_type = proposition.ballot.proposition_type
+        return {
+            'url': request.link(proposition),
+            'id': proposition.voting_identifier,
+            'title': proposition.title,
+            'type': proposition_type.name if proposition_type else None,
+            'tags': ', '.join(t.name for t in proposition.tags),
+            'text': md.convert(proposition.content),
+            'remarks': md.convert(proposition.motivation)
+        }
+
+    return [serialize_proposition(p) for p in propositions]
