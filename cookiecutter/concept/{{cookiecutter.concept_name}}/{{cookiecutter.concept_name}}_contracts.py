@@ -10,7 +10,7 @@ class {{ cookiecutter.ConceptName }}Schema(Schema):
     pass
     # some field examples
     #name = string_property(title=_('name'), validator=Length(min=3, max=255))
-    #description = string_property(title=_('name'), validator=Length(min=10, max=2000), missing='')
+    #description = string_property(title=_('description'), validator=Length(min=10, max=2000), missing='')
     #status = enum_property({{ cookiecutter.ConceptName }}Status, title=_('{{ cookiecutter.concept_name }}status'))
     #tags = set_property(title=_('tags'), missing=tuple())
 

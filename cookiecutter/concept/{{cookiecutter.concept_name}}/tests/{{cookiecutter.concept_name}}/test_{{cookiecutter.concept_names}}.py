@@ -11,7 +11,7 @@ def test_create_{{ cookiecutter.concept_name }}(client, db_query, {{ cookiecutte
     fill_form(form, data, ['name'])
 
     with assert_difference(db_query({{ cookiecutter.ConceptName }}).count, 1):
-       form.submit(status=302)
+        form.submit(status=302)
 
 
 def test_update_{{ cookiecutter.concept_name }}(db_session, client, {{ cookiecutter.concept_name }}_factory):

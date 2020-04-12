@@ -8,7 +8,6 @@ The script must be run from the project's root dir:
 import os
 import sys
 import case_conversion
-import cookiecutter
 import inflect
 from cookiecutter.main import cookiecutter as run_cookiecutter
 
