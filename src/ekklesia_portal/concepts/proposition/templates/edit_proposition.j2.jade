@@ -23,4 +23,17 @@
 
   = form_html
 
+  if show_push_draft
+    h3= _('push_draft')
+
+    div
+      = _('exporter_target')
+      |:&nbsp;
+      = exporter_description
+
+    form.support_form(action=push_draft_action, method="POST")
+      button.btn.btn-primary(type='submit', name='push_draft')
+        i.fas.fa-edit &nbsp;
+        = _('push_draft_button')
+
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

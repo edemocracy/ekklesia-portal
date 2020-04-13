@@ -42,14 +42,14 @@ div
       i.fas.fa-flag &nbsp;
       = _('button_report')
 
+  a.btn.btn-secondary.btn-sm(href=note_url)
+    i.fas.fa-notes-medical &nbsp;
+    = _('note_button')
+
   if show_edit_button
     a.btn.btn-secondary.btn-sm(href=edit_url)
       i.fas.fa-edit &nbsp;
       = _('edit_button')
-
-  a.btn.btn-secondary.btn-sm(href=note_url)
-    i.fas.fa-notes-medical &nbsp;
-    = _('note_button')
 
 script.
   var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList

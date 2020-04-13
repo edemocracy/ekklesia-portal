@@ -34,7 +34,8 @@ from sqlalchemy import (
     JSON,
     func,
     Enum,
-    CheckConstraint
+    CheckConstraint,
+    UniqueConstraint
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableDict
@@ -46,8 +47,8 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
 
 from ekklesia_portal.database import Base, integer_pk, C
-from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, SupporterStatus, VotingType, VotingStatus, \
-    VotingSystem, VoteByUser
+from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, \
+    SupporterStatus, VotingType, VotingStatus, VotingSystem, VoteByUser
 from ekklesia_common.utils import cached_property
 
 
@@ -150,6 +151,7 @@ class Department(Base):
     voting_phases = relationship('VotingPhase', back_populates='department', cascade='all, delete-orphan')
     members = association_proxy('department_members', 'member')  # <-DepartmentMember-> User
     areas = relationship("SubjectArea", back_populates="department")
+    exporter_settings = Column(MutableDict.as_mutable(JSONB), server_default='{}')
     """
     durations as INT+ENUM(days,weeks,months,periods)? quorum as num/denum(INT)?
 
@@ -207,6 +209,7 @@ class SubjectArea(Base):  # Themenbereich §2.3+4
     # Themenbereichsteilnehmer
     # can only be removed if not proposition in this area supported §2.3
     members = association_proxy('area_members', 'member')  # <-AreaMember-> User
+    documents = relationship('Document', back_populates='area')
 
 
 class AreaMember(Base):
@@ -397,7 +400,15 @@ class Proposition(Base):
     replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
 
+    changesets = relationship('Changeset', back_populates='proposition')
+
     external_discussion_url = Column(URLType)
+
+    external_fields = Column(
+        MutableDict.as_mutable(JSONB),
+        comment='Fields that are imported from or exported to other systems but are not interpreted by the portal.')
+
+    visibility = Column(Enum(PropositionVisibility), nullable=False, server_default='PUBLIC')
 
     search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation', 'voting_identifier',
                                         weights={'title': 'A',
@@ -409,6 +420,11 @@ class Proposition(Base):
     def support_by_user(self, user):
         for s in self.propositions_member:
             if s.member_id == user.id and s.status == SupporterStatus.ACTIVE:
+                return s
+
+    def submitted_by_user(self, user):
+        for s in self.propositions_member:
+            if s.member_id == user.id and s.status == SupporterStatus.ACTIVE and s.submmitter is True:
                 return s
 
     @hybrid_property
@@ -582,3 +598,38 @@ class Page(Base):
     title = C(String(255))
     text = C(Text)
     permissions = C(JSON)
+
+
+class CustomizableText(Base):
+    __tablename__ = 'customizable_text'
+    name = C(String(255), primary_key=True)
+    lang = C(String(16), primary_key=True)
+    text = C(Text)
+    permissions = C(JSON)
+
+
+class Document(Base):
+    __tablename__ = 'document'
+    id = integer_pk()
+    name = C(String)
+    lang = C(String(16))
+    area_id = Column(Integer, ForeignKey('subjectareas.id'))
+    area = relationship('SubjectArea', back_populates='documents')  # contains department
+    text = C(Text)
+    description = Column(Text)
+    proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
+    proposition_type = relationship('PropositionType')
+    changesets = relationship('Changeset', back_populates='document')
+    __table_args__ = (
+        UniqueConstraint(name, lang, area_id, name='uq_document_name_lang_area_id'),
+    )
+
+
+class Changeset(Base):
+    __tablename__ = 'changeset'
+    id = integer_pk()
+    document_id = C(Integer, ForeignKey('document.id'), nullable=False)
+    proposition_id = C(Integer, ForeignKey('propositions.id'), nullable=False)
+    document = relationship(Document, back_populates='changesets')
+    proposition = relationship(Proposition, back_populates='changesets')
+    section = C(String, comment='Identifier for the section of the document that is changed.')

@@ -1,7 +1,7 @@
 import random
 import string
 import factory
-from ekklesia_portal.database.datamodel import Supporter, Proposition, Tag
+from ekklesia_portal.database.datamodel import Supporter, Proposition, Tag, Changeset
 from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
 
@@ -187,3 +187,22 @@ def test_redirect_to_full_url(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p/1', status=302)
     assert res.headers['Location'] == 'http://localhost/p/1/ein-titel'
+
+
+def test_new_draft(db_query, client, proposition_factory, document, logged_in_user):
+    logged_in_user.departments.append(document.area.department)
+    data = factory.build(dict, FACTORY_CLASS=proposition_factory)
+    data['tags'] = 'Tag1,' + "".join(random.choices(string.ascii_lowercase, k=10)).capitalize()
+    data['editing_remarks'] = 'editing remarks'
+
+    with assert_no_difference(db_query(Proposition).count, 'proposition'):
+        with assert_no_difference(db_query(Tag).count, 'tag'):
+            resp = client.post(f'/p/+new_draft?document={document.id}', data, status=200)
+
+    data['document_id'] = document.id
+    data['section'] = '1.1'
+
+    with assert_difference(db_query(Proposition).count, 1, 'proposition'):
+        with assert_difference(db_query(Tag).count, 1, 'tag'):
+            with assert_difference(db_query(Changeset).count, 1, 'changeset'):
+                client.post('/p/+new_draft', data, status=302)

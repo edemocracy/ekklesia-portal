@@ -3,16 +3,35 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter
-from ekklesia_portal.enums import PropositionStatus
+from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
+from ekklesia_portal.concepts.document.document_helper import get_section_from_document
+from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter, Document, Changeset
+from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
-
-from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, PropositionsCell
-from .proposition_contracts import PropositionNewForm, PropositionEditForm
+from ekklesia_portal.lib.discourse import create_discourse_topic, DiscourseTopic, DiscourseConfig
+from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, WritePermission, ViewPermission
+from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, \
+      PropositionsCell, PropositionNewDraftCell
+from .proposition_contracts import PropositionNewForm, PropositionEditForm, PropositionNewDraftForm
 from .propositions import Propositions
 from .proposition_helper import get_or_create_tags
+
+
+# XXX: our identity concept is broken, thus we must check for identity=object
+# here or anon users will be locked out...
+@App.permission_rule(model=Proposition, permission=ViewPermission, identity=object)
+def proposition_view_permission(identity, model, permission):
+    if model.visibility in (PropositionVisibility.PUBLIC, PropositionVisibility.UNLISTED):
+        return True
+
+    if model.submitted_by_user(identity.user):
+        return True
+
+    if model.ballot.area.department in identity.user.managed_departments:
+        return True
+
+    return identity.has_global_admin_permissions
 
 
 @App.permission_rule(model=Propositions, permission=CreatePermission)
@@ -30,10 +49,20 @@ def proposition_edit_permission(identity, model, permission):
     return identity.has_global_admin_permissions
 
 
+class NewDraftPermission(WritePermission):
+    pass
+
+
+@App.permission_rule(model=Propositions, permission=NewDraftPermission)
+def proposition_new_draft_permission(identity, model, permission):
+    return identity != NoIdentity
+
+
 App.path(path='p')(Propositions)
 
 
 @App.path(model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title)))
+# XXX: fails with wrong urls!!!
 def proposition(request, id, slug):
     proposition = request.q(Proposition).get(id)
     if case_conversion.dashcase(proposition.title) == slug:
@@ -48,13 +77,13 @@ class PropositionRedirect:
         self.id = id
 
 
-@App.html(model=Proposition)
+@App.html(model=Proposition, permission=ViewPermission)
 def show(self, request):
-    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, show_edit_button=True, active_tab='discussion')
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
     return cell.show()
 
 
-@App.html(model=Proposition, name='associated')
+@App.html(model=Proposition, name='associated', permission=ViewPermission)
 def associated(self, request):
     cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
     return cell.show()
@@ -162,3 +191,98 @@ def update(self, request, appstruct):
     appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     self.update(**appstruct)
     return redirect(request.link(self))
+
+
+@App.html(model=Propositions, name='new_draft', permission=NewDraftPermission)
+def new_draft(self, request):
+
+    section = self.section
+    document = request.q(Document).get(self.document)
+    headline, content = get_section_from_document(document, section)
+    _ = request.i18n.gettext
+    form_data = {
+        'document_id': self.document,
+        'section': self.section,
+        'content': content,
+        'title': ' '.join([_("change"), section, headline])
+    }
+    form = PropositionNewDraftForm(request, request.link(self, name='+new_draft'))
+    return PropositionNewDraftCell(request, form, form_data, model=self).show()
+
+
+@App.html_form_post(model=Propositions,
+                    name='new_draft',
+                    form=PropositionNewDraftForm,
+                    cell=PropositionNewDraftCell,
+                    permission=NewDraftPermission)
+def new_draft_post(self, request, appstruct):
+    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
+    document = request.q(Document).get(appstruct.pop('document_id'))
+
+    if document.area.department not in request.current_user.departments:
+        if not request.identity.has_global_admin_permissions:
+            return HTTPBadRequest()
+
+    # create a new ballot as "container" for the proposition
+    ballot = Ballot(area=document.area, proposition_type=document.proposition_type)
+
+    section = appstruct.pop('section')
+    editing_remarks = appstruct.pop('editing_remarks')
+
+    proposition = Proposition(
+        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct)
+
+    proposition.external_fields = {
+        'external_draft': {
+            'editing_remarks': editing_remarks
+        }
+    }
+
+    changeset = Changeset(document=document, section=section, proposition=proposition)
+
+    request.db_session.add(proposition)
+    request.db_session.add(changeset)
+    request.db_session.flush()
+
+    return redirect(request.link(proposition))
+
+
+@App.html(model=Proposition, request_method='POST', name='push_draft', permission=EditPermission)
+def push_draft(self, request):
+    """XXX: Supports only Discourse for now.
+    A generalized approach like for proposition importers would be nice.
+    """
+
+    if 'push_draft' not in request.POST:
+        raise HTTPBadRequest()
+
+    exporter_name = self.ballot.area.department.exporter_settings.get('exporter_name')
+
+    if exporter_name is None:
+        raise HTTPBadRequest()
+
+    exporter_config = getattr(request.app.settings.exporter, exporter_name)
+
+    self_link = request.link(self)
+    editing_remarks = self.external_fields['external_draft']['editing_remarks']
+
+    discourse_content_template = customizable_text(request, 'push_draft_external_template')
+    content = discourse_content_template.format(
+        draft_link=self_link,
+        editing_remarks=editing_remarks,
+        abstract=self.abstract,
+        content=self.content,
+        motivation=self.motivation)
+
+    topic = DiscourseTopic(content, self.title, [t.name for t in self.tags])
+    discourse_config = DiscourseConfig(**exporter_config)
+    resp = create_discourse_topic(discourse_config, topic)
+    dd = resp.json()
+    portal_content_template = customizable_text(request, 'push_draft_portal_template')
+    discourse_topic_url = f'{discourse_config.base_url}/t/{dd["topic_slug"]}/{dd["topic_id"]}'
+    self.external_discussion_url = discourse_topic_url
+    self.content = portal_content_template.format(topic_url=discourse_topic_url)
+    self.motivation = ''
+    self.abstract = ''
+    self.visibility = PropositionVisibility.PUBLIC
+    return redirect(self_link)

@@ -32,6 +32,12 @@ class PropositionStatus(str, Enum):
     FINISHED = 'finished'
 
 
+class PropositionVisibility(str, Enum):
+    PUBLIC = 'public'
+    UNLISTED = 'unlisted'
+    HIDDEN = 'hidden'
+
+
 class SupporterStatus(str, Enum):
     ACTIVE = 'active'
     EXPIRED = 'expired'

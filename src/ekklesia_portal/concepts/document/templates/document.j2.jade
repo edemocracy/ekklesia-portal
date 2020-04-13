@@ -1,0 +1,42 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('document')
+
+
+- block content
+  if layout
+    h2= _('document')
+
+  .document.container
+    h3
+      a(href=self_link)
+        = department_name
+        |&nbsp;>
+        = subject_area_name
+        |&nbsp;>
+        = name
+
+      if show_edit_button
+        a.edit_button(href=edit_url)
+          i.far.fa-edit
+          |&nbsp;
+          = _('edit_button')
+
+    if options.show_details
+
+      a(href=propose_change_url)= _('propose_change')
+
+      dl
+      dt= _('lang')
+      dd= lang
+      dt= _('proposition_type')
+      dd= proposition_type_name
+        if description
+          dt= _('description')
+          dd= description
+

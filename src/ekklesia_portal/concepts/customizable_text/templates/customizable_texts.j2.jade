@@ -1,0 +1,21 @@
+- if layout
+  - extends 'ekklesia_portal/layout.j2.jade'
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('overview')
+
+- block content
+
+  h2
+    = _('customizable_texts')
+
+    if show_new_button
+      a.edit_button(href=new_url)
+        i.fas.fa-plus
+        |&nbsp;
+        = _('new_button')
+
+  = render_cell(collection=customizable_texts)

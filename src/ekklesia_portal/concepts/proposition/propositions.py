@@ -7,23 +7,27 @@ from sqlalchemy_searchable import search
 
 @dataclass
 class Propositions:
-    sort: str = None
-    search: str = None
-    tag: str = None
-    phase: str = None
-    type: str = None
-    status: str = None
     department: str = None
+    document: int = 0
+    phase: str = None
+    search: str = None
+    section: str = None
+    sort: str = None
+    status: str = None
     subject_area: str = None
+    tag: str = None
+    type: str = None
 
     def __post_init__(self):
         # Force None value if argument is empty to clean up url
+        self.department = self.department or None
+        self.document = self.document or None
+        self.phase = self.phase or None
         self.search = self.search or None
+        self.section = self.section or None
         self.sort = self.sort or None
         self.tag = self.tag or None
-        self.phase = self.phase or None
         self.type = self.type or None
-        self.department = self.department or None
 
         try:
             self.status = PropositionStatus(self.status)
