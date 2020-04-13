@@ -1,4 +1,5 @@
 if __name__ == "__main__":
+    from transaction import commit
     from munch import Munch
     from ekklesia_portal.app import make_wsgi_app
 
