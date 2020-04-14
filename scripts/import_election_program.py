@@ -42,7 +42,7 @@ def parse_layer(content, level, regex_list, parent_chapters, layer_depth):
 
         # Append data to result list
         cur_chapter = {"name": chapter_name, "level": level, "parent_chapters": parent_chapters, "content": chapter_content,
-                       "number": chapter_number, "sub_chapters": [], "is_parent": False}
+                       "number_as_child": chapter_number, "number": chapter_number, "sub_chapters": [], "is_parent": False}
 
         results.append(cur_chapter)
 
@@ -60,7 +60,7 @@ def parse_layer(content, level, regex_list, parent_chapters, layer_depth):
 
         # Create sub chapter list for current chapter
         for sub_chapter in sub_chapters:
-            cur_chapter["sub_chapters"].append({"name": sub_chapter["name"], "number": sub_chapter["number"]})
+            cur_chapter["sub_chapters"].append({"name": sub_chapter["name"], "number": sub_chapter["number_as_child"]})
 
         # Identify parent chapters by adding a .0 to their number
         if len(sub_chapters) > 0:
