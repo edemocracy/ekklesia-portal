@@ -15,14 +15,14 @@ from ekklesia_portal.database import Session
 def prepare_regex():
 
     # First capture group: The header text (Detect if line starts with correct number of # signs)
-    # Second capture group: The header number (e.g. {data-section="6.10.2.2"}, attribute name doesn't matter)
+    # Second capture group: The header number (e.g. {data-section="6.10.2.2"})
     # Third capture group: The chapter content (Until another header is detected)
     # Fourth capture group: Sub chapters (Until another level one header is detected)
     res = [None]
     for layer in range(1, 10):
         res.append(re.compile(
             r'^#{' + str(layer + 1) + '} (.+) '            # Match header text (x+1 # signs)
-            r'{.+="([\d.]+)"}'                             # Match header number
+            r'{data-section="([\d.]+)"}'                   # Match header number
             r'\n+([^#]+)'                                  # Match chapter content
             r'\n*((?:[^#]|#{' + str(layer + 2) + ',})+)',  # Match subchapters
             re.MULTILINE
@@ -42,7 +42,7 @@ def parse_layer(content, level, regex_list, parent_chapters, layer_depth):
 
         # Append data to result list
         cur_chapter = {"name": chapter_name, "level": level, "parent_chapters": parent_chapters, "content": chapter_content,
-                       "number": chapter_number, "sub_chapters": []}
+                       "number": chapter_number, "sub_chapters": [], "is_parent": False}
 
         results.append(cur_chapter)
 
@@ -61,6 +61,11 @@ def parse_layer(content, level, regex_list, parent_chapters, layer_depth):
         # Create sub chapter list for current chapter
         for sub_chapter in sub_chapters:
             cur_chapter["sub_chapters"].append({"name": sub_chapter["name"], "number": sub_chapter["number"]})
+
+        # Identify parent chapters by adding a .0 to their number
+        if len(sub_chapters) > 0:
+            cur_chapter["is_parent"] = True
+            cur_chapter["number"] += ".0"
 
         results += sub_chapters
 
@@ -83,6 +88,12 @@ def load_election_program(filepath, layer_depth):
 @log_call
 def insert_proposition(subject_area, proposition_type, voting_phase, proposition, identifier, data_tag_regex):
 
+    # Remove data-section tags
+    text = data_tag_regex.sub("", proposition["content"])
+
+    if text is None or len(text) == 0 or text.isspace():
+        return False
+
     # Make title
     title = "Streichung: " + proposition["number"] + " " + proposition["name"]
 
@@ -97,8 +108,17 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
 
     abstract = "Streichung von Kapitel " + proposition["number"] + " des Wahlprogramms zur Bundestagswahl 2021"
 
-    content = "Der Bundesparteitag möge beschließen, im Wahlprogramm zur Bundestagswahl \nKapitel **"
-    content += proposition["number"] + " " + proposition["name"] + "** zu streichen\n\n"
+    content = "Der Bundesparteitag möge beschließen, im Wahlprogramm zur Bundestagswahl\n"
+
+    if proposition["is_parent"]:
+        content += "in "
+
+    content += "Kapitel **" + proposition["number"] + " " + proposition["name"] + "** "
+
+    if proposition["is_parent"]:
+        content += "den Text vor den Unterabschnitten "
+
+    content += "zu streichen.\n\n"
 
     motivation = "Der Bundesparteitag 2019.2 hat beschlossen, dass alle Teile des Programms zur Bundestagswahl 2017 " \
                  "zur Streichung angemeldet werden um eine Überarbeitung des Programms zur Bundestagswahl 2021 sicherzustellen."
@@ -107,15 +127,8 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
     motivation += chapters
 
     motivation += "\n#### Kapitelinhalt\n"
-    text = proposition["content"]
 
-    # Remove data-section tags
-    text = data_tag_regex.sub("", text)
-
-    if text is None or len(text) == 0 or text.isspace():
-        motivation += "*Dieses Kapitel enthält keinen Text. Es beinhaltet nur die oben genannten Unterkapitel.*"
-    else:
-        motivation += text
+    motivation += text
 
     voting_identifier = "WP" + str(identifier).zfill(3)
 
@@ -127,17 +140,23 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
 
     # Add tags, some defaults + chapter name + parent chapter names (tags can only have a maximum length of 64 characters)
     tags = ["wahlprogrammantrag", "bundestagswahl", "streichung"]
-    for parent in proposition["parent_chapters"]:
-        tags.append((parent["name"][:61] + "...") if len(parent["name"]) > 64 else parent["name"])
 
-    name_tag = proposition["name"]
-    tags.append((name_tag[:61] + "...") if len(name_tag) > 64 else name_tag)
+    # Only use top chapter
+    if len(proposition["parent_chapters"]) > 0:
+        chapter_tag = proposition["parent_chapters"][0]
+    else:
+        chapter_tag = proposition["name"]
+
+    # Tag names can have a maximum of 64 characters
+    tags.append((chapter_tag["name"][:61] + "...") if len(chapter_tag["name"]) > 64 else chapter_tag["name"])
 
     for tag_name in tags:
         tag = session.query(Tag).filter_by(name=tag_name).scalar()
         if tag is None:
             tag = Tag(name=tag_name)
         proposition_obj.tags.append(tag)
+
+    return True
 
 
 @log_call
@@ -171,8 +190,8 @@ def insert_election_program(department_name, subject_area_name, voting_phase_nam
     id = number_start
 
     for proposition in propositions:
-        insert_proposition(subject_area, proposition_type, voting_phase, proposition, id, data_tag_regex)
-        id += 1
+        if insert_proposition(subject_area, proposition_type, voting_phase, proposition, id, data_tag_regex):
+            id += 1
 
 
 parser = argparse.ArgumentParser("Ekklesia Portal import_election_program.py")
