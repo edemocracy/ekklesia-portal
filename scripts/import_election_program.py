@@ -6,9 +6,19 @@ from eliot import log_call, Message, start_action
 import transaction
 import sqlalchemy.orm
 
-from ekklesia_portal.database.datamodel import Department, Ballot, Proposition, Tag, PropositionType, Policy,\
-                                               VotingPhase, VotingType, PropositionStatus
+from ekklesia_portal.database.datamodel import Department, Ballot, Proposition, Tag, PropositionType, Policy, \
+    VotingPhase, VotingType, PropositionStatus
 from ekklesia_portal.database import Session
+
+
+MOTIVATION = """Der Bundesparteitag 2019.2 hat beschlossen, dass alle Teile des Programms zur
+Bundestagswahl 2017 zur Streichung angemeldet werden um eine Überarbeitung des Programms zur Bundestagswahl 2021 sicherzustellen.
+
+#### Einordnung
+{chapters}
+#### Kapitelinhalt
+{text}
+"""
 
 
 @log_call
@@ -91,44 +101,37 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
     # Remove data-section tags
     text = data_tag_regex.sub("", proposition["content"])
 
-    if text is None or len(text) == 0 or text.isspace():
+    # Ignore empty chapters
+    if not text.strip():
         return False
 
     # Make title
-    title = "Streichung: " + proposition["number"] + " " + proposition["name"]
+    title = f'Streichung: {proposition["number"]} {proposition["name"]}'
 
     chapters = ""
     for parent in proposition["parent_chapters"]:
-        chapters += "**" + parent["number"] + "** " + parent["name"] + "\n"
+        chapters += f'**{parent["number"]}** {parent["name"]}\n'
 
-    chapters += "**" + proposition["number"] + " " + proposition["name"] + "**\n"
+    chapters += f'**{proposition["number"]} {proposition["name"]}**\n'
 
     for child in proposition["sub_chapters"]:
-        chapters += "**" + child["number"] + "** " + child["name"] + "\n"
+        chapters += f'**{child["number"]} ** {child["name"]}\n'
 
-    abstract = "Streichung von Kapitel " + proposition["number"] + " des Wahlprogramms zur Bundestagswahl 2021"
+    abstract = f'Streichung von Kapitel {proposition["number"]} des Wahlprogramms zur Bundestagswahl 2021'
 
     content = "Der Bundesparteitag möge beschließen, im Wahlprogramm zur Bundestagswahl\n"
 
     if proposition["is_parent"]:
         content += "in "
 
-    content += "Kapitel **" + proposition["number"] + " " + proposition["name"] + "** "
+    content += f'Kapitel **{proposition["number"]} {proposition["name"]}** '
 
     if proposition["is_parent"]:
         content += "den Text vor den Unterabschnitten "
 
     content += "zu streichen.\n\n"
 
-    motivation = "Der Bundesparteitag 2019.2 hat beschlossen, dass alle Teile des Programms zur Bundestagswahl 2017 " \
-                 "zur Streichung angemeldet werden um eine Überarbeitung des Programms zur Bundestagswahl 2021 sicherzustellen."
-
-    motivation += "\n#### Einordnung\n"
-    motivation += chapters
-
-    motivation += "\n#### Kapitelinhalt\n"
-
-    motivation += text
+    motivation = MOTIVATION.format(chapters=chapters, text=text)
 
     voting_identifier = "WP" + str(identifier).zfill(3)
 
@@ -138,17 +141,17 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
     proposition_obj = Proposition(title=title, abstract=abstract, content=content, motivation=motivation,
                                   voting_identifier=voting_identifier, ballot=ballot, status=PropositionStatus.SCHEDULED)
 
-    # Add tags, some defaults + chapter name + parent chapter names (tags can only have a maximum length of 64 characters)
+    # Add tags, some defaults
     tags = ["wahlprogrammantrag", "bundestagswahl", "streichung"]
 
-    # Only use top chapter
+    # And current top chapter
     if len(proposition["parent_chapters"]) > 0:
-        chapter_tag = proposition["parent_chapters"][0]
+        chapter_tag = proposition["parent_chapters"][0]["name"]
     else:
         chapter_tag = proposition["name"]
 
     # Tag names can have a maximum of 64 characters
-    tags.append((chapter_tag["name"][:61] + "...") if len(chapter_tag["name"]) > 64 else chapter_tag["name"])
+    tags.append((chapter_tag[:61] + "...") if len(chapter_tag) > 64 else chapter_tag)
 
     for tag_name in tags:
         tag = session.query(Tag).filter_by(name=tag_name).scalar()
