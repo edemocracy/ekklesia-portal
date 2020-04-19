@@ -131,6 +131,8 @@ class PropositionCell(LayoutCell):
         return self.class_link(Propositions, dict(tag=tag.name))
 
     def is_supported_by_current_user(self):
+        if self.current_user is None:
+            return False
         return self._model.support_by_user(self.current_user) is not None
 
     def discussion_link_class(self):
@@ -212,8 +214,12 @@ class PropositionCell(LayoutCell):
         return self.link(self._model, 'edit')
 
     def note_url(self):
-        tmp = self.class_link(PropositionNote, variables={'proposition_id': self._model.id, 'user_id': self._request.current_user.id}, name='edit')
-        return tmp
+        if self.current_user is None:
+            return False
+        return self.class_link(
+            PropositionNote,
+            variables={'proposition_id': self._model.id, 'user_id': self._request.current_user.id},
+            name='edit')
 
 
 

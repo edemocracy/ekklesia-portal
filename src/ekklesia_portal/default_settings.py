@@ -47,5 +47,8 @@ settings = {
     "browser_session": {
         "secret_key": secrets.token_urlsafe(32),
         "cookie_secure": False
+    },
+    "ekklesia_auth": {
+        "enabled": False
     }
 }
