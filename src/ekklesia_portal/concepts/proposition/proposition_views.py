@@ -3,7 +3,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Ballot, Proposition, PropositionNote, SubjectArea, Supporter, Tag
+from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter
 from ekklesia_portal.enums import PropositionStatus
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
@@ -12,6 +12,7 @@ from ekklesia_portal.permission import CreatePermission, EditPermission, Support
 from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, PropositionsCell
 from .proposition_contracts import PropositionNewForm, PropositionEditForm
 from .propositions import Propositions
+from .proposition_helper import get_or_create_tags
 
 
 @App.permission_rule(model=Propositions, permission=CreatePermission)
@@ -113,19 +114,7 @@ def new(self, request):
 
 @App.html_form_post(model=Propositions, form=PropositionNewForm, cell=NewPropositionCell, permission=CreatePermission)
 def create(self, request, appstruct):
-    tag_names = appstruct['tags']
-
-    if tag_names:
-        tags = request.db_session.query(Tag).filter(Tag.name.in_(tag_names)).all()
-
-        new_tag_names = set(tag_names) - {t.name for t in tags}
-
-        for tag_name in new_tag_names:
-            tag = Tag(name=tag_name)
-            tags.append(tag)
-
-        appstruct['tags'] = tags
-
+    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     relation_type = appstruct.pop('relation_type')
     related_proposition_id = appstruct.pop('related_proposition_id')
     if relation_type and related_proposition_id:
@@ -172,5 +161,6 @@ def edit(self, request):
 
 @App.html_form_post(model=Proposition, form=PropositionEditForm, cell=EditPropositionCell, permission=EditPermission)
 def update(self, request, appstruct):
+    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     self.update(**appstruct)
     return redirect(request.link(self))

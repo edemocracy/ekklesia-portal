@@ -1,6 +1,7 @@
 from operator import attrgetter
 from ekklesia_common.translation import _
 from ekklesia_portal.enums import PropositionStatus
+from ekklesia_portal.database.datamodel import Tag
 
 
 def items_for_proposition_select_widgets(departments, tags, selected_tags=None):
@@ -19,3 +20,14 @@ def items_for_proposition_select_widgets(departments, tags, selected_tags=None):
         tag_items.extend((t, t) for t in tag_names_to_create)
 
     return {'area': area_items, 'status': status_items, 'tags': tag_items}
+
+
+def get_or_create_tags(db_session, tag_names):
+    tags = db_session.query(Tag).filter(Tag.name.in_(tag_names)).all()
+    new_tag_names = set(tag_names) - {t.name for t in tags}
+
+    for tag_name in new_tag_names:
+        tag = Tag(name=tag_name)
+        tags.append(tag)
+
+    return tags
