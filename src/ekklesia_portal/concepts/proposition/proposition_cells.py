@@ -235,20 +235,25 @@ class NewPropositionCell(NewFormCell):
         tags = self._request.q(Tag).all()
 
         if self._form.error is None or self._form.cstruct['tags'] is colander.null:
-            selected_tags = None
+            selected_tag_names = None
         else:
-            selected_tags = self._form.cstruct['tags'] if self._form.error is not None else None
+            selected_tag_names = self._form.cstruct['tags']
 
-        items = items_for_proposition_select_widgets(departments, tags, selected_tags)
+        items = items_for_proposition_select_widgets(departments, tags, selected_tag_names)
         self._form.prepare_for_render(items)
 
 
 class EditPropositionCell(EditFormCell):
 
     def _prepare_form_for_render(self):
-        form_data = self._model.to_dict()
-        form_data['area_id'] = self._model.ballot.area_id
-        self.set_form_data(form_data)
+        if self._form.error is None:
+            form_data = self._model.to_dict()
+            form_data['area_id'] = self._model.ballot.area_id
+            form_data['tags'] = [t.name for t in self._model.tags]
+            self.set_form_data(form_data)
+            selected_tag_names = None
+        else:
+            selected_tag_names = self._form.cstruct['tags']
 
         if self._request.identity.has_global_admin_permissions:
             departments = self._request.q(Department)
@@ -256,7 +261,7 @@ class EditPropositionCell(EditFormCell):
             departments = self._request.current_user.departments
 
         tags = self._request.q(Tag).all()
-        items = items_for_proposition_select_widgets(departments, tags)
+        items = items_for_proposition_select_widgets(departments, tags, selected_tag_names)
         self._form.prepare_for_render(items)
 
     def department_name(self):
