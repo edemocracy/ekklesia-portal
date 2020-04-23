@@ -544,20 +544,31 @@ msgstr "Notes"
 msgid "title_motivation"
 msgstr "Motivation"
 
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_draft.j2.jade:1
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:1
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:1
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:1
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:12
-msgid "authored_at"
-msgstr "Added %(dt)s"
+msgid "created_on"
+msgstr "Added on %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:2
-msgid "finished_date_at"
-msgstr "Finish date %(date)s"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:3
+msgid "submitted_on"
+msgstr "Submitted on %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:2
-msgid "target_date_at"
-msgstr "Target date %(date)s"
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:5
+msgid "finished_on"
+msgstr "Finished on %(date)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:5
+msgid "qualified_on"
+msgstr "Qualified for voting on %(date)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:7
+msgid "voting_ends_at"
+msgstr "Voting ends at %(datetime)s"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:1
@@ -566,6 +577,10 @@ msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporter"
 msgstr[1] "Supporters"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_status_draft.j2.jade:1
+msgid "working_draft"
+msgstr "Working Draft"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_status_finished.j2.jade:4
 msgid "result"
@@ -942,4 +957,10 @@ msgstr "Abstention"
 
 #~ msgid "departments"
 #~ msgstr "Department"
+
+#~ msgid "finished_date_at"
+#~ msgstr "Finish date %(date)s"
+
+#~ msgid "target_date_at"
+#~ msgstr "Target date %(date)s"
 

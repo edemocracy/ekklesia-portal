@@ -15,7 +15,7 @@
         span= ngettext("supporter", "supporters", supporter_count)
 
       .col-sm-7.authoring_info
-        = _("authored_at", dt=created_at|datetimeformat)
+        = _("created_on", date=created_at|dateformat)
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

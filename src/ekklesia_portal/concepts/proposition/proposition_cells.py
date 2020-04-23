@@ -24,6 +24,8 @@ class PropositionCell(LayoutCell):
         'ballot',
         'content',
         'created_at',
+        'submitted_at',
+        'qualified_at',
         'derivations',
         'external_discussion_url',
         'id',
@@ -43,7 +45,7 @@ class PropositionCell(LayoutCell):
     @Cell.fragment
     def status(self):
         status_to_variant = {
-            PropositionStatus.DRAFT: 'submitted',
+            PropositionStatus.DRAFT: 'draft',
             PropositionStatus.CHANGING: 'submitted',
             PropositionStatus.SUBMITTED: 'submitted',
             PropositionStatus.ABANDONED: 'submitted',
@@ -59,7 +61,7 @@ class PropositionCell(LayoutCell):
     @Cell.fragment
     def history(self):
         status_to_variant = {
-            PropositionStatus.DRAFT: 'submitted',
+            PropositionStatus.DRAFT: 'draft',
             PropositionStatus.CHANGING: 'submitted',
             PropositionStatus.SUBMITTED: 'submitted',
             PropositionStatus.ABANDONED: 'submitted',
@@ -221,7 +223,8 @@ class PropositionCell(LayoutCell):
             variables={'proposition_id': self._model.id, 'user_id': self._request.current_user.id},
             name='edit')
 
-
+    def show_full_history(self):
+        return self.options.get('show_details')
 
 @App.cell(Propositions, 'new')
 class NewPropositionCell(NewFormCell):

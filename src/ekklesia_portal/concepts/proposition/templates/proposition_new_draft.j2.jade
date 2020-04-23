@@ -1,0 +1,22 @@
+- extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title= _("title_new_draft")
+
+- block content
+  h2= _("title_new_draft")
+  h3
+    = _("changes")
+    |:&nbsp;
+    = department_name
+    |&nbsp;-&nbsp;
+    = document_name
+
+  :markdown
+    Dein Antragsentwurf wird nach einer Prüfung durch die Antragskommission im Forum in der Kategorie Antragsentwicklung eingestellt.
+    Er kann dort von angemeldeten Benutzern gelesen und wie in einem Wiki von allen bearbeitet werden.
+
+
+  = form_html
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
