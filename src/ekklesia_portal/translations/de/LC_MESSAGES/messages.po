@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-03 16:32+0000\n"
+"POT-Creation-Date: 2020-04-23 20:59+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -16,19 +16,17 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.7.0\n"
+"Generated-By: Babel 2.8.0\n"
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:13
 #: src/ekklesia_portal/concepts/page/page_contracts.py:10
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:11
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:25
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:23
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:10
 msgid "title"
 msgstr "Titel"
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:14
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:14
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:27
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:25
 msgid "abstract"
 msgstr "Zusammenfassung"
 
@@ -65,7 +63,7 @@ msgstr[1] "Gegenargumente"
 msgid "new_argument"
 msgstr "Neues Argument"
 
-#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:9
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:8
 #: src/ekklesia_portal/concepts/department/department_contracts.py:8
 #: src/ekklesia_portal/concepts/page/page_contracts.py:8
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:9
@@ -74,19 +72,19 @@ msgstr "Neues Argument"
 msgid "name"
 msgstr "Name"
 
-#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:10
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:9
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:17
 msgid "election_positions"
 msgstr "Anzahl der zu vergebenden Posten"
 
-#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:11
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:10
 msgid "voting_result"
 msgstr "Ergebnis"
 
-#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:12
+#: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:11
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:23
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:10
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:24
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:22
+#: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:7
 msgid "subject_area"
 msgstr "Themenbereich"
 
@@ -99,6 +97,8 @@ msgstr "nicht festgelegt"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:3
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:9
+#: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:10
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:6
 msgid "ballot"
 msgstr "Abstimmung"
@@ -130,6 +130,7 @@ msgstr "Anzahl der Anträge"
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:21
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:3
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:5
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:18
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:13
 msgid "department"
@@ -407,6 +408,7 @@ msgstr "Abstimmungssystem"
 
 #: src/ekklesia_portal/concepts/policy/policy_helper.py:6
 #: src/ekklesia_portal/concepts/policy/policy_helper.py:7
+#: src/ekklesia_portal/concepts/proposition/proposition_helper.py:14
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_helper.py:11
 msgid "_"
 msgstr ""
@@ -432,32 +434,27 @@ msgstr "Regelwerk"
 msgid "days"
 msgstr "Tage"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:12
-msgid "voting_identifier"
-msgstr "Kennung für Abstimmung"
-
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:13
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:26
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:24
 msgid "external_discussion_url"
 msgstr "Link zur Diskussion"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:15
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:28
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:26
 msgid "content"
 msgstr "Text"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:16
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:29
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:27
 msgid "motivation"
 msgstr "Begründung"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:17
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:30
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:28
 msgid "tags"
 msgstr "Tags"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:18
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:31
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:34
+msgid "voting_identifier"
+msgstr "Kennung für Abstimmung"
+
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:35
 msgid "status"
 msgstr "Status"
 
