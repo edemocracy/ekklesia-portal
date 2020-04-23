@@ -1,6 +1,6 @@
 import argparse
 import logging
-from datetime import timedelta
+from datetime import timedelta, datetime
 from logging import config
 
 import mimesis
@@ -151,6 +151,8 @@ if __name__ == "__main__":
         content=gen_de.text.text(quantity=40),
         voting_identifier="PP001",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-01'),
+        submitted_at=datetime.fromisoformat('2020-01-05'),
         status=PropositionStatus.SCHEDULED)
 
     q1_counter = Proposition(
@@ -158,6 +160,8 @@ if __name__ == "__main__":
         content="will was anderes",
         voting_identifier="PP002",
         replaces=q1,
+        created_at=datetime.fromisoformat('2020-01-02'),
+        submitted_at=datetime.fromisoformat('2020-01-07'),
         status=PropositionStatus.SCHEDULED)
 
     q1_counter_2 = Proposition(
@@ -165,18 +169,23 @@ if __name__ == "__main__":
         content="will was ganz anderes, ich will Volltextsuche",
         voting_identifier="PP003",
         replaces=q1,
+        created_at=datetime.fromisoformat('2020-01-03'),
+        submitted_at=datetime.fromisoformat('2020-01-09'),
         status=PropositionStatus.SCHEDULED)
     q1_change = Proposition(
         title="Änderungsantrag zu PP001",
         content="will was ändern",
         voting_identifier="PP004",
         modifies=q1,
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
         status=PropositionStatus.SCHEDULED)
     b1.propositions.extend([q1, q1_counter, q1_counter_2, q1_change])
     q6 = Proposition(
         title="Fallengelassener Antrag",
         content="Einfach so fallengelassen...",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-01'),
         status=PropositionStatus.ABANDONED)
     q6.tags.append(t3)
     b6 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
@@ -186,12 +195,17 @@ if __name__ == "__main__":
         title="Sich ändernder Antrag",
         content="Einfach so ändernd...",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-01'),
         status=PropositionStatus.CHANGING)
     q7.tags.append(t3)
     b7 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b7)
     b7.propositions.append(q7)
-    q8 = Proposition(title="Entstehender Antrag", content="Einfach so entstehend...", status=PropositionStatus.DRAFT)
+    q8 = Proposition(
+        title="Entstehender Antrag",
+        content="Einfach so entstehend...",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        status=PropositionStatus.DRAFT)
     q8.tags.append(t3)
     b8 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b8)
@@ -200,12 +214,20 @@ if __name__ == "__main__":
         title="Übertragener Antrag",
         content="Einfach so Übertragen...",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
         status=PropositionStatus.SUBMITTED)
     b9 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b9)
     b9.propositions.append(q9)
     q10 = Proposition(
-        title="Qualifizierter Antrag", content="Einfach so qualifiziert...", status=PropositionStatus.QUALIFIED)
+        title="Qualifizierter Antrag",
+        content="Einfach so qualifiziert...",
+        status=PropositionStatus.QUALIFIED,
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
+    )
     b10 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
     s.add(b10)
     b10.propositions.append(q10)
@@ -229,6 +251,9 @@ if __name__ == "__main__":
         content=gen_de.text.text(quantity=20),
         voting_identifier="PP001",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.FINISHED)
     q2.tags.append(t3)
     b2 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP001", proposition_type=ptype_pol)
@@ -239,6 +264,9 @@ if __name__ == "__main__":
         content=gen_de.text.text(quantity=2),
         voting_identifier="PP005",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.FINISHED)
     q3.tags.append(t3)
     b3 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP005", proposition_type=ptype_pol)
@@ -249,6 +277,9 @@ if __name__ == "__main__":
         content="Bla",
         voting_identifier="PP006",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.FINISHED)
     q4.tags.append(t3)
     b4 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP006", proposition_type=ptype_pol)
@@ -259,6 +290,9 @@ if __name__ == "__main__":
         content="Blubb",
         voting_identifier="PP007",
         external_discussion_url="http://example.com",
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.FINISHED)
     q5.tags.append(t3)
     q5_counter = Proposition(
@@ -267,6 +301,9 @@ if __name__ == "__main__":
         voting_identifier="PP008",
         external_discussion_url="http://example.com",
         modifies=q5,
+        created_at=datetime.fromisoformat('2020-01-06'),
+        submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.FINISHED)
     q5_counter.tags.append(t3)
     b5 = Ballot(area=subject_area_ppd_allg, voting=voting_phase_ppd_bpt, name="PP007/8", proposition_type=ptype_pol)

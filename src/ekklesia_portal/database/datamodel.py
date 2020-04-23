@@ -381,8 +381,9 @@ class Proposition(Base):
     abstract = Column(Text, nullable=False, server_default='')
     motivation = Column(Text, nullable=False, server_default='')
     voting_identifier = Column(String(10))
-    submitted = Column(DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
-    qualified = Column(DateTime, comment='optional, when qualified')
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
+    submitted_at = Column(DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
+    qualified_at = Column(DateTime, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
     ballot_id = Column(Integer, ForeignKey('ballots.id'), nullable=False)
     ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
@@ -397,8 +398,6 @@ class Proposition(Base):
     replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
 
     external_discussion_url = Column(URLType)
-
-    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
     search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation', 'voting_identifier',
                                         weights={'title': 'A',
