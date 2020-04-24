@@ -2,11 +2,14 @@ if show_full_history
   .proposition_history_item
     = _("created_on", date=created_at|dateformat)
 
-  .proposition_history_item
-    = _('submitted_on', date=submitted_at|dateformat)
+  if submitted_at
+    .proposition_history_item
+      = _('submitted_on', date=submitted_at|dateformat)
 
-  .proposition_history_item
-    = _('qualified_on', date=qualified_at|dateformat)
+  if qualified_at
+    .proposition_history_item
+      = _('qualified_on', date=qualified_at|dateformat)
 
-.proposition_history_item
-  = _('voting_ends_at', datetime=voting_phase.target|datetimeformat)
+if voting_phase.target
+  .proposition_history_item
+    = _('voting_ends_at', datetime=voting_phase.target|datetimeformat)
