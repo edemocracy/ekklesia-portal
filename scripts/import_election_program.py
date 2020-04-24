@@ -1,5 +1,6 @@
 import argparse
 import csv
+from datetime import datetime
 import re
 
 from eliot import log_call, Message, start_action
@@ -149,6 +150,13 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
         voting=voting_phase,
         proposition_type=proposition_type)
 
+    if voting_phase:
+        status = PropositionStatus.SCHEDULED
+    else:
+        status = PropositionStatus.SUBMITTED
+
+    now = datetime.now()
+
     proposition_obj = Proposition(
         title=title,
         abstract=abstract,
@@ -156,7 +164,9 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
         motivation=motivation,
         voting_identifier=voting_identifier,
         ballot=ballot,
-        status=PropositionStatus.SCHEDULED)
+        created_at=now,
+        submitted_at=now,
+        status=status)
 
     # Add tags, some defaults
     tags = ["wahlprogrammantrag", "bundestagswahl", "streichung"]

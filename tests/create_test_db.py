@@ -140,6 +140,10 @@ if __name__ == "__main__":
         name='Positionspapier', abbreviation='PP', description=gen_de.text.text(quantity=3), policy=policy_default)
     s.add(ptype_pol)
 
+    ptype_wp = PropositionType(
+        name='Wahlprogrammantrag', abbreviation='WP', description=gen_de.text.text(quantity=3), policy=policy_default)
+    s.add(ptype_wp)
+
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")
