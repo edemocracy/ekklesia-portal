@@ -10,7 +10,6 @@ from ekklesia_portal.database.datamodel import Department, Ballot, Proposition, 
     VotingPhase, VotingType, PropositionStatus
 from ekklesia_portal.database import Session
 
-
 MOTIVATION = """Der Bundesparteitag 2019.2 hat beschlossen, dass alle Teile des Programms zur
 Bundestagswahl 2017 zur Streichung angemeldet werden um eine Überarbeitung des Programms zur Bundestagswahl 2021 sicherzustellen.
 
@@ -30,13 +29,13 @@ def prepare_regex():
     # Fourth capture group: Sub chapters (Until another level one header is detected)
     res = [None]
     for layer in range(1, 10):
-        res.append(re.compile(
-            r'^#{' + str(layer + 1) + '} (.+) '            # Match header text (x+1 # signs)
-            r'{data-section="([\d.]+)"}'                   # Match header number
-            r'\n+([^#]+)'                                  # Match chapter content
-            r'\n*((?:[^#]|#{' + str(layer + 2) + ',})+)',  # Match subchapters
-            re.MULTILINE
-        ))
+        res.append(
+            re.compile(
+                r'^#{' + str(layer + 1) + '} (.+) '  # Match header text (x+1 # signs)
+                r'{data-section="([\d.]+)"}'  # Match header number
+                r'\n+([^#]+)'  # Match chapter content
+                r'\n*((?:[^#]|#{' + str(layer + 2) + ',})+)',  # Match subchapters
+                re.MULTILINE))
 
     return res
 
@@ -51,8 +50,16 @@ def parse_layer(content, level, regex_list, parent_chapters, layer_depth):
         (chapter_name, chapter_number, chapter_content, sub_chapters) = layer_chapter.group(1, 2, 3, 4)
 
         # Append data to result list
-        cur_chapter = {"name": chapter_name, "level": level, "parent_chapters": parent_chapters, "content": chapter_content,
-                       "number_as_child": chapter_number, "number": chapter_number, "sub_chapters": [], "is_parent": False}
+        cur_chapter = {
+            "name": chapter_name,
+            "level": level,
+            "parent_chapters": parent_chapters,
+            "content": chapter_content,
+            "number_as_child": chapter_number,
+            "number": chapter_number,
+            "sub_chapters": [],
+            "is_parent": False
+        }
 
         results.append(cur_chapter)
 
@@ -135,11 +142,21 @@ def insert_proposition(subject_area, proposition_type, voting_phase, proposition
 
     voting_identifier = "WP" + str(identifier).zfill(3)
 
-    ballot = Ballot(area=subject_area, name=voting_identifier, voting_type=VotingType.ASSEMBLY,
-                    voting=voting_phase, proposition_type=proposition_type)
+    ballot = Ballot(
+        area=subject_area,
+        name=voting_identifier,
+        voting_type=VotingType.ASSEMBLY,
+        voting=voting_phase,
+        proposition_type=proposition_type)
 
-    proposition_obj = Proposition(title=title, abstract=abstract, content=content, motivation=motivation,
-                                  voting_identifier=voting_identifier, ballot=ballot, status=PropositionStatus.SCHEDULED)
+    proposition_obj = Proposition(
+        title=title,
+        abstract=abstract,
+        content=content,
+        motivation=motivation,
+        voting_identifier=voting_identifier,
+        ballot=ballot,
+        status=PropositionStatus.SCHEDULED)
 
     # Add tags, some defaults
     tags = ["wahlprogrammantrag", "bundestagswahl", "streichung"]
