@@ -6,7 +6,7 @@ from factory.alchemy import SQLAlchemyModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText, FuzzyDecimal, FuzzyInteger
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
-from ekklesia_common.ekklesia_auth import EkklesiaAuthData, EkklesiaAUIDData, EkklesiaProfileData, EkklesiaMembershipData
+from ekklesia_common.ekklesia_auth import EkklesiaAuthData
 from ekklesia_portal.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingType, VotingStatus, VotingSystem
 from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
@@ -145,42 +145,16 @@ class ArgumentRelationFactory(SQLAFactory):
 
 
 @register
-class EkklesiaMembershipDataFactory(Factory):
-    class Meta:
-        model = EkklesiaMembershipData
-
-    nested_groups = all_nested_groups = [1, 2, 3]
-    type = FuzzyChoice(list(EkklesiaUserType))
-    verified = FuzzyChoice([True, False])
-
-
-@register
-class EkklesiaProfileDataFactory(Factory):
-    class Meta:
-        model = EkklesiaProfileData
-
-    username = MimesisField('username', template='l_d')
-    profile = MimesisField('text', quantity=2)
-    avatar = ''
-
-
-@register
-class EkklesiaAUIDDataFactory(Factory):
-    class Meta:
-        model = EkklesiaAUIDData
-
-    auid = MimesisField('uuid')
-
-
-@register
 class EkklesiaAuthDataFactory(Factory):
     class Meta:
         model = EkklesiaAuthData
 
-    membership = SubFactory(EkklesiaMembershipDataFactory)
-    profile = SubFactory(EkklesiaProfileDataFactory)
-    auid = SubFactory(EkklesiaAUIDDataFactory)
-    token = FuzzyText(length=30, chars=string.ascii_letters + string.digits)
+    auid = MimesisField('uuid')
+    roles = []
+    eligible = FuzzyChoice([True, False])
+    verified = FuzzyChoice([True, False])
+    verified: bool
+    preferred_username = MimesisField('username', template='l_d')
 
 
 @register

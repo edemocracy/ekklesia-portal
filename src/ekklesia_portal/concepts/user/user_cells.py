@@ -25,7 +25,4 @@ class UserCell(LayoutCell):
 
 @App.cell(UserProfile)
 class UserProfileCell(Cell):
-    model_properties = ['auid', 'profile', 'verified', 'user_type']
-
-    def eligible_to_vote(self):
-        return self._model.user_type == EkklesiaUserType.ELIGIBLE_MEMBER
+    model_properties = ['auid', 'eligible', 'verified', 'roles', 'profile']

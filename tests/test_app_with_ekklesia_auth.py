@@ -1,6 +1,6 @@
 import time
 import json
-from urllib.parse import urljoin
+from munch import Munch
 from pytest import fixture
 
 import morepath
@@ -37,11 +37,11 @@ def client(app, allow_insecure_transport):
 
 
 def test_create_or_update_user_should_create_new_user(db_session, req, ekklesia_auth_data: EkklesiaAuthData):
-    create_or_update_user(req, ekklesia_auth_data)
-    user = db_session.query(User).filter_by(name=ekklesia_auth_data.profile.username).one()
-    assert user.name == ekklesia_auth_data.profile.username
-    assert user.profile.auid == ekklesia_auth_data.auid.auid
-    assert user.profile.user_type == ekklesia_auth_data.membership.type
+    create_or_update_user(req, Munch(dict(data=ekklesia_auth_data, token='token')))
+    user = db_session.query(User).filter_by(name=ekklesia_auth_data.preferred_username).one()
+    assert user.profile.auid == ekklesia_auth_data.auid
+    assert user.profile.eligible == ekklesia_auth_data.eligible
+    assert user.profile.verified == ekklesia_auth_data.verified
 
 
 @responses.activate
@@ -51,18 +51,15 @@ def test_oauth_new_user(app, client, token):
     state = session['oauth_state']
 
     with responses.RequestsMock() as rsps:
-        auid = {'auid': 'auid_new_user'}
-        profile = {'avatar': 'ava', 'username': 'new_user', 'profile': 'profile'}
-        membership = {
-            'all_nested_groups': [1, 2],
-            'nested_groups': [1, 2],
-            'type': 'eligible member',
+        userinfo = {
+            'auid': 'auid_new_user',
+            'preferred_username': 'new_user',
+            'roles': ['LV Bayern', 'BV'],
+            'eligible': True,
             'verified': False
         }
         settings = app.settings.ekklesia_auth
-        rsps.add(responses.GET, urljoin(settings.api_base_url, 'user/profile'), body=json.dumps(profile))  # @UndefinedVariable
-        rsps.add(responses.GET, urljoin(settings.api_base_url, 'user/auid'), body=json.dumps(auid))  # @UndefinedVariable
-        rsps.add(responses.GET, urljoin(settings.api_base_url, 'user/membership'), body=json.dumps(membership))  # @UndefinedVariable
+        rsps.add(responses.GET, settings.userinfo_url, body=json.dumps(userinfo))  # @UndefinedVariable
         rsps.add(responses.POST, settings.token_url, body=json.dumps(token))  # @UndefinedVariable
 
         res = client.get(f'/ekklesia_auth/callback?code=deadbeef&state={state}', status=302)
@@ -70,6 +67,4 @@ def test_oauth_new_user(app, client, token):
         session_cookie = client.cookies['session']
         client.set_cookie('session', session_cookie)
         res = client.get('/ekklesia_auth/info')
-        assert res.json['auid'] == auid
-        assert res.json['profile'] == profile
-        assert res.json['membership'] == membership
+        assert res.json == userinfo

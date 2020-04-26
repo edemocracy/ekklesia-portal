@@ -12,7 +12,7 @@ import yaml
 
 import ekklesia_portal
 from ekklesia_portal import database
-from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken
+from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken, Department
 from ekklesia_common.cell import JinjaCellEnvironment
 from ekklesia_common.cell_app import CellApp
 from ekklesia_common.concept import ConceptApp
@@ -79,11 +79,10 @@ def verify_identity(identity):
 
 @App.after_oauth_callback()
 def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
-    auid = ekklesia_auth.auid.auid
-    profile = ekklesia_auth.profile
-    membership = ekklesia_auth.membership
+    userinfo = ekklesia_auth.data
+    auid = userinfo.auid
     token = ekklesia_auth.token
-    name = profile.username
+    name = userinfo.preferred_username
     user_profile: UserProfile = request.q(UserProfile).filter_by(auid=auid).scalar()
 
     if user_profile is None:
@@ -94,14 +93,15 @@ def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
         request.db_session.add(user)
     else:
         user = user_profile.user
-        user.name = profile.username
+        user.name = name
         user.oauth_token.token = token
         logg.debug("updated ekklesia user with auid %s, name %s", auid, name)
 
-    user_profile.user_type = membership.type
-    user_profile.verified = membership.verified
-    user_profile.profile = profile.profile
-    user_profile.avatar = profile.avatar
+    user_profile.eligible = userinfo.eligible
+    user_profile.verified = userinfo.verified
+
+    departments = request.q(Department).filter(Department.name.in_(userinfo.roles)).all()
+    user.departments = departments
 
     request.db_session.flush()
 

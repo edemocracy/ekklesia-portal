@@ -1,6 +1,6 @@
 dl
   dt= _('label_eligible_to_vote')
-  dd= eligible_to_vote|yesno
+  dd= eligible|yesno
 
   dt= _('label_verified')
   dd= verified|yesno
@@ -8,6 +8,7 @@ dl
   dt= _('label_auid')
   dd= auid
 
-h3= _('label_profile')
-.profile_text
-  = profile|markdown
+if profile
+  h3= _('label_profile')
+  .profile_text
+    = profile|markdown

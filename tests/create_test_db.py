@@ -99,6 +99,10 @@ if __name__ == "__main__":
     department_pps = Department(name='Piratenpartei Schweiz')
     department_zs = Department(name='Zentralschweiz')
     department_ppd = Department(name='Piratenpartei Deutschland')
+    department_by = Department(name='Landesverband Bayern')
+    department_opf = Department(name='Bezirksverband Oberpfalz')
+    s.add(department_by)
+    s.add(department_opf)
 
     subject_area_pps_in = SubjectArea(name='Innerparteiliches', department=department_pps)
     subject_area_zs_in = SubjectArea(name='Innerparteiliches', department=department_zs)
@@ -115,12 +119,10 @@ if __name__ == "__main__":
     admin_group.members.append(admin)
 
     u1.password = UserPassword(hashed_password=password_context.hash("test", scheme="plaintext"))
-    u2_profile = UserProfile(
-        auid='auid_egon', user_type=EkklesiaUserType.PLAIN_MEMBER, verified=True, avatar='xxx', profile='ich halt')
+    u2_profile = UserProfile(auid='auid_egon', eligible=True, verified=True, profile='ich halt')
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
-    u3_profile = UserProfile(
-        auid='auid_olaf', user_type=EkklesiaUserType.PLAIN_MEMBER, verified=True, avatar='xxx', profile='ich halt net')
+    u3_profile = UserProfile(auid='auid_olaf', eligible=False, verified=True, profile='## Markdown\n\nText')
     u3_oauth_token = OAuthToken(provider='ekklesia', token={})
     u3 = User(name="olaf", auth_type="oauth", profile=u3_profile, oauth_token=u3_oauth_token)
     ug1.members.extend([u1, u2, u3])

@@ -110,15 +110,10 @@ class UserProfile(Base):
     __tablename__ = 'userprofiles'
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     user = relationship("User", back_populates="profile")
-    auid = Column(String(36), unique=True)  # from user/auid/
-    # possibly cached variables from IDserver
-    user_type = Column(Enum(EkklesiaUserType), nullable=False, comment='from ID user/membership/')
+    auid = Column(String(36), unique=True)
+    eligible = Column(Boolean)
     verified = Column(Boolean)
-    profile = Column(Text, comment='from ID user/profile/')
-    public_id = Column(Text, comment='from ID user/profile/')
-    avatar = Column(Text, comment='from ID user/profile/')
-    # possible extensions
-    privacy = Column(String(10))  # default,anonymous,trusted,members,users,public
+    profile = Column(Text)
 
 
 class OAuthToken(Base):
@@ -192,7 +187,7 @@ class DepartmentMember(Base):
     member = relationship("User", backref=backref("member_departments", cascade="all, delete-orphan"))
     is_admin = Column(Boolean, nullable=False, server_default='false')
 
-    def __init__(self, department=None, member=None, is_admin=None):
+    def __init__(self, department=None, member=None, is_admin=False):
         self.department = department
         self.member = member
         self.is_admin = is_admin
