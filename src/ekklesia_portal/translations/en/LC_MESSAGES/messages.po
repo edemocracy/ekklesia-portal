@@ -593,9 +593,30 @@ msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Arguments"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:17
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:32
 msgid "tagged_propositions"
 msgstr "Tagged propositions"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:38
+msgid "phase_propositions"
+msgstr "Propositions in voting phase"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:44
+msgid "status_propositions"
+msgstr "Propositions with state"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:50
+msgid "type_propositions"
+msgstr "Propositions of type"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:56
+msgid "department_propositions"
+msgstr "Propositions in department"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:62
+msgid "subject_area_propositions"
+msgstr "Propositions in subject area"
+
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:20
 msgid "no_propositions_found"

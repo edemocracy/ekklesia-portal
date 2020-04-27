@@ -31,8 +31,8 @@ def proposition_edit_permission(identity, model, permission):
 
 
 @App.path(model=Propositions, path='p')
-def propositions(request, search=None, tag=None, mode="sorted"):
-    return Propositions(mode, search, tag)
+def propositions(request, search=None, tag=None, phase=None, type=None, status=None, department=None, subject_area=None, mode="sorted"):
+    return Propositions(mode, search, tag, phase, type, status, department, subject_area)
 
 
 @App.path(model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title)))

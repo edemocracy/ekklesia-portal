@@ -20,17 +20,48 @@
             |:&nbsp;
             strong= search
 
-  if tag
+  if tag or phase or status or type or department or subject_area
     nav
       ol.breadcrumb
         li.breadcrumb-item
           a(href='/')
             = _('overview')
-        li.breadcrumb-item.active
-          a(href=self_link)
-            = _('tagged_propositions')
-            |:&nbsp;
-            span.tag_text= tag
+        if tag
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('tagged_propositions')
+              |:&nbsp;
+              span.tag_text= tag
+        if phase
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('phase_propositions')
+              |:&nbsp;
+              span.phase_text= phase
+        if status
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('status_propositions')
+              |:&nbsp;
+              span.status_text= status
+        if type
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('type_propositions')
+              |:&nbsp;
+              span.type_text= type
+        if department
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('department_propositions')
+              |:&nbsp;
+              span.type_text= department
+        if subject_area
+          li.breadcrumb-item.active
+            a(href=self_link)
+              = _('subject_area_propositions')
+              |:&nbsp;
+              span.type_text= subject_area
 
   if propositions
     = render_cell(collection=propositions)

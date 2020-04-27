@@ -286,7 +286,7 @@ class EditPropositionCell(EditFormCell):
 @App.cell(Propositions)
 class PropositionsCell(LayoutCell):
 
-    model_properties = ['mode', 'tag', 'search']
+    model_properties = ['mode', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
 
     def propositions(self):
         return list(self._model.propositions(self._request.q))
