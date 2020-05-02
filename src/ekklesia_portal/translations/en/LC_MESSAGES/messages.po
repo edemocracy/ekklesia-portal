@@ -593,34 +593,37 @@ msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Arguments"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:32
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:33
 msgid "tagged_propositions"
 msgstr "Tagged propositions"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:38
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:41
 msgid "phase_propositions"
 msgstr "Propositions in voting phase"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:44
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:49
 msgid "status_propositions"
 msgstr "Propositions with state"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:50
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:57
 msgid "type_propositions"
 msgstr "Propositions of type"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:56
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:65
 msgid "department_propositions"
 msgstr "Propositions in department"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:62
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:73
 msgid "subject_area_propositions"
 msgstr "Propositions in subject area"
 
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:20
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:83
 msgid "no_propositions_found"
 msgstr "No propositions found"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:22,37,45,53,61,69,77
+msgid "remove_filter"
+msgstr "Remove filter"
 
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:10
 msgid "proposition_id"
@@ -792,42 +795,42 @@ msgstr "Two-thirds majority"
 #. PropositionStatus.DRAFT
 #: src/ekklesia_portal/enums.py:25
 msgid "proposition_status_draft"
-msgstr ""
+msgstr "Draft"
 
 #. PropositionStatus.SUBMITTED
 #: src/ekklesia_portal/enums.py:26
 msgid "proposition_status_submitted"
-msgstr ""
+msgstr "Submitted"
 
 #. PropositionStatus.CHANGING
 #: src/ekklesia_portal/enums.py:27
 msgid "proposition_status_changing"
-msgstr ""
+msgstr "Changing"
 
 #. PropositionStatus.ABANDONED
 #: src/ekklesia_portal/enums.py:28
 msgid "proposition_status_abandoned"
-msgstr ""
+msgstr "Abandoned"
 
 #. PropositionStatus.QUALIFIED
 #: src/ekklesia_portal/enums.py:29
 msgid "proposition_status_qualified"
-msgstr ""
+msgstr "Qualified"
 
 #. PropositionStatus.SCHEDULED
 #: src/ekklesia_portal/enums.py:30
 msgid "proposition_status_scheduled"
-msgstr ""
+msgstr "Voting scheduled"
 
 #. PropositionStatus.VOTING
 #: src/ekklesia_portal/enums.py:31
 msgid "proposition_status_voting"
-msgstr ""
+msgstr "Voting"
 
 #. PropositionStatus.FINISHED
 #: src/ekklesia_portal/enums.py:32
 msgid "proposition_status_finished"
-msgstr ""
+msgstr "Finished"
 
 #. SupporterStatus.ACTIVE
 #: src/ekklesia_portal/enums.py:36

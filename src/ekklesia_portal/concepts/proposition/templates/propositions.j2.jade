@@ -15,10 +15,12 @@
           a(href='/')
             = _('overview')
         li.breadcrumb-item.active
-          a(href=self_link)
-            = _('search_for')
-            |:&nbsp;
-            strong= search
+           = _('search_for')
+           |:&nbsp;
+           strong= search
+           |&nbsp;
+           a.btn_filter_remove(href=link_remove_filter(filter='search'), title=_('remove_filter'))
+            = 'X'
 
   if tag or phase or status or type or department or subject_area
     nav
@@ -28,40 +30,52 @@
             = _('overview')
         if tag
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('tagged_propositions')
-              |:&nbsp;
-              span.tag_text= tag
+             = _('tagged_propositions')
+             |:&nbsp;
+             span.tag_text= tag
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='tag'), title=_('remove_filter'))
+              = 'X'
         if phase
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('phase_propositions')
-              |:&nbsp;
-              span.phase_text= phase
+             = _('phase_propositions')
+             |:&nbsp;
+             strong= voting_phase_title(phase=phase)
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='phase'), title=_('remove_filter'))
+              = 'X'
         if status
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('status_propositions')
-              |:&nbsp;
-              span.status_text= status
+             = _('status_propositions')
+             |:&nbsp;
+             strong= status|enum_value
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='status'), title=_('remove_filter'))
+              = 'X'
         if type
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('type_propositions')
-              |:&nbsp;
-              span.type_text= type
+             = _('type_propositions')
+             |:&nbsp;
+             strong= proposition_type_name(type=type)
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='type'), title=_('remove_filter'))
+              = 'X'
         if department
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('department_propositions')
-              |:&nbsp;
-              span.type_text= department
+             = _('department_propositions')
+             |:&nbsp;
+             strong= department
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='department'), title=_('remove_filter'))
+              = 'X'
         if subject_area
           li.breadcrumb-item.active
-            a(href=self_link)
-              = _('subject_area_propositions')
-              |:&nbsp;
-              span.type_text= subject_area
+             = _('subject_area_propositions')
+             |:&nbsp;
+             strong= subject_area
+             |&nbsp;
+             a.btn_filter_remove(href=link_remove_filter(filter='subject_area'), title=_('remove_filter'))
+              = 'X'
 
   if propositions
     = render_cell(collection=propositions)

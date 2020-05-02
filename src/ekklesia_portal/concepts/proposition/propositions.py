@@ -5,20 +5,20 @@ from sqlalchemy_searchable import search
 
 class Propositions:
     def __init__(self, mode=None, search=None, tag=None, phase=None, type=None, status=None, department=None, subject_area=None):
-        self.search = search
-        self.mode = mode
-        self.tag = tag
-        self.phase = phase
-        self.type = type
+        # Force None value if argument is empty to clean up url
+        self.search = search if search else None
+        self.mode = mode if mode else None
+        self.tag = tag if tag else None
+        self.phase = phase if phase else None
+        self.type = type if type else None
 
         self.status = None
         if status and status in set(item.value for item in PropositionStatus):
-            self.status = status
+            self.status = PropositionStatus(status)
 
-        self.department = department
-        self.subject_area = None
-        if department:  # Don't display subject area filter when no department filter is given
-            self.subject_area = subject_area
+        self.department = department if department else None
+        # Don't display subject area filter when no department filter is given
+        self.subject_area = subject_area if department and subject_area else None
 
     def propositions(self, q):
         propositions = q(Proposition)
@@ -29,7 +29,7 @@ class Propositions:
 
         # Filters
         if self.status:
-            propositions = propositions.filter_by(status=PropositionStatus(self.status))
+            propositions = propositions.filter_by(status=self.status)
 
         if self.tag:
             propositions = propositions.join(*Proposition.tags.attr).filter_by(name=self.tag)
