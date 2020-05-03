@@ -1,13 +1,14 @@
 from operator import attrgetter
 import urllib.parse
 import colander
+import copy
 from eliot import log_call
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote
+from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType
 from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
@@ -286,7 +287,26 @@ class EditPropositionCell(EditFormCell):
 @App.cell(Propositions)
 class PropositionsCell(LayoutCell):
 
-    model_properties = ['mode', 'tag', 'search']
+    model_properties = ['mode', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
 
     def propositions(self):
         return list(self._model.propositions(self._request.q))
+
+    def link_remove_filter(self, filter):
+        proposition = copy.copy(self._model)
+        setattr(proposition, filter, None)
+        return self.link(proposition)
+
+    def voting_phase_title(self, phase):
+        voting_phase = self._request.q(VotingPhase).filter_by(name=phase).scalar()
+        if voting_phase is None:
+            return phase
+        else:
+            return voting_phase.title
+
+    def proposition_type_name(self, type):
+        proposition_type = self._request.q(PropositionType).filter_by(abbreviation=type).scalar()
+        if proposition_type is None:
+            return type
+        else:
+            return proposition_type.name

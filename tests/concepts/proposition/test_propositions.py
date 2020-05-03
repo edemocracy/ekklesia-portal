@@ -31,11 +31,53 @@ def test_index_search(client):
 
 
 def test_index_tag(db_query, client):
+    """XXX: depends on content from create_test_db.py"""
     tag = db_query(Tag).filter_by(name='Tag1').one()
     res = client.get('/p?tag=Tag1')
     content = res.body.decode()
     assert tag.name in content
     assert 'Ein Titel' in content
+
+
+def test_index_status(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?status=abandoned')
+    content = res.body.decode()
+    assert 'Fallengelassener Antrag' in content
+    assert 'Entstehender Antrag' not in content
+
+
+def test_index_phase(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?phase=bpt192')
+    content = res.body.decode()
+    assert 'Angenommener Antrag' in content
+    assert 'Abgelehnter Antrag' in content
+    assert 'Entstehender Antrag' not in content
+
+
+def test_index_type(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?type=PP')
+    content = res.body.decode()
+    assert 'Angenommener Antrag' in content
+    assert 'Abgelehnter Antrag' in content
+
+
+def test_index_search_status(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?search=PP001&status=scheduled')
+    content = res.body.decode()
+    assert 'Ein Titel' in content
+    assert 'Antrag mit nicht unterstütztem Ergebnisformat' not in content
+
+
+def test_index_department_subject_area(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?department=Piratenpartei Schweiz&subject_area=Innerparteiliches')
+    content = res.body.decode()
+    assert 'Ein Titel' in content
+    assert 'Angenommener Antrag' not in content
 
 
 def test_show(client):
