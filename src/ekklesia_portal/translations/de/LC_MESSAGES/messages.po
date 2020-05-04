@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-23 20:59+0000\n"
+"POT-Creation-Date: 2020-05-04 17:57+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -143,6 +143,7 @@ msgstr "Antragsart"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:29
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:5
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:22
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:27
 msgid "propositions"
@@ -153,8 +154,6 @@ msgstr "Anträge"
 #: src/ekklesia_portal/concepts/page/templates/pages.j2.jade:3
 #: src/ekklesia_portal/concepts/policy/templates/policies.j2.jade:3
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:7
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:15
 #: src/ekklesia_portal/concepts/proposition_note/templates/proposition_notes.j2.jade:3
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_types.j2.jade:3
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:3
@@ -224,7 +223,7 @@ msgid "new_proposition"
 msgstr "Neuer Antrag"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:9
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
 msgid "voting_phases"
 msgstr "Abstimmungszeiträume"
@@ -256,52 +255,44 @@ msgstr "Seiten"
 msgid "scheduled_voting_phases"
 msgstr "Geplante Abstimmungszeiträume"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:26
-msgid "menu_propositions"
-msgstr "Anträge"
-
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
-msgid "menu_top"
-msgstr "Top"
-
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:9
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:33
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:13
 msgid "search_for"
 msgstr "Suchen nach"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:36
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:34
 msgid "button_search"
 msgstr "Suchen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:40
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:38
 msgid "button_logout"
 msgstr "Ausloggen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:42
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:40
 msgid "button_login"
 msgstr "Anmelden"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:48
 msgid "link_other"
 msgstr "Zur aktuellen Abstimmung"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
 msgid "faq"
 msgstr "FAQ"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
 msgid "terms_of_use"
 msgstr "Nutzungsbedingungen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:56
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
 msgid "data_protection"
 msgstr "Datenschutz"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:58
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:56
 msgid "imprint"
 msgstr "Impressum"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:60
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:58
 msgid "source code"
 msgstr "Quellcode"
 
@@ -545,30 +536,39 @@ msgid "title_motivation"
 msgstr "Begründung"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_history_draft.j2.jade:1
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:1
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:1
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:12
 msgid "created_on"
 msgstr "Erstellt am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_submitted.j2.jade:4
 msgid "submitted_on"
 msgstr "Eingereicht am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_finished.j2.jade:6
 msgid "finished_on"
 msgstr "Abgeschlossen am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:6
 msgid "qualified_on"
 msgstr "Zur Abstimmung qualifiziert am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_history_scheduled.j2.jade:8
 msgid "voting_ends_at"
 msgstr "Abstimmung endet um %(datetime)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_new_draft.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_new_draft.j2.jade:3
+msgid "title_new_draft"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_new_draft.j2.jade:4
+msgid "changes"
+msgstr ""
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_status_scheduled.j2.jade:1
@@ -593,37 +593,51 @@ msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Argumente"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
+msgid "btn_sort_by_identifier_or_title"
+msgstr "Nach Kennung/Titel sortieren"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:8
+msgid "btn_sort_by_supporter_count"
+msgstr "Nach Unterstützeranzahl sortieren"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:17
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:21
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:25
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:29
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:33
-msgid "tagged_propositions"
-msgstr "Anträge mit Tag"
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:37
+msgid "remove_filter"
+msgstr "Filter entfernen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:41
-msgid "phase_propositions"
-msgstr "Anträge in Abstimmungszeitraum"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:49
-msgid "status_propositions"
-msgstr "Anträge mit Status"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:57
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:17
 msgid "type_propositions"
 msgstr "Anträge vom Typ"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:65
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:21
+msgid "tagged_propositions"
+msgstr "Anträge mit Tag"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:25
+msgid "phase_propositions"
+msgstr "Anträge in Abstimmungszeitraum"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:29
+msgid "status_propositions"
+msgstr "Anträge mit Status"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:33
 msgid "department_propositions"
 msgstr "Anträge in Gliederung"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:73
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:37
 msgid "subject_area_propositions"
 msgstr "Anträge in Themenbereich"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:83
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:40
 msgid "no_propositions_found"
 msgstr "Keine Anträge gefunden"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:22,37,45,53,61,69,77
-msgid "remove_filter"
-msgstr "Filter entfernen"
 
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:10
 msgid "proposition_id"
@@ -999,4 +1013,10 @@ msgstr "Enthaltung"
 
 #~ msgid "target_date_at"
 #~ msgstr "Stichtag %(date)s"
+
+#~ msgid "menu_propositions"
+#~ msgstr "Anträge"
+
+#~ msgid "menu_top"
+#~ msgstr "Top"
 

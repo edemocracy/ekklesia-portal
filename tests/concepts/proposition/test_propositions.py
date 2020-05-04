@@ -14,9 +14,9 @@ def test_index(client):
     assert 'Ein Titel' in content
 
 
-def test_index_mode_top(client):
+def test_index_sort_by_supporter_count(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get("/p?mode=top")
+    res = client.get("/p?sort=supporter")
     content = res.body.decode()
     assert 'Ein Titel' in content
 
@@ -27,7 +27,7 @@ def test_index_search(client):
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
     assert 'Volltextsuche' in content
-    assert 'Titel' not in content
+    assert 'Ein Titel' not in content
 
 
 def test_index_tag(db_query, client):

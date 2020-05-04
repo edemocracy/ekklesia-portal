@@ -28,8 +28,8 @@ class LayoutCell(Cell):
     def pages_url(self):
         return self.link(Pages())
 
-    def propositions_url(self, mode='sorted', tag=None, search=None, phase=None, type=None, status=None, department=None, subject_area=None):
-        return self.link(Propositions(mode, search, tag, phase, type, status, department, subject_area))
+    def propositions_url(self):
+        return self.class_link(Propositions, {})
 
     def login_url(self):
         if self._s.app.login_visible:

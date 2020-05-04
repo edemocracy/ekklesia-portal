@@ -26,11 +26,8 @@ body
 
       .collapse.navbar-collapse
         ul.navbar-nav.mr-auto
-          li.nav-item(class=("active" if mode=="sorted" else ""))
-            a.nav-link(href=propositions_url(tag=tag|default, search=search|default, phase=phase|default, type=type|default, status=status|default, department=department|default, subject_area=subject_area|default))= _("menu_propositions")
-
-          li.nav-item(class=("active" if mode=="top" else ""))
-            a.nav-link(href=propositions_url(mode="top", tag=tag|default, search=search|default, phase=phase|default, type=type|default, status=status|default, department=department|default, subject_area=subject_area|default))= _("menu_top")
+          li.nav-item
+            a.nav-link(href=propositions_url)= _("menu_propositions")
 
           li.nav-item
             a.nav-link(href=voting_phases_url)= _("voting_phases")

@@ -151,6 +151,22 @@ footer.footer
 .large_number
   font-size: 1.2rem
 
+.nav-pills
+  .nav-link.active
+    color: $link_color
+
+.sort-nav
+  padding-left: 0.5rem
+
+.sort-nav, .filter-nav
+  @extend .nav
+  @extend .nav-pills
+  margin-bottom: 0.5rem
+
+.filter-nav
+  .filter
+    @extend .nav-link
+
 .points_text
   @extend .text-muted
 

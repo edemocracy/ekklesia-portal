@@ -9,7 +9,6 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType
-from ekklesia_common.translation import _
 from ekklesia_common.cell import Cell
 from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
 from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
@@ -227,6 +226,7 @@ class PropositionCell(LayoutCell):
     def show_full_history(self):
         return self.options.get('show_details')
 
+
 @App.cell(Propositions, 'new')
 class NewPropositionCell(NewFormCell):
 
@@ -287,15 +287,19 @@ class EditPropositionCell(EditFormCell):
 @App.cell(Propositions)
 class PropositionsCell(LayoutCell):
 
-    model_properties = ['mode', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
+    model_properties = ['sort', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
 
     def propositions(self):
         return list(self._model.propositions(self._request.q))
 
     def link_remove_filter(self, filter):
-        proposition = copy.copy(self._model)
-        setattr(proposition, filter, None)
-        return self.link(proposition)
+        propositions = copy.copy(self._model)
+        setattr(propositions, filter, None)
+        return self.link(propositions)
+
+    def change_self_link(self, **kwargs):
+        propositions = self._model.replace(**kwargs)
+        return self.link(propositions)
 
     def voting_phase_title(self, phase):
         voting_phase = self._request.q(VotingPhase).filter_by(name=phase).scalar()
