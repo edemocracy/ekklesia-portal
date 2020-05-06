@@ -79,9 +79,13 @@ def user_with_departments(user_factory, department_factory):
     return user
 
 
+def refresh_user_object(user):
+    return user
+
+
 @fixture
 def logged_in_user(user, monkeypatch):
-    user_identity = UserIdentity(user)
+    user_identity = UserIdentity(user, refresh_user_object)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return user
 
@@ -89,7 +93,7 @@ def logged_in_user(user, monkeypatch):
 @fixture
 def logged_in_user_with_departments(user_with_departments, monkeypatch):
     user = user_with_departments
-    user_identity = UserIdentity(user)
+    user_identity = UserIdentity(user, refresh_user_object)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return user
 
@@ -115,14 +119,14 @@ def department_admin(db_session, user_factory, department_factory):
 
 @fixture
 def logged_in_department_admin(department_admin, monkeypatch):
-    user_identity = UserIdentity(department_admin, has_global_admin_permissions=False)
+    user_identity = UserIdentity(department_admin, refresh_user_object, has_global_admin_permissions=False)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return department_admin
 
 
 @fixture
 def logged_in_global_admin(global_admin, monkeypatch):
-    user_identity = UserIdentity(global_admin, has_global_admin_permissions=True)
+    user_identity = UserIdentity(global_admin, refresh_user_object, has_global_admin_permissions=True)
     monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
     return global_admin
 

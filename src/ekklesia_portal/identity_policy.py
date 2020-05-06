@@ -1,4 +1,5 @@
 import logging
+from ekklesia_common.utils import cached_property
 import morepath
 from ekklesia_portal.database.datamodel import User
 
@@ -8,13 +9,15 @@ logg = logging.getLogger(__name__)
 
 class UserIdentity(morepath.Identity):
 
-    def __init__(self, user, has_global_admin_permissions=False):
-        self.user = user
+    def __init__(self, user, refresh_user_object, has_global_admin_permissions=False):
+        self._user = user
+        self._refresh_user_object = refresh_user_object
         self.has_global_admin_permissions = has_global_admin_permissions
+        self.userid = user.id
 
-    @property
-    def userid(self):
-        return self.user.id
+    @cached_property
+    def user(self):
+        return self._refresh_user_object(self._user)
 
 
 class NoIdentity(morepath.Identity):
@@ -41,7 +44,11 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
             logg.info('user_id %s in session, but not found in the database!', user_id)
             return NoIdentity
 
-        return self.identity_class(user, has_global_admin_permissions=any(g.is_admin_group for g in user.groups))
+        def refresh_user_object(user):
+            return request.db_session.merge(user)
+
+        return self.identity_class(
+            user, refresh_user_object, has_global_admin_permissions=any(g.is_admin_group for g in user.groups))
 
     def forget(self, response, request):
         del request.browser_session['user_id']
