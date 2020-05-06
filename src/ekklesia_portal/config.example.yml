@@ -21,3 +21,10 @@ importer:
     testdiscourse:
         schema: discourse_post
         base_url: http://testdiscourse-local
+exporter:
+    testdiscourse:
+        api_key: bd72000000000050000000000910000000000df088bd00000000002d9242dd06
+        api_username: testuser
+        category: 12
+        base_url: https://testdiscourse-local
+

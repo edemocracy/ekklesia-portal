@@ -1,0 +1,27 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('customizable_text')
+
+
+- block content
+  .customizable_text.container
+    h3
+      if can_edit
+        a(href=self_link) {{ name }} ({{ lang }})
+
+      else
+        a(href=self_link)= name
+
+      if show_edit_button
+        a.edit_button(href=edit_url)
+          i.far.fa-edit
+          |&nbsp;
+          = _('edit_button')
+
+    if options.show_text
+      = text|markdown

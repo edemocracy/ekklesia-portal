@@ -15,6 +15,53 @@ logging.basicConfig(level=logging.INFO)
 parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
 
+DOCUMENT_WP = '''# Wahlprogramm
+
+## Section 1 {data-section="1"}
+
+### Section 1.1 {data-section="1.1"}
+
+Text Section 1.1
+'''
+
+PUSH_DRAFT_EXTERNAL_TEMPLATE_DE = '''
+Dieser Antragsentwurf wurde automatisch erstellt durch das Antragsportal
+
+{draft_link}
+
+## Vorbemerkungen / Bearbeitungshinweise
+
+(nicht Teil des Antrags)
+
+{editing_remarks}
+
+## Zusammenfassung
+
+{abstract}
+
+## Antragstext
+
+{content}
+
+## Begründung
+
+{motivation}
+'''
+
+DOCUMENT_PROPOSE_CHANGE_EXPLANATION_DE = '''
+Stelle einen Wahlprogrammantrag, um dieses Programm zu ändern.
+Du kannst eine Änderung an einem Abschnitt vorschlagen, indem du auf dessen Überschrift klickst.
+Auf der folgenden Seite kannst du den Text bearbeiten und weitere Informationen zu deinen Antragsentwurf ergänzen.
+'''
+
+NEW_DRAFT_EXPLANATION_DE = '''
+Nach dem Abschicken wird dein Antragsentwurf von der Antragskommission geprüft.
+Dein Antragsentwurf wird nach einer Prüfung durch die Antragskommission im Forum in der Kategorie Antragsentwicklung eingestellt.
+Anschließend wird der Entwurf im Forum in der Kategorie Antragsentwicklung als neues Thema angelegt.
+Der Text des Antrags kann dort von allen angemeldeten Benutzern bearbeitet werden wie in einem Wiki.
+Du kannst die Bearbeitung sperren lassen. Wende dich dazu an die Antragskommission.
+'''
+
 if __name__ == "__main__":
 
     logg = logging.getLogger(__name__)
@@ -44,6 +91,10 @@ if __name__ == "__main__":
     s = Session()
 
     gen_de = mimesis.Generic('de')
+
+    s.add(CustomizableText(lang='de', name='push_draft_external_template', text=PUSH_DRAFT_EXTERNAL_TEMPLATE_DE))
+    s.add(CustomizableText(lang='de', name='document_propose_change_explanation', text=DOCUMENT_PROPOSE_CHANGE_EXPLANATION_DE))
+    s.add(CustomizableText(lang='de', name='new_draft_explanation', text=NEW_DRAFT_EXPLANATION_DE))
 
     department_pps = Department(name='Piratenpartei Schweiz')
     department_zs = Department(name='Zentralschweiz')
@@ -140,9 +191,19 @@ if __name__ == "__main__":
         name='Positionspapier', abbreviation='PP', description=gen_de.text.text(quantity=3), policy=policy_default)
     s.add(ptype_pol)
 
-    ptype_wp = PropositionType(
-        name='Wahlprogrammantrag', abbreviation='WP', description=gen_de.text.text(quantity=3), policy=policy_default)
+    ptype_wp = PropositionType(name='Wahlprogrammantrag',
+                               abbreviation='WP',
+                               description=gen_de.text.text(quantity=3),
+                               policy=policy_default)
     s.add(ptype_wp)
+
+    doc_wp = Document(name='Wahlprogramm',
+                      lang='de',
+                      area=subject_area_ppd_allg,
+                      description='Ein Wahlprogramm',
+                      proposition_type=ptype_wp,
+                      text=DOCUMENT_WP)
+    s.add(doc_wp)
 
     t1 = Tag(name="Tag1")
     t2 = Tag(name="Tag2")

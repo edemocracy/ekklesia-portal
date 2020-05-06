@@ -5,12 +5,14 @@ import copy
 from eliot import log_call
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
+from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType
+from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType, Document
 from ekklesia_common.cell import Cell
-from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult
+from ekklesia_common.utils import cached_property
+from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult, PropositionVisibility
 from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
@@ -210,7 +212,7 @@ class PropositionCell(LayoutCell):
         return symbols.get(self.voting_result_state)
 
     def show_edit_button(self):
-        return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
+        return self._request.permitted_for_current_user(self._model, EditPermission)
 
     def edit_url(self):
         return self.link(self._model, 'edit')
@@ -283,6 +285,38 @@ class EditPropositionCell(EditFormCell):
     def ballot_url(self):
         return self.link(self._model.ballot)
 
+    def show_push_draft(self):
+        exporter_name = self._model.ballot.area.department.exporter_settings.get('exporter_name')
+        return exporter_name and self._model.status == PropositionStatus.DRAFT
+
+    def push_draft_action(self):
+        return self.link(self._model, 'push_draft')
+
+    def exporter_description(self):
+        return self._model.ballot.area.department.exporter_settings.get('exporter_description', '')
+
+
+@App.cell(Propositions, 'new_draft')
+class PropositionNewDraftCell(NewFormCell):
+
+    def _prepare_form_for_render(self):
+        tags = self._request.q(Tag).all()
+        items = items_for_proposition_select_widgets([], tags, None)
+        self._form.prepare_for_render(items)
+
+    @cached_property
+    def _document(self):
+        return self._request.q(Document).get(self._model.document)
+
+    def department_name(self):
+        return self._document.area.department.name
+
+    def document_name(self):
+        return self._document.name
+
+    def explanation(self):
+        return customizable_text(self._request, 'new_draft_explanation')
+
 
 @App.cell(Propositions)
 class PropositionsCell(LayoutCell):
@@ -290,7 +324,9 @@ class PropositionsCell(LayoutCell):
     model_properties = ['sort', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
 
     def propositions(self):
-        return list(self._model.propositions(self._request.q))
+        propositions = self._model.propositions(self._request.q) \
+            .filter(Proposition.visibility == PropositionVisibility.PUBLIC)
+        return list(propositions)
 
     def link_remove_filter(self, filter):
         propositions = copy.copy(self._model)

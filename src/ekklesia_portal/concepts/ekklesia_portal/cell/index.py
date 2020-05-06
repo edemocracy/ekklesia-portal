@@ -1,5 +1,7 @@
 from ekklesia_portal.concepts.ballot.ballots import Ballots
 from ekklesia_portal.concepts.department.departments import Departments
+from ekklesia_portal.concepts.document.documents import Documents
+from ekklesia_portal.concepts.customizable_text.customizable_texts import CustomizableTexts
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.policy.policies import Policies
 from ekklesia_portal.concepts.proposition.propositions import Propositions
@@ -36,6 +38,12 @@ class IndexCell(LayoutCell):
 
     def departments_url(self):
         return self.link(Departments())
+
+    def documents_url(self):
+        return self.link(Documents())
+
+    def customizable_texts_url(self):
+        return self.link(CustomizableTexts())
 
     def welcome_text(self):
         return (self._request.q(Page.text)

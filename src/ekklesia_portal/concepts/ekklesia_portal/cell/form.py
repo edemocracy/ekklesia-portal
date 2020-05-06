@@ -29,8 +29,8 @@ class FormCell(LayoutCell):
 
 class NewFormCell(FormCell):
 
-    def __init__(self, request, form, form_data=None, layout=None, parent=None, template_path=None, **options):
-        super().__init__(request, form, form_data, layout=layout, parent=parent, template_path=template_path, **options)
+    def __init__(self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options):
+        super().__init__(request, form, form_data, model=model, layout=layout, parent=parent, template_path=template_path, **options)
 
     def _prepare_form_for_render(self):
         self._form.prepare_for_render()
