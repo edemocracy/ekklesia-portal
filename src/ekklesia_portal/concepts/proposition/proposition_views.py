@@ -18,9 +18,13 @@ from .propositions import Propositions
 from .proposition_helper import get_or_create_tags
 
 
-# XXX: our identity concept is broken, thus we must check for identity=object
-# here or anon users will be locked out...
-@App.permission_rule(model=Proposition, permission=ViewPermission, identity=object)
+@App.permission_rule(model=Proposition, permission=ViewPermission, identity=NoIdentity)
+def proposition_view_permission_anon(identity, model, permission):
+    if model.visibility == PropositionVisibility.PUBLIC:
+        return True
+
+
+@App.permission_rule(model=Proposition, permission=ViewPermission)
 def proposition_view_permission(identity, model, permission):
     if model.visibility in (PropositionVisibility.PUBLIC, PropositionVisibility.UNLISTED):
         return True
@@ -36,12 +40,16 @@ def proposition_view_permission(identity, model, permission):
 
 @App.permission_rule(model=Propositions, permission=CreatePermission)
 def propositions_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    # TODO: All users can create propositions at the moment.
+    # This must be limited to the users of a department (at least).
+    return True
 
 
 @App.permission_rule(model=Proposition, permission=SupportPermission)
 def proposition_support_permission(identity, model, permission):
-    return identity != NoIdentity
+    # TODO: All users can support propositions at the moment.
+    # This must be limited to the users of a department.
+    return True
 
 
 @App.permission_rule(model=Proposition, permission=EditPermission)

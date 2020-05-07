@@ -4,7 +4,6 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
 from ekklesia_portal.enums import ArgumentType
-from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, VotePermission
 from .argument_relations import ArgumentRelations
 from .argument_relation_cells import ArgumentRelationCell, NewArgumentForPropositionCell
@@ -16,12 +15,16 @@ logg = logging.getLogger(__name__)
 
 @App.permission_rule(model=ArgumentRelations, permission=CreatePermission)
 def argument_relation_create_permission(identity, model, permission):
-    return identity != NoIdentity
+    # All logged-in users may create new arguments.
+    # We will have more restrictions in the future.
+    return True
 
 
 @App.permission_rule(model=ArgumentRelation, permission=VotePermission)
 def argument_relation_vote_permission(identity, model, permission):
-    return identity != NoIdentity
+    # All logged-in users may vote on arguments.
+    # We will have more restrictions in the future.
+    return True
 
 
 @App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")

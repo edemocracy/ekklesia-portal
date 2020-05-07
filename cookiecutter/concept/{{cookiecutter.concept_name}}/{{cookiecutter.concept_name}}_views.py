@@ -2,7 +2,6 @@ from morepath import redirect
 #from webob.exc import HTTPBadRequest
 from {{ cookiecutter.app_name }}.app import App
 from {{ cookiecutter.app_name }}.database.datamodel import {{ cookiecutter.ConceptName }}
-from {{ cookiecutter.app_name }}.identity_policy import NoIdentity
 from {{ cookiecutter.app_name }}.permission import CreatePermission, EditPermission
 from .{{ cookiecutter.concept_name }}_cells import {{ cookiecutter.ConceptName }}Cell, {{ cookiecutter.ConceptNames }}Cell, New{{ cookiecutter.ConceptName }}Cell, Edit{{ cookiecutter.ConceptName }}Cell
 from .{{ cookiecutter.concept_name }}_contracts import {{ cookiecutter.ConceptName }}Form
@@ -10,14 +9,17 @@ from .{{ cookiecutter.concept_name }}_contracts import {{ cookiecutter.ConceptNa
 from .{{ cookiecutter.concept_names }} import {{ cookiecutter.ConceptNames }}
 
 
-@App.permission_rule(model={{ cookiecutter.ConceptNames }}, permission=CreatePermission)
-def {{ cookiecutter.concept_names }}_create_permission(identity, model, permission):
-    return identity != NoIdentity
+# Write permissions are only granted to logged in users by default.
+# You can define custom rules for your concept here.
+
+# @App.permission_rule(model={{ cookiecutter.ConceptNames }}, permission=CreatePermission)
+# def {{ cookiecutter.concept_names }}_create_permission(identity, model, permission):
+#    return False
 
 
-@App.permission_rule(model={{ cookiecutter.ConceptName }}, permission=EditPermission)
-def {{ cookiecutter.concept_name }}_edit_permission(identity, model, permission):
-    return identity != NoIdentity
+# @App.permission_rule(model={{ cookiecutter.ConceptName }}, permission=EditPermission)
+# def {{ cookiecutter.concept_name }}_edit_permission(identity, model, permission):
+#     return False
 
 
 @App.path(model={{ cookiecutter.ConceptNames }}, path='{{cookiecutter.concept_names}}')
@@ -42,8 +44,8 @@ def new(self, request):
     return New{{ cookiecutter.ConceptName }}Cell(request, form, form_data={}).show()
 
 
-# this level of abstraction is nice, but the goal is:
-# @App.html_create({{ cookiecutter.ConceptName }})
+{# this level of abstraction is nice, but the goal is: #}
+{# @App.html_create({{ cookiecutter.ConceptName }}) #}
 @App.html_form_post(model={{ cookiecutter.ConceptNames }}, form={{ cookiecutter.ConceptName }}Form, cell=New{{ cookiecutter.ConceptName }}Cell, permission=CreatePermission)
 def create(self, request, appstruct):
     {{ cookiecutter.concept_name }} = {{ cookiecutter.ConceptName }}(**appstruct)
@@ -64,8 +66,8 @@ def edit(self, request):
     return Edit{{ cookiecutter.ConceptName }}Cell(self, request, form).show()
 
 
-# this level of abstraction is nice, but the goal is:
-# @App.html_update({{ cookiecutter.ConceptName }})
+{# this level of abstraction is nice, but the goal is: #}
+{# @App.html_update({{ cookiecutter.ConceptName }}) #}
 @App.html_form_post(model={{ cookiecutter.ConceptName }}, form={{ cookiecutter.ConceptName }}Form, cell=Edit{{ cookiecutter.ConceptName }}Cell, permission=EditPermission)
 def update(self, request, appstruct):
     self.update(**appstruct)

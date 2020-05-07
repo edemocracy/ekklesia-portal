@@ -20,7 +20,7 @@ class UserIdentity(morepath.Identity):
         return self._refresh_user_object(self._user)
 
 
-class NoIdentity(morepath.Identity):
+class NoIdentity:
     user = None
     userid = None
 
@@ -36,13 +36,13 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
         user_id = request.browser_session.get('user_id')
         logg.debug('identity policy, user_id is %s', user_id)
         if user_id is None:
-            return NoIdentity
+            return NoIdentity()
 
         user = request.db_session.query(User).get(user_id)
 
         if user is None:
             logg.info('user_id %s in session, but not found in the database!', user_id)
-            return NoIdentity
+            return NoIdentity()
 
         def refresh_user_object(user):
             return request.db_session.merge(user)
