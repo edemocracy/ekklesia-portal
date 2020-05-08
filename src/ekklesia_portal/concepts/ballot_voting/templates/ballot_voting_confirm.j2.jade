@@ -1,0 +1,62 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('ballot_voting')
+
+
+- block content
+
+  if layout
+    h2= _('ballot_voting')
+
+  .ballot_voting.container
+    h3
+      = title
+
+    :markdown
+
+      **Überprüfe bitte deine Angaben**
+
+
+    table.table
+      thead
+        tr
+          th(scope='col') Platz
+          th(scope='col') Zustimmung
+          th(scope='col') Punkte
+          th(scope='col') Stimm-Token
+          th(scope='col') Antrag
+      tbody
+        for vote in votes_to_confirm
+          tr
+            td
+              = loop.index
+              |.
+            td= vote.yes_no|yesno
+            td= vote.points
+            td= vote.token
+            td= vote.title
+
+    hr
+
+    :markdown
+
+      Nach Ende des Abstimmungszeitraum wird die Abstimmung ausgezählt und das Ergebnis veröffentlicht.
+      Mit dem Ergebnis wird eine Liste aller Stimmen mit Stimm-Token veröffentlicht, in der du die korrekte Erfassung deiner Stimme nachprüfen kannst.
+
+      **Um deine Stimme verbindlich abzugeben, klicke auf "Abstimmen"**
+
+      Du bekommst eine Bestätigung deiner Stimmabgabe zugeschickt.
+
+
+    form(action=confirm_action, method='POST')
+      for vote in votes_to_confirm
+        input(type='hidden', name='token', value=vote.token)
+
+      button.btn.btn-primary(type='submit')
+        = _('button_vote')
+

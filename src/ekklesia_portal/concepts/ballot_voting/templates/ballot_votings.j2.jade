@@ -1,0 +1,14 @@
+- if layout
+  - extends 'ekklesia_portal/layout.j2.jade'
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('overview')
+
+- block content
+
+  h2= _('ballot_votings')
+
+  = render_cell(collection=ballot_votings)

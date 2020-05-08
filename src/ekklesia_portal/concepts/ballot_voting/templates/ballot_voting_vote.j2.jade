@@ -1,0 +1,35 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('ballot_voting')
+
+
+- block content
+
+  if layout
+    h2= _('ballot_voting')
+
+  .ballot_voting.container
+    h3
+      = title
+
+    :markdown
+
+      Diese Abstimmung besteht aus 4 konkurrierenden Anträgen.
+
+      * Erreicht kein Antrag mehr Ja- als Nein-Stimmen, sind alle Anträge abgelehnt.
+      * Angenommen ist der Antrag mit der höchsten Gesamtpunktzahl.
+      * [Weitere Regelungen zur Auszählung](https://wiki.piratenpartei.de/Entscheidsordnung#.C2.A75d_-_Wahlsystem_und_Auswertung)
+
+    = form_html
+
+    :markdown
+
+      **Hinweis**
+
+      Um deine Stimme verbindlich abzugeben, musst du nach dem Klick auf 'Überprüfen' deine Angaben noch einmal bestätigen.
+

@@ -1,0 +1,26 @@
+- if layout
+  - extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title
+    = brand_title
+    |&nbsp;-&nbsp;
+    = _('ballot_voting')
+
+
+- block content
+
+  if layout
+    h2= _('ballot_voting')
+
+  .ballot_voting.container
+    h3
+      a(href=self_link)= title
+
+  dl
+    dt Start
+    dd= starts_at|datetimeformat
+    dt Ende
+    dd= ends_at|datetimeformat
+
+  a.btn.btn-primary(href=vote_url) Abstimmen!

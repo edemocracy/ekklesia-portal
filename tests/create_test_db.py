@@ -404,6 +404,21 @@ if __name__ == "__main__":
     qv3 = ArgumentVote(member=u2, relation=arg1_rel, weight=-1)
     s.add(qv3)
 
+    ballot_voting = BallotVoting(
+        title='Basisentscheid 2020.1 PP001/2/3/4',
+        starts_at=datetime.fromisoformat('2020-07-11'),
+        ends_at=datetime.fromisoformat('2020-07-25'),
+        department='Piratenpartei Deutschland')
+
+    def option_from_proposition(proposition):
+        title = f'{proposition.voting_identifier}: {proposition.title}'
+        text = '\n\n'.join(['## Antrag', proposition.content, '## Begründung', proposition.motivation or ''])
+        return BallotOption(title=title, text=text)
+
+    ballot_voting.options = [option_from_proposition(p) for p in b1.propositions]
+
+    s.add(ballot_voting)
+
     transaction.commit()
 
     logg.info("commited")

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-06 22:01+0000\n"
+"POT-Creation-Date: 2020-05-10 00:51+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -161,6 +161,7 @@ msgid "propositions"
 msgstr "Anträge"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballots.j2.jade:3
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_votings.j2.jade:3
 #: src/ekklesia_portal/concepts/customizable_text/templates/customizable_texts.j2.jade:3
 #: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:3
 #: src/ekklesia_portal/concepts/document/templates/documents.j2.jade:3
@@ -182,6 +183,49 @@ msgstr "Abstimmungen"
 #: src/ekklesia_portal/concepts/ballot/templates/edit_ballot.j2.jade:3
 msgid "title_edit_ballot"
 msgstr "Abstimmung bearbeiten"
+
+#: src/ekklesia_portal/concepts/ballot_voting/ballot_voting_contracts.py:10
+msgid "Yes"
+msgstr "Ja"
+
+#: src/ekklesia_portal/concepts/ballot_voting/ballot_voting_contracts.py:10
+msgid "No"
+msgstr "Nein"
+
+#: src/ekklesia_portal/concepts/ballot_voting/ballot_voting_contracts.py:10
+msgid "Abstention"
+msgstr "Enthaltung"
+
+#: src/ekklesia_portal/concepts/ballot_voting/ballot_voting_contracts.py:37
+msgid "check"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting.j2.jade:3
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting.j2.jade:5
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting_confirm.j2.jade:3
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting_confirm.j2.jade:5
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting_vote.j2.jade:3
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting_vote.j2.jade:5
+msgid "ballot_voting"
+msgstr "Abstimmung"
+
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_voting_confirm.j2.jade:36
+msgid "button_vote"
+msgstr "Abstimmen"
+
+#: src/ekklesia_portal/concepts/ballot_voting/templates/ballot_votings.j2.jade:5
+msgid "ballot_votings"
+msgstr "Abstimmungen"
+
+#: src/ekklesia_portal/concepts/ballot_voting/templates/edit_ballot_voting.j2.jade:2
+#: src/ekklesia_portal/concepts/ballot_voting/templates/edit_ballot_voting.j2.jade:3
+msgid "title_edit_ballot_voting"
+msgstr ""
+
+#: src/ekklesia_portal/concepts/ballot_voting/templates/new_ballot_voting.j2.jade:2
+#: src/ekklesia_portal/concepts/ballot_voting/templates/new_ballot_voting.j2.jade:3
+msgid "title_new_ballot_voting"
+msgstr ""
 
 #: src/ekklesia_portal/concepts/customizable_text/customizable_text_contracts.py:9
 #: src/ekklesia_portal/concepts/document/document_contracts.py:10
@@ -543,7 +587,7 @@ msgstr "Daten für externe Systeme"
 msgid "editing_remarks"
 msgstr "Bearbeitungshinweise"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:205
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:215
 msgid "change"
 msgstr "Änderung"
 
@@ -1093,9 +1137,6 @@ msgstr "Enthaltung"
 
 #~ msgid "details"
 #~ msgstr "Details"
-
-#~ msgid "submit"
-#~ msgstr "Abschicken"
 
 #~ msgid "associated_with_proposition_url"
 #~ msgstr "Beziehung zu Antrag"

@@ -44,7 +44,7 @@ from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_searchable import make_searchable
-from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
+from sqlalchemy_utils.types import TSVectorType, URLType, EmailType, UUIDType
 
 from ekklesia_portal.database import Base, integer_pk, C
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, \
@@ -628,3 +628,58 @@ class Changeset(Base):
     document = relationship(Document, back_populates='changesets')
     proposition = relationship(Proposition, back_populates='changesets')
     section = C(String, comment='Identifier for the section of the document that is changed.')
+
+
+class BallotOption(Base):
+    __tablename__ = 'ballot_option'
+    uuid = C(UUIDType, server_default=func.gen_random_uuid(), primary_key=True)
+    voting_uuid = C(UUIDType, ForeignKey('ballot_voting.uuid'), nullable=False)
+    title = C(String)
+    text = C(Text, nullable=False)
+
+    voting = relationship('BallotVoting', back_populates='options')
+    votes = relationship('Vote', back_populates='option')
+
+
+class BallotVoting(Base):
+    __tablename__ = 'ballot_voting'
+    uuid = C(UUIDType, server_default=func.gen_random_uuid(), primary_key=True)
+    department = C(String, nullable=False)
+    title = C(String)
+    created_at = C(DateTime, nullable=False, server_default=func.now())
+    starts_at = C(DateTime, nullable=False)
+    ends_at = C(DateTime, nullable=False)
+
+    options = relationship(BallotOption, back_populates='voting')
+
+    def votes_to_confirm(self, auid):
+        return (object_session(self)
+                .query(VoteToken.token, Vote, BallotOption)
+                .filter(VoteToken.auid == auid,
+                        Vote.confirmed == False,
+                        VoteToken.vote_uuid == Vote.uuid,
+                        BallotOption.uuid == Vote.option_uuid,
+                        BallotOption.voting == self)
+                .order_by(Vote.yes_no.desc(), Vote.points.desc()))
+
+
+class VoteToken(Base):
+    __tablename__ = 'vote_token'
+    token = C(UUIDType, server_default=func.gen_random_uuid(), primary_key=True)
+    auid = C(UUIDType, nullable=False)
+    vote_uuid = C(UUIDType, ForeignKey('vote.uuid'), nullable=False)
+
+    vote = relationship('Vote', back_populates='token')
+
+
+class Vote(Base):
+    __tablename__ = 'vote'
+    uuid = C(UUIDType, server_default=func.gen_random_uuid(), primary_key=True)
+    yes_no = C(Boolean)
+    points = C(Integer, nullable=False)
+    option_uuid = C(UUIDType, ForeignKey('ballot_option.uuid'), nullable=False)
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
+    confirmed = C(Boolean, nullable=False, server_default='false')
+
+    token = relationship(VoteToken, back_populates='vote')
+    option = relationship(BallotOption, back_populates='votes')

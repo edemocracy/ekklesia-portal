@@ -80,6 +80,11 @@ class ProposeChangeTreeprocessor(Treeprocessor):
                 self.last_level = level
                 self.levels[-1] += 1
 
+                if m := ProposeChangeTreeprocessor.HEADER_RE.search(elem.text):
+                    attrs = m.group(1)
+                else:
+                    attrs = None
+
                 m = ProposeChangeTreeprocessor.HEADER_RE.search(elem.text)
                 if m:
                     attrs = m.group(1)
