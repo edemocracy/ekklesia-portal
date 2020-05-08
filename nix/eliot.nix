@@ -1,8 +1,8 @@
-# generated using pypi2nix tool (version: 2.0.0)
+# generated using pypi2nix tool (version: 2.0.4)
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V python37 -e eliot -e eliot-tree --basename eliot
+#   pypi2nix -V python38 -e eliot -e eliot-tree --basename eliot
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -18,7 +18,7 @@ let
   import "${toString pkgs.path}/pkgs/top-level/python-packages.nix" {
     inherit pkgs;
     inherit (pkgs) stdenv;
-    python = pkgs.python37;
+    python = pkgs.python38;
   };
 
   commonBuildInputs = [];
@@ -28,7 +28,7 @@ let
     let
       pkgs = builtins.removeAttrs pkgs' ["__unfix__"];
       interpreterWithPackages = selectPkgsFn: pythonPackages.buildPythonPackage {
-        name = "python37-interpreter";
+        name = "python38-interpreter";
         buildInputs = [ makeWrapper ] ++ (selectPkgsFn pkgs);
         buildCommand = ''
           mkdir -p $out/bin
@@ -77,12 +77,13 @@ let
 
   generated = self: {
     "boltons" = python.mkDerivation {
-      name = "boltons-19.1.0";
+      name = "boltons-20.1.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/27/4b/ebac172f3b17bd395ea1fa1121fc85e1cd5f9dbb6d4836d2bccc44a6e333/boltons-19.1.0.tar.gz";
-        sha256 = "c32b2d121331a9bc7c220050d4273f3aa359b7569cb4794188e71524603113dc";
+        url = "https://files.pythonhosted.org/packages/42/38/ce1ab39b04e1c9946a9dc1076f01d138fb0bbbda1aae48709193b30629e1/boltons-20.1.0.tar.gz";
+        sha256 = "6e890b173c5f2dcb4ec62320b3799342ecb1a6a0b2253014455387665d62c213";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
@@ -92,13 +93,31 @@ let
       };
     };
 
-    "eliot" = python.mkDerivation {
-      name = "eliot-1.10.0";
+    "colored" = python.mkDerivation {
+      name = "colored-1.4.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/cc/c0/2489a69c5bdffdb5b784f9d1c9ece404afad1720e91a5ea5feedbbeab994/eliot-1.10.0.tar.gz";
-        sha256 = "c76e22f234766be9a81eed83e636a5d77f696364adc04558722940b8761dc71e";
+        url = "https://files.pythonhosted.org/packages/b2/16/04827e24c14266d9161bd86bad50069fea453fa006c3d2b31da39251184a/colored-1.4.2.tar.gz";
+        sha256 = "056fac09d9e39b34296e7618897ed1b8c274f98423770c2980d829fd670955ed";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://gitlab.com/dslackw/colored";
+        license = licenses.mit;
+        description = "Simple library for color and formatting to terminal";
+      };
+    };
+
+    "eliot" = python.mkDerivation {
+      name = "eliot-1.12.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/26/b5/f8fa5483623e4bda84d93ec1a5fa635470e84641d08dcf335d59724a27ce/eliot-1.12.0.tar.gz";
+        sha256 = "b6e16d8a4392cac6bd07358aaef140c50059ab00fc13171012810e33e1d94b71";
+};
+      doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
         self."boltons"
@@ -114,21 +133,21 @@ let
     };
 
     "eliot-tree" = python.mkDerivation {
-      name = "eliot-tree-18.1.1";
+      name = "eliot-tree-19.0.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/e5/62/8b73c7970fcb5b8c69cf5c0aab1fe6125f498d10daa27db1d71629eb46f3/eliot-tree-18.1.1.tar.gz";
-        sha256 = "d492154cbc4093faf4492dbf503e87f51e27f89c7fc8697201157e0fb8d7d027";
+        url = "https://files.pythonhosted.org/packages/27/2d/f63fd513883057bb05fb7a020b4f5be3874386c68d924e262e6918cde7ad/eliot-tree-19.0.1.tar.gz";
+        sha256 = "aac20b528944e6e3c9d33884104f06a8de3a1840ada15d07ea036e50b58cfba1";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
+        self."colored"
         self."eliot"
         self."iso8601"
         self."jmespath"
         self."six"
-        self."termcolor"
         self."toolz"
-        self."tree-format"
       ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/jonathanj/eliottree";
@@ -144,6 +163,7 @@ let
         sha256 = "49c4b20e1f38aa5cf109ddcd39647ac419f928512c869dc01d5c7098eddede82";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
@@ -154,12 +174,13 @@ let
     };
 
     "jmespath" = python.mkDerivation {
-      name = "jmespath-0.9.4";
+      name = "jmespath-0.9.5";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/2c/30/f0162d3d83e398c7a3b70c91eef61d409dea205fb4dc2b47d335f429de32/jmespath-0.9.4.tar.gz";
-        sha256 = "bde2aef6f44302dfb30320115b17d030798de8c4110e28d5cf6cf91a7a31074c";
+        url = "https://files.pythonhosted.org/packages/5c/40/3bed01fc17e2bb1b02633efc29878dfa25da479ad19a69cfb11d2b88ea8e/jmespath-0.9.5.tar.gz";
+        sha256 = "cca55c8d153173e21baa59983015ad0daf603f9cb799904ff057bfb8ff8dc2d9";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
@@ -170,12 +191,13 @@ let
     };
 
     "pyrsistent" = python.mkDerivation {
-      name = "pyrsistent-0.15.4";
+      name = "pyrsistent-0.16.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/b9/66/b2638d96a2d128b168d0dba60fdc77b7800a9b4a5340cefcc5fc4eae6295/pyrsistent-0.15.4.tar.gz";
-        sha256 = "34b47fa169d6006b32e99d4b3c4031f155e6e68ebcc107d6454852e8e0ee6533";
+        url = "https://files.pythonhosted.org/packages/9f/0d/cbca4d0bbc5671822a59f270e4ce3f2195f8a899c97d0d5abb81b191efb5/pyrsistent-0.16.0.tar.gz";
+        sha256 = "28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [
         self."six"
@@ -187,35 +209,37 @@ let
       };
     };
 
-    "six" = python.mkDerivation {
-      name = "six-1.12.0";
+    "setuptools" = python.mkDerivation {
+      name = "setuptools-46.1.3";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/dd/bf/4138e7bfb757de47d1f4b6994648ec67a51efe58fa907c1e11e350cddfca/six-1.12.0.tar.gz";
-        sha256 = "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73";
+        url = "https://files.pythonhosted.org/packages/b5/96/af1686ea8c1e503f4a81223d4a3410e7587fd52df03083de24161d0df7d4/setuptools-46.1.3.zip";
+        sha256 = "795e0475ba6cd7fa082b1ee6e90d552209995627a2a227a47c6ea93282f4bfb1";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
+      buildInputs = commonBuildInputs ++ [ ];
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/pypa/setuptools";
+        license = licenses.mit;
+        description = "Easily download, build, install, upgrade, and uninstall Python packages";
+      };
+    };
+
+    "six" = python.mkDerivation {
+      name = "six-1.14.0";
+      src = pkgs.fetchurl {
+        url = "https://files.pythonhosted.org/packages/21/9f/b251f7f8a76dec1d6651be194dfba8fb8d7781d10ab3987190de8391d08e/six-1.14.0.tar.gz";
+        sha256 = "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a";
+};
+      doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/benjaminp/six";
         license = licenses.mit;
         description = "Python 2 and 3 compatibility utilities";
-      };
-    };
-
-    "termcolor" = python.mkDerivation {
-      name = "termcolor-1.1.0";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz";
-        sha256 = "1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b";
-};
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://pypi.python.org/pypi/termcolor";
-        license = licenses.mit;
-        description = "ANSII Color formatting for output in terminal.";
       };
     };
 
@@ -226,6 +250,7 @@ let
         sha256 = "08fdd5ef7c96480ad11c12d472de21acd32359996f69a5259299b540feba4560";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
@@ -235,31 +260,18 @@ let
       };
     };
 
-    "tree-format" = python.mkDerivation {
-      name = "tree-format-0.1.2";
-      src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/0d/91/8d860c75c3e70e6bbec7b898b5f753bf5da404be9296e245034360759645/tree-format-0.1.2.tar.gz";
-        sha256 = "a538523aa78ae7a4b10003b04f3e1b37708e0e089d99c9d3b9e1c71384c9a7f9";
-};
-      doCheck = commonDoCheck;
-      buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [ ];
-      meta = with pkgs.stdenv.lib; {
-        homepage = "http://github.com/jml/tree-format";
-        license = "UNKNOWN";
-        description = "UNKNOWN";
-      };
-    };
-
     "zope-interface" = python.mkDerivation {
-      name = "zope-interface-4.6.0";
+      name = "zope-interface-5.1.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/4e/d0/c9d16bd5b38de44a20c6dc5d5ed80a49626fafcb3db9f9efdc2a19026db6/zope.interface-4.6.0.tar.gz";
-        sha256 = "1b3d0dcabc7c90b470e59e38a9acaa361be43b3a6ea644c0063951964717f0e5";
+        url = "https://files.pythonhosted.org/packages/af/d2/9675302d7ced7ec721481f4bbecd28a390a8db4ff753d28c64057b975396/zope.interface-5.1.0.tar.gz";
+        sha256 = "40e4c42bd27ed3c11b2c983fecfb03356fae1209de10686d03c02c8696a1d90e";
 };
       doCheck = commonDoCheck;
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
-      propagatedBuildInputs = [ ];
+      propagatedBuildInputs = [
+        self."setuptools"
+      ];
       meta = with pkgs.stdenv.lib; {
         homepage = "https://github.com/zopefoundation/zope.interface";
         license = licenses.zpl21;
@@ -270,7 +282,7 @@ let
   localOverridesFile = ./eliot_override.nix;
   localOverrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
-    
+        (let src = pkgs.fetchFromGitHub { owner = "nix-community"; repo = "pypi2nix-overrides"; rev = "100c15ec7dfe7d241402ecfb1e796328d0eaf1ec"; sha256 = "0akfkvdakcdxc1lrxznh1rz2811x4pafnsq3jnyr5pn3m30pc7db"; } ; in import "${src}/overrides.nix" { inherit pkgs python; })
   ];
   paramOverrides = [
     (overrides { inherit pkgs python; })

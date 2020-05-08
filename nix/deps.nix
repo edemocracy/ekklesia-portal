@@ -6,16 +6,16 @@ let
   pkgs = import sources_.nixpkgs { };
   niv = (import sources_.niv { }).niv;
   ekklesia-common = (import sources_.ekklesia-common { sources = sources_; });
-  bandit = (import ./bandit.nix { inherit pkgs; }).packages.bandit;
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
   pdbpp = (import ./pdbpp.nix { inherit pkgs; }).packages.pdbpp;
+  cookiecutter = (import ./cookiecutter.nix { inherit pkgs; }).packages.cookiecutter;
   installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
   testPkgs = (import ./test_requirements.nix { inherit pkgs; }).packages;
 
-  pythonPackages = pkgs.python37Packages;
+  pythonPackages = pkgs.python38Packages;
   setuptools = pythonPackages.setuptools;
 
   # Adds missing dependency on setuptools for Python packages
@@ -29,7 +29,7 @@ in rec {
   inherit (pkgs) lib sassc;
   inherit (installPkgs) babel deform;
   inherit (pythonPackages) buildPythonApplication;
-  buildPythonEnv = pkgs.python37.buildEnv;
+  buildPythonEnv = pkgs.python38.buildEnv;
 
   gunicorn = (fixSetuptools pythonPackages.gunicorn);
 
@@ -58,8 +58,8 @@ in rec {
   pythonDevTest = buildPythonEnv.override {
     extraLibs = testLibs ++
                 installLibs ++
-                devLibs ++
-                debugLibsAndTools;
+                debugLibsAndTools ++
+                devLibs;
     ignoreCollisions = true;
   };
 
@@ -85,7 +85,7 @@ in rec {
     niv
     openssl.dev
     pip
-    postgresql_11
+    postgresql_12
     uwsgi
     sassc
     zsh

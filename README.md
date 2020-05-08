@@ -5,7 +5,7 @@ You can visit a running instance at [antrag.piratenpartei.de](https://antrag.pir
 
 ## Tech Stack
 
-* Backend: [Python 3.7](https://www.python.org)
+* Backend: [Python 3.8](https://www.python.org8
 * Web framework: [Morepath](http://morepath.readthedocs.org )
 * Frontend:
   [Pyjade](https://github.com/syrusakbary/pyjade) (like [Pug](https://pugjs.org)),
@@ -13,7 +13,7 @@ You can visit a running instance at [antrag.piratenpartei.de](https://antrag.pir
   [Bootstrap 4](https://getbootstrap.com),
   [Sass](https://sass-lang.com),
   Javascript
-* Database: [PostgreSQL 11](https://www.postgresql.com)
+* Database: [PostgreSQL 12](https://www.postgresql.com)
 * Package management: [Nix Package Manager](https://nixos.org/nix)
 
 ## Development
@@ -21,7 +21,7 @@ You can visit a running instance at [antrag.piratenpartei.de](https://antrag.pir
 ### Quick Start
 
 The shell environment for development can be prepared using the Nix Package Manager.
-It includes Python 3.7, PostgreSQL 11, development / testing tools and dependencies for the project itself.
+It includes Python 3.8, PostgreSQL 12, development / testing tools and dependencies for the project itself.
 The following instructions assume that the Nix package manager is already installed, `nix-shell` is available in PATH and an empty + writable PostgreSQL database can be accessed somehow.
 
 1. Clone the repository with:

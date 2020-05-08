@@ -2,7 +2,7 @@
 # See more at: https://github.com/nix-community/pypi2nix
 #
 # COMMAND:
-#   pypi2nix -V python37 -r ../python_requirements/install_requirements.txt --basename install_requirements -E postgresql_11 -E libffi -E openssl.dev
+#   pypi2nix -V python38 -r ../python_requirements/install_requirements.txt --basename install_requirements -E postgresql_12 -E libffi -E openssl.dev -s setuptools-scm
 #
 
 { pkgs ? import <nixpkgs> {},
@@ -18,17 +18,17 @@ let
   import "${toString pkgs.path}/pkgs/top-level/python-packages.nix" {
     inherit pkgs;
     inherit (pkgs) stdenv;
-    python = pkgs.python37;
+    python = pkgs.python38;
   };
 
-  commonBuildInputs = with pkgs; [ postgresql_11 libffi openssl.dev ];
+  commonBuildInputs = with pkgs; [ postgresql_12 libffi openssl.dev ];
   commonDoCheck = false;
 
   withPackages = pkgs':
     let
       pkgs = builtins.removeAttrs pkgs' ["__unfix__"];
       interpreterWithPackages = selectPkgsFn: pythonPackages.buildPythonPackage {
-        name = "python37-interpreter";
+        name = "python38-interpreter";
         buildInputs = [ makeWrapper ] ++ (selectPkgsFn pkgs);
         buildCommand = ''
           mkdir -p $out/bin
@@ -138,10 +138,10 @@ let
     };
 
     "boltons" = python.mkDerivation {
-      name = "boltons-20.0.0";
+      name = "boltons-20.1.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/8e/9a/68d04e4b02b802ac20a47e5bf4731bea79b9e6ee9efc5adae5228136823c/boltons-20.0.0.tar.gz";
-        sha256 = "e44ddbd10af0904147c194d2c9bd2affa6a3e5b2ebfb9d5547900d8931203953";
+        url = "https://files.pythonhosted.org/packages/42/38/ce1ab39b04e1c9946a9dc1076f01d138fb0bbbda1aae48709193b30629e1/boltons-20.1.0.tar.gz";
+        sha256 = "6e890b173c5f2dcb4ec62320b3799342ecb1a6a0b2253014455387665d62c213";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -174,27 +174,27 @@ let
     };
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2019.11.28";
+      name = "certifi-2020.4.5.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/41/bf/9d214a5af07debc6acf7f3f257265618f1db242a3f8e49a9b516f24523a6/certifi-2019.11.28.tar.gz";
-        sha256 = "25b64c7da4cd7479594d035c08c2d809eb4aab3a26e5a990ea98cc450c320f1f";
+        url = "https://files.pythonhosted.org/packages/b8/e2/a3a86a67c3fc8249ed305fc7b7d290ebe5e4d46ad45573884761ef4dea7b/certifi-2020.4.5.1.tar.gz";
+        sha256 = "51fcb31174be6e6664c5f69e3e1691a2d72a1a12e90f872cbdb1567eb47b6519";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "https://certifi.io/";
+        homepage = "https://certifiio.readthedocs.io/en/latest/";
         license = licenses.mpl20;
         description = "Python package for providing Mozilla's CA Bundle.";
       };
     };
 
     "chameleon" = python.mkDerivation {
-      name = "chameleon-3.6.2";
+      name = "chameleon-3.7.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/9e/12/ad477cf8fef73154d78081575d5c8be8d3ce25e5bfe55c63e14dcb793822/Chameleon-3.6.2.tar.gz";
-        sha256 = "9a9e5e068ee323817705a793cc03538677915c3b99c3f8a4ecba42e62d66862b";
+        url = "https://files.pythonhosted.org/packages/1d/3d/905ada571ea8ff9d5b2dac74a947e5f3fc875a491bdf453d2c47dc49f0d0/Chameleon-3.7.0.tar.gz";
+        sha256 = "5e66ea02e5ca1b5d87f7baf6244eddabd8aa2f4e7f7f0a61c69d25a877add07e";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -422,10 +422,10 @@ let
     };
 
     "jinja2" = python.mkDerivation {
-      name = "jinja2-2.11.1";
+      name = "jinja2-2.11.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/d8/03/e491f423379ea14bb3a02a5238507f7d446de639b623187bccc111fbecdf/Jinja2-2.11.1.tar.gz";
-        sha256 = "93187ffbc7808079673ef52771baa950426fd664d3aad1d0fa3e95644360e250";
+        url = "https://files.pythonhosted.org/packages/64/a7/45e11eebf2f15bf987c3bc11d37dcc838d9dc81250e67e4c5968f6008b6c/Jinja2-2.11.2.tar.gz";
+        sha256 = "89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -494,10 +494,10 @@ let
     };
 
     "marshmallow" = python.mkDerivation {
-      name = "marshmallow-3.5.1";
+      name = "marshmallow-3.5.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/a8/74/5aa84008ddc6e8fee93d961a9f04a745a349ad197d95ab89723c097b330d/marshmallow-3.5.1.tar.gz";
-        sha256 = "90854221bbb1498d003a0c3cc9d8390259137551917961c8b5258c64026b2f85";
+        url = "https://files.pythonhosted.org/packages/aa/36/13330d16fe173a53c18a3428b1c58a16ad07cacfdc13993dfac8f01301bf/marshmallow-3.5.2.tar.gz";
+        sha256 = "56663fa1d5385c14c6a1236badd166d6dee987a5f64d2b6cc099dadf96eb4f09";
 };
       doCheck = commonDoCheck;
       format = "pyproject";
@@ -530,10 +530,10 @@ let
     };
 
     "more-babel-i18n" = python.mkDerivation {
-      name = "more-babel-i18n-19.8.0";
+      name = "more-babel-i18n-20.5.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/0f/9c/36481507a50f28cb71f4e8279dca0df2b93eb12e09e4751cd7829a2845a8/more.babel_i18n-19.8.0.tar.gz";
-        sha256 = "8b0cd6e7a7edf9ba46cb3412b7ae8ba305944de67e957a289bcfd76858d150ab";
+        url = "https://files.pythonhosted.org/packages/7b/71/8e05aad1159ac5f38f2f35c4503c195d49ac9ef5157b09bbd3b57b395a5a/more.babel_i18n-20.5.0.tar.gz";
+        sha256 = "9cbe0dca59bcafe0cc1c94262ea98ca7580e86ba38ff3b640a309ec7c8ed2ed1";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -743,17 +743,17 @@ let
     };
 
     "psycopg2" = python.mkDerivation {
-      name = "psycopg2-2.8.4";
+      name = "psycopg2-2.8.5";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/84/d7/6a93c99b5ba4d4d22daa3928b983cec66df4536ca50b22ce5dcac65e4e71/psycopg2-2.8.4.tar.gz";
-        sha256 = "f898e5cc0a662a9e12bde6f931263a1bbd350cfb18e1d5336a12927851825bb6";
+        url = "https://files.pythonhosted.org/packages/a8/8f/1c5690eebf148d1d1554fc00ccf9101e134636553dbb75bdfef4f85d7647/psycopg2-2.8.5.tar.gz";
+        sha256 = "f7d46240f7a1ae1dd95aab38bd74f7428d46531f69219954266d669da60c0818";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "http://initd.org/psycopg/";
+        homepage = "https://psycopg.org/";
         license = licenses.lgpl2;
         description = "psycopg2 - Python-PostgreSQL Database Adapter";
       };
@@ -799,10 +799,10 @@ let
     };
 
     "pyrsistent" = python.mkDerivation {
-      name = "pyrsistent-0.15.7";
+      name = "pyrsistent-0.16.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/90/aa/cdcf7ef88cc0f831b6f14c8c57318824c9de9913fe8de38e46a98c069a35/pyrsistent-0.15.7.tar.gz";
-        sha256 = "cdc7b5e3ed77bed61270a47d35434a30617b9becdf2478af76ad2c6ade307280";
+        url = "https://files.pythonhosted.org/packages/9f/0d/cbca4d0bbc5671822a59f270e4ce3f2195f8a899c97d0d5abb81b191efb5/pyrsistent-0.16.0.tar.gz";
+        sha256 = "28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -858,10 +858,10 @@ let
     };
 
     "pytz" = python.mkDerivation {
-      name = "pytz-2019.3";
+      name = "pytz-2020.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/82/c3/534ddba230bd4fbbd3b7a3d35f3341d014cca213f369a9940925e7e5f691/pytz-2019.3.tar.gz";
-        sha256 = "b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be";
+        url = "https://files.pythonhosted.org/packages/f4/f6/94fee50f4d54f58637d4b9987a1b862aeb6cd969e73623e02c5c00755577/pytz-2020.1.tar.gz";
+        sha256 = "c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -912,10 +912,10 @@ let
     };
 
     "regex" = python.mkDerivation {
-      name = "regex-2020.2.20";
+      name = "regex-2020.5.7";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/e8/76/8ac7f467617b9cfbafcef3c76df6f22b15de654a62bea719792b00a83195/regex-2020.2.20.tar.gz";
-        sha256 = "9e9624440d754733eddbcd4614378c18713d2d9d0dc647cf9c72f64e39671be5";
+        url = "https://files.pythonhosted.org/packages/83/79/1a6a3996e2c607c094fb263d7227f7790544bc207cc39ee3640862c7732d/regex-2020.5.7.tar.gz";
+        sha256 = "73a10404867b835f1b8a64253e4621908f0d71150eb4e97ab2e7e441b53e9451";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -988,10 +988,10 @@ let
     };
 
     "setuptools" = python.mkDerivation {
-      name = "setuptools-46.1.1";
+      name = "setuptools-46.1.3";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/bb/e7/28d295e0b3f3ddfea42843fb8528918c84cdaf26153242fac5ca6a212622/setuptools-46.1.1.zip";
-        sha256 = "7416e775d09a98aa0422fbe367d15ec0904e4f5aa01043e35bbcb98fa53038de";
+        url = "https://files.pythonhosted.org/packages/b5/96/af1686ea8c1e503f4a81223d4a3410e7587fd52df03083de24161d0df7d4/setuptools-46.1.3.zip";
+        sha256 = "795e0475ba6cd7fa082b1ee6e90d552209995627a2a227a47c6ea93282f4bfb1";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1042,13 +1042,13 @@ let
     };
 
     "sqlalchemy" = python.mkDerivation {
-      name = "sqlalchemy-1.3.15";
+      name = "sqlalchemy-1.3.16";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/8c/30/4134e726dd5ed13728ff814fa91fc01c447ad8700504653fe99d91fdd34b/SQLAlchemy-1.3.15.tar.gz";
-        sha256 = "c4cca4aed606297afbe90d4306b49ad3a4cd36feb3f87e4bfd655c57fd9ef445";
+        url = "https://files.pythonhosted.org/packages/7f/4b/adfb1f03da7f50db054a5b728d32dbfae8937754cfa159efa0216a3758d1/SQLAlchemy-1.3.16.tar.gz";
+        sha256 = "7224e126c00b8178dfd227bc337ba5e754b197a3867d33b9f30dc0208f773d70";
 };
       doCheck = commonDoCheck;
-      format = "pyproject";
+      format = "setuptools";
       buildInputs = commonBuildInputs ++ [ ];
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
@@ -1080,10 +1080,10 @@ let
     };
 
     "sqlalchemy-utils" = python.mkDerivation {
-      name = "sqlalchemy-utils-0.36.3";
+      name = "sqlalchemy-utils-0.36.5";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/aa/24/68937e9b5c757f62795467e2f02a8f463a3a1fd3d08bd32a6b0583ba3dbf/SQLAlchemy-Utils-0.36.3.tar.gz";
-        sha256 = "f268af5bc03597fe7690d60df3e5f1193254a83e07e4686f720f61587ec4493a";
+        url = "https://files.pythonhosted.org/packages/6e/a0/0ae3a246914f24dbd93be5f72aae75b79ea0831de629249b3532564d1061/SQLAlchemy-Utils-0.36.5.tar.gz";
+        sha256 = "680068c4b671225c183815e19b6f4adc765a9989dd5d9e8e9c900ede30cc7434";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1153,10 +1153,10 @@ let
     };
 
     "typing-extensions" = python.mkDerivation {
-      name = "typing-extensions-3.7.4.1";
+      name = "typing-extensions-3.7.4.2";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/e7/dd/f1713bc6638cc3a6a23735eff6ee09393b44b96176d3296693ada272a80b/typing_extensions-3.7.4.1.tar.gz";
-        sha256 = "091ecc894d5e908ac75209f10d5b4f118fbdb2eb1ede6a63544054bb1edb41f2";
+        url = "https://files.pythonhosted.org/packages/6a/28/d32852f2af6b5ead85d396249d5bdf450833f3a69896d76eb480d9c5e406/typing_extensions-3.7.4.2.tar.gz";
+        sha256 = "79ee589a3caca649a9bfd2a8de4709837400dfa00b6cc81962a1e6a1815969ae";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1170,10 +1170,10 @@ let
     };
 
     "typing-inspect" = python.mkDerivation {
-      name = "typing-inspect-0.5.0";
+      name = "typing-inspect-0.6.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/d6/d2/3c8d0a885995ee81e0a52dca5093d0c3dccf511a009944e62d4ab14c9c2f/typing_inspect-0.5.0.tar.gz";
-        sha256 = "811b44f92e780b90cfe7bac94249a4fae87cfaa9b40312765489255045231d9c";
+        url = "https://files.pythonhosted.org/packages/84/06/8610d429f5d8d6e145abd0ac6a1a6a120c5f6fcbe174d43ddde549b1c582/typing_inspect-0.6.0.tar.gz";
+        sha256 = "8f1b1dd25908dbfd81d3bebc218011531e7ab614ba6e5bf7826d887c834afab7";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1190,10 +1190,10 @@ let
     };
 
     "urllib3" = python.mkDerivation {
-      name = "urllib3-1.25.8";
+      name = "urllib3-1.25.9";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/09/06/3bc5b100fe7e878d3dee8f807a4febff1a40c213d2783e3246edde1f3419/urllib3-1.25.8.tar.gz";
-        sha256 = "87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc";
+        url = "https://files.pythonhosted.org/packages/05/8c/40cd6949373e23081b3ea20d5594ae523e681b6f472e600fbc95ed046a36/urllib3-1.25.9.tar.gz";
+        sha256 = "3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1207,10 +1207,10 @@ let
     };
 
     "validators" = python.mkDerivation {
-      name = "validators-0.14.2";
+      name = "validators-0.15.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/4d/56/9b48c918ef118ea12b90f227c4498ed4703b418bdd8fb49479dfcbeae4ef/validators-0.14.2.tar.gz";
-        sha256 = "b192e6bde7d617811d59f50584ed240b580375648cd032d106edeb3164099508";
+        url = "https://files.pythonhosted.org/packages/c4/4a/4f9c892f9a9f08ee5f99c32bbd4297499099c2c5f7eff8c617a57d31a7d8/validators-0.15.0.tar.gz";
+        sha256 = "31e8bb01b48b48940a021b8a9576b840f98fa06b91762ef921d02cb96d38727a";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1244,10 +1244,10 @@ let
     };
 
     "werkzeug" = python.mkDerivation {
-      name = "werkzeug-1.0.0";
+      name = "werkzeug-1.0.1";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/4b/a5/781dbff5062f31e8407242ea2e07c05eb4f3a236f59124ef46f5e92a2776/Werkzeug-1.0.0.tar.gz";
-        sha256 = "169ba8a33788476292d04186ab33b01d6add475033dfc07215e6d219cc077096";
+        url = "https://files.pythonhosted.org/packages/10/27/a33329150147594eff0ea4c33c2036c0eadd933141055be0ff911f7f8d04/Werkzeug-1.0.1.tar.gz";
+        sha256 = "6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c";
 };
       doCheck = commonDoCheck;
       format = "setuptools";
@@ -1299,10 +1299,10 @@ let
     };
 
     "zope-interface" = python.mkDerivation {
-      name = "zope-interface-5.0.1";
+      name = "zope-interface-5.1.0";
       src = pkgs.fetchurl {
-        url = "https://files.pythonhosted.org/packages/87/43/fb6d188e05c2637629792b1f4a84cb25de51325448be8d705c8bb2f184ac/zope.interface-5.0.1.tar.gz";
-        sha256 = "dd0bc4016ec9ffa6d327bf3ba2f044c3ff376880661e5cc38c622e1ae023076f";
+        url = "https://files.pythonhosted.org/packages/af/d2/9675302d7ced7ec721481f4bbecd28a390a8db4ff753d28c64057b975396/zope.interface-5.1.0.tar.gz";
+        sha256 = "40e4c42bd27ed3c11b2c983fecfb03356fae1209de10686d03c02c8696a1d90e";
 };
       doCheck = commonDoCheck;
       format = "setuptools";

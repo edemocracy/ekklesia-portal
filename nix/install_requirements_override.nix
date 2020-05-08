@@ -7,7 +7,7 @@ self: super: let
       buildInputs = old.buildInputs ++ inputs;
     });
 
-  py = pkgs.python37Packages;
+  py = pkgs.python38Packages;
 in
 {
   more-babel-i18n = addBuildInputs "more-babel-i18n" [ py.setuptools_scm ];

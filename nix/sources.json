@@ -5,10 +5,10 @@
         "homepage": null,
         "owner": "Piratenpartei",
         "repo": "ekklesia-common",
-        "rev": "1dd7c045f528dc5490b6f899f061ba55290e30e1",
-        "sha256": "082w2ms3vb2xbg97a6sq1vk1qv6ydl3gn9wl2nfy4vb61zi234nq",
+        "rev": "22bd772c6ce18ac36cde105005f5caa572721b45",
+        "sha256": "1rj14skfbz55wkihrr4b3ff46bv9qxw1snya5wfv9l7psk1dcr8j",
         "type": "tarball",
-        "url": "https://github.com/Piratenpartei/ekklesia-common/archive/1dd7c045f528dc5490b6f899f061ba55290e30e1.tar.gz",
+        "url": "https://github.com/Piratenpartei/ekklesia-common/archive/22bd772c6ce18ac36cde105005f5caa572721b45.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -24,15 +24,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "nixos-19.09",
+        "branch": "nixos-20.03",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "NixOS",
         "repo": "nixpkgs-channels",
-        "rev": "7d31bbceaa12ad56779c3c55a9062fa7fb687c4a",
-        "sha256": "1s5w3xf7kjk2b4w7wjsrzgdpdcm7p7c9shb0llcq6kw2b4jh7xda",
+        "rev": "b0e3df2f8437767667bd041bb336e9d62a97ee81",
+        "sha256": "0d34k96l0gzsdpv14vnxdfslgk66gb0nsjz7qcqz1ykb0i7n3n07",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/7d31bbceaa12ad56779c3c55a9062fa7fb687c4a.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/b0e3df2f8437767667bd041bb336e9d62a97ee81.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
