@@ -8,7 +8,7 @@ let
   ekklesia-portal = import ../. { inherit sources; };
   deps = ekklesia-portal.deps;
   inherit (deps) pkgs gunicorn python lib;
-  pythonpath = "${python}/lib/python3.7/site-packages,${ekklesia-portal}/lib/python3.7/site-packages";
+  pythonpath = "${python}/lib/python3.8/site-packages,${ekklesia-portal}/lib/python3.8/site-packages";
 
   gunicornConf = pkgs.writeText
                 "gunicorn_config.py"

@@ -15,7 +15,7 @@ pkgs.runCommand "ekklesia-portal-static-${version}" {
   #cp -r $src/static/img $outs
   cp -r ${javascriptDeps}/js $outs
   cp -r ${webfontsPath} $outs
-  cp -r ${deform}/lib/python3.7/site-packages/deform/static $outs/deform
+  cp -r ${deform}/lib/python3.8/site-packages/deform/static $outs/deform
 
   mkdir $outs/css
   sassc -I $sassPath $src/sass/portal.sass $outs/css/portal.css
