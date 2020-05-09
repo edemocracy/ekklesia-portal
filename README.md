@@ -81,7 +81,6 @@ database:
 ### Generate CSS
 
 CSS is compiled from Sass files that include files from Bootstrap and Font-Awesome. sassc is used as Sass compiler.
-The repository includes compiled CSS so you don't have to run the following command if you are not changing the Sass files.
 
 Generate CSS with:
 
