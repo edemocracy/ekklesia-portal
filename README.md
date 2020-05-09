@@ -5,7 +5,7 @@ You can visit a running instance at [antrag.piratenpartei.de](https://antrag.pir
 
 ## Tech Stack
 
-* Backend: [Python 3.8](https://www.python.org8
+* Backend: [Python 3.8](https://www.python.org)
 * Web framework: [Morepath](http://morepath.readthedocs.org )
 * Frontend:
   [Pyjade](https://github.com/syrusakbary/pyjade) (like [Pug](https://pugjs.org)),
