@@ -26,7 +26,7 @@ let
 
 in rec {
   inherit pkgs bootstrap javascriptDeps ekklesia-common;
-  inherit (pkgs) lib sassc;
+  inherit (pkgs) lib sassc glibcLocales;
   inherit (installPkgs) babel deform;
   inherit (pythonPackages) buildPythonApplication;
   buildPythonEnv = pkgs.python38.buildEnv;

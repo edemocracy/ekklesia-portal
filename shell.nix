@@ -9,6 +9,7 @@ in pkgs.mkShell {
   buildInputs = deps.shellInputs;
   # A pure nix shell breaks SSL for git and nix tools which is fixed by setting the path to the certificate bundle.
   shellHook = ''
+    export LOCALE_ARCHIVE=${deps.glibcLocales}/lib/locale/locale-archive
     export PYTHONPATH=./src:../ekklesia-common/src
     export PATH=${deps.shellPath}:$PATH
     export NIX_SSL_CERT_FILE=${caBundle}
