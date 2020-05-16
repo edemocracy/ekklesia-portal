@@ -19,6 +19,8 @@ class Propositions:
     type: str = None
 
     def __post_init__(self):
+        self.parse_search_filters()
+
         # Force None value if argument is empty to clean up url
         self.department = self.department or None
         self.document = self.document or None
@@ -36,6 +38,54 @@ class Propositions:
 
         # Don't display subject area filter when no department filter is given
         self.subject_area = self.subject_area if self.department and self.subject_area else None
+
+    def parse_search_filters(self):
+        if not self.search:
+            return
+
+        search = []
+        for word in self.search.split():
+            if ":" in word:
+                (type, term) = word.split(':', 1)
+                if type == "status":
+                    self.status = term
+                elif type == "tag":
+                    self.tag = term
+                elif type == "phase":
+                    self.phase = term
+                elif type == "type":
+                    self.type = term
+                elif type == "department":
+                    self.department = term
+                elif type == "subject_area":
+                    self.subject_area = term
+                else:
+                    search.append(word)
+            else:
+                search.append(word)
+
+        self.search = " ".join(search)
+
+    def build_search_query(self):
+        query = []
+        if self.search:
+            for word in self.search.split():
+                query.append(word)
+
+        if self.status:
+            query.append("status:" + self.status)
+        if self.tag:
+            query.append("tag:" + self.tag)
+        if self.phase:
+            query.append("phase:" + self.phase)
+        if self.type:
+            query.append("type:" + self.type)
+        if self.department:
+            query.append("department:" + self.department)
+        if self.subject_area:
+            query.append("subject_area:" + self.subject_area)
+
+        return " ".join(query)
 
     def propositions(self, q):
         propositions = q(Proposition)
