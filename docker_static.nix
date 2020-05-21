@@ -1,9 +1,11 @@
 #!/usr/bin/env -S nix-build -o docker-image-ekklesia-portal-static.tar
 # Run this file: ./docker_static.nix.
+# Default tag is the git version. You can set a custom tag with:
+# ./docker_static.nix --argstr tag mytag
 # It creates a docker image archive called docker-image-ekklesia-portal-static.tar.
 # Import into docker with:
 # docker load -i docker-image-ekklesia-portal-static.tar
-{ sources ? null }:
+{ sources ? null, tag ? null }:
 
 with builtins;
 
@@ -24,7 +26,11 @@ in
 
 pkgs.dockerTools.buildLayeredImage {
   name = "ekklesia-portal-static";
-  tag = trace "Tagging image with ${version}" version;
+  tag =
+    if tag == null then
+      trace "Automatically tagging image with version ${version}" version
+    else
+      trace "Tagging image with custom tag '${tag}'" tag;
   contents = [ passwd ];
 
   config = {
