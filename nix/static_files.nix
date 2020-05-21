@@ -10,13 +10,12 @@ pkgs.runCommand "ekklesia-portal-static-${version}" {
   inherit sassPath;
   src = ../src/ekklesia_portal;
 } ''
-  outs=$out/static
-  mkdir -p $outs
-  #cp -r $src/static/img $outs
-  cp -r ${javascriptDeps}/js $outs
-  cp -r ${webfontsPath} $outs
-  cp -r ${deform}/lib/python3.8/site-packages/deform/static $outs/deform
+  mkdir -p $out/css
+  sassc -I $sassPath $src/sass/portal.sass $out/css/portal.css
 
-  mkdir $outs/css
-  sassc -I $sassPath $src/sass/portal.sass $outs/css/portal.css
+  #cp -r $src/static/img $out
+  cp -r ${javascriptDeps}/js $out
+  cp -r ${webfontsPath} $out
+  cp -r ${deform}/lib/python3.8/site-packages/deform/static $out/deform
+
 ''

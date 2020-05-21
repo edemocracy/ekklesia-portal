@@ -19,10 +19,10 @@ http {
         client_body_buffer_size 1m;
         client_max_body_size    1m;
 
-        location / {
+        location /static {
             add_header Access-Control-Allow-Origin *;
             add_header Cache-Control public;
-            root ${staticFiles};
+            alias ${staticFiles};
         }
     }
 }
