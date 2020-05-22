@@ -4,29 +4,22 @@
 { sources ? null }:
 let
   deps = import ./nix/deps.nix { inherit sources; };
-  inherit (deps) buildPythonApplication lib pkgs babel installLibs testLibs;
-  version = import ./nix/version.nix;
+  inherit (deps) babel pkgs poetry2nix python pyProject;
+  inherit (deps.pyProject) version;
 
-in buildPythonApplication rec {
-  pname = "ekklesia-portal";
-  inherit version;
-
-  src = pkgs.nix-gitignore.gitignoreSource
-          [ "cookiecutter" "mockup" "old" ]
-          ./.;
-
+in poetry2nix.mkPoetryApplication {
   doCheck = false;
-  catchConflicts = false;
-
-  buildInputs = testLibs;
-  propagatedBuildInputs = installLibs;
-
-  postInstall = ''
-    ${babel}/bin/pybabel compile -d $out/lib/*/site-packages/ekklesia_portal/translations
-  '';
+  projectDir = ./.;
+  inherit python version;
+  src = pkgs.nix-gitignore.gitignoreSource
+    [ "cookiecutter" "mockup" "old" ]
+    ./.;
 
   passthru = {
     inherit deps version;
-    inherit (deps) python;
   };
+
+  postInstall = ''
+    ${babel}/bin/pybabel compile -d $out/${python.sitePackages}/ekklesia_portal/translations
+  '';
 }

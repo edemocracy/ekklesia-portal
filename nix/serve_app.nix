@@ -6,9 +6,9 @@
 }:
 let
   ekklesia-portal = import ../. { inherit sources; };
-  deps = ekklesia-portal.deps;
-  inherit (deps) pkgs gunicorn python lib;
-  pythonpath = "${python}/lib/python3.8/site-packages,${ekklesia-portal}/lib/python3.8/site-packages";
+  inherit (ekklesia-portal) dependencyEnv deps;
+  inherit (deps) pkgs gunicorn lib;
+  pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";
 
   gunicornConf = pkgs.writeText
                 "gunicorn_config.py"
