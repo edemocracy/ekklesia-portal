@@ -4,10 +4,10 @@
 { sources ? null }:
 let
   deps = import ./nix/deps.nix { inherit sources; };
-  inherit (deps) babel pkgs poetry2nix python pyProject;
+  inherit (deps) babel pkgs mkPoetryApplication python pyProject;
   inherit (deps.pyProject) version;
 
-in poetry2nix.mkPoetryApplication {
+in mkPoetryApplication {
   doCheck = false;
   projectDir = ./.;
   inherit python version;
