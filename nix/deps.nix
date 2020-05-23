@@ -12,52 +12,41 @@ let
   eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
   pdbpp = (import ./pdbpp.nix { inherit pkgs; }).packages.pdbpp;
   cookiecutter = (import ./cookiecutter.nix { inherit pkgs; }).packages.cookiecutter;
-  installPkgs = (import ./install_requirements.nix { inherit pkgs; }).packages;
-  testPkgs = (import ./test_requirements.nix { inherit pkgs; }).packages;
 
-  pythonPackages = pkgs.python38Packages;
-  setuptools = pythonPackages.setuptools;
-
-  # Adds missing dependency on setuptools for Python packages
-  fixSetuptools = pkg: pkg.overrideAttrs(
-    attrs: {
-      propagatedBuildInputs = attrs.propagatedBuildInputs ++ [ setuptools ];
-    });
+  python = pkgs.python38;
 
 in rec {
-  inherit pkgs bootstrap javascriptDeps ekklesia-common;
+  inherit pkgs bootstrap javascriptDeps ekklesia-common python;
   inherit (pkgs) lib sassc glibcLocales;
-  inherit (installPkgs) babel deform;
-  inherit (pythonPackages) buildPythonApplication;
-  buildPythonEnv = pkgs.python38.buildEnv;
+  inherit (python.pkgs) buildPythonApplication gunicorn;
+  inherit ((import "${sources_.poetry2nix}/overlay.nix") pkgs pkgs) poetry2nix poetry;
 
-  gunicorn = (fixSetuptools pythonPackages.gunicorn);
+  inherit (poetry2nix.mkPoetryPackages {
+    projectDir = ../.;
+    inherit python;
+  }) poetryPackages pyProject;
+
+  poetryPackagesByName =
+    lib.listToAttrs
+      (map
+        (p: { name = p.pname; value = p; })
+        poetryPackages);
+
+  inherit (poetryPackagesByName) deform babel;
 
   # Can be imported in Python code or run directly as debug tools
-  debugLibsAndTools = with pythonPackages; [
+  debugLibsAndTools = with python.pkgs; [
     ipython
     pdbpp
   ];
 
-  devLibs = with pythonPackages; [
+  devLibs = [
     cookiecutter
   ];
 
-  testLibs = (attrValues testPkgs) ++ [ setuptools ];
-
-  installLibs = (attrValues installPkgs) ++ [
-    eliotPkgs.eliot
-    ekklesia-common
-  ];
-
-  python = buildPythonEnv.override {
-    extraLibs = installLibs;
-    ignoreCollisions = true;
-  };
-
-  pythonDevTest = buildPythonEnv.override {
-    extraLibs = testLibs ++
-                installLibs ++
+  pythonDevTest = python.buildEnv.override {
+    extraLibs = poetryPackages ++
+                [ekklesia-common] ++
                 debugLibsAndTools ++
                 devLibs;
     ignoreCollisions = true;
@@ -67,24 +56,24 @@ in rec {
   pythonDev = pythonDevTest;
 
   # Code style and security tools
-  linters = with pythonPackages; [
+  linters = with python.pkgs; [
     bandit
     mypy
-    (fixSetuptools pylama)
+    pylama
     pylint
     autopep8
     yapf
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools = with pkgs; with pythonPackages; [
+  shellTools = with pkgs; with python.pkgs; [
     eliotPkgs.eliot-tree
     entr
     gunicorn
     jq
     niv
     openssl.dev
-    pip
+    poetry
     postgresql_12
     uwsgi
     sassc

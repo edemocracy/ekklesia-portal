@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "ekklesia-portal"
+version = "20.1.0"
+description = "Motion portal for the Ekklesia e-democracy platform"
+readme = "README.md"
+keywords = ["ekklesia", "edemocracy", "argument mapping", "evoting", "participation"]
+license = "AGPL-3.0-or-later"
+authors = ["Tobias dpausp <dpausp@posteo.de>"]
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+alembic = "^1.4.2"
+attrs = "^19.3.0"
+case-conversion = "^2.1.0"
+dataclasses-json = "^0.4.3"
+deform = "^2.0.8"
+eliot = "^1.12.0"
+jinja2 = "^2.11.2"
+"more.babel-i18n" = "^20.5.0"
+"more.browser-session" = "^19.8.0"
+"more.forwarded" = "^0.2"
+"more.itsdangerous" = "^0.0.2"
+"more.transaction" = "^0.9"
+morepath = "^0.19"
+munch = "^2.5.0"
+passlib = "^1.7.2"
+psycopg2 = "^2.8.5"
+py-gfm = "^0.1.4"
+pyjade = "^4.0.0"
+pyyaml = "^5.3.1"
+requests = "^2.23.0"
+requests-oauthlib = "^1.3.0"
+sqlalchemy = "^1.3.17"
+sqlalchemy-searchable = "^1.1.0"
+"zope.sqlalchemy" = "^1.3"
+
+[tool.poetry.dev-dependencies]
+colorama = "^0.4.3"
+coverage = "^5.1"
+inflect = "^4.1.0"
+mimesis-factory = "^1.1.0"
+pytest = "^5.4.2"
+pytest-cov = "^2.8.1"
+pytest-factoryboy = "^2.0.3"
+pytest-instafail = "^0.4.1"
+pytest-localserver = "^0.5.0"
+pytest-mock = "^3.1.0"
+pytest-pspec = "^0.0.3"
+responses = "^0.10.14"
+typing-extensions = "^3.7.4"
+webtest = "^2.0.35"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

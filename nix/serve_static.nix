@@ -16,7 +16,6 @@ let
                 });
 
   runNginx = pkgs.writeShellScriptBin "run" ''
-    #!${pkgs.runtimeShell}
     echo serving static files with Nginx on ${listen}...
     ${nginx}/bin/nginx -c ${nginxConf}
   '';
