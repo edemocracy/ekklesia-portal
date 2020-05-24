@@ -74,14 +74,29 @@ The following instructions assume that Nix is already installed, `lorri` is avai
     sassc -I $SASS_PATH src/ekklesia_portal/sass/portal.sass \
       src/ekklesia_portal/static/css/portal.css
     ~~~
-4. Create a config file named `config.yml` using the config template from `src/ekklesia_portal/config.example.yml`
+4. Setup PostgreSQL user and db
+This was tested on Ubuntu 20.04 with the package `postgresql-all` installed but it should work on other systems as well.
+Please adjust the values, this is a help for people who never used PostgreSQL.
+You can skip the step if you want to run PostgreSQL on alternative ways. See Running PostgreSQL as User for more information.
+   ~~~Shell
+   sudo su - postgres -c "createuser ekklesia_portal_db_user"
+   sudo su - postgres -c "createdb ekklesia_portal_db_name"
+   sudo -u postgres psql
+   ALTER USER ekklesia_portal_db_user WITH PASSWORD 'ekklesia_portal_db_password';
+   grant all privileges on database ekklesia_portal_db_name to ekklesia_portal_db_user;
+   exit
+   sudo systemctl restart postgresql
+   ~~~
+5. Create a config file named `config.yml` using the config template from `src/ekklesia_portal/config.example.yml`
     or skip this to use the default settings from `src/ekklesia_portal/default_settings.py`.
+    If you have used the values above there is no need to adjust the config.yml 
+    after copying it (not recommended for production use).
     Make sure that the database connection string points to an empty + writable database.
-5. Initialize the dev database with a custom config file:
+6. Initialize the dev database with a custom config file:
     ~~~Shell
     python tests/create_test_db.py -c config.yml
     ~~~
-6. The development server can be run with a custom config file by executing:
+7. The development server can be run with a custom config file by executing:
     ~~~Shell
     python src/ekklesia_portal/runserver.py --debug -c config.yml
     ~~~
