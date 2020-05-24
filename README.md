@@ -58,6 +58,7 @@ Please follow the [Lorri Installation Instructions](https://github.com/target/lo
 ### Project Quick Start
 
 The following instructions assume that Nix is already installed, `lorri` is available in PATH and an empty + writable PostgreSQL database can be accessed somehow.
+If you can't use an existing PostgreSQL server, have a look at the next section 'Running PostgreSQL as User'.
 
 1. Clone the repository with:
     ~~~Shell
