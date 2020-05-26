@@ -328,6 +328,10 @@ class PropositionsCell(LayoutCell):
             .filter(Proposition.visibility == PropositionVisibility.PUBLIC)
         return list(propositions)
 
+    # Overrides the base method in LayoutCell
+    def search_query(self):
+        return self._model.build_search_query()
+
     def link_remove_filter(self, filter):
         propositions = copy.copy(self._model)
         setattr(propositions, filter, None)
