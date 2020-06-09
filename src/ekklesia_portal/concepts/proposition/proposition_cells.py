@@ -16,6 +16,7 @@ from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVot
 from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
 from .propositions import Propositions
 from .proposition_helper import items_for_proposition_select_widgets
+from sqlalchemy import func
 
 
 @App.cell(Proposition)
@@ -342,14 +343,14 @@ class PropositionsCell(LayoutCell):
         return self.link(propositions)
 
     def voting_phase_title(self, phase):
-        voting_phase = self._request.q(VotingPhase).filter_by(name=phase).scalar()
+        voting_phase = self._request.q(VotingPhase).filter(func.lower(VotingPhase.name) == func.lower(phase)).scalar()
         if voting_phase is None:
             return phase
         else:
             return voting_phase.title
 
     def proposition_type_name(self, type):
-        proposition_type = self._request.q(PropositionType).filter_by(abbreviation=type).scalar()
+        proposition_type = self._request.q(PropositionType).filter(func.lower(PropositionType.abbreviation) == func.lower(type)).scalar()
         if proposition_type is None:
             return type
         else:
