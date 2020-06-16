@@ -14,8 +14,12 @@ class MyEncoder(EliotJSONEncoder):
             return repr(obj)
 
 
-logging.getLogger().addHandler(EliotHandler())
-logging.getLogger().setLevel(logging.DEBUG)
+root_logger = logging.getLogger()
+root_logger.addHandler(EliotHandler())
+root_logger.setLevel(logging.DEBUG)
+logging.getLogger("morepath.directive").setLevel(logging.INFO)
+logging.getLogger("passlib.registry").setLevel(logging.INFO)
+logging.getLogger("passlib.utils.compat").setLevel(logging.INFO)
 
 eliot.to_file(sys.stdout, encoder=MyEncoder)
 

@@ -2,7 +2,7 @@ import json
 import logging
 import time
 
-from eliot import log_call
+from eliot import start_action
 import yaml
 
 
@@ -109,13 +109,13 @@ def after_cursor_execute(conn, cursor, statement,
         sqllog.warn("slow query %.1fms:\n%s", total * 1000, statement)
 
 
-@log_call
 def configure_sqlalchemy(db_settings, testing=False):
-    logg.info("using SQLAlchemy connection uri %s", db_settings.uri)
-    engine = create_engine(db_settings.uri)
-    Session.configure(bind=engine)
-    zope.sqlalchemy.register(Session, keep_session=True if testing else False)
-    db_metadata.bind = engine
+    with start_action(action_type="configure_sqlalchemy",
+                      sqlalchemy_url=db_settings.uri) as ctx:
+        engine = create_engine(db_settings.uri)
+        Session.configure(bind=engine)
+        zope.sqlalchemy.register(Session, keep_session=True if testing else False)
+        db_metadata.bind = engine
 
 
 @compiles(CreateColumn, 'postgresql')
