@@ -12,7 +12,7 @@ in mkPoetryApplication {
   projectDir = ./.;
   inherit python version;
   src = pkgs.nix-gitignore.gitignoreSource
-    [ "cookiecutter" "mockup" "old" ]
+    [ "cookiecutter" ]
     ./.;
 
   passthru = {

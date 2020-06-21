@@ -5,7 +5,9 @@ let
   sources_ = if (sources == null) then import ./sources.nix else sources;
   pkgs = import sources_.nixpkgs { };
   niv = (import sources_.niv { }).niv;
-  ekklesia-common = (import sources_.ekklesia-common { sources = sources_; });
+  # Ekklesia-common is pulled in by poetry as Python dependency.
+  # We don't use any Nix code from the project right now, so we don't have to import it here.
+  # ekklesia-common = (import sources_.ekklesia-common { sources = sources_; });
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
@@ -25,17 +27,23 @@ let
           buildInputs = nativeBuildInputs;
         }
       );
+      # Project needs poetry to build. Is this an error in poetry2nix?
+      ekklesia-common = super.ekklesia-common.overridePythonAttrs (
+        old: rec {
+          buildInputs = [ poetry ];
+        }
+      );
     });
 
 in rec {
-  inherit pkgs bootstrap javascriptDeps ekklesia-common python;
+  inherit pkgs bootstrap javascriptDeps python;
   inherit (pkgs) lib sassc glibcLocales;
   inherit (python.pkgs) buildPythonApplication gunicorn;
 
   mkPoetryApplication = { ... }@args:
-    poetry2nix.mkPoetryApplication args // {
+    poetry2nix.mkPoetryApplication (args // {
       inherit overrides;
-    };
+    });
 
   inherit (poetry2nix.mkPoetryPackages {
     projectDir = ../.;
@@ -63,7 +71,6 @@ in rec {
 
   pythonDevTest = python.buildEnv.override {
     extraLibs = poetryPackages ++
-                [ekklesia-common] ++
                 debugLibsAndTools ++
                 devLibs;
     ignoreCollisions = true;
@@ -78,30 +85,31 @@ in rec {
     mypy
     pylama
     pylint
-    autopep8
     yapf
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools = with pkgs; with python.pkgs; [
+  shellTools =  [
     eliotPkgs.eliot-tree
-    entr
-    gunicorn
-    jq
     niv
+    pkgs.entr
+    python.pkgs.gunicorn
+    pkgs.jq
+    pkgs.postgresql_12
+    pkgs.sassc
+    pkgs.zsh
     poetry
-    postgresql_12
-    uwsgi
-    sassc
-    zsh
   ];
+
 
   # Needed for a development nix shell
   shellInputs =
-    [ pythonTest bootstrap ] ++
     linters ++
     shellTools ++
-    debugLibsAndTools;
+    debugLibsAndTools ++ [
+      pythonTest
+      bootstrap
+    ];
 
   shellPath = lib.makeBinPath shellInputs;
   sassPath = "${bootstrap}/scss:${font-awesome}/scss";
