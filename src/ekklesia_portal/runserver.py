@@ -12,7 +12,7 @@ tmpdir = tempfile.gettempdir()
 parser = argparse.ArgumentParser("Ekklesia Portal runserver.py")
 
 parser.add_argument("-b", "--bind", default="localhost", help="hostname / IP to bind to, default ekklesia-portal-localhost")
-parser.add_argument("-p", "--http_port", default=8080, help="HTTP port to use, default 8080")
+parser.add_argument("-p", "--http_port", default=8080, type=int, help="HTTP port to use, default 8080")
 parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
 parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
