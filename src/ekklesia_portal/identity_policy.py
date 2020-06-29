@@ -1,4 +1,5 @@
 import logging
+from ekklesia_common.identity_policy import NoIdentity
 from ekklesia_common.utils import cached_property
 import morepath
 from ekklesia_portal.datamodel import User
@@ -18,11 +19,6 @@ class UserIdentity(morepath.Identity):
     @cached_property
     def user(self):
         return self._refresh_user_object(self._user)
-
-
-class NoIdentity:
-    user = None
-    userid = None
 
 
 class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
