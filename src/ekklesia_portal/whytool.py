@@ -5,7 +5,7 @@ from dectate.tool import parse_app_class
 from webob.exc import HTTPException
 
 from ekklesia_portal.app import make_wsgi_app
-from ekklesia_portal.request import EkklesiaPortalRequest
+from ekklesia_common.request import EkklesiaRequest
 
 
 def why_tool():
@@ -43,11 +43,11 @@ def why_tool():
             headers[key] = value
     else:
         headers = None
-    request = EkklesiaPortalRequest.blank(args.path,
-                                     method=args.request_method.upper(),
-                                     headers=headers,
-                                     body=body,
-                                     app=app)
+    request = EkklesiaRequest.blank(args.path,
+                                    method=args.request_method.upper(),
+                                    headers=headers,
+                                    body=body,
+                                    app=app)
     response = app.publish(request)
     print("\n\n" + "=" * 80)
     print("\nPath:")

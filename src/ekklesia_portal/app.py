@@ -1,40 +1,23 @@
 import logging
 import os
-from pkg_resources import resource_filename
 
+from ekklesia_common import database
+from ekklesia_common.app import EkklesiaBrowserApp
+from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
 from eliot import start_task, start_action, log_call
 import morepath
-from more.babel_i18n import BabelApp
-from more.browser_session import BrowserSessionApp
-from more.forwarded import ForwardedApp
-from more.transaction import TransactionApp
 import yaml
 
 import ekklesia_portal
-from ekklesia_common import database
-from ekklesia_common.cell import JinjaCellEnvironment
-from ekklesia_common.cell_app import CellApp
-from ekklesia_common.concept import ConceptApp
-from ekklesia_common.contract import FormApp
-from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp, OAuthToken
-from ekklesia_common.templating import make_jinja_env, make_template_loader
 from ekklesia_portal.datamodel import User, UserProfile, Department
-from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 
 logg = logging.getLogger(__name__)
 
 
-class App(ConceptApp, ForwardedApp, TransactionApp, BabelApp, BrowserSessionApp, EkklesiaAuthApp, CellApp, FormApp):
-    request_class = EkklesiaPortalRequest
-    translation_dir = resource_filename('ekklesia_portal', 'translations/')
-
-    def __init__(self):
-        super().__init__()
-        self.jinja_env = make_jinja_env(jinja_environment_class=JinjaCellEnvironment,
-                                        jinja_options=dict(loader=make_template_loader(App.config, 'ekklesia_portal')),
-                                        app=self)
+class App(EkklesiaBrowserApp):
+    package_name = 'ekklesia_portal'
 
 
 @App.tween_factory()

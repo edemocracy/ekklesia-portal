@@ -7,7 +7,7 @@ from morepath.request import BaseRequest
 from webtest import TestApp as Client
 from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.identity_policy import UserIdentity
-from ekklesia_portal.request import EkklesiaPortalRequest
+from ekklesia_common.request import EkklesiaRequest
 from ekklesia_common.database import Session
 from ekklesia_portal.datamodel import Proposition, User, DepartmentMember
 from ekklesia_portal.enums import ArgumentType
@@ -40,7 +40,7 @@ def client(app):
 @fixture
 def req(app):
     environ = BaseRequest.blank('test').environ
-    req = EkklesiaPortalRequest(environ, app)
+    req = EkklesiaRequest(environ, app)
     req.i18n = Munch(dict(gettext=(lambda s, *a, **k: s)))
     req.browser_session = {}
     return req
@@ -86,7 +86,7 @@ def refresh_user_object(user):
 @fixture
 def logged_in_user(user, monkeypatch):
     user_identity = UserIdentity(user, refresh_user_object)
-    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    monkeypatch.setattr('ekklesia_common.request.EkklesiaRequest.identity', user_identity)
     return user
 
 
@@ -94,7 +94,7 @@ def logged_in_user(user, monkeypatch):
 def logged_in_user_with_departments(user_with_departments, monkeypatch):
     user = user_with_departments
     user_identity = UserIdentity(user, refresh_user_object)
-    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    monkeypatch.setattr('ekklesia_common.request.EkklesiaRequest.identity', user_identity)
     return user
 
 
@@ -120,14 +120,14 @@ def department_admin(db_session, user_factory, department_factory):
 @fixture
 def logged_in_department_admin(department_admin, monkeypatch):
     user_identity = UserIdentity(department_admin, refresh_user_object, has_global_admin_permissions=False)
-    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    monkeypatch.setattr('ekklesia_common.request.EkklesiaRequest.identity', user_identity)
     return department_admin
 
 
 @fixture
 def logged_in_global_admin(global_admin, monkeypatch):
     user_identity = UserIdentity(global_admin, refresh_user_object, has_global_admin_permissions=True)
-    monkeypatch.setattr('ekklesia_portal.request.EkklesiaPortalRequest.identity', user_identity)
+    monkeypatch.setattr('ekklesia_common.request.EkklesiaRequest.identity', user_identity)
     return global_admin
 
 
