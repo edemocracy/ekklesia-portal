@@ -16,38 +16,57 @@ from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 logg = logging.getLogger(__name__)
 
 
-class App(EkklesiaBrowserApp):
+class BaseApp(EkklesiaBrowserApp):
     package_name = 'ekklesia_portal'
 
 
-@App.tween_factory()
-def make_ekklesia_log_tween(app, handler):
-    def ekklesia_log_tween(request):
-        request_data = {
-            'url': request.url,
-            'headers': dict(request.headers)
-        }
-
-        user = request.current_user
-
-        if user is not None:
-            request_data['user'] = user.id
-
-        with start_task(action_type='request', request=request_data):
-            return handler(request)
-
-    return ekklesia_log_tween
+class App(BaseApp):
+    pass
 
 
-@App.tween_factory()
-def make_ekklesia_customizations_tween(app, handler):
-    def ekklesia_customizations_tween(request):
-        if app.settings.app.force_ssl:
-            request.scheme = 'https'
+@BaseApp.setting_section(section="app")
+def app_setting_section():
+    return {
+        "title": "Ekklesia Portal Dev",
+        "insecure_development_mode": False,
+        "internal_login_enabled": True,
+        "custom_footer_url": None,
+        "source_code_url": "https://github.com/Piratenpartei/ekklesia-portal",
+        "tos_url": None,
+        "data_protection_url": None,
+        "faq_url": None,
+        "imprint_url": None,
+        "report_url": None,
+        "login_visible": False
+    }
 
-        return handler(request)
 
-    return ekklesia_customizations_tween
+@BaseApp.setting_section(section="database")
+def database_setting_section():
+    return {
+        "uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
+    }
+
+
+@BaseApp.setting_section(section="share")
+def share_setting_section():
+    return {
+        "use_url_shortener": False,
+        "hashtag": '',
+        "promote_account": '',
+        "email_topic": {
+            "en": "Ekklesia Portal - Share Proposition",
+            "de": "Ekklesia Portal - Teile Antrag"
+        },
+        "email_body": {
+            "en": "I just wanted to share a proposition from the Ekklesia Portal!\n",
+            "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!\n"
+        },
+        "tweet_msg": {
+            "en": "I just wanted to share a proposition from the Ekklesia Portal!",
+            "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!"
+        },
+    }
 
 
 @App.identity_policy()
@@ -116,7 +135,7 @@ def mount_ekklesia_auth_path():
 
 @log_call
 def get_app_settings(settings_filepath=None):
-    from ekklesia_portal.default_settings import settings
+    settings = {}
 
     if settings_filepath is None:
         settings_filepath = os.environ.get('EKKLESIA_PORTAL_CONFIG')
@@ -125,14 +144,8 @@ def get_app_settings(settings_filepath=None):
         logg.info("no config file given, using defaults")
     elif os.path.isfile(settings_filepath):
         with open(settings_filepath) as config:
-            settings_from_file = yaml.safe_load(config)
+            settings = yaml.safe_load(config)
         logg.info("loaded config from %s", settings_filepath)
-
-        for section_name, section in settings_from_file.items():
-            if section_name in settings:
-                settings[section_name].update(section)
-            else:
-                settings[section_name] = section
     else:
         logg.warn("config file path %s doesn't exist!", settings_filepath)
 

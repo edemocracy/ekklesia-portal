@@ -66,6 +66,6 @@ if __name__ == "__main__":
     sqlalchemy.orm.configure_mappers()
 
     ballots = load_ballots()
-    instance_name = app.settings.app.instance_name
+    instance_name = app.settings.common.instance_name
     rows = convert_ballots_to_proposition_rows(instance_name, ballots)
     write_csv_file(args.out, rows)
