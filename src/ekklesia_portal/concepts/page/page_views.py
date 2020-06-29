@@ -1,7 +1,7 @@
 from eliot import log_call
 from morepath import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Page
+from ekklesia_portal.datamodel import Page
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .page_cells import PageCell, PagesCell, NewPageCell, EditPageCell
 from .page_contracts import PageForm

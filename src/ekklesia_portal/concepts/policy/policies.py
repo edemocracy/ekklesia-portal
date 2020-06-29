@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Policy
+from ekklesia_portal.datamodel import Policy
 
 
 class Policies:

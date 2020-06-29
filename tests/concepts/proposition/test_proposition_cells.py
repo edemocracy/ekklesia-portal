@@ -1,5 +1,5 @@
 from ekklesia_portal.concepts.proposition.proposition_cells import PropositionCell
-from ekklesia_portal.database.datamodel import ArgumentRelation
+from ekklesia_portal.datamodel import ArgumentRelation
 
 
 def test_proposition_cell(proposition_with_arguments, req):

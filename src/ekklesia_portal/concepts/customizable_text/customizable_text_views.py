@@ -1,7 +1,7 @@
 from eliot import log_call
 from morepath import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import CustomizableText
+from ekklesia_portal.datamodel import CustomizableText
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .customizable_text_cells import CustomizableTextCell, CustomizableTextsCell, NewCustomizableTextCell, EditCustomizableTextCell
 from .customizable_text_contracts import CustomizableTextForm

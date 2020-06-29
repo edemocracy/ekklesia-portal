@@ -8,7 +8,7 @@ import responses
 from webtest import TestApp as Client
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData
 from ekklesia_portal.app import create_or_update_user
-from ekklesia_portal.database.datamodel import User
+from ekklesia_portal.datamodel import User
 from tests.helpers.webtest_helpers import get_session
 
 

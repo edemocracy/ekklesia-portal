@@ -8,8 +8,8 @@ from webtest import TestApp as Client
 from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.identity_policy import UserIdentity
 from ekklesia_portal.request import EkklesiaPortalRequest
-from ekklesia_portal.database import Session
-from ekklesia_portal.database.datamodel import Proposition, User, DepartmentMember
+from ekklesia_common.database import Session
+from ekklesia_portal.datamodel import Proposition, User, DepartmentMember
 from ekklesia_portal.enums import ArgumentType
 
 ROOT_DIR = Path(__file__).absolute().parent.parent

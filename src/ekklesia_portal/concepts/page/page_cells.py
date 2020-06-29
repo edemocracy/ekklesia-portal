@@ -1,7 +1,7 @@
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
-from ekklesia_portal.database.datamodel import Page
+from ekklesia_portal.datamodel import Page
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .pages import Pages
 

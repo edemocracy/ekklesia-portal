@@ -1,5 +1,5 @@
 import pytest
-from ekklesia_portal.database.datamodel import Supporter
+from ekklesia_portal.datamodel import Supporter
 
 
 def test_proposition(db_session, user, user_two, proposition, proposition_two):

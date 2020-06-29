@@ -1,6 +1,6 @@
 
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import User
+from ekklesia_portal.datamodel import User
 from ekklesia_portal.permission import ViewPermission
 from .user_cells import UserCell
 

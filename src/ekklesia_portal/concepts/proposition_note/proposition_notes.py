@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import PropositionNote
+from ekklesia_portal.datamodel import PropositionNote
 
 
 class PropositionNotes:

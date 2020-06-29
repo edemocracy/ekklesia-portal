@@ -1,6 +1,6 @@
 from ekklesia_portal.app import App
 from ekklesia_common.cell import Cell
-from ekklesia_portal.database.datamodel import Argument
+from ekklesia_portal.datamodel import Argument
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 
 

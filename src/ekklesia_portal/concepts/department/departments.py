@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Department
+from ekklesia_portal.datamodel import Department
 
 
 class Departments:

@@ -7,7 +7,7 @@ from ekklesia_portal.concepts.policy.policies import Policies
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.proposition_type.proposition_types import PropositionTypes
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
-from ekklesia_portal.database.datamodel import VotingPhase, Page
+from ekklesia_portal.datamodel import VotingPhase, Page
 from ekklesia_portal.enums import VotingStatus
 
 

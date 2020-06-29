@@ -1,7 +1,7 @@
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import Department
+from ekklesia_portal.datamodel import Department
 
 
 def test_create_department(client, db_query, department_factory, logged_in_global_admin):

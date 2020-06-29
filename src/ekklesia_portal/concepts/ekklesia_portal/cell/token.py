@@ -1,5 +1,5 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import FormCell
-from ekklesia_portal.database.datamodel import Page
+from ekklesia_portal.datamodel import Page
 
 
 class TokenCell(FormCell):

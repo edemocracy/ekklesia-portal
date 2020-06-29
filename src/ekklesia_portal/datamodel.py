@@ -39,17 +39,15 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.mutable import MutableDict
-
 from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
-
-from ekklesia_portal.database import Base, integer_pk, C
+from ekklesia_common.database import Base, integer_pk, C
+from ekklesia_common.utils import cached_property
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, \
     SupporterStatus, VotingType, VotingStatus, VotingSystem, VoteByUser
-from ekklesia_common.utils import cached_property
 
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
@@ -114,15 +112,6 @@ class UserProfile(Base):
     eligible = Column(Boolean)
     verified = Column(Boolean)
     profile = Column(Text)
-
-
-class OAuthToken(Base):
-    __tablename__ = 'oauth_token'
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    user = relationship("User", backref=backref("oauth_token", uselist=False))
-    token = Column(JSON)
-    provider = Column(Text)
-    created_at = Column(DateTime, nullable=False, server_default=func.now())
 
 
 class GroupMember(Base):

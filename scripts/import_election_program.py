@@ -7,9 +7,9 @@ from eliot import log_call, Message, start_action
 import transaction
 import sqlalchemy.orm
 
-from ekklesia_portal.database.datamodel import Department, Ballot, Proposition, Tag, PropositionType, Policy, \
+from ekklesia_portal.datamodel import Department, Ballot, Proposition, Tag, PropositionType, Policy, \
     VotingPhase, VotingType, PropositionStatus
-from ekklesia_portal.database import Session
+from ekklesia_common.database import Session
 
 MOTIVATION = """Der Bundesparteitag 2019.2 hat beschlossen, dass alle Teile des Programms zur
 Bundestagswahl 2017 zur Streichung angemeldet werden um eine Überarbeitung des Programms zur Bundestagswahl 2021 sicherzustellen.

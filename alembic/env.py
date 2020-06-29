@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-import ekklesia_portal.database
+import ekklesia_common.database
 from ekklesia_portal.app import get_app_settings
 
 # this is the Alembic Config object, which provides
@@ -16,7 +16,7 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-target_metadata = ekklesia_portal.database.Base.metadata
+target_metadata = ekklesia_common.database.Base.metadata
 
 app_settings = get_app_settings()
 url = app_settings['database']['uri']

@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import User
+from ekklesia_portal.datamodel import User
 from ekklesia_portal.lib.password import password_context
 
 

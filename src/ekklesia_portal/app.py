@@ -11,14 +11,14 @@ from more.transaction import TransactionApp
 import yaml
 
 import ekklesia_portal
-from ekklesia_portal import database
-from ekklesia_portal.database.datamodel import User, UserProfile, OAuthToken, Department
+from ekklesia_common import database
 from ekklesia_common.cell import JinjaCellEnvironment
 from ekklesia_common.cell_app import CellApp
 from ekklesia_common.concept import ConceptApp
 from ekklesia_common.contract import FormApp
-from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp
+from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthApp, EkklesiaAuthPathApp, OAuthToken
 from ekklesia_common.templating import make_jinja_env, make_template_loader
+from ekklesia_portal.datamodel import User, UserProfile, Department
 from ekklesia_portal.request import EkklesiaPortalRequest
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 

@@ -4,7 +4,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.concepts.proposition.propositions import Propositions
-from ekklesia_portal.database.datamodel import Document, Department, PropositionType
+from ekklesia_portal.datamodel import Document, Department, PropositionType
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .document_helper import items_for_document_select_widgets, markdown_with_propose_change
 from .documents import Documents

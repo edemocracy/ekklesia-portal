@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Ballot
+from ekklesia_portal.datamodel import Ballot
 from .ballot_contracts import BallotForm
 
 

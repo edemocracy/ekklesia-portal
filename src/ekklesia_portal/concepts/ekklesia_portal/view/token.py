@@ -5,7 +5,7 @@ import morepath
 from morepath import redirect
 from morepath import Response
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import UserLoginToken, User
+from ekklesia_portal.datamodel import UserLoginToken, User
 from ..cell.token import TokenCell
 from ..contracts.token import TokenForm
 

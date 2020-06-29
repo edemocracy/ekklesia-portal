@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Page
+from ekklesia_portal.datamodel import Page
 
 
 class Pages:

@@ -1,6 +1,6 @@
 from morepath import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Proposition, PropositionNote
+from ekklesia_portal.datamodel import Proposition, PropositionNote
 from ekklesia_portal.permission import EditPermission
 from .proposition_note_cells import EditPropositionNoteCell
 from .proposition_note_contracts import PropositionNoteForm

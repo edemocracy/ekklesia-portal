@@ -5,7 +5,7 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
-from ekklesia_portal.database.datamodel import Ballot, Proposition, SubjectArea, Supporter, Document, Changeset
+from ekklesia_portal.datamodel import Ballot, Proposition, SubjectArea, Supporter, Document, Changeset
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS

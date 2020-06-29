@@ -2,7 +2,7 @@ from ekklesia_common import md
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference
-from ekklesia_portal.database.datamodel import CustomizableText
+from ekklesia_portal.datamodel import CustomizableText
 
 
 def test_customizable_text(client, db_query, customizable_text_factory):

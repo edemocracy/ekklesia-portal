@@ -1,7 +1,7 @@
 import morepath
 from ekklesia_common.utils import cached_property
 
-from ekklesia_portal import database
+from ekklesia_common import database
 
 
 class EkklesiaPortalRequest(morepath.Request):

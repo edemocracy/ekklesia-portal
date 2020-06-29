@@ -1,7 +1,7 @@
 import logging
 from ekklesia_common.utils import cached_property
 import morepath
-from ekklesia_portal.database.datamodel import User
+from ekklesia_portal.datamodel import User
 
 
 logg = logging.getLogger(__name__)

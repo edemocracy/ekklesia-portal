@@ -9,7 +9,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.database.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType, Document
+from ekklesia_portal.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType, Document
 from ekklesia_common.cell import Cell
 from ekklesia_common.utils import cached_property
 from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult, PropositionVisibility

@@ -1,6 +1,6 @@
 from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import ArgumentVote, ArgumentRelation
+from ekklesia_portal.datamodel import ArgumentVote, ArgumentRelation
 from ekklesia_portal.enums import ArgumentType
 
 

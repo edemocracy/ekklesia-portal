@@ -4,9 +4,9 @@ if __name__ == "__main__":
     from ekklesia_portal.app import make_wsgi_app
 
     app = make_wsgi_app("config.yml")
-    from ekklesia_portal import database
+    from ekklesia_common import database
     from ekklesia_portal.app import App
-    from ekklesia_portal.database.datamodel import *
+    from ekklesia_portal.datamodel import *
 
     from tests.factories import *
 

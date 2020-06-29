@@ -1,6 +1,6 @@
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
-from ekklesia_portal.database.datamodel import PropositionNote
+from ekklesia_portal.datamodel import PropositionNote
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .proposition_note_helper import items_for_proposition_note_select_widgets
 from .proposition_notes import PropositionNotes

@@ -1,7 +1,7 @@
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import PropositionType
+from ekklesia_portal.datamodel import PropositionType
 
 
 def test_create_proposition_type(client, db_query, proposition_type_factory, logged_in_global_admin):

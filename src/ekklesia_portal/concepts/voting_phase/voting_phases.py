@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import VotingPhase
+from ekklesia_portal.datamodel import VotingPhase
 
 
 class VotingPhases:

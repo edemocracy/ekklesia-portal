@@ -2,7 +2,7 @@ from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_common import md
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import VotingPhase, Department, VotingPhaseType
+from ekklesia_portal.datamodel import VotingPhase, Department, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .voting_phase_cells import VotingPhaseCell, VotingPhasesCell, NewVotingPhaseCell, EditVotingPhaseCell

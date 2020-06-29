@@ -2,7 +2,7 @@ from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 import ekklesia_portal.concepts.voting_phase.voting_phase_helper as voting_phase_helper
-from ekklesia_portal.database.datamodel import Ballot, Department, PropositionType
+from ekklesia_portal.datamodel import Ballot, Department, PropositionType
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .ballot_helper import items_for_ballot_select_widgets
 from .ballots import Ballots

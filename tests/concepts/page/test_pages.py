@@ -2,7 +2,7 @@ from ekklesia_common import md
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import Page
+from ekklesia_portal.datamodel import Page
 
 
 def test_page(client, db_query, page_factory):

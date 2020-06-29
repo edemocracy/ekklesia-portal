@@ -130,9 +130,9 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
-    from ekklesia_portal.database.datamodel import Ballot, Department, Proposition, PropositionType, \
+    from ekklesia_portal.datamodel import Ballot, Department, Proposition, PropositionType, \
         User, VotingPhase, Supporter, Tag
-    from ekklesia_portal.database import Session
+    from ekklesia_common.database import Session
 
     session = Session()
 

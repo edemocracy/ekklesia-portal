@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import CustomizableText
+from ekklesia_portal.datamodel import CustomizableText
 
 
 def customizable_text(request, name):

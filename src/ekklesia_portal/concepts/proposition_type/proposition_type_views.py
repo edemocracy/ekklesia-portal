@@ -1,6 +1,6 @@
 from morepath import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import PropositionType
+from ekklesia_portal.datamodel import PropositionType
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .proposition_type_cells import PropositionTypeCell, PropositionTypesCell, NewPropositionTypeCell, EditPropositionTypeCell
 from .proposition_type_contracts import PropositionTypeForm

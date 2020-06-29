@@ -1,6 +1,6 @@
 from morepath import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Document
+from ekklesia_portal.datamodel import Document
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .document_cells import DocumentCell, DocumentsCell, NewDocumentCell, EditDocumentCell, DocumentProposeChangeCell

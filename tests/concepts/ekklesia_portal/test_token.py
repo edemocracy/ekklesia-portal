@@ -1,5 +1,5 @@
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import User
+from ekklesia_portal.datamodel import User
 
 
 def test_token(client, user_login_token_factory, page_factory):

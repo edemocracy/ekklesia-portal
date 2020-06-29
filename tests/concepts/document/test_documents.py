@@ -1,7 +1,7 @@
 import factory
 from webtest_helpers import assert_deform, fill_form
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.database.datamodel import Document
+from ekklesia_portal.datamodel import Document
 
 
 def test_create_document(client, db_query, document_factory, proposition_type_factory, logged_in_department_admin):

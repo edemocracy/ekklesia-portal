@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import Document
+from ekklesia_portal.datamodel import Document
 
 
 class Documents:

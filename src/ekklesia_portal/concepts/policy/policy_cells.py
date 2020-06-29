@@ -1,7 +1,7 @@
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
-from ekklesia_portal.database.datamodel import Policy
+from ekklesia_portal.datamodel import Policy
 from ekklesia_portal.permission import CreatePermission, EditPermission
 from .policy_helper import items_for_policy_select_widgets
 from .policies import Policies

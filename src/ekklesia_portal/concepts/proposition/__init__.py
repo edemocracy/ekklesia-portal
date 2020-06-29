@@ -1,5 +1,5 @@
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Proposition
+from ekklesia_portal.datamodel import Proposition
 from .propositions import Propositions
 
 

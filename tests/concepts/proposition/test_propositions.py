@@ -1,7 +1,7 @@
 import random
 import string
 import factory
-from ekklesia_portal.database.datamodel import Supporter, Proposition, Tag, Changeset
+from ekklesia_portal.datamodel import Supporter, Proposition, Tag, Changeset
 from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
 

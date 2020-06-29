@@ -1,6 +1,6 @@
 import dataclasses
 from dataclasses import dataclass
-from ekklesia_portal.database.datamodel import Proposition, Ballot, VotingPhase, PropositionStatus, PropositionType, SubjectArea, Department, Tag
+from ekklesia_portal.datamodel import Proposition, Ballot, VotingPhase, PropositionStatus, PropositionType, SubjectArea, Department, Tag
 from sqlalchemy import desc, func
 from sqlalchemy_searchable import search
 

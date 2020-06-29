@@ -7,6 +7,7 @@ import mimesis
 import sqlalchemy.orm
 import transaction
 
+from ekklesia_common.ekklesia_auth import OAuthToken
 from ekklesia_portal.app import make_wsgi_app
 from ekklesia_portal.lib.password import password_context
 
@@ -70,8 +71,8 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
-    from ekklesia_portal.database import db_metadata, Session
-    from ekklesia_portal.database.datamodel import *
+    from ekklesia_common.database import db_metadata, Session
+    from ekklesia_portal.datamodel import *
 
     print(f"using config file {args.config_file}")
     print(f"using db url {app.settings.database.uri}")

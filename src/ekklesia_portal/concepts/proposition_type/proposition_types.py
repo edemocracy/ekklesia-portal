@@ -1,4 +1,4 @@
-from ekklesia_portal.database.datamodel import PropositionType
+from ekklesia_portal.datamodel import PropositionType
 
 
 class PropositionTypes:

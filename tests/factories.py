@@ -7,9 +7,9 @@ from factory.fuzzy import FuzzyChoice, FuzzyText, FuzzyDecimal, FuzzyInteger
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData
-from ekklesia_portal.database import Session
+from ekklesia_common.database import Session
 from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingType, VotingStatus, VotingSystem
-from ekklesia_portal.database.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
+from ekklesia_portal.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
     VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, UserLoginToken, Page, CustomizableText, Document
 
 

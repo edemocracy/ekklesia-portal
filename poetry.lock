@@ -228,7 +228,7 @@ sqlalchemy_utils = "^0.36.6"
 "zope.sqlalchemy" = "^1.3"
 
 [package.source]
-reference = "8422ba890249a1da59dc188e391d0d73b18404e0"
+reference = "7b1c6f9e9a68dcec86ac0f39ea4aa03e1d626762"
 type = "git"
 url = "https://github.com/Piratenpartei/ekklesia-common"
 [[package]]

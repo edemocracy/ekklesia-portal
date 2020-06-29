@@ -2,7 +2,7 @@ import logging
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
-from ekklesia_portal.database.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
+from ekklesia_portal.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
 from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import CreatePermission, VotePermission
 from .argument_relations import ArgumentRelations
