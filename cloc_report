@@ -5,3 +5,7 @@ cloc src --fullpath --not-match-d=/static/
 echo
 echo === Tests =====================================================================
 cloc tests
+
+echo
+echo === Nix Automation ============================================================
+cloc nix/ *.nix
