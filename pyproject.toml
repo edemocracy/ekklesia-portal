@@ -25,7 +25,6 @@ ekklesia-common = {git = "https://github.com/Piratenpartei/ekklesia-common"}
 [tool.poetry.dev-dependencies]
 colorama = "^0.4.3"
 coverage = "^5.1"
-inflect = "^4.1.0"
 mimesis-factory = "^1.1.0"
 pytest = "^5.4.2"
 pytest-cov = "^2.8.1"
