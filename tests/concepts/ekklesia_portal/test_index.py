@@ -9,12 +9,15 @@ def test_index(client):
 
 
 def test_change_language(app, client):
-    client.post("/change_language", {'lang': 'de'})
+    res = client.post("/change_language", {'lang': 'de', 'myurl': '/'}, status=302)
     session = get_session(app, client)
     assert session['lang'] == 'de'
 
-    client.post("/change_language", {'lang': 'fr'})
-    session = get_session(app, client)
-    assert session['lang'] == 'fr'
 
+def test_change_language_url_with_params(app, client):
+    res = client.post("/change_language", {'lang': 'en', 'myurl': '/fromurl?param=yes&param2=no'}, status=302)
+    assert res.headers['Location'] == 'http://localhost/fromurl?param=yes&param2=no'
+
+
+def test_change_language_invalid(app, client):
     client.post("/change_language", {'lang': 'invalid'}, status=400)

@@ -8,10 +8,12 @@ from ..index import Index
 def ekklesia_portal():
     return Index()
 
+
 @App.html(model=Index)
 def index(self, request):
     from ..cell.index import IndexCell
     return IndexCell(self, request).show()
+
 
 @App.html(model=Index, name='change_language', request_method='POST')
 def change_language(self, request):
