@@ -33,7 +33,11 @@ class PageRedirect:
 @App.path(model=Page, path='pages/{name}/{lang}')
 @log_call
 def page(request, name, lang):
-    return request.q(Page).filter_by(name=name, lang=lang).scalar()
+    db_page = request.q(Page).filter_by(name=name, lang=lang).scalar()
+    if db_page is None:
+        use_lang = request.app.settings.app.fallback_language.lower()
+        db_page = request.q(Page).filter_by(name=name, lang=use_lang).scalar()
+    return db_page
 
 
 @App.html(model=Pages, permission=CreatePermission)

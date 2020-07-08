@@ -21,8 +21,10 @@ body
 
       form.top_lang_controls(action=change_language_action, method='POST')
         .btn-group
-          button.lang_select_button(type="submit", name="lang", value="de", class=("active" if language == "de")) DE
-          button.lang_select_button(type="submit", name="lang", value="en", class=("active" if language == "en")) EN
+          input(type="hidden",name="myurl",value=page_url)
+          for mylang in settings_languages
+            button.lang_select_button(type="submit", name="lang", value=mylang, class=("active" if language == mylang)) 
+              span=mylang.upper()
 
       .collapse.navbar-collapse
         ul.navbar-nav.mr-auto

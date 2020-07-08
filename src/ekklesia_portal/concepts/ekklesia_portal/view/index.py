@@ -8,18 +8,16 @@ from ..index import Index
 def ekklesia_portal():
     return Index()
 
-
 @App.html(model=Index)
 def index(self, request):
     from ..cell.index import IndexCell
     return IndexCell(self, request).show()
 
-
 @App.html(model=Index, name='change_language', request_method='POST')
 def change_language(self, request):
     lang = request.POST.get('lang')
-    if lang not in ('de', 'en', 'fr'):
+    if lang.lower() not in request.app.settings.app.languages:
         raise HTTPBadRequest()
 
     request.browser_session['lang'] = lang
-    return redirect('/')
+    return redirect(request.POST.get('myurl'))

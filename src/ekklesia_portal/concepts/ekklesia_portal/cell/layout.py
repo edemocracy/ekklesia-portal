@@ -3,7 +3,6 @@ from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
 from ekklesia_portal.concepts.page.pages import Pages
 
-
 class LayoutCell(Cell):
 
     def language(self):
@@ -12,6 +11,12 @@ class LayoutCell(Cell):
     def change_language_action(self):
         from ..view.index import Index
         return self.link(Index(), name='change_language')
+
+    def settings_languages(self):
+        return self._app.settings.app.languages
+
+    def page_url(self):
+        return self._request.url
 
     def search_query(self):
         return self._request.GET.get('search')

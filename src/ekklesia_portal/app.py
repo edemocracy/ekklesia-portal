@@ -37,7 +37,9 @@ def app_setting_section():
         "faq_url": None,
         "imprint_url": None,
         "report_url": None,
-        "login_visible": False
+        "login_visible": False,
+        "languages": ["de","en"],
+        "fallback_language": "de"
     }
 
 
