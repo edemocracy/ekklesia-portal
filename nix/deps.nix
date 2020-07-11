@@ -11,11 +11,15 @@ let
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
-  eliotPkgs = (import ./eliot.nix { inherit pkgs; }).packages;
-  pdbpp = (import ./pdbpp.nix { inherit pkgs; }).packages.pdbpp;
-  cookiecutter = (import ./cookiecutter.nix { inherit pkgs; }).packages.cookiecutter;
   inherit ((import "${sources_.poetry2nix}/overlay.nix") pkgs pkgs) poetry2nix poetry;
   python = pkgs.python38;
+
+  poetryWrapper = with python.pkgs; pkgs.writeScriptBin "poetry" ''
+    export PYTHONPATH=
+    unset SOURCE_DATE_EPOCH
+    ${poetry}/bin/poetry "$@"
+  '';
+
   overrides = poetry2nix.overrides.withDefaults (
     self: super: {
       psycopg2 = super.psycopg2.overridePythonAttrs (
@@ -62,17 +66,12 @@ in rec {
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with python.pkgs; [
     ipython
-    pdbpp
-  ];
-
-  devLibs = [
-    cookiecutter
+    poetryPackagesByName.pdbpp
   ];
 
   pythonDevTest = python.buildEnv.override {
     extraLibs = poetryPackages ++
-                debugLibsAndTools ++
-                devLibs;
+                debugLibsAndTools;
     ignoreCollisions = true;
   };
 
@@ -89,16 +88,16 @@ in rec {
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools =  [
-    eliotPkgs.eliot-tree
+  shellTools = [
     niv
     pkgs.entr
-    python.pkgs.gunicorn
     pkgs.jq
     pkgs.postgresql_12
     pkgs.sassc
     pkgs.zsh
-    poetry
+    poetryPackagesByName.eliot-tree
+    poetryWrapper
+    python.pkgs.gunicorn
   ];
 
 
