@@ -832,8 +832,8 @@ msgid "label_verified"
 msgstr "Verified"
 
 #: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:6
-msgid "label_auid"
-msgstr "AUID (application-specific ID)"
+msgid "label_sub"
+msgstr "SUB (application-specific ID)"
 
 #: src/ekklesia_portal/concepts/user/templates/user_profile.j2.jade:9
 msgid "label_profile"

@@ -108,7 +108,7 @@ class UserProfile(Base):
     __tablename__ = 'userprofiles'
     id = Column(Integer, ForeignKey('users.id'), primary_key=True)
     user = relationship("User", back_populates="profile")
-    auid = Column(String(36), unique=True)
+    sub = Column(String(64), unique=True)
     eligible = Column(Boolean)
     verified = Column(Boolean)
     profile = Column(Text)

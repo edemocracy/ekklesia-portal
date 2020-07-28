@@ -39,7 +39,7 @@ def client(app, allow_insecure_transport):
 def test_create_or_update_user_should_create_new_user(db_session, req, ekklesia_auth_data: EkklesiaAuthData):
     create_or_update_user(req, Munch(dict(data=ekklesia_auth_data, token='token')))
     user = db_session.query(User).filter_by(name=ekklesia_auth_data.preferred_username).one()
-    assert user.profile.auid == ekklesia_auth_data.auid
+    assert user.profile.sub == ekklesia_auth_data.sub
     assert user.profile.eligible == ekklesia_auth_data.eligible
     assert user.profile.verified == ekklesia_auth_data.verified
 
@@ -52,7 +52,7 @@ def test_oauth_new_user(app, client, token):
 
     with responses.RequestsMock() as rsps:
         userinfo = {
-            'auid': 'auid_new_user',
+            'sub': 'sub_new_user',
             'preferred_username': 'new_user',
             'roles': ['LV Bayern', 'BV'],
             'eligible': True,

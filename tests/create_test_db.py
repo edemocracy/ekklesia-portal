@@ -120,10 +120,10 @@ if __name__ == "__main__":
     admin_group.members.append(admin)
 
     u1.password = UserPassword(hashed_password=password_context.hash("test", scheme="plaintext"))
-    u2_profile = UserProfile(auid='auid_egon', eligible=True, verified=True, profile='ich halt')
+    u2_profile = UserProfile(sub='sub_egon', eligible=True, verified=True, profile='ich halt')
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
-    u3_profile = UserProfile(auid='auid_olaf', eligible=False, verified=True, profile='## Markdown\n\nText')
+    u3_profile = UserProfile(sub='sub_olaf', eligible=False, verified=True, profile='## Markdown\n\nText')
     u3_oauth_token = OAuthToken(provider='ekklesia', token={})
     u3 = User(name="olaf", auth_type="oauth", profile=u3_profile, oauth_token=u3_oauth_token)
     ug1.members.extend([u1, u2, u3])

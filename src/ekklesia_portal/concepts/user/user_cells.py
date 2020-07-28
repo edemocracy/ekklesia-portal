@@ -25,4 +25,4 @@ class UserCell(LayoutCell):
 
 @App.cell(UserProfile)
 class UserProfileCell(Cell):
-    model_properties = ['auid', 'eligible', 'verified', 'roles', 'profile']
+    model_properties = ['sub', 'eligible', 'verified', 'roles', 'profile']

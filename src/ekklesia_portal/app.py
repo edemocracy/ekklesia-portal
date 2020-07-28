@@ -84,22 +84,22 @@ def verify_identity(identity):
 @App.after_oauth_callback()
 def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
     userinfo = ekklesia_auth.data
-    auid = userinfo.auid
+    sub = userinfo.sub
     token = ekklesia_auth.token
     name = userinfo.preferred_username
-    user_profile: UserProfile = request.q(UserProfile).filter_by(auid=auid).scalar()
+    user_profile: UserProfile = request.q(UserProfile).filter_by(sub=sub).scalar()
 
     if user_profile is None:
-        user_profile = UserProfile(auid=auid)
+        user_profile = UserProfile(sub=sub)
         oauth_token = OAuthToken(provider='ekklesia', token=token)
         user = User(name=name, auth_type='oauth', profile=user_profile, oauth_token=oauth_token)
-        logg.debug("created new ekklesia user with auid %s, name %s", auid, name)
+        logg.debug("created new ekklesia user with sub %s, name %s", sub, name)
         request.db_session.add(user)
     else:
         user = user_profile.user
         user.name = name
         user.oauth_token.token = token
-        logg.debug("updated ekklesia user with auid %s, name %s", auid, name)
+        logg.debug("updated ekklesia user with sub %s, name %s", sub, name)
 
     user_profile.eligible = userinfo.eligible
     user_profile.verified = userinfo.verified

@@ -149,7 +149,7 @@ class EkklesiaAuthDataFactory(Factory):
     class Meta:
         model = EkklesiaAuthData
 
-    auid = MimesisField('uuid')
+    sub = MimesisField('uuid')
     roles = []
     eligible = FuzzyChoice([True, False])
     verified = FuzzyChoice([True, False])
