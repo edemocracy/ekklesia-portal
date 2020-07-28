@@ -24,7 +24,8 @@ class BallotCell(LayoutCell):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
     def voting_phase_title(self):
-        return voting_phase_helper.voting_phase_title(self._model.voting)
+        if self._model.voting:
+            return voting_phase_helper.voting_phase_title(self._model.voting)
 
 
 @App.cell(Ballot, 'edit')
