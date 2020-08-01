@@ -63,6 +63,17 @@ omit = [
     "src/ekklesia_portal/whytool.py"
 ]
 
+[tool.pylint.basic]
+good-names = "q, s"
+
+[tool.pylint.master]
+disable = "C0114, C0115, C0116, R0903"
+
+
+[tool.pylint.format]
+max-line-length="120"
+ignore-long-lines="^\\s*(# )?<?https?://\\S+>?$"
+
 
 [tool.pytest.ini_options]
 addopts = """\

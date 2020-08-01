@@ -79,11 +79,23 @@ in rec {
   pythonDev = pythonDevTest;
 
   # Code style and security tools
-  linters = with python.pkgs; [
+  linters = with python.pkgs; let
+
+    # Pylint needs to import the modules of our dependencies
+    # but we don't want to override its own PYTHONPATH.
+    setSysPath = ''
+      import sys
+      sys.path.append("${pythonDev}/${pythonDev.sitePackages}")
+    '';
+
+    pylintWrapper = with python.pkgs; pkgs.writeScriptBin "pylint" ''
+      ${pylint}/bin/pylint --init-hook='${setSysPath}' "$@"
+    '';
+
+  in [
     bandit
     mypy
-    pylama
-    pylint
+    pylintWrapper
     yapf
   ];
 
