@@ -64,7 +64,11 @@ omit = [
 ]
 
 [tool.pylint.basic]
-good-names = "q, s"
+good-names = "q, s, f, wf, m, k, v, id"
+
+[tool.pylint.imports] # Taken care of by isort, mostly included for error messages
+known-third-party="ekklesia_common"
+
 
 [tool.pylint.master]
 disable = "C0114, C0115, C0116, R0903"

@@ -23,6 +23,7 @@ from .propositions import Propositions
 def proposition_view_permission_anon(identity, model, permission):
     if model.visibility == PropositionVisibility.PUBLIC:
         return True
+    return False
 
 
 @App.permission_rule(model=Proposition, permission=ViewPermission)
@@ -74,12 +75,12 @@ App.path(path='p')(Propositions)
     model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title))
 )
 # XXX: fails with wrong urls!!!
-def proposition(request, id, slug):
+def proposition_path(request, id, slug):
     proposition = request.q(Proposition).get(id)
     if case_conversion.dashcase(proposition.title) == slug:
         return proposition
-    else:
-        return redirect("/p/" + id + "/" + case_conversion.dashcase(proposition.title))
+
+    return redirect("/p/" + id + "/" + case_conversion.dashcase(proposition.title))
 
 
 @App.path(path='/p/{id}')

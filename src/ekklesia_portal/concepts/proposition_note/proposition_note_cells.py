@@ -31,7 +31,6 @@ class NewPropositionNoteCell(NewFormCell):
 
 
 class EditPropositionNoteCell(EditFormCell):
-    pass
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

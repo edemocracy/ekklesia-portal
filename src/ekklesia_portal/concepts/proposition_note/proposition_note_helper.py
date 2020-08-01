@@ -4,5 +4,8 @@ from ekklesia_common.translation import _
 from ekklesia_portal.enums import VoteByUser
 
 
-def items_for_proposition_note_select_widgets(model):
-    return {'vote': [(name, _('vote_by_user_' + name.lower())) for name, member in VoteByUser.__members__.items()]}
+def items_for_proposition_note_select_widgets(_model):
+
+    vote = [(e.name, _('_'.join(['vote_by_user', e.value]))) for e in VoteByUser]
+
+    return {'vote': vote}

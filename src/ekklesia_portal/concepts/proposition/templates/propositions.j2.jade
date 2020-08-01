@@ -45,7 +45,7 @@
         .filter
           = _('type_propositions')
           |:&nbsp;
-          strong= proposition_type_name(type=type)
+          strong= proposition_type_name(proposition_type=type)
           |&nbsp;
           a.btn_filter_remove(href=change_self_link(type=none), title=_('remove_filter')) X
 

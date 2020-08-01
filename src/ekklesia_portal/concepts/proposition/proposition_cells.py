@@ -1,4 +1,3 @@
-import copy
 import urllib.parse
 from operator import attrgetter
 
@@ -14,6 +13,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase
+from ekklesia_portal.helper.url_shortener import make_tiny
 from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, PropositionVisibility
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
@@ -76,10 +76,9 @@ class PropositionCell(LayoutCell):
 
     def share_url(self):
         if self._app.settings.share.use_url_shortener:
-            from ekklesia_portal.helper.url_shortener import make_tiny
             return make_tiny(self.self_link)
-        else:
-            return self.self_link[:69]
+
+        return self.self_link[:69]
 
     @log_call
     def share_email_url(self):
@@ -174,8 +173,8 @@ class PropositionCell(LayoutCell):
     def full_title(self):
         if self._model.voting_identifier:
             return self._model.voting_identifier + ': ' + self._model.title
-        else:
-            return self._model.title
+
+        return self._model.title
 
     def show_support_actions(self):
         return self._request.permitted_for_current_user(self._model, SupportPermission)
@@ -195,7 +194,9 @@ class PropositionCell(LayoutCell):
             try:
                 return OpenSlidesVotingResult(result.get(self._model.voting_identifier, {}).get("state"))
             except ValueError:
-                return
+                pass
+
+        return None
 
     def voting_result_symbol(self):
         symbols = {
@@ -330,11 +331,6 @@ class PropositionsCell(LayoutCell):
     def search_query(self):
         return self._model.build_search_query()
 
-    def link_remove_filter(self, filter):
-        propositions = copy.copy(self._model)
-        setattr(propositions, filter, None)
-        return self.link(propositions)
-
     def change_self_link(self, **kwargs):
         propositions = self._model.replace(**kwargs)
         return self.link(propositions)
@@ -343,14 +339,14 @@ class PropositionsCell(LayoutCell):
         voting_phase = self._request.q(VotingPhase).filter(func.lower(VotingPhase.name) == func.lower(phase)).scalar()
         if voting_phase is None:
             return phase
-        else:
-            return voting_phase.title
 
-    def proposition_type_name(self, type):
+        return voting_phase.title
+
+    def proposition_type_name(self, proposition_type):
         proposition_type = self._request.q(PropositionType).filter(
-            func.lower(PropositionType.abbreviation) == func.lower(type)
+            func.lower(PropositionType.abbreviation) == func.lower(proposition_type)
         ).scalar()
         if proposition_type is None:
-            return type
-        else:
-            return proposition_type.name
+            return proposition_type
+
+        return proposition_type.name

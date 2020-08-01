@@ -19,15 +19,14 @@ def proposition_note(request, proposition_id, user_id):
     note = request.q(PropositionNote).get({"proposition_id": proposition_id, "user_id": user_id})
     if note is None:
         return PropositionNote(user_id, proposition_id)
-    else:
-        return note
+
+    return note
 
 
 @App.html(model=PropositionNote, name='edit', permission=EditPermission)
 def edit(self, request):
     form = PropositionNoteForm(request, request.link(self))
-    tmp = EditPropositionNoteCell(self, request, form).show()
-    return tmp
+    return EditPropositionNoteCell(self, request, form).show()
 
 
 @App.html_form_post(

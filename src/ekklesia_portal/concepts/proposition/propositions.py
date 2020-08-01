@@ -1,8 +1,8 @@
 import dataclasses
 from dataclasses import dataclass
 
+import sqlalchemy_searchable
 from sqlalchemy import desc, func
-from sqlalchemy_searchable import search
 
 from ekklesia_portal.datamodel import Ballot, Department, Proposition, PropositionStatus, PropositionType, SubjectArea, Tag, VotingPhase
 
@@ -52,7 +52,7 @@ class Propositions:
         quot_started = None
         word_done = False
         for c in self.search.strip():
-            if c == '"' or c == '\'':
+            if c in ('"', '\''):
                 if quot_started == c:  # If at quoted string end
                     word_done = True
                     quot_started = None
@@ -145,7 +145,7 @@ class Propositions:
 
         # Search
         if self.search:
-            propositions = search(propositions, self.search, sort=True)
+            propositions = sqlalchemy_searchable.search(propositions, self.search, sort=True)
 
         # Filters
         if self.status:
