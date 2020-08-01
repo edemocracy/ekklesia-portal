@@ -92,8 +92,13 @@ in rec {
       ${pylint}/bin/pylint --init-hook='${setSysPath}' "$@"
     '';
 
+    isortWrapper = with python.pkgs; pkgs.writeScriptBin "isort" ''
+      ${isort}/bin/isort --virtual-env=${pythonDev} "$@"
+    '';
+
   in [
     bandit
+    isortWrapper
     mypy
     pylintWrapper
     yapf
