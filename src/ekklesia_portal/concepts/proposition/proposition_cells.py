@@ -21,8 +21,10 @@ from .proposition_helper import items_for_proposition_select_widgets
 from .propositions import Propositions
 
 
-@App.cell(Proposition)
+@App.cell()
 class PropositionCell(LayoutCell):
+
+    _model: Proposition
 
     model_properties = [
         'abstract', 'ballot', 'content', 'created_at', 'submitted_at', 'qualified_at', 'derivations',

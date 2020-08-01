@@ -1,5 +1,6 @@
 import case_conversion
 from morepath import redirect
+from ekklesia_common.request import EkklesiaRequest as Request
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
@@ -257,8 +258,8 @@ def new_draft_post(self, request, appstruct):
     return redirect(request.link(proposition))
 
 
-@App.html(model=Proposition, request_method='POST', name='push_draft', permission=EditPermission)
-def push_draft(self, request):
+@App.html(request_method='POST', name='push_draft', permission=EditPermission)
+def push_draft(self: Proposition, request: Request):
     """XXX: Supports only Discourse for now.
     A generalized approach like for proposition importers would be nice.
     """
