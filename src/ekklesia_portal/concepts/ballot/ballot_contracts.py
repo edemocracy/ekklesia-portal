@@ -1,6 +1,6 @@
 from colander import Length
 from deform.widget import Select2Widget, TextAreaWidget
-from ekklesia_common.contract import Schema, Form, string_property, int_property, json_property
+from ekklesia_common.contract import Form, Schema, int_property, json_property, string_property
 from ekklesia_common.translation import _
 
 

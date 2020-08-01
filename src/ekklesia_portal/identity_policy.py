@@ -1,9 +1,10 @@
 import logging
+
+import morepath
 from ekklesia_common.identity_policy import NoIdentity
 from ekklesia_common.utils import cached_property
-import morepath
-from ekklesia_portal.datamodel import User
 
+from ekklesia_portal.datamodel import User
 
 logg = logging.getLogger(__name__)
 
@@ -44,7 +45,8 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
             return request.db_session.merge(user)
 
         return self.identity_class(
-            user, refresh_user_object, has_global_admin_permissions=any(g.is_admin_group for g in user.groups))
+            user, refresh_user_object, has_global_admin_permissions=any(g.is_admin_group for g in user.groups)
+        )
 
     def forget(self, response, request):
         del request.browser_session['user_id']

@@ -1,11 +1,13 @@
 import random
 import string
-from eliot import log_call, start_action
+
 import morepath
-from morepath import redirect
-from morepath import Response
+from eliot import log_call, start_action
+from morepath import Response, redirect
+
 from ekklesia_portal.app import App
-from ekklesia_portal.datamodel import UserLoginToken, User
+from ekklesia_portal.datamodel import User, UserLoginToken
+
 from ..cell.token import TokenCell
 from ..contracts.token import TokenForm
 
@@ -28,11 +30,8 @@ def token_login(self, request):
 def submit_token_login(self, request, appstruct):
 
     if self.user is None:
-        with start_action(action_type='create_user',
-                          created_by='token',
-                          token=self.token) as action:
-            name = "user_" + "".join(
-                random.choice(string.ascii_lowercase) for x in range(10))
+        with start_action(action_type='create_user', created_by='token', token=self.token) as action:
+            name = "user_" + "".join(random.choice(string.ascii_lowercase) for x in range(10))
             user = User(name=name, auth_type='token', login_token=self)
             request.db_session.add(user)
             request.db_session.flush()

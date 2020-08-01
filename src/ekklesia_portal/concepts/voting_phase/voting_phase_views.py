@@ -1,14 +1,16 @@
+from ekklesia_common import md
 from morepath import redirect
 from webob.exc import HTTPBadRequest
-from ekklesia_common import md
+
 from ekklesia_portal.app import App
-from ekklesia_portal.datamodel import VotingPhase, Department, VotingPhaseType
+from ekklesia_portal.datamodel import Department, VotingPhase, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .voting_phase_cells import VotingPhaseCell, VotingPhasesCell, NewVotingPhaseCell, EditVotingPhaseCell
-from .voting_phases import VotingPhases
+
+from .voting_phase_cells import EditVotingPhaseCell, NewVotingPhaseCell, VotingPhaseCell, VotingPhasesCell
 from .voting_phase_contracts import VotingPhaseForm
 from .voting_phase_helper import items_for_voting_phase_select_widgets
+from .voting_phases import VotingPhases
 
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)

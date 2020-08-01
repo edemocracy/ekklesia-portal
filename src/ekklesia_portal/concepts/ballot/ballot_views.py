@@ -1,11 +1,13 @@
 from morepath import redirect
 from webob.exc import HTTPBadRequest
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Ballot, SubjectArea, VotingPhase
 from ekklesia_portal.permission import EditPermission
+
 from .ballot_cells import BallotCell, BallotsCell, EditBallotCell
-from .ballots import Ballots
 from .ballot_contracts import BallotForm
+from .ballots import Ballots
 
 
 @App.permission_rule(model=Ballot, permission=EditPermission)

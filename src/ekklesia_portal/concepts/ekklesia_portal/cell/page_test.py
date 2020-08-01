@@ -1,4 +1,5 @@
 import datetime
+
 from markupsafe import Markup
 
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell

@@ -18,37 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # For more details see the file COPYING.
 
-from sqlalchemy import (
-    select,
-    Column,
-    Integer,
-    Boolean,
-    Text,
-    String,
-    Date,
-    DateTime,
-    Time,
-    ForeignKey,
-    Numeric,
-    Sequence,
-    JSON,
-    func,
-    Enum,
-    CheckConstraint,
-    UniqueConstraint
-)
+from ekklesia_common.database import Base, C, integer_pk
+from ekklesia_common.utils import cached_property
+from sqlalchemy import (JSON, Boolean, CheckConstraint, Column, Date, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, String, Text,
+                        Time, UniqueConstraint, func, select)
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.ext.mutable import MutableDict
-from sqlalchemy.orm import relationship, backref, object_session
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.mutable import MutableDict
+from sqlalchemy.orm import backref, object_session, relationship
 from sqlalchemy_searchable import make_searchable
-from sqlalchemy_utils.types import TSVectorType, URLType, EmailType
-from ekklesia_common.database import Base, integer_pk, C
-from ekklesia_common.utils import cached_property
-from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, \
-    SupporterStatus, VotingType, VotingStatus, VotingSystem, VoteByUser
+from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
+from ekklesia_portal.enums import (ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus,
+                                   VoteByUser, VotingStatus, VotingSystem, VotingType)
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
 
@@ -66,11 +49,20 @@ class User(Base):
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name = Column(String(64), unique=True, nullable=False)
     email = Column(EmailType, unique=True, comment='optional, for notifications, otherwise use user/mails/')
-    auth_type = Column(String(8), nullable=False, server_default='system', comment='deleted,system,token,virtual,oauth(has UserProfile)')
+    auth_type = Column(
+        String(8),
+        nullable=False,
+        server_default='system',
+        comment='deleted,system,token,virtual,oauth(has UserProfile)'
+    )
     joined = Column(DateTime, nullable=False, server_default=func.now())
     active = Column(Boolean, nullable=False, server_default='true')
-    last_active = Column(DateTime, nullable=False, server_default=func.now(),
-                         comment='last relevant activity (to be considered active member §2.2)')
+    last_active = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+        comment='last relevant activity (to be considered active member §2.2)'
+    )
     can_login_until = C(DateTime, comment='optional expiration datetime after which login is no longer possible')
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
@@ -218,10 +210,16 @@ class Policy(Base):  # Regelwerk
     proposition_expiration = C(Integer, comment='days to reach the qualification (supporter) quorum')
     qualification_minimum = C(Integer, comment='minimum for qualification quorum')
     qualification_quorum = C(
-        Numeric(3, 2), comment='fraction of area members that must support a proposition for reaching the qualified state')
+        Numeric(3, 2),
+        comment='fraction of area members that must support a proposition for reaching the qualified state'
+    )
     range_max = C(Integer, comment='maximum score used when the number of options is at least `range_small_options`')
-    range_small_max = C(Integer, comment='maximum score used when the number of options is less than `range_small_options`')
-    range_small_options = C(Integer, comment='largest number of options for which `range_small_max` is used as maximum score')
+    range_small_max = C(
+        Integer, comment='maximum score used when the number of options is less than `range_small_options`'
+    )
+    range_small_options = C(
+        Integer, comment='largest number of options for which `range_small_max` is used as maximum score'
+    )
     secret_minimum = C(Integer, comment='minimum for secret voting quorum')
     secret_quorum = C(Numeric(3, 2), comment='quorum to force a secret voting')
     submitter_minimum = C(Integer, comment='minimum number of submitters for a proposition')
@@ -259,7 +257,9 @@ class Tag(Base):
     name = Column(String(64), unique=True, nullable=False)
     parent_id = Column(Integer, ForeignKey('tags.id'))
     children = relationship("Tag", backref=backref('parent', remote_side=[id]))
-    mut_exclusive = Column(Boolean, nullable=False, server_default='false', comment='whether all children are mutually exclusive')
+    mut_exclusive = Column(
+        Boolean, nullable=False, server_default='false', comment='whether all children are mutually exclusive'
+    )
     propositions = association_proxy('tag_propositions', 'proposition')  # <-PropositionTag-> Proposition
 
 
@@ -331,15 +331,21 @@ class VotingPhaseType(Base):
 class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     __table_args__ = (
-        CheckConstraint("(status='PREPARING' AND target IS NULL) OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'),
+        CheckConstraint(
+            "(status='PREPARING' AND target IS NULL) OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'
+        ),
     )
     id = Column(Integer, Sequence('id_seq', optional=True), primary_key=True)
     status = Column(Enum(VotingStatus), nullable=False, server_default='PREPARING')
     target = Column(Date, comment='constrained by §4.1')
     department_id = Column(Integer, ForeignKey('departments.id'), nullable=False)
     phase_type_id = Column(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
-    secret = Column(Boolean, nullable=False, server_default='false',
-                    comment='whether any secret votes will take place (decision deadline §4.2)')
+    secret = Column(
+        Boolean,
+        nullable=False,
+        server_default='false',
+        comment='whether any secret votes will take place (decision deadline §4.2)'
+    )
     name = Column(Text, server_default='', comment='short, readable name which can be used for URLs')
     title = Column(Text, server_default='')
     description = Column(Text, server_default='')
@@ -369,11 +375,15 @@ class Proposition(Base):
     motivation = Column(Text, nullable=False, server_default='')
     voting_identifier = Column(String(10))
     created_at = Column(DateTime, nullable=False, server_default=func.now())
-    submitted_at = Column(DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)')
+    submitted_at = Column(
+        DateTime, comment='optional, §3.1, for order of voting §5.3, date of change if original (§3.4)'
+    )
     qualified_at = Column(DateTime, comment='optional, when qualified')
     status = Column(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
     ballot_id = Column(Integer, ForeignKey('ballots.id'), nullable=False)
-    ballot = relationship("Ballot", uselist=False, back_populates="propositions")  # contains area (department), propositiontype
+    ballot = relationship(
+        "Ballot", uselist=False, back_populates="propositions"
+    )  # contains area (department), propositiontype
     supporters = association_proxy('propositions_member', 'member')  # <-Supporter-> User
     # in state draft only submitters may become supporters §3.3
     tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
@@ -382,7 +392,9 @@ class Proposition(Base):
     derivations = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]))
 
     replaces_id = Column(Integer, ForeignKey('propositions.id'))  # optional
-    replacements = relationship("Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id]))
+    replacements = relationship(
+        "Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id])
+    )
 
     changesets = relationship('Changeset', back_populates='proposition')
 
@@ -390,16 +402,27 @@ class Proposition(Base):
 
     external_fields = Column(
         MutableDict.as_mutable(JSONB),
-        comment='Fields that are imported from or exported to other systems but are not interpreted by the portal.')
+        comment='Fields that are imported from or exported to other systems but are not interpreted by the portal.'
+    )
 
     visibility = Column(Enum(PropositionVisibility), nullable=False, server_default='PUBLIC')
 
-    search_vector = Column(TSVectorType('title', 'abstract', 'content', 'motivation', 'voting_identifier',
-                                        weights={'title': 'A',
-                                                 'voting_identifier': 'A',
-                                                 'abstract': 'B',
-                                                 'content': 'C',
-                                                 'motivation': 'D'}))
+    search_vector = Column(
+        TSVectorType(
+            'title',
+            'abstract',
+            'content',
+            'motivation',
+            'voting_identifier',
+            weights={
+                'title': 'A',
+                'voting_identifier': 'A',
+                'abstract': 'B',
+                'content': 'C',
+                'motivation': 'D'
+            }
+        )
+    )
 
     def support_by_user(self, user):
         for s in self.propositions_member:
@@ -417,7 +440,8 @@ class Proposition(Base):
 
     @active_supporter_count.expression
     def active_supporter_count(cls):
-        return select([func.count()]).where(Supporter.proposition_id == cls.id).where(Supporter.status == SupporterStatus.ACTIVE)
+        return select([func.count()]).where(Supporter.proposition_id == cls.id
+                                            ).where(Supporter.status == SupporterStatus.ACTIVE)
 
     """
    submission data: content, submitters, conflicts
@@ -494,7 +518,9 @@ class ArgumentRelation(Base):
 
     argument_id = Column(Integer, ForeignKey('arguments.id'))
     argument = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
-    proposition_id = Column(Integer, ForeignKey('propositions.id'))  # also show parent proposition arguments if still valid?
+    proposition_id = Column(
+        Integer, ForeignKey('propositions.id')
+    )  # also show parent proposition arguments if still valid?
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
     argument_type = Column(Enum(ArgumentType), nullable=False)
 
@@ -559,15 +585,11 @@ class VotingModule(Base):
     base_url = C(URLType, nullable=False)
     module_type = C(String(16), nullable=False)
 
-    __mapper_args__ = {
-        "polymorphic_on": module_type
-    }
+    __mapper_args__ = {"polymorphic_on": module_type}
 
 
 class VVVoteVotingModule(VotingModule):
-    __mapper_args__ = {
-        "polymorphic_identity": "vvvote"
-    }
+    __mapper_args__ = {"polymorphic_identity": "vvvote"}
 
     @property
     def url_new_election(self):
@@ -604,9 +626,7 @@ class Document(Base):
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship('PropositionType')
     changesets = relationship('Changeset', back_populates='document')
-    __table_args__ = (
-        UniqueConstraint(name, lang, area_id, name='uq_document_name_lang_area_id'),
-    )
+    __table_args__ = (UniqueConstraint(name, lang, area_id, name='uq_document_name_lang_area_id'), )
 
 
 class Changeset(Base):

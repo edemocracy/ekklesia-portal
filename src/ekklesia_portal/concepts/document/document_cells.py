@@ -1,11 +1,13 @@
 from markupsafe import Markup
+
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell, EditFormCell
 from ekklesia_portal.concepts.proposition.propositions import Propositions
-from ekklesia_portal.datamodel import Document, Department, PropositionType
+from ekklesia_portal.datamodel import Department, Document, PropositionType
 from ekklesia_portal.permission import CreatePermission, EditPermission
+
 from .document_helper import items_for_document_select_widgets, markdown_with_propose_change
 from .documents import Documents
 
@@ -17,7 +19,8 @@ class DocumentsCell(LayoutCell):
         return list(self._model.documents(self._request.q))
 
     def show_new_button(self):
-        return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
+        return self.options.get('show_new_button'
+                                ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
 @App.cell(Document)
@@ -26,7 +29,8 @@ class DocumentCell(LayoutCell):
     model_properties = ['name', 'lang', 'text', 'description']
 
     def show_edit_button(self):
-        return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
+        return self.options.get('show_edit_button'
+                                ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
     def propose_change_url(self):
         return self.link(self._model, name='propose_change')
@@ -47,8 +51,9 @@ class DocumentProposeChangeCell(LayoutCell):
     model_properties = ['name', 'lang', 'description']
 
     def text_with_propose_change(self):
-        propose_change_url_template = self.link(Propositions(document=self._model.id, section='SECTION'),
-                                                name='+new_draft')
+        propose_change_url_template = self.link(
+            Propositions(document=self._model.id, section='SECTION'), name='+new_draft'
+        )
         html = markdown_with_propose_change(propose_change_url_template, self._model.text)
         return Markup(html)
 

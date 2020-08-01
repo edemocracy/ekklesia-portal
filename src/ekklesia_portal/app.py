@@ -1,17 +1,16 @@
 import logging
 import os
 
+import morepath
+import yaml
 from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
-from eliot import start_task, start_action, log_call
-import morepath
-import yaml
+from eliot import log_call, start_action, start_task
 
 import ekklesia_portal
-from ekklesia_portal.datamodel import User, UserProfile, Department
+from ekklesia_portal.datamodel import Department, User, UserProfile
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
-
 
 logg = logging.getLogger(__name__)
 
@@ -38,16 +37,14 @@ def app_setting_section():
         "imprint_url": None,
         "report_url": None,
         "login_visible": False,
-        "languages": ["de","en"],
+        "languages": ["de", "en"],
         "fallback_language": "de"
     }
 
 
 @BaseApp.setting_section(section="database")
 def database_setting_section():
-    return {
-        "uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"
-    }
+    return {"uri": "postgresql+psycopg2://ekklesia_portal:ekklesia_portal@127.0.0.1/ekklesia_portal"}
 
 
 @BaseApp.setting_section(section="share")

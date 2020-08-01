@@ -1,12 +1,14 @@
 from morepath import redirect
+
 # from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Policy
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .policy_cells import PolicyCell, PoliciesCell, NewPolicyCell, EditPolicyCell
-from .policy_contracts import PolicyForm
+
 # from .policy_helper import
 from .policies import Policies
+from .policy_cells import EditPolicyCell, NewPolicyCell, PoliciesCell, PolicyCell
+from .policy_contracts import PolicyForm
 
 
 @App.permission_rule(model=Policies, permission=CreatePermission)

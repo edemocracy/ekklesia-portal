@@ -1,8 +1,10 @@
 from ekklesia_portal.datamodel import Ballot
+
 from .ballot_contracts import BallotForm
 
 
 class Ballots:
+
     def __init__(self, department=None):
         self.department = department
 

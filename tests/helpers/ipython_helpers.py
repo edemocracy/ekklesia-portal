@@ -1,7 +1,8 @@
 import os
 import sys
-from IPython.paths import get_ipython_dir
+
 from IPython.core.interactiveshell import InteractiveShell
+from IPython.paths import get_ipython_dir
 from IPython.terminal.embed import InteractiveShellEmbed
 from IPython.terminal.ipapp import TerminalIPythonApp
 

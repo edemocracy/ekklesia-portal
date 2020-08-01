@@ -1,7 +1,9 @@
 from morepath import redirect
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Proposition, PropositionNote
 from ekklesia_portal.permission import EditPermission
+
 from .proposition_note_cells import EditPropositionNoteCell
 from .proposition_note_contracts import PropositionNoteForm
 
@@ -28,7 +30,9 @@ def edit(self, request):
     return tmp
 
 
-@App.html_form_post(model=PropositionNote, form=PropositionNoteForm, cell=EditPropositionNoteCell, permission=EditPermission)
+@App.html_form_post(
+    model=PropositionNote, form=PropositionNoteForm, cell=EditPropositionNoteCell, permission=EditPermission
+)
 def update(self, request, appstruct):
     request.db_session.add(self)
     self.update(**appstruct)

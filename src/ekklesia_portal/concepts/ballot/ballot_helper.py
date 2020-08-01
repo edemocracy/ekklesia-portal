@@ -1,6 +1,8 @@
 from operator import attrgetter
-from ekklesia_portal.concepts.voting_phase import voting_phase_helper
+
 from ekklesia_common.translation import _
+
+from ekklesia_portal.concepts.voting_phase import voting_phase_helper
 
 
 def items_for_ballot_select_widgets(ballot, departments, proposition_types):

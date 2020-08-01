@@ -1,16 +1,16 @@
-import time
 import json
-from munch import Munch
-from pytest import fixture
+import time
 
 import morepath
 import responses
-from webtest import TestApp as Client
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData
+from munch import Munch
+from pytest import fixture
+from webtest import TestApp as Client
+
 from ekklesia_portal.app import create_or_update_user
 from ekklesia_portal.datamodel import User
 from tests.helpers.webtest_helpers import get_session
-
 
 morepath.autoscan()
 

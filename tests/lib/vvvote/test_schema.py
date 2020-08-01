@@ -1,8 +1,11 @@
-from dataclasses import asdict
 import datetime
+from dataclasses import asdict
 from uuid import uuid4
+
 from pytest import fixture
-from ekklesia_portal.lib.vvvote.schema import Auth, ElectionConfig, OAuthConfig, Option, ScoreScheme, YesNoScheme, SchemeMode, Tally, Question
+
+from ekklesia_portal.lib.vvvote.schema import (Auth, ElectionConfig, OAuthConfig, Option, Question, SchemeMode, ScoreScheme, Tally,
+                                               YesNoScheme)
 
 
 @fixture
@@ -25,13 +28,7 @@ def oauth_config():
 
 @fixture
 def yes_no_scheme():
-    return YesNoScheme(
-        name='yesNo',
-        abstention=True,
-        abstentionAsNo=True,
-        quorum=3,
-        mode=SchemeMode.QUORUM
-    )
+    return YesNoScheme(name='yesNo', abstention=True, abstentionAsNo=True, quorum=3, mode=SchemeMode.QUORUM)
 
 
 @fixture
@@ -89,12 +86,14 @@ def test_yes_no_scheme(yes_no_scheme):
 
 def test_election_config(oauth_config, question):
     questions = [question]
-    config = ElectionConfig(electionId=str(uuid4()),
-                            electionTitle='test',
-                            auth=Auth.OAUTH,
-                            authData=oauth_config,
-                            tally=Tally.CONFIGURABLE,
-                            questions=questions)
+    config = ElectionConfig(
+        electionId=str(uuid4()),
+        electionTitle='test',
+        auth=Auth.OAUTH,
+        authData=oauth_config,
+        tally=Tally.CONFIGURABLE,
+        questions=questions
+    )
     jso = config.to_json()
     dc_back = ElectionConfig.from_json(jso)
     # XXX: scheme is polymorphic and deserializing JSON doesn't return the original type.

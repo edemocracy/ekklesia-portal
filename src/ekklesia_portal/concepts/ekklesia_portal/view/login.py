@@ -1,9 +1,10 @@
 import morepath
-from morepath import redirect
-from morepath import Response
+from morepath import Response, redirect
+
 from ekklesia_portal.app import App
-from ..login import Login, UserNotFound
+
 from ..cell.login import LoginCell
+from ..login import Login, UserNotFound
 
 
 @App.path(model=Login, path="/login")
@@ -29,6 +30,7 @@ def submit_login(self, request):
         return Response(status=400)
 
     if self.verify_password(insecure_empty_password_ok=request.app.settings.app.insecure_development_mode):
+
         @request.after
         def remember(response):
             identity = morepath.Identity(self.user.id, user=self.user)

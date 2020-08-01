@@ -1,4 +1,5 @@
 from ekklesia_portal.concepts.document.document_cells import DocumentProposeChangeCell
+
 from . import DOCUMENT_TEXT
 
 

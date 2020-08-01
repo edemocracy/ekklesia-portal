@@ -1,7 +1,9 @@
 from operator import attrgetter
+
 from ekklesia_common.translation import _
-from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+
 from ekklesia_portal.datamodel import Tag
+from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 
 
 def items_for_proposition_select_widgets(departments, tags, selected_tags=None):

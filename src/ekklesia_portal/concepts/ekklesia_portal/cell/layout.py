@@ -1,7 +1,9 @@
 from ekklesia_common.cell import Cell
+
+from ekklesia_portal.concepts.page.pages import Pages
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
-from ekklesia_portal.concepts.page.pages import Pages
+
 
 class LayoutCell(Cell):
 

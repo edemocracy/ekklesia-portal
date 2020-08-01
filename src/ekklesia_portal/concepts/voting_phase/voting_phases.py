@@ -2,6 +2,7 @@ from ekklesia_portal.datamodel import VotingPhase
 
 
 class VotingPhases:
+
     def __init__(self, department=None):
         self.department = department
 

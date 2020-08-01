@@ -1,8 +1,9 @@
-from dataclasses import dataclass
-from dataclasses_json import dataclass_json
-from enum import Enum
 import datetime
-from typing import List, Union, Optional
+from dataclasses import dataclass
+from enum import Enum
+from typing import List, Optional, Union
+
+from dataclasses_json import dataclass_json
 
 
 class Auth(str, Enum):

@@ -1,8 +1,9 @@
 from colander import Length
-from deform.widget import TextAreaWidget, TextInputCSVWidget, SelectWidget
-from ekklesia_portal.enums import VotingStatus
-from ekklesia_common.contract import Schema, string_property, list_property, int_property, bool_property, date_property, enum_property, Form
+from deform.widget import SelectWidget, TextAreaWidget, TextInputCSVWidget
+from ekklesia_common.contract import Form, Schema, bool_property, date_property, enum_property, int_property, list_property, string_property
 from ekklesia_common.translation import _
+
+from ekklesia_portal.enums import VotingStatus
 
 
 class VotingPhaseSchema(Schema):

@@ -5,6 +5,4 @@ from ekklesia_portal.datamodel import Page
 class TokenCell(FormCell):
 
     def content_token_login(self):
-        return (self._request.q(Page.text)
-                    .filter_by(name='content_token_login', lang=self.language)
-                    .scalar())
+        return (self._request.q(Page.text).filter_by(name='content_token_login', lang=self.language).scalar())

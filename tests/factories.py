@@ -1,19 +1,22 @@
 import datetime
 import string
+
 import factory
-from factory import Factory, SubFactory, RelatedFactory
+from ekklesia_common.database import Session
+from ekklesia_common.ekklesia_auth import EkklesiaAuthData
+from factory import Factory, RelatedFactory, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
-from factory.fuzzy import FuzzyChoice, FuzzyText, FuzzyDecimal, FuzzyInteger
+from factory.fuzzy import FuzzyChoice, FuzzyDecimal, FuzzyInteger, FuzzyText
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
-from ekklesia_common.ekklesia_auth import EkklesiaAuthData
-from ekklesia_common.database import Session
-from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingType, VotingStatus, VotingSystem
-from ekklesia_portal.datamodel import Proposition, Argument, ArgumentRelation, User, Department, SubjectArea, \
-    VotingPhase, VotingPhaseType, Ballot, Policy, PropositionType, Group, UserLoginToken, Page, CustomizableText, Document
+
+from ekklesia_portal.datamodel import (Argument, ArgumentRelation, Ballot, CustomizableText, Department, Document, Group, Page, Policy,
+                                       Proposition, PropositionType, SubjectArea, User, UserLoginToken, VotingPhase, VotingPhaseType)
+from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingStatus, VotingSystem, VotingType
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
+
     class Meta:
         sqlalchemy_session = Session
         sqlalchemy_session_persistence = 'flush'
@@ -21,6 +24,7 @@ class SQLAFactory(SQLAlchemyModelFactory):
 
 @register
 class DepartmentFactory(SQLAFactory):
+
     class Meta:
         model = Department
 
@@ -37,6 +41,7 @@ class DepartmentFactory(SQLAFactory):
 
 @register
 class SubjectAreaFactory(SQLAFactory):
+
     class Meta:
         model = SubjectArea
 
@@ -46,6 +51,7 @@ class SubjectAreaFactory(SQLAFactory):
 
 @register
 class GroupFactory(SQLAFactory):
+
     class Meta:
         model = Group
 
@@ -54,6 +60,7 @@ class GroupFactory(SQLAFactory):
 
 @register
 class UserFactory(SQLAFactory):
+
     class Meta:
         model = User
 
@@ -66,6 +73,7 @@ register(UserFactory, 'user_two')
 
 @register
 class UserLoginTokenFactory(SQLAFactory):
+
     class Meta:
         model = UserLoginToken
 
@@ -74,6 +82,7 @@ class UserLoginTokenFactory(SQLAFactory):
 
 @register
 class PolicyFactory(SQLAFactory):
+
     class Meta:
         model = Policy
 
@@ -95,6 +104,7 @@ class PolicyFactory(SQLAFactory):
 
 @register
 class PropositionTypeFactory(SQLAFactory):
+
     class Meta:
         model = PropositionType
 
@@ -106,6 +116,7 @@ class PropositionTypeFactory(SQLAFactory):
 
 @register
 class BallotFactory(SQLAFactory):
+
     class Meta:
         model = Ballot
 
@@ -118,6 +129,7 @@ class BallotFactory(SQLAFactory):
 
 @register
 class PropositionFactory(SQLAFactory):
+
     class Meta:
         model = Proposition
 
@@ -134,18 +146,21 @@ register(PropositionFactory, 'proposition_two')
 
 @register
 class ArgumentFactory(SQLAFactory):
+
     class Meta:
         model = Argument
 
 
 @register
 class ArgumentRelationFactory(SQLAFactory):
+
     class Meta:
         model = ArgumentRelation
 
 
 @register
 class EkklesiaAuthDataFactory(Factory):
+
     class Meta:
         model = EkklesiaAuthData
 
@@ -159,6 +174,7 @@ class EkklesiaAuthDataFactory(Factory):
 
 @register
 class VotingPhaseTypeFactory(SQLAFactory):
+
     class Meta:
         model = VotingPhaseType
 
@@ -170,6 +186,7 @@ class VotingPhaseTypeFactory(SQLAFactory):
 
 @register
 class VotingPhaseFactory(SQLAFactory):
+
     class Meta:
         model = VotingPhase
 
@@ -186,6 +203,7 @@ class VotingPhaseFactory(SQLAFactory):
 
 @register
 class PageFactory(SQLAFactory):
+
     class Meta:
         model = Page
 
@@ -198,6 +216,7 @@ class PageFactory(SQLAFactory):
 
 @register
 class CustomizableTextFactory(SQLAFactory):
+
     class Meta:
         model = CustomizableText
 
@@ -209,6 +228,7 @@ class CustomizableTextFactory(SQLAFactory):
 
 @register
 class DocumentFactory(SQLAFactory):
+
     class Meta:
         model = Document
 

@@ -1,7 +1,8 @@
 import factory
-from webtest_helpers import assert_deform, fill_form
+
 from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.datamodel import Policy
+from webtest_helpers import assert_deform, fill_form
 
 
 def test_create_policy(client, db_query, policy_factory, logged_in_global_admin):

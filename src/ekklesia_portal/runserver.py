@@ -1,17 +1,20 @@
-import glob
-import sys
 import argparse
 import datetime
+import glob
 import os
 import os.path
+import sys
 import tempfile
+
 import werkzeug.serving
 from werkzeug.middleware.shared_data import SharedDataMiddleware
 
 tmpdir = tempfile.gettempdir()
 parser = argparse.ArgumentParser("Ekklesia Portal runserver.py")
 
-parser.add_argument("-b", "--bind", default="localhost", help="hostname / IP to bind to, default ekklesia-portal-localhost")
+parser.add_argument(
+    "-b", "--bind", default="localhost", help="hostname / IP to bind to, default ekklesia-portal-localhost"
+)
 parser.add_argument("-p", "--http_port", default=8080, type=int, help="HTTP port to use, default 8080")
 parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
 parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
@@ -70,12 +73,14 @@ def run():
     args = parser.parse_args()
     wsgi_app = make_wsgi_app(args.config_file)
 
-    wrapped_app = SharedDataMiddleware(wsgi_app, {
-        '/static': ("ekklesia_portal", 'static'),
-        '/static/deform': ("deform", 'static'),
-        '/static/webfonts': os.environ.get('WEBFONTS_PATH'),
-        '/static/js': os.environ.get('JS_PATH')
-    })
+    wrapped_app = SharedDataMiddleware(
+        wsgi_app, {
+            '/static': ("ekklesia_portal", 'static'),
+            '/static/deform': ("deform", 'static'),
+            '/static/webfonts': os.environ.get('WEBFONTS_PATH'),
+            '/static/js': os.environ.get('JS_PATH')
+        }
+    )
 
     if args.stackdump:
         stackdump_setup()
@@ -97,8 +102,14 @@ def run():
     if args.config_file is not None:
         extra_reload_files.append(args.config_file)
 
-    werkzeug.serving.run_simple(args.bind, args.http_port, wrapped_app, use_reloader=args.debug,
-                                extra_files=extra_reload_files, use_debugger=args.debug)
+    werkzeug.serving.run_simple(
+        args.bind,
+        args.http_port,
+        wrapped_app,
+        use_reloader=args.debug,
+        extra_files=extra_reload_files,
+        use_debugger=args.debug
+    )
 
 
 if __name__ == "__main__":

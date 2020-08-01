@@ -1,14 +1,16 @@
 import logging
+
 from morepath import redirect
 from webob.exc import HTTPBadRequest
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Argument, ArgumentRelation, ArgumentVote, Proposition
 from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import CreatePermission, VotePermission
-from .argument_relations import ArgumentRelations
+
 from .argument_relation_cells import ArgumentRelationCell, NewArgumentForPropositionCell
 from .argument_relation_contracts import ArgumentForPropositionForm
-
+from .argument_relations import ArgumentRelations
 
 logg = logging.getLogger(__name__)
 
@@ -29,7 +31,9 @@ def argument_relation_vote_permission(identity, model, permission):
 
 @App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")
 def argument_relation(request, proposition_id, argument_id):
-    argument_relation = request.q(ArgumentRelation).filter_by(proposition_id=proposition_id, argument_id=argument_id).scalar()
+    argument_relation = request.q(ArgumentRelation).filter_by(
+        proposition_id=proposition_id, argument_id=argument_id
+    ).scalar()
     return argument_relation
 
 
@@ -70,22 +74,27 @@ def new(self, request):
     return NewArgumentForPropositionCell(request, form, form_data, model=self).show()
 
 
-@App.html_form_post(model=ArgumentRelations, form=ArgumentForPropositionForm,
-                    cell=NewArgumentForPropositionCell, permission=CreatePermission)
+@App.html_form_post(
+    model=ArgumentRelations,
+    form=ArgumentForPropositionForm,
+    cell=NewArgumentForPropositionCell,
+    permission=CreatePermission
+)
 def create(self, request, appstruct):
     proposition = request.db_session.query(Proposition).get(self.proposition_id)
     if proposition is None:
         raise HTTPBadRequest()
 
-    argument = Argument(title=appstruct['title'],
-                        abstract=appstruct['abstract'],
-                        details=appstruct['details'],
-                        author=request.current_user)
+    argument = Argument(
+        title=appstruct['title'],
+        abstract=appstruct['abstract'],
+        details=appstruct['details'],
+        author=request.current_user
+    )
 
     argument_relation = ArgumentRelation(
-                            proposition=proposition,
-                            argument=argument,
-                            argument_type=appstruct['relation_type'])
+        proposition=proposition, argument=argument, argument_type=appstruct['relation_type']
+    )
 
     request.db_session.add(argument)
     request.db_session.add(argument_relation)

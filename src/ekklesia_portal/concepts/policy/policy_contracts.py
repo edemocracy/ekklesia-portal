@@ -1,8 +1,9 @@
 from colander import Length
 from deform.widget import SelectWidget, TextAreaWidget
-from ekklesia_portal.enums import Majority, VotingSystem
-from ekklesia_common.contract import Schema, Form, decimal_property, int_property, string_property, enum_property
+from ekklesia_common.contract import Form, Schema, decimal_property, enum_property, int_property, string_property
 from ekklesia_common.translation import _
+
+from ekklesia_portal.enums import Majority, VotingSystem
 
 
 class PolicySchema(Schema):

@@ -1,10 +1,10 @@
 import colander
 from colander import Length, OneOf
-from deform.widget import TextAreaWidget, HiddenWidget, SelectWidget, Select2Widget
+from deform.widget import HiddenWidget, Select2Widget, SelectWidget, TextAreaWidget
+from ekklesia_common.contract import Form, Schema, enum_property, int_property, json_property, set_property, string_property
 from ekklesia_common.translation import _
+
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
-from ekklesia_common.contract import Schema, string_property, set_property, int_property, \
-     enum_property, json_property, Form
 
 
 def common_widgets(items_for_selects):
@@ -57,7 +57,8 @@ class PropositionNewForm(Form):
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
             'area_id': Select2Widget(values=items_for_selects['area']),
-            **common_widgets(items_for_selects)})
+            **common_widgets(items_for_selects)
+        })
 
 
 class PropositionEditForm(Form):
@@ -71,7 +72,8 @@ class PropositionEditForm(Form):
             'status': SelectWidget(values=items_for_selects['status']),
             'visibility': SelectWidget(values=items_for_selects['visibility']),
             'external_fields': TextAreaWidget(rows=4),
-            **common_widgets(items_for_selects)})
+            **common_widgets(items_for_selects)
+        })
 
 
 class PropositionNewDraftForm(Form):
@@ -89,4 +91,5 @@ class PropositionNewDraftForm(Form):
             'abstract': common['abstract'],
             'content': common['content'],
             'motivation': common['motivation'],
-            'tags': common['tags']})
+            'tags': common['tags']
+        })

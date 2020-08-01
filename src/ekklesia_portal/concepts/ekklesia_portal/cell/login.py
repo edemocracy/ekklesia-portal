@@ -1,6 +1,8 @@
-from ekklesia_common.ekklesia_auth import EkklesiaLogin, EkklesiaAuthPathApp
+from ekklesia_common.ekklesia_auth import EkklesiaAuthPathApp, EkklesiaLogin
+
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+
 from ..login import Login
 
 

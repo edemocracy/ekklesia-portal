@@ -1,9 +1,10 @@
 from colander import Length
 from deform import Button
-from deform.widget import TextAreaWidget, Select2Widget, HiddenWidget
-from ekklesia_portal.enums import VoteByUser
-from ekklesia_common.contract import Schema, string_property, int_property, enum_property, Form
+from deform.widget import HiddenWidget, Select2Widget, TextAreaWidget
+from ekklesia_common.contract import Form, Schema, enum_property, int_property, string_property
 from ekklesia_common.translation import _
+
+from ekklesia_portal.enums import VoteByUser
 
 
 class PropositionNoteSchema(Schema):
@@ -24,4 +25,4 @@ class PropositionNoteForm(Form):
             'user_id': HiddenWidget(),
             'notes': TextAreaWidget(rows=8, missing=None),
             'vote': Select2Widget(values=items_for_selects['vote'])
-         })
+        })

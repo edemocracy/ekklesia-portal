@@ -1,4 +1,5 @@
 import pytest
+
 from ekklesia_portal.datamodel import Supporter
 
 

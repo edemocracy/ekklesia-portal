@@ -1,5 +1,7 @@
 from unittest.mock import Mock
+
 from pytest import fixture
+
 from ekklesia_portal.concepts.user.user_cells import UserCell
 
 

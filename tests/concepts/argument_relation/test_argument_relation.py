@@ -1,7 +1,7 @@
-from webtest_helpers import assert_deform
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.datamodel import ArgumentVote, ArgumentRelation
+from ekklesia_portal.datamodel import ArgumentRelation, ArgumentVote
 from ekklesia_portal.enums import ArgumentType
+from webtest_helpers import assert_deform
 
 
 def test_argumentrelation(client):
@@ -27,10 +27,7 @@ def test_argumentrelation_with_logged_in_user(client, logged_in_user):
 def test_new(client, logged_in_user):
     res = client.get(f'/propositions/1/arguments/+new?relation_type={ArgumentType.PRO.name}')
 
-    expected = {
-        'proposition_id': '1',
-        'relation_type': ArgumentType.PRO.name
-    }
+    expected = {'proposition_id': '1', 'relation_type': ArgumentType.PRO.name}
     assert_deform(res, expected)
 
 

@@ -1,12 +1,13 @@
 # some view / cell helper that could be used from another concept
-from operator import attrgetter
 import re
 import xml.etree.ElementTree as etree
+from operator import attrgetter
+
+from ekklesia_common.md import MARKDOWN_EXTENSIONS
+from ekklesia_common.translation import _
 from markdown import Markdown
 from markdown.extensions import Extension
 from markdown.treeprocessors import Treeprocessor
-from ekklesia_common.md import MARKDOWN_EXTENSIONS
-from ekklesia_common.translation import _
 
 
 def items_for_document_select_widgets(model, departments, proposition_types):
@@ -47,7 +48,7 @@ _scanner = re.Scanner([
     (r"[^ =]+='.*?'", _handle_single_quote),
     (r'[^ =]+=[^ =]+', _handle_key_value),
     (r'[^ =]+', _handle_word),
-    (r' ', None)
+    (r' ', None),
 ])
 
 
@@ -75,7 +76,7 @@ class ProposeChangeTreeprocessor(Treeprocessor):
                 if level > self.last_level:
                     self.levels.append(0)
                 elif level < self.last_level:
-                    self.levels = self.levels[:level-1]
+                    self.levels = self.levels[:level - 1]
 
                 self.last_level = level
                 self.levels[-1] += 1
@@ -92,6 +93,7 @@ class ProposeChangeTreeprocessor(Treeprocessor):
                 elem.append(link)
 
     def make_link(self, header_text, attrs=None):
+
         def link(section):
             link = etree.Element('a')
             link.set('href', self.url_template.replace('SECTION', section))

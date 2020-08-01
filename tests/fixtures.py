@@ -1,16 +1,18 @@
 import logging
 import os.path
 from pathlib import Path
+
+from ekklesia_common.database import Session
+from ekklesia_common.request import EkklesiaRequest
+from morepath.request import BaseRequest
 from munch import Munch
 from pytest import fixture
-from morepath.request import BaseRequest
 from webtest import TestApp as Client
+
 from ekklesia_portal.app import make_wsgi_app
-from ekklesia_portal.identity_policy import UserIdentity
-from ekklesia_common.request import EkklesiaRequest
-from ekklesia_common.database import Session
-from ekklesia_portal.datamodel import Proposition, User, DepartmentMember
+from ekklesia_portal.datamodel import DepartmentMember, Proposition, User
 from ekklesia_portal.enums import ArgumentType
+from ekklesia_portal.identity_policy import UserIdentity
 
 ROOT_DIR = Path(__file__).absolute().parent.parent
 logg = logging.getLogger(__name__)
@@ -133,6 +135,7 @@ def logged_in_global_admin(global_admin, monkeypatch):
 
 @fixture(autouse=True)
 def no_db_commit(monkeypatch):
+
     def dummy_commit(*a, **kw):
         logg.debug('would commit now')
 

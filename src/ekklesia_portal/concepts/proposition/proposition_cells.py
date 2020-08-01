@@ -1,43 +1,32 @@
-from operator import attrgetter
-import urllib.parse
-import colander
 import copy
+import urllib.parse
+from operator import attrgetter
+
+import colander
+from ekklesia_common.cell import Cell
+from ekklesia_common.utils import cached_property
 from eliot import log_call
+from sqlalchemy import func
+
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
-from ekklesia_portal.datamodel import Department, Proposition, Tag, PropositionNote, VotingPhase, PropositionType, Document
-from ekklesia_common.cell import Cell
-from ekklesia_common.utils import cached_property
-from ekklesia_portal.enums import ArgumentType, PropositionStatus, OpenSlidesVotingResult, PropositionVisibility
-from ekklesia_portal.permission import SupportPermission, CreatePermission, EditPermission
-from .propositions import Propositions
+from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase
+from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, PropositionVisibility
+from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
+
 from .proposition_helper import items_for_proposition_select_widgets
-from sqlalchemy import func
+from .propositions import Propositions
 
 
 @App.cell(Proposition)
 class PropositionCell(LayoutCell):
 
     model_properties = [
-        'abstract',
-        'ballot',
-        'content',
-        'created_at',
-        'submitted_at',
-        'qualified_at',
-        'derivations',
-        'external_discussion_url',
-        'id',
-        'modifies',
-        'motivation',
-        'replacements',
-        'replaces',
-        'tags',
-        'title'
+        'abstract', 'ballot', 'content', 'created_at', 'submitted_at', 'qualified_at', 'derivations',
+        'external_discussion_url', 'id', 'modifies', 'motivation', 'replacements', 'replaces', 'tags', 'title',
     ]
 
     actions = Cell.fragment('proposition_actions')
@@ -92,30 +81,34 @@ class PropositionCell(LayoutCell):
 
     @log_call
     def share_email_url(self):
-        share_email_topic = (self._s.share.email_topic[self.language]
-                             .format(
-                                 voting_identifier=self._model.voting_identifier,
-                                 title=self._model.title[:140]))
+        share_email_topic = (
+            self._s.share.email_topic[
+                self.language].format(voting_identifier=self._model.voting_identifier, title=self._model.title[:140])
+        )
 
         share_email_body = self._s.share.email_body[self.language] + self.share_url
-        email_url = urllib.parse.urlencode({'subject': share_email_topic,
-                                            'body': share_email_body},
+        email_url = urllib.parse.urlencode({
+            'subject': share_email_topic,
+            'body': share_email_body
+        },
                                            quote_via=urllib.parse.quote)
         email_url = 'mailto:?' + email_url
         return email_url
 
     @log_call
     def share_twitter_url(self):
-        share_tweet_msg = (self._s.share.tweet_msg[self.language]
-                           .format(
-                               voting_identifier=self._model.voting_identifier,
-                               title=self._model.title[:70]))
+        share_tweet_msg = (
+            self._s.share.tweet_msg[
+                self.language].format(voting_identifier=self._model.voting_identifier, title=self._model.title[:70])
+        )
 
-        twitter_url = urllib.parse.urlencode({'hashtags': self._app.settings.share.hashtag,
-                                              'related': self._app.settings.share.promote_account,
-                                              'text': share_tweet_msg,
-                                              'tw_p': 'tweetbutton',
-                                              'url': self.share_url})
+        twitter_url = urllib.parse.urlencode({
+            'hashtags': self._app.settings.share.hashtag,
+            'related': self._app.settings.share.promote_account,
+            'text': share_tweet_msg,
+            'tw_p': 'tweetbutton',
+            'url': self.share_url
+        })
         twitter_url = 'https://twitter.com/intent/tweet?' + twitter_url
         return twitter_url
 
@@ -151,15 +144,13 @@ class PropositionCell(LayoutCell):
 
     def new_pro_argument_url(self):
         return self.class_link(
-            ArgumentRelations,
-            dict(proposition_id=self._model.id, relation_type=ArgumentType.PRO.name),
-            '+new')
+            ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.PRO.name), '+new'
+        )
 
     def new_con_argument_url(self):
         return self.class_link(
-            ArgumentRelations,
-            dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA.name),
-            '+new')
+            ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA.name), '+new'
+        )
 
     def supporter_count(self):
         return self._model.active_supporter_count
@@ -223,8 +214,12 @@ class PropositionCell(LayoutCell):
             return False
         return self.class_link(
             PropositionNote,
-            variables={'proposition_id': self._model.id, 'user_id': self._request.current_user.id},
-            name='edit')
+            variables={
+                'proposition_id': self._model.id,
+                'user_id': self._request.current_user.id
+            },
+            name='edit'
+        )
 
     def show_full_history(self):
         return self.options.get('show_details')
@@ -350,7 +345,9 @@ class PropositionsCell(LayoutCell):
             return voting_phase.title
 
     def proposition_type_name(self, type):
-        proposition_type = self._request.q(PropositionType).filter(func.lower(PropositionType.abbreviation) == func.lower(type)).scalar()
+        proposition_type = self._request.q(PropositionType).filter(
+            func.lower(PropositionType.abbreviation) == func.lower(type)
+        ).scalar()
         if proposition_type is None:
             return type
         else:

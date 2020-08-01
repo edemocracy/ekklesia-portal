@@ -1,7 +1,7 @@
 from colander import Length
 from deform import Button
-from deform.widget import TextAreaWidget, SelectWidget
-from ekklesia_common.contract import Schema, Form, string_property, int_property
+from deform.widget import SelectWidget, TextAreaWidget
+from ekklesia_common.contract import Form, Schema, int_property, string_property
 from ekklesia_common.translation import _
 
 

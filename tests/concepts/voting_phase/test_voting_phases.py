@@ -1,8 +1,9 @@
 import factory
-from webtest_helpers import assert_deform, fill_form
+
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.datamodel import VotingPhase
+from ekklesia_portal.enums import VotingStatus
+from webtest_helpers import assert_deform, fill_form
 
 
 def test_create_voting_phase(client, db_query, voting_phase_type, voting_phase_factory, logged_in_department_admin):

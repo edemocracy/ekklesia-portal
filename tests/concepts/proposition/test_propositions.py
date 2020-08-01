@@ -1,9 +1,11 @@
 import random
 import string
+
 import factory
-from ekklesia_portal.datamodel import Supporter, Proposition, Tag, Changeset
-from webtest_helpers import assert_deform
+
 from assert_helpers import assert_difference, assert_no_difference
+from ekklesia_portal.datamodel import Changeset, Proposition, Supporter, Tag
+from webtest_helpers import assert_deform
 
 
 def test_index(client):
@@ -111,10 +113,7 @@ def test_new_with_data_import(client, logged_in_user):
     PROPOSITION_IMPORT_HANDLERS['test_source'] = import_test
 
     res = client.get('/p/+new?source=test&from_data=1')
-    expected = {
-        'title': 'pre-filled title',
-        'content': 'pre-filled content'
-    }
+    expected = {'title': 'pre-filled title', 'content': 'pre-filled content'}
     assert_deform(res, expected)
 
 
@@ -152,6 +151,7 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
 
 
 def test_support(client, db_session, logged_in_user):
+
     def assert_supporter(status):
         qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=6)
         if status is None:

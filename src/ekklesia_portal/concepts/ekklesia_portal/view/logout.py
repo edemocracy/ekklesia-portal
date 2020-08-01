@@ -1,4 +1,5 @@
 from morepath import redirect
+
 from ekklesia_portal.app import App
 
 

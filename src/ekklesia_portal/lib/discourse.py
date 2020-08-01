@@ -1,5 +1,6 @@
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 import requests
 
 
@@ -20,19 +21,9 @@ class DiscourseConfig:
 
 def create_discourse_topic(config: DiscourseConfig, topic: DiscourseTopic):
 
-    headers = {
-        'accept': 'application/json',
-        'api-key': config.api_key,
-        'api-username': config.api_username
-    }
+    headers = {'accept': 'application/json', 'api-key': config.api_key, 'api-username': config.api_username}
 
-    req = {
-        'raw': topic.content,
-        'category': config.category,
-        'title': topic.title,
-        'tags': topic.tags
-    }
+    req = {'raw': topic.content, 'category': config.category, 'title': topic.title, 'tags': topic.tags}
 
     resp = requests.post(f"{config.base_url}/posts.json", json=req, headers=headers)
     return resp
-

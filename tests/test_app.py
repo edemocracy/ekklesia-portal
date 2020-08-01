@@ -1,16 +1,9 @@
 import morepath
+
 from ekklesia_portal.app import get_app_settings
 
 SETTING_SECTIONS = [
-    "app",
-    "babel_i18n",
-    "browser_session",
-    "common",
-    "database",
-    "ekklesia_auth",
-    "importer",
-    "share",
-    "static_files"
+    "app", "babel_i18n", "browser_session", "common", "database", "ekklesia_auth", "importer", "share", "static_files"
 ]
 
 

@@ -1,4 +1,4 @@
-from ekklesia_common.permission import WritePermission, CreatePermission, EditPermission, ViewPermission
+from ekklesia_common.permission import CreatePermission, EditPermission, ViewPermission, WritePermission
 
 
 class SupportPermission(WritePermission):

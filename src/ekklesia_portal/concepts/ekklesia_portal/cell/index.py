@@ -1,13 +1,13 @@
 from ekklesia_portal.concepts.ballot.ballots import Ballots
+from ekklesia_portal.concepts.customizable_text.customizable_texts import CustomizableTexts
 from ekklesia_portal.concepts.department.departments import Departments
 from ekklesia_portal.concepts.document.documents import Documents
-from ekklesia_portal.concepts.customizable_text.customizable_texts import CustomizableTexts
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.policy.policies import Policies
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.proposition_type.proposition_types import PropositionTypes
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
-from ekklesia_portal.datamodel import VotingPhase, Page
+from ekklesia_portal.datamodel import Page, VotingPhase
 from ekklesia_portal.enums import VotingStatus
 
 
@@ -46,6 +46,7 @@ class IndexCell(LayoutCell):
         return self.link(CustomizableTexts())
 
     def welcome_text(self):
-        return (self._request.q(Page.text)
-                    .filter_by(name='content_welcome', lang=self.language)
-                    .scalar() or 'add your welcome page!')
+        return (
+            self._request.q(Page.text).filter_by(name='content_welcome', lang=self.language).scalar()
+            or 'add your welcome page!'
+        )

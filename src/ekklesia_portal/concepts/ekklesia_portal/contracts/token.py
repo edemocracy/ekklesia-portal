@@ -1,6 +1,6 @@
 from colander import NoneOf
 from deform import Button
-from ekklesia_common.contract import Schema, bool_property, Form
+from ekklesia_common.contract import Form, Schema, bool_property
 from ekklesia_common.translation import _
 
 

@@ -1,6 +1,8 @@
-from ekklesia_portal.concepts.document.document_helper import get_section_from_document
-from . import DOCUMENT_TEXT
 from munch import Munch
+
+from ekklesia_portal.concepts.document.document_helper import get_section_from_document
+
+from . import DOCUMENT_TEXT
 
 
 def test_get_section_from_document():

@@ -1,5 +1,6 @@
 from munch import Munch
 from pytest import raises
+
 from ekklesia_portal.concepts.ekklesia_portal.login import Login, UserNotFound
 
 

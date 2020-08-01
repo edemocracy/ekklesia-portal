@@ -1,8 +1,10 @@
 from morepath import redirect
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import PropositionType
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .proposition_type_cells import PropositionTypeCell, PropositionTypesCell, NewPropositionTypeCell, EditPropositionTypeCell
+
+from .proposition_type_cells import EditPropositionTypeCell, NewPropositionTypeCell, PropositionTypeCell, PropositionTypesCell
 from .proposition_type_contracts import PropositionTypeForm
 from .proposition_types import PropositionTypes
 
@@ -34,7 +36,9 @@ def new(self, request):
     return NewPropositionTypeCell(request, form, form_data={}).show()
 
 
-@App.html_form_post(model=PropositionTypes, form=PropositionTypeForm, cell=NewPropositionTypeCell, permission=CreatePermission)
+@App.html_form_post(
+    model=PropositionTypes, form=PropositionTypeForm, cell=NewPropositionTypeCell, permission=CreatePermission
+)
 def create(self, request, appstruct):
     proposition_type = PropositionType(**appstruct)
     request.db_session.add(proposition_type)
@@ -59,7 +63,9 @@ def edit(self, request):
     return EditPropositionTypeCell(self, request, form).show()
 
 
-@App.html_form_post(model=PropositionType, form=PropositionTypeForm, cell=EditPropositionTypeCell, permission=EditPermission)
+@App.html_form_post(
+    model=PropositionType, form=PropositionTypeForm, cell=EditPropositionTypeCell, permission=EditPermission
+)
 def update(self, request, appstruct):
     self.update(**appstruct)
     return redirect(request.link(self))

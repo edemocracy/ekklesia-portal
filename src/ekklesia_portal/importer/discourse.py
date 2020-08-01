@@ -1,4 +1,5 @@
 import re
+
 import requests
 
 
@@ -44,8 +45,4 @@ def import_discourse_post_as_proposition(base_url: str, from_data):
     if title is None:
         raise ValueError("malformed discourse topic JSON, key 'title' not found!")
 
-    return {
-        'title': title,
-        'external_discussion_url': topic_url,
-        **parsed_content
-    }
+    return {'title': title, 'external_discussion_url': topic_url, **parsed_content}

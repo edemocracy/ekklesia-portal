@@ -1,8 +1,9 @@
-from ekklesia_portal.app import App
-from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
-from ekklesia_portal.datamodel import ArgumentRelation, Proposition
 from ekklesia_common.cell import Cell
+
+from ekklesia_portal.app import App
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import NewFormCell
+from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+from ekklesia_portal.datamodel import ArgumentRelation, Proposition
 from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import VotePermission
 

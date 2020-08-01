@@ -1,6 +1,6 @@
 from colander import Length
 from deform.widget import TextAreaWidget
-from ekklesia_common.contract import Schema, Form, json_property, string_property
+from ekklesia_common.contract import Form, Schema, json_property, string_property
 from ekklesia_common.translation import _
 
 
@@ -16,8 +16,5 @@ class DepartmentForm(Form):
         super().__init__(DepartmentSchema(), request, action, buttons=("submit", ))
 
     def prepare_for_render(self):
-        widgets = {
-            'description': TextAreaWidget(rows=8),
-            'exporter_settings': TextAreaWidget(rows=6)
-        }
+        widgets = {'description': TextAreaWidget(rows=8), 'exporter_settings': TextAreaWidget(rows=6)}
         self.set_widgets(widgets)

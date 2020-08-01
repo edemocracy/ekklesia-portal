@@ -1,6 +1,7 @@
-from munch import Munch
 import morepath
+from munch import Munch
 from pytest import fixture
+
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 

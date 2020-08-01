@@ -5,17 +5,17 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
-from ekklesia_portal.datamodel import Ballot, Proposition, SubjectArea, Supporter, Document, Changeset
+from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, SubjectArea, Supporter
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.lib.discourse import create_discourse_topic, DiscourseTopic, DiscourseConfig
-from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, WritePermission, ViewPermission
-from .proposition_cells import NewPropositionCell, EditPropositionCell, PropositionCell, \
-      PropositionsCell, PropositionNewDraftCell
-from .proposition_contracts import PropositionNewForm, PropositionEditForm, PropositionNewDraftForm
-from .propositions import Propositions
+from ekklesia_portal.lib.discourse import DiscourseConfig, DiscourseTopic, create_discourse_topic
+from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission, WritePermission
+
+from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionsCell
+from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm
 from .proposition_helper import get_or_create_tags
+from .propositions import Propositions
 
 
 @App.permission_rule(model=Proposition, permission=ViewPermission, identity=NoIdentity)
@@ -69,18 +69,21 @@ def proposition_new_draft_permission(identity, model, permission):
 App.path(path='p')(Propositions)
 
 
-@App.path(model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title)))
+@App.path(
+    model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title))
+)
 # XXX: fails with wrong urls!!!
 def proposition(request, id, slug):
     proposition = request.q(Proposition).get(id)
     if case_conversion.dashcase(proposition.title) == slug:
         return proposition
     else:
-        return redirect("/p/"+id+"/"+case_conversion.dashcase(proposition.title))
+        return redirect("/p/" + id + "/" + case_conversion.dashcase(proposition.title))
 
 
 @App.path(path='/p/{id}')
 class PropositionRedirect:
+
     def __init__(self, id):
         self.id = id
 
@@ -218,11 +221,13 @@ def new_draft(self, request):
     return PropositionNewDraftCell(request, form, form_data, model=self).show()
 
 
-@App.html_form_post(model=Propositions,
-                    name='new_draft',
-                    form=PropositionNewDraftForm,
-                    cell=PropositionNewDraftCell,
-                    permission=NewDraftPermission)
+@App.html_form_post(
+    model=Propositions,
+    name='new_draft',
+    form=PropositionNewDraftForm,
+    cell=PropositionNewDraftCell,
+    permission=NewDraftPermission
+)
 def new_draft_post(self, request, appstruct):
     appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     document = request.q(Document).get(appstruct.pop('document_id'))
@@ -238,13 +243,10 @@ def new_draft_post(self, request, appstruct):
     editing_remarks = appstruct.pop('editing_remarks')
 
     proposition = Proposition(
-        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct)
+        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct
+    )
 
-    proposition.external_fields = {
-        'external_draft': {
-            'editing_remarks': editing_remarks
-        }
-    }
+    proposition.external_fields = {'external_draft': {'editing_remarks': editing_remarks}}
 
     changeset = Changeset(document=document, section=section, proposition=proposition)
 
@@ -280,7 +282,8 @@ def push_draft(self, request):
         editing_remarks=editing_remarks,
         abstract=self.abstract,
         content=self.content,
-        motivation=self.motivation)
+        motivation=self.motivation
+    )
 
     topic = DiscourseTopic(content, self.title, [t.name for t in self.tags])
     discourse_config = DiscourseConfig(**exporter_config)

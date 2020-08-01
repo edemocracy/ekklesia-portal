@@ -1,6 +1,7 @@
+import json
 from dataclasses import dataclass
 from enum import Enum
-import json
+
 import ekklesia_portal.helper.json
 from ekklesia_portal.helper.json import JSONEncoder
 

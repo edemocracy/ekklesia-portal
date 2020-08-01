@@ -1,11 +1,13 @@
-import eliot
 import logging
 import sys
-from eliot.stdlib import EliotHandler
+
+import eliot
 from eliot.json import EliotJSONEncoder
+from eliot.stdlib import EliotHandler
 
 
 class MyEncoder(EliotJSONEncoder):
+
     def default(self, obj):
 
         try:

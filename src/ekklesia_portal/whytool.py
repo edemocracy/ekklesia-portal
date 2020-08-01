@@ -1,11 +1,11 @@
 import argparse
-import morepath
 
+import morepath
 from dectate.tool import parse_app_class
+from ekklesia_common.request import EkklesiaRequest
 from webob.exc import HTTPException
 
 from ekklesia_portal.app import make_wsgi_app
-from ekklesia_common.request import EkklesiaRequest
 
 
 def why_tool():
@@ -16,14 +16,10 @@ def why_tool():
     """
     parser = argparse.ArgumentParser(description="Query Morepath paths")
     parser.add_argument('path', help="Path to request.")
-    parser.add_argument('-r', '--request_method',
-                        default='GET',
-                        help='Request method such as GET, POST, PUT, DELETE.')
+    parser.add_argument('-r', '--request_method', default='GET', help='Request method such as GET, POST, PUT, DELETE.')
     parser.add_argument('-f', '--file', help='File with request body data.')
     parser.add_argument('-b', '--body', help='Request body data.')
-    parser.add_argument('-H', '--header',
-                        help='Request header ("Foo-header: Blah")',
-                        action='append')
+    parser.add_argument('-H', '--header', help='Request header ("Foo-header: Blah")', action='append')
 
     args, filters = parser.parse_known_args()
 
@@ -43,11 +39,7 @@ def why_tool():
             headers[key] = value
     else:
         headers = None
-    request = EkklesiaRequest.blank(args.path,
-                                    method=args.request_method.upper(),
-                                    headers=headers,
-                                    body=body,
-                                    app=app)
+    request = EkklesiaRequest.blank(args.path, method=args.request_method.upper(), headers=headers, body=body, app=app)
     response = app.publish(request)
     print("\n\n" + "=" * 80)
     print("\nPath:")
@@ -65,5 +57,3 @@ def why_tool():
 
 if __name__ == '__main__':
     why_tool()
-
-

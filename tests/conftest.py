@@ -1,8 +1,9 @@
-from .fixtures import *
-from .factories import *
 import logging
 import os.path
 import sys
+
+from .factories import *
+from .fixtures import *
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'helpers'))
 

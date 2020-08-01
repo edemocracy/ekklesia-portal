@@ -1,9 +1,11 @@
 from eliot import log_call
 from morepath import redirect
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Page
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .page_cells import PageCell, PagesCell, NewPageCell, EditPageCell
+
+from .page_cells import EditPageCell, NewPageCell, PageCell, PagesCell
 from .page_contracts import PageForm
 from .pages import Pages
 
@@ -26,6 +28,7 @@ def pages():
 
 @App.path(path='pages/{name}')
 class PageRedirect:
+
     def __init__(self, name):
         self.name = name
 

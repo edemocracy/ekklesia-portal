@@ -3,7 +3,9 @@ from .layout import LayoutCell
 
 class FormCell(LayoutCell):
 
-    def __init__(self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options):
+    def __init__(
+        self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options
+    ):
         self._form = form
         if form_data:
             self.set_form_data(form_data or {})
@@ -29,8 +31,12 @@ class FormCell(LayoutCell):
 
 class NewFormCell(FormCell):
 
-    def __init__(self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options):
-        super().__init__(request, form, form_data, model=model, layout=layout, parent=parent, template_path=template_path, **options)
+    def __init__(
+        self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options
+    ):
+        super().__init__(
+            request, form, form_data, model=model, layout=layout, parent=parent, template_path=template_path, **options
+        )
 
     def _prepare_form_for_render(self):
         self._form.prepare_for_render()
@@ -39,7 +45,9 @@ class NewFormCell(FormCell):
 class EditFormCell(FormCell):
 
     def __init__(self, model, request, form, layout=None, parent=None, template_path=None, **options):
-        super().__init__(request, form, model=model, layout=layout, parent=parent, template_path=template_path, **options)
+        super().__init__(
+            request, form, model=model, layout=layout, parent=parent, template_path=template_path, **options
+        )
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

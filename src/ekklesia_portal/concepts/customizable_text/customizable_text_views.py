@@ -1,9 +1,11 @@
 from eliot import log_call
 from morepath import redirect
+
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import CustomizableText
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .customizable_text_cells import CustomizableTextCell, CustomizableTextsCell, NewCustomizableTextCell, EditCustomizableTextCell
+
+from .customizable_text_cells import CustomizableTextCell, CustomizableTextsCell, EditCustomizableTextCell, NewCustomizableTextCell
 from .customizable_text_contracts import CustomizableTextForm
 from .customizable_texts import CustomizableTexts
 
@@ -26,6 +28,7 @@ def customizable_texts():
 
 @App.path(path='customizable_texts/{name}')
 class CustomizableTextRedirect:
+
     def __init__(self, name):
         self.name = name
 
@@ -50,7 +53,9 @@ def new(self, request):
     return NewCustomizableTextCell(request, form, form_data={}).show()
 
 
-@App.html_form_post(model=CustomizableTexts, form=CustomizableTextForm, cell=NewCustomizableTextCell, permission=CreatePermission)
+@App.html_form_post(
+    model=CustomizableTexts, form=CustomizableTextForm, cell=NewCustomizableTextCell, permission=CreatePermission
+)
 @log_call
 def create(self, request, appstruct):
     customizable_text = CustomizableText(**appstruct)
@@ -81,7 +86,9 @@ def edit(self, request):
     return EditCustomizableTextCell(self, request, form).show()
 
 
-@App.html_form_post(model=CustomizableText, form=CustomizableTextForm, cell=EditCustomizableTextCell, permission=EditPermission)
+@App.html_form_post(
+    model=CustomizableText, form=CustomizableTextForm, cell=EditCustomizableTextCell, permission=EditPermission
+)
 @log_call
 def update(self, request, appstruct):
     self.update(**appstruct)

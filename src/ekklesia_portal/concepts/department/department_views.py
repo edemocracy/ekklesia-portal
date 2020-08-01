@@ -1,9 +1,11 @@
 from morepath import redirect
+
 # from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Department
 from ekklesia_portal.permission import CreatePermission, EditPermission
-from .department_cells import DepartmentCell, DepartmentsCell, NewDepartmentCell, EditDepartmentCell
+
+from .department_cells import DepartmentCell, DepartmentsCell, EditDepartmentCell, NewDepartmentCell
 from .department_contracts import DepartmentForm
 # from .department_helper import
 from .departments import Departments

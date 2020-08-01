@@ -1,8 +1,10 @@
 import dataclasses
 from dataclasses import dataclass
-from ekklesia_portal.datamodel import Proposition, Ballot, VotingPhase, PropositionStatus, PropositionType, SubjectArea, Department, Tag
+
 from sqlalchemy import desc, func
 from sqlalchemy_searchable import search
+
+from ekklesia_portal.datamodel import Ballot, Department, Proposition, PropositionStatus, PropositionType, SubjectArea, Tag, VotingPhase
 
 
 @dataclass
@@ -150,24 +152,31 @@ class Propositions:
             propositions = propositions.filter_by(status=self.status)
 
         if self.tag:
-            propositions = propositions.join(*Proposition.tags.attr).filter(func.lower(Tag.name) == func.lower(self.tag))
+            propositions = propositions.join(*Proposition.tags.attr
+                                             ).filter(func.lower(Tag.name) == func.lower(self.tag))
 
         # Filters based on ballot
         if self.phase or self.type or self.department:
             propositions = propositions.join(Ballot)
 
             if self.phase:
-                propositions = propositions.join(VotingPhase).filter(func.lower(VotingPhase.name) == func.lower(self.phase))
+                propositions = propositions.join(VotingPhase).filter(
+                    func.lower(VotingPhase.name) == func.lower(self.phase)
+                )
 
             if self.type:
-                propositions = propositions.join(PropositionType).filter(func.lower(PropositionType.abbreviation) == func.lower(self.type))
+                propositions = propositions.join(PropositionType).filter(
+                    func.lower(PropositionType.abbreviation) == func.lower(self.type)
+                )
 
             if self.department:
                 propositions = propositions.join(SubjectArea)
                 if self.subject_area:
                     propositions = propositions.filter(func.lower(SubjectArea.name) == func.lower(self.subject_area))
 
-                propositions = propositions.join(Department).filter(func.lower(Department.name) == func.lower(self.department))
+                propositions = propositions.join(Department).filter(
+                    func.lower(Department.name) == func.lower(self.department)
+                )
 
         # Order
         if self.sort == "supporter_count":
