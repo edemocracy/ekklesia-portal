@@ -31,12 +31,6 @@ let
           buildInputs = nativeBuildInputs;
         }
       );
-      # Project needs poetry to build. Is this an error in poetry2nix?
-      ekklesia-common = super.ekklesia-common.overridePythonAttrs (
-        old: rec {
-          buildInputs = [ poetry ];
-        }
-      );
     });
 
 in rec {
