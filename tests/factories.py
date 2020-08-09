@@ -138,7 +138,7 @@ class PropositionFactory(SQLAFactory):
     content = MimesisField('text', quantity=5)
     motivation = MimesisField('text', quantity=8)
     abstract = MimesisField('text', quantity=2)
-    status = FuzzyChoice([PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED])
+    status = PropositionStatus.DRAFT
     ballot = SubFactory(BallotFactory)
 
 

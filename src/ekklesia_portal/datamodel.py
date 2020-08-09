@@ -20,8 +20,10 @@
 
 from ekklesia_common.database import Base, C, integer_pk
 from ekklesia_common.utils import cached_property
-from sqlalchemy import (JSON, Boolean, CheckConstraint, Column, Date, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, String, Text,
-                        Time, UniqueConstraint, func, select)
+from sqlalchemy import (
+    JSON, Boolean, CheckConstraint, Column, Date, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, String, Text,
+    Time, UniqueConstraint, func, select
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -30,8 +32,10 @@ from sqlalchemy.orm import backref, object_session, relationship
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
-from ekklesia_portal.enums import (ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus,
-                                   VoteByUser, VotingStatus, VotingSystem, VotingType)
+from ekklesia_portal.enums import (
+    ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser,
+    VotingStatus, VotingSystem, VotingType
+)
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
 
@@ -424,6 +428,16 @@ class Proposition(Base):
         )
     )
 
+    __table_args__ = (
+        CheckConstraint(
+            "qualified_at IS NOT NULL OR status IN ('DRAFT', 'SUBMITTED', 'ABANDONED', 'CHANGING', 'FINISHED')",
+            name="qualified_at_must_be_set"
+        ),
+        CheckConstraint(
+            "submitted_at IS NOT NULL OR status IN ('DRAFT', 'ABANDONED', 'CHANGING')", name="submitted_at_must_be_set"
+        )
+    )
+
     def support_by_user(self, user):
         for s in self.propositions_member:
             if s.member_id == user.id and s.status == SupporterStatus.ACTIVE:
@@ -626,9 +640,7 @@ class Document(Base):
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship('PropositionType')
     changesets = relationship('Changeset', back_populates='document')
-    __table_args__ = (
-        UniqueConstraint(name, lang, area_id),
-    )
+    __table_args__ = (UniqueConstraint(name, lang, area_id), )
 
 
 class Changeset(Base):

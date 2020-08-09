@@ -240,6 +240,7 @@ if __name__ == "__main__":
         external_discussion_url="http://example.com",
         created_at=datetime.fromisoformat('2020-01-01'),
         submitted_at=datetime.fromisoformat('2020-01-05'),
+        qualified_at=datetime.fromisoformat('2020-01-08'),
         status=PropositionStatus.SCHEDULED
     )
 
@@ -250,6 +251,7 @@ if __name__ == "__main__":
         replaces=q1,
         created_at=datetime.fromisoformat('2020-01-02'),
         submitted_at=datetime.fromisoformat('2020-01-07'),
+        qualified_at=datetime.fromisoformat('2020-01-10'),
         status=PropositionStatus.SCHEDULED
     )
 
@@ -260,6 +262,7 @@ if __name__ == "__main__":
         replaces=q1,
         created_at=datetime.fromisoformat('2020-01-03'),
         submitted_at=datetime.fromisoformat('2020-01-09'),
+        qualified_at=datetime.fromisoformat('2020-01-24'),
         status=PropositionStatus.SCHEDULED
     )
     q1_change = Proposition(
@@ -269,6 +272,7 @@ if __name__ == "__main__":
         modifies=q1,
         created_at=datetime.fromisoformat('2020-01-06'),
         submitted_at=datetime.fromisoformat('2020-01-06'),
+        qualified_at=datetime.fromisoformat('2020-01-11'),
         status=PropositionStatus.SCHEDULED
     )
     b1.propositions.extend([q1, q1_counter, q1_counter_2, q1_change])

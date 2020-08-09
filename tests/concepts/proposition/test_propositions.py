@@ -169,10 +169,10 @@ def test_update_as_global_admin(client, proposition_factory, logged_in_global_ad
     form = assert_deform(res, expected)
 
     form['title'] = 'new title'
-    form['status'] = 'QUALIFIED'
+    form['status'] = 'ABANDONED'
     form.submit(status=302)
     assert proposition.title == 'new title'
-    assert proposition.status == PropositionStatus.QUALIFIED
+    assert proposition.status == PropositionStatus.ABANDONED
 
 
 def test_does_not_create_without_title(db_query, client, proposition_factory, logged_in_user):
