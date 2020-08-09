@@ -1,8 +1,10 @@
 import argparse
 import logging
-from datetime import datetime, timedelta
-from logging import config
+from datetime import datetime
+import os
 
+from alembic.config import Config
+from alembic import command
 import mimesis
 import sqlalchemy.orm
 import transaction
@@ -71,6 +73,9 @@ if __name__ == "__main__":
 
     app = make_wsgi_app(args.config_file)
 
+    # Needed for Alembic env.py
+    os.environ['EKKLESIA_PORTAL_CONFIG'] = args.config_file
+
     from ekklesia_common.database import db_metadata, Session
     from ekklesia_portal.datamodel import *
 
@@ -87,6 +92,7 @@ if __name__ == "__main__":
     input("press Enter to drop and create the database...")
 
     db_metadata.drop_all()
+    connection.execute("DROP TABLE IF EXISTS alembic_version")
     db_metadata.create_all()
 
     s = Session()
@@ -434,4 +440,7 @@ if __name__ == "__main__":
 
     transaction.commit()
 
-    logg.info("commited")
+    logg.info("committed")
+
+    alembic_cfg = Config("./alembic.ini")
+    command.stamp(alembic_cfg, "head")
