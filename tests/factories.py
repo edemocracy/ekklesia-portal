@@ -124,6 +124,7 @@ class BallotFactory(SQLAFactory):
     election = FuzzyChoice([0, 4, 8])
     voting_type = FuzzyChoice(list(VotingType))
     proposition_type = SubFactory(PropositionTypeFactory)
+    area = SubFactory(SubjectAreaFactory)
     result = {}
 
 

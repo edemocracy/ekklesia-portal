@@ -17,19 +17,26 @@ def python_to_deform_value(py_value):
 def assert_deform(response, expected_form_data={}):
     assert 'deform' in response.forms
     form = response.forms['deform']
+    missing_fields = []
 
     for field, value in expected_form_data.items():
         if field == 'id':
             continue
 
         try:
-            form_field = form[field]
+            form[field]
         except AssertionError:
-            raise AssertionError(f"expected form field '{field}' is missing")
+            missing_fields.append(field)
+            continue
+
         form_value = form[field].value
 
         deform_value = python_to_deform_value(value)
         assert form_value == deform_value, f'form field {field}: form value {form_value} != expected {deform_value}'
+
+    if missing_fields:
+        fields_str = ", ".join(missing_fields)
+        raise AssertionError(f"missing expected form fields: '{fields_str}'")
 
     return form
 

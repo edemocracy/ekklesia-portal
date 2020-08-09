@@ -1,5 +1,7 @@
 import random
 import string
+from ekklesia_portal.enums import PropositionStatus
+from tests.fixtures import logged_in_global_admin
 
 import factory
 
@@ -140,6 +142,35 @@ def test_create(db_query, client, proposition_factory, logged_in_user_with_depar
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
     assert proposition.replaces == other_proposition
+
+
+def test_create_somewhere_as_global_admin(db_query, client, proposition_factory, department, logged_in_global_admin):
+    """Global admin user should be able to create a proposition regardless of department membership"""
+    data = factory.build(dict, FACTORY_CLASS=proposition_factory)
+    data['area_id'] = department.areas[0].id
+
+    # Check precondition: admin is not member of the department
+    assert department not in logged_in_global_admin.departments
+
+    # Proposition should be created
+    with assert_difference(db_query(Proposition).count, 1, 'proposition'):
+        client.post('/p', data, status=302)
+
+
+def test_update_as_global_admin(client, proposition_factory, logged_in_global_admin):
+
+    proposition = proposition_factory(title="test")
+
+    res = client.get(f'/p/{proposition.id}/test/edit')
+    skip_items = ['created_at', 'submitted_at', 'qualified_at', 'ballot_id', 'modifies_id', 'replaces_id', 'search_vector']
+    expected = {k: v for k, v in proposition.to_dict().items() if k not in skip_items}
+    form = assert_deform(res, expected)
+
+    form['title'] = 'new title'
+    form['status'] = 'QUALIFIED'
+    form.submit(status=302)
+    assert proposition.title == 'new title'
+    assert proposition.status == PropositionStatus.QUALIFIED
 
 
 def test_does_not_create_without_title(db_query, client, proposition_factory, logged_in_user):
