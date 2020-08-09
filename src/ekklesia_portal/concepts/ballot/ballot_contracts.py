@@ -9,8 +9,8 @@ class BallotSchema(Schema):
     election = int_property(title=_('election_positions'), missing=0)
     result = json_property(title=_('voting_result'), missing={})
     area_id = int_property(title=_('subject_area'), missing=None)
-    voting_id = int_property(title=('voting_phase'), missing=None)
-    proposition_type_id = int_property(title=('proposition_type'), missing=None)
+    voting_id = int_property(title=_('voting_phase'), missing=None)
+    proposition_type_id = int_property(title=_('proposition_type'), missing=None)
 
 
 class BallotForm(Form):
