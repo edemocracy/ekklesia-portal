@@ -7,7 +7,7 @@ from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
-from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, SubjectArea, Supporter
+from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
@@ -179,19 +179,28 @@ def create(self, request, appstruct):
             appstruct['replaces'] = related_proposition
     else:
         # create a new ballot as "container" for the proposition
-        area = request.q(SubjectArea).get(appstruct['area_id']) if appstruct['area_id'] else None
+        area = request.q(SubjectArea).get(appstruct['area_id'])
 
         if area is None:
-            return HTTPBadRequest()
+            return HTTPBadRequest("area missing")
 
         if area.department not in request.current_user.departments and not request.identity.has_global_admin_permissions:
-            return HTTPBadRequest()
+            return HTTPBadRequest("area not allowed")
 
-        ballot = Ballot(area=area)
+        proposition_type = request.q(PropositionType).get(appstruct['proposition_type_id'])
+
+        if proposition_type is None:
+            return HTTPBadRequest("proposition_type missing")
+
+        ballot = Ballot(area=area, proposition_type=proposition_type)
 
     del appstruct['area_id']
+    del appstruct['proposition_type_id']
 
-    proposition = Proposition(ballot=ballot, **appstruct)
+    proposition = Proposition(
+        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct
+    )
+
     request.db_session.add(proposition)
     request.db_session.flush()
 

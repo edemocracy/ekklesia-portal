@@ -119,12 +119,13 @@ def test_new_with_data_import(client, logged_in_user):
     assert_deform(res, expected)
 
 
-def test_create(db_query, client, proposition_factory, logged_in_user_with_departments):
+def test_create(db_query, client, proposition_factory, proposition_type, logged_in_user_with_departments):
     user = logged_in_user_with_departments
     data = factory.build(dict, FACTORY_CLASS=proposition_factory)
     data['tags'] = 'Tag1,' + "".join(random.choices(string.ascii_lowercase, k=10)).capitalize()
     data['status'] = data['status'].name
     data['area_id'] = user.departments[0].areas[0].id
+    data['proposition_type_id'] = proposition_type.id
     data['related_proposition_id'] = 3
     data['relation_type'] = 'modifies'
     data['external_discussion_url'] = 'http://example.com'
@@ -144,10 +145,11 @@ def test_create(db_query, client, proposition_factory, logged_in_user_with_depar
     assert proposition.replaces == other_proposition
 
 
-def test_create_somewhere_as_global_admin(db_query, client, proposition_factory, department, logged_in_global_admin):
+def test_create_somewhere_as_global_admin(db_query, client, proposition_factory, proposition_type, department, logged_in_global_admin):
     """Global admin user should be able to create a proposition regardless of department membership"""
     data = factory.build(dict, FACTORY_CLASS=proposition_factory)
     data['area_id'] = department.areas[0].id
+    data['proposition_type_id'] = proposition_type.id
 
     # Check precondition: admin is not member of the department
     assert department not in logged_in_global_admin.departments

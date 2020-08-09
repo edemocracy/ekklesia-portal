@@ -257,7 +257,8 @@ class NewPropositionCell(NewFormCell):
         else:
             selected_tag_names = self._form.cstruct['tags']
 
-        items = items_for_proposition_select_widgets(departments, tags, selected_tag_names)
+        proposition_types = self._request.q(PropositionType)
+        items = items_for_proposition_select_widgets(departments, tags, proposition_types, selected_tag_names)
         self._form.prepare_for_render(items)
 
 
@@ -313,7 +314,7 @@ class PropositionNewDraftCell(NewFormCell):
 
     def _prepare_form_for_render(self):
         tags = self._request.q(Tag).all()
-        items = items_for_proposition_select_widgets([], tags, None)
+        items = items_for_proposition_select_widgets([], tags)
         self._form.prepare_for_render(items)
 
     @cached_property

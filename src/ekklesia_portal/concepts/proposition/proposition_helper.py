@@ -6,7 +6,7 @@ from ekklesia_portal.datamodel import Tag
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 
 
-def items_for_proposition_select_widgets(departments, tags, selected_tags=None):
+def items_for_proposition_select_widgets(departments, tags, proposition_types=None, selected_tags=None):
     area_items = []
 
     for department in sorted(departments, key=attrgetter('name')):
@@ -22,7 +22,13 @@ def items_for_proposition_select_widgets(departments, tags, selected_tags=None):
         tag_names_to_create = set(selected_tags) - set(t.name for t in tags)
         tag_items.extend((t, t) for t in tag_names_to_create)
 
-    return {'area': area_items, 'status': status_items, 'tags': tag_items, 'visibility': visibility_items}
+    items = {'area': area_items, 'status': status_items, 'tags': tag_items, 'visibility': visibility_items}
+
+    if proposition_types:
+        proposition_type_items = [(t.id, t.name) for t in proposition_types]
+        items['proposition_type'] = proposition_type_items
+
+    return items
 
 
 def get_or_create_tags(db_session, tag_names):

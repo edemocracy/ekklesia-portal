@@ -3,6 +3,7 @@ from colander import Length, OneOf
 from deform.widget import HiddenWidget, Select2Widget, SelectWidget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, enum_property, int_property, json_property, set_property, string_property
 from ekklesia_common.translation import _
+from ekklesia_portal.datamodel import PropositionType
 
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 
@@ -19,19 +20,23 @@ def common_widgets(items_for_selects):
     }
 
 
-class PropositionNewSchema(Schema):
-    area_id = int_property(title=_('subject_area'))
+class PropositionSchema(Schema):
     title = string_property(title=_('title'), validator=Length(min=5, max=512))
-    external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
     abstract = string_property(title=_('abstract'), validator=Length(min=5, max=2048))
     content = string_property(title=_('content'), validator=Length(min=10, max=65536))
     motivation = string_property(title=_('motivation'), missing='')
+    external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
     tags = set_property(title=_('tags'), missing=tuple())
     relation_type = string_property(validator=OneOf(['replaces', 'modifies']), missing=None)
     related_proposition_id = int_property(missing=None)
 
 
-class PropositionEditSchema(PropositionNewSchema):
+class PropositionNewSchema(PropositionSchema):
+    area_id = int_property(title=_('subject_area'))
+    proposition_type_id = int_property(title=_('proposition_type'))
+
+
+class PropositionEditSchema(PropositionSchema):
     voting_identifier = string_property(title=_('voting_identifier'), validator=Length(max=10), missing=None)
     status = enum_property(PropositionStatus, title=_('status'))
     visibility = enum_property(PropositionVisibility, title=_('visibility'))
@@ -57,6 +62,7 @@ class PropositionNewForm(Form):
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
             'area_id': Select2Widget(values=items_for_selects['area']),
+            'proposition_type_id': Select2Widget(values=items_for_selects['proposition_type']),
             **common_widgets(items_for_selects)
         })
 
@@ -68,7 +74,6 @@ class PropositionEditForm(Form):
 
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
-            'area_id': HiddenWidget(),
             'status': SelectWidget(values=items_for_selects['status']),
             'visibility': SelectWidget(values=items_for_selects['visibility']),
             'external_fields': TextAreaWidget(rows=4),
