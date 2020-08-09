@@ -27,8 +27,21 @@ class PropositionCell(LayoutCell):
     _model: Proposition
 
     model_properties = [
-        'abstract', 'ballot', 'content', 'created_at', 'submitted_at', 'qualified_at', 'derivations',
-        'external_discussion_url', 'id', 'modifies', 'motivation', 'replacements', 'replaces', 'tags', 'title',
+        'abstract',
+        'ballot',
+        'content',
+        'created_at',
+        'submitted_at',
+        'qualified_at',
+        'derivations',
+        'external_discussion_url',
+        'id',
+        'modifies',
+        'motivation',
+        'replacements',
+        'replaces',
+        'tags',
+        'title',
     ]
 
     actions = Cell.fragment('proposition_actions')

@@ -181,7 +181,10 @@ def create(self, request, appstruct):
         # create a new ballot as "container" for the proposition
         area = request.q(SubjectArea).get(appstruct['area_id']) if appstruct['area_id'] else None
 
-        if area is None or area.department not in request.current_user.departments:
+        if area is None:
+            return HTTPBadRequest()
+
+        if area.department not in request.current_user.departments and not request.identity.has_global_admin_permissions:
             return HTTPBadRequest()
 
         ballot = Ballot(area=area)
