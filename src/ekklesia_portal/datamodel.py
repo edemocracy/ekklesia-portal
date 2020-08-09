@@ -626,7 +626,9 @@ class Document(Base):
     proposition_type_id = Column(Integer, ForeignKey('propositiontypes.id'))
     proposition_type = relationship('PropositionType')
     changesets = relationship('Changeset', back_populates='document')
-    __table_args__ = (UniqueConstraint(name, lang, area_id, name='uq_document_name_lang_area_id'), )
+    __table_args__ = (
+        UniqueConstraint(name, lang, area_id),
+    )
 
 
 class Changeset(Base):

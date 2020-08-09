@@ -297,10 +297,9 @@ sqlalchemy_utils = "^0.36.6"
 "zope.sqlalchemy" = "^1.3"
 
 [package.source]
-reference = "a036981095b54405ad51ac275a0201e088b67c15"
+reference = "72d2015fa1785bc1db554d8dc3dbdaca8aea82d6"
 type = "git"
 url = "https://github.com/Piratenpartei/ekklesia-common"
-
 [[package]]
 category = "main"
 description = "Logging library that tells you why it happened"
@@ -1359,7 +1358,7 @@ transaction = ">=1.6.0"
 test = ["zope.testing"]
 
 [metadata]
-content-hash = "61979adda68c1fc152d8dc62ab2df8cb62acc8244b30b16ac84b8987c0c22dac"
+content-hash = "36448776879b8989ec1e84d7530abd41333988e0fa1c5bb09cad543fc45e55d2"
 lock-version = "1.0"
 python-versions = "^3.8"
 
