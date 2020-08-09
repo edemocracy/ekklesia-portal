@@ -33,7 +33,7 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
 from ekklesia_portal.enums import (
-    ArgumentType, EkklesiaUserType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser,
+    ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser,
     VotingStatus, VotingSystem, VotingType
 )
 

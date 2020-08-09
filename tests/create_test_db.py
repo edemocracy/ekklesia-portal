@@ -11,6 +11,7 @@ import transaction
 from ekklesia_common.ekklesia_auth import OAuthToken
 
 from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.enums import ArgumentType, Majority, PropositionStatus, SupporterStatus, VotingStatus, VotingSystem, VotingType
 from ekklesia_portal.lib.password import password_context
 
 logging.basicConfig(level=logging.INFO)
@@ -77,7 +78,12 @@ if __name__ == "__main__":
     os.environ['EKKLESIA_PORTAL_CONFIG'] = args.config_file
 
     from ekklesia_common.database import db_metadata, Session
-    from ekklesia_portal.datamodel import *
+    # local import because we have to set up the database stuff before that
+    from ekklesia_portal.datamodel import (
+        Argument, ArgumentRelation, ArgumentVote, Ballot, CustomizableText, Department, DepartmentMember, Document,
+        Group, Policy, Proposition, PropositionType, SubjectArea, Supporter, Tag, User, UserPassword, UserProfile,
+        VotingPhase, VotingPhaseType
+    )
 
     print(f"using config file {args.config_file}")
     print(f"using db url {app.settings.database.uri}")
@@ -328,6 +334,7 @@ if __name__ == "__main__":
         qualified_at=datetime.fromisoformat('2020-01-11'),
     )
     b10 = Ballot(area=subject_area_pps_in, proposition_type=ptype_pol)
+
     s.add(b10)
     b10.propositions.append(q10)
     arg1 = Argument(
