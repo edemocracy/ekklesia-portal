@@ -1,4 +1,5 @@
 import case_conversion
+from eliot import Message
 from morepath import redirect
 from ekklesia_common.request import EkklesiaRequest as Request
 from webob.exc import HTTPBadRequest
@@ -74,13 +75,20 @@ App.path(path='p')(Propositions)
 @App.path(
     model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title))
 )
-# XXX: fails with wrong urls!!!
 def proposition_path(request, id, slug):
     proposition = request.q(Proposition).get(id)
-    if case_conversion.dashcase(proposition.title) == slug:
+
+    if proposition is None:
+        return None
+
+    canonical_slug = case_conversion.dashcase(proposition.title)
+    if canonical_slug == slug:
         return proposition
 
-    return redirect("/p/" + id + "/" + case_conversion.dashcase(proposition.title))
+    canonical = f"/p/{id}/{canonical_slug}"
+    Message.log(msg="redirect to canonical URL", original=slug, canonical=canonical_slug)
+
+    return redirect(canonical)
 
 
 @App.path(path='/p/{id}')
