@@ -9,7 +9,6 @@ from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .voting_phase_cells import EditVotingPhaseCell, NewVotingPhaseCell, VotingPhaseCell, VotingPhasesCell
 from .voting_phase_contracts import VotingPhaseForm
-from .voting_phase_helper import items_for_voting_phase_select_widgets
 from .voting_phases import VotingPhases
 
 
@@ -35,7 +34,7 @@ def voting_phases():
 
 
 @App.path(model=VotingPhase, path='v/{id}/{slug}', variables=lambda o: dict(id=o.id, slug=o.name or o.target or o.id))
-def voting_phase(request, id, slug):
+def voting_phase_path(request, id, slug):
     return request.q(VotingPhase).get(id)
 
 
@@ -54,11 +53,18 @@ def new(self, request):
 @App.html_form_post(model=VotingPhases, form=VotingPhaseForm, cell=NewVotingPhaseCell, permission=CreatePermission)
 def create(self, request, appstruct):
     department_id = appstruct['department_id']
-    department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+
+
+    if not request.identity.has_global_admin_permissions:
+        department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+
+        if not department_allowed:
+            return HTTPBadRequest("department not allowed")
+
     voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])
 
-    if not department_allowed or voting_phase_type is None:
-        return HTTPBadRequest()
+    if voting_phase_type is None:
+        return HTTPBadRequest("voting phase type is missing")
 
     voting_phase = VotingPhase(**appstruct)
     request.db_session.add(voting_phase)
@@ -76,11 +82,17 @@ def edit(self, request):
 @App.html_form_post(model=VotingPhase, form=VotingPhaseForm, cell=EditVotingPhaseCell, permission=EditPermission)
 def update(self, request, appstruct):
     department_id = appstruct['department_id']
-    department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+
+    if not request.identity.has_global_admin_permissions:
+        department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
+
+        if not department_allowed:
+            return HTTPBadRequest("department not allowed")
+
     voting_phase_type = request.q(VotingPhaseType).get(appstruct['phase_type_id'])
 
-    if not department_allowed or voting_phase_type is None:
-        return HTTPBadRequest()
+    if voting_phase_type is None:
+        return HTTPBadRequest("voting phase type is missing")
 
     # after setting a target date, the state of the voting phase transitions to SCHEDULED
     if appstruct['target'] and self.target is None:
