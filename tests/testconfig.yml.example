@@ -2,9 +2,9 @@ database:
     uri: "postgresql+psycopg2://ekklesia_portal:e@127.0.0.1/ekklesia_portal"
 test_section:
     test_setting: test
-app:
+common:
     instance_name: test
-    fail_on_form_validation_errors: true
+    fail_on_form_validation_error: false
 browser_session:
     secret_key: 'test'
     cookie_secure: false
