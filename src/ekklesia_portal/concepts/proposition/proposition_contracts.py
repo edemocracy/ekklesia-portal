@@ -1,9 +1,9 @@
 import colander
 from colander import Length, OneOf
+from deform import Button
 from deform.widget import HiddenWidget, Select2Widget, SelectWidget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, enum_property, int_property, json_property, set_property, string_property
 from ekklesia_common.translation import _
-from ekklesia_portal.datamodel import PropositionType
 
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 
@@ -57,7 +57,7 @@ class PropositionNewDraftSchema(Schema):
 class PropositionNewForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PropositionNewSchema(), request, action, buttons=("submit", ))
+        super().__init__(PropositionNewSchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
@@ -70,7 +70,7 @@ class PropositionNewForm(Form):
 class PropositionEditForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PropositionEditSchema(), request, action, buttons=("submit", ))
+        super().__init__(PropositionEditSchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
@@ -84,7 +84,7 @@ class PropositionEditForm(Form):
 class PropositionNewDraftForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PropositionNewDraftSchema(), request, action, buttons=("submit", ))
+        super().__init__(PropositionNewDraftSchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         common = common_widgets(items_for_selects)

@@ -1,4 +1,5 @@
 from colander import Length
+from deform import Button
 from deform.widget import TextAreaWidget
 from ekklesia_common.contract import Form, Schema, string_property
 from ekklesia_common.translation import _
@@ -14,7 +15,7 @@ class CustomizableTextSchema(Schema):
 class CustomizableTextForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(CustomizableTextSchema(), request, action, buttons=("submit", ))
+        super().__init__(CustomizableTextSchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self):
         widgets = {'text': TextAreaWidget(rows=12)}

@@ -1,4 +1,5 @@
 from colander import Length
+from deform import Button
 from deform.widget import SelectWidget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, decimal_property, enum_property, int_property, string_property
 from ekklesia_common.translation import _
@@ -26,7 +27,7 @@ class PolicySchema(Schema):
 class PolicyForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PolicySchema(), request, action, buttons=("submit", ))
+        super().__init__(PolicySchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         widgets = {

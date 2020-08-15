@@ -1,5 +1,6 @@
 from colander import Length
-from deform.widget import SelectWidget, TextAreaWidget, TextInputCSVWidget
+from deform import Button
+from deform.widget import SelectWidget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, bool_property, date_property, enum_property, int_property, list_property, string_property
 from ekklesia_common.translation import _
 
@@ -20,7 +21,7 @@ class VotingPhaseSchema(Schema):
 class VotingPhaseForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(VotingPhaseSchema(), request, action, buttons=("submit", ))
+        super().__init__(VotingPhaseSchema(), request, action, buttons=[Button(title=_("submit"))])
 
     def prepare_for_render(self, items_for_selects):
         widgets = {
