@@ -22,16 +22,7 @@ let
 
   overrides = poetry2nix.overrides.withDefaults (
     self: super: {
-      psycopg2 = super.psycopg2.overridePythonAttrs (
-        old: rec {
-          nativeBuildInputs = with pkgs; [
-            postgresql_12
-            openssl
-          ];
-          buildInputs = nativeBuildInputs;
-        }
-      );
-    });
+  });
 
 in rec {
   inherit pkgs bootstrap javascriptDeps python;
