@@ -177,6 +177,8 @@ def test_update_as_global_admin(client, proposition_factory, logged_in_global_ad
 
 def test_does_not_create_without_title(db_query, client, proposition_factory, logged_in_user):
     data = factory.build(dict, FACTORY_CLASS=proposition_factory)
+    data['proposition_type_id'] = 1
+    data['area_id'] = 1
     del data['title']
 
     with assert_no_difference(db_query(Proposition).count):
