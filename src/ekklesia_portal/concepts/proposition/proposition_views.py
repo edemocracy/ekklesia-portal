@@ -8,7 +8,7 @@ from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
 from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter
-from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.lib.discourse import DiscourseConfig, DiscourseTopic, create_discourse_topic
@@ -173,9 +173,9 @@ def create(self, request, appstruct):
         # modifiying and replacing propositions are put in the existing ballot of the related proposition
         ballot = related_proposition.ballot
 
-        if relation_type == 'modifies':
+        if relation_type == PropositionRelationType.MODIFIES:
             appstruct['modifies'] = related_proposition
-        elif relation_type == 'replaces':
+        elif relation_type == PropositionRelationType.REPLACES:
             appstruct['replaces'] = related_proposition
     else:
         # create a new ballot as "container" for the proposition

@@ -1,11 +1,11 @@
 import colander
-from colander import Length, OneOf
+from colander import Length
 from deform import Button
 from deform.widget import HiddenWidget, Select2Widget, SelectWidget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, enum_property, int_property, json_property, set_property, string_property
 from ekklesia_common.translation import _
 
-from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility
 
 
 def common_widgets(items_for_selects):
@@ -27,7 +27,7 @@ class PropositionSchema(Schema):
     motivation = string_property(title=_('motivation'), missing='')
     external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
     tags = set_property(title=_('tags'), missing=tuple())
-    relation_type = string_property(validator=OneOf(['replaces', 'modifies']), missing=None)
+    relation_type = enum_property(PropositionRelationType, missing=None)
     related_proposition_id = int_property(missing=None)
 
 

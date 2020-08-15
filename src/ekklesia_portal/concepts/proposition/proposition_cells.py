@@ -3,7 +3,7 @@ from operator import attrgetter
 
 import colander
 from ekklesia_common.cell import Cell
-from ekklesia_common.utils import cached_property
+from functools import cached_property
 from eliot import log_call
 from sqlalchemy import func
 

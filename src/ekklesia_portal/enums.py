@@ -32,6 +32,11 @@ class PropositionStatus(str, Enum):
     FINISHED = 'finished'
 
 
+class PropositionRelationType(str, Enum):
+    REPLACES = 'replaces'
+    MODIFIES = 'modifies'
+
+
 class PropositionVisibility(str, Enum):
     PUBLIC = 'public'
     UNLISTED = 'unlisted'

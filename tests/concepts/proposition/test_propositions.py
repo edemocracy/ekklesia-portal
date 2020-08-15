@@ -1,6 +1,6 @@
 import random
 import string
-from ekklesia_portal.enums import PropositionStatus
+from ekklesia_portal.enums import PropositionRelationType, PropositionStatus
 from tests.fixtures import logged_in_global_admin
 
 import factory
@@ -127,7 +127,7 @@ def test_create(db_query, client, proposition_factory, proposition_type, logged_
     data['area_id'] = user.departments[0].areas[0].id
     data['proposition_type_id'] = proposition_type.id
     data['related_proposition_id'] = 3
-    data['relation_type'] = 'modifies'
+    data['relation_type'] = PropositionRelationType.MODIFIES.name
     data['external_discussion_url'] = 'http://example.com'
 
     with assert_difference(db_query(Proposition).count, 1, 'proposition'):
@@ -138,7 +138,7 @@ def test_create(db_query, client, proposition_factory, proposition_type, logged_
     other_proposition = db_query(Proposition).get(3)
     assert proposition.modifies == other_proposition
 
-    data['relation_type'] = 'replaces'
+    data['relation_type'] = PropositionRelationType.REPLACES.name
     client.post('/p', data, status=302)
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
