@@ -190,13 +190,22 @@ class PropositionCell(LayoutCell):
         return self._model.title
 
     def show_support_actions(self):
-        return self._request.permitted_for_current_user(self._model, SupportPermission)
+        return self._model.status in (
+            PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED,
+            PropositionStatus.VOTING
+        ) and self._request.permitted_for_current_user(self._model, SupportPermission)
 
     def show_create_argument(self):
-        return self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
+        return self._model.status in (
+            PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED,
+            PropositionStatus.VOTING, PropositionStatus.ABANDONED
+        ) and self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
     def show_create_associated_proposition(self):
-        return self._request.permitted_for_current_user(self._model, CreatePermission)
+        return self._model.status in (
+            PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
+            PropositionStatus.SCHEDULED
+        ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
     def voting_phase(self):
         return self._model.ballot.voting
