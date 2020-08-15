@@ -62,7 +62,7 @@ class PropositionCell(LayoutCell):
             PropositionStatus.FINISHED: 'finished',
         }
         variant = status_to_variant[self._model.status]
-        template = f"proposition/proposition_status_{variant}.j2.jade"
+        template = f"proposition/status/proposition_status_{variant}.j2.jade"
         return self.render_template(template)
 
     @Cell.fragment
@@ -78,7 +78,7 @@ class PropositionCell(LayoutCell):
             PropositionStatus.FINISHED: 'finished',
         }
         variant = status_to_variant[self._model.status]
-        template = f"proposition/proposition_history_{variant}.j2.jade"
+        template = f"proposition/history/proposition_history_{variant}.j2.jade"
         return self.render_template(template)
 
     def associated_url(self):
