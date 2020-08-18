@@ -23,7 +23,7 @@ body
         .btn-group
           input(type="hidden",name="myurl",value=page_url)
           for mylang in settings_languages
-            button.lang_select_button(type="submit", name="lang", value=mylang, class=("active" if language == mylang)) 
+            button.lang_select_button(type="submit", name="lang", value=mylang, class=("active" if language == mylang))
               span=mylang.upper()
 
       .collapse.navbar-collapse
@@ -50,7 +50,7 @@ body
             i.fas.fa-sign-out-alt &nbsp;
               = _('button_logout')
       else
-        if login_url
+        if show_login_button
           a.login_button(href=login_url)
             i.fas.fa-sign-in-alt &nbsp;
               = _("button_login")

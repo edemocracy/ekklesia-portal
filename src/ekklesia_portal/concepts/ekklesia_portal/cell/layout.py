@@ -38,10 +38,12 @@ class LayoutCell(Cell):
     def propositions_url(self):
         return self.class_link(Propositions, {})
 
+    def show_login_button(self):
+        return self._s.app.login_visible
+
     def login_url(self):
-        if self._s.app.login_visible:
-            from ..view.login import Login
-            return self.link(Login())
+        from ..view.login import Login
+        return self.link(Login())
 
     def profile_url(self):
         return self.link(self.current_user)
