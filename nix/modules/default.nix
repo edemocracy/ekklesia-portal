@@ -22,6 +22,10 @@ let
 
   staticFiles = import ../static_files.nix { };
 
+  ekklesiaPortalShowConfig = pkgs.writeScriptBin "ekklesia-portal-show-config" ''
+    cat $(systemctl cat ekklesia-portal.service | grep X-ConfigFile | cut -d"=" -f2)
+  '';
+
 in {
   options.services.ekklesia.portal = with lib; {
 
@@ -60,6 +64,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+
+    environment.systemPackages = [ ekklesiaPortalShowConfig ];
 
     users.users.ekklesia-portal = { };
     users.groups.ekklesia-portal = { };
