@@ -7,8 +7,8 @@ class FormCell(LayoutCell):
         self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options
     ):
         self._form = form
-        if form_data:
-            self.set_form_data(form_data or {})
+        if form_data is not None:
+            self.set_form_data(form_data)
         else:
             self._form_data = None
         super().__init__(model, request, None, layout, parent, template_path, **options)
@@ -44,9 +44,9 @@ class NewFormCell(FormCell):
 
 class EditFormCell(FormCell):
 
-    def __init__(self, model, request, form, layout=None, parent=None, template_path=None, **options):
+    def __init__(self, model, request, form, form_data=None, layout=None, parent=None, template_path=None, **options):
         super().__init__(
-            request, form, model=model, layout=layout, parent=parent, template_path=template_path, **options
+            request, form, form_data, model=model, layout=layout, parent=parent, template_path=template_path, **options
         )
 
     def _prepare_form_for_render(self):
