@@ -75,7 +75,10 @@ if __name__ == "__main__":
     app = make_wsgi_app(args.config_file)
 
     # Needed for Alembic env.py
-    os.environ['EKKLESIA_PORTAL_CONFIG'] = args.config_file
+    if args.config_file:
+        os.environ['EKKLESIA_PORTAL_CONFIG'] = args.config_file
+    if 'EKKLESIA_PORTAL_CONFIG' not in os.environ:
+        os.environ['EKKLESIA_PORTAL_CONFIG'] = "config.yml"
 
     from ekklesia_common.database import db_metadata, Session
     # local import because we have to set up the database stuff before that
