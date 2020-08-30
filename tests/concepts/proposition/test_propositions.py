@@ -1,7 +1,7 @@
 import random
 import string
+from ekklesia_portal.concepts.proposition.proposition_helper import proposition_slug
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus
-from tests.fixtures import logged_in_global_admin
 
 import factory
 
@@ -84,22 +84,29 @@ def test_index_department_subject_area(client):
     assert 'Angenommener Antrag' not in content
 
 
-def test_show(client):
-    """XXX: depends on content from create_test_db.py"""
-    res = client.get("/p/1/ein-titel")
+def test_show(client, proposition):
+    res = client.get(f"/p/{proposition.id}/{proposition_slug(proposition)}")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
-    assert 'Ein Titel' in content
+    assert proposition.title in content
+    assert proposition.content in content
 
 
-def test_show_associated(client):
-    """XXX: depends on content from create_test_db.py"""
-    res = client.get("/p/1/ein-titel/associated")
+def test_show_legacy_id(client, proposition_factory):
+    proposition_factory(id=1, title="test")
+    client.get("/p/1/test")
+
+
+def test_show_associated(client, proposition_factory):
+    proposition = proposition_factory(title="test proposition")
+    counter_proposition = proposition_factory(title="alternative to test", replaces=proposition)
+    change_proposition = proposition_factory(title="change test", modifies=proposition)
+    res = client.get(f"/p/{proposition.id}/test-proposition/associated")
     content = res.body.decode()
     assert content.startswith("<!DOCTYPE html5>")
-    assert 'Ein Titel' in content
-    assert 'Gegenantrag' in content
-    assert 'Änderungsantrag' in content
+    assert counter_proposition.title in content
+    assert change_proposition.title in content
+    assert proposition.title in content
 
 
 def test_new_with_data_import(client, logged_in_user):
@@ -122,11 +129,12 @@ def test_new_with_data_import(client, logged_in_user):
 def test_create(db_query, client, proposition_factory, proposition_type, logged_in_user_with_departments):
     user = logged_in_user_with_departments
     data = factory.build(dict, FACTORY_CLASS=proposition_factory)
+    related_proposition_id = proposition_factory().id
     data['tags'] = 'Tag1,' + "".join(random.choices(string.ascii_lowercase, k=10)).capitalize()
     data['status'] = data['status'].name
     data['area_id'] = user.departments[0].areas[0].id
     data['proposition_type_id'] = proposition_type.id
-    data['related_proposition_id'] = 3
+    data['related_proposition_id'] = related_proposition_id
     data['relation_type'] = PropositionRelationType.MODIFIES.name
     data['external_discussion_url'] = 'http://example.com'
 
@@ -135,14 +143,14 @@ def test_create(db_query, client, proposition_factory, proposition_type, logged_
             client.post('/p', data, status=302)
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
-    other_proposition = db_query(Proposition).get(3)
-    assert proposition.modifies == other_proposition
+    related_proposition = db_query(Proposition).get(related_proposition_id)
+    assert proposition.modifies == related_proposition
 
     data['relation_type'] = PropositionRelationType.REPLACES.name
     client.post('/p', data, status=302)
 
     proposition = db_query(Proposition).order_by(Proposition.id.desc()).limit(1).first()
-    assert proposition.replaces == other_proposition
+    assert proposition.replaces == related_proposition
 
 
 def test_create_somewhere_as_global_admin(db_query, client, proposition_factory, proposition_type, department, logged_in_global_admin):
@@ -185,16 +193,18 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
         client.post('/p', data, status=200)
 
 
-def test_support(client, db_session, logged_in_user):
+def test_support(client, db_session, logged_in_user, proposition_factory):
+
+    proposition = proposition_factory(title="test")
 
     def assert_supporter(status):
-        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=6)
+        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=proposition.id)
         if status is None:
             assert qq.scalar() is None, 'supporter present but should not be present'
         else:
             assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
 
-    support_url = '/p/6/qualifizierter-antrag/support'
+    support_url = f'/p/{proposition.id}/test/support'
 
     client.post(support_url, dict(support=True), status=302)
     assert_supporter('active')
@@ -218,10 +228,10 @@ def test_support(client, db_session, logged_in_user):
     assert_supporter('retracted')
 
 
-def test_redirect_to_full_url(client):
-    """XXX: depends on content from create_test_db.py"""
-    res = client.get('/p/1', status=302)
-    assert res.headers['Location'] == 'http://localhost/p/1/ein-titel'
+def test_redirect_to_full_url(client, proposition_factory):
+    proposition = proposition_factory(title="test")
+    res = client.get(f'/p/{proposition.id}', status=302)
+    assert res.headers['Location'] == f'http://localhost/p/{proposition.id}/test'
 
 
 def test_new_draft(db_query, client, proposition_factory, document, logged_in_user):

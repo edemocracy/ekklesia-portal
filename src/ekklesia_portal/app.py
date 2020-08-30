@@ -6,7 +6,8 @@ import yaml
 from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
-from eliot import log_call, start_action, start_task
+from ekklesia_common.lid import LID
+from eliot import log_call, start_action
 
 import ekklesia_portal
 from ekklesia_portal.datamodel import Department, User, UserProfile
@@ -66,6 +67,18 @@ def share_setting_section():
             "de": "Ich wollte nur einen Antrag vom Ekklesia Portal teilen!"
         },
     }
+
+
+def _convert_lid_or_legacy_id(value):
+    if "-" not in value:
+        return LID(int(value))
+    else:
+        return LID.from_str(value)
+
+
+@App.converter(type=LID)
+def convert_lid():
+    return morepath.Converter(lambda s: _convert_lid_or_legacy_id(s), lambda l: str(l))
 
 
 @App.identity_policy()

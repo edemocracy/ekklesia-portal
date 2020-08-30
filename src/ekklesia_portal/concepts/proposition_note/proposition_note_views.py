@@ -1,3 +1,4 @@
+from ekklesia_common.lid import LID
 from morepath import redirect
 
 from ekklesia_portal.app import App
@@ -14,8 +15,8 @@ def proposition_note_edit_permission(identity, model, permission):
     return tmp
 
 
-@App.path(model=PropositionNote, path='n/{proposition_id}/{user_id}')
-def proposition_note(request, proposition_id, user_id):
+@App.path(model=PropositionNote, path='proposition_notes/{proposition_id}/{user_id}')
+def proposition_note(request, proposition_id=LID(), user_id=0):
     note = request.q(PropositionNote).get({"proposition_id": proposition_id, "user_id": user_id})
     if note is None:
         return PropositionNote(user_id, proposition_id)

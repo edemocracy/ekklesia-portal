@@ -1,7 +1,10 @@
+from re import L
+
 import case_conversion
+from ekklesia_common.lid import LID
+from ekklesia_common.request import EkklesiaRequest as Request
 from eliot import Message
 from morepath import redirect
-from ekklesia_common.request import EkklesiaRequest as Request
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
@@ -16,7 +19,7 @@ from ekklesia_portal.permission import CreatePermission, EditPermission, Support
 
 from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionsCell
 from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm
-from .proposition_helper import get_or_create_tags
+from .proposition_helper import get_or_create_tags, proposition_slug
 from .propositions import Propositions
 
 
@@ -73,29 +76,31 @@ App.path(path='p')(Propositions)
 
 
 @App.path(
-    model=Proposition, path="/p/{id}/{slug}", variables=lambda o: dict(id=o.id, slug=case_conversion.dashcase(o.title))
+    model=Proposition,
+    path="/p/{proposition_id}/{slug}",
+    variables=lambda o: dict(proposition_id=o.id, slug=proposition_slug(o))
 )
-def proposition_path(request, id, slug):
-    proposition = request.q(Proposition).get(id)
+def proposition_path(request, proposition_id=LID(), slug=""):
+    proposition = request.q(Proposition).get(proposition_id)
 
     if proposition is None:
         return None
 
-    canonical_slug = case_conversion.dashcase(proposition.title)
+    canonical_slug = proposition_slug(proposition)
     if canonical_slug == slug:
         return proposition
 
-    canonical = f"/p/{id}/{canonical_slug}"
+    canonical = f"/p/{proposition_id}/{canonical_slug}"
     Message.log(msg="redirect to canonical URL", original=slug, canonical=canonical_slug)
 
     return redirect(canonical)
 
 
-@App.path(path='/p/{id}')
+@App.path(path='/p/{proposition_id}')
 class PropositionRedirect:
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, proposition_id=LID()):
+        self.id = proposition_id
 
 
 @App.html(model=Proposition, permission=ViewPermission)

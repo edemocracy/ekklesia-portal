@@ -28,7 +28,7 @@ class PropositionSchema(Schema):
     external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
     tags = set_property(title=_('tags'), missing=tuple())
     relation_type = enum_property(PropositionRelationType, missing=None)
-    related_proposition_id = int_property(missing=None)
+    related_proposition_id = string_property(missing=None)
 
 
 class PropositionNewSchema(PropositionSchema):

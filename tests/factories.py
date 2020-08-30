@@ -6,13 +6,14 @@ from ekklesia_common.database import Session
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData
 from factory import Factory, RelatedFactory, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
+from factory.declarations import RelatedFactoryList
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal, FuzzyInteger, FuzzyText
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 
 from ekklesia_portal.datamodel import (Argument, ArgumentRelation, Ballot, CustomizableText, Department, Document, Group, Page, Policy,
-                                       Proposition, PropositionType, SubjectArea, User, UserLoginToken, VotingPhase, VotingPhaseType)
-from ekklesia_portal.enums import EkklesiaUserType, Majority, PropositionStatus, VotingStatus, VotingSystem, VotingType
+                                       Proposition, PropositionType, SubjectArea, Tag, User, UserLoginToken, VotingPhase, VotingPhaseType)
+from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, VotingStatus, VotingSystem, VotingType
 
 
 class SQLAFactory(SQLAlchemyModelFactory):
@@ -127,6 +128,14 @@ class BallotFactory(SQLAFactory):
     area = SubFactory(SubjectAreaFactory)
     result = {}
 
+@register
+class TagFactory(SQLAFactory):
+
+    class Meta:
+        model = Tag
+
+    name = MimesisField('word')
+
 
 @register
 class PropositionFactory(SQLAFactory):
@@ -140,6 +149,7 @@ class PropositionFactory(SQLAFactory):
     abstract = MimesisField('text', quantity=2)
     status = PropositionStatus.DRAFT
     ballot = SubFactory(BallotFactory)
+    tags = RelatedFactoryList(TagFactory)
 
 
 register(PropositionFactory, 'proposition_two')
@@ -151,12 +161,20 @@ class ArgumentFactory(SQLAFactory):
     class Meta:
         model = Argument
 
+    title = MimesisField('title')
+    abstract = MimesisField('text', quantity=2)
+    details = MimesisField('text', quantity=4)
+
 
 @register
 class ArgumentRelationFactory(SQLAFactory):
 
     class Meta:
         model = ArgumentRelation
+
+    argument = SubFactory(ArgumentFactory)
+    proposition = SubFactory(PropositionFactory)
+    argument_type = FuzzyChoice(list(ArgumentType))
 
 
 @register

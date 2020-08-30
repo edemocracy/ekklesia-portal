@@ -19,12 +19,12 @@
 # For more details see the file COPYING.
 
 from datetime import datetime
-from ekklesia_common.database import Base, C, integer_pk
+
+from ekklesia_common.database import Base, C, LIDType, integer_pk
+from ekklesia_common.lid import LID
 from ekklesia_common.utils import cached_property
-from sqlalchemy import (
-    JSON, Boolean, CheckConstraint, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, Text, Time,
-    UniqueConstraint, func, select
-)
+from sqlalchemy import (JSON, Boolean, CheckConstraint, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, Text, Time,
+                        UniqueConstraint, func, select)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -33,10 +33,8 @@ from sqlalchemy.orm import backref, object_session, relationship
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
-from ekklesia_portal.enums import (
-    ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser, VotingStatus,
-    VotingSystem, VotingType
-)
+from ekklesia_portal.enums import (ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser,
+                                   VotingStatus, VotingSystem, VotingType)
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
 
@@ -374,7 +372,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
 class Proposition(Base):
     __tablename__ = 'propositions'
-    id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
+    id: LID = C(LIDType, default=LID, primary_key=True)
     title: str = C(Text, nullable=False)
     content: str = C(Text, nullable=False)  # modifies: generate diff to original dynamically
     abstract: str = C(Text, nullable=False, server_default='')
@@ -394,10 +392,10 @@ class Proposition(Base):
     # in state draft only submitters may become supporters §3.3
     tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
 
-    modifies_id: int = C(Integer, ForeignKey('propositions.id'), comment='only one level allowed')
+    modifies_id: LID = C(LIDType, ForeignKey('propositions.id'), comment='only one level allowed')
     derivations = relationship("Proposition", foreign_keys=[modifies_id], backref=backref('modifies', remote_side=[id]))
 
-    replaces_id: int = C(Integer, ForeignKey('propositions.id'))  # optional
+    replaces_id: LID = C(LIDType, ForeignKey('propositions.id'))  # optional
     replacements = relationship(
         "Proposition", foreign_keys=[replaces_id], backref=backref('replaces', remote_side=[id])
     )
@@ -480,7 +478,7 @@ class Proposition(Base):
 
 class PropositionTag(Base):
     __tablename__ = 'propositiontags'
-    proposition_id: int = C(Integer, ForeignKey('propositions.id'), primary_key=True)
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("proposition_tags", cascade="all, delete-orphan"))
     tag_id: int = C(Integer, ForeignKey('tags.id'), primary_key=True)
     tag = relationship("Tag", backref=backref("tag_propositions", cascade="all, delete-orphan"))
@@ -492,7 +490,7 @@ class PropositionTag(Base):
 
 class PropositionNote(Base):
     __tablename__ = 'propositionnotes'
-    proposition_id: int = C(Integer, ForeignKey('propositions.id'), primary_key=True)
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), primary_key=True)
     user_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
     notes: str = C(Text)
     vote: VoteByUser = C(Enum(VoteByUser))
@@ -508,7 +506,7 @@ class Supporter(Base):  # §3.5
     __tablename__ = 'supporters'
     member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
     member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
-    proposition_id: int = C(Integer, ForeignKey('propositions.id'), primary_key=True)
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), primary_key=True)
     proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
     submitter: bool = C(Boolean, nullable=False, server_default='false', comment='submitter or regular')
     status: SupporterStatus = C(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
@@ -534,9 +532,7 @@ class ArgumentRelation(Base):
 
     argument_id: int = C(Integer, ForeignKey('arguments.id'))
     argument = relationship("Argument", backref=backref("argument_relations", cascade="all, delete-orphan"))
-    proposition_id: int = C(
-        Integer, ForeignKey('propositions.id')
-    )  # also show parent proposition arguments if still valid?
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'))
     proposition = relationship("Proposition", backref=backref("proposition_arguments", cascade="all, delete-orphan"))
     argument_type: ArgumentType = C(Enum(ArgumentType), nullable=False)
 
@@ -649,7 +645,7 @@ class Changeset(Base):
     __tablename__ = 'changeset'
     id: int = integer_pk()
     document_id: int = C(Integer, ForeignKey('document.id'), nullable=False)
-    proposition_id: int = C(Integer, ForeignKey('propositions.id'), nullable=False)
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), nullable=False)
     document = relationship(Document, back_populates='changesets')
     proposition = relationship(Proposition, back_populates='changesets')
     section: str = C(Text, comment='Identifier for the section of the document that is changed.')

@@ -8,7 +8,7 @@ from ekklesia_portal.enums import ArgumentType
 
 
 class ArgumentForPropositionSchema(ArgumentSchema):
-    proposition_id = int_property()
+    proposition_id = string_property()
     relation_type = enum_property(ArgumentType)
 
 

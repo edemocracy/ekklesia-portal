@@ -1,5 +1,6 @@
 from operator import attrgetter
 
+import case_conversion
 from ekklesia_common.translation import _
 
 from ekklesia_portal.datamodel import Tag
@@ -40,3 +41,7 @@ def get_or_create_tags(db_session, tag_names):
         tags.append(tag)
 
     return tags
+
+
+def proposition_slug(proposition):
+    return case_conversion.dashcase(proposition.title)

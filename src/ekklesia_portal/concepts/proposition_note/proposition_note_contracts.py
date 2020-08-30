@@ -8,7 +8,7 @@ from ekklesia_portal.enums import VoteByUser
 
 
 class PropositionNoteSchema(Schema):
-    proposition_id = int_property(title=_('proposition_id'), missing=None)
+    proposition_id = string_property(title=_('proposition_id'), missing=None)
     user_id = int_property(title=_('user_id'), missing=None)
     notes = string_property(title=_('notes'), validator=Length(min=0, max=2048), missing=None)
     vote = enum_property(VoteByUser, title=_('vote'), missing=VoteByUser.UNSURE)

@@ -1,5 +1,6 @@
 import logging
 
+from ekklesia_common.lid import LID
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 
@@ -29,16 +30,16 @@ def argument_relation_vote_permission(identity, model, permission):
     return True
 
 
-@App.path(model=ArgumentRelation, path="/propositions/{proposition_id}/arguments/{argument_id}")
-def argument_relation(request, proposition_id, argument_id):
+@App.path(model=ArgumentRelation, path="/p/{proposition_id}/a/{argument_id}")
+def argument_relation(request, proposition_id=LID(), argument_id=0):
     argument_relation = request.q(ArgumentRelation).filter_by(
         proposition_id=proposition_id, argument_id=argument_id
     ).scalar()
     return argument_relation
 
 
-@App.path(model=ArgumentRelations, path="/propositions/{proposition_id}/arguments")
-def argument_relations(request, proposition_id, relation_type=None):
+@App.path(model=ArgumentRelations, path="/p/{proposition_id}/a")
+def argument_relations(request, proposition_id=LID(), relation_type=None):
     return ArgumentRelations(proposition_id, relation_type)
 
 
