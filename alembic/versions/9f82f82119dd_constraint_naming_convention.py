@@ -16,7 +16,7 @@ from sqlalchemy.util.langhelpers import constructor_copy
 
 # revision identifiers, used by Alembic.
 revision = '9f82f82119dd'
-down_revision = '24e8f6789a15'
+down_revision = '911c994268aa'
 branch_labels = None
 depends_on = None
 
