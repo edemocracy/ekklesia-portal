@@ -30,7 +30,11 @@
       dt= _('voting_status')
       dd= status|enum_value
       dt= _('target_date')
-      dd= target|dateformat or 'nicht festgelegt'
+      dd
+        if target
+          = target|dateformat
+        else
+          = _('not_determined')
       dt= _('department')
       dd= department.name
       dt= _('ballots')

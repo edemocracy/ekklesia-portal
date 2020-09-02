@@ -4,12 +4,7 @@ from ekklesia_portal.enums import VotingStatus
 
 
 def items_for_voting_phase_select_widgets(phase_types, departments, voting_phase=None):
-    if voting_phase is not None and voting_phase.target:
-        voting_states = [vs for vs in VotingStatus if vs != VotingStatus.PREPARING]
-    else:
-        voting_states = [VotingStatus.PREPARING]
-
-    status_items = [(e.name, _('_'.join(['voting_status', e.value]))) for e in voting_states]
+    status_items = [(e.name, _('_'.join(['voting_status', e.value]))) for e in VotingStatus]
 
     phase_type_items = [(pt.id, pt.name) for pt in phase_types]
     department_items = [(d.id, d.name) for d in departments]
