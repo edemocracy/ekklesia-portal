@@ -18,7 +18,7 @@ class LoginCell(LayoutCell):
         return self._s.app.insecure_development_mode
 
     def show_internal_login(self):
-        return (self._s.app.internal_login_enabled or self.insecure_development_mode_enabled)
+        return (self.insecure_development_mode_enabled or self._model.internal_login)
 
     def show_ekklesia_login(self):
         return (self._s.ekklesia_auth.enabled)

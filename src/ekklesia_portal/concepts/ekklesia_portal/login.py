@@ -8,10 +8,11 @@ class UserNotFound(ValueError):
 
 class Login:
 
-    def __init__(self, request=None, username=None, password=None):
+    def __init__(self, request=None, username=None, password=None, internal_login=None):
         self.request = request
         self.username = username
         self.password = password
+        self.internal_login = internal_login
         self.user = None
 
     def find_user(self):

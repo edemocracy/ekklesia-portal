@@ -8,11 +8,11 @@ from ..login import Login, UserNotFound
 
 
 @App.path(model=Login, path="/login")
-def login(request):
+def login(request, internal_login=False):
     if request.method == "POST":
         return Login(request, request.POST.get("username"), request.POST.get("password"))
 
-    return Login()
+    return Login(internal_login=internal_login)
 
 
 @App.html(model=Login)
