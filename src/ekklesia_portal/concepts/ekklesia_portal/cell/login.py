@@ -2,6 +2,7 @@ from ekklesia_common.ekklesia_auth import EkklesiaAuthPathApp, EkklesiaLogin
 
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 
 from ..login import Login
 
@@ -13,6 +14,12 @@ class LoginCell(LayoutCell):
     def ekklesia_login_url(self):
         ekklesia_app = self._app.child(EkklesiaAuthPathApp)
         return self.link(EkklesiaLogin(), app=ekklesia_app)
+
+    def ekklesia_login_name(self):
+        return self._s.ekklesia_auth.display_name
+
+    def ekklesia_login_explanation(self):
+        return customizable_text(self._request, 'ekklesia_login_explanation')
 
     def insecure_development_mode_enabled(self):
         return self._s.app.insecure_development_mode

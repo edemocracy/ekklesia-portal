@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-02 16:58+0000\n"
+"POT-Creation-Date: 2020-09-02 21:12+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -315,7 +315,7 @@ msgid "error_missing_consent"
 msgstr "Zustimmung ist erforderlich"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:8
 msgid "warning_development_mode"
 msgstr "Warnung: Entwicklungsmodus: Login ohne Passwort möglich!"
 
@@ -403,6 +403,14 @@ msgstr "Impressum"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
 msgid "source code"
 msgstr "Quellcode"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:2
+msgid "title_ekklesia_login"
+msgstr "Anmelden über %(name)s"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
+msgid "button_ekklesia_login"
+msgstr "Zum %(name)s"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/page_test.j2.jade:11
 msgid "hello_date"

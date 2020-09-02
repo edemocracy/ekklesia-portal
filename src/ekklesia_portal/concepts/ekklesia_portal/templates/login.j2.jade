@@ -6,9 +6,15 @@
 
   if show_ekklesia_login
 
-    h2 Login über zentralen Ekklesia-Login
+    h2= _("title_ekklesia_login", name=ekklesia_login_name)
 
-    a.btn.btn-primary(href=ekklesia_login_url) Zum Ekklesia-Login
+    .help_text
+      = ekklesia_login_explanation|markdown
+
+    a.btn.btn-primary(href=ekklesia_login_url)
+      i.fas.fa-sign-in-alt
+      |&nbsp;
+      = _("button_ekklesia_login", name=ekklesia_login_name)
 
     hr
 
