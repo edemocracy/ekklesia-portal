@@ -58,7 +58,7 @@ body
 
     - block messages
         for cat, msg in flashed_messages
-          .alert(class="alert-{{ cat }}")= msg
+          .alert(class="alert-{{ cat }}")= _(msg)
 
     .content_area
       - block content
