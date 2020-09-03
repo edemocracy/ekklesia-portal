@@ -185,7 +185,6 @@ def make_wsgi_app(settings_filepath=None, testing=False):
     with start_action(action_type='settings'):
         settings = get_app_settings(settings_filepath)
         App.init_settings(settings)
-        EkklesiaAuthPathApp.init_settings(settings)
 
     with start_action(action_type='make_app'):
         App.commit()
