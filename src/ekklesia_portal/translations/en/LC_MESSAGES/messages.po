@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-02 21:12+0000\n"
+"POT-Creation-Date: 2020-09-03 22:33+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -426,6 +426,14 @@ msgstr[1] "Hellos"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/token.j2.jade:2
 msgid "headline_login_with_token"
 msgstr "Login with token"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:38
+msgid "alert_logged_in"
+msgstr "Logged in."
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:42
+msgid "alert_login_failed"
+msgstr "Login failed. User name or password wrong?"
 
 #: src/ekklesia_portal/concepts/page/templates/edit_page.j2.jade:2
 #: src/ekklesia_portal/concepts/page/templates/edit_page.j2.jade:3

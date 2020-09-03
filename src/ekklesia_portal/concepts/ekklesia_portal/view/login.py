@@ -1,10 +1,11 @@
 import morepath
 from morepath import Response, redirect
 
+from ekklesia_common.translation import _
 from ekklesia_portal.app import App
 
 from ..cell.login import LoginCell
-from ..login import Login, UserNotFound
+from ..login import Login
 
 
 @App.path(model=Login, path="/login")
@@ -23,20 +24,20 @@ def show_login(self, request):
 @App.html(model=Login, request_method="POST")
 def submit_login(self, request):
     try:
-        self.find_user()
-    except UserNotFound:
-        return Response(status=404)
+        user_found = self.find_user()
     except ValueError:
         return Response(status=400)
 
-    if self.verify_password(insecure_empty_password_ok=request.app.settings.app.insecure_development_mode):
+    if user_found and self.verify_password(insecure_empty_password_ok=request.app.settings.app.insecure_development_mode):
 
         @request.after
         def remember(response):
             identity = morepath.Identity(self.user.id, user=self.user)
             request.app.remember_identity(response, request, identity)
 
-        return redirect("/")
+        request.flash(_("alert_logged_in"), "success")
+        return redirect(self.back_url or "/")
 
     else:
+        request.flash(_("alert_login_failed"), "danger")
         return LoginCell(self, request).show()

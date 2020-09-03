@@ -21,9 +21,10 @@ class Login:
 
         user = self.request.q(User).filter_by(name=self.username).scalar()
         if user is None:
-            raise UserNotFound()
+            return False
 
         self.user = user
+        return True
 
     def verify_password(self, insecure_empty_password_ok):
         if self.user is None:
