@@ -1,5 +1,7 @@
+from urllib.parse import quote
 import morepath
-from morepath import Response, redirect
+from morepath import Request, Response, redirect
+from webob.exc import HTTPForbidden
 
 from ekklesia_common.translation import _
 from ekklesia_portal.app import App
@@ -9,11 +11,12 @@ from ..login import Login
 
 
 @App.path(model=Login, path="/login")
-def login(request, internal_login=False):
+def login(request, internal_login=False, back_url=None):
     if request.method == "POST":
-        return Login(request, request.POST.get("username"), request.POST.get("password"))
+        params = request.POST
+        return Login(request, params.get("username"), params.get("password"), params.get("back_url"))
 
-    return Login(internal_login=internal_login)
+    return Login(back_url=back_url, internal_login=internal_login)
 
 
 @App.html(model=Login)
@@ -41,3 +44,11 @@ def submit_login(self, request):
     else:
         request.flash(_("alert_login_failed"), "danger")
         return LoginCell(self, request).show()
+
+
+@App.html(model=HTTPForbidden)
+def redirect_to_login(self, request: Request):
+    if request.current_user:
+        raise self
+
+    return redirect(request.link(Login(back_url=quote(request.path_qs))))

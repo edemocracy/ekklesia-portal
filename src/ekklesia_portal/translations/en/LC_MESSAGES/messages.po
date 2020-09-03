@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-03 22:33+0000\n"
+"POT-Creation-Date: 2020-09-03 22:37+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -315,7 +315,7 @@ msgid "error_missing_consent"
 msgstr "Consent is required"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:8
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:10
 msgid "warning_development_mode"
 msgstr "Warning: insecure development mode. Login without password possible!"
 
@@ -405,10 +405,14 @@ msgid "source code"
 msgstr "source code"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:2
+msgid "alert_login_first"
+msgstr "You have to log in first for this action. After login, you will be redirected to %(url)s."
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:4
 msgid "title_ekklesia_login"
 msgstr "Log In With %(name)s"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:5
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:7
 msgid "button_ekklesia_login"
 msgstr "Go To %(name)s"
 
@@ -427,11 +431,11 @@ msgstr[1] "Hellos"
 msgid "headline_login_with_token"
 msgstr "Login with token"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:38
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:41
 msgid "alert_logged_in"
 msgstr "Logged in."
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:42
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:45
 msgid "alert_login_failed"
 msgstr "Login failed. User name or password wrong?"
 

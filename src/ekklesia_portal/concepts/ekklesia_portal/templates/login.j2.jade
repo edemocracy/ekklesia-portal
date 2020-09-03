@@ -4,6 +4,11 @@
 
 - block content
 
+  if back_url
+    .alert.alert-primary
+      = _("alert_login_first", url=back_url_unquoted)
+
+
   if show_ekklesia_login
 
     h2= _("title_ekklesia_login", name=ekklesia_login_name)
@@ -35,7 +40,9 @@
         label(for="password") Password
         input(name="password" type="password")
 
-      input(type="submit")
+      if back_url
+        input(type="submit")
+        input(type="hidden", name="back_url", value=back_url)
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
