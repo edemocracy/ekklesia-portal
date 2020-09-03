@@ -14,6 +14,12 @@ class LayoutCell(Cell):
         from ..view.index import Index
         return self.link(Index(), name='change_language')
 
+    def flashed_messages(self):
+        try:
+            return self._request.browser_session.pop("flashed_messages")
+        except KeyError:
+            return []
+
     def settings_languages(self):
         return self._app.settings.app.languages
 

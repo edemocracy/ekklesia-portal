@@ -57,10 +57,8 @@ body
 
 
     - block messages
-      - with messages = get_flashed_messages(with_categories=True)
-        if messages
-          for cat, msg in messages
-            div(class="alert_{{ cat }}")= msg
+        for cat, msg in flashed_messages
+          .alert(class="alert-{{ cat }}")= msg
 
     .content_area
       - block content
