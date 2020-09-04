@@ -9,7 +9,6 @@ from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
 from ekklesia_common.lid import LID
-from ekklesia_common.translations import _
 from eliot import log_call, start_action
 
 import ekklesia_portal
@@ -105,11 +104,23 @@ def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
     else:
         name = "user_" + "".join(random.choice(string.ascii_lowercase) for x in range(10))
 
-    required_role_for_login = request.app.root.settings.ekklesia_auth.required_role_for_login
+    auth_settings = request.app.root.settings.ekklesia_auth
+
+    required_role_for_login = auth_settings.required_role_for_login
+
+    _ = request.i18n.gettext
 
     if required_role_for_login is not None and required_role_for_login not in userinfo.roles:
-        request.flash(_("alert_ekklesia_login_not_allowed"), "danger")
+        request.flash(
+            _(
+                "alert_ekklesia_login_not_allowed",
+                name=auth_settings.display_name,
+                role=auth_settings.required_role_for_login
+            ), "danger"
+        )
         return
+    else:
+        request.flash(_("alert_logged_in_to", name=auth_settings.display_name), "success")
 
     user_profile: UserProfile = request.q(UserProfile).filter_by(sub=sub).scalar()
 
