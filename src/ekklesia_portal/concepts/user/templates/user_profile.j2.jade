@@ -1,12 +1,11 @@
 dl
-  dt= _('label_eligible_to_vote')
-  dd= eligible|yesno
+  if eligible is not none
+    dt= _('label_eligible_to_vote')
+    dd= eligible|yesno
 
-  dt= _('label_verified')
-  dd= verified|yesno
-
-  dt= _('label_sub')
-  dd= sub
+  if verified is not none
+    dt= _('label_verified')
+    dd= verified|yesno
 
 if profile
   h3= _('label_profile')
