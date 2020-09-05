@@ -1,10 +1,13 @@
 import dataclasses
 from dataclasses import dataclass
+from eliot import log_call, Message
 
 import sqlalchemy_searchable
 from sqlalchemy import desc, func
+from sqlalchemy.orm import aliased
 
-from ekklesia_portal.datamodel import Ballot, Department, Proposition, PropositionStatus, PropositionType, SubjectArea, Tag, VotingPhase
+from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
+from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
 
 
 @dataclass
@@ -17,8 +20,11 @@ class Propositions:
     sort: str = None
     status: str = None
     subject_area: str = None
-    tag: str = None
+    tags: str = None
+    without_tags: str = None
     type: str = None
+    section: str = None
+    visibility: str = None
 
     def __post_init__(self):
         self.parse_search_filters()
@@ -30,13 +36,34 @@ class Propositions:
         self.search = self.search or None
         self.section = self.section or None
         self.sort = self.sort or None
-        self.tag = self.tag or None
+        self.tags = self.tags or None
+        self.without_tags = self.without_tags or None
         self.type = self.type or None
+        self.status = self.status or None
+        self.section = self.section or None
 
-        try:
-            self.status = PropositionStatus(self.status.lower() if self.status else None)
-        except ValueError:
-            self.status = None
+        self.status_values = None
+        self.tag_values = None
+        self.without_tag_values = None
+        self.visibility_values = None
+
+        if self.visibility:
+            try:
+                self.visibility_values = [PropositionVisibility(s.strip().lower()) for s in self.visibility.split(",")]
+            except KeyError:
+                pass
+
+        if self.status:
+            try:
+                self.status_values = [PropositionStatus(s.strip().lower()) for s in self.status.split(",")]
+            except KeyError:
+                pass
+
+        if self.tags:
+            self.tag_values = [t.strip().lower() for t in self.tags.split(",")]
+
+        if self.without_tags:
+            self.without_tag_values = [t.strip().lower() for t in self.without_tags.split(",")]
 
         # Don't display subject area filter when no department filter is given
         self.subject_area = self.subject_area if self.department and self.subject_area else None
@@ -98,8 +125,10 @@ class Propositions:
     def parse_search_filter(self, key, value):
         if key == "status":
             self.status = value
-        elif key == "tag":
-            self.tag = value
+        elif key == "tags":
+            self.tags = value
+        elif key == "without_tags":
+            self.without_tags = value
         elif key == "phase":
             self.phase = value
         elif key == "type":
@@ -108,6 +137,10 @@ class Propositions:
             self.department = value
         elif key == "subject_area":
             self.subject_area = value
+        elif key == "section":
+            self.section = value
+        elif key == "visibility":
+            self.visibility = value
 
     def build_search_query(self):
         query = []
@@ -117,8 +150,10 @@ class Propositions:
 
         if self.status:
             query.append("status:" + self.maybe_add_quotes(self.status))
-        if self.tag:
-            query.append("tag:" + self.maybe_add_quotes(self.tag))
+        if self.tags:
+            query.append("tags:" + self.maybe_add_quotes(self.tags))
+        if self.without_tags:
+            query.append("without_tags:" + self.maybe_add_quotes(self.without_tags))
         if self.phase:
             query.append("phase:" + self.maybe_add_quotes(self.phase))
         if self.type:
@@ -127,6 +162,10 @@ class Propositions:
             query.append("department:" + self.maybe_add_quotes(self.department))
         if self.subject_area:
             query.append("subject_area:" + self.maybe_add_quotes(self.subject_area))
+        if self.section:
+            query.append("section:" + self.maybe_add_quotes(self.section))
+        if self.visibility and self.is_admin:
+            query.append("visibility:" + self.maybe_add_quotes(self.visibility))
 
         return " ".join(query)
 
@@ -140,8 +179,27 @@ class Propositions:
 
         return value
 
-    def propositions(self, q):
-        propositions = q(Proposition)
+    @log_call
+    def propositions(self, q, is_admin=False):
+
+        Message.log(
+            message_type="propositions_filters",
+            is_admin=is_admin,
+            section=self.section,
+            status_values=self.status_values,
+            visibility_values=self.visibility_values,
+            tag_values=self.tag_values,
+            without_tag_values=self.without_tag_values,
+        )
+
+        if is_admin and self.visibility_values:
+            propositions = q(Proposition).filter(Proposition.visibility.in_(self.visibility_values))
+        elif is_admin:
+            # Admins see everything when no visibility filter is given
+            propositions = q(Proposition)
+        else:
+            # Normal users only see public propositions
+            propositions = q(Proposition).filter_by(visibility=PropositionVisibility.PUBLIC)
 
         # Search
         if self.search:
@@ -149,11 +207,20 @@ class Propositions:
 
         # Filters
         if self.status:
-            propositions = propositions.filter_by(status=self.status)
+            propositions = propositions.filter(Proposition.status.in_(self.status_values))
 
-        if self.tag:
-            propositions = propositions.join(*Proposition.tags.attr
-                                             ).filter(func.lower(Tag.name) == func.lower(self.tag))
+        if self.tags:
+
+            tags = q(Tag).filter(func.lower(Tag.name).in_(self.tag_values)).all()
+
+            if len(tags) != len(self.tag_values):
+                propositions = propositions.filter(False)
+            else:
+                for tag in tags:
+                    propositions = propositions.filter(Proposition.tags.contains(tag))
+
+        if self.section:
+            propositions = propositions.join(Changeset).filter_by(section=self.section)
 
         # Filters based on ballot
         if self.phase or self.type or self.department:
@@ -183,6 +250,10 @@ class Propositions:
             propositions = propositions.order_by(desc(Proposition.active_supporter_count))
 
         propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
+
+        if self.without_tag_values:
+            tags = set(q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all())
+            propositions = (p for p in propositions if not tags & set(p.tags))
 
         return propositions
 

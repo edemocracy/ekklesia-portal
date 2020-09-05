@@ -40,6 +40,15 @@
           |&nbsp;
           a.btn_filter_remove(href=change_self_link(subject_area=none), title=_('remove_filter')) X
 
+    if section
+      li.nav-item
+        .filter
+          = _('section')
+          |:&nbsp;
+          strong= section
+          |&nbsp;
+          a.btn_filter_remove(href=change_self_link(section=none), title=_('remove_filter')) X
+
     if type
       li.nav-item
         .filter
@@ -58,14 +67,27 @@
           |&nbsp;
           a.btn_filter_remove(href=change_self_link(phase=none), title=_('remove_filter')) X
 
-    if status
+    if visibility_values
       li.nav-item
         .filter
-          = _('status_propositions')
+          = _('visibility')
           |:&nbsp;
-          strong= status|enum_value
-          |&nbsp;
-          a.btn_filter_remove(href=change_self_link(status=none), title=_('remove_filter')) X
+          for visibility in visibility_values
+            strong= visibility|enum_value
+            |&nbsp;
+          a.btn_filter_remove(href=change_self_link(visibility=none), title=_('remove_filter')) X
+
+    if status_values
+      li.nav-item
+        ul.proposition_filter
+          li
+            = _('status_propositions')
+            |:
+          for status in status_values
+            li.or
+              span.value= status|enum_value
+          li
+            a.btn_filter_remove(href=change_self_link(status=none), title=_('remove_filter')) X
 
     if search
       li.nav-item
@@ -76,15 +98,29 @@
           |&nbsp;
           a.btn_filter_remove(href=change_self_link(search=none), title=_('remove_filter')) X
 
-    if tag
+    if tag_values
       li.nav-item
-        .filter
-          = _('tagged_propositions')
-          |:&nbsp;
-          strong= tag
-          |&nbsp;
-          a.btn_filter_remove(href=change_self_link(tag=none), title=_('remove_filter')) X
+        ul.proposition_filter
+          li
+            = _('tagged_propositions')
+            |:
+          for tag in tag_values
+            li.and
+              span.value= tag
+          li
+            a.btn_filter_remove(href=change_self_link(tags=none), title=_('remove_filter')) X
 
+    if without_tag_values
+      li.nav-item
+        ul.proposition_filter
+          li
+            = _('propositions_without_tags')
+            |:
+          for tag in without_tag_values
+            li
+              span.value= tag
+          li
+            a.btn_filter_remove(href=change_self_link(without_tags=none), title=_('remove_filter')) X
 
 
   if propositions

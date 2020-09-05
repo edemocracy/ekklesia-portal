@@ -50,7 +50,12 @@ class PropositionNewDraftSchema(Schema):
     section = string_property()
     abstract = string_property(title=_('abstract'), validator=Length(max=2000))
     motivation = string_property(title=_('motivation'), missing='', validator=Length(max=50000))
-    editing_remarks = string_property(title=_('editing_remarks'), missing='', validator=Length(max=2000))
+    editing_remarks = string_property(
+        title=_('editing_remarks'),
+        description=_('editing_remarks_description'),
+        missing='',
+        validator=Length(max=2000)
+    )
     tags = set_property(title=_('tags'), missing=tuple())
 
 

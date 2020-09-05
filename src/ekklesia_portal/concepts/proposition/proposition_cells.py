@@ -14,7 +14,7 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, New
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase
 from ekklesia_portal.helper.url_shortener import make_tiny
-from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, PropositionVisibility
+from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
 from .proposition_helper import items_for_proposition_select_widgets
@@ -343,12 +343,22 @@ class PropositionNewDraftCell(NewFormCell):
 @App.cell(Propositions)
 class PropositionsCell(LayoutCell):
 
-    model_properties = ['sort', 'tag', 'search', 'phase', 'type', 'status', 'department', 'subject_area']
+    model_properties = [
+        'department',
+        'phase',
+        'search',
+        'section',
+        'sort',
+        'status_values',
+        'subject_area',
+        'tag_values',
+        'type',
+        'without_tag_values',
+    ]
 
     def propositions(self):
-        propositions = self._model.propositions(self._request.q) \
-            .filter(Proposition.visibility == PropositionVisibility.PUBLIC)
-        return list(propositions)
+        is_admin = self.current_user and self._request.identity.has_global_admin_permissions
+        return list(self._model.propositions(self._request.q, is_admin))
 
     # Overrides the base method in LayoutCell
     def search_query(self):
@@ -373,3 +383,9 @@ class PropositionsCell(LayoutCell):
             return proposition_type
 
         return proposition_type.name
+
+    def visibility_values(self):
+        if self.current_user and self._request.identity.has_global_admin_permissions:
+            return self._model.visibility_values
+        else:
+            return None

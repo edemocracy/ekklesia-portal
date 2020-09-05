@@ -8,9 +8,6 @@
 
 $light-orange: lighten($orange, 15%)
 
-a.btn
-  margin-left: 0.3rem
-
 .alert_message
   @extend .alert
   @extend .alert-info
@@ -129,6 +126,7 @@ a.btn
   @extend .btn-sm
   vertical-align: baseline
   font-size: 0.8em
+  margin-left: 0
 
 .content_area
   @extend .container
@@ -238,6 +236,28 @@ footer.footer
 
   h4
     @extend .card-title
+
+ul.proposition_filter
+  @extend .list-inline
+  @extend .nav-link
+
+  li
+    @extend .list-inline-item
+
+  li:not(:last-child)
+    margin-right: 0
+
+  li.and + li.and::before
+    content: "+"
+
+  li.or + li.or::before
+    content: "/"
+
+  .value
+    @extend .badge
+    @extend .badge-light
+    font-size: 1rem
+
 
 .search_button
   @extend .btn
