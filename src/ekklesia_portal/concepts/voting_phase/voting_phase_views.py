@@ -54,7 +54,6 @@ def new(self, request):
 def create(self, request, appstruct):
     department_id = appstruct['department_id']
 
-
     if not request.identity.has_global_admin_permissions:
         department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
 

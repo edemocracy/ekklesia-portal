@@ -23,8 +23,10 @@ from datetime import datetime
 from ekklesia_common.database import Base, C, LIDType, integer_pk
 from ekklesia_common.lid import LID
 from ekklesia_common.utils import cached_property
-from sqlalchemy import (JSON, Boolean, CheckConstraint, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, Text, Time,
-                        UniqueConstraint, func, select)
+from sqlalchemy import (
+    JSON, Boolean, CheckConstraint, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, Text, Time,
+    UniqueConstraint, func, select
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -33,8 +35,10 @@ from sqlalchemy.orm import backref, object_session, relationship
 from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
-from ekklesia_portal.enums import (ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser,
-                                   VotingStatus, VotingSystem, VotingType)
+from ekklesia_portal.enums import (
+    ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser, VotingStatus,
+    VotingSystem, VotingType
+)
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
 

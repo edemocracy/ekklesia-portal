@@ -39,7 +39,9 @@ def submit_login(self, request):
     except ValueError:
         return Response(status=400)
 
-    if user_found and self.verify_password(insecure_empty_password_ok=request.app.settings.app.insecure_development_mode):
+    is_insecure_empty_password_ok = request.app.settings.app.insecure_development_mode
+
+    if user_found and self.verify_password(is_insecure_empty_password_ok):
 
         @request.after
         def remember(response):
