@@ -34,6 +34,7 @@ class PropositionSchema(Schema):
 class PropositionNewSchema(PropositionSchema):
     area_id = int_property(title=_('subject_area'))
     proposition_type_id = int_property(title=_('proposition_type'))
+    editing_remarks = string_property(title=_('editing_remarks'), missing='', validator=Length(max=2000))
 
 
 class PropositionEditSchema(PropositionSchema):

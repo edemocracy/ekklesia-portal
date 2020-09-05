@@ -78,7 +78,7 @@ class Propositions:
         word = []
         quot_started = None
         word_done = False
-        for c in self.search.strip():
+        for c in self.search.strip().replace("\n", " "):
             if c in ('"', '\''):
                 if quot_started == c:  # If at quoted string end
                     word_done = True
