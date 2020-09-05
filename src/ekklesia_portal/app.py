@@ -195,7 +195,7 @@ def get_locale(request):
     if locale:
         logg.debug('locale from session: %s', locale)
     else:
-        locale = request.accept_language.best_match(request.app.settings.app.languages)
+        locale = request.accept_language.best_match(request.app.root.settings.app.languages)
         logg.debug('locale from request: %s', locale)
 
     return locale
