@@ -49,7 +49,12 @@ class LayoutCell(Cell):
 
     def login_url(self):
         from ..view.login import Login
-        return self.link(Login())
+        if self._request.path_qs != "/":
+            back_url = self._request.path_qs
+        else:
+            back_url = None
+
+        return self.link(Login(back_url=back_url))
 
     def profile_url(self):
         return self.link(self.current_user)

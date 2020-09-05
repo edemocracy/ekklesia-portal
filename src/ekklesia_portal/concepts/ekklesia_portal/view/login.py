@@ -18,13 +18,13 @@ def unquote_or_none(url):
 
 
 @App.path(model=Login, path="/login")
-def login(request, internal_login=False, back_url=None):
+def login(request, internal_login=False, back_url=None, from_redirect=False):
     if request.method == "POST":
         params = request.POST
 
         return Login(request, params.get("username"), params.get("password"), unquote_or_none(params.get("back_url")))
 
-    return Login(back_url=unquote_or_none(back_url), internal_login=internal_login)
+    return Login(back_url=unquote_or_none(back_url), from_redirect=from_redirect, internal_login=internal_login)
 
 
 @App.html(model=Login)
@@ -61,4 +61,4 @@ def redirect_to_login(self, request: Request):
     if request.current_user:
         raise self
 
-    return redirect(request.link(Login(back_url=request.path_qs)))
+    return redirect(request.link(Login(back_url=request.path_qs, from_redirect=1)))

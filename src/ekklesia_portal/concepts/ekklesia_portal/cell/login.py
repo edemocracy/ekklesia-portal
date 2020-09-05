@@ -10,7 +10,7 @@ from ..login import Login
 
 @App.cell(Login)
 class LoginCell(LayoutCell):
-    model_properties = ['username', 'back_url']
+    model_properties = ['username', 'back_url', 'from_redirect']
 
     def ekklesia_login_url(self):
         ekklesia_app = self._app.child(EkklesiaAuthPathApp)
