@@ -59,6 +59,6 @@ def submit_login(self, request):
 @App.html(model=HTTPForbidden)
 def redirect_to_login(self, request: Request):
     if request.current_user:
-        raise self
+        return self
 
     return redirect(request.link(Login(back_url=request.path_qs, from_redirect=1)))
