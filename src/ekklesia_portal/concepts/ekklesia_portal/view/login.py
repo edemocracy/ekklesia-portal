@@ -1,4 +1,4 @@
-from urllib.parse import quote
+from urllib.parse import unquote
 import morepath
 from morepath import Request, Response, redirect
 from webob.exc import HTTPForbidden
@@ -10,13 +10,21 @@ from ..cell.login import LoginCell
 from ..login import Login
 
 
+def unquote_or_none(url):
+    if url is None:
+        return url
+    else:
+        return unquote(url)
+
+
 @App.path(model=Login, path="/login")
 def login(request, internal_login=False, back_url=None):
     if request.method == "POST":
         params = request.POST
-        return Login(request, params.get("username"), params.get("password"), params.get("back_url"))
 
-    return Login(back_url=back_url, internal_login=internal_login)
+        return Login(request, params.get("username"), params.get("password"), unquote_or_none(params.get("back_url")))
+
+    return Login(back_url=unquote_or_none(back_url), internal_login=internal_login)
 
 
 @App.html(model=Login)
@@ -51,4 +59,4 @@ def redirect_to_login(self, request: Request):
     if request.current_user:
         raise self
 
-    return redirect(request.link(Login(back_url=quote(request.path_qs))))
+    return redirect(request.link(Login(back_url=request.path_qs)))

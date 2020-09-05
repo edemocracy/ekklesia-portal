@@ -1,4 +1,4 @@
-from urllib.parse import unquote
+from urllib.parse import quote
 from ekklesia_common.ekklesia_auth import EkklesiaAuthPathApp, EkklesiaLogin
 
 from ekklesia_portal.app import App
@@ -31,8 +31,8 @@ class LoginCell(LayoutCell):
     def show_ekklesia_login(self):
         return (self._s.ekklesia_auth.enabled)
 
-    def back_url_unquoted(self):
+    def back_url_quoted(self):
         if self._model.back_url:
-            return unquote(self._model.back_url)
+            return quote(self._model.back_url)
         else:
             return None

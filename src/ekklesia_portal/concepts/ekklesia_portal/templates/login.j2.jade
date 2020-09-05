@@ -6,7 +6,7 @@
 
   if back_url
     .alert.alert-primary
-      = _("alert_login_first", url=back_url_unquoted)
+      = _("alert_login_first", url=back_url)
 
 
   if show_ekklesia_login
@@ -41,7 +41,7 @@
         input(name="password" type="password")
 
       if back_url
-        input(type="hidden", name="back_url", value=back_url)
+        input(type="hidden", name="back_url", value=back_url_quoted)
 
       input(type="submit")
 
