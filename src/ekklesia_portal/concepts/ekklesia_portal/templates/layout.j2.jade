@@ -35,7 +35,7 @@ body
             a.nav-link(href=voting_phases_url)= _("voting_phases")
 
       form.top_search(action=plain_propositions_url)
-        textarea.form-control(rows=1, placeholder=_("search_for"), name="search", value=search_query)
+        input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
         button.search_button(type="submit")
           i.fas.fa-search &nbsp;
             = _('button_search')
