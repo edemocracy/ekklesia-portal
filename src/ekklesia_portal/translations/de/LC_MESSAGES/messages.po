@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-05 16:15+0000\n"
+"POT-Creation-Date: 2020-09-05 17:57+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -45,9 +45,9 @@ msgstr "Ausführlich"
 #: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:14
 #: src/ekklesia_portal/concepts/page/page_contracts.py:19
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:30
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:60
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:73
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:87
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:65
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:78
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:92
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:20
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:18
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:24
@@ -320,7 +320,7 @@ msgid "warning_development_mode"
 msgstr "Warnung: Entwicklungsmodus: Login ohne Passwort möglich!"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:5
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:43
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:41
 msgid "button_login"
 msgstr "Anmelden"
 
@@ -368,7 +368,7 @@ msgid "menu_propositions"
 msgstr "Anträge"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:34
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:43
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:49
 msgid "search_for"
 msgstr "Suchen nach"
 
@@ -376,31 +376,31 @@ msgstr "Suchen nach"
 msgid "button_search"
 msgstr "Suchen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:41
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:39
 msgid "button_logout"
 msgstr "Ausloggen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:51
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:49
 msgid "link_other"
 msgstr "Zur aktuellen Abstimmung"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:53
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:51
 msgid "faq"
 msgstr "FAQ"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:53
 msgid "terms_of_use"
 msgstr "Nutzungsbedingungen"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:57
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:55
 msgid "data_protection"
 msgstr "Datenschutz"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:57
 msgid "imprint"
 msgstr "Impressum"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:61
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
 msgid "source code"
 msgstr "Quellcode"
 
@@ -433,11 +433,11 @@ msgstr[1] "Hallos"
 msgid "headline_login_with_token"
 msgstr "Mit Token anmelden"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:49
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:51
 msgid "alert_logged_in"
 msgstr "Erfolgreich angemeldet."
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:53
+#: src/ekklesia_portal/concepts/ekklesia_portal/view/login.py:55
 msgid "alert_login_failed"
 msgstr "Login fehlgeschlagen. Benutzername oder Passwort falsch?"
 
@@ -560,7 +560,7 @@ msgid "external_discussion_url"
 msgstr "Link zur Diskussion"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:29
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:54
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:59
 msgid "tags"
 msgstr "Tags"
 
@@ -581,11 +581,11 @@ msgstr "Sichtbarkeit"
 msgid "external_fields"
 msgstr "Daten für externe Systeme"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:53
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:54
 msgid "editing_remarks"
 msgstr "Anmerkungen zur Antragsentwicklung"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:53
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:55
 msgid "editing_remarks_description"
 msgstr ""
 "Hier kannst du z.B. angeben, welche Gruppe am Antrag arbeitet und wie "
@@ -732,10 +732,10 @@ msgstr "Anträge in Gliederung"
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:25
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:29
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:34
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:39
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:43
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:48
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:53
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:44
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:49
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:59
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:70
 msgid "remove_filter"
 msgstr "Filter entfernen"
 
@@ -755,19 +755,19 @@ msgstr "Anträge vom Typ"
 msgid "phase_propositions"
 msgstr "Anträge in Abstimmungszeitraum"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:38
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:39
 msgid "status_propositions"
 msgstr "Anträge mit Status"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:47
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:54
 msgid "tagged_propositions"
 msgstr "Anträge mit Tags"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:52
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:65
 msgid "propositions_without_tags"
 msgstr "Anträge ohne Tags"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:56
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:74
 msgid "no_propositions_found"
 msgstr "Keine Anträge gefunden"
 
@@ -923,6 +923,10 @@ msgid "alert_ekklesia_login_not_allowed"
 msgstr ""
 "Du kannst die Anwendung nicht per %(name)s nutzen, da dir die "
 "erforderliche Rolle '%(role)s' fehlt."
+
+#: src/ekklesia_portal/helper/missing_translations.py:4
+msgid "alert_logged_in_to"
+msgstr "Du hast dich erfolgreich per %(name)s angemeldet."
 
 #. ArgumentType.PRO
 #: src/ekklesia_portal/enums.py:7
@@ -1210,7 +1214,3 @@ msgstr "Enthaltung"
 
 #~ msgid "label_sub"
 #~ msgstr "SUB (Anwendungsspezifische ID)"
-
-#~ msgid "alert_logged_in_to"
-#~ msgstr "Du hast dich erfolgreich per %(name)s angemeldet."
-
