@@ -225,9 +225,20 @@ def edit(self, request):
 
 
 @App.html_form_post(model=Proposition, form=PropositionEditForm, cell=EditPropositionCell, permission=EditPermission)
-def update(self, request, appstruct):
+def update(self: Proposition, request, appstruct):
     appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
-    self.update(**appstruct)
+
+    updated_fields = {**appstruct}
+
+    # Dates are required for the following states, set them on state change.
+    # This is an admin action only.
+    if self.status == PropositionStatus.DRAFT and appstruct["status"] == PropositionStatus.SUBMITTED:
+        updated_fields["submitted_at"] = datetime.now()
+
+    if self.status == PropositionStatus.SUBMITTED and appstruct["status"] == PropositionStatus.QUALIFIED:
+        updated_fields["qualified_at"] = datetime.now()
+
+    self.update(**updated_fields)
     return redirect(request.link(self))
 
 
