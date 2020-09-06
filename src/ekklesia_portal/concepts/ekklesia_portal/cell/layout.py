@@ -42,7 +42,11 @@ class LayoutCell(Cell):
         return self.link(Pages())
 
     def propositions_url(self):
-        return self.class_link(Propositions, {})
+        if (default := self._s.app.default_proposition_query):
+            variables = {**default}
+        else:
+            variables = {}
+        return self.class_link(Propositions, variables)
 
     def show_login_button(self):
         return self._s.app.login_visible

@@ -41,7 +41,10 @@ def app_setting_section():
         "report_url": None,
         "login_visible": False,
         "languages": ["de", "en"],
-        "fallback_language": "de"
+        "fallback_language": "de",
+        "default_proposition_query": {
+            "status": "draft,submitted,qualified,scheduled,voting"
+        }
     }
 
 
