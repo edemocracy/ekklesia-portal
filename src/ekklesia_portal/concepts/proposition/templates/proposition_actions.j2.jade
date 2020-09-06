@@ -1,4 +1,4 @@
-div
+.proposition_actions
   if show_support_actions
     form.support_form(action=support_action, method="POST")
       button.btn.btn-primary.btn-sm(hidden=is_supported_by_current_user, type="submit", name="support")
@@ -12,18 +12,6 @@ div
   a.btn.btn-secondary.btn-sm(href='javascript:;', data-toggle='popover', data-popover-content='#a1')
     i.fas.fa-link &nbsp;
     = _('button_share')
-
-  #a1(hidden=True)
-    .popover-body
-      p(align='center')
-        input(type='text', name='p_url', id='p_url', class='form-control', value=share_url, onclick='this.select()', readonly='')
-      p(align='center')
-        a.btn.btn-email(type='button', href=share_email_url)
-          i.fas.fa-envelope.pr-1
-            |  Email
-        a.btn.btn-tw(type='button', href=share_twitter_url, target='_blank')
-          i.fab.fa-twitter.pr-1
-            |  Twitter
 
   if external_discussion_url
     a.btn.btn-secondary.btn-sm(href=external_discussion_url, target="ekklesia-portal-external-discussion")
@@ -50,6 +38,18 @@ div
     a.btn.btn-secondary.btn-sm(href=edit_url)
       i.fas.fa-edit &nbsp;
       = _('edit_button')
+
+  #a1(hidden=True)
+    .popover-body
+      p(align='center')
+        input(type='text', name='p_url', id='p_url', class='form-control', value=share_url, onclick='this.select()', readonly='')
+      p(align='center')
+        a.btn.btn-email(type='button', href=share_email_url)
+          i.fas.fa-envelope.pr-1
+            |  Email
+        a.btn.btn-tw(type='button', href=share_twitter_url, target='_blank')
+          i.fab.fa-twitter.pr-1
+            |  Twitter
 
 script.
   var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
