@@ -22,11 +22,10 @@ def common_widgets(items_for_selects):
 
 class PropositionSchema(Schema):
     title = string_property(title=_('title'), validator=Length(min=5, max=255))
-    abstract = string_property(title=_('abstract'), validator=Length(max=2048), missing='')
-    content = string_property(title=_('content'), validator=Length(min=10, max=65536))
-    motivation = string_property(title=_('motivation'), missing='')
-    external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
+    content = string_property(title=_('content'), validator=Length(min=10, max=100_000))
+    motivation = string_property(title=_('motivation'), missing='', validator=Length(max=100_000))
     tags = set_property(title=_('tags'), missing=tuple())
+    abstract = string_property(title=_('abstract'), missing='', validator=Length(max=500))
     relation_type = enum_property(PropositionRelationType, missing=None)
     related_proposition_id = string_property(missing=None)
 
@@ -34,7 +33,12 @@ class PropositionSchema(Schema):
 class PropositionNewSchema(PropositionSchema):
     area_id = int_property(title=_('subject_area'))
     proposition_type_id = int_property(title=_('proposition_type'))
-    editing_remarks = string_property(title=_('editing_remarks'), missing='', validator=Length(max=2000))
+    editing_remarks = string_property(
+        title=_('editing_remarks'),
+        description=_('editing_remarks_description'),
+        missing='',
+        validator=Length(max=2000)
+    )
 
 
 class PropositionEditSchema(PropositionSchema):
@@ -45,19 +49,19 @@ class PropositionEditSchema(PropositionSchema):
 
 
 class PropositionNewDraftSchema(Schema):
-    title = string_property(title=_('title'), validator=Length(min=5, max=512))
-    content = string_property(title=_('content'), validator=Length(min=5, max=50000))
-    document_id = int_property()
-    section = string_property()
-    abstract = string_property(title=_('abstract'), validator=Length(max=2000))
-    motivation = string_property(title=_('motivation'), missing='', validator=Length(max=50000))
+    title = string_property(title=_('title'), validator=Length(min=5, max=255))
+    content = string_property(title=_('content'), validator=Length(min=10, max=100_000))
+    motivation = string_property(title=_('motivation'), missing='', validator=Length(max=100_000))
+    tags = set_property(title=_('tags'), missing=tuple())
+    abstract = string_property(title=_('abstract'), validator=Length(max=500), missing='')
     editing_remarks = string_property(
         title=_('editing_remarks'),
         description=_('editing_remarks_description'),
         missing='',
         validator=Length(max=2000)
     )
-    tags = set_property(title=_('tags'), missing=tuple())
+    document_id = int_property()
+    section = string_property()
 
 
 class PropositionNewForm(Form):
