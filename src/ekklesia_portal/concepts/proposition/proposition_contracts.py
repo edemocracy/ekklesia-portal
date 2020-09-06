@@ -22,7 +22,7 @@ def common_widgets(items_for_selects):
 
 class PropositionSchema(Schema):
     title = string_property(title=_('title'), validator=Length(min=5, max=255))
-    abstract = string_property(title=_('abstract'), validator=Length(min=5, max=2048))
+    abstract = string_property(title=_('abstract'), validator=Length(max=2048), missing='')
     content = string_property(title=_('content'), validator=Length(min=10, max=65536))
     motivation = string_property(title=_('motivation'), missing='')
     external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
