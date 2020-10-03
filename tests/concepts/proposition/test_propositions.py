@@ -37,7 +37,7 @@ def test_index_search(client):
 def test_index_tag(db_query, client):
     """XXX: depends on content from create_test_db.py"""
     tag = db_query(Tag).filter_by(name='Tag1').one()
-    res = client.get('/p?tag=Tag1')
+    res = client.get('/p?tags=Tag1')
     content = res.body.decode()
     assert tag.name in content
     assert 'Ein Titel' in content
