@@ -2,7 +2,7 @@ from ekklesia_common.cell import Cell
 
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.datamodel import User, UserProfile
+from ekklesia_portal.datamodel import User, UserProfile, AreaMember, SubjectArea
 from ekklesia_portal.enums import EkklesiaUserType
 
 
@@ -12,8 +12,12 @@ class UserCell(LayoutCell):
 
     def departments_with_subject_areas(self):
         department_to_areas = {d: [] for d in self._model.departments}
-        for area in self._model.areas:
-            department_to_areas[area.department].append(area)
+        member_area_set = set()
+        for i in self._model.member_areas:
+            member_area_set.add(i.area_id)
+        for dep in self._model.departments:
+            for area in dep.areas:
+                department_to_areas[area.department].append((area, area.id in member_area_set))
 
         return department_to_areas.items()
 
@@ -22,6 +26,9 @@ class UserCell(LayoutCell):
 
     def argument_count(self):
         return len(self._model.supports)
+
+    def member_area_action(self):
+        return self.link(self._model, name='member_area')
 
 
 @App.cell(UserProfile)

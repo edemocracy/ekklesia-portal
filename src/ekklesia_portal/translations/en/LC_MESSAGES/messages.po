@@ -1137,6 +1137,17 @@ msgstr "No"
 msgid "vote_by_user_abstention"
 msgstr "Abstention"
 
+msgid "button_member_in_area"
+msgstr "participation:"
+
+msgid "button_not_member_in_area"
+msgstr "NO participation:"
+
+msgid "member_in_area_explanation"
+msgstr "Please select the participation in the subject areas:"
+
+
+
 #~ msgid "follow"
 #~ msgstr "Follow"
 

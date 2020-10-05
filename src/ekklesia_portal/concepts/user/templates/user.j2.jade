@@ -26,14 +26,27 @@
 
   if departments
     h3= _('label_departments_subject_areas')
+    p=_('member_in_area_explanation')
     ul
       for department, areas in departments_with_subject_areas
         li= department.name
         if areas
           ul
-            for area in areas
-              li= area.name
-
+            for area, member_in_area in areas
+              li 
+                form(id="member_in_area_form", action=member_area_action, method="POST")
+                  input(type='hidden', name='area', value=area.name)
+                  input(type='hidden', name='area_id', value=area.id)
+                  if member_in_area
+                    button.btn.btn-primary.btn-sm(type="submit", name="member_in_area", value="N")
+                      i.far.fa-thumbs-up &nbsp;
+                      = _('button_member_in_area')
+                  else
+                    button.btn.btn-secondary.btn-sm(type="submit", name="member_in_area", value="Y")
+                      i.far.fa-remove &nbsp;
+                      = _('button_not_member_in_area') 
+                  label= area.name 
+ 
   if groups
     h3= _('label_groups')
     ul
