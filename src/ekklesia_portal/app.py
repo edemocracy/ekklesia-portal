@@ -1,3 +1,4 @@
+import locale
 import logging
 import os
 import random
@@ -9,7 +10,7 @@ from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
 from ekklesia_common.lid import LID
-from eliot import log_call, start_action
+from eliot import log_call, start_action, Message
 
 import ekklesia_portal
 from ekklesia_portal.datamodel import Department, User, UserProfile
@@ -221,4 +222,10 @@ def make_wsgi_app(settings_filepath=None, testing=False):
     database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
+    Message.log(
+        message_type="environment",
+        env=dict(os.environ),
+        encoding=locale.getpreferredencoding(),
+        default_locale=locale.getdefaultlocale()
+    )
     return app
