@@ -21,7 +21,7 @@ def ballot_to_vvvote_question(ballot, question_id=1):
             proponents=proponents,
             optionTitle=proposition.title,
             optionDesc=proposition.content,
-            reasons=proposition.motivation
+            reasons=proposition.motivation,
         )
         options.append(option)
 
@@ -31,29 +31,33 @@ def ballot_to_vvvote_question(ballot, question_id=1):
         question_wording = ballot.name
 
     question = vvvote_schema.Question(
-        questionWording=question_wording, questionID=question_id, scheme=voting_scheme, options=options
+        questionWording=question_wording, questionID=question_id, scheme=voting_scheme, options=options,
+            findWinner=['yesNo', 'score', 'random']
     )
 
     return question
 
 
-def voting_phase_to_vvvote_election_config(phase):
+def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schema.ElectionConfig:
     questions = [ballot_to_vvvote_question(b, ii) for ii, b in enumerate(phase.ballots, start=1)]
-    now = datetime.datetime.now()
-    later = now + datetime.timedelta(hours=1, minutes=15)
+    end = phase.target
+    start = end - datetime.timedelta(days=14)
 
-    auth_data = vvvote_schema.SharedPasswordConfig(
-        sharedPassw='t',
-        RegistrationStartDate=now,
-        RegistrationEndDate=later,
-        VotingStart=now,
-        VotingEnd=later,
+    auth_data = vvvote_schema.OAuthConfig(
+        eligible=module_config["must_be_eligible"],
+        verified=module_config["must_be_verified"],
+        nested_groups=[module_config["required_role"]],
+        serverId=module_config["auth_server_id"],
+        RegistrationStartDate=start,
+        RegistrationEndDate=end,
+        VotingStart=start,
+        VotingEnd=end,
     )
     config = vvvote_schema.ElectionConfig(
         electionId=str(uuid4()),
         electionTitle=phase.title or phase.phase_type.name,
         tally=vvvote_schema.Tally.CONFIGURABLE,
-        auth=vvvote_schema.Auth.SHARED_PASSWORD,
+        auth=vvvote_schema.Auth.OAUTH,
         authData=auth_data,
         questions=questions
     )

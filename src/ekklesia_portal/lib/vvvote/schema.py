@@ -1,9 +1,21 @@
-import datetime
+from datetime import datetime
 from dataclasses import dataclass
+import dataclasses
 from enum import Enum
 from typing import List, Optional, Union
 
 from dataclasses_json import dataclass_json
+import dataclasses_json
+import marshmallow
+
+def iso_date_field():
+    return dataclasses.field(
+    metadata=dataclasses_json.config(
+        encoder=datetime.isoformat,
+        decoder=datetime.fromisoformat,
+        mm_field=marshmallow.fields.DateTime(format='iso'),
+    )
+)
 
 
 class Auth(str, Enum):
@@ -29,21 +41,21 @@ class SchemeMode(str, Enum):
 @dataclass_json
 @dataclass
 class AuthData:
-    RegistrationEndDate: datetime.datetime
-    RegistrationStartDate: datetime.datetime
-    VotingStart: datetime.datetime
-    VotingEnd: datetime.datetime
+    RegistrationEndDate: datetime = iso_date_field()
+    RegistrationStartDate: datetime = iso_date_field()
+    VotingStart: datetime = iso_date_field()
+    VotingEnd: datetime = iso_date_field()
 
 
 @dataclass_json
 @dataclass
 class OAuthConfig(AuthData):
-    eligible: bool
-    listId: str
-    nested_groups: List[str]
     serverId: str
+    nested_groups: List[str]
+    eligible: bool
     verified: bool
     external_voting: bool
+    listId: str = ""
 
 
 @dataclass_json

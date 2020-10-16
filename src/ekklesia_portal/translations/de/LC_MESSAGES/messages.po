@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-21 21:51+0100\n"
+"POT-Creation-Date: 2021-01-26 18:03+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -40,7 +40,7 @@ msgstr "Ausführlich"
 #: src/ekklesia_portal/concepts/argument_relation/argument_relation_contracts.py:18
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:20
 #: src/ekklesia_portal/concepts/customizable_text/customizable_text_contracts.py:18
-#: src/ekklesia_portal/concepts/department/department_contracts.py:17
+#: src/ekklesia_portal/concepts/department/department_contracts.py:18
 #: src/ekklesia_portal/concepts/document/document_contracts.py:20
 #: src/ekklesia_portal/concepts/ekklesia_portal/contracts/token.py:14
 #: src/ekklesia_portal/concepts/page/page_contracts.py:19
@@ -48,7 +48,7 @@ msgstr "Ausführlich"
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:86
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:20
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:18
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:24
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:25
 msgid "submit"
 msgstr "Senden"
 
@@ -143,7 +143,7 @@ msgstr "Abstimmung"
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:10
 #: src/ekklesia_portal/concepts/page/templates/page.j2.jade:7
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:7
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition_note/templates/proposition_note.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:7
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:9
@@ -262,6 +262,10 @@ msgstr "Beschreibung"
 #: src/ekklesia_portal/concepts/department/department_contracts.py:11
 msgid "exporter_settings"
 msgstr "Exporter-Einstellungen"
+
+#: src/ekklesia_portal/concepts/department/department_contracts.py:12
+msgid "voting_module_settings"
+msgstr "Einstellungen zu Abstimmungsmodulen"
 
 #: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:5
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:23
@@ -607,11 +611,11 @@ msgid "button_create_draft"
 msgstr "Antragsentwurf anlegen"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:119
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_submit_draft"
 msgstr "Antrag einreichen"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:353
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:319
 msgid "change"
 msgstr "Änderung"
 
@@ -684,45 +688,27 @@ msgstr "Unterstützen"
 msgid "button_retract_support"
 msgstr "Unterstützung zurückziehen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-msgid "button_secret_voting"
-msgstr "Abstimmung soll geheim sein"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "abbr_secret_voters_count"
-msgstr "Anzahl Befürworter für geheime Abstimmung"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "abbr_secret_voting_quorum"
-msgstr "Quorum für geheime Abstimmung"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "button_public_voting"
-msgstr "Abstimmung soll öffentlich sein"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_share"
 msgstr "Teilen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_external_discussion_url"
 msgstr "Externe Diskussion"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_goto_arguments"
 msgstr "Zu den Argumenten"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_goto_associated"
 msgstr "Zu den Konkurrenzanträgen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "button_report"
 msgstr "Melden"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:7
 msgid "note_button"
 msgstr "Notizen"
 
@@ -1075,10 +1061,26 @@ msgstr "Art des Abstimmungszeitraums"
 msgid "secret_voting_possible"
 msgstr "Geheime Abstimmung möglich?"
 
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:19
+msgid "voting_module_data"
+msgstr "Daten für externe Abstimmungssysteme"
+
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:157
+msgid "voting_created_msg"
+msgstr "Abstimmung im Abstimmungsmodul %(voting_module)s erzeugt."
+
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:3
 msgid "title_edit_voting_phase"
 msgstr "Abstimmungszeitraum bearbeiten"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:4
+msgid "title_create_voting"
+msgstr "Externe Abstimmungen anlegen"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:7
+msgid "create_voting_button"
+msgstr "Abstimmung erzeugen (%(voting_module)s)"
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/new_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/new_voting_phase.j2.jade:3
@@ -1211,120 +1213,103 @@ msgstr "Nicht in Listen angezeigt"
 msgid "proposition_visibility_hidden"
 msgstr "Versteckt"
 
-#. SecretVoterStatus.ACTIVE
-#: src/ekklesia_portal/enums.py:47
-#, fuzzy
-msgid "secret_voter_status_active"
-msgstr "Anzahl Befürworter für geheime Abstimmung"
-
-#. SecretVoterStatus.EXPIRED
-#: src/ekklesia_portal/enums.py:48
-msgid "secret_voter_status_expired"
-msgstr ""
-
-#. SecretVoterStatus.RETRACTED
-#: src/ekklesia_portal/enums.py:49
-#, fuzzy
-msgid "secret_voter_status_retracted"
-msgstr "Anzahl Teilnehmer des Themenbereichs der Abstimmung"
-
 #. SupporterStatus.ACTIVE
-#: src/ekklesia_portal/enums.py:53
+#: src/ekklesia_portal/enums.py:47
 msgid "supporter_status_active"
 msgstr ""
 
 #. SupporterStatus.EXPIRED
-#: src/ekklesia_portal/enums.py:54
+#: src/ekklesia_portal/enums.py:48
 msgid "supporter_status_expired"
 msgstr ""
 
 #. SupporterStatus.RETRACTED
-#: src/ekklesia_portal/enums.py:55
+#: src/ekklesia_portal/enums.py:49
 msgid "supporter_status_retracted"
 msgstr ""
 
 #. VotingType.ONLINE
-#: src/ekklesia_portal/enums.py:59
+#: src/ekklesia_portal/enums.py:53
 msgid "voting_type_online"
 msgstr "Online"
 
 #. VotingType.ASSEMBLY
-#: src/ekklesia_portal/enums.py:60
+#: src/ekklesia_portal/enums.py:54
 msgid "voting_type_assembly"
 msgstr "Versammlung"
 
 #. VotingType.BOARD
-#: src/ekklesia_portal/enums.py:61
+#: src/ekklesia_portal/enums.py:55
 msgid "voting_type_board"
 msgstr "Gremium"
 
 #. VotingType.URN
-#: src/ekklesia_portal/enums.py:62
+#: src/ekklesia_portal/enums.py:56
 msgid "voting_type_urn"
 msgstr "Urne"
 
 #. VotingStatus.PREPARING
-#: src/ekklesia_portal/enums.py:66
+#: src/ekklesia_portal/enums.py:60
 msgid "voting_status_preparing"
 msgstr "In Vorbereitung"
 
 #. VotingStatus.SCHEDULED
-#: src/ekklesia_portal/enums.py:67
+#: src/ekklesia_portal/enums.py:61
 msgid "voting_status_scheduled"
 msgstr "Geplant"
 
 #. VotingStatus.VOTING
-#: src/ekklesia_portal/enums.py:68
+#: src/ekklesia_portal/enums.py:62
 msgid "voting_status_voting"
 msgstr "In Abstimmung"
 
 #. VotingStatus.FINISHED
-#: src/ekklesia_portal/enums.py:69
+#: src/ekklesia_portal/enums.py:63
 msgid "voting_status_finished"
 msgstr "Abgeschlossen"
 
 #. VotingStatus.ABORTED
-#: src/ekklesia_portal/enums.py:70
+#: src/ekklesia_portal/enums.py:64
 msgid "voting_status_aborted"
 msgstr "Abgebrochen"
 
 #. OpenSlidesVotingResult.ACCEPTED
-#: src/ekklesia_portal/enums.py:74
+#: src/ekklesia_portal/enums.py:68
 msgid "open_slides_voting_result_accepted"
 msgstr "akzeptiert"
 
 #. OpenSlidesVotingResult.REJECTED
-#: src/ekklesia_portal/enums.py:75
+#: src/ekklesia_portal/enums.py:69
 msgid "open_slides_voting_result_rejected"
 msgstr "abgelehnt"
 
 #. OpenSlidesVotingResult.NOT_DECIDED
-#: src/ekklesia_portal/enums.py:76
+#: src/ekklesia_portal/enums.py:70
 msgid "open_slides_voting_result_not_decided"
 msgstr "verschoben"
 
 #. VotingSystem.RANGE_APPROVAL
-#: src/ekklesia_portal/enums.py:80
+#: src/ekklesia_portal/enums.py:74
 msgid "voting_system_range_approval"
 msgstr "verbundene Einzelwahl mit Bewertungswahl"
 
 #. VoteByUser.UNSURE
-#: src/ekklesia_portal/enums.py:84
+#: src/ekklesia_portal/enums.py:78
 msgid "vote_by_user_unsure"
 msgstr "Vielleicht"
 
 #. VoteByUser.ACCEPT
-#: src/ekklesia_portal/enums.py:85
+#: src/ekklesia_portal/enums.py:79
 msgid "vote_by_user_accept"
 msgstr "Ja"
 
 #. VoteByUser.DECLINE
-#: src/ekklesia_portal/enums.py:86
+#: src/ekklesia_portal/enums.py:80
 msgid "vote_by_user_decline"
 msgstr "Nein"
 
 #. VoteByUser.ABSTENTION
-#: src/ekklesia_portal/enums.py:87
+#: src/ekklesia_portal/enums.py:81
 msgid "vote_by_user_abstention"
 msgstr "Enthaltung"
 

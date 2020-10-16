@@ -2,9 +2,11 @@ from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.datamodel import Department, VotingPhase, VotingPhaseType
+from ekklesia_portal.enums import VotingStatus
 from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .voting_phase_helper import items_for_voting_phase_select_widgets
+from .voting_phase_permissions import ManageVotingPermission
 from .voting_phases import VotingPhases
 
 
@@ -64,3 +66,13 @@ class EditVotingPhaseCell(EditFormCell):
         phase_types = self._request.q(VotingPhaseType)
         items = items_for_voting_phase_select_widgets(phase_types, departments, self._model)
         self._form.prepare_for_render(items)
+
+    def show_create_voting(self):
+        return self._model.status == VotingStatus.SCHEDULED and self._request.permitted_for_current_user(self._model, ManageVotingPermission)
+
+    def voting_modules(self):
+        # value is True if there's already a configured voting
+        return [(name, name not in self._model.voting_module_data) for name in self._model.department.voting_module_settings]
+
+    def create_voting_action(self):
+        return self._request.link(self._model, "create_voting")

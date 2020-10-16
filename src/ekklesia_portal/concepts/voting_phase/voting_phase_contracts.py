@@ -1,7 +1,7 @@
 from colander import Length
 from deform import Button
 from deform.widget import SelectWidget, TextAreaWidget
-from ekklesia_common.contract import Form, Schema, bool_property, date_property, enum_property, int_property, list_property, string_property
+from ekklesia_common.contract import Form, Schema, bool_property, date_property, enum_property, int_property, json_property, string_property
 from ekklesia_common.translation import _
 
 from ekklesia_portal.enums import VotingStatus
@@ -16,6 +16,7 @@ class VotingPhaseSchema(Schema):
     phase_type_id = int_property(title=_('voting_phase_type'))
     secret = bool_property(title=_('secret_voting_possible'))
     description = string_property(title=_('description'), validator=Length(min=10, max=65536), missing='')
+    voting_module_data = json_property(title=_('voting_module_data'), missing={})
 
 
 class VotingPhaseForm(Form):

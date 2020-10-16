@@ -1,31 +1,37 @@
 from ekklesia_common import md
 from morepath import redirect
+from sqlalchemy.log import echo_property
 from webob.exc import HTTPBadRequest
+from eliot import start_action
 
 from ekklesia_portal.app import App
-from ekklesia_portal.datamodel import Department, VotingPhase, VotingPhaseType
+from ekklesia_portal.datamodel import VotingPhase, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
+from ekklesia_portal.lib.identity import identity_manages_department
+from ekklesia_portal.lib.voting import InvalidVotingModule, prepare_module_config
+from ekklesia_portal.lib.vvvote import create_election_in_vvvote
+from ekklesia_portal.lib.vvvote.election_config import voting_phase_to_vvvote_election_config
 from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .voting_phase_cells import EditVotingPhaseCell, NewVotingPhaseCell, VotingPhaseCell, VotingPhasesCell
 from .voting_phase_contracts import VotingPhaseForm
 from .voting_phases import VotingPhases
+from .voting_phase_permissions import ManageVotingPermission
 
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
 def voting_phases_create_permission(identity, model, permission):
-    if identity.has_global_admin_permissions:
-        return True
-
-    return identity.user.managed_departments
+    return identity_manages_department(identity, model.department)
 
 
 @App.permission_rule(model=VotingPhase, permission=EditPermission)
 def voting_phase_edit_permission(identity, model, permission):
-    if identity.has_global_admin_permissions:
-        return True
+    return identity_manages_department(identity, model.department)
 
-    return model.department in identity.user.managed_departments
+
+@App.permission_rule(model=VotingPhase, permission=ManageVotingPermission)
+def voting_phase_edit_permission(identity, model, permission):
+    return identity_manages_department(identity, model.department)
 
 
 @App.path(model=VotingPhases, path='v')
@@ -103,7 +109,7 @@ def update(self, request, appstruct):
 
 @App.html(model=VotingPhase)
 def show(self, request):
-    cell = VotingPhaseCell(self, request, show_edit_button=True, show_proposition_list=True, show_description=True)
+    cell = VotingPhaseCell(self, request, show_edit_button=True, show_proposition_list=True, full_view=True)
     return cell.show()
 
 
@@ -124,3 +130,30 @@ def spickerrr(self, request):
         }
 
     return [serialize_proposition(p) for p in propositions]
+
+
+@App.html(model=VotingPhase, name="create_voting", request_method="POST")
+def create_voting(self, request):
+    if self.status != VotingStatus.SCHEDULED:
+        raise HTTPBadRequest("Voting phase must be in scheduled state")
+
+    voting_module_name = request.POST.get("create_voting")
+
+    try:
+        module_config = prepare_module_config(request.app, self.department, voting_module_name)
+    except InvalidVotingModule as e:
+        raise HTTPBadRequest(e.args[0])
+
+    with start_action(action_type="create_vvvote_election_config", module_config=module_config):
+        election_config = voting_phase_to_vvvote_election_config(module_config, self).to_json()
+
+    with start_action(action_type="create_election_in_vvvote", election_config=election_config) as action:
+        config_url = create_election_in_vvvote(module_config, election_config)
+        self.voting_module_data[voting_module_name] = {"config_url": config_url}
+        action.add_success_fields(config_url=config_url)
+
+    _ = request.i18n.gettext
+
+    request.flash(_("voting_created_msg", voting_module=voting_module_name), "success")
+
+    return redirect(request.link(self))

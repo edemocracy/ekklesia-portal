@@ -134,6 +134,7 @@ class Department(Base):
     members = association_proxy('department_members', 'member')  # <-DepartmentMember-> User
     areas = relationship("SubjectArea", back_populates="department")
     exporter_settings: dict = C(MutableDict.as_mutable(JSONB), server_default='{}')
+    voting_module_settings: dict = C(MutableDict.as_mutable(JSONB), server_default='{}')
     """
     durations as INT+ENUM(days,weeks,months,periods)? quorum as num/denum(INT)?
 
@@ -343,6 +344,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
     name: str = C(Text, server_default='', comment='short, readable name which can be used for URLs')
     title: str = C(Text, server_default='')
     description: str = C(Text, server_default='')
+    voting_module_data: dict = C(MutableDict.as_mutable(JSONB), server_default='{}')
     ballots = relationship("Ballot", back_populates="voting")
     department = relationship('Department', back_populates='voting_phases')
     phase_type = relationship('VotingPhaseType')
@@ -625,26 +627,6 @@ class UrnSupporter(Base):  # §5b.2
     type: str = C(Text, nullable=False)  # responsible, request, voter # §5b.2+4
     voted: bool = C(Boolean, nullable=False, server_default='false')  # §5b.6
     # urn merge if below min. no of voters §5b.6
-
-
-class VotingModule(Base):
-    __tablename__ = "voting_module"
-    id: int = integer_pk()
-    name: str = C(Text, unique=True, nullable=False)
-    description: str = C(Text)
-    base_url = C(URLType, nullable=False)
-    module_type: str = C(Text, nullable=False)
-
-    __mapper_args__ = {"polymorphic_on": module_type}
-
-
-class VVVoteVotingModule(VotingModule):
-    __mapper_args__ = {"polymorphic_identity": "vvvote"}
-
-    @property
-    def url_new_election(self):
-        from urllib.parse import urljoin
-        return urljoin(self.base_url, "newelection.php")
 
 
 class Page(Base):

@@ -8,4 +8,15 @@
 
   = form_html
 
+  if show_create_voting
+
+    h2= _("title_create_voting")
+
+    form.create_voting_form(action=create_voting_action, method="POST")
+      for voting_module, enabled in voting_modules
+        button.btn.btn-primary(disabled=(not enabled), type="submit", name="create_voting", value=voting_module)
+          i.far.fa-paper-plane
+          |&nbsp;
+          = _('create_voting_button', voting_module=voting_module)
+
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

@@ -9,6 +9,7 @@ class DepartmentSchema(Schema):
     name = string_property(title=_('name'), validator=Length(min=3, max=255))
     description = string_property(title=_('description'), validator=Length(min=10, max=2000), missing='')
     exporter_settings = json_property(title=_('exporter_settings'), missing={})
+    voting_module_settings = json_property(title=_('voting_module_settings'), missing={})
 
 
 class DepartmentForm(Form):
