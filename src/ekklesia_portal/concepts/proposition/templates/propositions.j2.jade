@@ -19,6 +19,10 @@
       a.nav-link(class=("active" if sort=="supporter_count" else ""), href=change_self_link(sort="supporter_count"))
         = _("btn_sort_by_supporter_count")
 
+    li.nav-item
+      a.nav-link(class=("active" if sort=="date" else ""), href=change_self_link(sort="date"))
+        = _("btn_sort_by_date")
+
 
   ul.filter-nav
 

@@ -49,4 +49,5 @@ class EkklesiaPortalIdentityPolicy(morepath.IdentityPolicy):
         )
 
     def forget(self, response, request):
-        del request.browser_session['user_id']
+        if 'user_id' in request.browser_session:
+            del request.browser_session['user_id']
