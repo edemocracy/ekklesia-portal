@@ -4,7 +4,7 @@ from eliot import log_call, Message
 
 import sqlalchemy_searchable
 from sqlalchemy import desc, func
-from sqlalchemy.orm import aliased
+from sqlalchemy.sql.functions import coalesce
 
 from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
@@ -23,7 +23,6 @@ class Propositions:
     tags: str = None
     without_tags: str = None
     type: str = None
-    section: str = None
     visibility: str = None
 
     def __post_init__(self):
@@ -40,7 +39,6 @@ class Propositions:
         self.without_tags = self.without_tags or None
         self.type = self.type or None
         self.status = self.status or None
-        self.section = self.section or None
 
         self.status_values = None
         self.tag_values = None
@@ -248,6 +246,9 @@ class Propositions:
         # Order
         if self.sort == "supporter_count":
             propositions = propositions.order_by(desc(Proposition.active_supporter_count))
+        elif self.sort == "date":
+            # Use submit date if not null, else use created date.
+            propositions = propositions.order_by(desc(coalesce(Proposition.submitted_at, Proposition.created_at)))
 
         propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
 

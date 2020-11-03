@@ -714,13 +714,17 @@ msgstr[1] "Unterstützer"
 msgid "created_on"
 msgstr "Erstellt am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:16
 msgid "btn_sort_by_identifier_or_title"
 msgstr "Nach Kennung/Titel sortieren"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:8
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:20
 msgid "btn_sort_by_supporter_count"
 msgstr "Nach Unterstützeranzahl sortieren"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:24
+msgid "btn_sort_by_date"
+msgstr "Nach Datum sortieren"
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:13
 msgid "department_propositions"
