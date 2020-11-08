@@ -2,7 +2,7 @@ from ekklesia_common.cell import Cell
 
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.datamodel import User, UserProfile, AreaMember, SubjectArea
+from ekklesia_portal.datamodel import User, UserProfile
 from ekklesia_portal.enums import EkklesiaUserType
 
 

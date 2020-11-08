@@ -34,8 +34,7 @@
           ul
             for area, member_in_area in areas
               li 
-                form(id="member_in_area_form", action=member_area_action, method="POST")
-                  input(type='hidden', name='area', value=area.name)
+                form(action=member_area_action, method="POST")
                   input(type='hidden', name='area_id', value=area.id)
                   if member_in_area
                     button.btn.btn-primary.btn-sm(type="submit", name="member_in_area", value="N")
