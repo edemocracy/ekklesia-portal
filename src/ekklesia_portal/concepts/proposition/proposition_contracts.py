@@ -43,6 +43,8 @@ class PropositionNewSchema(PropositionSchema):
 
 class PropositionEditSchema(PropositionSchema):
     voting_identifier = string_property(title=_('voting_identifier'), validator=Length(max=10), missing=None)
+    submitter_invitation_key = string_property(title=_('submitter_invitation_key'), missing=None)
+    external_discussion_url = string_property(title=_('external_discussion_url'), validator=colander.url, missing='')
     status = enum_property(PropositionStatus, title=_('status'))
     visibility = enum_property(PropositionVisibility, title=_('visibility'))
     external_fields = json_property(title=_('external_fields'), missing={})
@@ -67,10 +69,11 @@ class PropositionNewDraftSchema(Schema):
 class PropositionNewForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PropositionNewSchema(), request, action, buttons=[Button(title=_("submit"))])
+        super().__init__(PropositionNewSchema(), request, action, buttons=[Button(title=_("button_create_draft"))])
 
     def prepare_for_render(self, items_for_selects):
         self.set_widgets({
+            'editing_remarks': TextAreaWidget(rows=4),
             'area_id': Select2Widget(values=items_for_selects['area']),
             'proposition_type_id': Select2Widget(values=items_for_selects['proposition_type']),
             **common_widgets(items_for_selects)
@@ -94,7 +97,7 @@ class PropositionEditForm(Form):
 class PropositionNewDraftForm(Form):
 
     def __init__(self, request, action):
-        super().__init__(PropositionNewDraftSchema(), request, action, buttons=[Button(title=_("submit"))])
+        super().__init__(PropositionNewDraftSchema(), request, action, buttons=[Button(title=_("button_create_draft"))])
 
     def prepare_for_render(self, items_for_selects):
         common = common_widgets(items_for_selects)
@@ -108,3 +111,12 @@ class PropositionNewDraftForm(Form):
             'motivation': common['motivation'],
             'tags': common['tags']
         })
+
+
+class PropositionSubmitDraftForm(Form):
+
+    def __init__(self, request, action):
+        super().__init__(PropositionSchema(), request, action, buttons=[Button(title=_("button_submit_draft"))])
+
+    def prepare_for_render(self, items_for_selects):
+        self.set_widgets(common_widgets(items_for_selects))

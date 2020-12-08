@@ -28,7 +28,7 @@ DOCUMENT_WP = '''# Wahlprogramm
 Text Section 1.1
 '''
 
-PUSH_DRAFT_EXTERNAL_TEMPLATE_DE = '''
+PUSH_DRAFT_EXTERNAL_TEMPLATE = '''
 Dieser Antragsentwurf wurde automatisch erstellt durch das Antragsportal
 
 {draft_link}
@@ -52,6 +52,14 @@ Dieser Antragsentwurf wurde automatisch erstellt durch das Antragsportal
 {motivation}
 '''
 
+PUSH_DRAFT_PORTAL_TEMPLATE = '''
+Der Antragsentwurf wird hier weiterentwickelt:
+
+{topic_url}
+
+Verbesserungsvorschläge und Verständnisfragen bitte dort einbringen.
+'''
+
 DOCUMENT_PROPOSE_CHANGE_EXPLANATION_DE = '''
 Stelle einen Wahlprogrammantrag, um dieses Programm zu ändern.
 Du kannst eine Änderung an einem Abschnitt vorschlagen, indem du auf dessen Überschrift klickst.
@@ -59,12 +67,11 @@ Auf der folgenden Seite kannst du den Text bearbeiten und weitere Informationen 
 '''
 
 NEW_DRAFT_EXPLANATION_DE = '''
-Nach dem Abschicken wird dein Antragsentwurf von der Antragskommission geprüft.
-Dein Antragsentwurf wird nach einer Prüfung durch die Antragskommission im Forum in der Kategorie Antragsentwicklung eingestellt.
-Anschließend wird der Entwurf im Forum in der Kategorie Antragsentwicklung als neues Thema angelegt.
+Nach dem Abschicken wird dein Antragsentwurf automatisch im Forum in der Kategorie Antragsentwicklung eingestellt.
 Der Text des Antrags kann dort von allen angemeldeten Benutzern bearbeitet werden wie in einem Wiki.
 Du kannst die Bearbeitung sperren lassen. Wende dich dazu an die Antragskommission.
 '''
+
 
 if __name__ == "__main__":
 
@@ -108,7 +115,8 @@ if __name__ == "__main__":
 
     gen_de = mimesis.Generic('de')
 
-    s.add(CustomizableText(lang='de', name='push_draft_external_template', text=PUSH_DRAFT_EXTERNAL_TEMPLATE_DE))
+    s.add(CustomizableText(lang='de', name='push_draft_external_template', text=PUSH_DRAFT_EXTERNAL_TEMPLATE))
+    s.add(CustomizableText(lang='de', name='push_draft_portal_template', text=PUSH_DRAFT_PORTAL_TEMPLATE))
     s.add(
         CustomizableText(
             lang='de', name='document_propose_change_explanation', text=DOCUMENT_PROPOSE_CHANGE_EXPLANATION_DE
@@ -119,6 +127,9 @@ if __name__ == "__main__":
     department_pps = Department(name='Piratenpartei Schweiz')
     department_zs = Department(name='Zentralschweiz')
     department_ppd = Department(name='Piratenpartei Deutschland')
+
+    department_ppd.exporter_settings = {"exporter_name": "testdiscourse", "exporter_description": "Ein Test-Discourse"}
+
     department_by = Department(name='Landesverband Bayern')
     department_opf = Department(name='Bezirksverband Oberpfalz')
     s.add(department_by)
@@ -146,16 +157,14 @@ if __name__ == "__main__":
     u3_oauth_token = OAuthToken(provider='ekklesia', token={})
     u3 = User(name="olaf", auth_type="oauth", profile=u3_profile, oauth_token=u3_oauth_token)
     ug1.members.extend([u1, u2, u3])
-    s.add(DepartmentMember(department=department_pps, member=u1, is_admin=True))
+    s.add(DepartmentMember(department=department_ppd, member=u1))
+    s.add(DepartmentMember(department=department_pps, member=u1))
     s.add(DepartmentMember(department=department_ppd, member=u3))
     u2.departments.extend([department_zs])
-    u1.areas.extend([subject_area_pps_in, subject_area_pps_pol])
+    u1.areas.extend([subject_area_ppd_allg, subject_area_pps_in])
     u2.areas.extend([subject_area_zs_in])
     u3.areas.extend([subject_area_ppd_allg])
 
-    voting_phase_type_pv = VotingPhaseType(
-        name='Piratenversammlung', voting_type=VotingType.ASSEMBLY, abbreviation='PV', secret_voting_possible=True
-    )
     voting_phase_type_ur = VotingPhaseType(
         name='Online-Urabstimmung', voting_type=VotingType.ONLINE, abbreviation='UR', secret_voting_possible=False
     )
@@ -163,17 +172,17 @@ if __name__ == "__main__":
         name='Bundesparteitag', voting_type=VotingType.ASSEMBLY, abbreviation='BPT', secret_voting_possible=True
     )
 
-    voting_phase_pps_pv = VotingPhase(
-        phase_type=voting_phase_type_pv,
+    voting_phase_ppd_bpt_scheduled = VotingPhase(
+        phase_type=voting_phase_type_bpt,
         target='2020-11-11',
         status=VotingStatus.SCHEDULED,
         secret=True,
-        title='Piratenversammlung 2020.2',
-        name='pv202',
-        description='eine **Piratenversammlung** in der Schweiz'
+        title='BPT 2020.1',
+        name='bpt201',
+        description='Der nächste Parteitag irgendwo'
     )
 
-    department_pps.voting_phases.extend([voting_phase_pps_pv])
+    department_ppd.voting_phases.extend([voting_phase_ppd_bpt_scheduled])
 
     voting_phase_zs_ur = VotingPhase(
         phase_type=voting_phase_type_ur,
@@ -209,7 +218,7 @@ if __name__ == "__main__":
         range_small_options=5,
         secret_minimum=20,
         secret_quorum=0.05,
-        submitter_minimum=5,
+        submitter_minimum=2,
         voting_duration=14,
         voting_system=VotingSystem.RANGE_APPROVAL
     )
@@ -240,7 +249,7 @@ if __name__ == "__main__":
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")
 
-    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_pps_pv, name="PP001/2/3/4", proposition_type=ptype_pol)
+    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_ppd_bpt_scheduled, name="PP001/2/3/4", proposition_type=ptype_pol)
     s.add(b1)
     q1 = Proposition(
         title="Ein Titel",
@@ -308,6 +317,7 @@ if __name__ == "__main__":
     s.add(b7)
     b7.propositions.append(q7)
     q8 = Proposition(
+        author=u1,
         title="Entstehender Antrag",
         content="Einfach so entstehend...",
         created_at=datetime.fromisoformat('2020-01-06'),

@@ -8,6 +8,10 @@
 
 - block content
 
+  if options.show_details
+    = render_cell(_model, 'detail_top', **options)
+
+
   .proposition(id="proposition_{{ id }}", class=("" if options.margin else "proposition_no_margin"))
     if options.show_tabs
       .proposition_toolbar
@@ -18,8 +22,9 @@
           li.nav-item
             a.nav-link(href=associated_url, class=associated_link_class)= _("tab_associated")
 
-    .card-body(class=("" if not is_supported_by_current_user else "card-body-supported"))
+    .card-body(class=("" if not current_user_is_supporter else "card-body-supported"))
       = render_cell(_model, 'card', **options)
+
 
   if options.active_tab == 'discussion'
     .row.arguments

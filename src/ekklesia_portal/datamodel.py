@@ -278,7 +278,7 @@ class PropositionType(Base):  # Antragsart
     abbreviation: str = C(Text, unique=True, nullable=False)
     description: str = C(Text, server_default='')
     policy_id: int = C(Integer, ForeignKey('policies.id'), nullable=False)
-    policy = relationship("Policy", back_populates="proposition_types")
+    policy: Policy = relationship("Policy", back_populates="proposition_types")
     ballots = relationship("Ballot", back_populates="proposition_type")
 
 
@@ -293,7 +293,7 @@ class Ballot(Base):  # conflicting qualified propositions
     # §3.8, one proposition is for qualification of election itself
     voting_type: VotingType = C(Enum(VotingType))  # online, urn, assembly, board
     proposition_type_id: int = C(Integer, ForeignKey('propositiontypes.id'))
-    proposition_type = relationship("PropositionType", back_populates="ballots")
+    proposition_type: PropositionType = relationship("PropositionType", back_populates="ballots")
 
     area_id: int = C(Integer, ForeignKey('subjectareas.id'))
     area = relationship("SubjectArea", back_populates="ballots")  # contains department
@@ -374,6 +374,17 @@ class VotingPhase(Base):  # Abstimmungsperiode
         return self.status in (VotingStatus.PREPARING, VotingStatus.SCHEDULED)
 
 
+class Supporter(Base):  # §3.5
+    __tablename__ = 'supporters'
+    member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
+    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), primary_key=True)
+    proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
+    submitter: bool = C(Boolean, nullable=False, server_default='false', comment='submitter or regular')
+    status: SupporterStatus = C(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
+    last_change: datetime = C(DateTime, nullable=False, server_default=func.now(), comment='last status change')
+
+
 class Proposition(Base):
     __tablename__ = 'propositions'
     id: LID = C(LIDType, default=LID, primary_key=True)
@@ -388,10 +399,16 @@ class Proposition(Base):
     )
     qualified_at: datetime = C(DateTime, comment='optional, when qualified')
     status: PropositionStatus = C(Enum(PropositionStatus), nullable=False, server_default='DRAFT')
+    submitter_invitation_key: str = C(Text)
+
+    author_id: int = C(Integer, ForeignKey('users.id'))
+    author = relationship("User", backref=backref("authored_propositions"))
+
     ballot_id: int = C(Integer, ForeignKey('ballots.id'), nullable=False)
-    ballot = relationship(
+    ballot: Ballot = relationship(
         "Ballot", uselist=False, back_populates="propositions"
     )  # contains area (department), propositiontype
+
     supporters = association_proxy('propositions_member', 'member')  # <-Supporter-> User
     # in state draft only submitters may become supporters §3.3
     tags = association_proxy('proposition_tags', 'tag')  # <-PropositionTag-> Tag
@@ -410,7 +427,8 @@ class Proposition(Base):
 
     external_fields: dict = C(
         MutableDict.as_mutable(JSONB),
-        comment='Fields that are imported from or exported to other systems but are not interpreted by the portal.'
+        comment='Fields that are imported from or exported to other systems but are not interpreted by the portal.',
+        server_default='{}'
     )
 
     visibility: PropositionVisibility = C(Enum(PropositionVisibility), nullable=False, server_default='PUBLIC')
@@ -442,15 +460,17 @@ class Proposition(Base):
         )
     )
 
-    def support_by_user(self, user):
+    def support_by_user(self, user) -> Supporter:
         for s in self.propositions_member:
             if s.member_id == user.id and s.status == SupporterStatus.ACTIVE:
                 return s
 
-    def submitted_by_user(self, user):
+    def user_is_submitter(self, user) -> bool:
         for s in self.propositions_member:
-            if s.member_id == user.id and s.status == SupporterStatus.ACTIVE and s.submmitter is True:
-                return s
+            if s.member_id == user.id and s.submitter:
+                return True
+
+        return False
 
     @hybrid_property
     def active_supporter_count(self):
@@ -460,6 +480,14 @@ class Proposition(Base):
     def active_supporter_count(cls):
         return select([func.count()]).where(Supporter.proposition_id == cls.id
                                             ).where(Supporter.status == SupporterStatus.ACTIVE)
+
+    @property
+    def submitter_count(self):
+        return len([s for s in self.propositions_member if s.submitter])
+
+    @property
+    def ready_to_submit(self):
+        return self.status == PropositionStatus.DRAFT and self.submitter_count >= self.ballot.proposition_type.policy.submitter_minimum
 
     """
    submission data: content, submitters, conflicts
@@ -504,17 +532,6 @@ class PropositionNote(Base):
         self.user_id = user
         self.notes = notes
         self.vote = vote
-
-
-class Supporter(Base):  # §3.5
-    __tablename__ = 'supporters'
-    member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
-    member = relationship("User", backref=backref("member_propositions", cascade="all, delete-orphan"))
-    proposition_id: LID = C(LIDType, ForeignKey('propositions.id'), primary_key=True)
-    proposition = relationship("Proposition", backref=backref("propositions_member", cascade="all, delete-orphan"))
-    submitter: bool = C(Boolean, nullable=False, server_default='false', comment='submitter or regular')
-    status: SupporterStatus = C(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
-    last_change: datetime = C(DateTime, nullable=False, server_default=func.now(), comment='last status change')
 
 
 class Argument(Base):

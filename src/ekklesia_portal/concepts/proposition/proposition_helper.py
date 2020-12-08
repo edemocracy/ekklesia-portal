@@ -1,10 +1,18 @@
 from operator import attrgetter
 
-import case_conversion
+from slugify import slugify
 from ekklesia_common.translation import _
 
 from ekklesia_portal.datamodel import Tag
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+
+
+slug_replacements = [
+    ['Ü', 'Ue'], ['ü', 'ue'],
+    ['Ö', 'Oe'], ['ö', 'oe'],
+    ['Ä', 'Ae'], ['ä', 'ae'],
+    ['ß', 'ss']
+]
 
 
 def items_for_proposition_select_widgets(departments, tags, proposition_types=None, selected_tags=None):
@@ -44,4 +52,4 @@ def get_or_create_tags(db_session, tag_names):
 
 
 def proposition_slug(proposition):
-    return case_conversion.dashcase(proposition.title)
+    return slugify(proposition.title, replacements=slug_replacements)

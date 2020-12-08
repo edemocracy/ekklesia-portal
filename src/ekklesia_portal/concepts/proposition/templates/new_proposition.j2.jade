@@ -1,10 +1,12 @@
 - extends "ekklesia_portal/layout.j2.jade"
 
 - block title
-  title= _("title_new_proposition")
+  title= _("title_new_draft")
 
 - block content
-  h2= _("title_new_proposition")
+  h2= _("title_new_draft")
+
+  = new_draft_explanation|markdown
 
   = form_html
 

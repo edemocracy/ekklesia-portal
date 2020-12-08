@@ -1,24 +1,27 @@
-from re import L
+import secrets
+from datetime import datetime
 
-import case_conversion
+import base32_crockford
 from ekklesia_common.lid import LID
 from ekklesia_common.request import EkklesiaRequest as Request
-from eliot import Message
+from eliot import Message, start_action
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
+from ekklesia_portal.concepts.proposition.proposition_permissions import NewDraftPermission, SubmitDraftPermission
 from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility
+from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
-from ekklesia_portal.lib.discourse import DiscourseConfig, DiscourseTopic, create_discourse_topic
+from ekklesia_portal.lib.discourse import DiscourseError
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission, WritePermission
 
-from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionsCell
-from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm
+from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionSubmitDraftCell, PropositionsCell
+from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm, PropositionSubmitDraftForm
 from .proposition_helper import get_or_create_tags, proposition_slug
 from .propositions import Propositions
 
@@ -35,7 +38,7 @@ def proposition_view_permission(identity, model, permission):
     if model.visibility in (PropositionVisibility.PUBLIC, PropositionVisibility.UNLISTED):
         return True
 
-    if model.submitted_by_user(identity.user):
+    if model.user_is_submitter(identity.user):
         return True
 
     if model.ballot.area.department in identity.user.managed_departments:
@@ -63,13 +66,14 @@ def proposition_edit_permission(identity, model, permission):
     return identity.has_global_admin_permissions
 
 
-class NewDraftPermission(WritePermission):
-    pass
-
-
 @App.permission_rule(model=Propositions, permission=NewDraftPermission)
 def proposition_new_draft_permission(identity, model, permission):
     return identity != NoIdentity
+
+
+@App.permission_rule(model=Proposition, permission=SubmitDraftPermission)
+def proposition_submit_permission(identity, model: Proposition, permission):
+    return model.user_is_submitter(identity.user) or identity.has_global_admin_permissions
 
 
 App.path(path='p')(Propositions)
@@ -134,6 +138,24 @@ def support(self, request):
     return redirect(request.link(self))
 
 
+@App.html(request_method='POST', name='become_submitter', permission=SupportPermission)
+def become_submitter(self: Proposition, request):
+    key_valid = secrets.compare_digest(self.submitter_invitation_key, request.POST.get("submitter_invitation_key", ""))
+    if not key_valid:
+        raise HTTPBadRequest("wrong submitter invitation key")
+
+    user = request.current_user
+    supporter = self.support_by_user(user)
+
+    if supporter is None:
+        supporter = Supporter(member=request.current_user, proposition=self)
+        request.db_session.add(supporter)
+
+    supporter.submitter = True
+
+    return redirect(request.link(self))
+
+
 @App.html(model=Propositions)
 def index(self, request):
     return PropositionsCell(self, request).show()
@@ -165,9 +187,56 @@ def new(self, request):
     return NewPropositionCell(request, form, form_data).show()
 
 
+def _create_proposition(request, ballot, appstruct, document=None, section=None):
+    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
+    editing_remarks = appstruct.pop('editing_remarks')
+
+    submitter_invitation_key = base32_crockford.encode(secrets.randbits(64))
+
+    proposition = Proposition(
+        author=request.current_user,
+        ballot=ballot,
+        status=PropositionStatus.DRAFT,
+        submitter_invitation_key=submitter_invitation_key,
+        visibility=PropositionVisibility.HIDDEN,
+        external_fields={'external_draft': {'editing_remarks': editing_remarks}},
+        **appstruct
+    )
+
+    if document is not None and section is not None:
+        changeset = Changeset(document=document, section=section, proposition=proposition)
+        request.db_session.add(changeset)
+
+    request.db_session.add(proposition)
+
+    is_admin = request.identity.has_global_admin_permissions
+
+    if not is_admin:
+        supporter = Supporter(member=request.current_user, proposition=proposition, submitter=True)
+        request.db_session.add(supporter)
+
+    request.db_session.flush()
+    proposition_url = request.link(proposition)
+
+    exporter_name = ballot.area.department.exporter_settings.get('exporter_name')
+    if exporter_name and not is_admin:
+        try:
+            with start_action(action_type="push_draft", exporter=exporter_name):
+                exporter_config = {**getattr(request.app.settings.exporter, exporter_name)}
+                external_content_template = customizable_text(request, 'push_draft_external_template')
+                portal_content_template = customizable_text(request, 'push_draft_portal_template')
+                push_draft_to_discourse(
+                    exporter_config, external_content_template, portal_content_template, proposition, proposition_url
+                )
+
+        except DiscourseError:
+            pass
+
+    return proposition_url
+
+
 @App.html_form_post(model=Propositions, form=PropositionNewForm, cell=NewPropositionCell, permission=CreatePermission)
 def create(self, request, appstruct):
-    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     relation_type = appstruct.pop('relation_type')
     related_proposition_id = appstruct.pop('related_proposition_id')
     if relation_type and related_proposition_id:
@@ -202,14 +271,8 @@ def create(self, request, appstruct):
     del appstruct['area_id']
     del appstruct['proposition_type_id']
 
-    proposition = Proposition(
-        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct
-    )
-
-    request.db_session.add(proposition)
-    request.db_session.flush()
-
-    return redirect(request.link(proposition))
+    proposition_url = _create_proposition(request, ballot, appstruct)
+    return redirect(proposition_url)
 
 
 @App.view(model=PropositionRedirect)
@@ -267,7 +330,6 @@ def new_draft(self, request):
     permission=NewDraftPermission
 )
 def new_draft_post(self, request, appstruct):
-    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
     document = request.q(Document).get(appstruct.pop('document_id'))
 
     if document.area.department not in request.current_user.departments:
@@ -278,21 +340,9 @@ def new_draft_post(self, request, appstruct):
     ballot = Ballot(area=document.area, proposition_type=document.proposition_type)
 
     section = appstruct.pop('section')
-    editing_remarks = appstruct.pop('editing_remarks')
 
-    proposition = Proposition(
-        ballot=ballot, status=PropositionStatus.DRAFT, visibility=PropositionVisibility.HIDDEN, **appstruct
-    )
-
-    proposition.external_fields = {'external_draft': {'editing_remarks': editing_remarks}}
-
-    changeset = Changeset(document=document, section=section, proposition=proposition)
-
-    request.db_session.add(proposition)
-    request.db_session.add(changeset)
-    request.db_session.flush()
-
-    return redirect(request.link(proposition))
+    proposition_url = _create_proposition(request, ballot, appstruct, document, section)
+    return redirect(proposition_url)
 
 
 @App.html(request_method='POST', name='push_draft', permission=EditPermission)
@@ -309,29 +359,66 @@ def push_draft(self: Proposition, request: Request):
     if exporter_name is None:
         raise HTTPBadRequest()
 
-    exporter_config = getattr(request.app.settings.exporter, exporter_name)
-
-    self_link = request.link(self)
-    editing_remarks = self.external_fields['external_draft']['editing_remarks']
-
-    discourse_content_template = customizable_text(request, 'push_draft_external_template')
-    content = discourse_content_template.format(
-        draft_link=self_link,
-        editing_remarks=editing_remarks,
-        abstract=self.abstract,
-        content=self.content,
-        motivation=self.motivation
-    )
-
-    topic = DiscourseTopic(content, self.title, [t.name for t in self.tags])
-    discourse_config = DiscourseConfig(**exporter_config)
-    resp = create_discourse_topic(discourse_config, topic)
-    dd = resp.json()
+    exporter_config = {**getattr(request.app.settings.exporter, exporter_name)}
+    external_content_template = customizable_text(request, 'push_draft_external_template')
     portal_content_template = customizable_text(request, 'push_draft_portal_template')
-    discourse_topic_url = f'{discourse_config.base_url}/t/{dd["topic_slug"]}/{dd["topic_id"]}'
-    self.external_discussion_url = discourse_topic_url
-    self.content = portal_content_template.format(topic_url=discourse_topic_url)
-    self.motivation = ''
-    self.abstract = ''
-    self.visibility = PropositionVisibility.PUBLIC
+    self_link = request.link(self)
+    push_draft_to_discourse(exporter_config, external_content_template, portal_content_template, self, self_link)
     return redirect(self_link)
+
+
+@App.html(name='submit_draft', permission=SubmitDraftPermission)
+def submit_draft(self: Proposition, request):
+
+    external_draft_info = self.external_fields.get("external_draft", {})
+    importer_name = external_draft_info.get("importer")
+    import_info = external_draft_info.get("import_info")
+
+    if external_draft_info:
+        if not importer_name:
+            raise HTTPBadRequest("should import from external system but importer name is missing")
+
+        if not import_info:
+            raise HTTPBadRequest("should import from external system but import info is missing")
+
+        # pre-fill new proposition form from a URL returning data formatted as `from_format`
+        # 'for supported formats, see 'PROPOSITION_IMPORT_HANDLERS'
+        importer_config = getattr(request.app.settings.importer, importer_name)
+
+        if importer_config is None:
+            raise ValueError("unsupported proposition source: " + importer_name)
+
+        import_schema = importer_config['schema']
+        import_handler = PROPOSITION_IMPORT_HANDLERS.get(import_schema)
+        if import_handler is None:
+            raise ValueError("unsupported proposition import schema: " + import_schema)
+
+        form_data = import_handler(importer_config, import_info)
+    else:
+        form_data = {}
+
+    form = PropositionSubmitDraftForm(request, request.link(self, 'submit_draft_post'))
+    return PropositionSubmitDraftCell(self, request, form, form_data).show()
+
+
+@App.html_form_post(
+    model=Proposition,
+    name='submit_draft_post',
+    form=PropositionSubmitDraftForm,
+    cell=PropositionSubmitDraftCell,
+    permission=SubmitDraftPermission
+)
+def submit_draft_post(self: Proposition, request, appstruct):
+    if self.status != PropositionStatus.DRAFT:
+        raise HTTPBadRequest("status must be DRAFT")
+
+    if not self.ready_to_submit:
+        raise HTTPBadRequest("too few submitters")
+
+    self.motivation = appstruct["motivation"]
+    self.abstract = appstruct["abstract"]
+    self.content = appstruct["content"]
+    self.status = PropositionStatus.SUBMITTED
+    self.submitted_at = datetime.now()
+
+    return redirect(request.link(self))
