@@ -19,6 +19,7 @@ def oauth_config():
         VotingStart=start_dt,
         VotingEnd=end_dt,
         eligible=True,
+        external_voting=True,
         listId='abcddedbed',
         serverId='ekklesia',
         verified=True,

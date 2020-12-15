@@ -43,6 +43,7 @@ class OAuthConfig(AuthData):
     nested_groups: List[str]
     serverId: str
     verified: bool
+    external_voting: bool
 
 
 @dataclass_json
