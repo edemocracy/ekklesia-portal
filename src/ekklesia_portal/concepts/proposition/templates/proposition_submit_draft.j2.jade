@@ -1,0 +1,31 @@
+- extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title= _("title_submit_draft")
+
+- block content
+
+  if draft_not_fully_matched
+    .alert.alert-danger
+      = _("alert_draft_not_fully_matched")
+
+  h2= _("title_submit_draft")
+
+  .notice
+    .notice-header
+        strong= _('title_notice')
+    .notice-body
+      = explanation|markdown
+
+  dl
+    dt= _('department')
+    dd= department_name
+    dt= _('subject_area')
+    dd= subject_area_name
+    dt= _('proposition_type')
+    dd= proposition_type_name
+
+  = form_html
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

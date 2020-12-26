@@ -172,7 +172,7 @@ def test_update_as_global_admin(client, proposition_factory, logged_in_global_ad
     proposition = proposition_factory(title="test")
 
     res = client.get(f'/p/{proposition.id}/test/edit')
-    skip_items = ['created_at', 'submitted_at', 'qualified_at', 'ballot_id', 'modifies_id', 'replaces_id', 'search_vector']
+    skip_items = ['author_id', 'created_at', 'submitted_at', 'qualified_at', 'ballot_id', 'modifies_id', 'replaces_id', 'search_vector']
     expected = {k: v for k, v in proposition.to_dict().items() if k not in skip_items}
     form = assert_deform(res, expected)
 

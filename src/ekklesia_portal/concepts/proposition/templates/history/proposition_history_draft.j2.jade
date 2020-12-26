@@ -1,2 +1,7 @@
+if show_full_history
+  if author
+    .proposition_history_item
+      = _("created_by", author=author.name)
+
 .proposition_history_item
   = _("created_on", date=created_at|dateformat)

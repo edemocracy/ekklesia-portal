@@ -1,13 +1,18 @@
 .proposition_actions
   if show_support_actions
     form.support_form(action=support_action, method="POST")
-      button.btn.btn-primary.btn-sm(hidden=is_supported_by_current_user, type="submit", name="support")
+      button.btn.btn-primary.btn-sm(hidden=current_user_is_supporter, type="submit", name="support")
           i.far.fa-thumbs-up &nbsp;
           = _('button_support')
 
-      button.btn.btn-secondary.btn-sm(hidden=(not is_supported_by_current_user), type="submit", name="retract")
+      button.btn.btn-secondary.btn-sm(hidden=(not current_user_is_supporter), type="submit", name="retract")
           i.far.fa-remove &nbsp;
           = _('button_retract_support')
+
+  if show_submit_draft_action
+      a.btn.btn-primary.btn-sm(href=submit_draft_url)
+          i.far.fa-paper-plane &nbsp;
+          = _('button_submit_draft')
 
   a.btn.btn-secondary.btn-sm(href='javascript:;', data-toggle='popover', data-popover-content='#a1')
     i.fas.fa-link &nbsp;

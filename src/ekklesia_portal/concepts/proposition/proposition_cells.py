@@ -1,5 +1,6 @@
 import urllib.parse
 from operator import attrgetter
+from secrets import compare_digest
 
 import colander
 from ekklesia_common.cell import Cell
@@ -12,6 +13,7 @@ from ekklesia_portal.concepts.argument_relation.argument_relations import Argume
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+from ekklesia_portal.concepts.proposition.proposition_permissions import SubmitDraftPermission
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase
 from ekklesia_portal.helper.url_shortener import make_tiny
 from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus
@@ -28,6 +30,7 @@ class PropositionCell(LayoutCell):
 
     model_properties = [
         'abstract',
+        'author',
         'ballot',
         'content',
         'created_at',
@@ -40,6 +43,7 @@ class PropositionCell(LayoutCell):
         'motivation',
         'replacements',
         'replaces',
+        'submitter_invitation_key',
         'tags',
         'title',
     ]
@@ -79,6 +83,15 @@ class PropositionCell(LayoutCell):
         }
         variant = status_to_variant[self._model.status]
         template = f"proposition/history/proposition_history_{variant}.j2.jade"
+        return self.render_template(template)
+
+    @Cell.fragment
+    def detail_top(self):
+        variant = self._model.status
+        if variant not in (PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
+                           PropositionStatus.SCHEDULED):
+            return ""
+        template = f"proposition/detail_top/proposition_detail_top_{variant}.j2.jade"
         return self.render_template(template)
 
     def associated_url(self):
@@ -142,10 +155,20 @@ class PropositionCell(LayoutCell):
     def propositions_tag_url(self, tag):
         return self.class_link(Propositions, dict(tags=tag.name))
 
-    def is_supported_by_current_user(self):
+    def current_user_is_supporter(self):
         if self.current_user is None:
             return False
         return self._model.support_by_user(self.current_user) is not None
+
+    def current_user_is_submitter(self):
+        if self.current_user is None:
+            return False
+        return self._model.user_is_submitter(self.current_user)
+
+    def current_user_is_author(self):
+        if self.current_user is None:
+            return False
+        return self._model.author == self.current_user
 
     def discussion_link_class(self):
         return 'active' if self.options.get('active_tab') == 'discussion' else ''
@@ -166,8 +189,14 @@ class PropositionCell(LayoutCell):
             ArgumentRelations, dict(proposition_id=self._model.id, relation_type=ArgumentType.CONTRA.name), '+new'
         )
 
+    def missing_submitters_count(self):
+        return self._model.ballot.proposition_type.policy.submitter_minimum - self._model.submitter_count
+
     def supporter_count(self):
         return self._model.active_supporter_count
+
+    def become_submitter_action(self):
+        return self.link(self._model, 'become_submitter')
 
     def support_action(self):
         return self.link(self._model, 'support')
@@ -189,11 +218,19 @@ class PropositionCell(LayoutCell):
 
         return self._model.title
 
+    def ready_to_submit(self):
+        return self._model.ready_to_submit
+
     def show_support_actions(self):
         return self._model.status in (
             PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED,
             PropositionStatus.VOTING
         ) and self._request.permitted_for_current_user(self._model, SupportPermission)
+
+    def show_submit_draft_action(self):
+        return self._model.ready_to_submit and self._request.permitted_for_current_user(
+            self._model, SubmitDraftPermission
+        )
 
     def show_create_argument(self):
         return self._model.status in (
@@ -206,6 +243,12 @@ class PropositionCell(LayoutCell):
             PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
             PropositionStatus.SCHEDULED
         ) and self._request.permitted_for_current_user(self._model, CreatePermission)
+
+    def valid_submitter_invitation_key(self):
+        key = self._request.GET.get("submitter_invitation_key")
+        if key is None:
+            return False
+        return compare_digest(self._model.submitter_invitation_key, key)
 
     def voting_phase(self):
         return self._model.ballot.voting
@@ -231,6 +274,9 @@ class PropositionCell(LayoutCell):
     def show_edit_button(self):
         return self._request.permitted_for_current_user(self._model, EditPermission)
 
+    def submit_draft_url(self):
+        return self.link(self._model, 'submit_draft')
+
     def edit_url(self):
         return self.link(self._model, 'edit')
 
@@ -245,6 +291,12 @@ class PropositionCell(LayoutCell):
             },
             name='edit'
         )
+
+    def become_submitter_url(self):
+        return self.self_link + f"?submitter_invitation_key={self._model.submitter_invitation_key}"
+
+    def submitter_names(self):
+        return [pm.member.name for pm in self._model.propositions_member if pm.submitter]
 
     def show_full_history(self):
         return self.options.get('show_details')
@@ -270,7 +322,11 @@ class NewPropositionCell(NewFormCell):
         items = items_for_proposition_select_widgets(departments, tags, proposition_types, selected_tag_names)
         self._form.prepare_for_render(items)
 
+    def new_draft_explanation(self):
+        return customizable_text(self._request, 'new_draft_explanation')
 
+
+@App.cell(Proposition, 'edit')
 class EditPropositionCell(EditFormCell):
 
     def _prepare_form_for_render(self):
@@ -307,6 +363,9 @@ class EditPropositionCell(EditFormCell):
     def ballot_url(self):
         return self.link(self._model.ballot)
 
+    def become_submitter_url(self):
+        return self.self_link + f"?submitter_invitation_key={self._model.submitter_invitation_key}"
+
     def show_push_draft(self):
         exporter_name = self._model.ballot.area.department.exporter_settings.get('exporter_name')
         return exporter_name and self._model.status == PropositionStatus.DRAFT
@@ -316,28 +375,6 @@ class EditPropositionCell(EditFormCell):
 
     def exporter_description(self):
         return self._model.ballot.area.department.exporter_settings.get('exporter_description', '')
-
-
-@App.cell(Propositions, 'new_draft')
-class PropositionNewDraftCell(NewFormCell):
-
-    def _prepare_form_for_render(self):
-        tags = self._request.q(Tag).all()
-        items = items_for_proposition_select_widgets([], tags)
-        self._form.prepare_for_render(items)
-
-    @cached_property
-    def _document(self):
-        return self._request.q(Document).get(self._model.document)
-
-    def department_name(self):
-        return self._document.area.department.name
-
-    def document_name(self):
-        return self._document.name
-
-    def explanation(self):
-        return customizable_text(self._request, 'new_draft_explanation')
 
 
 @App.cell(Propositions)
@@ -389,3 +426,59 @@ class PropositionsCell(LayoutCell):
             return self._model.visibility_values
         else:
             return None
+
+
+@App.cell(Propositions, 'new_draft')
+class PropositionNewDraftCell(NewFormCell):
+
+    def _prepare_form_for_render(self):
+        tags = self._request.q(Tag).all()
+        items = items_for_proposition_select_widgets([], tags)
+        self._form.prepare_for_render(items)
+
+    @cached_property
+    def _document(self):
+        return self._request.q(Document).get(self._model.document)
+
+    def department_name(self):
+        return self._document.area.department.name
+
+    def document_name(self):
+        return self._document.name
+
+    def explanation(self):
+        return customizable_text(self._request, 'new_draft_explanation')
+
+
+@App.cell(Proposition, 'submit_draft')
+class PropositionSubmitDraftCell(EditFormCell):
+
+    def _prepare_form_for_render(self):
+        if self._form.error is None:
+            data_from_model = self._model.to_dict()
+            data_from_model['tags'] = [t.name for t in self._model.tags]
+            # Override fields from the model with the given form data
+            form_data = {**data_from_model, **self._form_data}
+            self.set_form_data(form_data)
+            selected_tag_names = None
+        else:
+            selected_tag_names = self._form.cstruct['tags']
+
+        tags = self._request.q(Tag).all()
+        items = items_for_proposition_select_widgets([], tags, selected_tag_names)
+        self._form.prepare_for_render(items)
+
+    def department_name(self):
+        return self._model.ballot.area.department.name
+
+    def subject_area_name(self):
+        return self._model.ballot.area.name
+
+    def proposition_type_name(self):
+        return self._model.ballot.proposition_type.name
+
+    def explanation(self):
+        return customizable_text(self._request, 'submit_draft_explanation')
+
+    def draft_not_fully_matched(self):
+        return not self._form_data.get("all_matched")

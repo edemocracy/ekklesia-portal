@@ -168,6 +168,24 @@ footer.footer
   .nav-link.active
     color: $link_color
 
+.notice
+  @extend .card
+  margin-bottom: 1rem
+  border:
+
+  .notice-header
+    @extend .card-header
+
+  .notice-body
+    padding: 1rem
+    @extend .card-body
+
+    .notice-title
+      @extend .card-title
+
+    p:last-child
+      margin-bottom: 0
+
 .sort-nav
   padding-left: 0.5rem
 

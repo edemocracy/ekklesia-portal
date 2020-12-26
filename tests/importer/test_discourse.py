@@ -19,7 +19,7 @@ RAW = f'''
 
 {ABSTRACT}
 
-## Antrag
+## Antragstext
 
 {CONTENT}
 
@@ -32,7 +32,7 @@ TOPIC = {'title': 'title'}
 
 POST = {'raw': RAW, 'topic_id': 2}
 
-EXPECTED_PARSED_CONTENT = {'abstract': ABSTRACT, 'content': CONTENT, 'motivation': MOTIVATION}
+EXPECTED_PARSED_CONTENT = {'abstract': ABSTRACT, 'content': CONTENT, 'motivation': MOTIVATION, 'all_matched': True}
 
 
 def test_parse_raw_content():
@@ -47,6 +47,6 @@ def test_import_discourse_post_as_proposition():
     topic_url = base_url + '/t/2'
     responses.add(responses.GET, post_url, body=json.dumps(POST))
     responses.add(responses.GET, topic_url, body=json.dumps(TOPIC))
-    res = import_discourse_post_as_proposition(base_url, 1)
+    res = import_discourse_post_as_proposition(dict(base_url=base_url), 1)
     expected = {'title': TOPIC['title'], 'external_discussion_url': topic_url, **EXPECTED_PARSED_CONTENT}
     assert res == expected
