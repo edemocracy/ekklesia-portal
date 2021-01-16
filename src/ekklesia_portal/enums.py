@@ -43,6 +43,12 @@ class PropositionVisibility(str, Enum):
     HIDDEN = 'hidden'
 
 
+class SecretVoterStatus(str, Enum):
+    ACTIVE = 'active'
+    EXPIRED = 'expired'
+    RETRACTED = 'retracted'
+
+
 class SupporterStatus(str, Enum):
     ACTIVE = 'active'
     EXPIRED = 'expired'

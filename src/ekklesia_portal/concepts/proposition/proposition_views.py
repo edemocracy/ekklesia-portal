@@ -5,6 +5,8 @@ import base32_crockford
 from ekklesia_common.lid import LID
 from ekklesia_common.request import EkklesiaRequest as Request
 from eliot import Message, start_action
+from pytz import timezone
+from datetime import datetime
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 
@@ -12,8 +14,8 @@ from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
 from ekklesia_portal.concepts.proposition.proposition_permissions import NewDraftPermission, SubmitDraftPermission
-from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter
-from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility
+from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter, SecretVoter
+from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility, SecretVoterStatus
 from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
@@ -119,6 +121,36 @@ def associated(self, request):
     return cell.show()
 
 
+def process_secret_voting(self, request):
+    user_id = request.current_user.id
+    if 'secret_voting' in request.POST or 'public_voting' in request.POST:
+        if self.ballot_id is None:
+            return redirect(request.link(self))
+        secret_record = request.db_session.query(SecretVoter).filter_by(
+            member_id=user_id, ballot_id=self.ballot_id
+        ).scalar()
+        if secret_record is None:
+            secret_record = SecretVoter(member_id=user_id, ballot_id=self.ballot_id, status='active')
+            request.db_session.add(secret_record)
+        if 'secret_voting' in request.POST:
+            secret_record.status = SecretVoterStatus.ACTIVE
+        else:
+            secret_record.status = SecretVoterStatus.RETRACTED
+        UTC = timezone('UTC')
+        secret_record.last_change = datetime.now(UTC)
+    return redirect(request.link(self))
+
+
+@App.html(model=Proposition, request_method='POST', name='public_voting', permission=SupportPermission)
+def secret_voting(self, request):
+    return process_secret_voting(self, request)
+
+
+@App.html(model=Proposition, request_method='POST', name='secret_voting', permission=SupportPermission)
+def secret_voting(self, request):
+    return process_secret_voting(self, request)
+
+
 @App.html(model=Proposition, request_method='POST', name='support', permission=SupportPermission)
 def support(self, request):
     if 'support' not in request.POST and 'retract' not in request.POST:
@@ -199,7 +231,9 @@ def _create_proposition(request, ballot, appstruct, document=None, section=None)
         status=PropositionStatus.DRAFT,
         submitter_invitation_key=submitter_invitation_key,
         visibility=PropositionVisibility.HIDDEN,
-        external_fields={'external_draft': {'editing_remarks': editing_remarks}},
+        external_fields={'external_draft': {
+            'editing_remarks': editing_remarks
+        }},
         **appstruct
     )
 

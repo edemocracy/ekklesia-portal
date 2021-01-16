@@ -36,8 +36,8 @@ from sqlalchemy_searchable import make_searchable
 from sqlalchemy_utils.types import EmailType, TSVectorType, URLType
 
 from ekklesia_portal.enums import (
-    ArgumentType, Majority, PropositionStatus, PropositionVisibility, SupporterStatus, VoteByUser, VotingStatus,
-    VotingSystem, VotingType
+    ArgumentType, Majority, PropositionStatus, PropositionVisibility, SecretVoterStatus, SupporterStatus, VoteByUser,
+    VotingStatus, VotingSystem, VotingType
 )
 
 make_searchable(Base.metadata, options={'regconfig': 'pg_catalog.german'})
@@ -313,20 +313,6 @@ class Ballot(Base):  # conflicting qualified propositions
     #  later conflicting proposition are assigned to a new independent ballot
 
 
-class SecretVoter(Base):  # §3.7, §4.4
-    __tablename__ = 'secretvoters'
-    member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
-    member = relationship("User", backref=backref("member_ballots", cascade="all, delete-orphan"))
-    ballot_id: int = C(Integer, ForeignKey('ballots.id'), primary_key=True)
-    ballot = relationship("Ballot", backref=backref("ballot_members", cascade="all, delete-orphan"))
-
-    status: str = C(Text, nullable=False)  # active,expired,retracted
-    last_change: datetime = C(DateTime, nullable=False)  # time of requested/retracted
-    # can only be requested before deadline before voting starts §4.4
-    # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
-    #  calculate quorum, if supporters >= quorum, set ballot to secret
-
-
 class VotingPhaseType(Base):
     __tablename__ = 'voting_phase_types'
     id: int = integer_pk()
@@ -383,6 +369,20 @@ class Supporter(Base):  # §3.5
     submitter: bool = C(Boolean, nullable=False, server_default='false', comment='submitter or regular')
     status: SupporterStatus = C(Enum(SupporterStatus), nullable=False, server_default='ACTIVE')
     last_change: datetime = C(DateTime, nullable=False, server_default=func.now(), comment='last status change')
+
+
+class SecretVoter(Base):  # §3.7, §4.4
+    __tablename__ = 'secretvoters'
+    member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
+    member = relationship("User", backref=backref("member_ballots", cascade="all, delete-orphan"))
+    ballot_id: int = C(Integer, ForeignKey('ballots.id'), primary_key=True)
+    ballot = relationship("Ballot", backref=backref("ballot_members", cascade="all, delete-orphan"))
+
+    status: str = C(Enum(SecretVoterStatus), nullable=False)  # active,expired,retracted
+    last_change: datetime = C(DateTime, nullable=False)  # time of requested/retracted
+    # can only be requested before deadline before voting starts §4.4
+    # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
+    #  calculate quorum, if supporters >= quorum, set ballot to secret
 
 
 class Proposition(Base):
@@ -459,6 +459,23 @@ class Proposition(Base):
             "submitted_at IS NOT NULL OR status IN ('DRAFT', 'ABANDONED', 'CHANGING')", name="submitted_at_must_be_set"
         )
     )
+
+    @property
+    def secret_voters_count(self):
+        return len([s for s in self.ballot.ballot_members if s.status == SecretVoterStatus.ACTIVE])
+
+    @property
+    def secret_voters_user_count(self):
+        return len([s for s in self.ballot.area.members])
+
+    @property
+    def secret_voting_quorum(self):
+        user_count = self.secret_voters_user_count
+        pol = self.ballot.proposition_type.policy
+        quorum = round(float(user_count) / 100.0 * float(pol.secret_quorum) + 0.5)
+        if quorum < pol.secret_minimum:
+            quorum = pol.secret_minimum
+        return quorum
 
     def support_by_user(self, user) -> Supporter:
         for s in self.propositions_member:

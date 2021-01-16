@@ -14,7 +14,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.proposition.proposition_permissions import SubmitDraftPermission
-from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase
+from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase, SecretVoter
 from ekklesia_portal.helper.url_shortener import make_tiny
 from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
@@ -46,6 +46,9 @@ class PropositionCell(LayoutCell):
         'submitter_invitation_key',
         'tags',
         'title',
+        'secret_voters_count',
+        'secret_voters_user_count',
+        'secret_voting_quorum',
     ]
 
     actions = Cell.fragment('proposition_actions')
@@ -198,6 +201,9 @@ class PropositionCell(LayoutCell):
     def become_submitter_action(self):
         return self.link(self._model, 'become_submitter')
 
+    def secret_voting_action(self):
+        return self.link(self._model, 'secret_voting')
+
     def support_action(self):
         return self.link(self._model, 'support')
 
@@ -300,6 +306,18 @@ class PropositionCell(LayoutCell):
 
     def show_full_history(self):
         return self.options.get('show_details')
+
+    def secret_voting(self):
+        user_id = None
+        if self.current_user is not None:
+            user_id = self.current_user.id
+        secret_record = self._request.db_session.query(SecretVoter).filter_by(
+            member_id=user_id, ballot_id=self._model.ballot_id
+        ).scalar()
+        stat = 'retracted'
+        if secret_record is not None:
+            stat = secret_record.status
+        return stat == 'active'
 
 
 @App.cell(Propositions, 'new')
