@@ -8,6 +8,7 @@ from ekklesia_common.translation import _
 class PropositionTypeSchema(Schema):
     name = string_property(title=_('name'), validator=Length(max=64))
     abbreviation = string_property(title=_('abbreviation'), validator=Length(max=3))
+    voting_identifier_template = string_property(title=_('voting_identifier_template'), validator=Length(min=0, max=30), missing=None)
     description = string_property(title=_('description'), validator=Length(min=10, max=4000), missing='')
     policy_id = int_property(title=_('policy'))
 

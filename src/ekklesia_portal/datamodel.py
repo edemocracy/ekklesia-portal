@@ -277,6 +277,7 @@ class PropositionType(Base):  # Antragsart
     id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name: str = C(Text, unique=True, nullable=False)
     abbreviation: str = C(Text, unique=True, nullable=False)
+    voting_identifier_template: str = C(Text, nullable=True)
     description: str = C(Text, server_default='')
     policy_id: int = C(Integer, ForeignKey('policies.id'), nullable=False)
     policy: Policy = relationship("Policy", back_populates="proposition_types")
@@ -321,6 +322,13 @@ class VotingPhaseType(Base):
     abbreviation: str = C(Text, server_default='', comment='abbreviated name')
     secret_voting_possible: bool = C(Boolean, nullable=False)
     voting_type = C(Enum(VotingType), nullable=False)  # online, urn, assembly, board
+
+
+class VotingIdCounter(Base):
+    __tablename__ = 'voting_id_counter'
+    proposition_type_id: int = C(Integer, ForeignKey('propositiontypes.id'), primary_key=True)
+    voting_phase_id: int = C(Integer, ForeignKey('votingphases.id'), primary_key=True)
+    counter: int = C(Integer, nullable=True)
 
 
 class VotingPhase(Base):  # Abstimmungsperiode

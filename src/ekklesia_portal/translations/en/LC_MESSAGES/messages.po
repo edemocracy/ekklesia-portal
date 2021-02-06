@@ -1301,6 +1301,10 @@ msgstr "No"
 msgid "vote_by_user_abstention"
 msgstr "Abstention"
 
+msgid "voting_identifier_template"
+msgstr "Template For Identifier"
+
+
 #~ msgid "follow"
 #~ msgstr "Follow"
 

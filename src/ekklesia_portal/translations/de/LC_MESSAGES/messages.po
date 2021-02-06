@@ -1313,6 +1313,9 @@ msgstr "Nein"
 msgid "vote_by_user_abstention"
 msgstr "Enthaltung"
 
+msgid "voting_identifier_template"
+msgstr "Muster für Bezeichner"
+
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
 
