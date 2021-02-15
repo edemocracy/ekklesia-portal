@@ -4,7 +4,7 @@ import string
 import factory
 from ekklesia_common.database import Session
 from ekklesia_common.ekklesia_auth import EkklesiaAuthData
-from factory import Factory, RelatedFactory, SubFactory
+from factory import Factory, RelatedFactory, Sequence, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from factory.declarations import RelatedFactoryList
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal, FuzzyInteger, FuzzyText
@@ -29,7 +29,7 @@ class DepartmentFactory(SQLAFactory):
     class Meta:
         model = Department
 
-    name = MimesisField('word')
+    name = Sequence('department{}'.format)
     description = MimesisField('text', quantity=5)
 
     @factory.post_generation
@@ -46,7 +46,7 @@ class SubjectAreaFactory(SQLAFactory):
     class Meta:
         model = SubjectArea
 
-    name = MimesisField('word')
+    name = Sequence('subject_area{}'.format)
     department = SubFactory(DepartmentFactory)
 
 
@@ -56,7 +56,7 @@ class GroupFactory(SQLAFactory):
     class Meta:
         model = Group
 
-    name = MimesisField('word')
+    name = Sequence('group{}'.format)
 
 
 @register
@@ -66,7 +66,7 @@ class UserFactory(SQLAFactory):
         model = User
 
     auth_type = 'system'
-    name = MimesisField('username', template='l_d')
+    name = Sequence('user{}'.format)
 
 
 register(UserFactory, 'user_two')
@@ -87,7 +87,7 @@ class PolicyFactory(SQLAFactory):
     class Meta:
         model = Policy
 
-    name = MimesisField('word')
+    name = Sequence('policy{}'.format)
     description = MimesisField('text', quantity=5)
     majority = FuzzyChoice(list(Majority))
     proposition_expiration = FuzzyInteger(0, 10000)
@@ -109,7 +109,7 @@ class PropositionTypeFactory(SQLAFactory):
     class Meta:
         model = PropositionType
 
-    name = MimesisField('word')
+    name = Sequence('proposition_type{}'.format)
     abbreviation = FuzzyText(length=3, chars=string.ascii_uppercase)
     description = MimesisField('text', quantity=5)
     policy = SubFactory(PolicyFactory)
@@ -121,7 +121,7 @@ class BallotFactory(SQLAFactory):
     class Meta:
         model = Ballot
 
-    name = MimesisField('word')
+    name = Sequence('ballot{}'.format)
     election = FuzzyChoice([0, 4, 8])
     voting_type = FuzzyChoice(list(VotingType))
     proposition_type = SubFactory(PropositionTypeFactory)
@@ -134,7 +134,7 @@ class TagFactory(SQLAFactory):
     class Meta:
         model = Tag
 
-    name = MimesisField('word')
+    name = Sequence('tag{}'.format)
 
 
 @register
@@ -197,7 +197,7 @@ class VotingPhaseTypeFactory(SQLAFactory):
     class Meta:
         model = VotingPhaseType
 
-    name = MimesisField('word')
+    name = Sequence('voting_phase_type{}'.format)
     abbreviation = MimesisField('word')
     secret_voting_possible = True
     voting_type = FuzzyChoice(list(VotingType))
@@ -210,7 +210,7 @@ class VotingPhaseFactory(SQLAFactory):
         model = VotingPhase
 
     title = MimesisField('title')
-    name = MimesisField('word')
+    name = Sequence('voting_phase{}'.format)
     # when setting the target date, another status than PREPARING must be set!
     target = None
     status = VotingStatus.PREPARING
@@ -226,7 +226,7 @@ class PageFactory(SQLAFactory):
     class Meta:
         model = Page
 
-    name = MimesisField('name')
+    name = Sequence('page{}'.format)
     lang = 'en'
     title = MimesisField('title')
     text = MimesisField('text')
@@ -239,7 +239,7 @@ class CustomizableTextFactory(SQLAFactory):
     class Meta:
         model = CustomizableText
 
-    name = MimesisField('name')
+    name = Sequence('customizable_text{}'.format)
     lang = 'en'
     text = MimesisField('text')
     permissions = '{}'
@@ -251,7 +251,7 @@ class DocumentFactory(SQLAFactory):
     class Meta:
         model = Document
 
-    name = MimesisField('name')
+    name = Sequence('document{}'.format)
     lang = 'en'
     area = SubFactory(SubjectAreaFactory)
     proposition_type = SubFactory(PropositionTypeFactory)

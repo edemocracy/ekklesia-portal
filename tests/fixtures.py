@@ -50,12 +50,14 @@ def req(app):
 
 @fixture
 def db_session(app):
-    return Session()
+    session = Session()
+    yield session
+    session.rollback()
 
 
 @fixture
-def db_query(app):
-    return Session().query
+def db_query(db_session):
+    return db_session.query
 
 
 @fixture
