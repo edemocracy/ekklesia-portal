@@ -45,6 +45,7 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
 
     auth_data = vvvote_schema.OAuthConfig(
         eligible=module_config["must_be_eligible"],
+        external_voting=True,
         verified=module_config["must_be_verified"],
         nested_groups=[module_config["required_role"]],
         serverId=module_config["auth_server_id"],

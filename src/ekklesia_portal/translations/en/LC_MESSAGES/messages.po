@@ -1075,7 +1075,7 @@ msgstr "External Voting Data"
 
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:157
 msgid "voting_created_msg"
-msgstr "Created voting in voting module %(voting_module)."
+msgstr "Created voting in voting module %(voting_module)s."
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:3
