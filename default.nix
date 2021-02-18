@@ -6,17 +6,17 @@ let
   deps = import ./nix/deps.nix { inherit sources; };
   inherit (deps) babel pkgs mkPoetryApplication python pyProject;
   inherit (deps.pyProject) version;
-
-in mkPoetryApplication {
-  doCheck = false;
-  projectDir = ./.;
-  inherit python version;
   src = pkgs.nix-gitignore.gitignoreSource
     [ "cookiecutter" ]
     ./.;
 
+in mkPoetryApplication {
+  doCheck = false;
+  projectDir = ./.;
+  inherit python src version;
+
   passthru = {
-    inherit deps version;
+    inherit deps src version;
   };
 
   postInstall = ''

@@ -82,6 +82,7 @@ in {
       serviceConfig = {
         User = cfg.user;
         Group = cfg.group;
+        ExecStartPre = "${serveApp}/bin/migrate";
         ExecStart = "${serveApp}/bin/run";
         X-ConfigFile = appConfigFile;
       };

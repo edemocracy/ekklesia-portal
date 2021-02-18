@@ -27,7 +27,7 @@ let
 in rec {
   inherit pkgs bootstrap javascriptDeps python;
   inherit (pkgs) lib sassc glibcLocales;
-  inherit (python.pkgs) buildPythonApplication gunicorn;
+  inherit (python.pkgs) buildPythonApplication alembic gunicorn;
 
   mkPoetryApplication = { ... }@args:
     poetry2nix.mkPoetryApplication (args // {

@@ -6,8 +6,8 @@
 }:
 let
   ekklesia-portal = import ../. { inherit sources; };
-  inherit (ekklesia-portal) dependencyEnv deps;
-  inherit (deps) pkgs gunicorn lib;
+  inherit (ekklesia-portal) dependencyEnv deps src;
+  inherit (deps) pkgs alembic gunicorn lib;
   pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";
 
   gunicornConf = pkgs.writeText
@@ -24,7 +24,14 @@ let
       "ekklesia_portal.app:make_wsgi_app(settings_filepath='$app_config')"
   '';
 
+  runMigrations = pkgs.writeShellScriptBin "migrate" ''
+    export EKKLESIA_PORTAL_CONFIG=${if appConfigFile == null then "`pwd`/$1" else appConfigFile}
+    export PYTHONPATH=${pythonpath}
+    cd ${src}
+    ${alembic}/bin/alembic upgrade head
+  '';
+
 in pkgs.buildEnv {
   name = "ekklesia-portal-serve-app";
-  paths = [ runGunicorn ];
+  paths = [ runGunicorn runMigrations ];
 }
