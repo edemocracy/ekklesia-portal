@@ -2,10 +2,6 @@ from ekklesia_portal.datamodel import User
 from ekklesia_portal.lib.password import password_context
 
 
-class UserNotFound(ValueError):
-    pass
-
-
 class Login:
 
     def __init__(self, request=None, username=None, password=None, back_url=None, from_redirect=None, internal_login=None):
