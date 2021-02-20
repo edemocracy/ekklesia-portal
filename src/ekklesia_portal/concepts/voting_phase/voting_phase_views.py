@@ -7,7 +7,7 @@ from eliot import start_action
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import VotingPhase, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus
-from ekklesia_portal.lib.identity import identity_manages_department
+from ekklesia_portal.lib.identity import identity_manages_department, identity_manages_any_department
 from ekklesia_portal.lib.voting import InvalidVotingModule, prepare_module_config
 from ekklesia_portal.lib.vvvote import create_election_in_vvvote
 from ekklesia_portal.lib.vvvote.election_config import voting_phase_to_vvvote_election_config
@@ -21,7 +21,7 @@ from .voting_phase_permissions import ManageVotingPermission
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
 def voting_phases_create_permission(identity, model, permission):
-    return identity_manages_department(identity, model.department)
+    return identity_manages_any_department(identity)
 
 
 @App.permission_rule(model=VotingPhase, permission=EditPermission)
@@ -132,7 +132,7 @@ def spickerrr(self, request):
     return [serialize_proposition(p) for p in propositions]
 
 
-@App.html(model=VotingPhase, name="create_voting", request_method="POST")
+@App.html(model=VotingPhase, name="create_voting", request_method="POST", permission=EditPermission)
 def create_voting(self, request):
     if self.status != VotingStatus.SCHEDULED:
         raise HTTPBadRequest("Voting phase must be in scheduled state")

@@ -153,17 +153,17 @@ if __name__ == "__main__":
     u2_profile = UserProfile(sub='sub_egon', eligible=True, verified=True, profile='ich halt')
     u2_oauth_token = OAuthToken(provider='ekklesia', token={})
     u2 = User(name="egon", auth_type="oauth", profile=u2_profile, oauth_token=u2_oauth_token)
-    u3_profile = UserProfile(sub='sub_olaf', eligible=False, verified=True, profile='## Markdown\n\nText')
-    u3_oauth_token = OAuthToken(provider='ekklesia', token={})
-    u3 = User(name="olaf", auth_type="oauth", profile=u3_profile, oauth_token=u3_oauth_token)
-    ug1.members.extend([u1, u2, u3])
+    depadmin_profile = UserProfile(sub='sub_olaf', eligible=False, verified=True, profile='## Markdown\n\nText')
+    depadmin_oauth_token = OAuthToken(provider='ekklesia', token={})
+    depadmin = User(name="depadmin", auth_type="oauth", profile=depadmin_profile, oauth_token=depadmin_oauth_token)
+    ug1.members.extend([u1, u2, depadmin])
     s.add(DepartmentMember(department=department_ppd, member=u1))
     s.add(DepartmentMember(department=department_pps, member=u1))
-    s.add(DepartmentMember(department=department_ppd, member=u3))
+    s.add(DepartmentMember(department=department_ppd, member=depadmin, is_admin=True))
     u2.departments.extend([department_zs])
     u1.areas.extend([subject_area_ppd_allg, subject_area_pps_in])
     u2.areas.extend([subject_area_zs_in])
-    u3.areas.extend([subject_area_ppd_allg])
+    depadmin.areas.extend([subject_area_ppd_allg])
 
     voting_phase_type_ur = VotingPhaseType(
         name='Online-Urabstimmung', voting_type=VotingType.ONLINE, abbreviation='UR', secret_voting_possible=False

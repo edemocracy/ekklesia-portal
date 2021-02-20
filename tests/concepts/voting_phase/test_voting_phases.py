@@ -12,6 +12,9 @@ def test_create_voting_phase(client, db_query, voting_phase_type, voting_phase_f
 
     res = client.get('/v/+new')
     form = assert_deform(res)
+    department_options = form.fields['department_id'][0].options
+    assert len(department_options) == 1, 'should have exactly one department option'
+    assert department_options[0][2] == department.name
 
     fill_form(form, data, ['title', 'name', 'secret', 'description'])
     form.set('date', data['target'], index=0)
