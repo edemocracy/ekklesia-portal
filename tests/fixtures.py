@@ -1,7 +1,5 @@
 import logging
-import os.path
 from pathlib import Path
-
 from ekklesia_common.database import Session
 from ekklesia_common.request import EkklesiaRequest
 from morepath.request import BaseRequest
@@ -9,7 +7,7 @@ from munch import Munch
 from pytest import fixture
 from webtest import TestApp as Client
 
-from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.app import make_wsgi_app, App
 from ekklesia_portal.datamodel import DepartmentMember, Proposition, User
 from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.identity_policy import UserIdentity
@@ -24,13 +22,45 @@ def fixture_by_name(request):
 
 
 @fixture(scope="session")
-def config_filepath():
-    return ROOT_DIR / "testconfig.yml"
+def settings():
+    return {
+        'database': {
+            'uri': 'postgresql+psycopg2://ekklesia:e@127.0.0.1/ekklesia_portal'
+        },
+        'test_section': {
+            'test_setting': 'test'
+        },
+        'common': {
+            'instance_name': 'test',
+            'fail_on_form_validation_error': False
+        },
+        'browser_session': {
+            'secret_key': 'test',
+            'cookie_secure': False
+        },
+        'ekklesia_auth': {
+            'client_id': 'client_id_test',
+            'client_secret': 'test_secret',
+            'authorization_url': 'http://id.invalid/openid-connect/auth',
+            'token_url': 'http://id.invalid/openid-connect/token',
+            'userinfo_url': 'http://id.invalid/openid-connect/userinfo'
+        },
+        'importer': {
+            'test': {
+                'schema': 'test_source',
+                'base_url': 'test'
+            }
+        },
+        'share': {
+            'use_url_shortener': False
+        }
+    }
 
 
 @fixture(scope="session")
-def app(config_filepath):
-    app = make_wsgi_app(config_filepath, testing=True)
+def app(settings):
+    App.init_settings(settings)
+    app = make_wsgi_app(testing=True)
     return app
 
 

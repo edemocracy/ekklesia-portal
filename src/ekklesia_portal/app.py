@@ -10,7 +10,7 @@ from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
 from ekklesia_common.lid import LID
-from eliot import log_call, start_action, Message
+from eliot import log_call, start_action, log_message
 
 import ekklesia_portal
 from ekklesia_portal.datamodel import Department, User, UserProfile
@@ -211,9 +211,13 @@ def make_wsgi_app(settings_filepath=None, testing=False):
         morepath.autoscan()
         morepath.scan(ekklesia_portal)
 
-    with start_action(action_type='settings'):
-        settings = get_app_settings(settings_filepath)
-        App.init_settings(settings)
+    if testing:
+        log_message(message_type="testing", msg="running in testing mode, not loading any config from file")
+    else:
+        with start_action(action_type='settings'):
+            settings = get_app_settings(settings_filepath)
+            App._loaded_settings = settings
+            App.init_settings(settings)
 
     with start_action(action_type='make_app'):
         App.commit()
@@ -222,7 +226,7 @@ def make_wsgi_app(settings_filepath=None, testing=False):
     database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
-    Message.log(
+    log_message(
         message_type="environment",
         env=dict(os.environ),
         encoding=locale.getpreferredencoding(),
