@@ -90,7 +90,13 @@ in rec {
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools = [
+  shellTools = let
+    ekklesiaPortalConsole = pkgs.writeScriptBin "ekklesia-portal-console" ''
+      export PYTHONPATH=$PYTHONPATH:${pythonDev}/${pythonDev.sitePackages}
+      ${python.pkgs.ipython}/bin/ipython -i consoleenv.py "$@"
+    '';
+  in [
+    ekklesiaPortalConsole
     niv
     pkgs.entr
     pkgs.jq
@@ -98,6 +104,7 @@ in rec {
     pkgs.sassc
     pkgs.zsh
     poetryPackagesByName.eliot-tree
+    poetryPackagesByName.pdbpp
     poetryWrapper
     python.pkgs.gunicorn
   ];
@@ -106,8 +113,7 @@ in rec {
   # Needed for a development nix shell
   shellInputs =
     linters ++
-    shellTools ++
-    debugLibsAndTools ++ [
+    shellTools ++ [
       pythonTest
       bootstrap
     ];
