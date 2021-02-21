@@ -3,7 +3,7 @@ from ekklesia_portal.datamodel import User
 
 
 def test_token(client, user_login_token_factory, page_factory):
-    page = page_factory(name='content_token_login', lang='de', text='test text')
+    page = page_factory(name='content_token_login', lang='en', text='test text')
     token = user_login_token_factory()
     res = client.get("/token/" + token.token)
     content = res.body.decode()

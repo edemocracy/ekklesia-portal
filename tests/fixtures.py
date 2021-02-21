@@ -34,6 +34,10 @@ def settings(db_uri):
         'database': {
             'uri': db_uri
         },
+        'app': {
+            'default_language': 'en',
+            'languages': ['en', 'de']
+        },
         'test_section': {
             'test_setting': 'test'
         },
