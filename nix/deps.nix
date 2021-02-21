@@ -11,7 +11,7 @@ let
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
-  inherit ((import "${sources_.poetry2nix}/overlay.nix") pkgs pkgs) poetry2nix poetry;
+  poetry2nix = pkgs.callPackage sources_.poetry2nix {};
   python = pkgs.python38;
 
   poetryWrapper = with python.pkgs; pkgs.writeScriptBin "poetry" ''
@@ -22,12 +22,19 @@ let
 
   overrides = poetry2nix.overrides.withDefaults (
     self: super: {
+
+      munch = super.munch.overridePythonAttrs (
+        old: {
+          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.pbr ];
+        }
+      );
+
   });
 
 in rec {
   inherit pkgs bootstrap javascriptDeps python;
   inherit (pkgs) lib sassc glibcLocales;
-  inherit (python.pkgs) buildPythonApplication alembic gunicorn;
+  inherit (python.pkgs) buildPythonApplication gunicorn;
 
   mkPoetryApplication = { ... }@args:
     poetry2nix.mkPoetryApplication (args // {
@@ -46,7 +53,7 @@ in rec {
         (p: { name = p.pname; value = p; })
         poetryPackages);
 
-  inherit (poetryPackagesByName) deform babel;
+  inherit (poetryPackagesByName) alembic deform babel;
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with python.pkgs; [

@@ -27,12 +27,12 @@
         "branch": "master",
         "description": "Convert poetry projects to nix automagically [maintainer=@adisbladis] ",
         "homepage": "",
-        "owner": "dpausp",
+        "owner": "nix-community",
         "repo": "poetry2nix",
-        "rev": "af7827be1a61a2191a3a913b88e6f423a04a0596",
-        "sha256": "0yv9wlmdjl1ik9hy5cgarq3v96cxbch36smwy2r0brqwlg7zq990",
+        "rev": "7e29a62faca59b204c29d0acae9eeddc53e46938",
+        "sha256": "0xash9h04nxi35x9s3p3wfgz270y2zrpd9mkfb93sm24ci0aan49",
         "type": "tarball",
-        "url": "https://github.com/dpausp/poetry2nix/archive/af7827be1a61a2191a3a913b88e6f423a04a0596.tar.gz",
+        "url": "https://github.com/nix-community/poetry2nix/archive/7e29a62faca59b204c29d0acae9eeddc53e46938.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

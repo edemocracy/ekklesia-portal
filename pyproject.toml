@@ -25,6 +25,10 @@ ekklesia-common = {git = "https://github.com/Piratenpartei/ekklesia-common", rev
 base32-crockford = "^0.3.0"
 py-gfm = "0.1.4"
 markdown = "2.6.11"
+babel = "^2.9.0"
+deform = "^2.0.15"
+eliot-tree = "^19.0.1"
+pdbpp = "^0.10.2"
 
 
 [tool.poetry.dev-dependencies]
