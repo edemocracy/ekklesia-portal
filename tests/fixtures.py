@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 from ekklesia_common.database import Session
 from ekklesia_common.request import EkklesiaRequest
@@ -22,10 +23,16 @@ def fixture_by_name(request):
 
 
 @fixture(scope="session")
-def settings():
+def db_uri():
+    return os.getenv('EKKLESIA_PORTAL_TEST_DB_URL',
+        'postgresql+psycopg2:///ekklesia_portal?host=/tmp')
+
+
+@fixture(scope="session")
+def settings(db_uri):
     return {
         'database': {
-            'uri': 'postgresql+psycopg2://ekklesia:e@127.0.0.1/ekklesia_portal'
+            'uri': db_uri
         },
         'test_section': {
             'test_setting': 'test'
