@@ -18,6 +18,7 @@ logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
+parser.add_argument("--doit", action="store_true", default=False)
 
 DOCUMENT_WP = '''# Wahlprogramm
 
@@ -104,8 +105,9 @@ if __name__ == "__main__":
 
     sqlalchemy.orm.configure_mappers()
 
-    print(80 * "=")
-    input("press Enter to drop and create the database...")
+    if not args.doit:
+        print(80 * "=")
+        input("press Enter to drop and create the database...")
 
     db_metadata.drop_all()
     connection.execute("DROP TABLE IF EXISTS alembic_version")
