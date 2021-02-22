@@ -1,5 +1,4 @@
 from assert_helpers import assert_difference, assert_no_difference
-from ekklesia_portal.concepts.argument_relation.argument_relation_views import argument_relation
 from ekklesia_portal.datamodel import ArgumentRelation, ArgumentVote
 from ekklesia_portal.enums import ArgumentType
 from webtest_helpers import assert_deform
@@ -8,23 +7,22 @@ from webtest_helpers import assert_deform
 def test_argumentrelation(client, argument_relation):
     proposition = argument_relation.proposition
     argument = argument_relation.argument
-    argument.ne = "ecneg ncn"
     res = client.get(f"/p/{proposition.id}/a/{argument.id}")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert 'argument_vote_btn' not in content, 'vote button not present'
-    assert proposition.title in content, 'proposition.title'
-    assert argument.title in content, 'argument title'
-    assert argument.abstract in content, 'argument abstract'
-    assert argument.details in content, 'argument details'
+    assert 'argument_vote_btn' not in res, 'vote button not present'
+    html = res.html
+    proposition_title_link = html.find(class_="proposition_title").find("a")
+    assert proposition_title_link.text == proposition.title
+    assert str(proposition.id) in proposition_title_link["href"]
+    assert html.find(class_="argument_title").find("a").text == argument.title
+    assert html.find(class_="argument_abstract").text == argument.abstract
+    assert html.find(class_="argument_details_extended").text == argument.details
 
 
 def test_argumentrelation_with_logged_in_user(client, argument_relation, logged_in_user):
     proposition = argument_relation.proposition
     argument = argument_relation.argument
     res = client.get(f"/p/{proposition.id}/a/{argument.id}")
-    content = res.body.decode()
-    assert 'argument_vote_btn' in content, 'vote button present'
+    assert 'argument_vote_btn' in res, 'vote button present'
 
 
 def test_new(client, logged_in_user, proposition):

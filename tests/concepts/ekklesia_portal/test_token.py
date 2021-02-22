@@ -6,9 +6,8 @@ def test_token(client, user_login_token_factory, page_factory):
     page = page_factory(name='content_token_login', lang='en', text='test text')
     token = user_login_token_factory()
     res = client.get("/token/" + token.token)
-    content = res.body.decode()
-    assert "tos_consent" in content
-    assert page.text in content
+    assert "tos_consent" in res
+    assert page.text in res
 
 
 def test_token_wrong_token(db_query, client):

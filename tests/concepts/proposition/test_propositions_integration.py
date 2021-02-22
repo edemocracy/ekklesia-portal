@@ -19,10 +19,8 @@ def test_user_creates_proposition(client, logged_in_user_with_departments):
     # user should be redirected and see new proposition
     res = form.submit(status=302)
     res = res.follow()
-    content = res.body.decode()
-    assert 'test content' in content
+    assert 'test content' in res
 
     # user should see the proposition on the index page
     res = client.get('/p')
-    content = res.body.decode()
-    assert 'test title' in content
+    assert 'test title' in res

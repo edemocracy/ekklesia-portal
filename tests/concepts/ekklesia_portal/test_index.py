@@ -3,9 +3,7 @@ from tests.helpers.webtest_helpers import get_session
 
 def test_index(client):
     res = client.get("/")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert '<a href="http://localhost/p' in content
+    assert '<a href="http://localhost/p' in res
 
 
 def test_change_language(app, client):

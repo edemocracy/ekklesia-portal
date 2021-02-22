@@ -9,10 +9,9 @@ from webtest_helpers import assert_deform, fill_form
 def test_customizable_text(client, db_query, customizable_text_factory):
     customizable_text = customizable_text_factory()
     res = client.get(f'/customizable_texts/{customizable_text.name}/{customizable_text.lang}')
-    content = res.body.decode()
 
     expected = md.convert(customizable_text.text)
-    assert expected in content
+    assert expected in res
 
 
 def test_create_customizable_text(client, db_query, customizable_text_factory, logged_in_global_admin):

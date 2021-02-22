@@ -1,5 +1,7 @@
 import random
 import string
+
+from sqlalchemy.util.langhelpers import counter
 from ekklesia_portal.concepts.proposition.proposition_helper import proposition_slug
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus
 
@@ -13,88 +15,85 @@ from webtest_helpers import assert_deform
 def test_index(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get("/p")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert 'Ein Titel' in content
+    assert 'Ein Titel' in res
 
 
 def test_index_sort_by_supporter_count(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get("/p?sort=supporter")
-    content = res.body.decode()
-    assert 'Ein Titel' in content
+    assert 'Ein Titel' in res
 
 
 def test_index_search(client):
     # german search, should find singular "volltextsuche"
     res = client.get('/p?search=volltextsuchen')
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert 'Volltextsuche' in content
-    assert 'Ein Titel' not in content
+    assert 'Volltextsuche' in res
+    assert 'Ein Titel' not in res
 
 
 def test_index_tag(db_query, client):
     """XXX: depends on content from create_test_db.py"""
     tag = db_query(Tag).filter_by(name='Tag1').one()
     res = client.get('/p?tags=Tag1')
-    content = res.body.decode()
-    assert tag.name in content
-    assert 'Ein Titel' in content
+    assert tag.name in res
+    assert 'Ein Titel' in res
 
 
 def test_index_status(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?status=abandoned')
-    content = res.body.decode()
-    assert 'Fallengelassener Antrag' in content
-    assert 'Entstehender Antrag' not in content
+    assert 'Fallengelassener Antrag' in res
+    assert 'Entstehender Antrag' not in res
 
 
 def test_index_phase(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?phase=bpt192')
-    content = res.body.decode()
-    assert 'Angenommener Antrag' in content
-    assert 'Abgelehnter Antrag' in content
-    assert 'Entstehender Antrag' not in content
+    assert 'Angenommener Antrag' in res
+    assert 'Abgelehnter Antrag' in res
+    assert 'Entstehender Antrag' not in res
 
 
 def test_index_type(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?type=PP')
-    content = res.body.decode()
-    assert 'Angenommener Antrag' in content
-    assert 'Abgelehnter Antrag' in content
+    assert 'Angenommener Antrag' in res
+    assert 'Abgelehnter Antrag' in res
 
 
 def test_index_search_status(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?search=PP001&status=scheduled')
-    content = res.body.decode()
-    assert 'Ein Titel' in content
-    assert 'Antrag mit nicht unterstütztem Ergebnisformat' not in content
+    assert 'Ein Titel' in res
+    assert 'Antrag mit nicht unterstütztem Ergebnisformat' not in res
 
 
 def test_index_department_subject_area(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?department=Piratenpartei Schweiz&subject_area=Innerparteiliches')
-    content = res.body.decode()
-    assert 'Ein Titel' in content
-    assert 'Angenommener Antrag' not in content
+    assert 'Ein Titel' in res
+    assert 'Angenommener Antrag' not in res
+
+
+def assert_proposition_in_html(proposition, html):
+    proposition_link = html.find(class_="proposition_title").find("a")
+    assert proposition_link.text == proposition.title
+    assert str(proposition.id) in proposition_link["href"]
+    proposition_details_text = html.find(class_="proposition_details").text
+    assert proposition.content in proposition_details_text
+    assert "Motivation" in proposition_details_text
+    assert proposition.motivation in proposition_details_text
 
 
 def test_show(client, proposition):
     res = client.get(f"/p/{proposition.id}/{proposition_slug(proposition)}")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert proposition.title in content
-    assert proposition.content in content
+    assert_proposition_in_html(proposition, res.html)
 
 
 def test_show_legacy_id(client, proposition_factory):
-    proposition_factory(id=1, title="test")
-    client.get("/p/1/test")
+    proposition = proposition_factory(id=1, title="test")
+    res = client.get("/p/1/test")
+    assert_proposition_in_html(proposition, res.html)
 
 
 def test_show_associated(client, proposition_factory):
@@ -102,11 +101,17 @@ def test_show_associated(client, proposition_factory):
     counter_proposition = proposition_factory(title="alternative to test", replaces=proposition)
     change_proposition = proposition_factory(title="change test", modifies=proposition)
     res = client.get(f"/p/{proposition.id}/test-proposition/associated")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert counter_proposition.title in content
-    assert change_proposition.title in content
-    assert proposition.title in content
+    html = res.html
+
+    change_title = html.select_one(".proposition_col.change .proposition_small_title a")
+    assert change_title.text == change_proposition.title
+    assert str(change_proposition.id) in change_title["href"]
+
+    counter_title = html.select_one(".proposition_col.counter .proposition_small_title a")
+    assert counter_title.text == counter_proposition.title
+    assert str(counter_proposition.id) in counter_title["href"]
+
+    assert_proposition_in_html(proposition, html)
 
 
 def test_new_with_data_import(client, logged_in_user):

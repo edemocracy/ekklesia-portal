@@ -9,10 +9,9 @@ from webtest_helpers import assert_deform, fill_form
 def test_page(client, db_query, page_factory):
     page = page_factory()
     res = client.get(f'/pages/{page.name}/{page.lang}')
-    content = res.body.decode()
 
     expected = md.convert(page.text)
-    assert expected in content
+    assert expected in res
 
 
 def test_create_page(client, db_query, page_factory, logged_in_global_admin):

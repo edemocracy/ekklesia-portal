@@ -7,10 +7,8 @@ from tests.helpers.webtest_helpers import get_session
 
 def test_show_login(client):
     res = client.get("/login?internal_login=1")
-    content = res.body.decode()
-    assert content.startswith("<!DOCTYPE html5>")
-    assert "Username" in content
-    assert "username" in content
+    assert "Username" in res
+    assert "username" in res
 
 
 def test_submit_login(app, client):
