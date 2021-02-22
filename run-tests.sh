@@ -10,5 +10,6 @@ pg_ctl -D $tmpdir init
 pg_ctl start -D $tmpdir -o "-k /tmp -h ''"
 createdb -h /tmp ekklesia_portal
 psql -h /tmp ekklesia_portal -f tests/test_db.sql
+ipython makebabel.ipy compile
 pytest
 wait
