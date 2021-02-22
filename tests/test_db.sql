@@ -24,7 +24,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
@@ -38,14 +38,14 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
 --
--- Name: argumenttype; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: argumenttype; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.argumenttype AS ENUM (
@@ -54,10 +54,8 @@ CREATE TYPE public.argumenttype AS ENUM (
 );
 
 
-ALTER TYPE public.argumenttype OWNER TO ekklesia;
-
 --
--- Name: majority; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: majority; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.majority AS ENUM (
@@ -66,10 +64,8 @@ CREATE TYPE public.majority AS ENUM (
 );
 
 
-ALTER TYPE public.majority OWNER TO ekklesia;
-
 --
--- Name: propositionstatus; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: propositionstatus; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.propositionstatus AS ENUM (
@@ -84,10 +80,8 @@ CREATE TYPE public.propositionstatus AS ENUM (
 );
 
 
-ALTER TYPE public.propositionstatus OWNER TO ekklesia;
-
 --
--- Name: propositionvisibility; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: propositionvisibility; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.propositionvisibility AS ENUM (
@@ -97,10 +91,8 @@ CREATE TYPE public.propositionvisibility AS ENUM (
 );
 
 
-ALTER TYPE public.propositionvisibility OWNER TO ekklesia;
-
 --
--- Name: secretvoterstatus; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: secretvoterstatus; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.secretvoterstatus AS ENUM (
@@ -110,10 +102,8 @@ CREATE TYPE public.secretvoterstatus AS ENUM (
 );
 
 
-ALTER TYPE public.secretvoterstatus OWNER TO ekklesia;
-
 --
--- Name: supporterstatus; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: supporterstatus; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.supporterstatus AS ENUM (
@@ -123,10 +113,8 @@ CREATE TYPE public.supporterstatus AS ENUM (
 );
 
 
-ALTER TYPE public.supporterstatus OWNER TO ekklesia;
-
 --
--- Name: tsq_state; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: tsq_state; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.tsq_state AS (
@@ -141,10 +129,8 @@ CREATE TYPE public.tsq_state AS (
 );
 
 
-ALTER TYPE public.tsq_state OWNER TO ekklesia;
-
 --
--- Name: votebyuser; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: votebyuser; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.votebyuser AS ENUM (
@@ -155,10 +141,8 @@ CREATE TYPE public.votebyuser AS ENUM (
 );
 
 
-ALTER TYPE public.votebyuser OWNER TO ekklesia;
-
 --
--- Name: votingstatus; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: votingstatus; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.votingstatus AS ENUM (
@@ -170,10 +154,8 @@ CREATE TYPE public.votingstatus AS ENUM (
 );
 
 
-ALTER TYPE public.votingstatus OWNER TO ekklesia;
-
 --
--- Name: votingsystem; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: votingsystem; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.votingsystem AS ENUM (
@@ -181,10 +163,8 @@ CREATE TYPE public.votingsystem AS ENUM (
 );
 
 
-ALTER TYPE public.votingsystem OWNER TO ekklesia;
-
 --
--- Name: votingtype; Type: TYPE; Schema: public; Owner: ekklesia
+-- Name: votingtype; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.votingtype AS ENUM (
@@ -195,10 +175,8 @@ CREATE TYPE public.votingtype AS ENUM (
 );
 
 
-ALTER TYPE public.votingtype OWNER TO ekklesia;
-
 --
--- Name: array_nremove(anyarray, anyelement, integer); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: array_nremove(anyarray, anyelement, integer); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.array_nremove(anyarray, anyelement, integer) RETURNS anyarray
@@ -228,10 +206,8 @@ CREATE FUNCTION public.array_nremove(anyarray, anyelement, integer) RETURNS anya
 $_$;
 
 
-ALTER FUNCTION public.array_nremove(anyarray, anyelement, integer) OWNER TO ekklesia;
-
 --
--- Name: generate_ulid(); Type: FUNCTION; Schema: public; Owner: ts
+-- Name: generate_ulid(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.generate_ulid() RETURNS text
@@ -293,10 +269,8 @@ END
 $$;
 
 
-ALTER FUNCTION public.generate_ulid() OWNER TO ts;
-
 --
--- Name: generate_uuid0(); Type: FUNCTION; Schema: public; Owner: ts
+-- Name: generate_uuid0(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.generate_uuid0() RETURNS uuid
@@ -326,10 +300,8 @@ END
 $$;
 
 
-ALTER FUNCTION public.generate_uuid0() OWNER TO ts;
-
 --
--- Name: propositions_search_vector_update(); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: propositions_search_vector_update(); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.propositions_search_vector_update() RETURNS trigger
@@ -342,10 +314,8 @@ CREATE FUNCTION public.propositions_search_vector_update() RETURNS trigger
             $$;
 
 
-ALTER FUNCTION public.propositions_search_vector_update() OWNER TO ekklesia;
-
 --
--- Name: tsq_append_current_token(public.tsq_state); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_append_current_token(public.tsq_state); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_append_current_token(state public.tsq_state) RETURNS public.tsq_state
@@ -361,10 +331,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.tsq_append_current_token(state public.tsq_state) OWNER TO ekklesia;
-
 --
--- Name: tsq_parse(text); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_parse(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_parse(search_query text) RETURNS tsquery
@@ -374,10 +342,8 @@ CREATE FUNCTION public.tsq_parse(search_query text) RETURNS tsquery
 $$;
 
 
-ALTER FUNCTION public.tsq_parse(search_query text) OWNER TO ekklesia;
-
 --
--- Name: tsq_parse(regconfig, text); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_parse(regconfig, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_parse(config regconfig, search_query text) RETURNS tsquery
@@ -387,10 +353,8 @@ CREATE FUNCTION public.tsq_parse(config regconfig, search_query text) RETURNS ts
 $$;
 
 
-ALTER FUNCTION public.tsq_parse(config regconfig, search_query text) OWNER TO ekklesia;
-
 --
--- Name: tsq_parse(text, text); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_parse(text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_parse(config text, search_query text) RETURNS tsquery
@@ -400,10 +364,8 @@ CREATE FUNCTION public.tsq_parse(config text, search_query text) RETURNS tsquery
 $$;
 
 
-ALTER FUNCTION public.tsq_parse(config text, search_query text) OWNER TO ekklesia;
-
 --
--- Name: tsq_process_tokens(text[]); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_process_tokens(text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_process_tokens(tokens text[]) RETURNS tsquery
@@ -413,10 +375,8 @@ CREATE FUNCTION public.tsq_process_tokens(tokens text[]) RETURNS tsquery
 $$;
 
 
-ALTER FUNCTION public.tsq_process_tokens(tokens text[]) OWNER TO ekklesia;
-
 --
--- Name: tsq_process_tokens(regconfig, text[]); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_process_tokens(regconfig, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_process_tokens(config regconfig, tokens text[]) RETURNS tsquery
@@ -477,10 +437,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.tsq_process_tokens(config regconfig, tokens text[]) OWNER TO ekklesia;
-
 --
--- Name: tsq_tokenize(text); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_tokenize(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_tokenize(search_query text) RETURNS text[]
@@ -528,10 +486,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.tsq_tokenize(search_query text) OWNER TO ekklesia;
-
 --
--- Name: tsq_tokenize_character(public.tsq_state); Type: FUNCTION; Schema: public; Owner: ekklesia
+-- Name: tsq_tokenize_character(public.tsq_state); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.tsq_tokenize_character(state public.tsq_state) RETURNS public.tsq_state
@@ -579,10 +535,8 @@ END;
 $$;
 
 
-ALTER FUNCTION public.tsq_tokenize_character(state public.tsq_state) OWNER TO ekklesia;
-
 --
--- Name: uuid_timestamp(uuid); Type: FUNCTION; Schema: public; Owner: ts
+-- Name: uuid_timestamp(uuid); Type: FUNCTION; Schema: public; Owner: -
 --
 
 CREATE FUNCTION public.uuid_timestamp(uuid uuid) RETURNS timestamp with time zone
@@ -611,14 +565,12 @@ END
 $$;
 
 
-ALTER FUNCTION public.uuid_timestamp(uuid uuid) OWNER TO ts;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.alembic_version (
@@ -626,10 +578,8 @@ CREATE TABLE public.alembic_version (
 );
 
 
-ALTER TABLE public.alembic_version OWNER TO ekklesia;
-
 --
--- Name: areamembers; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: areamembers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.areamembers (
@@ -638,10 +588,8 @@ CREATE TABLE public.areamembers (
 );
 
 
-ALTER TABLE public.areamembers OWNER TO ekklesia;
-
 --
--- Name: argumentrelations; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: argumentrelations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.argumentrelations (
@@ -653,17 +601,15 @@ CREATE TABLE public.argumentrelations (
 );
 
 
-ALTER TABLE public.argumentrelations OWNER TO ekklesia;
-
 --
--- Name: COLUMN argumentrelations.parent_id; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN argumentrelations.parent_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.argumentrelations.parent_id IS 'only for inter-arguments';
 
 
 --
--- Name: argumentrelations_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: argumentrelations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.argumentrelations ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -677,7 +623,7 @@ ALTER TABLE public.argumentrelations ALTER COLUMN id ADD GENERATED BY DEFAULT AS
 
 
 --
--- Name: arguments; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: arguments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.arguments (
@@ -690,10 +636,8 @@ CREATE TABLE public.arguments (
 );
 
 
-ALTER TABLE public.arguments OWNER TO ekklesia;
-
 --
--- Name: arguments_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: arguments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.arguments ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -707,7 +651,7 @@ ALTER TABLE public.arguments ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTIT
 
 
 --
--- Name: argumentvotes; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: argumentvotes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.argumentvotes (
@@ -717,17 +661,15 @@ CREATE TABLE public.argumentvotes (
 );
 
 
-ALTER TABLE public.argumentvotes OWNER TO ekklesia;
-
 --
--- Name: COLUMN argumentvotes.weight; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN argumentvotes.weight; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.argumentvotes.weight IS 'if extendedDiscussion: --(-2),-,0,+,++(+2) , otherwise -1 and +1';
 
 
 --
--- Name: ballots; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: ballots; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.ballots (
@@ -742,10 +684,8 @@ CREATE TABLE public.ballots (
 );
 
 
-ALTER TABLE public.ballots OWNER TO ekklesia;
-
 --
--- Name: ballots_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: ballots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.ballots ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -759,7 +699,7 @@ ALTER TABLE public.ballots ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY 
 
 
 --
--- Name: changeset; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: changeset; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.changeset (
@@ -770,17 +710,15 @@ CREATE TABLE public.changeset (
 );
 
 
-ALTER TABLE public.changeset OWNER TO ekklesia;
-
 --
--- Name: COLUMN changeset.section; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN changeset.section; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.changeset.section IS 'Identifier for the section of the document that is changed.';
 
 
 --
--- Name: changeset_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: changeset_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.changeset ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -794,7 +732,7 @@ ALTER TABLE public.changeset ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTIT
 
 
 --
--- Name: customizable_text; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: customizable_text; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.customizable_text (
@@ -805,10 +743,8 @@ CREATE TABLE public.customizable_text (
 );
 
 
-ALTER TABLE public.customizable_text OWNER TO ekklesia;
-
 --
--- Name: departmentmembers; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: departmentmembers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.departmentmembers (
@@ -818,10 +754,8 @@ CREATE TABLE public.departmentmembers (
 );
 
 
-ALTER TABLE public.departmentmembers OWNER TO ekklesia;
-
 --
--- Name: departments; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: departments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.departments (
@@ -833,10 +767,8 @@ CREATE TABLE public.departments (
 );
 
 
-ALTER TABLE public.departments OWNER TO ekklesia;
-
 --
--- Name: departments_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: departments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.departments ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -850,7 +782,7 @@ ALTER TABLE public.departments ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENT
 
 
 --
--- Name: document; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: document; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.document (
@@ -864,10 +796,8 @@ CREATE TABLE public.document (
 );
 
 
-ALTER TABLE public.document OWNER TO ekklesia;
-
 --
--- Name: document_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: document_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.document ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -881,7 +811,7 @@ ALTER TABLE public.document ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY
 
 
 --
--- Name: groupmembers; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: groupmembers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.groupmembers (
@@ -890,10 +820,8 @@ CREATE TABLE public.groupmembers (
 );
 
 
-ALTER TABLE public.groupmembers OWNER TO ekklesia;
-
 --
--- Name: groups; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.groups (
@@ -903,10 +831,8 @@ CREATE TABLE public.groups (
 );
 
 
-ALTER TABLE public.groups OWNER TO ekklesia;
-
 --
--- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.groups ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -920,7 +846,7 @@ ALTER TABLE public.groups ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
 
 
 --
--- Name: oauth_token; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: oauth_token; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.oauth_token (
@@ -931,10 +857,8 @@ CREATE TABLE public.oauth_token (
 );
 
 
-ALTER TABLE public.oauth_token OWNER TO ekklesia;
-
 --
--- Name: page; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: page; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.page (
@@ -946,10 +870,8 @@ CREATE TABLE public.page (
 );
 
 
-ALTER TABLE public.page OWNER TO ekklesia;
-
 --
--- Name: policies; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: policies; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.policies (
@@ -971,80 +893,78 @@ CREATE TABLE public.policies (
 );
 
 
-ALTER TABLE public.policies OWNER TO ekklesia;
-
 --
--- Name: COLUMN policies.proposition_expiration; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.proposition_expiration; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.proposition_expiration IS 'days to reach the qualification (supporter) quorum';
 
 
 --
--- Name: COLUMN policies.qualification_minimum; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.qualification_minimum; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.qualification_minimum IS 'minimum for qualification quorum';
 
 
 --
--- Name: COLUMN policies.qualification_quorum; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.qualification_quorum; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.qualification_quorum IS 'fraction of area members that must support a proposition for reaching the qualified state';
 
 
 --
--- Name: COLUMN policies.range_max; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.range_max; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.range_max IS 'maximum score used when the number of options is at least `range_small_options`';
 
 
 --
--- Name: COLUMN policies.range_small_max; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.range_small_max; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.range_small_max IS 'maximum score used when the number of options is less than `range_small_options`';
 
 
 --
--- Name: COLUMN policies.range_small_options; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.range_small_options; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.range_small_options IS 'largest number of options for which `range_small_max` is used as maximum score';
 
 
 --
--- Name: COLUMN policies.secret_minimum; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.secret_minimum; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.secret_minimum IS 'minimum for secret voting quorum';
 
 
 --
--- Name: COLUMN policies.secret_quorum; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.secret_quorum; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.secret_quorum IS 'quorum to force a secret voting';
 
 
 --
--- Name: COLUMN policies.submitter_minimum; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.submitter_minimum; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.submitter_minimum IS 'minimum number of submitters for a proposition';
 
 
 --
--- Name: COLUMN policies.voting_duration; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN policies.voting_duration; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.policies.voting_duration IS 'voting duration in days; ends at target date';
 
 
 --
--- Name: policies_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: policies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.policies ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1058,7 +978,7 @@ ALTER TABLE public.policies ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY
 
 
 --
--- Name: postalvotes; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: postalvotes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.postalvotes (
@@ -1067,10 +987,8 @@ CREATE TABLE public.postalvotes (
 );
 
 
-ALTER TABLE public.postalvotes OWNER TO ekklesia;
-
 --
--- Name: propositionnotes; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: propositionnotes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.propositionnotes (
@@ -1081,10 +999,8 @@ CREATE TABLE public.propositionnotes (
 );
 
 
-ALTER TABLE public.propositionnotes OWNER TO ekklesia;
-
 --
--- Name: propositions; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: propositions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.propositions (
@@ -1112,38 +1028,36 @@ CREATE TABLE public.propositions (
 );
 
 
-ALTER TABLE public.propositions OWNER TO ekklesia;
-
 --
--- Name: COLUMN propositions.submitted_at; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN propositions.submitted_at; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.propositions.submitted_at IS 'optional, §3.1, for order of voting §5.3, date of change if original (§3.4)';
 
 
 --
--- Name: COLUMN propositions.qualified_at; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN propositions.qualified_at; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.propositions.qualified_at IS 'optional, when qualified';
 
 
 --
--- Name: COLUMN propositions.modifies_id; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN propositions.modifies_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.propositions.modifies_id IS 'only one level allowed';
 
 
 --
--- Name: COLUMN propositions.external_fields; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN propositions.external_fields; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.propositions.external_fields IS 'Fields that are imported from or exported to other systems but are not interpreted by the portal.';
 
 
 --
--- Name: propositiontags; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: propositiontags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.propositiontags (
@@ -1152,10 +1066,8 @@ CREATE TABLE public.propositiontags (
 );
 
 
-ALTER TABLE public.propositiontags OWNER TO ekklesia;
-
 --
--- Name: propositiontypes; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: propositiontypes; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.propositiontypes (
@@ -1167,10 +1079,8 @@ CREATE TABLE public.propositiontypes (
 );
 
 
-ALTER TABLE public.propositiontypes OWNER TO ekklesia;
-
 --
--- Name: propositiontypes_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: propositiontypes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.propositiontypes ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1184,7 +1094,7 @@ ALTER TABLE public.propositiontypes ALTER COLUMN id ADD GENERATED BY DEFAULT AS 
 
 
 --
--- Name: secretvoters; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: secretvoters; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.secretvoters (
@@ -1195,10 +1105,8 @@ CREATE TABLE public.secretvoters (
 );
 
 
-ALTER TABLE public.secretvoters OWNER TO ekklesia;
-
 --
--- Name: subjectareas; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: subjectareas; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.subjectareas (
@@ -1209,10 +1117,8 @@ CREATE TABLE public.subjectareas (
 );
 
 
-ALTER TABLE public.subjectareas OWNER TO ekklesia;
-
 --
--- Name: subjectareas_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: subjectareas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.subjectareas ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1226,7 +1132,7 @@ ALTER TABLE public.subjectareas ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDEN
 
 
 --
--- Name: supporters; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: supporters; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.supporters (
@@ -1238,24 +1144,22 @@ CREATE TABLE public.supporters (
 );
 
 
-ALTER TABLE public.supporters OWNER TO ekklesia;
-
 --
--- Name: COLUMN supporters.submitter; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN supporters.submitter; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.supporters.submitter IS 'submitter or regular';
 
 
 --
--- Name: COLUMN supporters.last_change; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN supporters.last_change; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.supporters.last_change IS 'last status change';
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.tags (
@@ -1266,17 +1170,15 @@ CREATE TABLE public.tags (
 );
 
 
-ALTER TABLE public.tags OWNER TO ekklesia;
-
 --
--- Name: COLUMN tags.mut_exclusive; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN tags.mut_exclusive; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.tags.mut_exclusive IS 'whether all children are mutually exclusive';
 
 
 --
--- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.tags ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1290,7 +1192,7 @@ ALTER TABLE public.tags ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
 
 
 --
--- Name: urns; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: urns; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.urns (
@@ -1303,10 +1205,8 @@ CREATE TABLE public.urns (
 );
 
 
-ALTER TABLE public.urns OWNER TO ekklesia;
-
 --
--- Name: urns_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: urns_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.urns ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1320,7 +1220,7 @@ ALTER TABLE public.urns ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
 
 
 --
--- Name: urnsupporters; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: urnsupporters; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.urnsupporters (
@@ -1331,10 +1231,8 @@ CREATE TABLE public.urnsupporters (
 );
 
 
-ALTER TABLE public.urnsupporters OWNER TO ekklesia;
-
 --
--- Name: user_login_token; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: user_login_token; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_login_token (
@@ -1344,10 +1242,8 @@ CREATE TABLE public.user_login_token (
 );
 
 
-ALTER TABLE public.user_login_token OWNER TO ekklesia;
-
 --
--- Name: userpassword; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: userpassword; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.userpassword (
@@ -1356,10 +1252,8 @@ CREATE TABLE public.userpassword (
 );
 
 
-ALTER TABLE public.userpassword OWNER TO ekklesia;
-
 --
--- Name: userprofiles; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: userprofiles; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.userprofiles (
@@ -1371,10 +1265,8 @@ CREATE TABLE public.userprofiles (
 );
 
 
-ALTER TABLE public.userprofiles OWNER TO ekklesia;
-
 --
--- Name: users; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users (
@@ -1389,38 +1281,36 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO ekklesia;
-
 --
--- Name: COLUMN users.email; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN users.email; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.users.email IS 'optional, for notifications, otherwise use user/mails/';
 
 
 --
--- Name: COLUMN users.auth_type; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN users.auth_type; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.users.auth_type IS 'deleted,system,token,virtual,oauth(has UserProfile)';
 
 
 --
--- Name: COLUMN users.last_active; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN users.last_active; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.users.last_active IS 'last relevant activity (to be considered active member §2.2)';
 
 
 --
--- Name: COLUMN users.can_login_until; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN users.can_login_until; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.users.can_login_until IS 'optional expiration datetime after which login is no longer possible';
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.users ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1434,7 +1324,7 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
 
 
 --
--- Name: voting_module; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: voting_module; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.voting_module (
@@ -1446,10 +1336,8 @@ CREATE TABLE public.voting_module (
 );
 
 
-ALTER TABLE public.voting_module OWNER TO ekklesia;
-
 --
--- Name: voting_module_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: voting_module_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.voting_module ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1463,7 +1351,7 @@ ALTER TABLE public.voting_module ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDE
 
 
 --
--- Name: voting_phase_types; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: voting_phase_types; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.voting_phase_types (
@@ -1475,24 +1363,22 @@ CREATE TABLE public.voting_phase_types (
 );
 
 
-ALTER TABLE public.voting_phase_types OWNER TO ekklesia;
-
 --
--- Name: COLUMN voting_phase_types.name; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN voting_phase_types.name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.voting_phase_types.name IS 'readable name';
 
 
 --
--- Name: COLUMN voting_phase_types.abbreviation; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN voting_phase_types.abbreviation; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.voting_phase_types.abbreviation IS 'abbreviated name';
 
 
 --
--- Name: voting_phase_types_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: voting_phase_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.voting_phase_types ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1506,7 +1392,7 @@ ALTER TABLE public.voting_phase_types ALTER COLUMN id ADD GENERATED BY DEFAULT A
 
 
 --
--- Name: votingphases; Type: TABLE; Schema: public; Owner: ekklesia
+-- Name: votingphases; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.votingphases (
@@ -1524,31 +1410,29 @@ CREATE TABLE public.votingphases (
 );
 
 
-ALTER TABLE public.votingphases OWNER TO ekklesia;
-
 --
--- Name: COLUMN votingphases.target; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN votingphases.target; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.votingphases.target IS 'constrained by §4.1';
 
 
 --
--- Name: COLUMN votingphases.secret; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN votingphases.secret; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.votingphases.secret IS 'whether any secret votes will take place (decision deadline §4.2)';
 
 
 --
--- Name: COLUMN votingphases.name; Type: COMMENT; Schema: public; Owner: ekklesia
+-- Name: COLUMN votingphases.name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN public.votingphases.name IS 'short, readable name which can be used for URLs';
 
 
 --
--- Name: votingphases_id_seq; Type: SEQUENCE; Schema: public; Owner: ekklesia
+-- Name: votingphases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.votingphases ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
@@ -1562,7 +1446,7 @@ ALTER TABLE public.votingphases ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDEN
 
 
 --
--- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
@@ -1571,7 +1455,7 @@ e2ce064655e8
 
 
 --
--- Data for Name: areamembers; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: areamembers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.areamembers (area_id, member_id) FROM stdin;
@@ -1583,7 +1467,7 @@ COPY public.areamembers (area_id, member_id) FROM stdin;
 
 
 --
--- Data for Name: argumentrelations; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: argumentrelations; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.argumentrelations (id, parent_id, argument_id, proposition_id, argument_type) FROM stdin;
@@ -1594,7 +1478,7 @@ COPY public.argumentrelations (id, parent_id, argument_id, proposition_id, argum
 
 
 --
--- Data for Name: arguments; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: arguments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.arguments (id, title, abstract, details, author_id, created_at) FROM stdin;
@@ -1605,7 +1489,7 @@ COPY public.arguments (id, title, abstract, details, author_id, created_at) FROM
 
 
 --
--- Data for Name: argumentvotes; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: argumentvotes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.argumentvotes (member_id, relation_id, weight) FROM stdin;
@@ -1616,7 +1500,7 @@ COPY public.argumentvotes (member_id, relation_id, weight) FROM stdin;
 
 
 --
--- Data for Name: ballots; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: ballots; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.ballots (id, name, election, voting_type, proposition_type_id, area_id, voting_id, result) FROM stdin;
@@ -1634,7 +1518,7 @@ COPY public.ballots (id, name, election, voting_type, proposition_type_id, area_
 
 
 --
--- Data for Name: changeset; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: changeset; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.changeset (id, document_id, proposition_id, section) FROM stdin;
@@ -1642,7 +1526,7 @@ COPY public.changeset (id, document_id, proposition_id, section) FROM stdin;
 
 
 --
--- Data for Name: customizable_text; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: customizable_text; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.customizable_text (name, lang, text, permissions) FROM stdin;
@@ -1654,7 +1538,7 @@ new_draft_explanation	de	\nNach dem Abschicken wird dein Antragsentwurf automati
 
 
 --
--- Data for Name: departmentmembers; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: departmentmembers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.departmentmembers (department_id, member_id, is_admin) FROM stdin;
@@ -1666,7 +1550,7 @@ COPY public.departmentmembers (department_id, member_id, is_admin) FROM stdin;
 
 
 --
--- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.departments (id, name, description, exporter_settings, voting_module_settings) FROM stdin;
@@ -1679,7 +1563,7 @@ COPY public.departments (id, name, description, exporter_settings, voting_module
 
 
 --
--- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.document (id, name, lang, area_id, text, description, proposition_type_id) FROM stdin;
@@ -1688,7 +1572,7 @@ COPY public.document (id, name, lang, area_id, text, description, proposition_ty
 
 
 --
--- Data for Name: groupmembers; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: groupmembers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.groupmembers (group_id, member_id) FROM stdin;
@@ -1700,7 +1584,7 @@ COPY public.groupmembers (group_id, member_id) FROM stdin;
 
 
 --
--- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.groups (id, name, is_admin_group) FROM stdin;
@@ -1710,7 +1594,7 @@ COPY public.groups (id, name, is_admin_group) FROM stdin;
 
 
 --
--- Data for Name: oauth_token; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: oauth_token; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.oauth_token (id, token, provider, created_at) FROM stdin;
@@ -1720,7 +1604,7 @@ COPY public.oauth_token (id, token, provider, created_at) FROM stdin;
 
 
 --
--- Data for Name: page; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: page; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.page (name, lang, title, text, permissions) FROM stdin;
@@ -1728,7 +1612,7 @@ COPY public.page (name, lang, title, text, permissions) FROM stdin;
 
 
 --
--- Data for Name: policies; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: policies; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.policies (id, name, description, majority, proposition_expiration, qualification_minimum, qualification_quorum, range_max, range_small_max, range_small_options, secret_minimum, secret_quorum, submitter_minimum, voting_duration, voting_system) FROM stdin;
@@ -1737,7 +1621,7 @@ COPY public.policies (id, name, description, majority, proposition_expiration, q
 
 
 --
--- Data for Name: postalvotes; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: postalvotes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.postalvotes (member_id, voting_id) FROM stdin;
@@ -1745,7 +1629,7 @@ COPY public.postalvotes (member_id, voting_id) FROM stdin;
 
 
 --
--- Data for Name: propositionnotes; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: propositionnotes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.propositionnotes (proposition_id, user_id, notes, vote) FROM stdin;
@@ -1753,7 +1637,7 @@ COPY public.propositionnotes (proposition_id, user_id, notes, vote) FROM stdin;
 
 
 --
--- Data for Name: propositions; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: propositions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.propositions (id, title, content, abstract, motivation, voting_identifier, created_at, submitted_at, qualified_at, status, submitter_invitation_key, author_id, ballot_id, modifies_id, replaces_id, external_discussion_url, external_fields, visibility, search_vector) FROM stdin;
@@ -1775,7 +1659,7 @@ COPY public.propositions (id, title, content, abstract, motivation, voting_ident
 
 
 --
--- Data for Name: propositiontags; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: propositiontags; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.propositiontags (proposition_id, tag_id) FROM stdin;
@@ -1793,7 +1677,7 @@ COPY public.propositiontags (proposition_id, tag_id) FROM stdin;
 
 
 --
--- Data for Name: propositiontypes; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: propositiontypes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.propositiontypes (id, name, abbreviation, description, policy_id) FROM stdin;
@@ -1803,7 +1687,7 @@ COPY public.propositiontypes (id, name, abbreviation, description, policy_id) FR
 
 
 --
--- Data for Name: secretvoters; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: secretvoters; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.secretvoters (member_id, ballot_id, status, last_change) FROM stdin;
@@ -1811,7 +1695,7 @@ COPY public.secretvoters (member_id, ballot_id, status, last_change) FROM stdin;
 
 
 --
--- Data for Name: subjectareas; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: subjectareas; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.subjectareas (id, name, description, department_id) FROM stdin;
@@ -1823,7 +1707,7 @@ COPY public.subjectareas (id, name, description, department_id) FROM stdin;
 
 
 --
--- Data for Name: supporters; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: supporters; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.supporters (member_id, proposition_id, submitter, status, last_change) FROM stdin;
@@ -1839,7 +1723,7 @@ COPY public.supporters (member_id, proposition_id, submitter, status, last_chang
 
 
 --
--- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.tags (id, name, parent_id, mut_exclusive) FROM stdin;
@@ -1850,7 +1734,7 @@ COPY public.tags (id, name, parent_id, mut_exclusive) FROM stdin;
 
 
 --
--- Data for Name: urns; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: urns; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.urns (id, voting_id, accepted, location, description, opening) FROM stdin;
@@ -1858,7 +1742,7 @@ COPY public.urns (id, voting_id, accepted, location, description, opening) FROM 
 
 
 --
--- Data for Name: urnsupporters; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: urnsupporters; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.urnsupporters (member_id, urn_id, type, voted) FROM stdin;
@@ -1866,7 +1750,7 @@ COPY public.urnsupporters (member_id, urn_id, type, voted) FROM stdin;
 
 
 --
--- Data for Name: user_login_token; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: user_login_token; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.user_login_token (token, user_id, valid_until) FROM stdin;
@@ -1874,7 +1758,7 @@ COPY public.user_login_token (token, user_id, valid_until) FROM stdin;
 
 
 --
--- Data for Name: userpassword; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: userpassword; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.userpassword (user_id, hashed_password) FROM stdin;
@@ -1884,7 +1768,7 @@ COPY public.userpassword (user_id, hashed_password) FROM stdin;
 
 
 --
--- Data for Name: userprofiles; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: userprofiles; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.userprofiles (id, sub, eligible, verified, profile) FROM stdin;
@@ -1894,7 +1778,7 @@ COPY public.userprofiles (id, sub, eligible, verified, profile) FROM stdin;
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.users (id, name, email, auth_type, joined, active, last_active, can_login_until) FROM stdin;
@@ -1906,7 +1790,7 @@ COPY public.users (id, name, email, auth_type, joined, active, last_active, can_
 
 
 --
--- Data for Name: voting_module; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: voting_module; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.voting_module (id, name, description, base_url, module_type) FROM stdin;
@@ -1914,7 +1798,7 @@ COPY public.voting_module (id, name, description, base_url, module_type) FROM st
 
 
 --
--- Data for Name: voting_phase_types; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: voting_phase_types; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.voting_phase_types (id, name, abbreviation, secret_voting_possible, voting_type) FROM stdin;
@@ -1924,7 +1808,7 @@ COPY public.voting_phase_types (id, name, abbreviation, secret_voting_possible, 
 
 
 --
--- Data for Name: votingphases; Type: TABLE DATA; Schema: public; Owner: ekklesia
+-- Data for Name: votingphases; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.votingphases (id, status, target, department_id, phase_type_id, secret, name, title, description, voting_module_data) FROM stdin;
@@ -1935,119 +1819,119 @@ COPY public.votingphases (id, status, target, department_id, phase_type_id, secr
 
 
 --
--- Name: argumentrelations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: argumentrelations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.argumentrelations_id_seq', 3, true);
 
 
 --
--- Name: arguments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: arguments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.arguments_id_seq', 3, true);
 
 
 --
--- Name: ballots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: ballots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.ballots_id_seq', 10, true);
 
 
 --
--- Name: changeset_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: changeset_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.changeset_id_seq', 1, false);
 
 
 --
--- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.departments_id_seq', 5, true);
 
 
 --
--- Name: document_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: document_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.document_id_seq', 1, true);
 
 
 --
--- Name: groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.groups_id_seq', 2, true);
 
 
 --
--- Name: policies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: policies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.policies_id_seq', 1, true);
 
 
 --
--- Name: propositiontypes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: propositiontypes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.propositiontypes_id_seq', 2, true);
 
 
 --
--- Name: subjectareas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: subjectareas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.subjectareas_id_seq', 4, true);
 
 
 --
--- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.tags_id_seq', 3, true);
 
 
 --
--- Name: urns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: urns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.urns_id_seq', 1, false);
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
 
 --
--- Name: voting_module_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: voting_module_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.voting_module_id_seq', 1, false);
 
 
 --
--- Name: voting_phase_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: voting_phase_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.voting_phase_types_id_seq', 2, true);
 
 
 --
--- Name: votingphases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ekklesia
+-- Name: votingphases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.votingphases_id_seq', 3, true);
 
 
 --
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.alembic_version
@@ -2055,7 +1939,7 @@ ALTER TABLE ONLY public.alembic_version
 
 
 --
--- Name: areamembers pk_areamembers; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: areamembers pk_areamembers; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.areamembers
@@ -2063,7 +1947,7 @@ ALTER TABLE ONLY public.areamembers
 
 
 --
--- Name: argumentrelations pk_argumentrelations; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentrelations pk_argumentrelations; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentrelations
@@ -2071,7 +1955,7 @@ ALTER TABLE ONLY public.argumentrelations
 
 
 --
--- Name: arguments pk_arguments; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: arguments pk_arguments; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.arguments
@@ -2079,7 +1963,7 @@ ALTER TABLE ONLY public.arguments
 
 
 --
--- Name: argumentvotes pk_argumentvotes; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentvotes pk_argumentvotes; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentvotes
@@ -2087,7 +1971,7 @@ ALTER TABLE ONLY public.argumentvotes
 
 
 --
--- Name: ballots pk_ballots; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: ballots pk_ballots; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ballots
@@ -2095,7 +1979,7 @@ ALTER TABLE ONLY public.ballots
 
 
 --
--- Name: changeset pk_changeset; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: changeset pk_changeset; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.changeset
@@ -2103,7 +1987,7 @@ ALTER TABLE ONLY public.changeset
 
 
 --
--- Name: customizable_text pk_customizable_text; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: customizable_text pk_customizable_text; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.customizable_text
@@ -2111,7 +1995,7 @@ ALTER TABLE ONLY public.customizable_text
 
 
 --
--- Name: departmentmembers pk_departmentmembers; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: departmentmembers pk_departmentmembers; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departmentmembers
@@ -2119,7 +2003,7 @@ ALTER TABLE ONLY public.departmentmembers
 
 
 --
--- Name: departments pk_departments; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: departments pk_departments; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments
@@ -2127,7 +2011,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- Name: document pk_document; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: document pk_document; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document
@@ -2135,7 +2019,7 @@ ALTER TABLE ONLY public.document
 
 
 --
--- Name: groupmembers pk_groupmembers; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: groupmembers pk_groupmembers; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.groupmembers
@@ -2143,7 +2027,7 @@ ALTER TABLE ONLY public.groupmembers
 
 
 --
--- Name: groups pk_groups; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: groups pk_groups; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.groups
@@ -2151,7 +2035,7 @@ ALTER TABLE ONLY public.groups
 
 
 --
--- Name: oauth_token pk_oauth_token; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: oauth_token pk_oauth_token; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_token
@@ -2159,7 +2043,7 @@ ALTER TABLE ONLY public.oauth_token
 
 
 --
--- Name: page pk_page; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: page pk_page; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.page
@@ -2167,7 +2051,7 @@ ALTER TABLE ONLY public.page
 
 
 --
--- Name: policies pk_policies; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: policies pk_policies; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.policies
@@ -2175,7 +2059,7 @@ ALTER TABLE ONLY public.policies
 
 
 --
--- Name: postalvotes pk_postalvotes; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: postalvotes pk_postalvotes; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.postalvotes
@@ -2183,7 +2067,7 @@ ALTER TABLE ONLY public.postalvotes
 
 
 --
--- Name: propositionnotes pk_propositionnotes; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositionnotes pk_propositionnotes; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositionnotes
@@ -2191,7 +2075,7 @@ ALTER TABLE ONLY public.propositionnotes
 
 
 --
--- Name: propositions pk_propositions; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositions pk_propositions; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositions
@@ -2199,7 +2083,7 @@ ALTER TABLE ONLY public.propositions
 
 
 --
--- Name: propositiontags pk_propositiontags; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontags pk_propositiontags; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontags
@@ -2207,7 +2091,7 @@ ALTER TABLE ONLY public.propositiontags
 
 
 --
--- Name: propositiontypes pk_propositiontypes; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontypes pk_propositiontypes; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontypes
@@ -2215,7 +2099,7 @@ ALTER TABLE ONLY public.propositiontypes
 
 
 --
--- Name: secretvoters pk_secretvoters; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: secretvoters pk_secretvoters; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.secretvoters
@@ -2223,7 +2107,7 @@ ALTER TABLE ONLY public.secretvoters
 
 
 --
--- Name: subjectareas pk_subjectareas; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: subjectareas pk_subjectareas; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subjectareas
@@ -2231,7 +2115,7 @@ ALTER TABLE ONLY public.subjectareas
 
 
 --
--- Name: supporters pk_supporters; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: supporters pk_supporters; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.supporters
@@ -2239,7 +2123,7 @@ ALTER TABLE ONLY public.supporters
 
 
 --
--- Name: tags pk_tags; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: tags pk_tags; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags
@@ -2247,7 +2131,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: urns pk_urns; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: urns pk_urns; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urns
@@ -2255,7 +2139,7 @@ ALTER TABLE ONLY public.urns
 
 
 --
--- Name: urnsupporters pk_urnsupporters; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: urnsupporters pk_urnsupporters; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urnsupporters
@@ -2263,7 +2147,7 @@ ALTER TABLE ONLY public.urnsupporters
 
 
 --
--- Name: user_login_token pk_user_login_token; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: user_login_token pk_user_login_token; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_login_token
@@ -2271,7 +2155,7 @@ ALTER TABLE ONLY public.user_login_token
 
 
 --
--- Name: userpassword pk_userpassword; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: userpassword pk_userpassword; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.userpassword
@@ -2279,7 +2163,7 @@ ALTER TABLE ONLY public.userpassword
 
 
 --
--- Name: userprofiles pk_userprofiles; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: userprofiles pk_userprofiles; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.userprofiles
@@ -2287,7 +2171,7 @@ ALTER TABLE ONLY public.userprofiles
 
 
 --
--- Name: users pk_users; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: users pk_users; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -2295,7 +2179,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: voting_module pk_voting_module; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: voting_module pk_voting_module; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voting_module
@@ -2303,7 +2187,7 @@ ALTER TABLE ONLY public.voting_module
 
 
 --
--- Name: voting_phase_types pk_voting_phase_types; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: voting_phase_types pk_voting_phase_types; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voting_phase_types
@@ -2311,7 +2195,7 @@ ALTER TABLE ONLY public.voting_phase_types
 
 
 --
--- Name: votingphases pk_votingphases; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: votingphases pk_votingphases; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.votingphases
@@ -2319,7 +2203,7 @@ ALTER TABLE ONLY public.votingphases
 
 
 --
--- Name: departments uq_departments_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: departments uq_departments_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departments
@@ -2327,7 +2211,7 @@ ALTER TABLE ONLY public.departments
 
 
 --
--- Name: document uq_document_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: document uq_document_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document
@@ -2335,7 +2219,7 @@ ALTER TABLE ONLY public.document
 
 
 --
--- Name: groups uq_groups_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: groups uq_groups_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.groups
@@ -2343,7 +2227,7 @@ ALTER TABLE ONLY public.groups
 
 
 --
--- Name: policies uq_policies_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: policies uq_policies_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.policies
@@ -2351,7 +2235,7 @@ ALTER TABLE ONLY public.policies
 
 
 --
--- Name: propositiontypes uq_propositiontypes_abbreviation; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontypes uq_propositiontypes_abbreviation; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontypes
@@ -2359,7 +2243,7 @@ ALTER TABLE ONLY public.propositiontypes
 
 
 --
--- Name: propositiontypes uq_propositiontypes_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontypes uq_propositiontypes_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontypes
@@ -2367,7 +2251,7 @@ ALTER TABLE ONLY public.propositiontypes
 
 
 --
--- Name: tags uq_tags_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: tags uq_tags_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags
@@ -2375,7 +2259,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: userprofiles uq_userprofiles_sub; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: userprofiles uq_userprofiles_sub; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.userprofiles
@@ -2383,7 +2267,7 @@ ALTER TABLE ONLY public.userprofiles
 
 
 --
--- Name: users uq_users_email; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: users uq_users_email; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -2391,7 +2275,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users uq_users_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: users uq_users_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -2399,7 +2283,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: voting_module uq_voting_module_name; Type: CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: voting_module uq_voting_module_name; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.voting_module
@@ -2407,21 +2291,21 @@ ALTER TABLE ONLY public.voting_module
 
 
 --
--- Name: ix_propositions_search_vector; Type: INDEX; Schema: public; Owner: ekklesia
+-- Name: ix_propositions_search_vector; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX ix_propositions_search_vector ON public.propositions USING gin (search_vector);
 
 
 --
--- Name: propositions propositions_search_vector_trigger; Type: TRIGGER; Schema: public; Owner: ekklesia
+-- Name: propositions propositions_search_vector_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER propositions_search_vector_trigger BEFORE INSERT OR UPDATE ON public.propositions FOR EACH ROW EXECUTE FUNCTION public.propositions_search_vector_update();
 
 
 --
--- Name: areamembers fk_areamembers_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: areamembers fk_areamembers_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.areamembers
@@ -2429,7 +2313,7 @@ ALTER TABLE ONLY public.areamembers
 
 
 --
--- Name: areamembers fk_areamembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: areamembers fk_areamembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.areamembers
@@ -2437,7 +2321,7 @@ ALTER TABLE ONLY public.areamembers
 
 
 --
--- Name: argumentrelations fk_argumentrelations_argument_id_arguments; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentrelations fk_argumentrelations_argument_id_arguments; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentrelations
@@ -2445,7 +2329,7 @@ ALTER TABLE ONLY public.argumentrelations
 
 
 --
--- Name: argumentrelations fk_argumentrelations_parent_id_argumentrelations; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentrelations fk_argumentrelations_parent_id_argumentrelations; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentrelations
@@ -2453,7 +2337,7 @@ ALTER TABLE ONLY public.argumentrelations
 
 
 --
--- Name: argumentrelations fk_argumentrelations_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentrelations fk_argumentrelations_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentrelations
@@ -2461,7 +2345,7 @@ ALTER TABLE ONLY public.argumentrelations
 
 
 --
--- Name: arguments fk_arguments_author_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: arguments fk_arguments_author_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.arguments
@@ -2469,7 +2353,7 @@ ALTER TABLE ONLY public.arguments
 
 
 --
--- Name: argumentvotes fk_argumentvotes_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentvotes fk_argumentvotes_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentvotes
@@ -2477,7 +2361,7 @@ ALTER TABLE ONLY public.argumentvotes
 
 
 --
--- Name: argumentvotes fk_argumentvotes_relation_id_argumentrelations; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: argumentvotes fk_argumentvotes_relation_id_argumentrelations; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.argumentvotes
@@ -2485,7 +2369,7 @@ ALTER TABLE ONLY public.argumentvotes
 
 
 --
--- Name: ballots fk_ballots_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: ballots fk_ballots_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ballots
@@ -2493,7 +2377,7 @@ ALTER TABLE ONLY public.ballots
 
 
 --
--- Name: ballots fk_ballots_proposition_type_id_propositiontypes; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: ballots fk_ballots_proposition_type_id_propositiontypes; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ballots
@@ -2501,7 +2385,7 @@ ALTER TABLE ONLY public.ballots
 
 
 --
--- Name: ballots fk_ballots_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: ballots fk_ballots_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ballots
@@ -2509,7 +2393,7 @@ ALTER TABLE ONLY public.ballots
 
 
 --
--- Name: changeset fk_changeset_document_id_document; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: changeset fk_changeset_document_id_document; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.changeset
@@ -2517,7 +2401,7 @@ ALTER TABLE ONLY public.changeset
 
 
 --
--- Name: changeset fk_changeset_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: changeset fk_changeset_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.changeset
@@ -2525,7 +2409,7 @@ ALTER TABLE ONLY public.changeset
 
 
 --
--- Name: departmentmembers fk_departmentmembers_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: departmentmembers fk_departmentmembers_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departmentmembers
@@ -2533,7 +2417,7 @@ ALTER TABLE ONLY public.departmentmembers
 
 
 --
--- Name: departmentmembers fk_departmentmembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: departmentmembers fk_departmentmembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.departmentmembers
@@ -2541,7 +2425,7 @@ ALTER TABLE ONLY public.departmentmembers
 
 
 --
--- Name: document fk_document_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: document fk_document_area_id_subjectareas; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document
@@ -2549,7 +2433,7 @@ ALTER TABLE ONLY public.document
 
 
 --
--- Name: document fk_document_proposition_type_id_propositiontypes; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: document fk_document_proposition_type_id_propositiontypes; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.document
@@ -2557,7 +2441,7 @@ ALTER TABLE ONLY public.document
 
 
 --
--- Name: groupmembers fk_groupmembers_group_id_groups; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: groupmembers fk_groupmembers_group_id_groups; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.groupmembers
@@ -2565,7 +2449,7 @@ ALTER TABLE ONLY public.groupmembers
 
 
 --
--- Name: groupmembers fk_groupmembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: groupmembers fk_groupmembers_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.groupmembers
@@ -2573,7 +2457,7 @@ ALTER TABLE ONLY public.groupmembers
 
 
 --
--- Name: oauth_token fk_oauth_token_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: oauth_token fk_oauth_token_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.oauth_token
@@ -2581,7 +2465,7 @@ ALTER TABLE ONLY public.oauth_token
 
 
 --
--- Name: postalvotes fk_postalvotes_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: postalvotes fk_postalvotes_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.postalvotes
@@ -2589,7 +2473,7 @@ ALTER TABLE ONLY public.postalvotes
 
 
 --
--- Name: postalvotes fk_postalvotes_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: postalvotes fk_postalvotes_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.postalvotes
@@ -2597,7 +2481,7 @@ ALTER TABLE ONLY public.postalvotes
 
 
 --
--- Name: propositionnotes fk_propositionnotes_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositionnotes fk_propositionnotes_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositionnotes
@@ -2605,7 +2489,7 @@ ALTER TABLE ONLY public.propositionnotes
 
 
 --
--- Name: propositionnotes fk_propositionnotes_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositionnotes fk_propositionnotes_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositionnotes
@@ -2613,7 +2497,7 @@ ALTER TABLE ONLY public.propositionnotes
 
 
 --
--- Name: propositions fk_propositions_author_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositions fk_propositions_author_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositions
@@ -2621,7 +2505,7 @@ ALTER TABLE ONLY public.propositions
 
 
 --
--- Name: propositions fk_propositions_ballot_id_ballots; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositions fk_propositions_ballot_id_ballots; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositions
@@ -2629,7 +2513,7 @@ ALTER TABLE ONLY public.propositions
 
 
 --
--- Name: propositions fk_propositions_modifies_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositions fk_propositions_modifies_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositions
@@ -2637,7 +2521,7 @@ ALTER TABLE ONLY public.propositions
 
 
 --
--- Name: propositions fk_propositions_replaces_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositions fk_propositions_replaces_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositions
@@ -2645,7 +2529,7 @@ ALTER TABLE ONLY public.propositions
 
 
 --
--- Name: propositiontags fk_propositiontags_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontags fk_propositiontags_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontags
@@ -2653,7 +2537,7 @@ ALTER TABLE ONLY public.propositiontags
 
 
 --
--- Name: propositiontags fk_propositiontags_tag_id_tags; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontags fk_propositiontags_tag_id_tags; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontags
@@ -2661,7 +2545,7 @@ ALTER TABLE ONLY public.propositiontags
 
 
 --
--- Name: propositiontypes fk_propositiontypes_policy_id_policies; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: propositiontypes fk_propositiontypes_policy_id_policies; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.propositiontypes
@@ -2669,7 +2553,7 @@ ALTER TABLE ONLY public.propositiontypes
 
 
 --
--- Name: secretvoters fk_secretvoters_ballot_id_ballots; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: secretvoters fk_secretvoters_ballot_id_ballots; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.secretvoters
@@ -2677,7 +2561,7 @@ ALTER TABLE ONLY public.secretvoters
 
 
 --
--- Name: secretvoters fk_secretvoters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: secretvoters fk_secretvoters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.secretvoters
@@ -2685,7 +2569,7 @@ ALTER TABLE ONLY public.secretvoters
 
 
 --
--- Name: subjectareas fk_subjectareas_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: subjectareas fk_subjectareas_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subjectareas
@@ -2693,7 +2577,7 @@ ALTER TABLE ONLY public.subjectareas
 
 
 --
--- Name: supporters fk_supporters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: supporters fk_supporters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.supporters
@@ -2701,7 +2585,7 @@ ALTER TABLE ONLY public.supporters
 
 
 --
--- Name: supporters fk_supporters_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: supporters fk_supporters_proposition_id_propositions; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.supporters
@@ -2709,7 +2593,7 @@ ALTER TABLE ONLY public.supporters
 
 
 --
--- Name: tags fk_tags_parent_id_tags; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: tags fk_tags_parent_id_tags; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.tags
@@ -2717,7 +2601,7 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: urns fk_urns_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: urns fk_urns_voting_id_votingphases; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urns
@@ -2725,7 +2609,7 @@ ALTER TABLE ONLY public.urns
 
 
 --
--- Name: urnsupporters fk_urnsupporters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: urnsupporters fk_urnsupporters_member_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urnsupporters
@@ -2733,7 +2617,7 @@ ALTER TABLE ONLY public.urnsupporters
 
 
 --
--- Name: urnsupporters fk_urnsupporters_urn_id_urns; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: urnsupporters fk_urnsupporters_urn_id_urns; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urnsupporters
@@ -2741,7 +2625,7 @@ ALTER TABLE ONLY public.urnsupporters
 
 
 --
--- Name: user_login_token fk_user_login_token_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: user_login_token fk_user_login_token_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_login_token
@@ -2749,7 +2633,7 @@ ALTER TABLE ONLY public.user_login_token
 
 
 --
--- Name: userpassword fk_userpassword_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: userpassword fk_userpassword_user_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.userpassword
@@ -2757,7 +2641,7 @@ ALTER TABLE ONLY public.userpassword
 
 
 --
--- Name: userprofiles fk_userprofiles_id_users; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: userprofiles fk_userprofiles_id_users; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.userprofiles
@@ -2765,7 +2649,7 @@ ALTER TABLE ONLY public.userprofiles
 
 
 --
--- Name: votingphases fk_votingphases_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: votingphases fk_votingphases_department_id_departments; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.votingphases
@@ -2773,7 +2657,7 @@ ALTER TABLE ONLY public.votingphases
 
 
 --
--- Name: votingphases fk_votingphases_phase_type_id_voting_phase_types; Type: FK CONSTRAINT; Schema: public; Owner: ekklesia
+-- Name: votingphases fk_votingphases_phase_type_id_voting_phase_types; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.votingphases

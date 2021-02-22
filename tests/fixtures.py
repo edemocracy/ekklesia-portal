@@ -25,7 +25,7 @@ def fixture_by_name(request):
 @fixture(scope="session")
 def db_uri():
     return os.getenv('EKKLESIA_PORTAL_TEST_DB_URL',
-        'postgresql+psycopg2:///ekklesia_portal?host=/tmp')
+        'postgresql+psycopg2:///test_ekklesia_portal?host=/tmp')
 
 
 @fixture(scope="session")

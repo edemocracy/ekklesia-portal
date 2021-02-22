@@ -15,6 +15,8 @@ jobs:
       with:
         name: edemocracy
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: ./run-tests.sh
+    - run: ./test-setup.sh /tmp
+    - run: nix-shell --run pytest
+
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:
