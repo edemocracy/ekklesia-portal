@@ -3,6 +3,7 @@ from ekklesia_common.cell import Cell
 from ekklesia_portal.concepts.page.pages import Pages
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
+from ekklesia_portal.concepts.voting_phase_type.voting_phase_types import VotingPhaseTypes
 
 
 class LayoutCell(Cell):
@@ -34,6 +35,9 @@ class LayoutCell(Cell):
 
     def plain_propositions_url(self):
         return self.link(Propositions())
+
+    def voting_phase_types_url(self):
+        return self.link(VotingPhaseTypes())
 
     def voting_phases_url(self):
         return self.link(VotingPhases())

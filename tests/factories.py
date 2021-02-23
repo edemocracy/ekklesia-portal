@@ -11,8 +11,10 @@ from factory.fuzzy import FuzzyChoice, FuzzyDecimal, FuzzyInteger, FuzzyText
 from mimesis_factory import MimesisField
 from pytest_factoryboy import register
 
-from ekklesia_portal.datamodel import (Argument, ArgumentRelation, Ballot, CustomizableText, Department, Document, Group, Page, Policy,
-                                       Proposition, PropositionType, SubjectArea, Tag, User, UserLoginToken, VotingPhase, VotingPhaseType)
+from ekklesia_portal.datamodel import (
+    Argument, ArgumentRelation, Ballot, CustomizableText, Department, Document, Group, Page, Policy, Proposition,
+    PropositionType, SubjectArea, Tag, User, UserLoginToken, VotingPhase, VotingPhaseType
+)
 from ekklesia_portal.enums import ArgumentType, EkklesiaUserType, Majority, PropositionStatus, VotingStatus, VotingSystem, VotingType
 
 
@@ -128,6 +130,7 @@ class BallotFactory(SQLAFactory):
     area = SubFactory(SubjectAreaFactory)
     result = {}
 
+
 @register
 class TagFactory(SQLAFactory):
 
@@ -197,9 +200,10 @@ class VotingPhaseTypeFactory(SQLAFactory):
     class Meta:
         model = VotingPhaseType
 
-    name = Sequence('voting_phase_type{}'.format)
     abbreviation = Sequence('V{}P'.format)
-    secret_voting_possible = True
+    description = MimesisField('text', quantity=10)
+    name = Sequence('voting_phase_type{}'.format)
+    secret_voting_possible = FuzzyChoice([True, False])
     voting_type = FuzzyChoice(list(VotingType))
 
 

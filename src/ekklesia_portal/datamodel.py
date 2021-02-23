@@ -321,6 +321,7 @@ class VotingPhaseType(Base):
     abbreviation: str = C(Text, server_default='', comment='abbreviated name')
     secret_voting_possible: bool = C(Boolean, nullable=False)
     voting_type = C(Enum(VotingType), nullable=False)  # online, urn, assembly, board
+    description: str = C(Text, server_default='')
 
 
 class VotingPhase(Base):  # Abstimmungsperiode
