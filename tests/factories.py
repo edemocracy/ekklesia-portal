@@ -110,7 +110,7 @@ class PropositionTypeFactory(SQLAFactory):
         model = PropositionType
 
     name = Sequence('proposition_type{}'.format)
-    abbreviation = FuzzyText(length=3, chars=string.ascii_uppercase)
+    abbreviation = Sequence('P{}T'.format)
     description = MimesisField('text', quantity=5)
     policy = SubFactory(PolicyFactory)
 
@@ -198,7 +198,7 @@ class VotingPhaseTypeFactory(SQLAFactory):
         model = VotingPhaseType
 
     name = Sequence('voting_phase_type{}'.format)
-    abbreviation = MimesisField('word')
+    abbreviation = Sequence('V{}P'.format)
     secret_voting_possible = True
     voting_type = FuzzyChoice(list(VotingType))
 
