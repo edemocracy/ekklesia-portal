@@ -1,3 +1,4 @@
+import datetime
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
@@ -30,8 +31,30 @@ class VotingPhaseCell(LayoutCell):
         return self.options.get('show_edit_button'
                                 ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
+    def show_voting(self):
+        return self.options.get(
+            'show_voting'
+        ) and self._model.department in self._request.current_user.departments
+
     def propositions(self):
         return [p for b in self._model.ballots for p in b.propositions]
+
+    def voting_start(self):
+        # XXX: Fixed time interval for voting! We need a proper setting here.
+        return self._model.target - datetime.timedelta(days=14)
+
+    def voting_end(self):
+        return self._model.target
+
+    def votings(self):
+        votings = []
+        for name, settings in self._model.department.voting_module_settings.items():
+            voting_module_data = self._model.voting_module_data.get(name)
+            if voting_module_data and (voting_url := voting_module_data.get('config_url')):
+                title = settings.get('title', name)
+                votings.append((title, voting_url))
+
+        return votings
 
 
 @App.cell(VotingPhases, 'new')
@@ -68,11 +91,14 @@ class EditVotingPhaseCell(EditFormCell):
         self._form.prepare_for_render(items)
 
     def show_create_voting(self):
-        return self._model.status == VotingStatus.SCHEDULED and self._request.permitted_for_current_user(self._model, ManageVotingPermission)
+        return self._model.status == VotingStatus.SCHEDULED and self._request.permitted_for_current_user(
+            self._model, ManageVotingPermission
+        )
 
     def voting_modules(self):
         # value is True if there's already a configured voting
-        return [(name, name not in self._model.voting_module_data) for name in self._model.department.voting_module_settings]
+        return [(name, name not in self._model.voting_module_data)
+                for name in self._model.department.voting_module_settings]
 
     def create_voting_action(self):
         return self._request.link(self._model, "create_voting")

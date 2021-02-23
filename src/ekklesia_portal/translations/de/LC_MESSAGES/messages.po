@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-23 18:02+0000\n"
+"POT-Creation-Date: 2021-02-23 23:10+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -175,7 +175,7 @@ msgstr "Gliederung"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:23
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:28
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:34
 msgid "propositions"
 msgstr "Anträge"
 
@@ -261,6 +261,7 @@ msgstr "Neue Textanpassung"
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:11
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:12
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:18
+#: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:19
 #: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:15
 msgid "description"
 msgstr "Beschreibung"
@@ -1101,7 +1102,7 @@ msgstr "Geheime Abstimmung möglich?"
 msgid "voting_module_data"
 msgstr "Daten für externe Abstimmungssysteme"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:157
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:159
 msgid "voting_created_msg"
 msgstr "Abstimmung im Abstimmungsmodul %(voting_module)s erzeugt."
 
@@ -1126,6 +1127,14 @@ msgstr "Neuer Abstimmungszeitraum"
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:16
 msgid "target_date"
 msgstr "Stichtag"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:28
+msgid "votings"
+msgstr "Abstimmungen"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:29
+msgid "voting_start_end"
+msgstr "Abstimmung möglich von %(start)s bis %(end)s"
 
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:13
 #: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:14

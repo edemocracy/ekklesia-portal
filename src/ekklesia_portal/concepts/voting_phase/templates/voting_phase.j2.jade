@@ -46,6 +46,15 @@
       .description
         = description|markdown
 
+    if show_voting and votings
+      h4= _('votings')
+      .voting_from_to= _('voting_start_end', start=voting_start|datetimeformat, end=voting_end|datetimeformat)
+
+      ul.votings
+        for title, url in votings
+          li
+            a(href=url)= title
+
     if options.show_proposition_list and propositions
       h4= _('propositions')
       = render_cell(collection=propositions)

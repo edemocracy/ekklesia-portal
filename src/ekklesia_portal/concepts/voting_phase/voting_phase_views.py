@@ -109,7 +109,9 @@ def update(self, request, appstruct):
 
 @App.html(model=VotingPhase)
 def show(self, request):
-    cell = VotingPhaseCell(self, request, show_edit_button=True, show_proposition_list=True, full_view=True)
+    cell = VotingPhaseCell(
+        self, request, show_edit_button=True, show_voting=True, show_proposition_list=True, full_view=True
+    )
     return cell.show()
 
 
