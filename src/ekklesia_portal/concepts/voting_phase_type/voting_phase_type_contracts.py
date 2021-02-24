@@ -9,7 +9,7 @@ from ekklesia_portal.enums import VotingType
 
 class VotingPhaseTypeSchema(Schema):
     name = string_property(title=_('name'), validator=Length(min=3, max=255))
-    abbreviation = string_property(title=_('abbreviation'), validator=Length(max=3))
+    abbreviation = string_property(title=_('abbreviation'), validator=Length(max=6))
     secret_voting_possible = bool_property(title=_('secret_voting_possible'))
     voting_type = enum_property(VotingType, title=_('voting_type'))
     description = string_property(title=_('description'), validator=Length(min=10, max=2000), missing='')
