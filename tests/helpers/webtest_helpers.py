@@ -5,7 +5,7 @@ def python_to_deform_value(py_value):
     if py_value is True:
         return 'true'
     elif py_value is False:
-        return 'false'
+        return None
     elif py_value is None:
         return ''
     elif isinstance(py_value, Enum):
