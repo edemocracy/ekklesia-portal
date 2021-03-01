@@ -56,7 +56,7 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
     )
     config = vvvote_schema.ElectionConfig(
         electionId=str(uuid4()),
-        electionTitle=phase.title or phase.phase_type.name,
+        electionTitle=phase.title or phase.name or phase.phase_type.name,
         tally=vvvote_schema.Tally.CONFIGURABLE,
         auth=vvvote_schema.Auth.OAUTH,
         authData=auth_data,
