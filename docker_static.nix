@@ -36,7 +36,7 @@ pkgs.dockerTools.buildLayeredImage {
   config = {
     ExposedPorts = { "8080/tcp" = {}; };
     User = user;
-    Entrypoint = "${serveStatic}/bin/run";
+    Entrypoint = [ "${serveStatic}/bin/run" ];
     Cmd = [ "# runs nginx" ];
   };
 }
