@@ -21,7 +21,7 @@ body
 
       form.top_lang_controls(action=change_language_action, method='POST')
         .btn-group
-          input(type="hidden",name="myurl",value=page_url)
+          input(type="hidden",name="back_url",value=page_url)
           for mylang in settings_languages
             button.lang_select_button(type="submit", name="lang", value=mylang, class=("active" if language == mylang))
               span=mylang.upper()

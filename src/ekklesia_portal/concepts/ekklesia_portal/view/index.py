@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+from eliot import log_message
 from morepath import redirect
 from webob.exc import HTTPBadRequest
 
@@ -20,8 +22,16 @@ def index(self, request):
 @App.html(model=Index, name='change_language', request_method='POST')
 def change_language(self, request):
     lang = request.POST.get('lang')
-    if lang.lower() not in request.app.settings.app.languages:
-        raise HTTPBadRequest()
+    if lang not in request.app.settings.app.languages:
+        raise HTTPBadRequest("unsupported language")
+
+    back_url = request.POST.get('back_url')
+    parsed_app_url = urlparse(request.application_url)
+    parsed_back_url = urlparse(back_url)
+
+    if parsed_app_url.netloc != parsed_back_url.netloc:
+        log_message(message_type="invalid_redirect", url=back_url)
+        raise HTTPBadRequest("redirect not allowed")
 
     request.browser_session['lang'] = lang
-    return redirect(request.POST.get('myurl'))
+    return redirect(back_url)
