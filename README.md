@@ -197,14 +197,14 @@ As for the application itself, we can build a standalone start script or a Docke
 By default, Docker images are tagged with a version string derived from the last Git tag.
 You can set a different tag by adding `--argstr tag mytag` to the `docker*.nix` calls.
 
-- Build and import app image
+- Build app image as `docker-image-ekklesia-portal.tar` and import it
     ~~~
-    ./docker.nix --argstr tag mytag
+    ./docker.nix
     docker load -i docker-image-ekklesia-portal.tar
     ~~~
 - Build and import static file image
     ~~~
-    ./docker_static.nix --argstr tag mytag
+    ./docker_static.nix
     docker load -i docker-image-ekklesia-portal-static.tar
     ~~~
 - Run app container
