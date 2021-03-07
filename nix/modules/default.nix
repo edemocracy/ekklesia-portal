@@ -78,6 +78,7 @@ in {
 
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+      stopIfChanged = false;
 
       serviceConfig = {
         User = cfg.user;
