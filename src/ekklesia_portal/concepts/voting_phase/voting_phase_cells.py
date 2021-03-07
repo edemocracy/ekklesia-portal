@@ -40,6 +40,8 @@ class VotingPhaseCell(LayoutCell):
         return [p for b in self._model.ballots for p in b.propositions]
 
     def voting_start(self):
+        if self._model.target is None:
+            return
         # XXX: Fixed time interval for voting! We need a proper setting here.
         return self._model.target - datetime.timedelta(days=14)
 
