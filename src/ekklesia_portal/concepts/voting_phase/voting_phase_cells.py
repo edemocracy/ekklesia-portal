@@ -32,9 +32,13 @@ class VotingPhaseCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
     def show_voting(self):
-        return self.options.get(
-            'show_voting'
-        ) and self._model.department in self._request.current_user.departments
+        if not self.options.get('show_voting'):
+            return
+
+        if self._request.current_user is None:
+            return
+
+        return self._model.department in self._request.current_user.departments
 
     def propositions(self):
         return [p for b in self._model.ballots for p in b.propositions]
