@@ -10,14 +10,16 @@ import sqlalchemy.orm
 import transaction
 from ekklesia_common.ekklesia_auth import OAuthToken
 
-from ekklesia_portal.app import make_wsgi_app
+from ekklesia_portal.app import make_wsgi_app, App
+from fixtures import get_test_settings, get_db_uri
 from ekklesia_portal.enums import ArgumentType, Majority, PropositionStatus, SupporterStatus, VotingStatus, VotingSystem, VotingType
 from ekklesia_portal.lib.password import password_context
 
 logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
-parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
+parser.add_argument("-c", "--config-file",
+    help=f"Optional path to config file in YAML / JSON format. Uses default test configuration when not set.")
 parser.add_argument("--doit", action="store_true", default=False)
 
 DOCUMENT_WP = '''# Wahlprogramm
@@ -80,7 +82,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app = make_wsgi_app(args.config_file)
+    if args.config_file:
+        app = make_wsgi_app(args.config_file)
+    else:
+        settings = get_test_settings(get_db_uri())
+        App.init_settings(settings)
+        app = make_wsgi_app(testing=True)
 
     # Needed for Alembic env.py
     if args.config_file:

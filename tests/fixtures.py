@@ -22,14 +22,12 @@ def fixture_by_name(request):
     return request.getfixturevalue(request.param)
 
 
-@fixture(scope="session")
-def db_uri():
+def get_db_uri():
     return os.getenv('EKKLESIA_PORTAL_TEST_DB_URL',
         'postgresql+psycopg2:///test_ekklesia_portal?host=/tmp')
 
 
-@fixture(scope="session")
-def settings(db_uri):
+def get_test_settings(db_uri):
     return {
         'database': {
             'uri': db_uri
@@ -66,6 +64,10 @@ def settings(db_uri):
             'use_url_shortener': False
         }
     }
+
+@fixture(scope="session")
+def settings():
+    return get_test_settings(get_db_uri())
 
 
 @fixture(scope="session")
