@@ -23,7 +23,7 @@ logging.getLogger("morepath.directive").setLevel(logging.INFO)
 logging.getLogger("passlib.registry").setLevel(logging.INFO)
 logging.getLogger("passlib.utils.compat").setLevel(logging.INFO)
 
-eliot.to_file(sys.stdout, encoder=MyEncoder)
+eliot.to_file(sys.stderr, encoder=MyEncoder)
 
 logging.captureWarnings(True)
 
