@@ -10,6 +10,11 @@ let
   inherit (deps) pkgs alembic gunicorn lib;
   pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";
 
+  exportConfigEnvVar =
+    lib.optionalString
+      (appConfigFile != null)
+      "export EKKLESIA_PORTAL_CONFIG=\${EKKLESIA_PORTAL_CONFIG:-${appConfigFile}}";
+
   gunicornConf = pkgs.writeText
                 "gunicorn_config.py"
                 (import ./gunicorn_config.py.nix {
@@ -17,21 +22,32 @@ let
                 });
 
   runGunicorn = pkgs.writeShellScriptBin "run" ''
-    app_config=${if appConfigFile == null then "`pwd`/$1" else appConfigFile}
+    ${exportConfigEnvVar}
     ${lib.optionalString (tmpdir != null) "export TMPDIR=${tmpdir}"}
 
     ${gunicorn}/bin/gunicorn -c ${gunicornConf} \
-      "ekklesia_portal.app:make_wsgi_app(settings_filepath='$app_config')"
+      "ekklesia_portal.app:make_wsgi_app()"
   '';
 
   runMigrations = pkgs.writeShellScriptBin "migrate" ''
-    export EKKLESIA_PORTAL_CONFIG=${if appConfigFile == null then "`pwd`/$1" else appConfigFile}
+    ${runAlembic}/bin/alembic upgrade head
+  '';
+
+  runAlembic = pkgs.writeShellScriptBin "alembic" ''
+    ${exportConfigEnvVar}
     export PYTHONPATH=${pythonpath}
     cd ${src}
-    ${alembic}/bin/alembic upgrade head
+    ${alembic}/bin/alembic "$@"
+  '';
+
+  runPython = pkgs.writeShellScriptBin "python" ''
+    ${exportConfigEnvVar}
+    export PYTHONPATH=${pythonpath}
+    cd ${src}
+    ${alembic}/bin/alembic "$@"
   '';
 
 in pkgs.buildEnv {
   name = "ekklesia-portal-serve-app";
-  paths = [ runGunicorn runMigrations ];
+  paths = [ runGunicorn runMigrations runAlembic ];
 }
