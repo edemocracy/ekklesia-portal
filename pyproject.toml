@@ -21,7 +21,7 @@ dataclasses-json = "^0.4.3"
 passlib = "^1.7.2"
 psycopg2 = "^2.8.5"
 sqlalchemy-searchable = "^1.1.0"
-ekklesia-common = {git = "https://github.com/Piratenpartei/ekklesia-common", rev = "master"}
+ekklesia-common = {git = "https://github.com/edemocracy/ekklesia-common", rev = "master"}
 base32-crockford = "^0.3.0"
 py-gfm = "0.1.4"
 markdown = "2.6.11"

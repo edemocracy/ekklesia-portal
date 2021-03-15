@@ -34,7 +34,7 @@ def app_setting_section():
         "insecure_development_mode": False,
         "internal_login_enabled": True,
         "custom_footer_url": None,
-        "source_code_url": "https://github.com/Piratenpartei/ekklesia-portal",
+        "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
         "tos_url": None,
         "data_protection_url": None,
         "faq_url": None,

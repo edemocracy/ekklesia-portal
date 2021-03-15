@@ -309,7 +309,7 @@ webtest = ">=2.0.35,<3.0.0"
 
 [package.source]
 type = "git"
-url = "https://github.com/Piratenpartei/ekklesia-common"
+url = "https://github.com/edemocracy/ekklesia-common"
 reference = "master"
 resolved_reference = "e6783e351c0a4925e679f9ed88ca2c807dbfd4b7"
 
