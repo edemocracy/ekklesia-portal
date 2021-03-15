@@ -1,8 +1,10 @@
+with builtins;
+
 { sources ? null }:
 let
   deps = import ./deps.nix { inherit sources; };
-  inherit (deps) lib pkgs sassc javascriptDeps webfontsPath sassPath deform python;
-  version = import ./git_version.nix { inherit pkgs; };
+  inherit (deps) lib pkgs sassc javascriptDeps webfontsPath sassPath deform python pyProject;
+  version = import ./git_version.nix { inherit pkgs; default = pyProject.tool.poetry.version; };
 
 in
 pkgs.runCommand "ekklesia-portal-static-${version}" {

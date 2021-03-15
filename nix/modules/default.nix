@@ -71,6 +71,12 @@ in {
       default = null;
     };
 
+    staticFiles = mkOption {
+      internal = true;
+      type = with types; nullOr path;
+      default = null;
+    };
+
     browserSessionSecretKeyFile = mkOption {
       type = types.str;
       description = "Path to file containing the secret key for browser session signing";
@@ -101,6 +107,7 @@ in {
   config = lib.mkIf cfg.enable {
 
     services.ekklesia.portal.configFile = configInput;
+    services.ekklesia.portal.staticFiles = staticFiles;
 
     environment.systemPackages = [ ekklesiaPortalConfig ekklesiaPortalShowConfig ];
 
@@ -146,6 +153,7 @@ in {
         Restart = "always";
         X-ConfigFile = configInput;
         X-ServeApp = serveApp;
+        X-StaticFiles = staticFiles;
 
         DeviceAllow = [
           "/dev/stderr"
