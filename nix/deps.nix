@@ -104,7 +104,7 @@ in rec {
     '';
   in [
     ekklesiaPortalConsole
-    niv
+    pkgs.niv
     pkgs.entr
     pkgs.jq
     pkgs.postgresql_12
