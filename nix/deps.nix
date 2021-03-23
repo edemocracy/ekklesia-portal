@@ -12,7 +12,7 @@ let
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
   poetry2nix = pkgs.callPackage sources_.poetry2nix {};
-  python = pkgs.python38;
+  python = pkgs.python39;
 
   poetryWrapper = with python.pkgs; pkgs.writeScriptBin "poetry" ''
     export PYTHONPATH=
