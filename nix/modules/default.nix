@@ -192,7 +192,6 @@ in {
           "~@cpu-emulation"
           "~@swap"
           "~@obsolete"
-          "~@privileged"
           "~@resources"
           "~@raw-io"
         ];
