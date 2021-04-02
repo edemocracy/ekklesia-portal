@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.5
+-- Dumped from database version 12.6
 -- Dumped by pg_dump version 12.6
 
 SET statement_timeout = 0;
@@ -16,6 +16,156 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE ONLY public.votingphases DROP CONSTRAINT fk_votingphases_phase_type_id_voting_phase_types;
+ALTER TABLE ONLY public.votingphases DROP CONSTRAINT fk_votingphases_department_id_departments;
+ALTER TABLE ONLY public.userprofiles DROP CONSTRAINT fk_userprofiles_id_users;
+ALTER TABLE ONLY public.userpassword DROP CONSTRAINT fk_userpassword_user_id_users;
+ALTER TABLE ONLY public.user_login_token DROP CONSTRAINT fk_user_login_token_user_id_users;
+ALTER TABLE ONLY public.urnsupporters DROP CONSTRAINT fk_urnsupporters_urn_id_urns;
+ALTER TABLE ONLY public.urnsupporters DROP CONSTRAINT fk_urnsupporters_member_id_users;
+ALTER TABLE ONLY public.urns DROP CONSTRAINT fk_urns_voting_id_votingphases;
+ALTER TABLE ONLY public.tags DROP CONSTRAINT fk_tags_parent_id_tags;
+ALTER TABLE ONLY public.supporters DROP CONSTRAINT fk_supporters_proposition_id_propositions;
+ALTER TABLE ONLY public.supporters DROP CONSTRAINT fk_supporters_member_id_users;
+ALTER TABLE ONLY public.subjectareas DROP CONSTRAINT fk_subjectareas_department_id_departments;
+ALTER TABLE ONLY public.secretvoters DROP CONSTRAINT fk_secretvoters_member_id_users;
+ALTER TABLE ONLY public.secretvoters DROP CONSTRAINT fk_secretvoters_ballot_id_ballots;
+ALTER TABLE ONLY public.propositiontypes DROP CONSTRAINT fk_propositiontypes_policy_id_policies;
+ALTER TABLE ONLY public.propositiontags DROP CONSTRAINT fk_propositiontags_tag_id_tags;
+ALTER TABLE ONLY public.propositiontags DROP CONSTRAINT fk_propositiontags_proposition_id_propositions;
+ALTER TABLE ONLY public.propositions DROP CONSTRAINT fk_propositions_replaces_id_propositions;
+ALTER TABLE ONLY public.propositions DROP CONSTRAINT fk_propositions_modifies_id_propositions;
+ALTER TABLE ONLY public.propositions DROP CONSTRAINT fk_propositions_ballot_id_ballots;
+ALTER TABLE ONLY public.propositions DROP CONSTRAINT fk_propositions_author_id_users;
+ALTER TABLE ONLY public.propositionnotes DROP CONSTRAINT fk_propositionnotes_user_id_users;
+ALTER TABLE ONLY public.propositionnotes DROP CONSTRAINT fk_propositionnotes_proposition_id_propositions;
+ALTER TABLE ONLY public.postalvotes DROP CONSTRAINT fk_postalvotes_voting_id_votingphases;
+ALTER TABLE ONLY public.postalvotes DROP CONSTRAINT fk_postalvotes_member_id_users;
+ALTER TABLE ONLY public.oauth_token DROP CONSTRAINT fk_oauth_token_id_users;
+ALTER TABLE ONLY public.groupmembers DROP CONSTRAINT fk_groupmembers_member_id_users;
+ALTER TABLE ONLY public.groupmembers DROP CONSTRAINT fk_groupmembers_group_id_groups;
+ALTER TABLE ONLY public.document DROP CONSTRAINT fk_document_proposition_type_id_propositiontypes;
+ALTER TABLE ONLY public.document DROP CONSTRAINT fk_document_area_id_subjectareas;
+ALTER TABLE ONLY public.departmentmembers DROP CONSTRAINT fk_departmentmembers_member_id_users;
+ALTER TABLE ONLY public.departmentmembers DROP CONSTRAINT fk_departmentmembers_department_id_departments;
+ALTER TABLE ONLY public.changeset DROP CONSTRAINT fk_changeset_proposition_id_propositions;
+ALTER TABLE ONLY public.changeset DROP CONSTRAINT fk_changeset_document_id_document;
+ALTER TABLE ONLY public.ballots DROP CONSTRAINT fk_ballots_voting_id_votingphases;
+ALTER TABLE ONLY public.ballots DROP CONSTRAINT fk_ballots_proposition_type_id_propositiontypes;
+ALTER TABLE ONLY public.ballots DROP CONSTRAINT fk_ballots_area_id_subjectareas;
+ALTER TABLE ONLY public.argumentvotes DROP CONSTRAINT fk_argumentvotes_relation_id_argumentrelations;
+ALTER TABLE ONLY public.argumentvotes DROP CONSTRAINT fk_argumentvotes_member_id_users;
+ALTER TABLE ONLY public.arguments DROP CONSTRAINT fk_arguments_author_id_users;
+ALTER TABLE ONLY public.argumentrelations DROP CONSTRAINT fk_argumentrelations_proposition_id_propositions;
+ALTER TABLE ONLY public.argumentrelations DROP CONSTRAINT fk_argumentrelations_parent_id_argumentrelations;
+ALTER TABLE ONLY public.argumentrelations DROP CONSTRAINT fk_argumentrelations_argument_id_arguments;
+ALTER TABLE ONLY public.areamembers DROP CONSTRAINT fk_areamembers_member_id_users;
+ALTER TABLE ONLY public.areamembers DROP CONSTRAINT fk_areamembers_area_id_subjectareas;
+DROP TRIGGER propositions_search_vector_trigger ON public.propositions;
+DROP INDEX public.ix_propositions_search_vector;
+ALTER TABLE ONLY public.voting_module DROP CONSTRAINT uq_voting_module_name;
+ALTER TABLE ONLY public.users DROP CONSTRAINT uq_users_name;
+ALTER TABLE ONLY public.users DROP CONSTRAINT uq_users_email;
+ALTER TABLE ONLY public.userprofiles DROP CONSTRAINT uq_userprofiles_sub;
+ALTER TABLE ONLY public.tags DROP CONSTRAINT uq_tags_name;
+ALTER TABLE ONLY public.propositiontypes DROP CONSTRAINT uq_propositiontypes_name;
+ALTER TABLE ONLY public.propositiontypes DROP CONSTRAINT uq_propositiontypes_abbreviation;
+ALTER TABLE ONLY public.policies DROP CONSTRAINT uq_policies_name;
+ALTER TABLE ONLY public.groups DROP CONSTRAINT uq_groups_name;
+ALTER TABLE ONLY public.document DROP CONSTRAINT uq_document_name;
+ALTER TABLE ONLY public.departments DROP CONSTRAINT uq_departments_name;
+ALTER TABLE ONLY public.votingphases DROP CONSTRAINT pk_votingphases;
+ALTER TABLE ONLY public.voting_phase_types DROP CONSTRAINT pk_voting_phase_types;
+ALTER TABLE ONLY public.voting_module DROP CONSTRAINT pk_voting_module;
+ALTER TABLE ONLY public.users DROP CONSTRAINT pk_users;
+ALTER TABLE ONLY public.userprofiles DROP CONSTRAINT pk_userprofiles;
+ALTER TABLE ONLY public.userpassword DROP CONSTRAINT pk_userpassword;
+ALTER TABLE ONLY public.user_login_token DROP CONSTRAINT pk_user_login_token;
+ALTER TABLE ONLY public.urnsupporters DROP CONSTRAINT pk_urnsupporters;
+ALTER TABLE ONLY public.urns DROP CONSTRAINT pk_urns;
+ALTER TABLE ONLY public.tags DROP CONSTRAINT pk_tags;
+ALTER TABLE ONLY public.supporters DROP CONSTRAINT pk_supporters;
+ALTER TABLE ONLY public.subjectareas DROP CONSTRAINT pk_subjectareas;
+ALTER TABLE ONLY public.secretvoters DROP CONSTRAINT pk_secretvoters;
+ALTER TABLE ONLY public.propositiontypes DROP CONSTRAINT pk_propositiontypes;
+ALTER TABLE ONLY public.propositiontags DROP CONSTRAINT pk_propositiontags;
+ALTER TABLE ONLY public.propositions DROP CONSTRAINT pk_propositions;
+ALTER TABLE ONLY public.propositionnotes DROP CONSTRAINT pk_propositionnotes;
+ALTER TABLE ONLY public.postalvotes DROP CONSTRAINT pk_postalvotes;
+ALTER TABLE ONLY public.policies DROP CONSTRAINT pk_policies;
+ALTER TABLE ONLY public.page DROP CONSTRAINT pk_page;
+ALTER TABLE ONLY public.oauth_token DROP CONSTRAINT pk_oauth_token;
+ALTER TABLE ONLY public.groups DROP CONSTRAINT pk_groups;
+ALTER TABLE ONLY public.groupmembers DROP CONSTRAINT pk_groupmembers;
+ALTER TABLE ONLY public.document DROP CONSTRAINT pk_document;
+ALTER TABLE ONLY public.departments DROP CONSTRAINT pk_departments;
+ALTER TABLE ONLY public.departmentmembers DROP CONSTRAINT pk_departmentmembers;
+ALTER TABLE ONLY public.customizable_text DROP CONSTRAINT pk_customizable_text;
+ALTER TABLE ONLY public.changeset DROP CONSTRAINT pk_changeset;
+ALTER TABLE ONLY public.ballots DROP CONSTRAINT pk_ballots;
+ALTER TABLE ONLY public.argumentvotes DROP CONSTRAINT pk_argumentvotes;
+ALTER TABLE ONLY public.arguments DROP CONSTRAINT pk_arguments;
+ALTER TABLE ONLY public.argumentrelations DROP CONSTRAINT pk_argumentrelations;
+ALTER TABLE ONLY public.areamembers DROP CONSTRAINT pk_areamembers;
+DROP TABLE public.votingphases;
+DROP TABLE public.voting_phase_types;
+DROP TABLE public.voting_module;
+DROP TABLE public.users;
+DROP TABLE public.userprofiles;
+DROP TABLE public.userpassword;
+DROP TABLE public.user_login_token;
+DROP TABLE public.urnsupporters;
+DROP TABLE public.urns;
+DROP TABLE public.tags;
+DROP TABLE public.supporters;
+DROP TABLE public.subjectareas;
+DROP TABLE public.secretvoters;
+DROP TABLE public.propositiontypes;
+DROP TABLE public.propositiontags;
+DROP TABLE public.propositions;
+DROP TABLE public.propositionnotes;
+DROP TABLE public.postalvotes;
+DROP TABLE public.policies;
+DROP TABLE public.page;
+DROP TABLE public.oauth_token;
+DROP TABLE public.groups;
+DROP TABLE public.groupmembers;
+DROP TABLE public.document;
+DROP TABLE public.departments;
+DROP TABLE public.departmentmembers;
+DROP TABLE public.customizable_text;
+DROP TABLE public.changeset;
+DROP TABLE public.ballots;
+DROP TABLE public.argumentvotes;
+DROP TABLE public.arguments;
+DROP TABLE public.argumentrelations;
+DROP TABLE public.areamembers;
+DROP FUNCTION public.uuid_timestamp(uuid uuid);
+DROP FUNCTION public.tsq_tokenize_character(state public.tsq_state);
+DROP FUNCTION public.tsq_tokenize(search_query text);
+DROP FUNCTION public.tsq_process_tokens(config regconfig, tokens text[]);
+DROP FUNCTION public.tsq_process_tokens(tokens text[]);
+DROP FUNCTION public.tsq_parse(config text, search_query text);
+DROP FUNCTION public.tsq_parse(config regconfig, search_query text);
+DROP FUNCTION public.tsq_parse(search_query text);
+DROP FUNCTION public.tsq_append_current_token(state public.tsq_state);
+DROP FUNCTION public.propositions_search_vector_update();
+DROP FUNCTION public.generate_uuid0();
+DROP FUNCTION public.generate_ulid();
+DROP FUNCTION public.array_nremove(anyarray, anyelement, integer);
+DROP TYPE public.votingtype;
+DROP TYPE public.votingsystem;
+DROP TYPE public.votingstatus;
+DROP TYPE public.votebyuser;
+DROP TYPE public.tsq_state;
+DROP TYPE public.supporterstatus;
+DROP TYPE public.secretvoterstatus;
+DROP TYPE public.propositionvisibility;
+DROP TYPE public.propositionstatus;
+DROP TYPE public.majority;
+DROP TYPE public.argumenttype;
+DROP EXTENSION "uuid-ossp";
+DROP EXTENSION pgcrypto;
 --
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
 --
@@ -568,15 +718,6 @@ $$;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
-
---
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.alembic_version (
-    version_num character varying(32) NOT NULL
-);
-
 
 --
 -- Name: areamembers; Type: TABLE; Schema: public; Owner: -
@@ -1447,15 +1588,6 @@ ALTER TABLE public.votingphases ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDEN
 
 
 --
--- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.alembic_version (version_num) FROM stdin;
-9801fcc513e6
-\.
-
-
---
 -- Data for Name: areamembers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -1472,9 +1604,9 @@ COPY public.areamembers (area_id, member_id) FROM stdin;
 --
 
 COPY public.argumentrelations (id, parent_id, argument_id, proposition_id, argument_type) FROM stdin;
-1	\N	1	6769077249719871953	PRO
-2	\N	2	6769077249719871953	PRO
-3	\N	3	6769077249719871953	CONTRA
+1	\N	1	6775098944857779980	PRO
+2	\N	2	6775098944857779980	PRO
+3	\N	3	6775098944857779980	CONTRA
 \.
 
 
@@ -1483,9 +1615,9 @@ COPY public.argumentrelations (id, parent_id, argument_id, proposition_id, argum
 --
 
 COPY public.arguments (id, title, abstract, details, author_id, created_at) FROM stdin;
-1	Ein Pro-Argument	Die größte Überraschung war, wie schlecht die Debatte von den CNN-Moderatoren geleitet wurde. 15.33 Uhr: Gestern hatten Vidal und der FC Bay	11 Leserempfehlungen Man wollte nicht "in den Sumpf" hineingezogen werden, wiederholte Gabriel am Dienstag. 119,00 € incl. MwSt. zzgl. Versand Zum Shop Weitere Angebote vergleichen FritzBox 7430: Update auf FritzOS 6.26 verfügbar. 10 WINDOWS 10 Neues Betriebssystem im ersten Jahr als kostenloses Upgrade Kostenloses Upgrade: Im ersten Jahr können Windows 7 und 8.1 auf das neue Betriebssystem Windows 10 aktualisiert werden. 12:25 Uhr: EU-Parlamentspräsident Schulz warnt vor einem Zerfall Europas. 12> weiter Bewerten 8 0 Die mit * gekennzeichneten Felder sind Pflichtfelder. 1981 konnte man in Schkopau mit dem Aufstieg in die DDR-Oberliga den größten Erfolg der Vereinsgeschichte feiern. "1860 München wird kratzen, beißen, kämpfen, um aus der Abstiegszone wieder herauszukommen", weiß Lieberknecht. 12. Minute: Nächster Eckball für die Gastgeber, und plötzlich zappelt der Ball im Tor! 1989 wurde eine eigene Geschäftsstelle im Feuerwehrhaus Erbach in Betrieb genommen. 15m würden mir persönlich völlig ausreichen, mit dem heute üblichen schnick und schnack, kann man die auch noch zu zweit segeln und muß sich nicht mit Personal plagen.	2	2021-02-21 02:16:19.662801
-2	Ein zweites Pro-Argument	dafür!!!	\N	3	2021-02-21 02:16:19.662801
-3	Ein Contra-Argument	dagegen!!!	aus Gründen	2	2021-02-21 02:16:19.662801
+1	Ein Pro-Argument	12.01.2017 um 10:47 Uhr: Nicht nur ohne Bahnhof und ohne Krankenhaus, sondern auch ohne Autobahnanbindung und demnächst auch ohne Geld! 10:0	18. Dezember 2015, 22:02 Uhr 131 Kommentare Auf einer Seite lesen Seite 1 — Ramschware Öl 2. Seite 2 — Wem nützt billiges Öl? 10027 Volksratschef Purgin: Donbass-Blockade bringt Kiew „dutzende Millionen Griwna“Die gegen die Donbass-Region verhängte Wirtschaftsblockade bringt Kiew dutzende Millionen Griwna. "1984 wurden in den Bergen die Olympischen Winterspiele ausgetragen. Die Schnitzel werden evtl. flach geklopft, von beiden Seiten mit Pesto bestrichen und mit einer italienischen Gewürzmischung bestreut. 13-Megapixel-Kamera mit zweiter Linse Die Ultrapixel-Kamera mit 4 Megapixeln hat HTC beim neuen One M9 bereits durch ein gutes 20-Megapixel-Modell ersetzt, beim One M8s wurde sie ebenfalls gestrichen. 15 Fakten über das Park Hyatt Vienna Park Hyatt Vienna An der Außenwand des Hauses erinnert eine Bronze-Tafel vom österreichischen Bildhauer Oskar Thiede an Henry Dunant, Gründer des Roten Kreuzes. 11:36 Lob für Kanzler Werner Faymann und Innenministerin Mikl-Leitner gab es von Amnesty International für die rasche Grenzöffnung. 1April 2015 - 08:51 Uhr (Motorsport-Total. 09.40 Uhr - Die oppositionellen griechischen Konservativen werden nach den Worten eines Abgeordneten der Partei in einer Vertrauensabstimmung nicht für die Regierung stimmen. 11:19 Leoni AG: Kreuzen des GD 50 nach unten (58.7 Euro, Short) 13.07.	2	2021-03-09 17:04:23.664292
+2	Ein zweites Pro-Argument	dafür!!!	\N	3	2021-03-09 17:04:23.664292
+3	Ein Contra-Argument	dagegen!!!	aus Gründen	2	2021-03-09 17:04:23.664292
 \.
 
 
@@ -1599,8 +1731,8 @@ COPY public.groups (id, name, is_admin_group) FROM stdin;
 --
 
 COPY public.oauth_token (id, token, provider, created_at) FROM stdin;
-3	{}	ekklesia	2021-02-21 02:16:19.662801
-4	{}	ekklesia	2021-02-21 02:16:19.662801
+3	{}	ekklesia	2021-03-09 17:04:23.664292
+4	{}	ekklesia	2021-03-09 17:04:23.664292
 \.
 
 
@@ -1617,7 +1749,7 @@ COPY public.page (name, lang, title, text, permissions) FROM stdin;
 --
 
 COPY public.policies (id, name, description, majority, proposition_expiration, qualification_minimum, qualification_quorum, range_max, range_small_max, range_small_options, secret_minimum, secret_quorum, submitter_minimum, voting_duration, voting_system) FROM stdin;
-1	default	1c) Das EZB-QE falscher Machart reduziert die Renditen weiter. 18:22 Wie UBM, PIAG Immobilien, AT&S, Frauenthal, Warimpex und DO&CO für Gesprächsstoff in Österreich sorgten Das hat die BSNgine heute ausgewiesen FKA: Frauenthal am 13.2. 13.31 Uhr: Niersbach erklärt, er "zermartere" sich den Kopf: "Was ist denn damals gewesen?"	SIMPLE	180	50	0.10	9	3	5	20	0.05	2	14	RANGE_APPROVAL
+1	default	11.02.2017 Marvels Spider-Man geht voraussichtlich wieder zur Schule Keine gute Nachricht ohne einen kleinen Wermutstropfen. 16-Wochen-Behandlungsgruppen Von den 211 Patienten, die randomisiert den 16-Wochen-Behandlungsgruppen zugeteilt wurden, erhielten 106 Patienten Grazoprevir/Elbasvir plus RBV. 16.53 Uhr: Auch in Hannover versammelten sich rund 300 Franzosen und Deutsche.	SIMPLE	180	50	0.10	9	3	5	20	0.05	2	14	RANGE_APPROVAL
 \.
 
 
@@ -1642,20 +1774,20 @@ COPY public.propositionnotes (proposition_id, user_id, notes, vote) FROM stdin;
 --
 
 COPY public.propositions (id, title, content, abstract, motivation, voting_identifier, created_at, submitted_at, qualified_at, status, submitter_invitation_key, author_id, ballot_id, modifies_id, replaces_id, external_discussion_url, external_fields, visibility, search_vector) FROM stdin;
-6769077249719871953	Ein Titel	13:45 dpa-AFX: NordLB belässt Allianz SE auf 'Halten' - Ziel 152 Euro 11.08. 11.11 Uhr - Datendienst bei Vodafone gestört: Bei Twitter berichteten Nutzer von einer Vodafone-Netzstörung in Berlin. 19:39 Ansonsten bleibt die Elf unverändert - das heißt, dass auch Debütant Can direkt wieder von Beginn an ran darf. 16 Bilder Ein Blick in diese Augen, und du bist verliebt. 1977 hatte Harrison Ford Han Solo verkörpert und wurde mit dieser Rolle weltberühmt. 17 Spiele, 14 Punkte, letzter Platz: Die Bilanz unter Sami Hyypiä ist miserabel. 12.25 Uhr: "Wir werden uns um 16 Uhr mit den Fans treffen, um gemeinsam Abschied zu nehmen", sagt Allofs. "1,3 Millionen Euro sind insgesamt dafür vorgesehen", so Landesrätin Doris Kampus (SPÖ). 14.41 Uhr Die Verantwortlichen der Nasa stellen sich den Fragen der anwesenden Journalisten. 19:08 Uhr Lauda ist zurück Niki Lauda wieder einmal ans Steuer eines Formel-1-Boliden. 16:37 Jositsch im ersten Wahlgang gewählt Laut Hochrechnung schafft SP-Kandidat Daniel Jositsch bereits im ersten Wahlgang den Sprung in den Ständerat. 17. September 2015 08:34 Apple-Betriebssystem iOS 9-Update sorgt für Mega-Frust User klagen über fehlgeschlagene Updates und Serverüberlastung. 12. September 2015 18:11 Russische Flugzeuge in Syrien gelandet Merkel: Ohne Zusammenarbeit mit Russland kein Ende des Bürgerkriegs. 11.01.15 Altlasten aus dem Jahr 1942 Deutschland soll Athen Milliarden schulden 10.01.15 Neue Pläne für Griechenland? 13,5 Prozent der Unternehmergesellschaften (haftungsbeschränkt) droht eine Insolvenz. 11:19 Leoni AG: Kreuzen des GD 50 nach unten (58.7 Euro, Short) 13.07. 17 Leserempfehlungen Reaktionen auf diesen Kommentar anzeigen Austeritätspolitik ist gescheitert. 19:52 DGAP-Adhoc: SNP AG gewinnt internationales SAP-Projekt bei bedeutendem US-amerikanischen Computer- und IT-Unternehmen (deutsch) 30.01. 12:22 UBS belässt ARM auf 'Buy' - Ziel 1200 Pence Die Schweizer Großbank UBS hat die Einstufung für ARM nach einer Investorenveranstaltung auf "Buy" mit einem Kursziel von 1200 Pence belassen. 10 Leserempfehlungen Antwort auf "Wie kommt es?" 13-mal am Tag im Westside Auch bei Pathé-Westside-Chef Jan Halvorsen ist die Vorfreude auf «Spectre» riesig. 15.09.2017 13:44 Uhr Dennis Schirrmacher vorlesen Das Let's-Encrypt-Projekt hat eine Webseite live geschaltet, die auf das erste Zertifikat der alternativen Zertifizierungsstelle setzt. 10:06 Uhr - Kauder: Es gibt viele Gründe, dem Antrag zuzustimmen. 13:40 Uhr - Demonstrationsverbot in Paris verlängert: Das Demonstrationsverbot nach den Terroranschlägen in Paris ist bis Ende November verlängert worden. 11.14 Uhr: Sport- und Innensenator Michael Neumann sagt auf dem HSV-Neujahrsempfang: „Super, das Volksparkstadion heißt auch offiziell wieder so. Ein tolles Zeichen. 1 Absturz der Germanwings-Maschine War die Freundin des Todes-Piloten.. 10 Leserempfehlungen 6. Ich will mich abgrenzen Jan Fleischhauer schreibt im Spiegel: Eigenartigerweise verspricht gerade der nahrungstechnische Luxuskonsum moralischen Mehrwert. 17:01 DGAP-AFR: Henkel AG & Co. KGaA: Bekanntmachung gemäß § 37v, 37w, 37x ff. WpHG mit dem Ziel der europaweiten Verbreitung 03.02. Im Komplex Ahrensburg/Ahrensfelde" konnte eine Gruppe von vier Feuerwehrleuten ausgemacht werden, denen nunmehr neun Brandlegungen zur Last gelegt werden. 1 Jahr zum Kursportrait AdHoc-Meldungen & Insidertrades Werbung Nachrichten zu ELEKTR. 13 Leserempfehlungen Reaktionen auf diesen Kommentar anzeigen "Wo lebt der Autor?" 12 Leserempfehlungen Reaktionen auf diesen Kommentar anzeigen Entfernt. 09. Jänner 2015 21:43 Hollande: Islamistische Bedrohung besteht fort Premier: Präsident entschied selbst über Doppelschlag der Polizei. 16:05 Von Anfang an macht Real Madrid gehörig Druck. 13 Tore mehr Der FCZ kann mit der Europa-League-Qualifikation planen. 09:21 - International Heidi kämpft gegen Kopfläuse 06:32 - International Wer lügt? 11:45Berater: Kein Sane-Wechsel im Winter Schalke-Talent Leroy Sane wird die Saison 2015/16 nach Angaben seines Beraters Jürgen Milewski beim FC Schalke 04 beenden. 17.08.2017 20:01 Uhr Jörg Wirtgen vorlesen Google hat die finale Version des SDKs für Android M herausgebracht und nebenher zwei Details verraten: Diese Version wird Android 6.0 Marshmallow heißen. 1 Diesmal mit Höschen Dänen-Kickerinnen PO-sieren am Strand 2 Federer hilft in Malawi Messi lässt sich von Gabun-Diktator kaufen 3 Das war nix! 13 Leserempfehlungen Reaktionen auf diesen Kommentar anzeigen Ich fürchte die € Zone wählt den Grexit nicht.			PP001	2020-01-01 00:00:00	2020-01-05 00:00:00	2020-01-08 00:00:00	SCHEDULED	\N	\N	1	\N	\N	http://example.com	{}	PUBLIC	'-1':151C '..':445C '01':467C,622C '03.02':488C '04':618C '05':558C '06':378C,587C '08':138C,180C '09':539C,580C '1':111C,432C,508C,650C '10':323C,377C,446C '10.01.15':230C '11':204C,244C,592C '11.01.15':219C '11.08':17C '11.11':18C '11.14':408C '12':200C,292C,531C '12.25':92C '1200':300C,320C '13':3C,235C,330C,351C,388C,520C,567C,679C '13.07':257C '14':81C '14.41':124C '15.09.2017':350C '152':15C '16':55C,98C,153C,557C '17':79C,177C,258C,466C '17.08.2017':620C '18':203C '19':35C,137C,245C,268C '1942':224C '1977':66C '2':662C '20':621C '2015':179C,202C,541C '2015/16':608C '21':542C,581C '22':293C '3':112C,675C '30.01':291C '32':588C '34':181C '37':154C '37v':477C '37w':478C '37x':479C '39':36C '40':389C '43':543C '44':352C '45':4C '45berater':593C '5':236C '50':251C '52':269C '58.7':254C '6':448C '6.0':647C '9':186C 'abgrenz':452C 'abschied':106C 'absturz':433C 'adhoc':272C,513C 'adhoc-meld':512C 'afr':470C 'afx':7C 'ag':247C,274C,472C 'ahrensburg/ahrensfelde':491C 'allianz':10C 'allof':110C 'alternativ':374C 'altlast':220C 'amerikan':284C 'android':635C,646C 'anfang':560C 'angab':610C 'ans':147C 'anson':37C 'antrag':386C 'antwort':325C 'anwes':135C 'anzeig':264C,526C,537C,685C 'appl':183C 'apple-betriebssyst':182C 'arm':296C,310C 'ath':227C 'aug':61C 'ausgemacht':498C 'austeritatspolit':265C 'autor':530C 'bedeut':281C 'bedroh':546C 'beend':619C 'beginn':51C 'beim':615C 'bekanntmach':475C 'belass':322C 'belasst':9C,295C 'berat':612C 'bereit':168C 'berichtet':26C 'berlin':34C 'besteht':547C 'betriebssyst':184C 'bilanz':86C 'bild':56C 'bleibt':38C 'blick':58C 'bolid':152C 'brandleg':503C 'burgerkrieg':218C 'buy':298C,315C 'can':47C 'chef':341C 'co':473C 'comput':285C 'dafur':117C 'dan':655C 'danen-kickerinn':654C 'daniel':166C 'darf':54C 'dass':44C 'datendien':20C 'debutant':46C 'demonstrationsverbot':391C,396C 'den':500C 'dennis':354C 'detail':641C 'deutsch':290C 'deutschland':225C 'dgap':271C,469C 'dgap-adhoc':270C 'dgap-afr':468C 'diesmal':651C 'diktator':673C 'direkt':48C 'doppelschlag':554C 'doris':121C 'dpa':6C 'dpa-afx':5C 'droht':241C 'druck':566C 'eigenartigerweis':458C 'einstuf':308C 'elektr':519C 'elf':40C 'encrypt':361C 'end':216C,404C 'entfernt':538C 'entschied':551C 'erst':157C,170C,371C 'euro':16C,114C,255C 'europa':576C 'europa-league-qualifikation':575C 'europaweit':486C 'fan':102C 'fc':616C 'fcz':571C 'fed':663C 'fehlgeschlag':196C 'feuerwehrleut':497C 'ff':480C 'final':630C 'fleischhau':454C 'flugzeug':206C 'ford':69C 'formel':150C 'fort':548C 'frag':133C 'freundin':440C 'frust':192C 'furcht':687C 'gabun':672C 'gabun-diktator':671C 'gd':250C 'gehor':565C 'gelandet':209C 'gelegt':506C 'gemass':476C 'gemeinsam':105C 'gerad':460C 'germanwing':436C 'germanwings-maschin':435C 'geschaltet':367C 'gescheitert':267C 'gestort':23C 'gewahlt':159C 'gewinnt':275C 'gibt':382C 'googl':627C 'grexit':692C 'griechenland':234C 'grossbank':304C 'grund':384C 'grupp':494C 'haftungsbeschrankt':240C 'halt':13C 'halvors':343C 'han':70C 'harrison':68C 'heidi':583C 'heiss':649C 'heisst':43C,424C 'henkel':471C 'herausgebracht':637C 'hilft':664C 'hochrechn':161C 'holland':544C 'hosch':653C 'hsv':419C 'hsv-neujahrsempfang':418C 'hyypia':89C 'innensenator':412C 'insgesamt':116C 'insidertrad':515C 'insolvenz':243C 'international':276C,582C,589C 'investorenveranstalt':313C 'ios':185C 'islamist':545C 'it':288C 'it-unternehm':287C 'jahr':223C,509C 'jan':342C,453C 'jann':540C 'jorg':624C 'jositsch':155C,167C 'journalist':136C 'jurg':613C 'kampft':584C 'kampus':122C 'kandidat':165C 'kaud':380C 'kauf':674C 'kgaa':474C 'kickerinn':656C 'klag':194C 'kommentar':263C,525C,536C,684C 'kommt':328C 'komplex':490C 'konnt':492C 'kopflaus':586C 'kreuz':248C 'kursportrait':511C 'kursziel':318C 'landesratin':120C 'lasst':668C 'last':505C 'lauda':140C,144C 'laut':160C 'leagu':577C 'lebt':528C 'leoni':246C 'leroy':603C 'leserempfehl':259C,324C,447C,521C,532C,680C 'let':358C 'letzt':83C 'liv':366C 'lugt':591C 'luxuskonsum':463C 'm':636C 'macht':562C 'madrid':564C 'mal':331C 'malawi':666C 'marshmallow':648C 'maschin':437C 'mega':191C 'mega-frust':190C 'mehr':569C 'mehrwert':465C 'meldung':514C 'merkel':210C 'messi':667C 'michael':413C 'milewski':614C 'milliard':228C 'million':113C 'miserabel':91C 'moral':464C 'nachricht':517C 'nahrungstechn':462C 'nasa':129C 'nebenh':639C 'nehm':108C 'netzstor':32C 'neu':231C 'neujahrsempfang':420C 'neumann':414C 'neun':502C 'niki':143C 'nix':678C 'nordlb':8C 'novemb':405C 'nunmehr':501C 'nutz':27C 'offiziell':426C 'paris':393C,401C 'pathé':339C 'pathé-westside-chef':338C 'penc':301C,321C 'pilot':444C 'plan':232C,579C 'platz':84C 'po':658C 'po-si':657C 'polizei':556C 'pp001':693A 'prasident':550C 'premi':549C 'projekt':279C,362C 'prozent':237C 'punkt':82C 'qualifikation':578C 'ran':53C 'reaktion':260C,522C,533C,681C 'real':563C 'riesig':349C 'roll':77C 'russisch':205C 'russland':214C 's':360C 's-encrypt-projekt':359C 'sagt':109C,415C 'saison':607C 'sami':88C 'san':596C,604C 'sane-wechsel':595C 'sap':278C 'sap-projekt':277C 'schafft':162C 'schalk':601C,617C 'schalke-talent':600C 'schirrmach':355C 'schreibt':455C 'schuld':229C 'schweiz':303C 'sdks':633C 'se':11C 'septemb':178C,201C 'serveruberlast':199C 'setzt':376C 'short':256C 'sier':659C 'snp':273C 'solo':71C 'sorgt':188C 'sp':164C 'sp-kandidat':163C 'spectr':348C 'spiegel':457C 'spiel':80C 'spo':123C 'sport':410C 'sprung':173C 'standerat':176C 'stell':130C 'steu':148C 'strand':661C 'sup':421C 'syri':208C 'tag':333C 'talent':602C 'terroranschlag':399C 'titel':2A 'tod':443C 'todes-pilot':442C 'toll':430C 'tor':568C 'treff':103C 'twitt':25C 'ubs':294C,305C 'uhr':19C,93C,99C,125C,139C,353C,379C,390C,409C,623C 'unt':253C 'unternehm':289C 'unternehmergesellschaft':239C 'unverandert':41C 'updat':187C,197C 'us':283C 'us-amerikan':282C 'user':193C 'verantwort':127C 'verbreit':487C 'verkorpert':72C 'verlangert':394C,406C 'verliebt':65C 'verrat':642C 'version':631C,644C 'verspricht':459C 'viel':383C 'vier':496C 'vodafon':22C,31C 'vodafone-netzstor':30C 'volksparkstadion':423C 'vorfreud':346C 'vorgeseh':118C 'vorles':356C,626C 'wahlgang':158C,171C 'wahlt':690C 'webseit':365C 'wechsel':597C 'weltberuhmt':78C 'wer':590C 'werbung':516C 'westsid':335C,340C 'wint':599C 'wirtg':625C 'word':407C 'wphg':481C 'wurd':74C 'zeich':431C 'zertifikat':372C 'zertifizierungsstell':375C 'ziel':14C,299C,484C 'zon':689C 'zuruck':142C 'zusammenarbeit':212C 'zuzustimm':387C 'zwei':640C
-6769077249737786120	Fallengelassener Antrag	Einfach so fallengelassen...			\N	2020-01-01 00:00:00	\N	\N	ABANDONED	\N	\N	2	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'einfach':3C 'fallengelass':1A,5C
-6769077249744553781	Sich ändernder Antrag	Einfach so ändernd...			\N	2020-01-01 00:00:00	\N	\N	CHANGING	\N	\N	3	\N	\N	http://example.com	{}	PUBLIC	'andernd':2A,6C 'antrag':3A 'einfach':4C
-6769077249745788325	Entstehender Antrag	Einfach so entstehend...			\N	2020-01-06 00:00:00	\N	\N	DRAFT	\N	2	4	\N	\N	\N	{}	PUBLIC	'antrag':2A 'einfach':3C 'entsteh':1A,5C
-6769077249745559767	Übertragener Antrag	Einfach so Übertragen...			\N	2020-01-06 00:00:00	2020-01-06 00:00:00	\N	SUBMITTED	\N	\N	5	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'einfach':3C 'ubertrag':1A,5C
-6769077249753597599	Qualifizierter Antrag	Einfach so qualifiziert...			\N	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	QUALIFIED	\N	\N	6	\N	\N	\N	{}	PUBLIC	'antrag':2A 'einfach':3C 'qualifiziert':1A,5C
-6769077249757422710	Antrag mit nicht unterstütztem Ergebnisformat	10:08 DGAP-Adhoc: nebag ag: Provisorisch berechneter innerer Wert pro Aktie per 3Dezember 2014 beträgt CHF 9.95 (Performance von 7.38% inkl. Ausschüttung) 01.12. Plötzlich erblickte er den schmalen Durchgang. 1962 schaffte sich die Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU) die Rechenanlage ZUSE Z23 an und nutzte sie bis in die 70er Jahre. 12910198 Kevin Kuranyi: „Russisches Sommermärchen“ WM 2018 – warum nicht? 1985 - Die UdSSR unterzeichnet Abkommen mit der Internationalen Atomenergiebehörde über die Kontrolle ihrer zivilen Kernanlagen. 10. Sahne mit Vanillezucker steif schlagen, etwas davon in einen Spritzbeutel geben und den Rest oben auf die Torte streichen. Das bedeutete nichts Gutes. 17:19 Uhr Hamilton jagt den nächsten Rekord Gewinnt der Weltmeister am Sonntag auf dem Hungaroring, wäre er der erste Fahrer, dem dieses Kunststück fünfmal gelingt. 10. Deutschlands Kriegsschulden wurden im Londoner Schuldenabkommen von 1953 zum großen Teil erlassen. ¹ Fast 2500 Schulen sind geschlossen. “ 12. Januar 2015 um 06:07 Ein Chef der beschriebenen Sorte interessiert sich einen feuchten Staub ob man eine Wut im Bauch hat. 09:43 Commerzbank hebt Rhön-Klinikum auf 'Buy' und Ziel auf 30 Euro Die Commerzbank hat Rhön-Klinikum von "Hold" auf "Buy" hochgestuft und das Kursziel von 25 auf 30 Euro angehoben. " 18 Leserempfehlungen Reaktionen auf diesen Kommentar anzeigen versteht exakt alles! 13.30 Uhr: Der Dax Börsen-Chart zeigen baut angesichts einer nahenden Staatspleite Griechenlands seine Verluste auf 0,6 Prozent aus und fällt wieder unter die Marke von 11.000 Punkten. 10:35 Das ist nur der fünfte und letzte Platz für die Tina - Über eine halbe Sekunde Rückstand! 1999 in Karlsruhe: Eine Frau und zwei Männer erwarten gespannt mit Schutzbrillen die totale Sonnenfinsternis. 14. 2014 legte der Toyota TS040-Hybrid mit Davidson, Sebastien Buemi und Nicolas Lapierre 1197,67 km (171 Runden) zurück. 11:52Mustafi droht längere Zwangspause Nationalspieler Shkodran Mustafi droht wegen einer Muskelverletzung eine längere Zwangspause. 1 2 weiter » Hill das ist schon ungefähr der 10. teaser den sie veröffentlichen aber sie releasen einfach nichts. 160 statt 80 km/h Vater rast mit Sohn (6) auf dem Töff Raser Patrice M. (29) hatte nicht mal das Billett Mit 135 Km/h durch Hägendorf Bundesgericht verfügt Zug muss Raser 2000 Fr zahlen!			PP001	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	7	\N	\N	http://example.com	{}	PUBLIC	'0':238C '01.12':30C '06':158C '07':159C '08':7C '09':177C '1':320C '10':6C,86C,136C,251C,329C '11':305C '11.000':249C '1197':299C '12':154C '12910198':62C '13.30':221C '135':361C '14':284C '160':339C '17':110C '171':302C '18':211C '19':111C '1953':144C '1962':37C '1985':71C '1999':269C '2':321C '2000':370C '2014':21C,285C '2015':156C '2018':68C '25':206C '2500':150C '29':354C '30':189C,208C '35':252C '3dezember':20C '43':178C '52mustafi':306C '6':239C,347C '67':300C '7.38':27C '70er':60C '80':341C '9.95':24C 'abkomm':75C 'adhoc':10C 'ag':12C 'akti':18C 'alexand':43C 'angehob':210C 'angesicht':230C 'antrag':1A 'anzeig':217C 'atomenergiebehord':79C 'ausschutt':29C 'bauch':175C 'baut':229C 'bedeutet':107C 'berechnet':14C 'beschrieb':163C 'betragt':22C 'billett':359C 'bors':226C 'borsen-chart':225C 'buemi':295C 'bundesgericht':365C 'buy':185C,200C 'chart':227C 'chef':161C 'chf':23C 'commerzbank':179C,192C 'davidson':293C 'davon':93C 'dax':224C 'deutschland':137C 'dgap':9C 'dgap-adhoc':8C 'droht':307C,313C 'durchgang':36C 'einfach':337C 'erblickt':32C 'ergebnisformat':5A 'erlang':46C 'erlangen-nurnberg':45C 'erlass':148C 'erst':129C 'erwart':277C 'euro':190C,209C 'exakt':219C 'fahr':130C 'fallt':243C 'fast':149C 'fau':48C 'feucht':168C 'fr':371C 'frau':273C 'friedrich':42C 'friedrich-alexander-universitat':41C 'funfmal':134C 'funft':257C 'geb':97C 'gelingt':135C 'geschloss':153C 'gespannt':278C 'gewinnt':118C 'griechenland':234C 'gross':146C 'gut':109C 'hagendorf':364C 'halb':266C 'hamilton':113C 'hebt':180C 'hill':323C 'hochgestuft':201C 'hold':198C 'hungaroring':125C 'hybrid':291C 'inkl':28C 'inn':15C 'interessiert':165C 'international':78C 'jagt':114C 'jahr':61C 'januar':155C 'karlsruh':271C 'kernanlag':85C 'kevin':63C 'klinikum':183C,196C 'km':301C 'km/h':342C,362C 'kommentar':216C 'kontroll':82C 'kriegsschuld':138C 'kunststuck':133C 'kuranyi':64C 'kursziel':204C 'lang':308C,318C 'lapierr':298C 'legt':286C 'leserempfehl':212C 'letzt':259C 'london':141C 'm':353C 'mal':357C 'mann':276C 'mark':247C 'muskelverletz':316C 'mustafi':312C 'nach':116C 'nahend':232C 'nationalspiel':310C 'nebag':11C 'nicolas':297C 'nurnberg':47C 'nutzt':55C 'oben':101C 'patric':352C 'per':19C 'performanc':25C 'platz':260C 'plotzlich':31C 'pp001':373A 'pro':17C 'provisor':13C 'prozent':240C 'punkt':250C 'ras':351C,369C 'rast':344C 'reaktion':213C 'rechenanlag':50C 'rekord':117C 'releas':336C 'rest':100C 'rhon':182C,195C 'rhon-klinikum':181C,194C 'ruckstand':268C 'rund':303C 'russisch':65C 'sahn':87C 'schafft':38C 'schlag':91C 'schmal':35C 'schon':326C 'schul':151C 'schuldenabkomm':142C 'schutzbrill':280C 'sebasti':294C 'sekund':267C 'shkodran':311C 'sohn':346C 'sommermarch':66C 'sonnenfinsternis':283C 'sonntag':122C 'sort':164C 'spritzbeutel':96C 'staatspleit':233C 'statt':340C 'staub':169C 'steif':90C 'streich':105C 'teas':330C 'teil':147C 'tina':263C 'toff':350C 'tort':104C 'total':282C 'toyota':288C 'ts040':290C 'ts040-hybrid':289C 'udssr':73C 'uhr':112C,222C 'ungefahr':327C 'universitat':44C 'unterstutzt':4A 'unterzeichnet':74C 'vanillezuck':89C 'vat':343C 'verfugt':366C 'verlust':236C 'veroffent':333C 'versteht':218C 'war':126C 'warum':69C 'weg':314C 'weltmeist':120C 'wert':16C 'wm':67C 'wurd':139C 'wut':173C 'z23':52C 'zahl':372C 'zeig':228C 'ziel':187C 'zivil':84C 'zug':367C 'zuruck':304C 'zus':51C 'zwangspaus':309C,319C 'zwei':275C
-6769077249765775280	Angenommener Antrag	12:01 Uhr - FAW-Volkswagen und Shanghai Volkswagen, zwei chinesische Volkswagen-Joint-Ventures, haben erklärt, vom Skandal um manipulierte Abgaswerte nicht betroffen zu sein. 13:55Auch Barmer Ersatzkasse erhöht Zusatzbeitrag Der Beitragssatz der Barmer GEK steigt im kommenden Jahr auf 15,7 Prozent.			PP005	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	8	\N	\N	http://example.com	{}	PUBLIC	'01':4C '12':3C '13':29C '15':45C '55auch':30C '7':46C 'abgaswert':24C 'angenomm':1A 'antrag':2A 'barm':31C,38C 'beitragssatz':36C 'betroff':26C 'chines':13C 'erhoht':33C 'erklart':19C 'ersatzkass':32C 'faw':7C 'faw-volkswag':6C 'gek':39C 'jahr':43C 'joint':16C 'kommend':42C 'manipuliert':23C 'pp005':48A 'prozent':47C 'shanghai':10C 'skandal':21C 'steigt':40C 'uhr':5C 'ventur':17C 'volkswag':8C,11C,15C 'volkswagen-joint-ventur':14C 'zusatzbeitrag':34C 'zwei':12C
-6769077249768528865	Abgelehnter Antrag	Bla			PP006	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	9	\N	\N	http://example.com	{}	PUBLIC	'abgelehnt':1A 'antrag':2A 'bla':3C 'pp006':4A
-6769077249766705726	Verschobener Antrag	Blubb			PP007	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	10	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'blubb':3C 'pp007':4A 'verschob':1A
-6769077249776842760	Änderungsantrag zu PP001	will was ändern			PP004	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	SCHEDULED	\N	\N	1	6769077249719871953	\N	\N	{}	PUBLIC	'and':6C 'anderungsantrag':1A 'pp001':3A 'pp004':7A
-6769077249780739847	Gegenantrag zu PP001	will was anderes			PP002	2020-01-02 00:00:00	2020-01-07 00:00:00	2020-01-10 00:00:00	SCHEDULED	\N	\N	1	\N	6769077249719871953	\N	{}	PUBLIC	'gegenantrag':1A 'pp001':3A 'pp002':4A
-6769077249786746253	Noch ein Gegenantrag zu PP001 mit Volltextsuche	will was ganz anderes, ich will Volltextsuche			PP003	2020-01-03 00:00:00	2020-01-09 00:00:00	2020-01-24 00:00:00	SCHEDULED	\N	\N	1	\N	6769077249719871953	\N	{}	PUBLIC	'ganz':10C 'gegenantrag':3A 'pp001':5A 'pp003':15A 'volltextsuch':7A,14C
-6769077249785839928	Abgelehnter Gegenantrag zum Verschobenen Antrag PP007	Gegenantrag von PP008			PP008	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	10	6769077249766705726	\N	http://example.com	{}	PUBLIC	'abgelehnt':1A 'antrag':5A 'gegenantrag':2A,7C 'pp007':6A 'pp008':9C,10A 'verschob':4A
+6775098944857779980	Ein Titel	13:23 dpa-AFX: Citigroup startet Deutsche Wohnen mit 'Buy' - Ziel 29,70 Euro 20.07. 12.20 Uhr - Der Wechsel an der Spitze des Bundesamts für Migration und Flüchtlinge (BAMF) bietet nach Ansicht des CDU-Innenexperten Armin Schuster die Chance auf eine bessere Arbeit der Behörde. 14 Uhr: Die Lufthansa-Aktie liegt bereits seit dem Morgen im Minus und verliert bis zum frühen Nachmittag mehr als vier Prozent. 1100 Euro Preisgeld am Sonntag sind verlockend "Die haben dann den Kontakt zur Spielvereinigung hergestellt", erklärt Beste. 15:33 Fuchs Petrolub: Plus 10 Prozent Die Analysten der Nord LB bestätigen die Halteempfehlung für die Aktien von Fuchs Petrolub. 11:04 Citigroup senkt HeidelbergCement auf 'Neutral' - Ziel aber rauf Die US-Bank Citigroup hat HeidelbergCement von "Buy" auf "Neutral" abgestuft, das Kursziel aber von 69 auf 77 Euro angehoben. 18. Januar 2015 14:20 - Aktualisiert 15:59 von Claudia von Duehren Sie trinkt stilles Mondwasser, knabbert Cashewkerne und plaudert über ihr Leben. 1/11 Der Sieg ist im Trockenen: Seferovic ballt nach dem dritten Schweizer Tor die Faust: Shaqiri hatte ihn bedient. 1200 Gäste kamen zur Preisverleihung ins Deutsche Schauspielhaus. 15.30 Uhr Ibrahim hilft beim Sortieren der Spenden, jeden Tag mehrere Stunden. 11/17/15 8:38 PM Pistorius sagt, die Einsatzlage in Hannover bleibe bis spätestens morgen "unverändert". 19.05.2017 - Tobias Simon Könnte dich interessieren The Last Guardian Gerücht: Neue Informationen auf der E3? 1' Anpfiff Ersatz-Schiedsrichter Sascha Amhof gibt die Partie frei! 15 PC GAMES Pillars of Eternity im Testvideo: So klasse ist das inoffizielle Baldur's Gate 3, Pillars of Eternity: Let's Play des bis jetzt grandiosen Kickstarter-Rollenspiels (Spoileralarm) uvm. 10:30 Felix Neureuther (GER) ist gestartet, das Rennen beginnt! 10:26 Auch in Adelboden ist es für Jänner extrem warm. 13 Diäten später ist aus dem Experiment ein Buch geworden: "I'll Have What She's Having. 100 Amazon-Bestseller: Begehrte Produkte im Test! 1&1 DSL Vorteilswochen: Mobilflat kostenlos zubuchbar. 1&1: 24 Monate lang 10 Euro sparen Bei 1&1 profitieren Kunden aktuell von den Vorteilswochen. 15:49 SocGen belässt Evonik auf 'Buy' Die französische Großbank Societe Generale (SocGen) hat die Einstufung für Evonik auf "Buy" belassen. 1/4 Wer ist verantwortlich für das hohe Preisniveau in der Schweiz – die Bauern oder die Detailhändler? 15:52 JPMorgan nimmt Repsol mit 'Neutral' wieder auf - Ziel 16,80 Euro Die US-Bank JPMorgan hat Repsol mit "Neutral" und einem Kursziel von 16,80 Euro in die Bewertung wieder aufgenommen. Eine gruselige Allianz (taz. 16 Bilder "Fifa 16" im Test: Das ist neu im EA-Sports-Spiel Markus Böhm Hey Jörg, "PES 2016" ist schon eine Woche draußen, "Fifa 16" erscheint Donnerstag. 1400 Tonnen Öl an Bord Der russische Trawler «Oleg Neidenow» war bereits am 15. April zirka 24 Kilometer vor der Insel gesunken. 14.26 Uhr: Die Ursache für den Absturz der Germanwings-Maschine in Südfrankreich wird nach Ansicht eines Branchenexperten erst in einigen Wochen endgültig geklärt sein. 19.00 Uhr: Eine Schweigeminute gibt es noch für Ex-Nationalspieler Wolfram Wuttke, der in der Nacht zu Sonntag verstorben ist. 17:34 In Berlin wurde heute laut Polizeiangaben ein Islamist von der Polizei erschossen. 100.000 Freiwillige gesucht Von der Maßnahme selbst scheint man aber überzeugt zu sein. 1 2 3 Fazit Pro & Kontra So testet 4Players Bitte hier klicken, um an der Diskussion teilzunehmen! 11.20 Uhr - Fernduell Merkel - Seehofer: Als Horst Seehofer um kurz nach zehn zu seiner Regierungserklärung im bayerischen Landtag ansetzte, war Angela Merkel schon durch. 16.41 Uhr: Alzenau - Die Polizei hat am Donnerstag einen Busfahrer gestoppt, der volltrunken hinterm Steuer saß. 18 Leserempfehlungen Antwort auf "Wichtig ist doch, dass auf jeden Fall die EU-Kommission ihren.. Bundesliga, 2015/16, 1Spieltag Hamburger SV - Hannover 96 1:2 Unter Bruno Labbadia hat sich der Hamburger SV gefangen und ist in der Tabelle nach oben geklettert. Im Gegensatz zu früheren Webseiten müssen wir zum Beispiel nicht mehr zwei verschiedene Webseiten für den Internet Explorer und einen anderen Browser programmieren. 1 Festtagskarten der Bundesräte Bloss nicht Weihnachten! 13.31 Uhr: EU-Kommissionspräsident Jean-Claude Juncker hat kurz vor dem Eurogruppe-Treffen ein Krisengespräch mit Ministerpräsident Alexis Tsipras geführt. 1 2 3 weiter » KuchenDeluxe Weiß jemand hier was zum Gerücht, dass das Spiel wegen der alten Hintergründe nur in 4:3 spielbar sein wird? 15.41 Uhr: Die Angst vor Ebola hat nach britischen Angaben zu einem vorläufigen Stopp der Genitalverstümmelung bei Frauen in Sierra Leone und Liberia geführt. 12.09.2017 10:04 Uhr Denise Bergert vorlesen 2016 soll es erste Drohnen mit Snapdragon Flight geben. 10.25 Uhr: Das pleitebedrohte Griechenland hat einen neuen Antrag für Rettungsmilliarden beim Eurorettungsschirm ESM gestellt.			PP001	2020-01-01 00:00:00	2020-01-05 00:00:00	2020-01-08 00:00:00	SCHEDULED	\N	\N	1	\N	\N	http://example.com	{}	PUBLIC	'..':619C '04':112C,750C '1':234C,323C,324C,330C,331C,339C,340C,546C,627C,669C,699C '1/11':165C '1/4':368C '10':95C,277C,287C,335C,749C '10.25':764C '100':315C '100.000':533C '11':111C '11.20':563C '11/17/15':204C '1100':73C '12.09.2017':748C '12.20':19C '1200':184C '13':3C,298C '13.31':676C '14':50C,145C '14.26':473C '1400':451C '15':90C,148C,245C,347C,384C,464C '15.30':192C '15.41':724C '16':394C,410C,422C,425C,448C '16.41':587C '17':519C '18':142C,603C '19.00':498C '19.05.2017':219C '1spieltag':622C '2':547C,628C,700C '20':146C '20.07':18C '2015':144C '2015/16':621C '2016':441C,755C '23':4C '24':332C,467C '26':288C '29':15C '3':261C,548C,701C,720C '30':278C '33':91C '34':520C '38':206C '4':719C '49':348C '4players':554C '52':385C '59':149C '69':137C '70':16C '77':139C '8':205C '80':395C,411C '96':626C 'abgestuft':132C 'absturz':479C 'adelbod':291C 'afx':7C 'akti':55C,107C 'aktualisiert':147C 'aktuell':343C 'alexis':696C 'allianz':420C 'alt':715C 'alzenau':589C 'amazon':317C 'amazon-bestsell':316C 'amhof':240C 'analyst':98C 'angab':733C 'angehob':141C 'angela':583C 'angst':727C 'anpfiff':235C 'ansetzt':581C 'ansicht':35C,488C 'antrag':772C 'antwort':605C 'april':465C 'arbeit':47C 'armin':40C 'aufgenomm':417C 'baldur':258C 'ballt':172C 'bamf':32C 'bank':124C,400C 'bau':380C 'bayer':579C 'bedient':183C 'begehrt':319C 'beginnt':286C 'behord':49C 'beim':196C,775C 'beispiel':654C 'belass':367C 'belasst':350C 'bereit':57C,462C 'bergert':753C 'berlin':522C 'bess':46C 'best':89C 'bestat':102C 'bestsell':318C 'bewert':415C 'bietet':33C 'bild':423C 'bitt':555C 'bleib':214C 'bloss':673C 'bohm':437C 'bord':455C 'branchenexpert':490C 'britisch':732C 'brows':667C 'bruno':630C 'buch':306C 'bundesamt':27C 'bundesliga':620C 'bundesrat':672C 'busfahr':596C 'buy':13C,129C,353C,366C 'cashewkern':159C 'cdu':38C 'cdu-innenexpert':37C 'chanc':43C 'citigroup':8C,113C,125C 'claud':683C 'claudia':151C 'dass':610C,710C 'denis':752C 'detailhandl':383C 'deutsch':10C,190C 'diat':299C 'diskussion':561C 'donnerstag':450C,594C 'dpa':6C 'dpa-afx':5C 'drauss':446C 'dritt':175C 'drohn':759C 'dsl':325C 'duehr':153C 'e3':233C 'ea':433C 'ea-sports-spiel':432C 'ebola':729C 'einsatzlag':211C 'einstuf':362C 'endgult':495C 'erklart':88C 'ersatz':237C 'ersatz-schiedsricht':236C 'erscheint':449C 'erschoss':532C 'erst':491C,758C 'esm':777C 'eternity':250C,264C 'eu':616C,679C 'eu-kommission':615C 'eu-kommissionsprasident':678C 'euro':17C,74C,140C,336C,396C,412C 'eurogrupp':690C 'eurogruppe-treff':689C 'eurorettungsschirm':776C 'evon':351C,364C 'ex':507C 'ex-nationalspiel':506C 'experiment':304C 'explor':663C 'extr':296C 'fall':613C 'faust':179C 'fazit':549C 'felix':279C 'fernduell':565C 'festtagskart':670C 'fifa':424C,447C 'flight':762C 'fluchtling':31C 'franzos':355C 'frau':741C 'frei':244C 'freiwill':534C 'fruh':67C,649C 'fuch':92C,109C 'gam':247C 'gast':185C 'gat':260C 'geb':763C 'gefang':637C 'gefuhrt':698C,747C 'gegensatz':647C 'geklart':496C 'geklettert':645C 'general':358C 'genitalverstummel':739C 'ger':281C 'germanwing':482C 'germanwings-maschin':481C 'gerucht':228C,709C 'gestartet':283C 'gestellt':778C 'gestoppt':597C 'gesucht':535C 'gesunk':472C 'geword':307C 'gibt':241C,502C 'grandios':271C 'griechenland':768C 'grossbank':356C 'grusel':419C 'guardian':227C 'halteempfehl':104C 'hamburg':623C,635C 'hannov':213C,625C 'hav':310C 'having':314C 'heidelbergcement':115C,127C 'hergestellt':87C 'heut':524C 'hey':438C 'hilft':195C 'hintergrund':716C 'hinterm':600C 'hoh':374C 'horst':569C 'i':308C 'ibrahim':194C 'information':230C 'innenexpert':39C 'inoffiziell':257C 'insel':471C 'interessi':224C 'internet':662C 'islamist':528C 'jann':295C 'januar':143C 'jean':682C 'jean-claud':681C 'jemand':705C 'jorg':439C 'jpmorgan':386C,401C 'junck':684C 'kam':186C 'kickstart':273C 'kickstarter-rollenspiel':272C 'kilomet':468C 'klass':254C 'klick':557C 'knabbert':158C 'kommission':617C 'kommissionsprasident':680C 'kontakt':84C 'kontra':551C 'kostenlos':328C 'krisengesprach':693C 'kuchendelux':703C 'kund':342C 'kursziel':134C,408C 'kurz':572C,686C 'labbadia':631C 'landtag':580C 'lang':334C 'last':226C 'laut':525C 'lb':101C 'leb':164C 'leon':744C 'leserempfehl':604C 'let':265C 'liberia':746C 'liegt':56C 'll':309C 'lufthansa':54C 'lufthansa-akti':53C 'markus':436C 'maschin':483C 'massnahm':538C 'mehr':69C,202C,656C 'merkel':566C,584C 'migration':29C 'ministerprasident':695C 'minus':62C 'mobilflat':327C 'monat':333C 'mondwass':157C 'morg':60C,217C 'muss':651C 'nachmittag':68C 'nacht':514C 'nationalspiel':508C 'neidenow':460C 'neu':229C,430C,771C 'neureuth':280C 'neutral':117C,131C,390C,405C 'nimmt':387C 'nord':100C 'oben':644C 'of':249C,263C 'ol':453C 'oleg':459C 'parti':243C 'pc':246C 'pes':440C 'petrolub':93C,110C 'pillar':248C,262C 'pistorius':208C 'plaudert':161C 'play':267C 'pleitebedroht':767C 'plus':94C 'pm':207C 'polizei':531C,591C 'polizeiangab':526C 'pp001':779A 'preisgeld':75C 'preisniveau':375C 'preisverleih':188C 'pro':550C 'produkt':320C 'profiti':341C 'programmi':668C 'prozent':72C,96C 'rauf':120C 'regierungserklar':577C 'renn':285C 'repsol':388C,403C 'rettungsmilliard':774C 'rollenspiel':274C 'russisch':457C 's':259C,266C,313C 'sagt':209C 'sascha':239C 'sass':602C 'schauspielhaus':191C 'scheint':540C 'schiedsricht':238C 'schon':443C,585C 'schust':41C 'schweigeminut':501C 'schweiz':176C,378C 'seehof':567C,570C 'seferovic':171C 'seit':58C 'senkt':114C 'shaqiri':180C 'she':312C 'sieg':167C 'sierra':743C 'simon':221C 'snapdragon':761C 'socg':349C,359C 'societ':357C 'sonntag':77C,516C 'sorti':197C 'spar':337C 'spat':300C 'spatest':216C 'spend':199C 'spiel':435C,712C 'spielbar':721C 'spielverein':86C 'spitz':25C 'spoileralarm':275C 'sport':434C 'startet':9C 'steu':601C 'still':156C 'stopp':737C 'stund':203C 'sudfrankreich':485C 'sv':624C,636C 'tabell':642C 'tag':201C 'taz':421C 'teilzunehm':562C 'test':322C,427C 'testet':553C 'testvideo':252C 'the':225C 'titel':2A 'tobias':220C 'tonn':452C 'tor':177C 'trawl':458C 'treff':691C 'trinkt':155C 'trock':170C 'tsipras':697C 'uberzeugt':543C 'uhr':20C,51C,193C,474C,499C,564C,588C,677C,725C,751C,765C 'unverandert':218C 'ursach':476C 'us':123C,399C 'us-bank':122C,398C 'uvm':276C 'verantwort':371C 'verliert':64C 'verlock':79C 'verschied':658C 'verstorb':517C 'vier':71C 'volltrunk':599C 'vorlauf':736C 'vorles':754C 'vorteilswoch':326C,346C 'warm':297C 'webseit':650C,659C 'wechsel':22C 'weg':713C 'weihnacht':675C 'weiss':704C 'wer':369C 'what':311C 'wichtig':607C 'woch':445C,494C 'wohn':11C 'wolfram':509C 'wurd':523C 'wuttk':510C 'zehn':574C 'ziel':14C,118C,393C 'zirka':466C 'zubuchbar':329C 'zwei':657C
+6775098944879793994	Fallengelassener Antrag	Einfach so fallengelassen...			\N	2020-01-01 00:00:00	\N	\N	ABANDONED	\N	\N	2	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'einfach':3C 'fallengelass':1A,5C
+6775098944879878150	Sich ändernder Antrag	Einfach so ändernd...			\N	2020-01-01 00:00:00	\N	\N	CHANGING	\N	\N	3	\N	\N	http://example.com	{}	PUBLIC	'andernd':2A,6C 'antrag':3A 'einfach':4C
+6775098944882475370	Entstehender Antrag	Einfach so entstehend...			\N	2020-01-06 00:00:00	\N	\N	DRAFT	\N	2	4	\N	\N	\N	{}	PUBLIC	'antrag':2A 'einfach':3C 'entsteh':1A,5C
+6775098944883426365	Übertragener Antrag	Einfach so Übertragen...			\N	2020-01-06 00:00:00	2020-01-06 00:00:00	\N	SUBMITTED	\N	\N	5	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'einfach':3C 'ubertrag':1A,5C
+6775098944888558306	Qualifizierter Antrag	Einfach so qualifiziert...			\N	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	QUALIFIED	\N	\N	6	\N	\N	\N	{}	PUBLIC	'antrag':2A 'einfach':3C 'qualifiziert':1A,5C
+6775098944887195566	Antrag mit nicht unterstütztem Ergebnisformat	13. Etappe - Degenkolb bei Van-Avermaet-Sieg auf Platz vier Der deutsche Sprintstar John Degenkolb (Gera/Giant-Alpecin) hat auf der 13. Etappe der Tour de France erneut einen Sieg verpasst. 11.02.2017 Marvels Spider-Man geht voraussichtlich wieder zur Schule Keine gute Nachricht ohne einen kleinen Wermutstropfen. 17.21 Uhr, Nato-Generalsekretär legt sich bei Waffenlieferungen nicht fest Nato-Generalsekretär Jens Stoltenberg legt sich in der Frage möglicher Waffenlieferungen an die Ukraine nicht fest. 12.01.2017Menschen sind darauf programmiert, mit Angehörigen ihrer eigenen Gruppe, kaum aber mit „den anderen“ zu fühlen. 16 junge Fotografen rückten sich selber sowie mitgebrachte Gegenstände im Fotostudio in Frick ins beste Licht. 10:39 Gerresheimer AG: Kreuzen des GD 20 nach unten (63.8 Euro, Short) 02.09. Best of MDAX - Die aussichtsreichsten Kandidaten bei einer Rally? 31.08. 1899 Hoffenheim - Bayern München (Samstag, 15.30 Uhr) SITUATION: Die Bayern kommen nach dem 5:0 gegen den HSV als Tabellenführer in den Kraichgau. 1953 verschob das Londoner Schuldenabkommen die Regelung deutscher Reparationen auf die Zeit nach Abschluss eines „förmlichen Friedensvertrages“. 10. Mit je einer Aprikosenhälfte (oder kleiner geschnittenen Pfirsichhälfte) belegen und nochmals mit etwas Puderzucker bestäuben. 16.39 Uhr: Dann geht es wieder um Russland. 1Spiel: Süßigkeiten Es sollen diverse Süßigkeiten wie Puffreis und Lakritzschnecken in vorgegebenen Gramm-Zahlen abgewogen werden – allerdings nach Gefühl. 17' Das muss das 2:1 für die Zürcher sein! 19. Februar 2015 12:00 - Aktualisiert 13:00 von B.Z. Innerhalb von rund zwei Wochen soll dieser Mann zwei jungen Frauen die Haare angezündet haben! 124613 Kiew befürchtet stillschweigende Einigung des Westens mit Russland - MedienUkrainische Politiker vermuten, dass der Westen „in Russlands Interesse“ agiert. 17.01 Uhr: Die Favoritinnen werden hier nichts holen. 18:00 DGAP-Adhoc: Airopack Technology Group AG - Reorganisation der Aktionärsstruktur: Quint Kelders übernimmt Mehrheit der von der Familie kontrollierten Aktien (deutsch) 10.06. 17.28 Uhr: Es geht um die taktische Ausrichtung der Bayern. 12.51 Uhr: Das Hilfsprogramm für Griechenland dürfte nach Einschätzung von EZB-Direktor Benoit Coeure abgeändert werden, um der griechischen Regierung entgegenzukommen. Granatapfel Foto: volff - Fotolia/volff/Fotolia Der Granatapfel wird als Superfruit gehandelt, einige Wirkungen sind belegt. 102. Tour de France Alle Ausfälle im Überblick Auch die 102. Tour de France muss bereits nach der ersten Woche viele prominente Ausfälle verkraften.			PP001	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	7	\N	\N	http://example.com	{}	PUBLIC	'0':152C '00':236C,239C,285C '02.09':127C '1':227C '10':114C,178C '10.06':307C '102':354C,364C '11.02.2017':36C '12':235C '12.01.2017':81C '12.51':318C '124613':257C '13':6C,26C,238C '15.30':143C '16':98C '16.39':194C '17':222C '17.01':276C '17.21':53C '17.28':308C '18':284C '1899':138C '19':232C '1953':161C '1spiel':202C '2':226C '20':121C '2015':234C '31.08':137C '39':115C '5':151C '63.8':124C 'abgeandert':333C 'abgewog':217C 'abschluss':174C 'adhoc':288C 'ag':117C,292C 'agiert':275C 'airopack':289C 'akti':305C 'aktionarsstruktur':295C 'aktualisiert':237C 'allerding':219C 'angehor':87C 'angezundet':255C 'antrag':1A 'aprikosenhalft':182C 'ausfall':359C,376C 'ausricht':315C 'aussichtsreich':132C 'avermaet':12C 'b.z':241C 'bay':140C,147C,317C 'befurchtet':259C 'beleg':187C 'belegt':353C 'benoit':331C 'bereit':369C 'best':112C,128C 'bestaub':193C 'coeur':332C 'darauf':84C 'dass':269C 'de':30C,356C,366C 'degenkolb':8C,21C 'deutsch':18C,168C,306C 'dgap':287C 'dgap-adhoc':286C 'direktor':330C 'divers':206C 'durft':324C 'eig':89C 'einig':261C 'einschatz':326C 'entgegenzukomm':339C 'ergebnisformat':5A 'erneut':32C 'erst':372C 'etapp':7C,27C 'euro':125C 'ezb':329C 'ezb-direktor':328C 'famili':303C 'favoritinn':279C 'februar':233C 'fest':63C,80C 'formlich':176C 'foto':341C 'fotograf':100C 'fotolia/volff/fotolia':343C 'fotostudio':108C 'frag':73C 'franc':31C,357C,367C 'frau':252C 'frick':110C 'friedensvertrag':177C 'fuhl':97C 'gd':120C 'gefuhl':221C 'gegenstand':106C 'gehandelt':349C 'geht':41C,197C,311C 'generalsekretar':57C,66C 'gera/giant-alpecin':22C 'gerresheim':116C 'geschnitt':185C 'gramm':215C 'gramm-zahl':214C 'granatapfel':340C,345C 'griechenland':323C 'griechisch':337C 'group':291C 'grupp':90C 'gut':47C 'haar':254C 'hilfsprogramm':321C 'hoffenheim':139C 'hol':283C 'hsv':155C 'innerhalb':242C 'interess':274C 'je':180C 'jen':67C 'john':20C 'jung':99C,251C 'kandidat':133C 'kaum':91C 'keld':297C 'kiew':258C 'klein':51C,184C 'komm':148C 'kontrolliert':304C 'kraichgau':160C 'kreuz':118C 'lakritzschneck':211C 'legt':58C,69C 'licht':113C 'london':164C 'mann':249C 'marvel':37C 'mdax':130C 'medienukrain':266C 'mehrheit':299C 'mensch':82C 'mitgebracht':105C 'moglich':74C 'munch':141C 'nachricht':48C 'nato':56C,65C 'nato-generalsekretar':55C,64C 'nochmal':189C 'of':129C 'pfirsichhalft':186C 'platz':15C 'polit':267C 'pp001':378A 'programmiert':85C 'prominent':375C 'puderzuck':192C 'puffreis':209C 'quint':296C 'rally':136C 'regel':167C 'regier':338C 'reorganisation':293C 'reparation':169C 'ruckt':101C 'rund':244C 'russland':201C,265C,273C 'samstag':142C 'schul':45C 'schuldenabkomm':165C 'selb':103C 'short':126C 'sieg':13C,34C 'situation':145C 'soll':205C 'sowi':104C 'spid':39C 'spider-man':38C 'sprintstar':19C 'stillschweig':260C 'stoltenberg':68C 'superfruit':348C 'sussig':203C,207C 'tabellenfuhr':157C 'taktisch':314C 'technology':290C 'tour':29C,355C,365C 'uberblick':361C 'ubernimmt':298C 'uhr':54C,144C,195C,277C,309C,319C 'ukrain':78C 'unt':123C 'unterstutzt':4A 'van':11C 'van-avermaet-sieg':10C 'verkraft':377C 'vermut':268C 'verpasst':35C 'verschob':162C 'viel':374C 'vier':16C 'volff':342C 'voraussicht':42C 'vorgegeb':213C 'waffenliefer':61C,75C 'wermutstropf':52C 'west':263C,271C 'wirkung':351C 'woch':246C,373C 'zahl':216C 'zeit':172C 'zurch':230C 'zwei':245C,250C
+6775098944889674652	Angenommener Antrag	1 4 0 0 Keine Kommentare Andre ist Jahrgang 1983 und unterstützt seit September 2013 die Redaktion von silicon.de als Volontär. 1637472Rund 6.000 Demonstranten haben Mittwochvormittag an der Blockupy-Randale in Frankfurt teilgenommen, gaben Vertreter des linksradikalen Bündnisses Blockupy bei einer Pressekonferenz an.			PP005	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	8	\N	\N	http://example.com	{}	PUBLIC	'0':5C,6C '1':3C '1637472rund':24C '1983':12C '2013':17C '4':4C '6.000':25C 'andr':9C 'angenomm':1A 'antrag':2A 'blockupy':32C,42C 'blockupy-randal':31C 'bundnis':41C 'demonstrant':26C 'frankfurt':35C 'gab':37C 'jahrgang':11C 'kommentar':8C 'linksradikal':40C 'mittwochvormittag':28C 'pp005':46A 'pressekonferenz':45C 'randal':33C 'redaktion':19C 'seit':15C 'septemb':16C 'silicon.de':21C 'teilgenomm':36C 'unterstutzt':14C 'vertret':38C 'volontar':23C
+6775098944896508215	Abgelehnter Antrag	Bla			PP006	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	9	\N	\N	http://example.com	{}	PUBLIC	'abgelehnt':1A 'antrag':2A 'bla':3C 'pp006':4A
+6775098944893885687	Verschobener Antrag	Blubb			PP007	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	10	\N	\N	http://example.com	{}	PUBLIC	'antrag':2A 'blubb':3C 'pp007':4A 'verschob':1A
+6775098944901260129	Änderungsantrag zu PP001	will was ändern			PP004	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	SCHEDULED	\N	\N	1	6775098944857779980	\N	\N	{}	PUBLIC	'and':6C 'anderungsantrag':1A 'pp001':3A 'pp004':7A
+6775098944904276933	Gegenantrag zu PP001	will was anderes			PP002	2020-01-02 00:00:00	2020-01-07 00:00:00	2020-01-10 00:00:00	SCHEDULED	\N	\N	1	\N	6775098944857779980	\N	{}	PUBLIC	'gegenantrag':1A 'pp001':3A 'pp002':4A
+6775098944903155235	Noch ein Gegenantrag zu PP001 mit Volltextsuche	will was ganz anderes, ich will Volltextsuche			PP003	2020-01-03 00:00:00	2020-01-09 00:00:00	2020-01-24 00:00:00	SCHEDULED	\N	\N	1	\N	6775098944857779980	\N	{}	PUBLIC	'ganz':10C 'gegenantrag':3A 'pp001':5A 'pp003':15A 'volltextsuch':7A,14C
+6775098944905282473	Abgelehnter Gegenantrag zum Verschobenen Antrag PP007	Gegenantrag von PP008			PP008	2020-01-06 00:00:00	2020-01-06 00:00:00	2020-01-11 00:00:00	FINISHED	\N	\N	10	6775098944893885687	\N	http://example.com	{}	PUBLIC	'abgelehnt':1A 'antrag':5A 'gegenantrag':2A,7C 'pp007':6A 'pp008':9C,10A 'verschob':4A
 \.
 
 
@@ -1664,16 +1796,16 @@ COPY public.propositions (id, title, content, abstract, motivation, voting_ident
 --
 
 COPY public.propositiontags (proposition_id, tag_id) FROM stdin;
-6769077249737786120	1
-6769077249744553781	1
-6769077249745788325	1
-6769077249719871953	2
-6769077249719871953	3
-6769077249757422710	1
-6769077249765775280	1
-6769077249768528865	1
-6769077249766705726	1
-6769077249785839928	1
+6775098944879793994	1
+6775098944879878150	1
+6775098944882475370	1
+6775098944857779980	2
+6775098944857779980	3
+6775098944887195566	1
+6775098944889674652	1
+6775098944896508215	1
+6775098944893885687	1
+6775098944905282473	1
 \.
 
 
@@ -1682,8 +1814,8 @@ COPY public.propositiontags (proposition_id, tag_id) FROM stdin;
 --
 
 COPY public.propositiontypes (id, name, abbreviation, description, policy_id) FROM stdin;
-1	Positionspapier	PP	1 Küstenwache vor Lesbos «Wir entscheiden, wer stirbt» 2 Deutscher Altkanzler schwer erkrankt Helmut Schmidt (96) «ist nicht.. 14:44 dpa-AFX: HSBC belässt Deutsche Telekom auf 'Buy' - Ziel 19 Euro 01.12. 1903 kreierte Kolo Moser eine Wohnungseinrichtung, die nun in aller Welt verstreut ist: in Museums- und in Privatbesitz.	1
-2	Wahlprogrammantrag	WP	174459 Bomber Sukhoi T-4: 100 Tonnen schwer und schneller als der SchallJagdflugzeuge sind in der Regel schneller als Bomber. 18:25 Uhr Audi-Duell: Di Grassi an Lotterer vorbei Lucas di Grassi ist hier schneller unterwegs als Andre Lotterer. 17,175 Millionen Aktien bringt Ferraris Mutterkonzern Fiat Chrysler (FCA) zu einem Preis zwischen 48 und 52 Dollar auf den Markt.	1
+1	Positionspapier	PP	11:31 Berenberg belässt FMC auf 'Buy' - Ziel 90 Euro Die Privatbank Berenberg hat die Einstufung für FMC vor Quartalszahlen auf "Buy" mit einem Kursziel von 90 Euro belassen. 16.54 Uhr: Der Chef der BASF-Tochter Wintershall, Mario Mehren, sieht den Tausch von Firmenanteilen mit dem Energieriesen Gazprom als Zeichen einer Entspannung der deutsch-russischen Beziehungen. 15 Berliner Gymnasiasten gingen auf Klassenfahrt – nach New York.	1
+2	Wahlprogrammantrag	WP	13.12 Uhr: Der Flugzeughersteller Airbus will nach dem Absturz einer A320 über Südfrankreich so schnell wie möglich die Situation analysieren. 19.04.2017 1 Antwort von Christof Kochanowski finden das kostenlose G 36 also super und hätten zu den 8000 gelieferten gerne noch mehr? 123> weiter Bewerten 28 3 Die mit * gekennzeichneten Felder sind Pflichtfelder.	1
 \.
 
 
@@ -1712,14 +1844,14 @@ COPY public.subjectareas (id, name, description, department_id) FROM stdin;
 --
 
 COPY public.supporters (member_id, proposition_id, submitter, status, last_change) FROM stdin;
-2	6769077249719871953	t	ACTIVE	2021-02-21 02:16:19.662801
-3	6769077249780739847	t	ACTIVE	2021-02-21 02:16:19.662801
-2	6769077249757422710	f	ACTIVE	2021-02-21 02:16:19.662801
-2	6769077249765775280	f	ACTIVE	2021-02-21 02:16:19.662801
-2	6769077249768528865	f	ACTIVE	2021-02-21 02:16:19.662801
-2	6769077249766705726	f	ACTIVE	2021-02-21 02:16:19.662801
-3	6769077249719871953	f	RETRACTED	2021-02-21 02:16:19.662801
-3	6769077249757422710	f	EXPIRED	2021-02-21 02:16:19.662801
+2	6775098944857779980	t	ACTIVE	2021-03-09 17:04:23.664292
+3	6775098944904276933	t	ACTIVE	2021-03-09 17:04:23.664292
+2	6775098944887195566	f	ACTIVE	2021-03-09 17:04:23.664292
+2	6775098944889674652	f	ACTIVE	2021-03-09 17:04:23.664292
+2	6775098944896508215	f	ACTIVE	2021-03-09 17:04:23.664292
+2	6775098944893885687	f	ACTIVE	2021-03-09 17:04:23.664292
+3	6775098944857779980	f	RETRACTED	2021-03-09 17:04:23.664292
+3	6775098944887195566	f	EXPIRED	2021-03-09 17:04:23.664292
 \.
 
 
@@ -1783,10 +1915,10 @@ COPY public.userprofiles (id, sub, eligible, verified, profile) FROM stdin;
 --
 
 COPY public.users (id, name, email, auth_type, joined, active, last_active, can_login_until) FROM stdin;
-1	testadmin	\N	system	2021-02-21 02:16:19.662801	t	2021-02-21 02:16:19.662801	\N
-2	testuser	\N	system	2021-02-21 02:16:19.662801	t	2021-02-21 02:16:19.662801	\N
-3	egon	\N	oauth	2021-02-21 02:16:19.662801	t	2021-02-21 02:16:19.662801	\N
-4	depadmin	\N	oauth	2021-02-21 02:16:19.662801	t	2021-02-21 02:16:19.662801	\N
+1	testadmin	\N	system	2021-03-09 17:04:23.664292	t	2021-03-09 17:04:23.664292	\N
+2	testuser	\N	system	2021-03-09 17:04:23.664292	t	2021-03-09 17:04:23.664292	\N
+3	egon	\N	oauth	2021-03-09 17:04:23.664292	t	2021-03-09 17:04:23.664292	\N
+4	depadmin	\N	oauth	2021-03-09 17:04:23.664292	t	2021-03-09 17:04:23.664292	\N
 \.
 
 
@@ -1823,77 +1955,77 @@ COPY public.votingphases (id, status, target, department_id, phase_type_id, secr
 -- Name: argumentrelations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.argumentrelations_id_seq', 3, true);
+SELECT pg_catalog.setval('public.argumentrelations_id_seq', 463, true);
 
 
 --
 -- Name: arguments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.arguments_id_seq', 3, true);
+SELECT pg_catalog.setval('public.arguments_id_seq', 463, true);
 
 
 --
 -- Name: ballots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.ballots_id_seq', 10, true);
+SELECT pg_catalog.setval('public.ballots_id_seq', 1436, true);
 
 
 --
 -- Name: changeset_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.changeset_id_seq', 1, false);
+SELECT pg_catalog.setval('public.changeset_id_seq', 46, true);
 
 
 --
 -- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.departments_id_seq', 5, true);
+SELECT pg_catalog.setval('public.departments_id_seq', 2489, true);
 
 
 --
 -- Name: document_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.document_id_seq', 1, true);
+SELECT pg_catalog.setval('public.document_id_seq', 185, true);
 
 
 --
 -- Name: groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.groups_id_seq', 2, true);
+SELECT pg_catalog.setval('public.groups_id_seq', 830, true);
 
 
 --
 -- Name: policies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.policies_id_seq', 1, true);
+SELECT pg_catalog.setval('public.policies_id_seq', 1749, true);
 
 
 --
 -- Name: propositiontypes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.propositiontypes_id_seq', 2, true);
+SELECT pg_catalog.setval('public.propositiontypes_id_seq', 1704, true);
 
 
 --
 -- Name: subjectareas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.subjectareas_id_seq', 4, true);
+SELECT pg_catalog.setval('public.subjectareas_id_seq', 6260, true);
 
 
 --
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 3, true);
+SELECT pg_catalog.setval('public.tags_id_seq', 2211, true);
 
 
 --
@@ -1907,7 +2039,7 @@ SELECT pg_catalog.setval('public.urns_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_id_seq', 2350, true);
 
 
 --
@@ -1921,22 +2053,14 @@ SELECT pg_catalog.setval('public.voting_module_id_seq', 1, false);
 -- Name: voting_phase_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.voting_phase_types_id_seq', 2, true);
+SELECT pg_catalog.setval('public.voting_phase_types_id_seq', 416, true);
 
 
 --
 -- Name: votingphases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.votingphases_id_seq', 3, true);
-
-
---
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.alembic_version
-    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+SELECT pg_catalog.setval('public.votingphases_id_seq', 325, true);
 
 
 --
