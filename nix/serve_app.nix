@@ -7,7 +7,7 @@
 let
   ekklesia-portal = import ../. { inherit sources; };
   inherit (ekklesia-portal) dependencyEnv deps src;
-  inherit (deps) pkgs alembic gunicorn lib;
+  inherit (deps) pkgs gunicorn lib;
   pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";
 
   exportConfigEnvVar =
@@ -35,19 +35,17 @@ let
 
   runAlembic = pkgs.writeShellScriptBin "alembic" ''
     ${exportConfigEnvVar}
-    export PYTHONPATH=${pythonpath}
     cd ${src}
-    ${alembic}/bin/alembic "$@"
+    ${dependencyEnv}/bin/alembic "$@"
   '';
 
   runPython = pkgs.writeShellScriptBin "python" ''
     ${exportConfigEnvVar}
-    export PYTHONPATH=${pythonpath}
     cd ${src}
-    ${alembic}/bin/alembic "$@"
+    ${dependencyEnv}/bin/python "$@"
   '';
 
 in pkgs.buildEnv {
   name = "ekklesia-portal-serve-app";
-  paths = [ runGunicorn runMigrations runAlembic ];
+  paths = [ runGunicorn runMigrations runAlembic runPython ];
 }
