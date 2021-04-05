@@ -1,4 +1,5 @@
 import urllib.parse
+import math
 from operator import attrgetter
 from secrets import compare_digest
 
@@ -414,6 +415,23 @@ class PropositionsCell(LayoutCell):
     def propositions(self):
         is_admin = self.current_user and self._request.identity.has_global_admin_permissions
         return list(self._model.propositions(self._request.q, is_admin))
+
+    def prop_count(self):
+        is_admin = self.current_user and self._request.identity.has_global_admin_permissions
+        return self._model.propositions(self._request.q, is_admin, count=True)
+
+    def page_count(self):
+        per_page = self.prop_per_page
+        if per_page <= 0:
+            return -1
+        else:
+            return int(math.ceil(self.prop_count / per_page))
+
+    def prop_per_page(self):
+        return self._model.propositions_per_page()
+
+    def page(self):
+        return self._model.page or 1
 
     # Overrides the base method in LayoutCell
     def search_query(self):

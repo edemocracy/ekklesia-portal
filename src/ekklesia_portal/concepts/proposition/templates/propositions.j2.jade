@@ -132,6 +132,62 @@
   else
     = _('no_propositions_found')
 
+  div.page-selector
+    if propositions
+      div.prop-count
+        if prop_per_page < 0
+          = _("showing_all_propositions", count=prop_count)
+        else
+          = _("showing_x_propositions", from=(page-1)*prop_per_page+1, to=[page*prop_per_page, prop_count] | min, count=prop_count)
+
+    if page_count > 1
+      ul
+        if page > 1
+          li
+            a.page_btn(href=change_self_link(page=1), title=_('first_page'))
+              = "<<"
+          li
+            a.page_btn(href=change_self_link(page=page-1), title=_('previous_page'))
+              = "<"
+
+        for page_nr in range([1, page-4] | max, [page_count+1, page+4] | min)
+          li
+            if page_nr == page
+              span.page_btn.disabled
+                = (page_nr)
+            else
+              a.page_btn(href=change_self_link(page=page_nr))
+                = (page_nr)
+
+        if page < page_count
+          li
+            a.page_btn(href=change_self_link(page=page+1), title=_('next_page'))
+              = ">"
+          li
+            a.page_btn(href=change_self_link(page=page_count), title=_('last_page'))
+              = ">>"
+
+    form
+      if search_query
+        input(type="hidden",name="search",value=search_query)
+      if sort
+        input(type="hidden",name="sort",value=sort)
+
+      select(name="per_page",autocomplete="off",onchange="this.form.submit()")
+        if prop_per_page > 0 and prop_per_page not in [5, 10, 20, 50]
+          option(selected=true, value=prop_per_page)
+            = prop_per_page
+
+        for amount in [5, 10, 20, 50]
+          option(selected=(prop_per_page==amount), value=amount)
+            = amount
+        option(selected=(prop_per_page < 0), value="-1")
+          = _("all_pages")
+
+      = _("per_page")
+      input(type="submit", value=_("set_page_count"), id="submit_page_count")
+      script
+        = "document.getElementById('submit_page_count').style.display = 'none';" | safe
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

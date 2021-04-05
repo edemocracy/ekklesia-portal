@@ -285,6 +285,50 @@ ul.proposition_filter
     @extend .badge-light
     font-size: 1rem
 
+.page-selector
+  margin-top: 2rem
+  margin-bottom: 2rem
+  text-align: center
+
+  .prop-count
+    margin-bottom: 0.5rem
+
+  ul
+    padding: 0
+    margin: 0 0 0.5rem
+
+    li
+      display: inline-block
+
+  .page_btn
+    @extend .btn
+    @extend .btn-secondary
+
+  form
+    font-size: 0.9rem
+
+    select
+      -moz-appearance: none /* Firefox */
+      -webkit-appearance: none /* Safari and Chrome */
+      appearance: none
+      background: transparent
+      background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>")
+      background-repeat: no-repeat
+      background-position-x: 100%
+      background-position-y: 0.1rem
+      border: 1px solid #ced4da
+      border-radius: 0.25rem
+      padding: 0.1rem 0.3rem
+      width: 3.5rem
+      vertical-align: middle
+
+    select:hover
+      box-shadow: inset 0 0 10px -4px gray
+
+    input
+      @extend .btn
+      @extend .btn-secondary
+      @extend .btn-sm
 
 .search_button
   @extend .btn

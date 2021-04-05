@@ -1,3 +1,5 @@
+from typing import Optional
+
 import dataclasses
 from dataclasses import dataclass
 from eliot import log_call, Message
@@ -8,7 +10,6 @@ from sqlalchemy.sql.functions import coalesce
 
 from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
-
 
 @dataclass
 class Propositions:
@@ -24,6 +25,10 @@ class Propositions:
     without_tags: str = None
     type: str = None
     visibility: str = None
+    # Initialization with numbers instead of None is necessary because otherwise the
+    # query values are not actually converted to an integer on assignment
+    page: Optional[int] = 1 # Ranges: x<=1 = None => First page; x>1 => Show page x
+    per_page: Optional[int] = 0 # Ranges: x<0 => All on one page; x=0 = None => Use default; x>0 => Show x per page
 
     def __post_init__(self):
         self.parse_search_filters()
@@ -45,17 +50,26 @@ class Propositions:
         self.without_tag_values = None
         self.visibility_values = None
 
+        if self.per_page is not None:
+            if self.per_page == 0:
+                self.per_page = None
+            elif self.per_page < -1:
+                self.per_page = -1
+
+        if self.page is not None and self.page <= 1:
+            self.page = None
+
         if self.visibility:
             try:
                 self.visibility_values = [PropositionVisibility(s.strip().lower()) for s in self.visibility.split(",")]
-            except KeyError:
-                pass
+            except (KeyError, ValueError):
+                self.visibility = None
 
         if self.status:
             try:
                 self.status_values = [PropositionStatus(s.strip().lower()) for s in self.status.split(",")]
-            except KeyError:
-                pass
+            except (KeyError, ValueError):
+                self.status = None
 
         if self.tags:
             self.tag_values = [t.strip().lower() for t in self.tags.split(",")]
@@ -178,7 +192,7 @@ class Propositions:
         return value
 
     @log_call
-    def propositions(self, q, is_admin=False):
+    def propositions(self, q, is_admin=False, count=False):
 
         Message.log(
             message_type="propositions_filters",
@@ -256,6 +270,13 @@ class Propositions:
             tags = set(q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all())
             propositions = (p for p in propositions if not tags & set(p.tags))
 
+        if count:
+            propositions = propositions.count()
+        else:
+            # per_page == -1 => show all on one page
+            if self.per_page is None or self.per_page >= 0:
+                propositions = propositions.limit(self.propositions_per_page()).offset(((self.page or 1)-1) * self.propositions_per_page())
+
         return propositions
 
     def to_dict(self):
@@ -263,3 +284,6 @@ class Propositions:
 
     def replace(self, **changes):
         return dataclasses.replace(self, **changes)
+
+    def propositions_per_page(self):
+        return self.per_page or 20
