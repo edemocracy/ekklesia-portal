@@ -840,6 +840,42 @@ msgstr "Propositions without tags"
 msgid "no_propositions_found"
 msgstr "No propositions found"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:147
+msgid "first_page"
+msgstr "First page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:150
+msgid "previous_page"
+msgstr "Previous page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:164
+msgid "next_page"
+msgstr "Next page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:167
+msgid "last_page"
+msgstr "Last page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:187
+msgid "per_page"
+msgstr " per page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:185
+msgid "all_pages"
+msgstr "All"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:188
+msgid "set_page_count"
+msgstr "Set"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:139
+msgid "showing_all_propositions"
+msgstr "Showing all %(count)s propositions"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:141
+msgid "showing_x_propositions"
+msgstr "Propositions %(from)s - %(to)s of %(count)s"
+
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:1
 msgid "title_draft"
 msgstr "New Draft"
