@@ -2,10 +2,11 @@
 { sources ? null,
   appConfigFile ? null,
   listen ? "127.0.0.1:8080",
-  tmpdir ? null
+  tmpdir ? null,
+  system ? builtins.currentSystem
 }:
 let
-  ekklesia-portal = import ../. { inherit sources; };
+  ekklesia-portal = import ../. { inherit sources system; };
   inherit (ekklesia-portal) dependencyEnv deps src;
   inherit (deps) pkgs gunicorn lib;
   pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";

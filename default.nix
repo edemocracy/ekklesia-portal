@@ -1,9 +1,9 @@
 # Build Python package.
 # Can be installed in the current user profile with:
 # nix-env -if .
-{ sources ? null }:
+{ sources ? null, system ? builtins.currentSystem }:
 let
-  deps = import ./nix/deps.nix { inherit sources; };
+  deps = import ./nix/deps.nix { inherit sources system; };
   inherit (deps) babel pkgs mkPoetryApplication python pyProject;
   inherit (deps.pyProject) version;
   src = pkgs.nix-gitignore.gitignoreSource

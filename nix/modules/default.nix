@@ -15,6 +15,7 @@ let
     appConfigFile = "/run/ekklesia-portal/${configFilename}";
     listen = "${cfg.address}:${toString cfg.port}";
     tmpdir = "/tmp";
+    inherit (config.nixpkgs.localSystem) system;
   };
 
   staticFiles = import ../static_files.nix { };
