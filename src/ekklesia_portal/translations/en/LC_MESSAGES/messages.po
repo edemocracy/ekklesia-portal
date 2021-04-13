@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-23 23:10+0000\n"
+"POT-Creation-Date: 2021-04-13 14:20+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -840,41 +840,41 @@ msgstr "Propositions without tags"
 msgid "no_propositions_found"
 msgstr "No propositions found"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:147
-msgid "first_page"
-msgstr "First page"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:150
-msgid "previous_page"
-msgstr "Previous page"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:164
-msgid "next_page"
-msgstr "Next page"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:167
-msgid "last_page"
-msgstr "Last page"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:187
-msgid "per_page"
-msgstr " per page"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:185
-msgid "all_pages"
-msgstr "All"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:188
-msgid "set_page_count"
-msgstr "Set"
-
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:139
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:78
 msgid "showing_all_propositions"
 msgstr "Showing all %(count)s propositions"
 
-#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:141
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:78
 msgid "showing_x_propositions"
 msgstr "Propositions %(from)s - %(to)s of %(count)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:81
+msgid "first_page"
+msgstr "First page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:83
+msgid "previous_page"
+msgstr "Previous page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:87
+msgid "next_page"
+msgstr "Next page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:89
+msgid "last_page"
+msgstr "Last page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:100
+msgid "all_pages"
+msgstr "All"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:102
+msgid "per_page"
+msgstr " per page"
+
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:103
+msgid "set_page_count"
+msgstr "Set"
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:1
 msgid "title_draft"
@@ -935,6 +935,12 @@ msgid "info_qualified_proposition"
 msgstr ""
 "This proposition has enough supporters so the administrator can schedule "
 "it for voting."
+
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:6
+msgid "submitters"
+msgstr "Submitters"
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:1
 msgid "title_scheduled_proposition"

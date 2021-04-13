@@ -251,6 +251,24 @@ class PropositionCell(LayoutCell):
             PropositionStatus.SCHEDULED
         ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
+    def show_submitter_names(self):
+        if self.current_user is None:
+            return False
+
+        if self._model.ballot.area.department in self.current_user.managed_departments:
+            return True
+
+        if self._request.identity.has_global_admin_permissions:
+            return True
+
+        if self._model.user_is_submitter(self.current_user):
+            return True
+
+        if self._model.author == self.current_user:
+            return True
+
+        return False
+
     def valid_submitter_invitation_key(self):
         key = self._request.GET.get("submitter_invitation_key")
         if key is None:

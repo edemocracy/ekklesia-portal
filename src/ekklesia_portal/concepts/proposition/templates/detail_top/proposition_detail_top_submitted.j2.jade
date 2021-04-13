@@ -10,3 +10,10 @@ if current_user_is_submitter
 
 elif current_user_is_supporter
   p= _('current_user_is_supporter_not_submitter')
+
+if show_submitter_names and submitter_names
+  p= _('submitters')
+  ul
+    for name in submitter_names
+      li= name
+

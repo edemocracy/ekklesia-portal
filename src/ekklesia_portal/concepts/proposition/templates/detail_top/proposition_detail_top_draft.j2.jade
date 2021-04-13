@@ -20,7 +20,8 @@ else
     p
       a(href=become_submitter_url)= become_submitter_url
 
-    p {{ _('current_submitters') }}
+  if show_submitter_names and submitter_names
+    p= _('current_submitters')
     ul
       for name in submitter_names
         li= name
