@@ -5,6 +5,7 @@ import random
 import string
 
 import morepath
+import reg
 import yaml
 from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
@@ -172,6 +173,12 @@ def set_oauth_token_from_user(app, request, token):
 def mount_ekklesia_auth_path():
     app = EkklesiaAuthPathApp()
     return app
+
+
+@App.predicate(App.get_view, name='media_type', default=None,
+               index=reg.KeyIndex)
+def media_type_predicate(self, request, obj):
+    return request.params.get("media_type")
 
 
 @log_call

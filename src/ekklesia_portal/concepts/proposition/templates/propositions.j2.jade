@@ -159,5 +159,13 @@
       script
         = "document.getElementById('submit_page_count').style.display = 'none';" | safe
 
+    .proposition-export
+      span.mr-1 Angezeigte Anträge als Datei exportieren:
+      a.btn.btn-secondary(href=export_csv_url, title=_('export_as_csv'))
+        i.fas.fa-file-csv
+          |&nbsp;
+          |CSV
+
+
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

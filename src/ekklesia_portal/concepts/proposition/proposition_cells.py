@@ -18,6 +18,7 @@ from ekklesia_portal.concepts.proposition.proposition_permissions import SubmitD
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase, SecretVoter
 from ekklesia_portal.helper.url_shortener import make_tiny
 from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus
+from ekklesia_portal.lib.url import url_change_query
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
 from .proposition_helper import items_for_proposition_select_widgets
@@ -482,6 +483,9 @@ class PropositionsCell(LayoutCell):
             return self._model.visibility_values
         else:
             return None
+
+    def export_csv_url(self):
+        return(url_change_query(self.self_link, media_type="text/csv"))
 
 
 @App.cell(Propositions, 'new_draft')

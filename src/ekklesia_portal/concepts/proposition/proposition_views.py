@@ -7,7 +7,7 @@ from ekklesia_common.request import EkklesiaRequest as Request
 from eliot import Message, start_action
 from pytz import timezone
 from datetime import datetime
-from morepath import redirect
+from morepath import redirect, Response
 from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
@@ -20,6 +20,7 @@ from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.lib.discourse import DiscourseError
+from ekklesia_portal.lib.propositions import propositions_to_csv, TableRowOptionalFields
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission, WritePermission
 
 from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionSubmitDraftCell, PropositionsCell
@@ -191,6 +192,18 @@ def become_submitter(self: Proposition, request):
 @App.html(model=Propositions)
 def index(self, request):
     return PropositionsCell(self, request).show()
+
+
+@App.view(model=Propositions, media_type="text/csv")
+def index_csv(self, request):
+    is_global_admin = request.current_user and request.identity.has_global_admin_permissions
+    optional_fields = TableRowOptionalFields()
+    optional_fields.submitters = is_global_admin
+    content = propositions_to_csv(self.propositions(request.q, is_global_admin),
+        origin=request.app.settings.common.instance_name, optional_fields=optional_fields)
+    response = Response(content, content_type = 'text/csv')
+    response.content_disposition = 'attachment; filename="propositions.csv"'
+    return response
 
 
 @App.html(model=Propositions, name='new', permission=CreatePermission)

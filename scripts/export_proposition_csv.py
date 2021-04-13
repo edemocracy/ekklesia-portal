@@ -5,9 +5,11 @@ from ekklesia_common import md
 from eliot import log_call, start_task, Message, write_traceback
 import sqlalchemy.orm
 
+from ekklesia_portal.lib.propositions import propositions_to_csv
+
 
 @log_call
-def load_ballots(log_level="INFO"):
+def load_propositions():
     department = session.query(Department).filter_by(name=args.department).one()
 
     maybe_voting_phase = [v for v in department.voting_phases if v.name == args.voting_phase]
@@ -18,31 +20,7 @@ def load_ballots(log_level="INFO"):
     voting_phase = maybe_voting_phase[0]
 
     ballots = voting_phase.ballots
-    return ballots
-
-
-@log_call
-def convert_ballots_to_proposition_rows(instance_name, ballots, log_level="INFO"):
-    proposition_rows = []
-
-    for ballot in ballots:
-        for proposition in ballot.propositions:
-            proposition_rows.append([proposition.voting_identifier, "", proposition.title, md.convert(proposition.content),
-                                     md.convert(proposition.motivation), "", "", proposition.ballot.name, instance_name])
-
-    return proposition_rows
-
-
-@log_call
-def write_csv_file(filepath, proposition_rows, log_level="INFO"):
-    with open(filepath, 'w') as csvfile:
-        fieldnames = ['Identifier', 'Submitters', 'Title', 'Text', 'Reason', 'Category', 'Tags', 'Motion block', 'Origin']
-
-        writer = csv.writer(csvfile)
-        # maybe convert to dictwriter for better logging view
-
-        writer.writerow(fieldnames)
-        writer.writerows(proposition_rows)
+    return [p for ballot in ballots for p in ballot.propositions]
 
 
 parser = argparse.ArgumentParser("Ekklesia Portal export_proposition_csv.py")
@@ -65,7 +43,8 @@ if __name__ == "__main__":
 
     sqlalchemy.orm.configure_mappers()
 
-    ballots = load_ballots()
     instance_name = app.settings.common.instance_name
-    rows = convert_ballots_to_proposition_rows(instance_name, ballots)
-    write_csv_file(args.out, rows)
+    propositions = load_propositions()
+    csv_text = propositions_to_csv(propositions, origin=instance_name)
+    with open(args.out, 'w') as csvfile:
+        csvfile.write(csv_text)
