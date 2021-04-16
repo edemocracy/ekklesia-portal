@@ -430,6 +430,8 @@ class PropositionsCell(LayoutCell):
         'without_tag_values',
     ]
 
+    pager = Cell.fragment("propositions_pager")
+
     def propositions(self):
         is_admin = self.current_user and self._request.identity.has_global_admin_permissions
         return list(self._model.propositions(self._request.q, is_admin))
