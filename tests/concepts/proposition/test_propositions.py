@@ -74,6 +74,25 @@ def test_index_department_subject_area(client):
     assert 'Ein Titel' in res
     assert 'Angenommener Antrag' not in res
 
+def test_index_per_page(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?per_page=2')
+    assert 'Ein Titel' in res
+    assert 'Angenommener Antrag' not in res
+
+def test_index_per_page2(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?per_page=2&page=3')
+    assert 'Ein Titel' not in res
+    assert 'Angenommener Antrag' in res
+
+def test_index_all_prop(client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?per_page=-1')
+    assert 'Ein Titel' in res
+    assert 'Angenommener Antrag' in res
+    assert 'Abgelehnter Antrag' in res
+
 
 def assert_proposition_in_html(proposition, html):
     proposition_link = html.find(class_="proposition_title").find("a")
