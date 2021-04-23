@@ -267,8 +267,9 @@ class Propositions:
         propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
 
         if self.without_tag_values:
-            tags = set(q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all())
-            propositions = (p for p in propositions if not tags & set(p.tags))
+            tags = q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all()
+            for tag in tags:
+                propositions = propositions.filter(~Proposition.tags.contains(tag))
 
         if count:
             propositions = propositions.count()
