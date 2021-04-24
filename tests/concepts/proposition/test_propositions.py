@@ -39,6 +39,14 @@ def test_index_tag(db_query, client):
     assert 'Ein Titel' in res
 
 
+def test_index_without_tags(db_query, client):
+    """XXX: depends on content from create_test_db.py"""
+    res = client.get('/p?without_tags=Tag1')
+    assert 'Ein Titel' not in res
+    assert 'Änderungsantrag zu PP001' in res
+    assert 'Entstehender Antrag' in res
+
+
 def test_index_status(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?status=abandoned')
