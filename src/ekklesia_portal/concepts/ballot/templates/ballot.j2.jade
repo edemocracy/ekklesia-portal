@@ -53,9 +53,11 @@
           dt= _('subject_area')
           dd= area.name
 
-        if proposition_type
-          dt= _('proposition_type')
-          dd= proposition_type.name
+        dt= _('proposition_type')
+        dd= proposition_type.name
+
+        dt= _('voting_type')
+        dd= voting_type|enum_value
 
     if options.show_propositions and propositions
       hr

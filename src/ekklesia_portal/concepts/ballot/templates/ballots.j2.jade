@@ -11,5 +11,10 @@
 
   h2
     = _('ballots')
+    if show_new_button
+      a.edit_button(href=new_url)
+        i.fas.fa-plus
+        |&nbsp;
+        = _('new_button')
 
   = render_cell(collection=ballots)
