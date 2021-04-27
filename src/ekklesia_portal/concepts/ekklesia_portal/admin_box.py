@@ -1,0 +1,2 @@
+class AdminBox:
+    pass

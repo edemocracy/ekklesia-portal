@@ -34,6 +34,10 @@ body
           li.nav-item
             a.nav-link(href=voting_phases_url)= _("voting_phases")
 
+          if show_admin_area
+            a.nav-link(href=admin_area_url)= _("admin_area")
+
+
       form.top_search(action=plain_propositions_url)
         input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
         button.search_button(type="submit")
