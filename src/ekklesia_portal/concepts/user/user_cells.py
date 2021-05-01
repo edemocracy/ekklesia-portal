@@ -1,14 +1,20 @@
 from ekklesia_common.cell import Cell
+from ekklesia_common.permission import EditPermission
 
 from ekklesia_portal.app import App
+from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
-from ekklesia_portal.datamodel import User, UserProfile
-from ekklesia_portal.enums import EkklesiaUserType
+from ekklesia_portal.concepts.user.user_helper import items_for_user_select_widgets
+from ekklesia_portal.datamodel import Group, User, UserProfile
 
 
 @App.cell(User)
 class UserCell(LayoutCell):
     model_properties = ['name', 'joined', 'profile', 'departments', 'areas', 'groups', 'last_active']
+
+    def show_edit_button(self):
+        return self.options.get('show_edit_button'
+                                ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
     def departments_with_subject_areas(self):
         department_to_areas = {d: [] for d in self._model.departments}
@@ -29,6 +35,17 @@ class UserCell(LayoutCell):
 
     def member_area_action(self):
         return self.link(self._model, name='member_area')
+
+@App.cell(User, 'edit')
+class EditUserCell(EditFormCell):
+
+    def _prepare_form_for_render(self):
+        form_data = self._model.to_dict()
+        form_data['groups'] = [g.name for g in self._model.groups]
+        self.set_form_data(form_data)
+        groups = self._request.q(Group)
+        items = items_for_user_select_widgets(groups)
+        self._form.prepare_for_render(items)
 
 
 @App.cell(UserProfile)

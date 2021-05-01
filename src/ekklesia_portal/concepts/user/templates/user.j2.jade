@@ -8,6 +8,11 @@
 
 - block content
   h2= _('title_profile', name=name)
+    if show_edit_button
+      a.edit_button(href=edit_url)
+        i.far.fa-edit
+        |&nbsp;
+        = _('edit_button')
 
   dl
     dt= _('label_joined')
@@ -33,7 +38,7 @@
         if areas
           ul
             for area, member_in_area in areas
-              li 
+              li
                 form(action=member_area_action, method="POST")
                   input(type='hidden', name='area_id', value=area.id)
                   if member_in_area
@@ -43,9 +48,9 @@
                   else
                     button.btn.btn-secondary.btn-sm(type="submit", name="member_in_area", value="Y")
                       i.far.fa-remove &nbsp;
-                      = _('button_not_member_in_area') 
-                  label= area.name 
- 
+                      = _('button_not_member_in_area')
+                  label= area.name
+
   if groups
     h3= _('label_groups')
     ul

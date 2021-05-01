@@ -48,7 +48,7 @@ class Group(Base):
     id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name: str = C(Text, unique=True, nullable=False)
     is_admin_group: bool = C(Boolean, nullable=False, server_default='false')
-    members = association_proxy('group_members', 'member')  # <-GroupMember-> User
+    members = association_proxy('group_members', 'member', creator=lambda u: GroupMember(member=u))  # <-GroupMember-> User
 
 
 class User(Base):
@@ -72,7 +72,7 @@ class User(Base):
     )
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
-    groups = association_proxy('member_groups', 'group')  # <-GroupMember-> Group
+    groups = association_proxy('member_groups', 'group', creator=lambda g: GroupMember(group=g))  # <-GroupMember-> Group
     # from user/membership/ all_nested_groups
     departments = association_proxy('member_departments', 'department')  # <-DepartmentMember-> Department
     areas = association_proxy('member_areas', 'area')  # <-AreaMember-> SubjectArea
@@ -119,10 +119,6 @@ class GroupMember(Base):
     member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
     group = relationship("Group", backref=backref("group_members", cascade="all, delete-orphan"))
     member = relationship("User", backref=backref("member_groups", cascade="all, delete-orphan"))
-
-    def __init__(self, member=None, group=None):
-        self.member = member
-        self.group = group
 
 
 class Department(Base):

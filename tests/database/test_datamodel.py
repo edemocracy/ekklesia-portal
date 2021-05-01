@@ -22,6 +22,10 @@ def test_managed_departments(department_admin):
     assert managed[0].description == 'admin'
 
 
+def test_user_add_group(db_session, user, group):
+    user.groups.append(group)
+
+
 @pytest.mark.parametrize('user__name', ['hans', 'wurst'])
 def test_user(user, user__name):
     """This test isn't really useful but a good example for factory parametrization ;)"""

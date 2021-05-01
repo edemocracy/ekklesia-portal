@@ -1,14 +1,21 @@
+from ekklesia_common.permission import EditPermission, ViewPermission
+from morepath.view import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.datamodel import User, AreaMember, SubjectArea
-from ekklesia_portal.permission import ViewPermission
+from ekklesia_portal.datamodel import Group, User, AreaMember, SubjectArea
 
-from .user_cells import UserCell
+from .user_cells import EditUserCell, UserCell
+from .user_contracts import UserForm
 
 
 @App.permission_rule(model=User, permission=ViewPermission)
 def user_view_permission(identity, model, permission):
     # XXX identity.user is detached, must compare ids instead of objects
-    return identity.user.id == model.id
+    return identity.has_global_admin_permissions or identity.user.id == model.id
+
+
+@App.permission_rule(model=User, permission=EditPermission)
+def user_edit_permission(identity, model, permission):
+    return identity.has_global_admin_permissions
 
 
 @App.path(model=User, path='/u/{name}')
@@ -19,8 +26,21 @@ def user(request, name):
 
 @App.html(model=User, permission=ViewPermission)
 def show(self, request):
-    cell = UserCell(self, request)
+    cell = UserCell(self, request, show_edit_button=True)
     return cell.show()
+
+
+@App.html(model=User, name='edit', permission=EditPermission)
+def edit(self, request):
+    form = UserForm(request, request.link(self))
+    return EditUserCell(self, request, form).show()
+
+
+@App.html_form_post(model=User, form=UserForm, cell=EditUserCell, permission=EditPermission)
+def update(self, request, appstruct):
+    appstruct['groups'] = request.db_session.query(Group).filter(Group.name.in_(appstruct['groups'])).all()
+    self.update(**appstruct)
+    return redirect(request.link(self))
 
 
 @App.html(model=User, name="member_area", request_method='POST', permission=ViewPermission)
