@@ -6,6 +6,13 @@
 @import font-awesome/brands
 @import custom
 
+html
+  height: 100%
+
+body
+  min-height: 100%
+  position: relative
+
 $light-orange: lighten($orange, 15%)
 
 .alert_message
@@ -136,6 +143,8 @@ $light-orange: lighten($orange, 15%)
 .content_area
   @extend .container
   @extend .my-2
+  padding-bottom: 3rem
+  margin-bottom: 0 !important
 
 .proposition-body
   @extend .card-body
@@ -157,6 +166,12 @@ $light-orange: lighten($orange, 15%)
 footer.footer
   @extend .bg-primary
   @extend .p-2
+
+  position: absolute
+  bottom: 0
+  left: 0
+  right: 0
+  height: 3em
 
   .list-inline
     @extend .my-1

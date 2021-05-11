@@ -14,7 +14,7 @@
       if secret_voting
         button.btn.btn-primary.btn-sm(type="submit", name="public_voting")
           i.far.fa-eye-slash &nbsp;
-          = _('button_secret_voting') 
+          = _('button_secret_voting')
           = ' ('
           abbr(title= _('abbr_secret_voters_count'))
             = secret_voters_count
@@ -25,7 +25,7 @@
        else
         button.btn.btn-secondary.btn-sm(type="submit", name="secret_voting")
           i.far.fa-eye &nbsp;
-          = _('button_public_voting') 
+          = _('button_public_voting')
           = ' ('
           abbr(title= _('abbr_secret_voters_count'))
             = secret_voters_count
@@ -48,21 +48,23 @@
       i.fas.fa-external-link-alt &nbsp;
       = _('button_external_discussion_url')
 
-  a.btn.btn-secondary.btn-sm(href="#bottom")
-    i.far.fa-comments &nbsp;
-    if options.active_tab == 'discussion'
-      = _("button_goto_arguments")
-    else
-      = _("button_goto_associated")
+  if show_goto_arguments:
+    a.btn.btn-secondary.btn-sm(href="#bottom")
+      i.far.fa-comments &nbsp;
+      if options.active_tab == 'discussion'
+        = _("button_goto_arguments")
+      else
+        = _("button_goto_associated")
 
   if report_url
     a.btn.btn-sm(href=report_url)
       i.fas.fa-flag &nbsp;
       = _('button_report')
 
-  a.btn.btn-secondary.btn-sm(href=note_url)
-    i.fas.fa-notes-medical &nbsp;
-    = _('note_button')
+  if note_url
+    a.btn.btn-secondary.btn-sm(href=note_url)
+      i.fas.fa-notes-medical &nbsp;
+      = _('note_button')
 
   if show_edit_button
     a.btn.btn-secondary.btn-sm(href=edit_url)

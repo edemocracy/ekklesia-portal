@@ -246,6 +246,12 @@ class PropositionCell(LayoutCell):
             PropositionStatus.VOTING, PropositionStatus.ABANDONED
         ) and self._request.permitted_for_current_user(ArgumentRelations(), CreatePermission)
 
+    def show_goto_arguments(self):
+        return self._model.status in (
+            PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED,
+            PropositionStatus.VOTING, PropositionStatus.ABANDONED
+        )
+
     def show_create_associated_proposition(self):
         return self._model.status in (
             PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
