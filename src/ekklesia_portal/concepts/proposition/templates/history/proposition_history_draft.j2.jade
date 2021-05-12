@@ -4,4 +4,7 @@ if show_full_history
       = _("created_by", author=author.name)
 
 .proposition_history_item
-  = _("created_on", date=created_at|dateformat)
+  if created_at
+    = _("created_on", date=created_at|dateformat)
+  else
+    = _("created_no_date")

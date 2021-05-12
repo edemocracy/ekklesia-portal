@@ -1037,15 +1037,27 @@ msgstr "Du unterstützt diesen Antrag."
 msgid "created_by"
 msgstr "Erstellt von %(author)s"
 
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_draft.j2.jade:10
+msgid "created_no_date"
+msgstr "Entwurf erstellt"
+
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:6
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:6
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_submitted.j2.jade:6
 msgid "submitted_on"
 msgstr "Eingereicht am %(date)s"
 
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_submitted.j2.jade:15
+msgid "submitted_no_date"
+msgstr "Eingereicht"
+
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:8
 msgid "finished_on"
 msgstr "Abgeschlossen am %(date)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:19
+msgid "finished_no_date"
+msgstr "Abgeschlossen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:8
 msgid "qualified_on"
@@ -1054,6 +1066,10 @@ msgstr "Zur Abstimmung qualifiziert am %(date)s"
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:10
 msgid "voting_ends_at"
 msgstr "Abstimmung endet um %(datetime)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:22
+msgid "voting_no_date"
+msgstr "Wird abgestimmt"
 
 #: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_draft.j2.jade:1
 msgid "working_draft"
