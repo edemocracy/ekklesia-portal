@@ -3,8 +3,9 @@ if show_full_history
     .proposition_history_item
       = _("created_by", author=author.name)
 
-  .proposition_history_item
-    = _("created_on", date=created_at|dateformat)
+  if created_at
+    .proposition_history_item
+      = _("created_on", date=created_at|dateformat)
 
   if submitted_at
     .proposition_history_item
@@ -14,6 +15,8 @@ if show_full_history
     .proposition_history_item
       = _('qualified_on', date=qualified_at|dateformat)
 
-if voting_phase.target
-  .proposition_history_item
+.proposition_history_item
+  if voting_phase.target
     = _('voting_ends_at', datetime=voting_phase.target|datetimeformat)
+  else
+    = _('voting_no_date')
