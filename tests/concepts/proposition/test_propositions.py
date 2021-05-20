@@ -103,16 +103,16 @@ def test_index_all_prop(client):
 
 def test_index_export_csv(client):
     res = client.get('/p?per_page=-1&media_type=text/csv')
-    header = "Identifier;Submitters;Title;Text;Reason;Category;Tags;Motion block;Origin"
+    header = "\"Identifier\";\"Submitters\";\"Title\";\"Text\";\"Reason\";\"Category\";\"Tags\";\"Motion block\";\"Origin\""
     assert res.body.decode().startswith(header)
     assert 'Angenommener Antrag' in res
     assert 'Abgelehnter Antrag' in res
     assert 'Täääg3' in res
-    assert "PP002;egon;" not in res, "submitters in csv which is not allowed for normal users!"
+    assert "\"PP002\";\"egon\";" not in res, "submitters in csv which is not allowed for normal users!"
 
 def test_index_export_csv_as_global_admin(client, logged_in_global_admin):
     res = client.get('/p?per_page=-1&media_type=text/csv')
-    assert "PP002;egon;" in res
+    assert "\"PP002\";\"egon\";" in res
 
 def assert_proposition_in_html(proposition, html):
     proposition_link = html.find(class_="proposition_title").find("a")
