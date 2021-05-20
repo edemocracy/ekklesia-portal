@@ -47,7 +47,7 @@ def propositions_to_csv(propositions, origin="", delimiter=";", optional_fields:
     csv_out = io.StringIO()
     fieldnames = ['Identifier', 'Submitters', 'Title', 'Text', 'Reason', 'Category', 'Tags', 'Motion block', 'Origin']
 
-    writer = csv.DictWriter(csv_out, fieldnames, delimiter=delimiter)
+    writer = csv.DictWriter(csv_out, fieldnames, delimiter=delimiter, quoting=csv.QUOTE_ALL)
     writer.writeheader()
     writer.writerows(proposition_rows)
 
