@@ -119,7 +119,9 @@ in {
 
     environment.systemPackages = [ ekklesiaPortalConfig ekklesiaPortalShowConfig ];
 
-    users.users.ekklesia-portal = { };
+    users.users.ekklesia-portal = {
+      isSystemUser = true;
+    };
     users.groups.ekklesia-portal = { };
 
     systemd.services.ekklesia-portal = {
