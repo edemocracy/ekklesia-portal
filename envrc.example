@@ -1,4 +1,4 @@
 # Direnv integration: copy this to .envrc and adapt to your system
 export EKKLESIA_PORTAL_CONFIG="$(pwd)/config.yml"
-export EKKLESIA_PORTAL_TEST_DB_URL="postgresql+psycopg2:///test_ekklesia_portal?host=/run/postgresql"
+export EKKLESIA_PORTAL_TEST_DB_URL="postgresql+psycopg2:///test_ekklesia_portal?host=/tmp"
 eval "$(lorri direnv)"
