@@ -17,10 +17,10 @@
         "homepage": "",
         "owner": "dpausp",
         "repo": "poetry2nix",
-        "rev": "99322aadb894bd541d31de54b94a90c3d6bcae53",
-        "sha256": "1wsib4i3srmviqizm6wmdyj767gii901j41jmladag201sljhc66",
+        "rev": "e7eb06f2e73f257b8c6fc73544fdf4d4e9ed1730",
+        "sha256": "0yd6mki69jv0d7xsqv9pvb3zn2qmsnyzvil10bvnvlwldgf15ifr",
         "type": "tarball",
-        "url": "https://github.com/dpausp/poetry2nix/archive/99322aadb894bd541d31de54b94a90c3d6bcae53.tar.gz",
+        "url": "https://github.com/dpausp/poetry2nix/archive/e7eb06f2e73f257b8c6fc73544fdf4d4e9ed1730.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
