@@ -5,8 +5,7 @@ import base32_crockford
 from ekklesia_common.lid import LID
 from ekklesia_common.request import EkklesiaRequest as Request
 from eliot import Message, start_action
-from pytz import timezone
-from datetime import datetime
+from datetime import datetime, timezone
 from morepath import redirect, Response
 from webob.exc import HTTPBadRequest
 
@@ -15,7 +14,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
 from ekklesia_portal.concepts.proposition.proposition_permissions import NewDraftPermission, SubmitDraftPermission
 from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter, SecretVoter
-from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility, SecretVoterStatus
+from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility, SecretVoterStatus, SupporterStatus
 from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
@@ -122,53 +121,56 @@ def associated(self, request):
     return cell.show()
 
 
-def process_secret_voting(self, request):
-    user_id = request.current_user.id
-    if 'secret_voting' in request.POST or 'public_voting' in request.POST:
-        if self.ballot_id is None:
-            return redirect(request.link(self))
-        secret_record = request.db_session.query(SecretVoter).filter_by(
-            member_id=user_id, ballot_id=self.ballot_id
-        ).scalar()
-        if secret_record is None:
-            secret_record = SecretVoter(member_id=user_id, ballot_id=self.ballot_id, status='active')
-            request.db_session.add(secret_record)
-        if 'secret_voting' in request.POST:
-            secret_record.status = SecretVoterStatus.ACTIVE
-        else:
-            secret_record.status = SecretVoterStatus.RETRACTED
-        UTC = timezone('UTC')
-        secret_record.last_change = datetime.now(UTC)
-    return redirect(request.link(self))
-
-
-@App.html(model=Proposition, request_method='POST', name='public_voting', permission=SupportPermission)
-def secret_voting(self, request):
-    return process_secret_voting(self, request)
-
-
 @App.html(model=Proposition, request_method='POST', name='secret_voting', permission=SupportPermission)
 def secret_voting(self, request):
-    return process_secret_voting(self, request)
+    new_state = request.POST.get("secret_voting")
+    if new_state not in ("request", "retract"):
+        raise HTTPBadRequest("invalid value for secret_voting or missing")
+
+    user_id = request.current_user.id
+    secret_record = request.db_session.query(SecretVoter).filter_by(
+        member_id=user_id, ballot_id=self.ballot_id
+    ).scalar()
+    if secret_record is None:
+        secret_record = SecretVoter(member_id=user_id, ballot_id=self.ballot_id)
+        request.db_session.add(secret_record)
+    if new_state == "request":
+        secret_record.status = SecretVoterStatus.ACTIVE
+    else:
+        secret_record.status = SecretVoterStatus.RETRACTED
+    secret_record.last_change = datetime.now(timezone.utc)
+
+    if request.headers.get("HX-Request"):
+        return PropositionCell(self, request).secret_voting_action()
+    else:
+        return redirect(request.link(self))
 
 
 @App.html(model=Proposition, request_method='POST', name='support', permission=SupportPermission)
 def support(self, request):
-    if 'support' not in request.POST and 'retract' not in request.POST:
-        raise HTTPBadRequest()
+    new_state = request.POST.get("support")
+    if new_state not in ("support", "retract"):
+        raise HTTPBadRequest("invalid value for support parameter or missing")
 
     user_id = request.current_user.id
     supporter = request.db_session.query(Supporter).filter_by(member_id=user_id, proposition_id=self.id).scalar()
-    if 'support' in request.POST:
+
+    if new_state == "support":
+
         if supporter is None:
             supporter = Supporter(member_id=user_id, proposition_id=self.id)
             request.db_session.add(supporter)
-        elif supporter.status in ('retracted', 'expired'):
-            supporter.status = 'active'
-    elif 'retract' in request.POST and supporter is not None and supporter.status != 'retracted':
-        supporter.status = 'retracted'
 
-    return redirect(request.link(self))
+        supporter.status = SupporterStatus.ACTIVE
+
+    elif supporter is not None:
+        supporter.status = SupporterStatus.RETRACTED
+
+    if request.headers.get("HX-Request"):
+        cell = PropositionCell(self, request)
+        return "\n".join([cell.support_action(), cell.detail_top()])
+    else:
+        return redirect(request.link(self))
 
 
 @App.html(request_method='POST', name='become_submitter', permission=SupportPermission)

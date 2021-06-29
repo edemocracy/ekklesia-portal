@@ -17,7 +17,7 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.proposition.proposition_permissions import SubmitDraftPermission
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase, SecretVoter
 from ekklesia_portal.helper.url_shortener import make_tiny
-from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus
+from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, SecretVoterStatus
 from ekklesia_portal.lib.url import url_change_query
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
@@ -43,6 +43,7 @@ class PropositionCell(LayoutCell):
         'id',
         'modifies',
         'motivation',
+        'qualification_quorum',
         'replacements',
         'replaces',
         'submitter_invitation_key',
@@ -54,6 +55,8 @@ class PropositionCell(LayoutCell):
     ]
 
     actions = Cell.fragment('proposition_actions')
+    secret_voting_action = Cell.template_fragment('proposition_secret_voting_action')
+    support_action = Cell.template_fragment('proposition_support_action')
     tabs = Cell.fragment('proposition_tabs')
     small = Cell.fragment('proposition_small')
     card = Cell.fragment('proposition_card')
@@ -203,10 +206,10 @@ class PropositionCell(LayoutCell):
     def become_submitter_action(self):
         return self.link(self._model, 'become_submitter')
 
-    def secret_voting_action(self):
+    def secret_voting_url(self):
         return self.link(self._model, 'secret_voting')
 
-    def support_action(self):
+    def support_url(self):
         return self.link(self._model, 'support')
 
     def pro_argument_relations(self):
@@ -229,10 +232,13 @@ class PropositionCell(LayoutCell):
     def ready_to_submit(self):
         return self._model.ready_to_submit
 
-    def show_support_actions(self):
+    def show_support_action(self):
+        return self._model.status in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED
+        ) and self._request.permitted_for_current_user(self._model, SupportPermission)
+
+    def show_secret_voting_action(self):
         return self._model.status in (
-            PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED,
-            PropositionStatus.VOTING
+            PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED
         ) and self._request.permitted_for_current_user(self._model, SupportPermission)
 
     def show_submit_draft_action(self):
@@ -333,18 +339,18 @@ class PropositionCell(LayoutCell):
     def show_full_history(self):
         return self.options.get('show_details')
 
-    def secret_voting(self):
+    def secret_voting_requested(self):
         user_id = None
         if self.current_user is not None:
             user_id = self.current_user.id
         secret_record = self._request.db_session.query(SecretVoter).filter_by(
             member_id=user_id, ballot_id=self._model.ballot_id
         ).scalar()
-        stat = 'retracted'
-        if secret_record is not None:
-            stat = secret_record.status
-        return stat == 'active'
 
+        if secret_record is None:
+            return False
+
+        return secret_record.status == SecretVoterStatus.ACTIVE
 
 @App.cell(Propositions, 'new')
 class NewPropositionCell(NewFormCell):

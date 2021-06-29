@@ -1,38 +1,12 @@
 .proposition_actions
-  if show_support_actions
-    form.support_form(action=support_action, method="POST")
-      button.btn.btn-primary.btn-sm(hidden=current_user_is_supporter, type="submit", name="support")
-          i.far.fa-thumbs-up &nbsp;
-          = _('button_support')
 
-      button.btn.btn-secondary.btn-sm(hidden=(not current_user_is_supporter), type="submit", name="retract")
-          i.far.fa-remove &nbsp;
-          = _('button_retract_support')
+  if show_support_action
+    = render_cell(_model, 'support_action', **options)
 
-  if show_support_actions
-    form.support_form(action=secret_voting_action, method="POST")
-      if secret_voting
-        button.btn.btn-primary.btn-sm(type="submit", name="public_voting")
-          i.far.fa-eye-slash &nbsp;
-          = _('button_secret_voting')
-          = ' ('
-          abbr(title= _('abbr_secret_voters_count'))
-            = secret_voters_count
-          = '/'
-          abbr(title= _('abbr_secret_voting_quorum'))
-            = secret_voting_quorum
-          = ')'
-       else
-        button.btn.btn-secondary.btn-sm(type="submit", name="secret_voting")
-          i.far.fa-eye &nbsp;
-          = _('button_public_voting')
-          = ' ('
-          abbr(title= _('abbr_secret_voters_count'))
-            = secret_voters_count
-          = '/'
-          abbr(title= _('abbr_secret_voting_quorum'))
-            = secret_voting_quorum
-          = ')'
+  if show_secret_voting_action
+    = render_cell(_model, 'secret_voting_action', **options)
+
+  hr
 
   if show_submit_draft_action
       a.btn.btn-primary.btn-sm(href=submit_draft_url)
@@ -48,13 +22,10 @@
       i.fas.fa-external-link-alt &nbsp;
       = _('button_external_discussion_url')
 
-  if show_goto_arguments:
+  if options.active_tab == 'associated'
     a.btn.btn-secondary.btn-sm(href="#bottom")
       i.far.fa-comments &nbsp;
-      if options.active_tab == 'discussion'
-        = _("button_goto_arguments")
-      else
-        = _("button_goto_associated")
+      = _("button_goto_associated")
 
   if report_url
     a.btn.btn-sm(href=report_url)

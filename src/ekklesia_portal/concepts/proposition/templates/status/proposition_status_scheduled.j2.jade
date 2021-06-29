@@ -1,14 +1,17 @@
-.points
-  i.far.fa-thumbs-up &nbsp;
-  strong.proposition_info_number(id="proposition_score_{{ id }}")= supporter_count
-  | &nbsp;
-  span= ngettext("supporter", "supporters", supporter_count)
-
-.argument_count
-  i.far.fa-comments &nbsp;
+a.argument_count(href=(("" if options.show_details else self_link) + "#bottom")
+                 title=_("goto_arguments"))
+  i.icon.far.fa-comments &nbsp;
   strong.proposition_info_number= argument_count
   | &nbsp;
   span= ngettext("argument", "arguments", argument_count)
+
+if options.show_details
+  .points
+    i.far.fa-thumbs-up &nbsp;
+    strong.proposition_info_number= supporter_count
+    | &nbsp;
+    span= ngettext("supporter", "supporters", supporter_count)
+
 
 .voting
   div
@@ -19,3 +22,4 @@
     a(href=link(voting_phase))= voting_phase.title
   div
     a(href=link(ballot))= ballot_title
+

@@ -20,6 +20,11 @@ let
       sha256 = "04s871zdfmi5264zixv9i0m45qk22dsz35ic61zx7ak5pd55npd6";
     });
 
+    htmx = (fetchurl {
+      url = "https://unpkg.com/htmx.org@1.4.1/dist/htmx.min.js";
+      sha256 = "0z3ykfspz9iy23xc8i4qc919rzknbf4sxw9704ckch461f0r2y9l";
+    });
+
   };
 
 in

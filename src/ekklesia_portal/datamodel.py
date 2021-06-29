@@ -19,6 +19,7 @@
 # For more details see the file COPYING.
 
 from datetime import datetime
+import math
 
 from ekklesia_common.database import Base, C, LIDType, integer_pk
 from ekklesia_common.lid import LID
@@ -377,7 +378,7 @@ class SecretVoter(Base):  # §3.7, §4.4
     ballot_id: int = C(Integer, ForeignKey('ballots.id'), primary_key=True)
     ballot = relationship("Ballot", backref=backref("ballot_members", cascade="all, delete-orphan"))
 
-    status: str = C(Enum(SecretVoterStatus), nullable=False)  # active,expired,retracted
+    status: SecretVoterStatus = C(Enum(SecretVoterStatus), nullable=False)  # active,expired,retracted
     last_change: datetime = C(DateTime, nullable=False)  # time of requested/retracted
     # can only be requested before deadline before voting starts §4.4
     # qualification §4.4 (immediate check): for count active members (minimum number §3.7),
@@ -460,21 +461,24 @@ class Proposition(Base):
     )
 
     @property
+    def _area_members_count(self):
+        return len([s for s in self.ballot.area.members])
+
+    @property
+    def qualification_quorum(self):
+        policy = self.ballot.proposition_type.policy
+        quorum = math.ceil(self._area_members_count * policy.qualification_quorum / 100)
+        return max(quorum, policy.qualification_minimum)
+
+    @property
     def secret_voters_count(self):
         return len([s for s in self.ballot.ballot_members if s.status == SecretVoterStatus.ACTIVE])
 
     @property
-    def secret_voters_user_count(self):
-        return len([s for s in self.ballot.area.members])
-
-    @property
     def secret_voting_quorum(self):
-        user_count = self.secret_voters_user_count
-        pol = self.ballot.proposition_type.policy
-        quorum = round(float(user_count) / 100.0 * float(pol.secret_quorum) + 0.5)
-        if quorum < pol.secret_minimum:
-            quorum = pol.secret_minimum
-        return quorum
+        policy = self.ballot.proposition_type.policy
+        quorum = math.ceil(self._area_members_count * policy.secret_quorum / 100)
+        return max(quorum, policy.secret_minimum)
 
     def support_by_user(self, user) -> Supporter:
         for s in self.propositions_member:

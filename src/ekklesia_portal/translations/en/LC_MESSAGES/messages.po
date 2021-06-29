@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-01 01:48+0000\n"
+"POT-Creation-Date: 2021-07-05 23:37+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:12
 #: src/ekklesia_portal/concepts/page/page_contracts.py:11
@@ -156,7 +156,7 @@ msgstr ""
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:12
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:13
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:5
 msgid "ballot"
 msgstr "Ballot"
 
@@ -166,7 +166,7 @@ msgstr "Ballot"
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:10
 #: src/ekklesia_portal/concepts/page/templates/page.j2.jade:7
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:7
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition_note/templates/proposition_note.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:7
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:4
@@ -369,7 +369,7 @@ msgid "title_new_draft"
 msgstr "New draft"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:8
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:29
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
 msgid "voting_phases"
 msgstr "Voting phases"
@@ -430,7 +430,7 @@ msgid "warning_development_mode"
 msgstr "Warning: insecure development mode. Login without password possible!"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:12
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:41
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:42
 msgid "button_login"
 msgstr "Login"
 
@@ -442,48 +442,48 @@ msgstr "Profile"
 msgid "scheduled_voting_phases"
 msgstr "Scheduled voting phases"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:27
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
 msgid "menu_propositions"
 msgstr "Propositions"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
 msgid "admin_area"
 msgstr "Admin"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:34
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:51
 msgid "search_for"
 msgstr "Search for"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:36
 msgid "button_search"
 msgstr "Search"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:39
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:40
 msgid "button_logout"
 msgstr "Logout"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:49
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
 msgid "link_other"
 msgstr "Go to current voting"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:51
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
 msgid "faq"
 msgstr "FAQ"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:53
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
 msgid "terms_of_use"
 msgstr "Terms of Use"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:55
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:56
 msgid "data_protection"
 msgstr "Data protection"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:57
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:58
 msgid "imprint"
 msgstr "Imprint"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:60
 msgid "source code"
 msgstr "source code"
 
@@ -550,6 +550,7 @@ msgstr "Minimum number of supporters"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:16
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:16
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support_action.j2.jade:13
 msgid "qualification_quorum"
 msgstr "Supporter quorum for voting qualification"
 
@@ -667,11 +668,11 @@ msgid "button_create_draft"
 msgstr "Create Draft"
 
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:119
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_submit_draft"
 msgstr "Submit Proposition"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:366
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:368
 msgid "change"
 msgstr "Change"
 
@@ -736,53 +737,23 @@ msgstr "Counter Motions"
 msgid "button_add_counter_proposition"
 msgstr "Add Counter Motion"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:3
-msgid "button_support"
-msgstr "Support"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:5
-msgid "button_retract_support"
-msgstr "Retract support"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-msgid "button_secret_voting"
-msgstr "voting to be secret"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "abbr_secret_voters_count"
-msgstr "number of supporters for secret ballot"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:9
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "abbr_secret_voting_quorum"
-msgstr "quorum for secret ballot"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:11
-msgid "button_public_voting"
-msgstr "voting to be public"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_share"
 msgstr "Share"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_external_discussion_url"
 msgstr "External discussion"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
-msgid "button_goto_arguments"
-msgstr "Go to Arguments"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_goto_associated"
 msgstr "Go to Associated"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_report"
 msgstr "Report"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "note_button"
 msgstr "Notes"
 
@@ -794,9 +765,26 @@ msgstr "Motivation"
 msgid "changes"
 msgstr "Changes"
 
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:5
+msgid "button_retract_secret_voting"
+msgstr "Retract Voting on Paper Request"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:8
+msgid "button_request_secret_voting"
+msgstr "Request Voting on Paper"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:13
+msgid "abbr_secret_voters_count"
+msgstr "number of supporters for vote on paper"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:13
+msgid "abbr_secret_voting_quorum"
+msgstr "quorum for vote on paper"
+
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:1
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support_action.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:2
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Supporter"
@@ -822,6 +810,14 @@ msgstr ""
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_submit_draft.j2.jade:7
 msgid "title_notice"
 msgstr "Note"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support_action.j2.jade:5
+msgid "button_retract_support"
+msgstr "Retract support"
+
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support_action.j2.jade:8
+msgid "button_support"
+msgstr "Support"
 
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:6
 msgid "btn_sort_by_identifier_or_title"
@@ -924,99 +920,99 @@ msgstr "Next page"
 msgid "last_page"
 msgstr "Last page"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:2
 msgid "title_draft"
 msgstr "New Draft"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:3
 msgid "notice_proposition_is_a_draft"
 msgstr "This proposition is a draft and not submitted yet!"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:4
 msgid "you_are_author_and_submitter"
 msgstr "You have created this draft and are submitter."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:5
 msgid "you_are_author_but_not_submitter"
 msgstr "You have created this draft but are not submitter"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:6
 msgid "you_are_submitter"
 msgstr "You are submitter."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:7
 msgid "draft_ready_to_submit"
 msgstr "This draft can be submitted."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:8
 msgid "draft_needs_more_submitters"
 msgstr "This draft needs %(missing)s more submitters in order to be submitted."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:8
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:9
 msgid "share_this_become_submitter_link"
 msgstr "Share this link to invite more submitters:"
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:11
-msgid "current_submitters"
-msgstr "Currently, submitters are:"
-
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:14
 msgid "invited_to_become_submitter"
 msgstr ""
 "You have been invited to become submitter. Your login name for the portal"
 " will be published when you become submitter."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:17
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:14
 msgid "button_become_submitter"
 msgstr "Become Submitter"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:20
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:17
 msgid "notice_login"
 msgstr "You must login first."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:19
+msgid "current_submitters"
+msgstr "Currently, submitters are:"
+
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:2
 msgid "title_qualified_proposition"
 msgstr "Proposition Qualified For Voting"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:3
 msgid "info_qualified_proposition"
 msgstr ""
 "This proposition has enough supporters so the administrator can schedule "
 "it for voting."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:7
 msgid "submitters"
 msgstr "Submitters"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:2
 msgid "title_scheduled_proposition"
 msgstr "Scheduled Proposition"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:3
 msgid "info_scheduled_proposition"
 msgstr "This proposition is scheduled for the voting %(voting_phase)s %(ballot)s."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:2
 msgid "title_submitted_proposition"
 msgstr "Edit Proposition"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:3
 msgid "info_submitted_proposition"
 msgstr ""
 "This proposition has been submitted and has enough supporters to be "
 "scheduled for"
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:4
 msgid "current_user_is_submitter"
 msgstr "You are submitter\""
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:5
 msgid "current_user_is_submitter_and_supporter"
 msgstr "If you retract your support, you are still a submitter of the proposition."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:6
 msgid "current_user_is_supporter_not_submitter"
 msgstr "You support this proposition."
 
@@ -1027,7 +1023,7 @@ msgstr "You support this proposition."
 msgid "created_by"
 msgstr "Created by %(author)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_draft.j2.jade:10
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_draft.j2.jade:4
 msgid "created_no_date"
 msgstr "Draft created"
 
@@ -1037,15 +1033,11 @@ msgstr "Draft created"
 msgid "submitted_on"
 msgstr "Submitted on %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_submitted.j2.jade:15
-msgid "submitted_no_date"
-msgstr "Submitted"
-
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:8
 msgid "finished_on"
 msgstr "Finished on %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:19
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:8
 msgid "finished_no_date"
 msgstr "Finished"
 
@@ -1057,9 +1049,13 @@ msgstr "Qualified for voting on %(date)s"
 msgid "voting_ends_at"
 msgstr "Voting ends at %(datetime)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:22
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:10
 msgid "voting_no_date"
 msgstr "In voting"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_submitted.j2.jade:6
+msgid "submitted_no_date"
+msgstr "Submitted"
 
 #: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_draft.j2.jade:1
 msgid "working_draft"
@@ -1069,8 +1065,13 @@ msgstr "Working Draft"
 msgid "result"
 msgstr "Result"
 
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:3
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:1
+msgid "goto_arguments"
+msgstr "Go to Arguments"
+
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:1
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:1
 msgid "argument"
 msgid_plural "arguments"
 msgstr[0] "Argument"

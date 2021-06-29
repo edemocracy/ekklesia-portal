@@ -1,9 +1,10 @@
-h2= _('title_qualified_proposition')
+#detail_top(hx-swap-oob="true")
+  h2= _('title_qualified_proposition')
 
-p= _('info_qualified_proposition')
+  p= _('info_qualified_proposition')
 
-if show_submitter_names and submitter_names
-  p= _('submitters')
-  ul
-    for name in submitter_names
-      li= name
+  if show_submitter_names and submitter_names
+    p= _('submitters')
+    ul
+      for name in submitter_names
+        li= name

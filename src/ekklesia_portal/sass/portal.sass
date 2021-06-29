@@ -14,6 +14,8 @@ body
   position: relative
 
 $light-orange: lighten($orange, 15%)
+$light-blue: lighten($blue, 15%)
+$light-violet: lighten($violet, 50%)
 
 .alert_message
   @extend .alert
@@ -26,6 +28,11 @@ $light-orange: lighten($orange, 15%)
 .alert_warning
   @extend .alert
   @extend .alert-warning
+
+.argument_count
+
+  .proposition_info_number, .icon
+    color: black
 
 .argument_relation_body
   @extend .p-3
@@ -375,11 +382,35 @@ ul.proposition_filter
 .logout_button
   @extend .login_logout_button
 
+.progress_row
+  @extend .row
+  display: flex
+  align-items: center
+
+  .progress
+    height: 1.5rem
+
+  .progress-bar
+    color: black
+
+#support_action
+  @extend .progress_row
+
+  .progress-bar
+    background-color: $light-orange
+
+#secret_voting_action
+  @extend .progress_row
+
+  .progress-bar
+    background-color: $light-violet
+
 .proposition_left
   @extend .col-sm-2
   @extend .text-sm-center
 
-.support_form
+.support_form,
+.secret_voting_form
     @extend .form-inline
     display: inline
 
