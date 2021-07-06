@@ -477,3 +477,9 @@ if __name__ == "__main__":
 
     alembic_cfg = Config("./alembic.ini")
     command.stamp(alembic_cfg, "head")
+
+    # Fixes a strange error message when the connection isn't closed.
+    # Didn't happen before.
+    connection.close()
+
+    logg.info("finished")
