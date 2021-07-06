@@ -50,6 +50,7 @@ class SubjectAreaFactory(SQLAFactory):
 
     name = Sequence('subject_area{}'.format)
     department = SubFactory(DepartmentFactory)
+    description = MimesisField('text', quantity=5)
 
 
 @register

@@ -8,6 +8,7 @@ from ekklesia_portal.concepts.page.pages import Pages
 from ekklesia_portal.concepts.policy.policies import Policies
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.proposition_type.proposition_types import PropositionTypes
+from ekklesia_portal.concepts.subject_area.subject_areas import SubjectAreas
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
 from ekklesia_portal.concepts.voting_phase_type.voting_phase_types import VotingPhaseTypes
 from ..admin_box import AdminBox
@@ -54,6 +55,12 @@ class AdminBoxCell(Cell):
 
     def new_department_url(self):
         return self.link(Departments(), '+new')
+
+    def subject_areas_url(self):
+        return self.link(SubjectAreas())
+
+    def new_subject_area_url(self):
+        return self.link(SubjectAreas(), '+new')
 
     def documents_url(self):
         return self.link(Documents())
