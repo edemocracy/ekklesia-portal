@@ -768,11 +768,11 @@ msgstr "Änderungen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:5
 msgid "button_retract_secret_voting"
-msgstr "Antrag auf Papierabstimmung zurückziehen"
+msgstr "Forderung auf Papierabstimmung zurückziehen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:8
 msgid "button_request_secret_voting"
-msgstr "Papierabstimmung beantragen"
+msgstr "Papierabstimmung fordern"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting_action.j2.jade:13
 msgid "abbr_secret_voters_count"
