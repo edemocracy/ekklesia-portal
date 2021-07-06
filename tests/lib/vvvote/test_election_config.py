@@ -13,7 +13,7 @@ def test_ballot_to_vvvote_question(db_session, ballot, proposition_factory):
 
 
 def test_voting_phase_to_vvvote_election_config(db_session, ballot_factory, proposition_factory, voting_phase_factory):
-    voting_phase = voting_phase_factory(status=VotingStatus.SCHEDULED, target=datetime.datetime.now())
+    voting_phase = voting_phase_factory(status=VotingStatus.PREPARING, target=datetime.datetime.now())
     module_config = {
         "must_be_eligible": True,
         "must_be_verified": True,

@@ -8,9 +8,10 @@ from ekklesia_portal.enums import VotingStatus
 class IndexCell(LayoutCell):
 
     def scheduled_voting_phases(self):
-        return self._request.q(VotingPhase).\
-            filter_by(status=VotingStatus.SCHEDULED).\
-            order_by(VotingPhase.target)
+        return (self._request.q(VotingPhase).
+            filter_by(status=VotingStatus.PREPARING).
+            filter(VotingPhase.target is not None).
+            order_by(VotingPhase.target))
 
     def insecure_development_mode_enabled(self):
         return self._app.settings.app.insecure_development_mode

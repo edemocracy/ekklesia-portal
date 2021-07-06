@@ -325,7 +325,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     __table_args__ = (
         CheckConstraint(
-            "(status='PREPARING' AND target IS NULL) OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'
+            "status='PREPARING' OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'
         ),
     )
     id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
@@ -357,7 +357,11 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
     @property
     def ballots_can_be_added(self):
-        return self.status in (VotingStatus.PREPARING, VotingStatus.SCHEDULED)
+        return self.status == VotingStatus.PREPARING
+
+    @property
+    def voting_can_be_created(self):
+        return self.status == VotingStatus.PREPARING and self.target is not None
 
 
 class Supporter(Base):  # §3.5

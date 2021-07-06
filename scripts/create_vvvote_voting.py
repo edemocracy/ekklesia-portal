@@ -28,14 +28,14 @@ def main(voting_phase_name: str, voting_module_name: str, update_existing: Optio
     elif voting_module_name in voting_phase.voting_module_data and not update_existing:
         config_url = voting_phase.voting_module_data[voting_module_name]["config_url"]
         echo(f"VVVote voting already exists for this voting phase at {config_url}, doing nothing. Add --update-existing to create a new voting.")
-    elif voting_phase.status != VotingStatus.SCHEDULED:
-        echo(f"Voting can only be created for scheduled voting phases, this voting phase is in state '{voting_phase.status}'!")
-        raise Exit(1)
-    else:
+    elif voting_phase.voting_can_be_created:
         config_url = create_election_in_vvvote(module_config, election_config)
         voting_phase.voting_module_data[voting_module_name] = {"config_url": config_url}
         transaction.commit()
         echo(f"Created election config with id {config_url}.")
+    else:
+        echo(f"Voting cannot be created for this voting phase, wrong state or target date is not set!")
+        raise Exit(1)
 
 
 if __name__ == "__main__":

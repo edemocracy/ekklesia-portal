@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-05 23:37+0000\n"
+"POT-Creation-Date: 2021-07-06 23:06+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -1221,7 +1221,7 @@ msgstr "Geheime Abstimmung möglich?"
 msgid "voting_module_data"
 msgstr "Daten für externe Abstimmungssysteme"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:159
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:155
 msgid "voting_created_msg"
 msgstr "Abstimmung im Abstimmungsmodul %(voting_module)s erzeugt."
 
@@ -1432,63 +1432,58 @@ msgstr "Urne"
 msgid "voting_status_preparing"
 msgstr "In Vorbereitung"
 
-#. VotingStatus.SCHEDULED
-#: src/ekklesia_portal/enums.py:67
-msgid "voting_status_scheduled"
-msgstr "Geplant"
-
 #. VotingStatus.VOTING
-#: src/ekklesia_portal/enums.py:68
+#: src/ekklesia_portal/enums.py:67
 msgid "voting_status_voting"
 msgstr "In Abstimmung"
 
 #. VotingStatus.FINISHED
-#: src/ekklesia_portal/enums.py:69
+#: src/ekklesia_portal/enums.py:68
 msgid "voting_status_finished"
 msgstr "Abgeschlossen"
 
 #. VotingStatus.ABORTED
-#: src/ekklesia_portal/enums.py:70
+#: src/ekklesia_portal/enums.py:69
 msgid "voting_status_aborted"
 msgstr "Abgebrochen"
 
 #. OpenSlidesVotingResult.ACCEPTED
-#: src/ekklesia_portal/enums.py:74
+#: src/ekklesia_portal/enums.py:73
 msgid "open_slides_voting_result_accepted"
 msgstr "akzeptiert"
 
 #. OpenSlidesVotingResult.REJECTED
-#: src/ekklesia_portal/enums.py:75
+#: src/ekklesia_portal/enums.py:74
 msgid "open_slides_voting_result_rejected"
 msgstr "abgelehnt"
 
 #. OpenSlidesVotingResult.NOT_DECIDED
-#: src/ekklesia_portal/enums.py:76
+#: src/ekklesia_portal/enums.py:75
 msgid "open_slides_voting_result_not_decided"
 msgstr "verschoben"
 
 #. VotingSystem.RANGE_APPROVAL
-#: src/ekklesia_portal/enums.py:80
+#: src/ekklesia_portal/enums.py:79
 msgid "voting_system_range_approval"
 msgstr "verbundene Einzelwahl mit Bewertungswahl"
 
 #. VoteByUser.UNSURE
-#: src/ekklesia_portal/enums.py:84
+#: src/ekklesia_portal/enums.py:83
 msgid "vote_by_user_unsure"
 msgstr "Vielleicht"
 
 #. VoteByUser.ACCEPT
-#: src/ekklesia_portal/enums.py:85
+#: src/ekklesia_portal/enums.py:84
 msgid "vote_by_user_accept"
 msgstr "Ja"
 
 #. VoteByUser.DECLINE
-#: src/ekklesia_portal/enums.py:86
+#: src/ekklesia_portal/enums.py:85
 msgid "vote_by_user_decline"
 msgstr "Nein"
 
 #. VoteByUser.ABSTENTION
-#: src/ekklesia_portal/enums.py:87
+#: src/ekklesia_portal/enums.py:86
 msgid "vote_by_user_abstention"
 msgstr "Enthaltung"
 
@@ -1577,4 +1572,7 @@ msgstr "Enthaltung"
 
 #~ msgid "new_voting_phase"
 #~ msgstr "Neuer Abstimmungszeitraum"
+
+#~ msgid "voting_status_scheduled"
+#~ msgstr "Geplant"
 

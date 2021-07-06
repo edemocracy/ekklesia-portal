@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-05 23:37+0000\n"
+"POT-Creation-Date: 2021-07-06 23:06+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1211,7 +1211,7 @@ msgstr "Secret voting possible?"
 msgid "voting_module_data"
 msgstr "External Voting Data"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:159
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:155
 msgid "voting_created_msg"
 msgstr "Created voting in voting module %(voting_module)s."
 
@@ -1420,63 +1420,58 @@ msgstr "Urn"
 msgid "voting_status_preparing"
 msgstr "Preparing"
 
-#. VotingStatus.SCHEDULED
-#: src/ekklesia_portal/enums.py:67
-msgid "voting_status_scheduled"
-msgstr "Scheduled"
-
 #. VotingStatus.VOTING
-#: src/ekklesia_portal/enums.py:68
+#: src/ekklesia_portal/enums.py:67
 msgid "voting_status_voting"
 msgstr "Voting"
 
 #. VotingStatus.FINISHED
-#: src/ekklesia_portal/enums.py:69
+#: src/ekklesia_portal/enums.py:68
 msgid "voting_status_finished"
 msgstr "Finished"
 
 #. VotingStatus.ABORTED
-#: src/ekklesia_portal/enums.py:70
+#: src/ekklesia_portal/enums.py:69
 msgid "voting_status_aborted"
 msgstr "Aborted"
 
 #. OpenSlidesVotingResult.ACCEPTED
-#: src/ekklesia_portal/enums.py:74
+#: src/ekklesia_portal/enums.py:73
 msgid "open_slides_voting_result_accepted"
 msgstr "accepted"
 
 #. OpenSlidesVotingResult.REJECTED
-#: src/ekklesia_portal/enums.py:75
+#: src/ekklesia_portal/enums.py:74
 msgid "open_slides_voting_result_rejected"
 msgstr "declined"
 
 #. OpenSlidesVotingResult.NOT_DECIDED
-#: src/ekklesia_portal/enums.py:76
+#: src/ekklesia_portal/enums.py:75
 msgid "open_slides_voting_result_not_decided"
 msgstr "not decided"
 
 #. VotingSystem.RANGE_APPROVAL
-#: src/ekklesia_portal/enums.py:80
+#: src/ekklesia_portal/enums.py:79
 msgid "voting_system_range_approval"
 msgstr "Range + approval voting"
 
 #. VoteByUser.UNSURE
-#: src/ekklesia_portal/enums.py:84
+#: src/ekklesia_portal/enums.py:83
 msgid "vote_by_user_unsure"
 msgstr "Unsure"
 
 #. VoteByUser.ACCEPT
-#: src/ekklesia_portal/enums.py:85
+#: src/ekklesia_portal/enums.py:84
 msgid "vote_by_user_accept"
 msgstr "Yes"
 
 #. VoteByUser.DECLINE
-#: src/ekklesia_portal/enums.py:86
+#: src/ekklesia_portal/enums.py:85
 msgid "vote_by_user_decline"
 msgstr "No"
 
 #. VoteByUser.ABSTENTION
-#: src/ekklesia_portal/enums.py:87
+#: src/ekklesia_portal/enums.py:86
 msgid "vote_by_user_abstention"
 msgstr "Abstention"
 
@@ -1553,4 +1548,7 @@ msgstr "Abstention"
 
 #~ msgid "new_voting_phase"
 #~ msgstr "New voting phase"
+
+#~ msgid "voting_status_scheduled"
+#~ msgstr "Scheduled"
 

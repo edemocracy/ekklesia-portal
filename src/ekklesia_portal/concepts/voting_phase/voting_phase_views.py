@@ -99,10 +99,6 @@ def update(self, request, appstruct):
     if voting_phase_type is None:
         return HTTPBadRequest("voting phase type is missing")
 
-    # after setting a target date, the state of the voting phase transitions to SCHEDULED
-    if appstruct['target'] and self.target is None:
-        appstruct['status'] = VotingStatus.SCHEDULED
-
     self.update(**appstruct)
     return redirect(request.link(self))
 
@@ -136,8 +132,8 @@ def spickerrr(self, request):
 
 @App.html(model=VotingPhase, name="create_voting", request_method="POST", permission=EditPermission)
 def create_voting(self, request):
-    if self.status != VotingStatus.SCHEDULED:
-        raise HTTPBadRequest("Voting phase must be in scheduled state")
+    if self.voting_can_be_created:
+        raise HTTPBadRequest("Voting phase is in the wrong state or target date is not set")
 
     voting_module_name = request.POST.get("create_voting")
 

@@ -184,7 +184,7 @@ if __name__ == "__main__":
     voting_phase_ppd_bpt_scheduled = VotingPhase(
         phase_type=voting_phase_type_bpt,
         target='2020-11-11',
-        status=VotingStatus.SCHEDULED,
+        status=VotingStatus.PREPARING,
         secret=True,
         title='BPT 2020.1',
         name='bpt201',

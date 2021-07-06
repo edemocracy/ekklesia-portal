@@ -97,7 +97,7 @@ class EditVotingPhaseCell(EditFormCell):
         self._form.prepare_for_render(items)
 
     def show_create_voting(self):
-        return self._model.status == VotingStatus.SCHEDULED and self._request.permitted_for_current_user(
+        return self._model.voting_can_be_created and self._request.permitted_for_current_user(
             self._model, ManageVotingPermission
         )
 
