@@ -31,8 +31,11 @@ def ballot_to_vvvote_question(ballot, question_id=1):
         question_wording = ballot.name
 
     question = vvvote_schema.Question(
-        questionWording=question_wording, questionID=question_id, scheme=voting_scheme, options=options,
-            findWinner=['yesNo', 'score', 'random']
+        questionWording=question_wording,
+        questionID=question_id,
+        scheme=voting_scheme,
+        options=options,
+        findWinner=['yesNo', 'score', 'random']
     )
 
     return question
@@ -40,8 +43,17 @@ def ballot_to_vvvote_question(ballot, question_id=1):
 
 def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schema.ElectionConfig:
     questions = [ballot_to_vvvote_question(b, ii) for ii, b in enumerate(phase.ballots, start=1)]
-    end = phase.target
-    start = end - datetime.timedelta(days=14)
+
+    voting_start = phase.voting_start
+    if voting_start is None:
+        raise ValueError("Cannot create voting for phase {phase}, voting_start is None")
+
+    end = phase.voting_end
+    if end is None:
+        raise ValueError("Cannot create voting for phase {phase}, voting_end is None")
+
+    registration_days_before_voting = module_config.get("registration_days_before_voting", 0)
+    registration_start = voting_start - datetime.timedelta(days=registration_days_before_voting)
 
     auth_data = vvvote_schema.OAuthConfig(
         eligible=module_config["must_be_eligible"],
@@ -49,9 +61,9 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
         verified=module_config["must_be_verified"],
         nested_groups=[module_config["required_role"]],
         serverId=module_config["auth_server_id"],
-        RegistrationStartDate=start,
+        RegistrationStartDate=registration_start,
         RegistrationEndDate=end,
-        VotingStart=start,
+        VotingStart=voting_start,
         VotingEnd=end,
     )
     config = vvvote_schema.ElectionConfig(

@@ -13,12 +13,14 @@ def test_ballot_to_vvvote_question(db_session, ballot, proposition_factory):
 
 
 def test_voting_phase_to_vvvote_election_config(db_session, ballot_factory, proposition_factory, voting_phase_factory):
-    voting_phase = voting_phase_factory(status=VotingStatus.PREPARING, target=datetime.datetime.now())
+    target = datetime.datetime.now()
+    voting_phase = voting_phase_factory(status=VotingStatus.PREPARING, voting_days=4, target=target)
     module_config = {
         "must_be_eligible": True,
         "must_be_verified": True,
         "required_role": "testrole",
-        "auth_server_id": "testserver"
+        "auth_server_id": "testserver",
+        "registration_days_before_voting": 1
     }
     ballot_1 = ballot_factory()
     ballot_1.propositions = [proposition_factory(ballot=ballot_1)]
@@ -33,3 +35,7 @@ def test_voting_phase_to_vvvote_election_config(db_session, ballot_factory, prop
     assert len(config.questions[0].options) == 1
     assert len(config.questions[1].options) == 3
     assert len(config.questions[2].options) == 5
+    assert config.authData.VotingStart == target - datetime.timedelta(days=4)
+    assert config.authData.VotingEnd == target
+    assert config.authData.RegistrationStartDate == target - datetime.timedelta(days=5)
+    assert config.authData.RegistrationEndDate == target
