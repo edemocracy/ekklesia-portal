@@ -24,7 +24,17 @@ class VotingPhasesCell(LayoutCell):
 @App.cell(VotingPhase)
 class VotingPhaseCell(LayoutCell):
     model_properties = [
-        'ballots', 'department', 'description', 'name', 'phase_type', 'secret', 'status', 'target', 'title'
+        'ballots',
+        'department',
+        'description',
+        'name',
+        'phase_type',
+        'secret',
+        'status',
+        'target',
+        'title',
+        'voting_end',
+        'voting_start',
     ]
 
     def show_edit_button(self):
@@ -42,15 +52,6 @@ class VotingPhaseCell(LayoutCell):
 
     def propositions(self):
         return [p for b in self._model.ballots for p in b.propositions]
-
-    def voting_start(self):
-        if self._model.target is None:
-            return
-        # XXX: Fixed time interval for voting! We need a proper setting here.
-        return self._model.target - datetime.timedelta(days=14)
-
-    def voting_end(self):
-        return self._model.target
 
     def votings(self):
         votings = []

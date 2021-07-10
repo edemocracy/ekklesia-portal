@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # For more details see the file COPYING.
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import math
 
 from ekklesia_common.database import Base, C, LIDType, integer_pk
@@ -49,7 +49,9 @@ class Group(Base):
     id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
     name: str = C(Text, unique=True, nullable=False)
     is_admin_group: bool = C(Boolean, nullable=False, server_default='false')
-    members = association_proxy('group_members', 'member', creator=lambda u: GroupMember(member=u))  # <-GroupMember-> User
+    members = association_proxy(
+        'group_members', 'member', creator=lambda u: GroupMember(member=u)
+    )  # <-GroupMember-> User
 
 
 class User(Base):
@@ -73,7 +75,9 @@ class User(Base):
     )
     # actions: submit/support proposition, voting, or explicit, deactivate after 2 periods
     profile = relationship("UserProfile", uselist=False, back_populates="user")
-    groups = association_proxy('member_groups', 'group', creator=lambda g: GroupMember(group=g))  # <-GroupMember-> Group
+    groups = association_proxy(
+        'member_groups', 'group', creator=lambda g: GroupMember(group=g)
+    )  # <-GroupMember-> Group
     # from user/membership/ all_nested_groups
     departments = association_proxy('member_departments', 'department')  # <-DepartmentMember-> Department
     areas = association_proxy('member_areas', 'area')  # <-AreaMember-> SubjectArea
@@ -318,19 +322,19 @@ class VotingPhaseType(Base):
     abbreviation: str = C(Text, server_default='', comment='abbreviated name')
     secret_voting_possible: bool = C(Boolean, nullable=False)
     voting_type = C(Enum(VotingType), nullable=False)  # online, urn, assembly, board
+    voting_days: int = C(Integer, comment='voting duration in days; ends at target date')
     description: str = C(Text, server_default='')
 
 
 class VotingPhase(Base):  # Abstimmungsperiode
     __tablename__ = 'votingphases'
     __table_args__ = (
-        CheckConstraint(
-            "status='PREPARING' OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'
-        ),
+        CheckConstraint("status='PREPARING' OR (status!='PREPARING' AND target IS NOT NULL)", 'state_valid'),
     )
     id: int = C(Integer, Sequence('id_seq', optional=True), primary_key=True)
     status: VotingStatus = C(Enum(VotingStatus), nullable=False, server_default='PREPARING')
     target: datetime = C(DateTime, comment='constrained by §4.1')
+    voting_days: int = C(Integer, comment='voting duration in days; ends at target date')
     department_id: int = C(Integer, ForeignKey('departments.id'), nullable=False)
     phase_type_id: int = C(Integer, ForeignKey('voting_phase_types.id'), nullable=False)
     secret: bool = C(
@@ -361,7 +365,23 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
     @property
     def voting_can_be_created(self):
-        return self.status == VotingStatus.PREPARING and self.target is not None
+        return self.status == VotingStatus.PREPARING and self.voting_start is not None and self.voting_end is not None
+
+    @property
+    def voting_start(self):
+        if self.target is None:
+            return
+
+        days = self.voting_days or self.phase_type.voting_days
+
+        if days is None:
+            return
+
+        return self.target - timedelta(days=days)
+
+    @property
+    def voting_end(self):
+        return self.target
 
 
 class Supporter(Base):  # §3.5

@@ -29,6 +29,9 @@
       dd= abbreviation
       dt= _('voting_type')
       dd= voting_type|enum_value
+      if voting_days
+        dt= _('voting_days')
+        dd= voting_days
       dt= _('secret_voting_possible')
       dd= secret_voting_possible|yesno
 

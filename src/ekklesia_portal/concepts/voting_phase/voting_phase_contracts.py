@@ -15,6 +15,7 @@ class VotingPhaseSchema(Schema):
     department_id = int_property(title=_('department'))
     phase_type_id = int_property(title=_('voting_phase_type'))
     secret = bool_property(title=_('secret_voting_possible'))
+    voting_days = int_property(title=_('voting_days'), missing=None)
     description = string_property(title=_('description'), validator=Length(min=10, max=65536), missing='')
     voting_module_data = json_property(title=_('voting_module_data'), missing={})
 

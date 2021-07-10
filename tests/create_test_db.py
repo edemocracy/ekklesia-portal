@@ -18,8 +18,11 @@ from ekklesia_portal.lib.password import password_context
 logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
-parser.add_argument("-c", "--config-file",
-    help=f"Optional path to config file in YAML / JSON format. Uses default test configuration when not set.")
+parser.add_argument(
+    "-c",
+    "--config-file",
+    help=f"Optional path to config file in YAML / JSON format. Uses default test configuration when not set."
+)
 parser.add_argument("--doit", action="store_true", default=False)
 
 DOCUMENT_WP = '''# Wahlprogramm
@@ -74,7 +77,6 @@ Nach dem Abschicken wird dein Antragsentwurf automatisch im Forum in der Kategor
 Der Text des Antrags kann dort von allen angemeldeten Benutzern bearbeitet werden wie in einem Wiki.
 Du kannst die Bearbeitung sperren lassen. Wende dich dazu an die Antragskommission.
 '''
-
 
 if __name__ == "__main__":
 
@@ -175,7 +177,11 @@ if __name__ == "__main__":
     depadmin.areas.extend([subject_area_ppd_allg])
 
     voting_phase_type_ur = VotingPhaseType(
-        name='Online-Urabstimmung', voting_type=VotingType.ONLINE, abbreviation='UR', secret_voting_possible=False
+        name='Online-Urabstimmung',
+        voting_type=VotingType.ONLINE,
+        abbreviation='UR',
+        secret_voting_possible=False,
+        voting_days=14
     )
     voting_phase_type_bpt = VotingPhaseType(
         name='Bundesparteitag', voting_type=VotingType.ASSEMBLY, abbreviation='BPT', secret_voting_possible=True
@@ -188,6 +194,7 @@ if __name__ == "__main__":
         secret=True,
         title='BPT 2020.1',
         name='bpt201',
+        voting_days=2,
         description='Der nächste Parteitag irgendwo'
     )
 
@@ -258,7 +265,9 @@ if __name__ == "__main__":
     t2 = Tag(name="Tag2")
     t3 = Tag(name="Täääg3")
 
-    b1 = Ballot(area=subject_area_pps_in, voting=voting_phase_ppd_bpt_scheduled, name="PP001/2/3/4", proposition_type=ptype_pol)
+    b1 = Ballot(
+        area=subject_area_pps_in, voting=voting_phase_ppd_bpt_scheduled, name="PP001/2/3/4", proposition_type=ptype_pol
+    )
     s.add(b1)
     q1 = Proposition(
         title="Ein Titel",

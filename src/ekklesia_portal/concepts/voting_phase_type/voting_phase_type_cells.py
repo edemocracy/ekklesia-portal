@@ -27,6 +27,7 @@ class VotingPhaseTypeCell(LayoutCell):
         'name',
         'secret_voting_possible',
         'voting_type',
+        'voting_days',
     ]
 
     def show_edit_button(self):

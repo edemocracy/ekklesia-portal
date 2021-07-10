@@ -1,7 +1,7 @@
 from colander import Length
 from deform import Button
 from deform.widget import Select2Widget, TextAreaWidget
-from ekklesia_common.contract import Schema, Form, bool_property, string_property, enum_property
+from ekklesia_common.contract import Schema, Form, bool_property, int_property, string_property, enum_property
 from ekklesia_common.translation import _
 
 from ekklesia_portal.enums import VotingType
@@ -12,6 +12,7 @@ class VotingPhaseTypeSchema(Schema):
     abbreviation = string_property(title=_('abbreviation'), validator=Length(max=6))
     secret_voting_possible = bool_property(title=_('secret_voting_possible'))
     voting_type = enum_property(VotingType, title=_('voting_type'))
+    voting_days = int_property(title=_('voting_days'), missing=None)
     description = string_property(title=_('description'), validator=Length(min=10, max=2000), missing='')
 
 
