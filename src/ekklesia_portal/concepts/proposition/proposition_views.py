@@ -141,7 +141,7 @@ def secret_voting(self, request):
     secret_record.last_change = datetime.now(timezone.utc)
 
     if request.headers.get("HX-Request"):
-        return PropositionCell(self, request).secret_voting_action()
+        return PropositionCell(self, request).secret_voting()
     else:
         return redirect(request.link(self))
 
@@ -168,7 +168,7 @@ def support(self, request):
 
     if request.headers.get("HX-Request"):
         cell = PropositionCell(self, request)
-        return "\n".join([cell.support_action(), cell.detail_top()])
+        return "\n".join([cell.support(), cell.detail_top()])
     else:
         return redirect(request.link(self))
 
@@ -201,9 +201,12 @@ def index_csv(self, request):
     is_global_admin = request.current_user and request.identity.has_global_admin_permissions
     optional_fields = TableRowOptionalFields()
     optional_fields.submitters = is_global_admin
-    content = propositions_to_csv(self.propositions(request.q, is_global_admin),
-        origin=request.app.settings.common.instance_name, optional_fields=optional_fields)
-    response = Response(content, content_type = 'text/csv')
+    content = propositions_to_csv(
+        self.propositions(request.q, is_global_admin),
+        origin=request.app.settings.common.instance_name,
+        optional_fields=optional_fields
+    )
+    response = Response(content, content_type='text/csv')
     response.content_disposition = 'attachment; filename="propositions.csv"'
     return response
 

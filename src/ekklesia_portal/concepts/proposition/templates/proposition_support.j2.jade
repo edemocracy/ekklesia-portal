@@ -1,0 +1,39 @@
+#support(hx-swap-oob="true")
+  .col-sm-6
+    form.support_form(action=support_url
+                      method="POST"
+                      hx-post=support_url)
+
+
+      if current_user_is_supporter
+        input(type="hidden", name="support", value="retract")
+        button.btn.btn-secondary.btn-sm(type="submit")
+            i.far.fa-thumbs-down &nbsp;
+            = _('button_retract_support')
+      else
+        if can_support
+          input(type="hidden", name="support", value="support")
+          button.btn.btn-primary.btn-sm(type="submit")
+              i.far.fa-thumbs-up &nbsp;
+              = _('button_support')
+        elif supporter_quorum_percent is not none
+          button.btn.btn-secondary.btn-sm(disabled=true)
+              = _('supporters')
+
+  .col-sm-6
+    if supporter_quorum_percent is not none
+      .progress(title=(ngettext("supporter", "supporters", supporter_count) + " / " + _('qualification_quorum')))
+        .progress-bar(role="progressbar"
+                      style="width: {{ supporter_quorum_percent }}%"
+                      aria-valuenow=supporter_count
+                      aria-valuemin="0"
+                      aria-valuemax=qualification_quorum)
+          | {{ supporter_count }} / {{ qualification_quorum }}
+    else
+      | {{ supporter_count }} {{ _("supporters") }}
+
+
+
+
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

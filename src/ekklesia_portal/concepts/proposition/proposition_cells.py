@@ -55,8 +55,8 @@ class PropositionCell(LayoutCell):
     ]
 
     actions = Cell.fragment('proposition_actions')
-    secret_voting_action = Cell.template_fragment('proposition_secret_voting_action')
-    support_action = Cell.template_fragment('proposition_support_action')
+    secret_voting = Cell.template_fragment('proposition_secret_voting')
+    support = Cell.template_fragment('proposition_support')
     tabs = Cell.fragment('proposition_tabs')
     small = Cell.fragment('proposition_small')
     card = Cell.fragment('proposition_card')
@@ -232,14 +232,25 @@ class PropositionCell(LayoutCell):
     def ready_to_submit(self):
         return self._model.ready_to_submit
 
-    def show_support_action(self):
-        return self._model.status in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED
-        ) and self._request.permitted_for_current_user(self._model, SupportPermission)
+    def show_support(self):
+        return self._model.status in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED)
 
-    def show_secret_voting_action(self):
+    def can_support(self):
+        return self.show_support and self._request.permitted_for_current_user(self._model, SupportPermission)
+
+    def supporter_quorum_percent(self):
+        if self._model.qualification_quorum > 0:
+            return self._model.active_supporter_count / self._model.qualification_quorum * 100
+
+    def show_secret_voting(self):
         return self._model.status in (
             PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED, PropositionStatus.SCHEDULED
-        ) and self._request.permitted_for_current_user(self._model, SupportPermission)
+        ) and self._model.secret_voting_quorum > 0 and self._request.permitted_for_current_user(
+            self._model, SupportPermission
+        )
+
+    def can_request_secret_voting(self):
+        return self.show_secret_voting and self._request.permitted_for_current_user(self._model, SupportPermission)
 
     def show_submit_draft_action(self):
         return self._model.ready_to_submit and self._request.permitted_for_current_user(
@@ -351,6 +362,7 @@ class PropositionCell(LayoutCell):
             return False
 
         return secret_record.status == SecretVoterStatus.ACTIVE
+
 
 @App.cell(Propositions, 'new')
 class NewPropositionCell(NewFormCell):
@@ -497,7 +509,7 @@ class PropositionsCell(LayoutCell):
             return None
 
     def export_csv_url(self):
-        return(url_change_query(self.self_link, media_type="text/csv"))
+        return (url_change_query(self.self_link, media_type="text/csv"))
 
 
 @App.cell(Propositions, 'new_draft')

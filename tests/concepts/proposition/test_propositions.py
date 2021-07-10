@@ -1,3 +1,4 @@
+from datetime import datetime
 import random
 import string
 
@@ -84,11 +85,13 @@ def test_index_department_subject_area(client):
     assert 'Ein Titel' in res
     assert 'Angenommener Antrag' not in res
 
+
 def test_index_per_page(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?per_page=2')
     assert 'Ein Titel' in res
     assert 'Angenommener Antrag' not in res
+
 
 def test_index_per_page2(client):
     """XXX: depends on content from create_test_db.py"""
@@ -96,12 +99,14 @@ def test_index_per_page2(client):
     assert 'Ein Titel' not in res
     assert 'Angenommener Antrag' in res
 
+
 def test_index_all_prop(client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?per_page=-1')
     assert 'Ein Titel' in res
     assert 'Angenommener Antrag' in res
     assert 'Abgelehnter Antrag' in res
+
 
 def test_index_export_csv(client):
     res = client.get('/p?per_page=-1&media_type=text/csv')
@@ -112,9 +117,11 @@ def test_index_export_csv(client):
     assert 'Täääg3' in res
     assert "\"PP002\";\"egon\";" not in res, "submitters in csv which is not allowed for normal users!"
 
+
 def test_index_export_csv_as_global_admin(client, logged_in_global_admin):
     res = client.get('/p?per_page=-1&media_type=text/csv')
     assert "\"PP002\";\"egon\";" in res
+
 
 def assert_proposition_in_html(proposition, html):
     proposition_link = html.find(class_="proposition_title").find("a")
@@ -199,7 +206,9 @@ def test_create(db_query, client, proposition_factory, proposition_type, logged_
     assert proposition.replaces == related_proposition
 
 
-def test_create_somewhere_as_global_admin(db_query, client, proposition_factory, proposition_type, department, logged_in_global_admin):
+def test_create_somewhere_as_global_admin(
+    db_query, client, proposition_factory, proposition_type, department, logged_in_global_admin
+):
     """Global admin user should be able to create a proposition regardless of department membership"""
     data = factory.build(dict, FACTORY_CLASS=proposition_factory)
     data['area_id'] = department.areas[0].id
@@ -218,7 +227,10 @@ def test_update_as_global_admin(client, proposition_factory, logged_in_global_ad
     proposition = proposition_factory(title="test")
 
     res = client.get(f'/p/{proposition.id}/test/edit')
-    skip_items = ['author_id', 'created_at', 'submitted_at', 'qualified_at', 'ballot_id', 'modifies_id', 'replaces_id', 'search_vector']
+    skip_items = [
+        'author_id', 'created_at', 'submitted_at', 'qualified_at', 'ballot_id', 'modifies_id', 'replaces_id',
+        'search_vector'
+    ]
     expected = {k: v for k, v in proposition.to_dict().items() if k not in skip_items}
     form = assert_deform(res, expected)
 
@@ -240,77 +252,84 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
 
 
 @fixture
-def assert_support(db_session, logged_in_user):
-    def _assert_supporter(proposition, status):
-        qq = db_session.query(Supporter).filter_by(member_id=logged_in_user.id, proposition_id=proposition.id)
-        if status is None:
-            assert qq.scalar() is None, 'supporter present but should not be present'
-        else:
-            assert qq.filter_by(status=status).scalar() is not None, f'no supporter found with status {status}'
-    return _assert_supporter
+def assert_support(client, db_session, logged_in_user_with_departments, ballot_factory, proposition_factory):
 
-
-def test_support(client, assert_support, proposition_factory):
-
-    proposition = proposition_factory(title="test")
+    user = logged_in_user_with_departments
+    area = user.departments[0].areas[0]
+    ballot = ballot_factory(area=area)
+    proposition = proposition_factory(
+        title="test", ballot=ballot, status=PropositionStatus.SUBMITTED, submitted_at=datetime.now()
+    )
     support_url = f'/p/{proposition.id}/test/support'
 
+    def _assert_support(data, support_status, http_status=200, headers={}):
+
+        if data is None:
+            res = None
+        else:
+            res = client.post(support_url, data, headers=headers, status=http_status)
+
+        qq = db_session.query(Supporter).filter_by(member_id=user.id, proposition_id=proposition.id)
+        if support_status is None:
+            assert qq.scalar() is None, 'supporter present but should not be present'
+        else:
+            assert qq.filter_by(status=support_status
+                                ).scalar() is not None, f'no supporter found with status {support_status}'
+
+        return res
+
+    return _assert_support
+
+
+def test_support(assert_support):
+
     # Nothing happened yet.
-    assert_support(proposition, None)
+    assert_support(data=None, support_status=None)
 
     # Nothing -> active
-    client.post(support_url, dict(support="support"), status=302)
-    assert_support(proposition, 'active')
+    assert_support(dict(support="support"), "active", http_status=302)
 
     # active -> retracted
-    client.post(support_url, dict(support="retract"), status=302)
-    assert_support(proposition, 'retracted')
+    assert_support(dict(support="retract"), "retracted", http_status=302)
 
     # Sending retract twice is still retracted
     # retracted -> retracted
-    client.post(support_url, dict(support="retract"), status=302)
-    assert_support(proposition, 'retracted')
+    assert_support(dict(support="retract"), "retracted", http_status=302)
 
     # retracted -> active
-    client.post(support_url, dict(support="support"), status=302)
-    assert_support(proposition, 'active')
+    assert_support(dict(support="support"), "active", http_status=302)
 
     # Sending support twice is still active
     # active -> active
-    client.post(support_url, dict(support="support"), status=302)
-    assert_support(proposition, 'active')
+    assert_support(dict(support="support"), "active", http_status=302)
 
     # Invalid requests shouldn't change anything and return bad request.
-    client.post(support_url, dict(support="invalid"), status=400)
-    assert_support(proposition, 'active')
+    assert_support(dict(support="invalid"), "active", http_status=400)
 
-    client.post(support_url, dict(), status=400)
-    assert_support(proposition, 'active')
+    assert_support(dict(), "active", http_status=400)
 
     # Retracting still works after client has sent invalid things
     # active -> retracted
-    client.post(support_url, dict(support="retract"), status=302)
-    assert_support(proposition, 'retracted')
+    assert_support(dict(support="retract"), "retracted", http_status=302)
 
 
-def test_support_htmx(client, assert_support, proposition_factory):
-    proposition = proposition_factory(title="test")
-    support_url = f'/p/{proposition.id}/test/support'
+def test_support_htmx(client, assert_support):
+    # Nothing happened yet.
+    assert_support(data=None, support_status=None)
 
     # Nothing -> active
-    res = client.post(support_url, dict(support="support"), headers={"HX-Request": "true"})
-    assert_support(proposition, 'active')
+    res = assert_support(dict(support="support"), "active", headers={"HX-Request": "true"})
     assert "<html>" not in res, "only snippet expected for HTMX request, this is a full HTML document"
     assert 'value="retract"' in res, "retract support button missing"
 
     # active -> retracted
-    res = client.post(support_url, dict(support="retract"), headers={"HX-Request": "true"})
-    assert_support(proposition, 'retracted')
+    res = assert_support(dict(support="retract"), "retracted", headers={"HX-Request": "true"})
     assert 'value="support"' in res, "support button missing"
 
 
 @fixture
 def assert_secret_voter(db_session, logged_in_user):
+
     def _assert_secret_voter(proposition, status):
         qq = db_session.query(SecretVoter).filter_by(member_id=logged_in_user.id, ballot_id=proposition.ballot.id)
         if status is None:
