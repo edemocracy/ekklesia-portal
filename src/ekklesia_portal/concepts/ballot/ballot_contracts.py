@@ -1,7 +1,7 @@
 import colander
 from colander import Length
 from deform import Button
-from deform.widget import Select2Widget, TextAreaWidget
+from deform.widget import HiddenWidget, Select2Widget, TextAreaWidget
 from ekklesia_common.contract import Form, Schema, enum_property, int_property, json_property, string_property
 from ekklesia_common.translation import _
 from ekklesia_portal.enums import VotingType
@@ -25,6 +25,7 @@ class BallotForm(Form):
     def prepare_for_render(self, items_for_selects):
         widgets = {
             'result': TextAreaWidget(rows=4),
+            'election': HiddenWidget(),
             'area_id': Select2Widget(values=items_for_selects['area']),
             'voting_id': Select2Widget(values=items_for_selects['voting']),
             'proposition_type_id': Select2Widget(values=items_for_selects['proposition_type']),
