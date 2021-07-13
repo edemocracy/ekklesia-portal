@@ -7,7 +7,7 @@ from ekklesia_common.request import EkklesiaRequest as Request
 from eliot import Message, start_action
 from datetime import datetime, timezone
 from morepath import redirect, Response
-from webob.exc import HTTPBadRequest
+from webob.exc import HTTPBadRequest, HTTPNotFound
 
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
@@ -127,6 +127,9 @@ def secret_voting(self, request):
     if new_state not in ("request", "retract"):
         raise HTTPBadRequest("invalid value for secret_voting or missing")
 
+    if self.status not in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED):
+        raise HTTPNotFound("secret voting requests only allowed in states submitted and qualified")
+
     user_id = request.current_user.id
     secret_record = request.db_session.query(SecretVoter).filter_by(
         member_id=user_id, ballot_id=self.ballot_id
@@ -151,6 +154,9 @@ def support(self, request):
     new_state = request.POST.get("support")
     if new_state not in ("support", "retract"):
         raise HTTPBadRequest("invalid value for support parameter or missing")
+
+    if self.status not in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED):
+        raise HTTPNotFound("supporting only allowed in states submitted and qualified")
 
     user_id = request.current_user.id
     supporter = request.db_session.query(Supporter).filter_by(member_id=user_id, proposition_id=self.id).scalar()

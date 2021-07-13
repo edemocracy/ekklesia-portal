@@ -2,9 +2,7 @@ from datetime import datetime
 import random
 import string
 
-from sqlalchemy.util.langhelpers import counter
 from ekklesia_portal.concepts.proposition.proposition_helper import proposition_slug
-from ekklesia_portal.concepts.proposition.proposition_views import secret_voting
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus
 
 import factory
@@ -252,21 +250,28 @@ def test_does_not_create_without_title(db_query, client, proposition_factory, lo
 
 
 @fixture
-def assert_support(client, db_session, logged_in_user_with_departments, ballot_factory, proposition_factory):
-
+def supportable_proposition(logged_in_user_with_departments, ballot_factory, proposition_factory):
     user = logged_in_user_with_departments
     area = user.departments[0].areas[0]
     ballot = ballot_factory(area=area)
     proposition = proposition_factory(
         title="test", ballot=ballot, status=PropositionStatus.SUBMITTED, submitted_at=datetime.now()
     )
+    return proposition
+
+
+@fixture
+def assert_support(client, db_session, supportable_proposition, logged_in_user_with_departments):
+    user = logged_in_user_with_departments
+    proposition = supportable_proposition
     support_url = f'/p/{proposition.id}/test/support'
 
-    def _assert_support(data, support_status, http_status=200, headers={}):
+    def _assert_support(data, support_status, http_status=200, htmx=False):
 
         if data is None:
             res = None
         else:
+            headers = {"HX-Request": "true"} if htmx else {}
             res = client.post(support_url, data, headers=headers, status=http_status)
 
         qq = db_session.query(Supporter).filter_by(member_id=user.id, proposition_id=proposition.id)
@@ -313,88 +318,87 @@ def test_support(assert_support):
     assert_support(dict(support="retract"), "retracted", http_status=302)
 
 
-def test_support_htmx(client, assert_support):
+def test_support_htmx(assert_support):
     # Nothing happened yet.
     assert_support(data=None, support_status=None)
 
     # Nothing -> active
-    res = assert_support(dict(support="support"), "active", headers={"HX-Request": "true"})
+    res = assert_support(dict(support="support"), "active", htmx=True)
     assert "<html>" not in res, "only snippet expected for HTMX request, this is a full HTML document"
     assert 'value="retract"' in res, "retract support button missing"
 
     # active -> retracted
-    res = assert_support(dict(support="retract"), "retracted", headers={"HX-Request": "true"})
+    res = assert_support(dict(support="retract"), "retracted", htmx=True)
     assert 'value="support"' in res, "support button missing"
 
 
 @fixture
-def assert_secret_voter(db_session, logged_in_user):
+def assert_secret_voting(client, db_session, logged_in_user_with_departments, supportable_proposition):
 
-    def _assert_secret_voter(proposition, status):
-        qq = db_session.query(SecretVoter).filter_by(member_id=logged_in_user.id, ballot_id=proposition.ballot.id)
-        if status is None:
-            assert qq.scalar() is None, 'secret voter present but should not be present'
-        else:
-            assert qq.filter_by(status=status).scalar() is not None, f'no secret voter found with status {status}'
-
-    return _assert_secret_voter
-
-
-def test_secret_voting(client, assert_secret_voter, proposition_factory):
-    proposition = proposition_factory(title="test")
+    user = logged_in_user_with_departments
+    proposition = supportable_proposition
     secret_voting_url = f'/p/{proposition.id}/test/secret_voting'
 
+    def _assert_secret_voting(data, secret_voting_status, http_status=200, htmx=False):
+
+        if data is None:
+            res = None
+        else:
+            headers = {"HX-Request": "true"} if htmx else {}
+            res = client.post(secret_voting_url, data, headers=headers, status=http_status)
+
+        qq = db_session.query(SecretVoter).filter_by(member_id=user.id, ballot_id=proposition.ballot.id)
+        if secret_voting_status is None:
+            assert qq.scalar() is None, 'secret voter present but should not be present'
+        else:
+            assert qq.filter_by(status=secret_voting_status).scalar() is not None, f'no secret voter found with status {status}'
+
+        return res
+
+    return _assert_secret_voting
+
+
+def test_secret_voting(assert_secret_voting):
     # Nothing happened yet.
-    assert_secret_voter(proposition, None)
+    assert_secret_voting(data=None, secret_voting_status=None)
 
     # Nothing -> request
-    client.post(secret_voting_url, dict(secret_voting="request"), status=302)
-    assert_secret_voter(proposition, 'active')
+    assert_secret_voting(dict(secret_voting="request"), 'active', http_status=302)
 
     # active -> retracted
-    client.post(secret_voting_url, dict(secret_voting="retract"), status=302)
-    assert_secret_voter(proposition, 'retracted')
+    assert_secret_voting(dict(secret_voting="retract"), 'retracted', http_status=302)
 
     # Sending retract twice is still retracted
     # retracted -> retracted
-    client.post(secret_voting_url, dict(secret_voting="retract"), status=302)
-    assert_secret_voter(proposition, 'retracted')
+    assert_secret_voting(dict(secret_voting="retract"), 'retracted', http_status=302)
 
     # retracted -> active
-    client.post(secret_voting_url, dict(secret_voting="request"), status=302)
-    assert_secret_voter(proposition, 'active')
+    assert_secret_voting(dict(secret_voting="request"), 'active', http_status=302)
 
     # Twice requested is still active
     # active -> active
-    client.post(secret_voting_url, dict(secret_voting="request"), status=302)
-    assert_secret_voter(proposition, 'active')
+    assert_secret_voting(dict(secret_voting="request"), 'active', http_status=302)
 
     # Invalid requests shouldn't change anything and return bad request.
-    client.post(secret_voting_url, dict(secret_voting="invalid"), status=400)
-    assert_secret_voter(proposition, 'active')
-
-    client.post(secret_voting_url, dict(), status=400)
-    assert_secret_voter(proposition, 'active')
+    assert_secret_voting(dict(secret_voting="invalid"), 'active', http_status=400)
+    assert_secret_voting(dict(), 'active', http_status=400)
 
     # Retracting still works after client has sent invalid things
     # active -> retracted
-    client.post(secret_voting_url, dict(secret_voting="retract"), status=302)
-    assert_secret_voter(proposition, 'retracted')
+    assert_secret_voting(dict(secret_voting="retract"), 'retracted', http_status=302)
 
 
-def test_secret_voting_htmx(client, assert_secret_voter, proposition_factory):
-    proposition = proposition_factory(title="test")
-    secret_voting_url = f'/p/{proposition.id}/test/secret_voting'
+def test_secret_voting_htmx(assert_secret_voting):
+    # Nothing happened yet.
+    assert_secret_voting(data=None, secret_voting_status=None)
 
     # Nothing -> active
-    res = client.post(secret_voting_url, dict(secret_voting="request"), headers={"HX-Request": "true"})
-    assert_secret_voter(proposition, 'active')
+    res = assert_secret_voting(dict(secret_voting="request"), 'active', htmx=True)
     assert "<html>" not in res, "only snippet expected for HTMX request, this is a full HTML document"
     assert 'value="retract"' in res, "retract secret voting request button missing"
 
     # active -> retracted
-    res = client.post(secret_voting_url, dict(secret_voting="retract"), headers={"HX-Request": "true"})
-    assert_secret_voter(proposition, 'retracted')
+    res = assert_secret_voting(dict(secret_voting="retract"), 'retracted', htmx=True)
     assert 'value="request"' in res, "request secret voting button missing"
 
 
