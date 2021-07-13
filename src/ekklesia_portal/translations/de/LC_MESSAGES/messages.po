@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-10 22:49+0000\n"
+"POT-Creation-Date: 2021-07-13 17:18+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -93,7 +93,7 @@ msgid "name"
 msgstr "Name"
 
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:12
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:17
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:15
 msgid "election_positions"
 msgstr "Anzahl der zu vergebenden Posten"
 
@@ -102,7 +102,7 @@ msgid "voting_result"
 msgstr "Ergebnis"
 
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:14
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:23
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:21
 #: src/ekklesia_portal/concepts/document/document_contracts.py:11
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:34
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:7
@@ -119,7 +119,7 @@ msgid "voting_phase"
 msgstr "Abstimmungszeitraum"
 
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:16
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:25
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:23
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:15
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:35
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_submit_draft.j2.jade:17
@@ -128,7 +128,7 @@ msgid "proposition_type"
 msgstr "Antragsart"
 
 #: src/ekklesia_portal/concepts/ballot/ballot_contracts.py:17
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:27
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:25
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:13
 #: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:14
 msgid "voting_type"
@@ -180,15 +180,11 @@ msgstr "Abstimmung"
 msgid "edit_button"
 msgstr "Bearbeiten"
 
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:15
-msgid "is_election?"
-msgstr "Ist eine Wahl?"
-
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:19
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:17
 msgid "number_of_propositions"
 msgstr "Anzahl der Anträge"
 
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:21
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:19
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:3
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:5
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:5
@@ -199,7 +195,7 @@ msgstr "Anzahl der Anträge"
 msgid "department"
 msgstr "Gliederung"
 
-#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:31
+#: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:29
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:16
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
@@ -694,7 +690,7 @@ msgstr "Antragsentwurf anlegen"
 msgid "button_submit_draft"
 msgstr "Antrag einreichen"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:368
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:377
 msgid "change"
 msgstr "Änderung"
 
@@ -1014,7 +1010,7 @@ msgstr ""
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:4
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:4
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:8
 msgid "submitters"
 msgstr "Antragsteller"
 
@@ -1034,9 +1030,7 @@ msgstr "Eingereichter Antrag"
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:3
 msgid "info_submitted_proposition"
-msgstr ""
-"Dieser Antrag ist eingereicht und hat genügend Unterstützer, um zur "
-"Abstimmung zugelassen zu werden."
+msgstr "Dieser Antrag ist eingereicht und hat zu wenig Unterstützung, um zur Abstimmung zugelassen zu werden."
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:4
 msgid "current_user_is_submitter"
@@ -1051,6 +1045,10 @@ msgstr ""
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:6
 msgid "current_user_is_supporter_not_submitter"
 msgstr "Du unterstützt diesen Antrag."
+
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:7
+msgid "current_user_can_support"
+msgstr "Du kannst diesen Antrag unterstützen."
 
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_draft.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_finished.j2.jade:2
@@ -1612,4 +1610,7 @@ msgstr "Enthaltung"
 
 #~ msgid "voting_status_scheduled"
 #~ msgstr "Geplant"
+
+#~ msgid "is_election?"
+#~ msgstr "Ist eine Wahl?"
 
