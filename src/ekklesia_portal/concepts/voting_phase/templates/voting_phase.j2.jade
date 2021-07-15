@@ -13,48 +13,98 @@
 - block content
 
   .voting_phase.container
-    h4
-      a(href=self_link)= title or phase_type.name
-      if name
-        |&nbsp;({{ name }})
+    if options.full_view
+      h2= phase_type.name
+        if show_edit_button
+          a.edit_button(href=edit_url)
+            i.far.fa-edit
+            |&nbsp;
+            = _('edit_button')
 
-      if show_edit_button
-        a.edit_button(href=edit_url)
-          i.far.fa-edit
-          |&nbsp;
-          = _('edit_button')
 
-    dl
-      dt= _('voting_phase_type')
-      dd= phase_type.name
-      dt= _('voting_status')
-      dd= status|enum_value
-      dt= _('target_date')
-      dd
-        if target
-          = target|dateformat
-        else
-          = _('not_determined')
-      dt= _('department')
-      dd= department.name
-      dt= _('ballots')
-      dd= ballots|length
-      dt= _('propositions')
-      dd= propositions|length
+    .card
+      .card-body
+        .card-title
 
-    if options.show_description
-      .description
-        = description|markdown
+          h5
+            ol.breadcrumb
+              li.breadcrumb-item
+                a(href=department_url)= department_name
 
-    if show_voting and votings
-      h4= _('votings')
-      .voting_from_to= _('voting_start_end', start=voting_start|datetimeformat, end=voting_end|datetimeformat)
+              li.breadcrumb-item.active
+                a(href=self_link)= title or phase_type.name
+                if name
+                  |&nbsp;({{ name }})
 
-      ul.votings
-        for title, url in votings
-          li
-            a(href=url)= title
 
-    if options.show_proposition_list and propositions
-      h4= _('propositions')
-      = render_cell(collection=propositions)
+        if show_voting_details
+
+          if show_will_be_able_to_vote
+              p
+                if can_participate_in_voting
+                  i.fas.fa-check &nbsp;
+                  = _("could_vote_currently")
+                else
+                  i.fas.fa-times &nbsp;
+                  = _("could_not_vote_currently")
+
+          if show_registration
+
+            p.help-text.mb-2= _("registration_links_help_text", end=registration_end|datetimeformat)
+
+            ul.votings
+              for title, url in votings
+                li
+                  a(href=url)= _("register_now_with_voting_module", title=title)
+
+          if show_voting
+
+            p.help-text.mb-2= _("voting_links_help_text", end=voting_end|datetimeformat)
+
+            ul.votings
+              for title, url in votings
+                li
+                  a(href=url)= _("vote_now_with_voting_module", title=title)
+          hr
+
+        .row
+          .col-sm-6
+            dt
+              i.far.fa-file-alt &nbsp;
+              a(href=propositions_url)= _("propositions")
+            dd= proposition_count
+            dt
+              i.fas.fa-vote-yea &nbsp;
+              = _("ballots")
+            dd= ballot_count
+
+          .col-sm-6
+            if show_registration_period
+              dt
+                i.fas.fa-sign-in-alt &nbsp;
+                = _('registration_from')
+              dd= _('start_end_duration', start=registration_start|datetimeformat, end=registration_end|datetimeformat)
+
+            if show_voting_period
+              dt
+                i.fas.fa-person-booth &nbsp;
+                = _('voting_from')
+              dd= _('start_end_duration', start=voting_start|datetimeformat, end=voting_end|datetimeformat)
+            else
+              dt= _('voting_status')
+              dd= status|enum_value
+
+              dt= _('target_date')
+              dd
+                if target
+                  = target|dateformat
+                else
+                  = _('not_determined')
+
+
+        if options.show_description and description
+          hr
+          .description
+            = description|markdown
+
+
