@@ -107,7 +107,7 @@ in rec {
     pkgs.niv
     pkgs.entr
     pkgs.jq
-    pkgs.postgresql_12
+    pkgs.postgresql_13
     pkgs.sassc
     pkgs.zsh
     poetryPackagesByName.eliot-tree
