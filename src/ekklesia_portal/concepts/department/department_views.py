@@ -3,6 +3,7 @@ from morepath import redirect
 # from webob.exc import HTTPBadRequest
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Department
+from ekklesia_portal.lib.identity import identity_manages_department
 from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .department_cells import DepartmentCell, DepartmentsCell, EditDepartmentCell, NewDepartmentCell
@@ -18,7 +19,7 @@ def departments_create_permission(identity, model, permission):
 
 @App.permission_rule(model=Department, permission=EditPermission)
 def department_edit_permission(identity, model, permission):
-    return identity.has_global_admin_permissions
+    return identity_manages_department(identity, model)
 
 
 @App.path(model=Departments, path='departments')

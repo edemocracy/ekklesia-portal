@@ -2,7 +2,7 @@ from morepath import redirect
 
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Document
-from ekklesia_portal.identity_policy import NoIdentity
+from ekklesia_portal.lib.identity import identity_manages_department, identity_manages_any_department
 from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .document_cells import DocumentCell, DocumentProposeChangeCell, DocumentsCell, EditDocumentCell, NewDocumentCell
@@ -12,18 +12,12 @@ from .documents import Documents
 
 @App.permission_rule(model=Documents, permission=CreatePermission)
 def documents_create_permission(identity, model, permission):
-    if identity.has_global_admin_permissions:
-        return True
-
-    return identity.user.managed_departments
+    return identity_manages_any_department(identity)
 
 
 @App.permission_rule(model=Document, permission=EditPermission)
 def document_edit_permission(identity, model, permission):
-    if identity.has_global_admin_permissions:
-        return True
-
-    return identity.user.managed_departments
+    return identity_manages_department(identity, model.area.department)
 
 
 @App.path(model=Documents, path='documents')

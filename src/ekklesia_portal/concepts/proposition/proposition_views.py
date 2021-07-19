@@ -19,6 +19,7 @@ from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
 from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.lib.discourse import DiscourseError
+from ekklesia_portal.lib.identity import identity_manages_department
 from ekklesia_portal.lib.propositions import propositions_to_csv, TableRowOptionalFields
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission, WritePermission
 
@@ -43,10 +44,7 @@ def proposition_view_permission(identity, model, permission):
     if model.user_is_submitter(identity.user):
         return True
 
-    if model.ballot.area.department in identity.user.managed_departments:
-        return True
-
-    return identity.has_global_admin_permissions
+    return identity_manages_department(identity, model.ballot.area.department)
 
 
 @App.permission_rule(model=Propositions, permission=CreatePermission)
@@ -65,7 +63,7 @@ def proposition_support_permission(identity, model, permission):
 
 @App.permission_rule(model=Proposition, permission=EditPermission)
 def proposition_edit_permission(identity, model, permission):
-    return identity.has_global_admin_permissions
+    return identity_manages_department(identity, model.ballot.area.department)
 
 
 @App.permission_rule(model=Propositions, permission=NewDraftPermission)
@@ -75,7 +73,10 @@ def proposition_new_draft_permission(identity, model, permission):
 
 @App.permission_rule(model=Proposition, permission=SubmitDraftPermission)
 def proposition_submit_permission(identity, model: Proposition, permission):
-    return model.user_is_submitter(identity.user) or identity.has_global_admin_permissions
+    if model.user_is_submitter(identity.user):
+        return True
+
+    return identity_manages_department(identity, model.ballot.area.department)
 
 
 App.path(path='p')(Propositions)
