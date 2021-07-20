@@ -21,6 +21,13 @@ def create_election_in_vvvote(module_config, election_config):
                 # VVVote may respond with HTML instead of JSON if something is wrong.
                 raise VVVoteAPIException(response.text.replace("\n", " "))
 
-            action.add_success_fields(response=response_json)
+            cmd = response_json.get('cmd')
+
+            if cmd == "error":
+                raise VVVoteAPIException(f"error from vvvote: {response_json['errorNo']}: {response_json['errorTxt']}")
+            elif cmd == 'saveElectionUrl':
+                action.add_success_fields(response=response_json)
+            else:
+                raise VVVoteAPIException(f"unexpected response from vvvote: {response}")
 
     return response_json["configUrl"]
