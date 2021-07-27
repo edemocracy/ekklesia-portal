@@ -24,6 +24,9 @@ class LayoutCell(Cell):
     def settings_languages(self):
         return self._app.settings.app.languages
 
+    def favicon_url(self):
+        return self.static_url('favicon.ico')
+
     def page_url(self):
         return self._request.url
 
