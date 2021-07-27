@@ -17,6 +17,7 @@ parser.add_argument(
 )
 parser.add_argument("-p", "--http_port", default=8080, type=int, help="HTTP port to use, default 8080")
 parser.add_argument("-d", "--debug", action="store_true", help="enable werkzeug debugger / reloader")
+parser.add_argument("-r", "--reload", action="store_true", help="enable code reload")
 parser.add_argument("-s", "--stackdump", action="store_true", help=f"write stackdumps to temp dir {tmpdir} on SIGQUIT")
 parser.add_argument("-c", "--config-file", help=f"path to config file in YAML / JSON format")
 
@@ -113,7 +114,7 @@ def run():
         args.bind,
         args.http_port,
         wrapped_app,
-        use_reloader=args.debug,
+        use_reloader=args.debug or args.reload,
         extra_files=extra_reload_files,
         use_debugger=args.debug
     )
