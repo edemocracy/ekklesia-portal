@@ -6,10 +6,12 @@ from eliot import log_call, Message
 
 import sqlalchemy_searchable
 from sqlalchemy import desc, func
+from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.functions import coalesce
 
 from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
 from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+
 
 @dataclass
 class Propositions:
@@ -27,8 +29,8 @@ class Propositions:
     visibility: str = None
     # Initialization with numbers instead of None is necessary because otherwise the
     # query values are not actually converted to an integer on assignment
-    page: Optional[int] = 1 # Ranges: x<=1 = None => First page; x>1 => Show page x
-    per_page: Optional[int] = 0 # Ranges: x<0 => All on one page; x=0 = None => Use default; x>0 => Show x per page
+    page: Optional[int] = 1  # Ranges: x<=1 = None => First page; x>1 => Show page x
+    per_page: Optional[int] = 0  # Ranges: x<0 => All on one page; x=0 = None => Use default; x>0 => Show x per page
 
     def __post_init__(self):
         self.parse_search_filters()
@@ -257,15 +259,6 @@ class Propositions:
                     func.lower(Department.name) == func.lower(self.department)
                 )
 
-        # Order
-        if self.sort == "supporter_count":
-            propositions = propositions.order_by(desc(Proposition.active_supporter_count))
-        elif self.sort == "date":
-            # Use submit date if not null, else use created date.
-            propositions = propositions.order_by(desc(coalesce(Proposition.submitted_at, Proposition.created_at)))
-
-        propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
-
         if self.without_tag_values:
             tags = q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all()
             for tag in tags:
@@ -274,9 +267,31 @@ class Propositions:
         if count:
             propositions = propositions.count()
         else:
+
+            propositions = propositions.options(
+                joinedload(Proposition.ballot),
+                joinedload(Proposition.derivations),
+                joinedload(Proposition.replacements),
+                joinedload(Proposition.proposition_tags),
+                joinedload(Proposition.propositions_member),
+                joinedload(Proposition.propositions_member),
+                joinedload(Proposition.proposition_arguments),
+            )
+
+            # Order
+            if self.sort == "supporter_count":
+                propositions = propositions.order_by(desc(Proposition.active_supporter_count))
+            elif self.sort == "date":
+                # Use submit date if not null, else use created date.
+                propositions = propositions.order_by(desc(coalesce(Proposition.submitted_at, Proposition.created_at)))
+
+            propositions = propositions.order_by(Proposition.voting_identifier, Proposition.title)
+
             # per_page == -1 => show all on one page
             if self.per_page is None or self.per_page >= 0:
-                propositions = propositions.limit(self.propositions_per_page()).offset(((self.page or 1)-1) * self.propositions_per_page())
+                propositions = propositions.limit(self.propositions_per_page()).offset(
+                    ((self.page or 1) - 1) * self.propositions_per_page()
+                )
 
         return propositions
 

@@ -28,6 +28,7 @@ from sqlalchemy import (
     JSON, Boolean, CheckConstraint, DateTime, Enum, ForeignKey, Integer, Numeric, Sequence, Text, Time,
     UniqueConstraint, func, select
 )
+
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -556,8 +557,12 @@ class Proposition(Base):
 
     @active_supporter_count.expression
     def active_supporter_count(cls):
-        return select([func.count()]).where(Supporter.proposition_id == cls.id
-                                            ).where(Supporter.status == SupporterStatus.ACTIVE)
+        return (
+            select([func.count()])
+                .select_from(Supporter.__table__)
+                .where(Supporter.proposition_id == Proposition.id)
+                .where(Supporter.status == SupporterStatus.ACTIVE)
+                .correlate(Proposition.__table__))
 
     @property
     def submitter_count(self):
