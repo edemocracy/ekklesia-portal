@@ -27,4 +27,13 @@ exporter:
         api_username: testuser
         category: 12
         base_url: https://testdiscourse-local
-
+voting_modules:
+    vvvote_local:
+        api_urls:
+          - https://vvvote1-local/backend/api/v1
+          - https://vvvote2-local/backend/api/v1
+        defaults:
+            auth_server_id: ekklesia
+            must_be_verified: false
+            must_be_eligible: false
+            required_role: User
