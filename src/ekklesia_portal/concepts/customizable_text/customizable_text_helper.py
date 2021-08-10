@@ -12,6 +12,6 @@ def customizable_text(request, name, lang=None):
         customizable_text = request.q(CustomizableText).filter_by(lang=fallback_language, name=name).scalar()
 
     if customizable_text is None:
-        return name
+        return request.i18n.gettext(name)
     else:
         return customizable_text.text
