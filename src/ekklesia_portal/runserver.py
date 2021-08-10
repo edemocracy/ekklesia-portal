@@ -77,6 +77,7 @@ def run():
     wrapped_app = SharedDataMiddleware(
         wsgi_app, {
             '/static': ("ekklesia_portal", 'static'),
+            '/static/debug': ("ekklesia_common.debug", 'static'),
             '/static/deform': ("deform", 'static'),
             '/static/webfonts': os.environ.get('WEBFONTS_PATH'),
             '/static/js': os.environ.get('JS_PATH')

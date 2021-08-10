@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-20 23:24+0000\n"
+"POT-Creation-Date: 2021-08-10 21:00+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -50,8 +50,8 @@ msgstr "Details"
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:18
 #: src/ekklesia_portal/concepts/subject_area/subject_area_contracts.py:17
 #: src/ekklesia_portal/concepts/user/user_contracts.py:18
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:28
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:24
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:34
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:30
 msgid "submit"
 msgstr "Submit"
 
@@ -295,9 +295,9 @@ msgstr "New Text Customization"
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:12
 #: src/ekklesia_portal/concepts/subject_area/subject_area_contracts.py:11
 #: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:12
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:21
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:27
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:26
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:18
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:24
 msgid "description"
 msgstr "Description"
 
@@ -373,7 +373,7 @@ msgid "title_new_draft"
 msgstr "New draft"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:8
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:30
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
 msgid "voting_phases"
 msgstr "Voting phases"
@@ -439,13 +439,21 @@ msgstr "Pages"
 msgid "title_new_page"
 msgstr "New Page"
 
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/exception.j2.jade:2
+msgid "unhandled_exception_title"
+msgstr "Application Error"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/exception.j2.jade:4
+msgid "xid_title"
+msgstr "Error Code"
+
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/login.j2.jade:10
 msgid "warning_development_mode"
 msgstr "Warning: insecure development mode. Login without password possible!"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:12
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:42
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:43
 msgid "button_login"
 msgstr "Login"
 
@@ -457,48 +465,48 @@ msgstr "Profile"
 msgid "scheduled_voting_phases"
 msgstr "Scheduled voting phases"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:29
 msgid "menu_propositions"
 msgstr "Propositions"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:32
 msgid "admin_area"
 msgstr "Admin"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:35
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:36
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:51
 msgid "search_for"
 msgstr "Search for"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:36
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:37
 msgid "button_search"
 msgstr "Search"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:40
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:41
 msgid "button_logout"
 msgstr "Logout"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:50
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:51
 msgid "link_other"
 msgstr "Go to current voting"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:52
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:53
 msgid "faq"
 msgstr "FAQ"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:54
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:55
 msgid "terms_of_use"
 msgstr "Terms of Use"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:56
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:57
 msgid "data_protection"
 msgstr "Data protection"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:58
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:59
 msgid "imprint"
 msgstr "Imprint"
 
-#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:60
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:61
 msgid "source code"
 msgstr "source code"
 
@@ -1229,49 +1237,49 @@ msgstr "Status"
 msgid "voting_phase_type"
 msgstr "Voting Phase Type"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:17
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:17
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:18
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:22
 msgid "secret_voting_possible"
 msgstr "Secret voting possible?"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:17
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:18
 msgid "secret_voting_possible_description"
 msgstr "Is secret voting planned for this voting phase?"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:18
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:21
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:15
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:14
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:15
 msgid "registration_start_days"
 msgstr "Start of registration (days)"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:18
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:14
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:21
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:15
 msgid "registration_start_days_description"
 msgstr "Start of the registration period in days relative to the target date."
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:19
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:24
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:17
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:15
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:18
 msgid "registration_end_days"
 msgstr "End of registration (days)"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:19
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:15
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:24
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:18
 msgid "registration_end_days_description"
 msgstr "End of the registration period in days relative to the target date."
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:20
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:26
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:19
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:16
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:20
 msgid "voting_days"
 msgstr "Voting time in days"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:20
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:16
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:26
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:20
 msgid "voting_days_description"
 msgstr "Duration of the voting period in days relative to the target date."
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:22
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:28
 msgid "voting_module_data"
 msgstr "External Voting Data"
 
@@ -1349,7 +1357,7 @@ msgstr "Voting possible from"
 msgid "target_date"
 msgstr "Target Date"
 
-#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:17
+#: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:22
 msgid "secret_voting_default_description"
 msgstr ""
 "Is secret voting planned for this voting phase? For new voting phases, "
@@ -1383,6 +1391,10 @@ msgstr "Yes"
 #: src/ekklesia_portal/helper/missing_translations.py:6
 msgid "No"
 msgstr "No"
+
+#: src/ekklesia_portal/helper/missing_translations.py:9
+msgid "unhandled_exception_help_text"
+msgstr "Sorry, we encountered a problem the application could not handle."
 
 #. ArgumentType.PRO
 #: src/ekklesia_portal/enums.py:7

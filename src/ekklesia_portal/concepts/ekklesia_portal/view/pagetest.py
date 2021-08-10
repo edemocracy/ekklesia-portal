@@ -22,3 +22,17 @@ def show_test_page(self, request):
     request.browser_session['old'] = request.browser_session.get('test')
     request.browser_session['test'] = datetime.datetime.now().isoformat()
     return PageTestCell(self, request).show()
+
+
+@App.path(path="pagetest/exception")
+class PageTestException:
+    pass
+
+
+class ExampleException(Exception):
+    pass
+
+
+@App.html(model=PageTestException)
+def show_test_exception(self, request):
+    raise ExampleException("a test")

@@ -53,7 +53,7 @@ in rec {
         (p: { name = p.pname; value = p; })
         poetryPackages);
 
-  inherit (poetryPackagesByName) alembic deform babel;
+  inherit (poetryPackagesByName) alembic deform ekklesia-common babel;
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with python.pkgs; [
