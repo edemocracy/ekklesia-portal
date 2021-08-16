@@ -83,7 +83,7 @@ class User(Base):
     departments = association_proxy('member_departments', 'department')  # <-DepartmentMember-> Department
     areas = association_proxy('member_areas', 'area')  # <-AreaMember-> SubjectArea
     supports = association_proxy('member_propositions', 'proposition')  # <-Supporter-> Proposition
-    arguments = relationship("Argument", back_populates="author")
+    arguments = relationship("Argument", back_populates="author", viewonly=True)
     secret_voters = association_proxy('member_secretvoters', 'secretvoter')  # <-SecretVoter-> Ballot
     urns = association_proxy('member_urns', 'urn')  # <-UrnSupporter-> Urn
     postal_votes = association_proxy('member_postal', 'voting')  # <-PostalVote-> VotingPhase
