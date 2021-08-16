@@ -1,11 +1,9 @@
 import datetime
-import logging
+from eliot import log_call
 
 from ekklesia_portal.app import App
 
 from ..cell.page_test import PageTestCell
-
-logg = logging.getLogger(__name__)
 
 
 class PageTest:
@@ -24,15 +22,19 @@ def show_test_page(self, request):
     return PageTestCell(self, request).show()
 
 
-@App.path(path="pagetest/exception")
-class PageTestException:
-    pass
-
-
 class ExampleException(Exception):
     pass
 
 
-@App.html(model=PageTestException)
+@App.html(model=PageTest, name="exception")
 def show_test_exception(self, request):
-    raise ExampleException("a test")
+
+    @log_call
+    def subsub():
+        raise ExampleException("a test")
+
+    @log_call
+    def sub():
+        return subsub()
+
+    sub()
