@@ -10,7 +10,7 @@ from ekklesia_portal.enums import VotingStatus
 class VotingPhaseSchema(Schema):
     name = string_property(title=_('name'), validator=Length(max=23), missing='')
     title = string_property(title=_('title'), validator=Length(max=160), missing='')
-    target = date_property(title=_('target'), missing=None)
+    target = date_property(title=_('target'), description=_('voting_phase_target_description'), missing=None)
     status = enum_property(VotingStatus, title=_('voting_status'))
     department_id = int_property(title=_('department'))
     phase_type_id = int_property(title=_('voting_phase_type'))

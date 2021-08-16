@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-08-10 21:00+0000\n"
+"POT-Creation-Date: 2021-08-16 22:18+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -1225,6 +1225,10 @@ msgstr "Profile text"
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:13
 msgid "target"
 msgstr "Target date"
+
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:13
+msgid "voting_phase_target_description"
+msgstr "Voting ends on the target date."
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:51
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:14
