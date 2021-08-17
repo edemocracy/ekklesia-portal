@@ -22,7 +22,7 @@
         a(href=become_submitter_url)= become_submitter_url
 
     if valid_submitter_invitation_key and not current_user_is_submitter
-      p = _('invited_to_become_submitter')
+      p= _('invited_to_become_submitter')
 
       if current_user
         form.become_submitter_form(action=become_submitter_action, method="POST")

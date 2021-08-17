@@ -20,8 +20,14 @@ class ArgumentRelationCell(LayoutCell):
     def show_ca_button(self):
         return  # self.current_user is not None
 
+    def title(self):
+        return self.proposition_title
+
     def vote(self):
         return self._model.user_vote(self.current_user)
+
+    def num_counter_arguments(self):
+        return 0
 
     def proposition_url(self):
         return self.link(self._model.proposition)
