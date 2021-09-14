@@ -8,6 +8,7 @@ from ekklesia_common.translation import _
 from markdown import Markdown
 from markdown.extensions import Extension
 from markdown.treeprocessors import Treeprocessor
+from urllib.parse import quote, unquote
 
 
 def items_for_document_select_widgets(model, departments, proposition_types):
@@ -96,7 +97,7 @@ class ProposeChangeTreeprocessor(Treeprocessor):
 
         def link(section):
             link = etree.Element('a')
-            link.set('href', self.url_template.replace('SECTION', section))
+            link.set('href', self.url_template.replace('SECTION', quote(section)))
             link.append(etree.Element('i', attrib={'class': 'far fa-edit'}))
             link.text = f'{section} {header_text} '
             return link
@@ -130,12 +131,23 @@ def get_section_from_document(document, section_identifier):
     Section identifiers look like this: ## heading {data-section=1.1.1}
     """
     level = len(section_identifier.split('.'))
-    # Match from heading with given section identifier up to the next heading with the same level.
-    pattern = '^#{%d}' % (level + 1)
-    pattern += ' (.+?) '
-    pattern += '{data-section="%s"}\n*' % section_identifier.replace('.', r'\.')
-    pattern += '((?:[^#]|#{%s,})+)' % (level + 2)
-    match = re.search(pattern, document.text, re.MULTILINE)
-    headline, content = match.group(1, 2)
-    content = content.strip() + '\n'
-    return headline, content
+    heading_prefix = "#" * (level + 1) + " "
+    heading_re = re.compile("^#{2,%s} " % (level + 1))
+    section_start_marker = f' {{data-section="{section_identifier}"}}'
+    lines = document.text.splitlines()
+    start = None
+    for pos, line in enumerate(lines):
+        if start is None and line.endswith(section_start_marker):
+            start = pos
+            headline = line.removeprefix(heading_prefix).removesuffix(section_start_marker)
+
+        elif start is not None and heading_re.search(line):
+            break
+    else:
+        pos += 1
+
+    if not start:
+        raise RuntimeError(f"Couldn't find section {section_identifier} in document {document.name}")
+
+    content = "\n".join(lines[start+1:pos]).strip() + "\n"
+    return (headline, content)
