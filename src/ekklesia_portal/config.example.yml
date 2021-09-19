@@ -1,6 +1,9 @@
 database:
+    # This uses TCP to connect to the database
     uri: "postgresql+psycopg2://ekklesia_portal_db_user:ekklesia_portal_db_password@127.0.0.1/ekklesia_portal_db_name"
-    fts_language: 'german'
+    # This uses the PostgreSQL socket in /run/postgresql to connect to the database
+    #uri: "postgresql+psycopg2:///ekklesia_portal?host=/run/postgresql"
+    fts_language: 'english'
 app:
     instance_name: my_ekklesia_portal
     insecure_development_mode: false
