@@ -36,8 +36,8 @@ Development
 
 To get a consistent development environment, we use
 `Nix <https://nixos.org/nix>`_ to install Python and the project
-dependencies. The development environment also includes PostgreSQL 12,
-linters, a SASS compiler and pytest for running the tests.
+dependencies. The development environment also includes PostgreSQL,
+code linters, a SASS compiler and pytest for running the tests.
 
 Development Quick Start
 -----------------------
@@ -65,7 +65,7 @@ in the Ekklesia documentation.
 
 2. Compile translations and CSS::
 
-    makebabel.ipy compile
+    ipython makebabel.ipy compile
     sassc -I $SASS_PATH src/ekklesia_portal/sass/portal.sass \
         src/ekklesia_portal/static/css/portal.css
 
@@ -84,7 +84,7 @@ in the Ekklesia documentation.
 5. The development server can be run with a custom config file by
    executing::
 
-    python src/ekklesia_portal/runserver.py –debug -c config.yml
+    python src/ekklesia_portal/runserver.py –debug -c config.yml 2>&1 | eliot-tree -l0
 
 
 Running In Production
