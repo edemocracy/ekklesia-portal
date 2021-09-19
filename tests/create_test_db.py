@@ -135,9 +135,9 @@ if __name__ == "__main__":
     )
     s.add(CustomizableText(lang='de', name='new_draft_explanation', text=NEW_DRAFT_EXPLANATION_DE))
 
-    department_pps = Department(name='Piratenpartei Schweiz')
+    department_pps = Department(name='Org Schweiz')
     department_zs = Department(name='Zentralschweiz')
-    department_ppd = Department(name='Piratenpartei Deutschland')
+    department_ppd = Department(name='Org Deutschland')
 
     department_ppd.exporter_settings = {"exporter_name": "testdiscourse", "exporter_description": "Ein Test-Discourse"}
 

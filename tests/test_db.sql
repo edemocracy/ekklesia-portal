@@ -735,7 +735,7 @@ CREATE FUNCTION public.uuid_timestamp(uuid uuid) RETURNS timestamp with time zon
     LANGUAGE plpgsql IMMUTABLE STRICT PARALLEL SAFE
     AS $$
 DECLARE
-  bytes bytea; 
+  bytes bytea;
 BEGIN
   bytes := uuid_send(uuid);
   RETURN to_timestamp(
@@ -1797,8 +1797,8 @@ COPY public.departmentmembers (department_id, member_id, is_admin) FROM stdin;
 COPY public.departments (id, name, description, exporter_settings, voting_module_settings) FROM stdin;
 1	Landesverband Bayern	\N	{}	{}
 2	Bezirksverband Oberpfalz	\N	{}	{}
-3	Piratenpartei Deutschland	\N	{"exporter_name": "testdiscourse", "exporter_description": "Ein Test-Discourse"}	{}
-4	Piratenpartei Schweiz	\N	{}	{}
+3	Org Deutschland	\N	{"exporter_name": "testdiscourse", "exporter_description": "Ein Test-Discourse"}	{}
+4	Org Schweiz	\N	{}	{}
 5	Zentralschweiz	\N	{}	{}
 \.
 
@@ -2910,4 +2910,3 @@ ALTER TABLE ONLY public.votingphases
 --
 -- PostgreSQL database dump complete
 --
-

@@ -79,7 +79,7 @@ def test_index_search_status(client):
 
 def test_index_department_subject_area(client):
     """XXX: depends on content from create_test_db.py"""
-    res = client.get('/p?department=Piratenpartei Schweiz&subject_area=Innerparteiliches')
+    res = client.get('/p?department=Org Schweiz&subject_area=Innerparteiliches')
     assert 'Ein Titel' in res
     assert 'Angenommener Antrag' not in res
 

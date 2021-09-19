@@ -14,8 +14,8 @@ app:
     faq_url: /pages/faq
 share:
     use_url_shortener: false
-    hashtag: "PIRATEN"
-    promote_account: "piratenpartei"
+    hashtag: "ekklesia"
+    promote_account: "e_kklesia"
 browser_session:
     secret_key: devkey
     cookie_secure: false
