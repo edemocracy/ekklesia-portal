@@ -42,7 +42,7 @@ code linters, a SASS compiler and pytest for running the tests.
 Development Quick Start
 -----------------------
 
-Set up an environment to run an local instance of the application.
+This section describes briefly how to set up a development environment to run a local instance of the application.
 
 Setting up the environment for testing and running tests is described in the
 section `Testing <https://docs.ekklesiademocracy.org/en/latest/development/testing.html>`_
@@ -54,6 +54,10 @@ and an empty + writable PostgreSQL database can be accessed somehow.
 If you don't have *Nix* and *lorri* or can’t use an existing PostgreSQL server,
 have a look at the section `Development Environment <https://docs.ekklesiademocracy.org/en/latest/development/dev_env.html>`_
 in the Ekklesia documentation.
+
+It's strongly recommended to also follow the instructions at
+`Setting up the Cachix Binary Cache <https://docs.ekklesiademocracy.org/en/latest/development/dev_env.html#setting-up-the-cachix-binary-cache>`
+or the first step will take a long time to complete.
 
 1. Clone the repository and enter nix shell in the project root folder to open a shell which is
    your dev environment::
