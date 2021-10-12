@@ -1,0 +1,18 @@
+- extends "ekklesia_portal/layout.j2.jade"
+
+- block title
+  title= _("title_new_amendment")
+
+- block content
+  h2= _("title_new_amendment")
+  h3
+    = _("changes_proposition")
+    |:&nbsp;
+    a(href=self_link)= title
+
+  .help-text
+    = new_amendment_explanation|markdown
+
+  = form_html
+
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

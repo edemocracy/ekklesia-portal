@@ -37,7 +37,7 @@ def app_setting_section():
         "default_proposition_query": {
             "status": "draft,submitted,qualified,scheduled,voting"
         },
-        "enable_change_propositions": True,
+        "enable_amendments": True,
         "enable_counter_propositions": True,
         "fallback_language": "de",
         "faq_url": None,

@@ -8,17 +8,14 @@ from ekklesia_common.translation import _
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility
 
 
-def common_widgets(items_for_selects):
-    return {
-        'title': TextAreaWidget(rows=2),
-        'abstract': TextAreaWidget(rows=4),
-        'content': TextAreaWidget(rows=8),
-        'motivation': TextAreaWidget(rows=8),
-        'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
-        'relation_type': HiddenWidget(),
-        'related_proposition_id': HiddenWidget()
-    }
-
+common_widgets = {
+    'title': TextAreaWidget(rows=2),
+    'abstract': TextAreaWidget(rows=4),
+    'content': TextAreaWidget(rows=8),
+    'motivation': TextAreaWidget(rows=8),
+    'relation_type': HiddenWidget(),
+    'related_proposition_id': HiddenWidget()
+}
 
 class PropositionSchema(Schema):
     title = string_property(title=_('title'), validator=Length(min=5, max=255))
@@ -76,7 +73,8 @@ class PropositionNewForm(Form):
             'editing_remarks': TextAreaWidget(rows=4),
             'area_id': Select2Widget(values=items_for_selects['area']),
             'proposition_type_id': Select2Widget(values=items_for_selects['proposition_type']),
-            **common_widgets(items_for_selects)
+            'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
+            **common_widgets
         })
 
 
@@ -90,7 +88,8 @@ class PropositionEditForm(Form):
             'status': SelectWidget(values=items_for_selects['status']),
             'visibility': SelectWidget(values=items_for_selects['visibility']),
             'external_fields': TextAreaWidget(rows=4),
-            **common_widgets(items_for_selects)
+            'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
+            **common_widgets
         })
 
 
@@ -109,7 +108,7 @@ class PropositionNewDraftForm(Form):
             'abstract': common['abstract'],
             'content': common['content'],
             'motivation': common['motivation'],
-            'tags': common['tags']
+            'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
         })
 
 
@@ -119,4 +118,18 @@ class PropositionSubmitDraftForm(Form):
         super().__init__(PropositionSchema(), request, action, buttons=[Button(title=_("button_submit_draft"))])
 
     def prepare_for_render(self, items_for_selects):
-        self.set_widgets(common_widgets(items_for_selects))
+        self.set_widgets({
+            'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
+            **common_widgets
+        })
+
+
+class PropositionNewAmendmentForm(Form):
+    def __init__(self, request, action):
+        super().__init__(PropositionSchema(), request, action, buttons=[Button(title=_("submit"))])
+
+    def prepare_for_render(self):
+        self.set_widgets({
+            "tags": HiddenWidget(),
+            **common_widgets
+        })

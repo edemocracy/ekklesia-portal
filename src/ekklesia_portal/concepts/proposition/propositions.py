@@ -28,8 +28,7 @@ class Propositions:
     without_tags: str = None
     type: str = None
     visibility: str = None
-    association_type: PropositionRelationType = None
-    association_id: str = None
+    include_amendments: str = None
     # Initialization with numbers instead of None is necessary because otherwise the
     # query values are not actually converted to an integer on assignment
     page: Optional[int] = 1  # Ranges: x<=1 = None => First page; x>1 => Show page x
@@ -49,6 +48,7 @@ class Propositions:
         self.without_tags = self.without_tags or None
         self.type = self.type or None
         self.status = self.status or None
+        self.include_amendments = self.include_amendments or None
 
         self.status_values = None
         self.tag_values = None
@@ -159,6 +159,8 @@ class Propositions:
                 self.section = value
             case "visibility":
                 self.visibility = value
+            case "include_amendments":
+                self.include_amendments = value
 
     def build_search_query(self):
         query = []
@@ -184,6 +186,8 @@ class Propositions:
             query.append("section:" + self.maybe_add_quotes(self.section))
         if self.visibility:
             query.append("visibility:" + self.maybe_add_quotes(self.visibility))
+        if self.include_amendments:
+            query.append("include_amendments:" + self.include_amendments)
 
         return " ".join(query)
 
@@ -267,6 +271,9 @@ class Propositions:
             tags = q(Tag).filter(func.lower(Tag.name).in_(self.without_tag_values)).all()
             for tag in tags:
                 propositions = propositions.filter(~Proposition.tags.contains(tag))
+
+        if not self.include_amendments:
+                propositions = propositions.filter(Proposition.modifies_id.is_(None))
 
         if count:
             propositions = propositions.count()

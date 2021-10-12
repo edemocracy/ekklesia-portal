@@ -45,7 +45,6 @@ def test_index_without_tags(db_query, client):
     """XXX: depends on content from create_test_db.py"""
     res = client.get('/p?without_tags=Tag1')
     assert 'Ein Titel' not in res
-    assert 'Änderungsantrag zu PP001' in res
     assert 'Entstehender Antrag' in res
 
 
@@ -122,15 +121,17 @@ def test_index_export_csv_as_global_admin(client, logged_in_global_admin):
     assert "\"PP002\";\"egon\";" in res
 
 
-def assert_proposition_in_html(proposition: Proposition, html: BeautifulSoup):
+def assert_proposition_in_html(proposition: Proposition, html: BeautifulSoup, check_for_details: bool = True):
     proposition_el = html.find(id=f"proposition_{proposition.id}")
     proposition_link = proposition_el.find(class_="proposition_title").find("a")
     assert proposition_link.text == proposition.title
     assert str(proposition.id) in proposition_link["href"]
-    proposition_details_text = html.find(class_="proposition_details").text
-    assert proposition.content in proposition_details_text
-    assert "Motivation" in proposition_details_text
-    assert proposition.motivation in proposition_details_text
+
+    if check_for_details:
+        proposition_details_text = html.find(class_="proposition_details").text
+        assert proposition.content in proposition_details_text
+        assert "Motivation" in proposition_details_text
+        assert proposition.motivation in proposition_details_text
 
     badges = proposition_el.find(class_="proposition_badges")
     assert badges, "badges not found"
@@ -158,19 +159,19 @@ def test_show_legacy_id(client, proposition_factory):
 def test_show_associated(client, proposition_factory):
     proposition = proposition_factory(title="test proposition")
     counter_proposition = proposition_factory(title="alternative to test", replaces=proposition)
-    change_proposition = proposition_factory(title="change test", modifies=proposition)
+    amendment = proposition_factory(title="amendment for test", modifies=proposition)
     res = client.get(f"/p/{proposition.id}/test-proposition/associated")
     html = res.html
 
-    change_title = html.select_one(".proposition_col.change .proposition_small_title a")
-    assert change_title.text == change_proposition.title
-    assert str(change_proposition.id) in change_title["href"]
+    change_title = html.select_one(".proposition_col.amendments .proposition_small_title a")
+    assert change_title.text == amendment.title
+    assert str(amendment.id) in change_title["href"]
 
     counter_title = html.select_one(".proposition_col.counter .proposition_small_title a")
     assert counter_title.text == counter_proposition.title
     assert str(counter_proposition.id) in counter_title["href"]
 
-    assert_proposition_in_html(proposition, html)
+    assert_proposition_in_html(proposition, html, check_for_details=False)
 
 
 def test_new_with_data_import(client, logged_in_user):
