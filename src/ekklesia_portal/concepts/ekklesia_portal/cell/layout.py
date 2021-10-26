@@ -1,12 +1,15 @@
 from ekklesia_common.cell import Cell
-
 from ..admin_area import AdminArea
+from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.page.pages import Pages
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
 
 
 class LayoutCell(Cell):
+
+    def customizable_text(self, name, lang=None):
+        return customizable_text(self._request, name, lang)
 
     def language(self):
         return self._request.i18n.get_locale().language

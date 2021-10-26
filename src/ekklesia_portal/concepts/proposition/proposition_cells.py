@@ -384,10 +384,6 @@ class NewPropositionCell(NewFormCell):
         items = items_for_proposition_select_widgets(departments, tags, proposition_types, selected_tag_names)
         self._form.prepare_for_render(items)
 
-    def new_draft_explanation(self):
-        return customizable_text(self._request, 'new_draft_explanation')
-
-
 @App.cell(Proposition, 'edit')
 class EditPropositionCell(EditFormCell):
 
