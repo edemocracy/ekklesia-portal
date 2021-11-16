@@ -928,6 +928,10 @@ msgstr "Setzen"
 msgid "export_as_csv"
 msgstr "Als CSV exportieren (OpenSlides-Format)"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:165
+msgid "export_proposition_to_file"
+msgstr "Angezeigte Anträge als Datei exportieren"
+
 #: src/ekklesia_portal/concepts/proposition/templates/propositions_pager.j2.jade:2
 msgid "showing_all_propositions"
 msgstr "Alle %(count)s Anträge werden angezeigt"
@@ -1755,4 +1759,3 @@ msgstr "Enthaltung"
 #~ msgid_plural "propositions"
 #~ msgstr[0] "Antrag"
 #~ msgstr[1] "Anträge"
-
