@@ -20,7 +20,7 @@
             a.nav-link(href=discussion_url, class=discussion_link_class)= _("tab_discussion")
 
           li.nav-item
-            a.nav-link(href=associated_url, class=associated_link_class)= _("tab_associated")
+            a.nav-link(href=associated_url, class=associated_link_class)= customizable_text("tab_associated")|markdown
 
     .card-body(class=("" if not current_user_is_supporter else "card-body-supported"))
       = render_cell(_model, 'card', **options)
@@ -96,7 +96,7 @@
           a(href=new_associated_proposition_url("counter"))
             .button_add_related
               i.fas.fa-circle &nbsp;
-              = _("button_add_counter_proposition")
+              = customizable_text("button_add_counter_proposition")|markdown
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

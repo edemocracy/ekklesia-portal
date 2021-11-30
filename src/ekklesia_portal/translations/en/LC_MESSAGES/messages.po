@@ -924,6 +924,10 @@ msgstr "Set"
 msgid "export_as_csv"
 msgstr "Export as CSV (OpenSlides format)"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:165
+msgid "export_proposition_to_file"
+msgstr "Export displayed propositions to file"
+
 #: src/ekklesia_portal/concepts/proposition/templates/propositions_pager.j2.jade:2
 msgid "showing_all_propositions"
 msgstr "Showing all %(count)s propositions"
@@ -1725,4 +1729,3 @@ msgstr "Abstention"
 #~ msgid_plural "propositions"
 #~ msgstr[0] "proposition"
 #~ msgstr[1] "propositions"
-
