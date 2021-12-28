@@ -121,6 +121,7 @@ in {
 
     users.users.ekklesia-portal = {
       isSystemUser = true;
+      group = "ekklesia-portal";
     };
     users.groups.ekklesia-portal = { };
 
