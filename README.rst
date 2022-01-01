@@ -67,12 +67,9 @@ or the first step will take a long time to complete.
     lorri shell
 
 
-2. Compile translations and CSS::
+2. Compile translations and CSS (look at dodo.py to see what this does)::
 
-    ipython makebabel.ipy compile
-    sassc -I $SASS_PATH src/ekklesia_portal/sass/portal.sass \
-        src/ekklesia_portal/static/css/portal.css
-
+    doit
 
 3. Create a config file named ``config.yml`` using the config template
    from ``src/ekklesia_portal/config.example.yml`` or skip this to use
@@ -89,6 +86,9 @@ or the first step will take a long time to complete.
    executing::
 
     python src/ekklesia_portal/runserver.py –debug -c config.yml 2>&1 | eliot-tree -l0
+
+
+6. You can run ``doit auto`` to automatically compile translations and CSS when the input files change.
 
 
 Running In Production
