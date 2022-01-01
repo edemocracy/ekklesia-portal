@@ -1,14 +1,14 @@
 {
     "nixpkgs": {
-        "branch": "nixpkgs-unstable",
+        "branch": "nixos-21.11",
         "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
         "homepage": "https://github.com/NixOS/nixpkgs",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3e0ce8c5d478d06b37a4faa7a4cc8642c6bb97de",
-        "sha256": "16l1576d5km2847z4hmc6kr03qzwmi1w45njj9y7my666xkwwqrz",
+        "rev": "8a053bc2255659c5ca52706b9e12e76a8f50dbdd",
+        "sha256": "087lqvl8icvwzk61a0sn87m48a7bmm1bhna3v61w12ad97an9shj",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/3e0ce8c5d478d06b37a4faa7a4cc8642c6bb97de.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/8a053bc2255659c5ca52706b9e12e76a8f50dbdd.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "poetry2nix": {
@@ -17,10 +17,10 @@
         "homepage": "",
         "owner": "dpausp",
         "repo": "poetry2nix",
-        "rev": "e7eb06f2e73f257b8c6fc73544fdf4d4e9ed1730",
-        "sha256": "0yd6mki69jv0d7xsqv9pvb3zn2qmsnyzvil10bvnvlwldgf15ifr",
+        "rev": "6c7c762d7d5bde2f5a10c9e6aa9015159574a214",
+        "sha256": "0b4jgvpr7kvni0rw0y62i16gyq6084wvmlk04j23g0nx9wqqk5hd",
         "type": "tarball",
-        "url": "https://github.com/dpausp/poetry2nix/archive/e7eb06f2e73f257b8c6fc73544fdf4d4e9ed1730.tar.gz",
+        "url": "https://github.com/dpausp/poetry2nix/archive/6c7c762d7d5bde2f5a10c9e6aa9015159574a214.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
