@@ -79,7 +79,16 @@ def task_babel_show_paths():
 
 
 def task_babel_init():
-    "!pybabel init -i $TDIR/messages.pot -d $TDIR -l $lang"
+    return {
+        "actions": [
+            f"pybabel init -i {POT_PATH} -d {TDIR} -l %(lang)s"
+        ],
+        "params": [{
+            "name": "lang",
+            "default": "",
+        }],
+        "pos_arg": "lang"
+    }
 
 
 def task_babel_extract():
