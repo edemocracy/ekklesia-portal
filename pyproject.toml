@@ -27,7 +27,6 @@ babel = "^2.9.0"
 deform = "^2.0.15"
 eliot-tree = "^19.0.1"
 pdbpp = "^0.10.2"
-doit = "^0.34.0"
 
 
 [tool.poetry.dev-dependencies]
@@ -44,6 +43,8 @@ pytest-pspec = "^0.0.4"
 responses = "^0.10.14"
 typing-extensions = "^3.7.4"
 webtest = "^2.0.35"
+doit = {git = "https://github.com/dpausp/doit", rev = "multiprocess"}
+multiprocess = "^0.70.12"
 
 
 [tool.coverage.report]

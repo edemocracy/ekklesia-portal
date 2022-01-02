@@ -4,6 +4,7 @@ with builtins;
 let
   sources_ = if (sources == null) then import ./sources.nix else sources;
   pkgs = import sources_.nixpkgs { inherit system; };
+  inherit (pkgs) stdenv lib;
   niv = (import sources_.niv { }).niv;
   # Ekklesia-common is pulled in by poetry as Python dependency.
   # We don't use any Nix code from the project right now, so we don't have to import it here.
@@ -29,6 +30,13 @@ let
         }
       );
 
+      macfsevents = super.macfsevents.overridePythonAttrs (
+        old: {
+          buildInputs =
+            old.buildInputs
+            ++ lib.optionals stdenv.isDarwin [ pkgs.darwin.apple_sdk.frameworks.CoreServices ];
+        }
+      );
   });
 
 in rec {
