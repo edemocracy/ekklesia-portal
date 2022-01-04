@@ -57,7 +57,8 @@ class PropositionCell(LayoutCell):
     actions = Cell.fragment('proposition_actions')
     secret_voting = Cell.template_fragment('proposition_secret_voting')
     support = Cell.template_fragment('proposition_support')
-    tabs = Cell.fragment('proposition_tabs')
+    toolbar = Cell.fragment('proposition_toolbar')
+    tag_list = Cell.fragment('proposition_tag_list')
     small = Cell.fragment('proposition_small')
     card = Cell.fragment('proposition_card')
 

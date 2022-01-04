@@ -13,7 +13,7 @@
 
 
   .proposition(id="proposition_{{ id }}", class=("" if options.margin else "proposition_no_margin"))
-    if options.show_tabs
+    if options.show_toolbar
       .proposition_toolbar
         ul.proposition_tabs
           li.nav-item
@@ -21,6 +21,8 @@
 
           li.nav-item
             a.nav-link(href=associated_url, class=associated_link_class)= customizable_text("tab_associated")
+
+
 
     .card-body(class=("" if not current_user_is_supporter else "card-body-supported"))
       = card()
