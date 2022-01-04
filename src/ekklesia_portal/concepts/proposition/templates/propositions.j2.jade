@@ -127,7 +127,7 @@
             a.btn_filter_remove(href=change_self_link(without_tags=none), title=_('remove_filter')) X
 
   div.page-selector
-    = render_cell(_model, "pager", **options)
+    = pager()
 
   if propositions
     = render_cell(collection=propositions)
@@ -135,7 +135,7 @@
     = _('no_propositions_found')
 
   div.page-selector-bottom
-    = render_cell(_model, "pager", **options)
+    = pager()
 
     form
       if search_query

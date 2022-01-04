@@ -1,10 +1,10 @@
 .proposition_actions
 
   if show_support
-    = render_cell(_model, 'support', **options)
+    = support()
 
   if show_secret_voting
-    = render_cell(_model, 'secret_voting', **options)
+    = secret_voting()
 
   hr
 

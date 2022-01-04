@@ -27,7 +27,7 @@
         strong.large_number= "%+i" |format(score)
         if show_voting
           .argument_voting
-            = render_cell(_model, 'voting')
+            = voting()
 
       .argument_col
         = render_cell(argument, details_link=self_link, extended=layout)

@@ -9,7 +9,7 @@
 - block content
 
   if options.show_details
-    = render_cell(_model, 'detail_top', **options)
+    = detail_top()
 
 
   .proposition(id="proposition_{{ id }}", class=("" if options.margin else "proposition_no_margin"))
@@ -23,7 +23,7 @@
             a.nav-link(href=associated_url, class=associated_link_class)= customizable_text("tab_associated")|markdown
 
     .card-body(class=("" if not current_user_is_supporter else "card-body-supported"))
-      = render_cell(_model, 'card', **options)
+      = card()
 
 
   if options.active_tab == 'discussion'

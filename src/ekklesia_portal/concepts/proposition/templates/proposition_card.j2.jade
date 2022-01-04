@@ -1,15 +1,15 @@
 .row
   .proposition_sidebar
-    = render_cell(_model, 'status', **options)
+    = status()
 
   .proposition_body
-    = render_cell(_model, 'tabs', **options)
+    = tabs()
 
     h4.proposition_title
         a(href=self_link)= full_title
 
     if options.show_actions
-      = render_cell(_model, 'actions', **options)
+      = actions()
       hr
 
     if options.show_details
@@ -23,4 +23,4 @@
 
   .proposition_sidebar
     .proposition_history
-      = render_cell(_model, 'history', **options)
+      = history()
