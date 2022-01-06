@@ -1,4 +1,14 @@
 # Direnv integration: copy this to .envrc and adapt to your system
-export EKKLESIA_PORTAL_CONFIG="$(pwd)/config.yml"
-export EKKLESIA_PORTAL_TEST_DB_URL="postgresql+psycopg2:///test_ekklesia_portal?host=/tmp"
-eval "$(lorri direnv)"
+# This can be used to set environment variables and automatically build the dev shell
+#export EKKLESIA_PORTAL_CONFIG="$(pwd)/config.yml"
+
+# If you don't set the EKKLESIA_PORTAL_TEST_DB_URL env var, the default is:
+# "postgresql+psycopg2:///test_ekklesia_portal?host=/tmp"
+
+# Use this for a PostgreSQL database installed on your system, using the unix socket in /run/postgresql
+#export EKKLESIA_PORTAL_TEST_DB_URL="postgresql+psycopg2:///test_ekklesia_portal?host=/run/postgresql"
+
+# either: use lorri to automatically rebuild the dev shell
+#eval "$(lorri direnv)"
+# or: use nix-direnv to automatically rebuild the dev shell
+#use nix
