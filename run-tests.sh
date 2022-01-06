@@ -11,6 +11,6 @@ pg_ctl start -D $tmpdir -o "-k $socketdir -h ''"
 createdb -h $socketdir test_ekklesia_portal
 echo "Loading test database..."
 psql -h $socketdir test_ekklesia_portal -f tests/test_db.sql
-ipython makebabel.ipy compile
+doit
 pytest
 wait
