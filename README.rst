@@ -85,7 +85,7 @@ or the first step will take a long time to complete.
 5. The development server can be run with a custom config file by
    executing::
 
-    python src/ekklesia_portal/runserver.py –debug -c config.yml 2>&1 | eliot-tree -l0
+    python src/ekklesia_portal/runserver.py --debug -c config.yml 2>&1 | eliot-tree -l0
 
 
 6. You can run ``doit auto`` to automatically compile translations and CSS when the input files change.
