@@ -104,8 +104,7 @@ def task_babel_extractupdate():
         "actions": [
             f"pybabel extract -F babel.cfg -o {POT_PATH} {SRC_PATHS}",
             f"pybabel update -d {TDIR} -i {POT_PATH}"
-        ],
-        "file_dep": [POT_PATH]
+        ]
     }
 
 

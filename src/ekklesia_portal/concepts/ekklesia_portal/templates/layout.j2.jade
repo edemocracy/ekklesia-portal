@@ -30,6 +30,10 @@ body
 
       .collapse.navbar-collapse
         ul.navbar-nav.mr-auto
+
+          if show_departments
+            a.a.nav-link(href=departments_url)= _("menu_departments")
+
           li.nav-item
             a.nav-link(href=propositions_url)= _("menu_propositions")
 

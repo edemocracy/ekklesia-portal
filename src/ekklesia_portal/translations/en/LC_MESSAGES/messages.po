@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-02 16:13+0000\n"
+"POT-Creation-Date: 2022-06-02 16:29+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -166,7 +166,7 @@ msgstr "ballot"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:9
 #: src/ekklesia_portal/concepts/customizable_text/templates/customizable_text.j2.jade:7
-#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:8
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:14
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:10
 #: src/ekklesia_portal/concepts/page/templates/page.j2.jade:7
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:7
@@ -195,6 +195,7 @@ msgid "department"
 msgstr "Department"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:29
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:19
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:16
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
@@ -286,7 +287,7 @@ msgid "title_new_customizable_text"
 msgstr "New Text Customization"
 
 #: src/ekklesia_portal/concepts/department/department_contracts.py:10
-#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:11
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:40
 #: src/ekklesia_portal/concepts/document/document_contracts.py:13
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:17
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:12
@@ -309,10 +310,30 @@ msgstr "Exporter settings"
 msgid "voting_module_settings"
 msgstr "External voting module settings"
 
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:22
+msgid "drafts"
+msgstr "Drafts"
+
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:26
+msgid "member_count"
+msgstr "Member count"
+
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:31
+msgid "active_voting_phases"
+msgstr "Active voting phases"
+
 #: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:5
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:38
 msgid "departments"
 msgstr "Departments"
+
+#: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:8
+msgid "my_departments"
+msgstr "My departments"
+
+#: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:10
+msgid "other_departments"
+msgstr "Other Departments"
 
 #: src/ekklesia_portal/concepts/department/templates/edit_department.j2.jade:2
 #: src/ekklesia_portal/concepts/department/templates/edit_department.j2.jade:3
@@ -464,6 +485,10 @@ msgstr "Profile"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:39
 msgid "scheduled_voting_phases"
 msgstr "Scheduled voting phases"
+
+#: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:28
+msgid "menu_departments"
+msgstr "Departments"
 
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:29
 msgid "menu_propositions"

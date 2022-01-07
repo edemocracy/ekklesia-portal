@@ -13,15 +13,43 @@
   if layout
     h2= _('department')
 
-  .department.container
-    h3
-      a(href=self_link)= name
+  .card
+      .card-body
+        .card-title
 
-      if show_edit_button
-        a.edit_button(href=edit_url)
-          i.far.fa-edit
-          |&nbsp;
-          = _('edit_button')
+          h5
+            ol.breadcrumb
+              li.breadcrumb-item
+                a(href=self_link)= name
+
+            if show_edit_button
+              a.edit_button(href=edit_url)
+              i.far.fa-edit
+              |&nbsp;
+              = _('edit_button')
+
+        .row
+          .col-sm-6
+            dt
+              i.far.fa-file-alt &nbsp;
+              a(href=department_propositions_url)= _("propositions")
+            dd= proposition_count
+            dt
+              i.fas.fa-vote-yea &nbsp;
+              a(href=department_drafts_url)= _("drafts")
+            dd= draft_count
+            dt
+              h6=_("member_count")
+            dd= member_count
+
+          .col-sm-6
+            h6=_("active_voting_phases")
+            ul
+            for title, url in active_voting_phases
+                li
+                  a(href=url)= title
+
+
 
     if options.show_details
       dl

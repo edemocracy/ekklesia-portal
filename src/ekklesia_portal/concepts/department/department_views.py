@@ -22,12 +22,12 @@ def department_edit_permission(identity, model, permission):
     return identity_manages_department(identity, model)
 
 
-@App.path(model=Departments, path='departments')
+@App.path(model=Departments, path='d')
 def departments():
     return Departments()
 
 
-@App.path(model=Department, path='departments/{id}')
+@App.path(model=Department, path='d/{id}')
 def department(request, id):
     return request.q(Department).get(id)
 

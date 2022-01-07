@@ -18,4 +18,15 @@
         |&nbsp;
         = _('new_button')
 
-  = render_cell(collection=departments)
+  if current_user is none or is_global_admin
+    = render_cell(collection=departments)
+  else
+    h3
+      = _('my_departments')
+
+    = render_cell(collection=my_departments)
+
+    h3
+      = _('other_departments')
+
+    = render_cell(collection=other_departments)

@@ -7,7 +7,7 @@ from webtest_helpers import assert_deform, fill_form
 
 def test_create_department(client, db_query, department_factory, logged_in_global_admin):
     data = factory.build(dict, FACTORY_CLASS=department_factory)
-    res = client.get('/departments/+new')
+    res = client.get('/d/+new')
     form = assert_deform(res)
     fill_form(form, data)
 
@@ -17,7 +17,7 @@ def test_create_department(client, db_query, department_factory, logged_in_globa
 
 def test_update_department(db_session, client, department_factory, logged_in_global_admin):
     department = department_factory()
-    res = client.get(f'/departments/{ department.id}/+edit')
+    res = client.get(f'/d/{ department.id}/+edit')
     expected = department.to_dict()
     form = assert_deform(res, expected)
     form['name'] = 'new name'
@@ -25,3 +25,6 @@ def test_update_department(db_session, client, department_factory, logged_in_glo
     form.submit(status=302)
     assert department.name == 'new name'
     assert department.description == 'new description'
+
+def test_index(client):
+    assert 'Org Deutschland' in client.get('/d')

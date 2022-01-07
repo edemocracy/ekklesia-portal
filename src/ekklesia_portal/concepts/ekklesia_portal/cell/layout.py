@@ -4,6 +4,7 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ekklesia_portal.concepts.page.pages import Pages
 from ekklesia_portal.concepts.proposition.propositions import Propositions
 from ekklesia_portal.concepts.voting_phase.voting_phases import VotingPhases
+from ekklesia_portal.concepts.department.departments import Departments
 
 
 class LayoutCell(Cell):
@@ -39,6 +40,9 @@ class LayoutCell(Cell):
     def brand_title(self):
         return self._s.app.title
 
+    def departments_url(self):
+        return self.link(Departments())
+
     def plain_propositions_url(self):
         return self.link(Propositions())
 
@@ -60,6 +64,9 @@ class LayoutCell(Cell):
 
     def show_admin_area(self):
         return self.current_user and self._request.identity.has_global_admin_permissions
+
+    def show_departments(self):
+        return self._s.app.show_departments_in_navbar
 
     def show_login_button(self):
         return self._s.app.login_visible

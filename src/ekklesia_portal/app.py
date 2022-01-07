@@ -46,6 +46,7 @@ def app_setting_section():
         "languages": ["de", "en"],
         "login_visible": False,
         "report_url": None,
+        "show_departments_in_navbar": True,
         "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
         "title": "Ekklesia Portal Dev",
         "tos_url": None,
