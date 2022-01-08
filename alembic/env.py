@@ -1,3 +1,4 @@
+import logging
 from logging.config import fileConfig
 
 from sqlalchemy import create_engine
@@ -6,7 +7,7 @@ from sqlalchemy import pool
 from alembic import context
 
 import ekklesia_common.database
-from ekklesia_portal.app import get_app_settings
+from ekklesia_portal.app import get_database_uri_for_alembic
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,8 +19,7 @@ fileConfig(config.config_file_name)
 
 target_metadata = ekklesia_common.database.Base.metadata
 
-app_settings = get_app_settings()
-url = app_settings['database']['uri']
+logg = logging.getLogger(__name__)
 
 
 def run_migrations_offline():
@@ -34,6 +34,8 @@ def run_migrations_offline():
     script output.
 
     """
+    url = get_database_uri_for_alembic()
+
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -53,18 +55,27 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_engine(url, poolclass=pool.NullPool)
+    external_connection = config.attributes.get('connection', None)
+    if external_connection is None:
+        url = get_database_uri_for_alembic()
+        logg.info("Creating an engine for database URL %s", url)
+        engine = create_engine(url, poolclass=pool.NullPool)
+        connection = engine.connect()
+    else:
+        logg.info("Using supplied external connection %s", external_connection)
+        connection = external_connection
 
-    with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
-            compare_type=True,
-            compare_server_default=True)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        compare_type=True,
+        compare_server_default=True)
 
-        with context.begin_transaction():
-            context.run_migrations()
+    with context.begin_transaction():
+        context.run_migrations()
 
+    if external_connection is None:
+        connection.close()
 
 if context.is_offline_mode():
     run_migrations_offline()

@@ -1,12 +1,12 @@
 import argparse
 import logging
 from datetime import datetime
-import os
 
 from alembic.config import Config
 from alembic import command
 import mimesis
 import sqlalchemy.orm
+from sqlalchemy import pool
 import transaction
 from ekklesia_common.ekklesia_auth import OAuthToken
 
@@ -91,12 +91,6 @@ if __name__ == "__main__":
         App.init_settings(settings)
         app = make_wsgi_app(testing=True)
 
-    # Needed for Alembic env.py
-    if args.config_file:
-        os.environ['EKKLESIA_PORTAL_CONFIG'] = args.config_file
-    if 'EKKLESIA_PORTAL_CONFIG' not in os.environ:
-        os.environ['EKKLESIA_PORTAL_CONFIG'] = "config.yml"
-
     from ekklesia_common.database import db_metadata, Session
     # local import because we have to set up the database stuff before that
     from ekklesia_portal.datamodel import (
@@ -108,7 +102,7 @@ if __name__ == "__main__":
     print(f"using config file {args.config_file}")
     print(f"using db url {app.settings.database.uri}")
 
-    engine = sqlalchemy.create_engine(app.settings.database.uri)
+    engine = sqlalchemy.create_engine(app.settings.database.uri, poolclass=pool.NullPool)
     connection = engine.connect()
     connection.execute("select")
 
@@ -485,6 +479,8 @@ if __name__ == "__main__":
     logg.info("committed")
 
     alembic_cfg = Config("./alembic.ini")
+    alembic_cfg.attributes['connection'] = connection
+
     command.stamp(alembic_cfg, "head")
 
     # Fixes a strange error message when the connection isn't closed.

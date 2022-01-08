@@ -201,6 +201,22 @@ def get_app_settings(settings_filepath=None):
 
 
 @log_call
+def get_database_uri_for_alembic():
+    # Get the URL from the config file, if there is one
+    settings = get_app_settings()
+    db_uri = settings.get("database", {}).get("uri")
+
+    # No URL from the config file (or no config file), we have to fire up the
+    # App to get the default database URI
+    if db_uri is None:
+        App.commit()
+        app = App()
+        db_uri = app.settings.database.uri
+
+    return db_uri
+
+
+@log_call
 def get_locale(request):
     locale = request.browser_session.get('lang')
     if locale:
