@@ -37,6 +37,18 @@ let
             ++ lib.optionals stdenv.isDarwin [ pkgs.darwin.apple_sdk.frameworks.CoreServices ];
         }
       );
+
+      iso8601 = super.iso8601.overridePythonAttrs (
+        old: {
+          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.poetry ];
+        }
+      );
+
+      mimesis-factory = super.mimesis-factory.overridePythonAttrs (
+        old: {
+          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.poetry ];
+        }
+      );
   });
 
 in rec {
