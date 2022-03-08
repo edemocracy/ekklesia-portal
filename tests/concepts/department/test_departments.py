@@ -26,5 +26,15 @@ def test_update_department(db_session, client, department_factory, logged_in_glo
     assert department.name == 'new name'
     assert department.description == 'new description'
 
+
 def test_index(client):
     assert 'Org Deutschland' in client.get('/d')
+
+
+def test_department_view_not_logged_in(client):
+    assert 'My departments' not in client.get('/d')
+
+
+def test_department_view_logged_in(client, logged_in_user):
+    assert 'My departments' in client.get('/d')
+

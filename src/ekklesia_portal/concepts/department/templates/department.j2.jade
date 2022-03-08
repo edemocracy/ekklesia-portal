@@ -45,9 +45,12 @@
           .col-sm-6
             h6=_("active_voting_phases")
             ul
-            for title, url in active_voting_phases
-                li
-                  a(href=url)= title
+            if active_voting_phases
+              for title, url in active_voting_phases
+                  li
+                    a(href=url)= title
+            else
+              p=_("no_active_voting_phases")
 
 
 
@@ -56,3 +59,4 @@
         if description
           dt= _('description')
           dd= description
+  h5=""
