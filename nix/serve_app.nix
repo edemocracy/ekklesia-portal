@@ -47,6 +47,7 @@ let
   '';
 
 in pkgs.buildEnv {
+  ignoreCollisions = true;
   name = "ekklesia-portal-serve-app";
   paths = [ runGunicorn runMigrations runAlembic runPython ];
 }
