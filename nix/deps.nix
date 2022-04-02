@@ -26,7 +26,7 @@ let
 
       munch = super.munch.overridePythonAttrs (
         old: {
-          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.pbr ];
+          buildInputs = old.buildInputs ++ [ self.pbr ];
         }
       );
 
@@ -38,15 +38,21 @@ let
         }
       );
 
+      ekklesia-common = super.ekklesia-common.overridePythonAttrs (
+        old: {
+          buildInputs = old.buildInputs ++ [ self.poetry ];
+        }
+      );
+
       iso8601 = super.iso8601.overridePythonAttrs (
         old: {
-          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.poetry ];
+          buildInputs = old.buildInputs ++ [ self.poetry ];
         }
       );
 
       mimesis-factory = super.mimesis-factory.overridePythonAttrs (
         old: {
-          propagatedBuildInputs = old.propagatedBuildInputs ++ [ self.poetry ];
+          buildInputs = old.buildInputs ++ [ self.poetry ];
         }
       );
   });
