@@ -314,11 +314,11 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "doit"
-version = "0.34.1dev"
+version = "0.35.dev0"
 description = ""
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 develop = false
 
 [package.dependencies]
@@ -335,7 +335,7 @@ toml = ["toml (>=0.10.1)"]
 type = "git"
 url = "https://github.com/dpausp/doit"
 reference = "multiprocess"
-resolved_reference = "48db4ba25d404b965c34753019f1d14e2b8917fa"
+resolved_reference = "ed33d305234b6cac3d0557f6726958321ef581c4"
 
 [[package]]
 name = "ekklesia-common"
