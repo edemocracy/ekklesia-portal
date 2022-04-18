@@ -354,10 +354,10 @@ def update(self: Proposition, request, appstruct):
 
     # Dates are required for the following states, set them on state change.
     # This is an admin action only.
-    if self.status == PropositionStatus.DRAFT and appstruct["status"] == PropositionStatus.SUBMITTED:
+    if not self.submitted_at and appstruct["status"] != PropositionStatus.DRAFT and appstruct["status"] != PropositionStatus.CHANGING and appstruct["status"] != PropositionStatus.ABANDONED:
         updated_fields["submitted_at"] = datetime.now()
 
-    if self.status == PropositionStatus.SUBMITTED and appstruct["status"] == PropositionStatus.QUALIFIED:
+    if not self.qualified_at and (appstruct["status"] == PropositionStatus.QUALIFIED or appstruct["status"] == PropositionStatus.SCHEDULED or appstruct["status"] == PropositionStatus.VOTING):
         updated_fields["qualified_at"] = datetime.now()
 
     self.update(**updated_fields)
@@ -430,12 +430,10 @@ def push_draft(self: Proposition, request: Request):
 def submit_draft(self: Proposition, request):
 
     external_draft_info = self.external_fields.get("external_draft", {})
-    importer_name = external_draft_info.get("importer")
-    import_info = external_draft_info.get("import_info")
 
-    if external_draft_info:
-        if not importer_name:
-            raise HTTPBadRequest("should import from external system but importer name is missing")
+    if external_draft_info and "importer" in external_draft_info:
+        importer_name = external_draft_info.get("importer")
+        import_info = external_draft_info.get("import_info")
 
         if not import_info:
             raise HTTPBadRequest("should import from external system but import info is missing")
@@ -454,7 +452,7 @@ def submit_draft(self: Proposition, request):
 
         form_data = import_handler(importer_config, import_info)
     else:
-        form_data = {}
+        form_data = {"all_matched": True}
 
     form = PropositionSubmitDraftForm(request, request.link(self, 'submit_draft_post'))
     return PropositionSubmitDraftCell(self, request, form, form_data).show()

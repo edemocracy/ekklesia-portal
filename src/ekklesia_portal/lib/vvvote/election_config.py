@@ -1,4 +1,3 @@
-import datetime
 from uuid import uuid4
 
 import ekklesia_portal.lib.vvvote.schema as vvvote_schema
@@ -15,7 +14,7 @@ def ballot_to_vvvote_question(ballot, question_id=1):
     voting_scheme = [voting_scheme_yes_no, voting_scheme_score]
 
     for option_id, proposition in enumerate(ballot.propositions, start=1):
-        proponents = [s.name for s in proposition.supporters]
+        proponents = [s.member.name for s in proposition.propositions_member if s.submitter]
         option = vvvote_schema.Option(
             optionID=option_id,
             proponents=proponents,

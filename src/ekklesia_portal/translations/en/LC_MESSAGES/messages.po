@@ -1340,6 +1340,10 @@ msgstr ""
 msgid "register_now_with_voting_module"
 msgstr "Register now at %(title)s"
 
+#: rc/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:61
+msgid "voting_info_text"
+msgstr "The voting runs until %(end)s. Use the document created during the registration to vote."
+
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:29
 msgid "voting_links_help_text"
 msgstr "Cast your vote until %(end)s."
@@ -1347,6 +1351,14 @@ msgstr "Cast your vote until %(end)s."
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:31
 msgid "vote_now_with_voting_module"
 msgstr "Vote now at %(title)s"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:71
+msgid "result_links_help_text"
+msgstr "The voting has finished. The results can be viewed."
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:77
+msgid "show_results_with_voting_module"
+msgstr "View results at %(title)s"
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:45
 msgid "registration_from"

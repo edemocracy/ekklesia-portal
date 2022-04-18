@@ -160,7 +160,7 @@ def create_voting(self, request):
 
     with start_action(action_type="create_election_in_vvvote", election_config=election_config) as action:
         config_url = create_election_in_vvvote(module_config, election_config)
-        self.voting_module_data[voting_module_name] = {"config_url": config_url}
+        self.voting_module_data[voting_module_name] = {"config_url": config_url, "results_url": config_url + "&showresult"}
         action.add_success_fields(config_url=config_url)
 
     _ = request.i18n.gettext

@@ -53,16 +53,10 @@ class VotingPhaseCell(LayoutCell):
         return self.link(self._model.department)
 
     def show_voting_details(self):
-        if not self.options.get("show_voting_details"):
-            return
+        if self.options.get("show_voting_details"):
+            return True
 
-        if self._model.status not in (VotingStatus.PREPARING, VotingStatus.VOTING):
-            return
-
-        if self.voting_end is None:
-            return
-
-        return datetime.now() < self.voting_end
+        return False
 
     def show_registration_period(self):
         if self.registration_end is None:
@@ -116,7 +110,26 @@ class VotingPhaseCell(LayoutCell):
         else:
             return True
 
-    def show_voting(self):
+    def show_voting_without_url(self):
+        """Determines whether to show a voting info text without a link
+        to the voting provider. This is used for voting phases that
+        have a registration period.
+        """
+        if not self.can_participate_in_voting:
+            return
+
+        if not self.votings:
+            return
+
+        if self.registration_start is None:
+            return
+
+        if self.voting_start is None:
+            return
+
+        return self.voting_start < datetime.now() < self.voting_end
+
+    def show_voting_with_url(self):
         """Determines if voting info should be shown.
         This only applies to voting phases that don't have a registration period.
         (registration_start_days is not set).
@@ -134,6 +147,18 @@ class VotingPhaseCell(LayoutCell):
             return
 
         return self.voting_start < datetime.now() < self.voting_end
+
+    def show_result_link(self):
+        """
+        Determines if the voting result should be shown.
+        """
+        if not self.votings:
+            return
+
+        if self.voting_end is None:
+            return
+
+        return self.voting_end < datetime.now()
 
     def proposition_count(self):
         return len([p for b in self._model.ballots for p in b.propositions])
@@ -154,6 +179,15 @@ class VotingPhaseCell(LayoutCell):
 
         return votings
 
+    def voting_results(self):
+        votings = []
+        for name, settings in self._model.department.voting_module_settings.items():
+            voting_module_data = self._model.voting_module_data.get(name)
+            if voting_module_data and (voting_url := voting_module_data.get('results_url')):
+                title = settings.get('title', name)
+                votings.append((title, voting_url))
+
+        return votings
 
 @App.cell(VotingPhases, 'new')
 class NewVotingPhaseCell(NewFormCell):
