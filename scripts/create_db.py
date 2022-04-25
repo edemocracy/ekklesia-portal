@@ -19,6 +19,7 @@ parser.add_argument(
     help=f"Optional path to config file in YAML / JSON format. Uses default test configuration when not set."
 )
 parser.add_argument("--doit", action="store_true", default=False)
+parser.add_argument("--lang", default="de", help="The language to create the customizable texts for")
 
 if __name__ == "__main__":
 
@@ -51,18 +52,16 @@ if __name__ == "__main__":
 
     s = Session()
 
-    s.add(CustomizableText(lang='de', name='push_draft_external_template', text='TODO: External draft template here'))
-    s.add(CustomizableText(lang='de', name='push_draft_portal_template', text='TODO: Portal draft template here'))
+    s.add(CustomizableText(lang=args.lang, name='push_draft_external_template', text='TODO: External draft template here'))
+    s.add(CustomizableText(lang=args.lang, name='push_draft_portal_template', text='TODO: Portal draft template here'))
     s.add(
         CustomizableText(
-            lang='de', name='document_propose_change_explanation', text='TODO: Propose change to document explanation here'
+            lang=args.lang, name='document_propose_change_explanation', text='TODO: Propose change to document explanation here'
         )
     )
-    s.add(CustomizableText(lang='de', name='new_draft_explanation', text='TODO: New draft explanation here'))
-    s.add(CustomizableText(lang='de', name='ekklesia_login_explanation', text='TODO: Login explanation here'))
-    s.add(CustomizableText(lang='de', name='button_goto_associated', text='TODO: Goto associated'))
-    s.add(CustomizableText(lang='de', name='tab_associated', text='TODO: Associated tab'))
-    s.add(CustomizableText(lang='de', name='button_add_counter_proposition', text='TODO: Add counter prop button'))
+    s.add(CustomizableText(lang=args.lang, name='new_draft_explanation', text='TODO: New draft explanation here'))
+    s.add(CustomizableText(lang=args.lang, name='submit_draft_explanation', text='TODO: Submit draft explanation here'))
+    s.add(CustomizableText(lang=args.lang, name='ekklesia_login_explanation', text='TODO: Login explanation here'))
 
     admin_group = Group(name="Admins", is_admin_group=True)
     s.add(admin_group)
