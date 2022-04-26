@@ -42,6 +42,7 @@ let
 
   runPython = pkgs.writeShellScriptBin "python" ''
     ${exportConfigEnvVar}
+    ${lib.optionalString (tmpdir != null) "export TMPDIR=${tmpdir}"}
     cd ${src}
     ${dependencyEnv}/bin/python "$@"
   '';
