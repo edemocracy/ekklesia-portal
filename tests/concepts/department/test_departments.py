@@ -37,10 +37,6 @@ def test_department_view_not_logged_in(client):
 
 def test_department_view_logged_in(client, logged_in_user_with_departments):
     res = client.get('/d')
-    if logged_in_user_with_departments.departments:
-        assert 'My departments' in res
-        for department in logged_in_user_with_departments.departments:
-            assert department.name in res
-
-
-
+    assert 'My departments' in res
+    for department in logged_in_user_with_departments.departments:
+        assert department.name in res
