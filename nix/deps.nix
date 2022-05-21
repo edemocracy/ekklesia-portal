@@ -13,7 +13,7 @@ let
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
   poetry2nix = pkgs.callPackage sources_.poetry2nix {};
-  python = pkgs.python39;
+  python = pkgs.python310;
 
   poetryWrapper = with python.pkgs; pkgs.writeScriptBin "poetry" ''
     export PYTHONPATH=
@@ -22,14 +22,22 @@ let
   '';
 
   overrides = poetry2nix.overrides.withDefaults (
-    self: super: {
+    self: super:
+    let
+      pythonBuildDepNameValuePair = deps: pname: {
+        name = pname;
+        value = super.${pname}.overridePythonAttrs (old: {
+          buildInputs = old.buildInputs ++ deps;
+        });
+      };
 
-      munch = super.munch.overridePythonAttrs (
-        old: {
-          buildInputs = old.buildInputs ++ [ self.pbr ];
-        }
-      );
-
+      addPythonBuildDeps = deps: pnames:
+        lib.listToAttrs
+          (map
+            (pythonBuildDepNameValuePair deps)
+            pnames);
+    in
+    {
       macfsevents = super.macfsevents.overridePythonAttrs (
         old: {
           buildInputs =
@@ -38,24 +46,31 @@ let
         }
       );
 
-      ekklesia-common = super.ekklesia-common.overridePythonAttrs (
+      pypugjs = super.pypugjs.overridePythonAttrs (
         old: {
+          format = "setuptools";
           buildInputs = old.buildInputs ++ [ self.poetry ];
         }
       );
 
-      iso8601 = super.iso8601.overridePythonAttrs (
-        old: {
-          buildInputs = old.buildInputs ++ [ self.poetry ];
-        }
-      );
-
-      mimesis-factory = super.mimesis-factory.overridePythonAttrs (
-        old: {
-          buildInputs = old.buildInputs ++ [ self.poetry ];
-        }
-      );
-  });
+  }
+  //
+    (addPythonBuildDeps
+      [ self.flit-core ]
+      [ "pyparsing" "markdown-it-py" ])
+  //
+    (addPythonBuildDeps
+      [ self.poetry ]
+      [ "ekklesia-common" "iso8601" "mimesis-factory" ])
+  //
+    (addPythonBuildDeps
+      [ self.pbr ]
+      [ "munch" ])
+  //
+    (addPythonBuildDeps
+      [ self.hatchling ]
+      [ "soupsieve" ])
+  );
 
 in rec {
   inherit pkgs bootstrap javascriptDeps python;

@@ -21,7 +21,7 @@ dataclasses-json = "^0.4.3"
 passlib = "^1.7.2"
 psycopg2 = "^2.8.5"
 sqlalchemy-searchable = "^1.1.0"
-ekklesia-common = {git = "https://github.com/edemocracy/ekklesia-common", rev = "master"}
+ekklesia-common = { git = "https://github.com/edemocracy/ekklesia-common", rev = "master" }
 base32-crockford = "^0.3.0"
 babel = "^2.9.0"
 deform = "^2.0.15"
@@ -32,7 +32,6 @@ Jinja2 = "<3.1"
 
 [tool.poetry.dev-dependencies]
 colorama = "^0.4.3"
-coverage = {extras = ["toml"], version = "^5.2.1"}
 mimesis-factory = "^1.1.0"
 pytest = "^6.0.1"
 pytest-cov = "^2.8.1"
@@ -44,7 +43,7 @@ pytest-pspec = "^0.0.4"
 responses = "^0.10.14"
 typing-extensions = "^3.7.4"
 webtest = "^3.0.0"
-doit = {git = "https://github.com/dpausp/doit", rev = "multiprocess"}
+doit = { git = "https://github.com/dpausp/doit", rev = "multiprocess" }
 multiprocess = "^0.70.12"
 
 
@@ -75,7 +74,7 @@ omit = [
 good-names = "q, s, f, wf, m, k, v, id"
 
 [tool.pylint.imports] # Taken care of by isort, mostly included for error messages
-known-third-party="ekklesia_common"
+known-third-party = "ekklesia_common"
 
 
 [tool.pylint.master]
@@ -83,8 +82,8 @@ disable = "C0114, C0115, C0116, R0903"
 
 
 [tool.pylint.format]
-max-line-length="120"
-ignore-long-lines="^\\s*(# )?<?https?://\\S+>?$"
+max-line-length = "120"
+ignore-long-lines = "^\\s*(# )?<?https?://\\S+>?$"
 
 
 [tool.pytest.ini_options]
@@ -96,12 +95,12 @@ addopts = """\
   --strict-markers \
 """
 filterwarnings = [
-  "ignore::DeprecationWarning"
+    "ignore::DeprecationWarning"
 ]
 norecursedirs = "tests/helpers"
 testpaths = "tests"
 markers = [
-  "integration: An Integration test which is allowed to modify the test database."
+    "integration: An Integration test which is allowed to modify the test database."
 ]
 
 
