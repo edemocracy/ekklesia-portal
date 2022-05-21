@@ -179,7 +179,7 @@ class Propositions:
             query.append("subject_area:" + self.maybe_add_quotes(self.subject_area))
         if self.section:
             query.append("section:" + self.maybe_add_quotes(self.section))
-        if self.visibility and self.is_admin:
+        if self.visibility:
             query.append("visibility:" + self.maybe_add_quotes(self.visibility))
 
         return " ".join(query)
