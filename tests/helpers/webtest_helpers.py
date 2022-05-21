@@ -2,16 +2,17 @@ from enum import Enum
 
 
 def python_to_deform_value(py_value):
-    if py_value is True:
-        return 'true'
-    elif py_value is False:
-        return None
-    elif py_value is None:
-        return ''
-    elif isinstance(py_value, Enum):
-        return py_value.name
-    else:
-        return str(py_value)
+    match py_value:
+        case True:
+            return 'true'
+        case False:
+            return None
+        case None:
+            return ''
+        case Enum() as enum:
+            return enum.name
+        case other:
+            return str(other)
 
 
 def assert_deform(response, expected_form_data={}):

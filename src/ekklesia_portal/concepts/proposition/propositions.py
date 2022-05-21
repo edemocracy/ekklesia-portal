@@ -137,24 +137,25 @@ class Propositions:
         self.search = " ".join(search)
 
     def parse_search_filter(self, key, value):
-        if key == "status":
-            self.status = value
-        elif key == "tags":
-            self.tags = value
-        elif key == "without_tags":
-            self.without_tags = value
-        elif key == "phase":
-            self.phase = value
-        elif key == "type":
-            self.type = value
-        elif key == "department":
-            self.department = value
-        elif key == "subject_area":
-            self.subject_area = value
-        elif key == "section":
-            self.section = value
-        elif key == "visibility":
-            self.visibility = value
+        match key:
+            case "status":
+                self.status = value
+            case "tags":
+                self.tags = value
+            case "without_tags":
+                self.without_tags = value
+            case "phase":
+                self.phase = value
+            case "type":
+                self.type = value
+            case "department":
+                self.department = value
+            case "subject_area":
+                self.subject_area = value
+            case "section":
+                self.section = value
+            case "visibility":
+                self.visibility = value
 
     def build_search_query(self):
         query = []
