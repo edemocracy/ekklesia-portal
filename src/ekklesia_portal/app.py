@@ -14,7 +14,7 @@ from ekklesia_common.lid import LID
 from eliot import log_call, start_action, log_message
 
 import ekklesia_portal
-from ekklesia_portal.datamodel import Department, User, UserProfile
+from ekklesia_portal.datamodel import Department, Group, User, UserProfile
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 logg = logging.getLogger(__name__)
@@ -146,6 +146,9 @@ def create_or_update_user(request, ekklesia_auth: EkklesiaAuth) -> None:
 
     departments = request.q(Department).filter(Department.name.in_(userinfo.roles)).all()
     user.departments = departments
+
+    groups = request.q(Group).filter(Group.name.in_(userinfo.roles)).all()
+    user.groups = groups
 
     request.db_session.flush()
 
