@@ -31,22 +31,24 @@ class App(BaseApp):
 @BaseApp.setting_section(section="app")
 def app_setting_section():
     return {
-        "title": "Ekklesia Portal Dev",
-        "insecure_development_mode": False,
-        "internal_login_enabled": True,
         "custom_footer_url": None,
-        "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
-        "tos_url": None,
         "data_protection_url": None,
-        "faq_url": None,
-        "imprint_url": None,
-        "report_url": None,
-        "login_visible": False,
-        "languages": ["de", "en"],
-        "fallback_language": "de",
         "default_proposition_query": {
             "status": "draft,submitted,qualified,scheduled,voting"
-        }
+        },
+        "enable_change_propositions": True,
+        "enable_counter_propositions": True,
+        "fallback_language": "de",
+        "faq_url": None,
+        "imprint_url": None,
+        "insecure_development_mode": False,
+        "internal_login_enabled": True,
+        "languages": ["de", "en"],
+        "login_visible": False,
+        "report_url": None,
+        "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
+        "title": "Ekklesia Portal Dev",
+        "tos_url": None,
     }
 
 
