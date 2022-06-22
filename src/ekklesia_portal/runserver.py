@@ -7,6 +7,7 @@ import sys
 import tempfile
 
 import werkzeug.serving
+from eliot import log_message
 from werkzeug.middleware.shared_data import SharedDataMiddleware
 
 tmpdir = tempfile.gettempdir()
@@ -110,6 +111,8 @@ def run():
     extra_reload_files = glob.glob('src/ekklesia_portal/translations/**/*.mo', recursive=True)
     if args.config_file is not None:
         extra_reload_files.append(args.config_file)
+
+    log_message("werkzeug-reload-extra", extra_reload_files=extra_reload_files)
 
     werkzeug.serving.run_simple(
         args.bind,
