@@ -436,10 +436,27 @@ ul.proposition_filter
 hr.argument_separator
   border-top: 2px solid $light
 
-span.tag_text
-  @extend .badge
-  @extend .badge-secondary
-  margin-left: 0.5rem
+.proposition_badges
+  ul
+    @extend .list-inline
+
+  li
+    @extend .list-inline-item
+
+  .badge
+    padding: 0.4em 0.6em
+
+  .department
+    @extend .badge-primary
+    @extend .badge
+
+  .area
+    @extend .badge-secondary
+    @extend .badge
+
+  .tag
+    @extend .badge-light
+    @extend .badge
 
 .top_navbar
   @extend .navbar

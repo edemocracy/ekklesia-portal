@@ -306,7 +306,7 @@ class Ballot(Base):  # conflicting qualified propositions
     proposition_type: PropositionType = relationship("PropositionType", back_populates="ballots")
 
     area_id: int = C(Integer, ForeignKey('subjectareas.id'))
-    area = relationship("SubjectArea", back_populates="ballots")  # contains department
+    area: SubjectArea = relationship("SubjectArea", back_populates="ballots")  # contains department
 
     # optional, if assigned, set proposition to planned
     voting_id: int = C(Integer, ForeignKey('votingphases.id'))

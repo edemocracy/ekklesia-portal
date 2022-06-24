@@ -11,6 +11,7 @@ from pytest import fixture
 from assert_helpers import assert_difference, assert_no_difference
 from ekklesia_portal.datamodel import Changeset, Proposition, SecretVoter, Supporter, Tag
 from webtest_helpers import assert_deform
+from bs4 import BeautifulSoup
 
 
 def test_index(client):
@@ -121,14 +122,26 @@ def test_index_export_csv_as_global_admin(client, logged_in_global_admin):
     assert "\"PP002\";\"egon\";" in res
 
 
-def assert_proposition_in_html(proposition, html):
-    proposition_link = html.find(class_="proposition_title").find("a")
+def assert_proposition_in_html(proposition: Proposition, html: BeautifulSoup):
+    proposition_el = html.find(id=f"proposition_{proposition.id}")
+    proposition_link = proposition_el.find(class_="proposition_title").find("a")
     assert proposition_link.text == proposition.title
     assert str(proposition.id) in proposition_link["href"]
     proposition_details_text = html.find(class_="proposition_details").text
     assert proposition.content in proposition_details_text
     assert "Motivation" in proposition_details_text
     assert proposition.motivation in proposition_details_text
+
+    badges = proposition_el.find(class_="proposition_badges")
+    assert badges, "badges not found"
+    department_badge = badges.find(class_="department")
+    assert department_badge, "department link not found"
+    assert department_badge.text == proposition.ballot.area.department.name, "department name doesn't match"
+    area_badge = badges.find(class_="area")
+    assert area_badge, "area link not found"
+    assert area_badge.text == proposition.ballot.area.name, "area name doesn't match"
+    tag_badges = badges.find_all(class_="tag")
+    assert {t.name for t in proposition.tags} == {b.text for b in tag_badges}, "tag names don't match"
 
 
 def test_show(client, proposition):
