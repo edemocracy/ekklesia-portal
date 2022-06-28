@@ -1,0 +1,25 @@
+ul
+  li
+    a.department(
+      href = propositions_badge_url(department_name)
+      title = _("department")
+    )= department_name
+
+  li
+    a.area(
+      href = propositions_badge_url(department_name, subject_area_name)
+      title = _("subject_area")
+    )= subject_area_name
+
+  for tag in tags
+    li
+      a.tag(
+        href = propositions_badge_url(
+          department_name, subject_area_name, tag.name
+        )
+        title = _("tag")
+      )= tag.name
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

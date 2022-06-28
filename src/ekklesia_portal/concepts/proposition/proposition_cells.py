@@ -58,7 +58,7 @@ class PropositionCell(LayoutCell):
     secret_voting = Cell.template_fragment('proposition_secret_voting')
     support = Cell.template_fragment('proposition_support')
     toolbar = Cell.fragment('proposition_toolbar')
-    tag_list = Cell.fragment('proposition_tag_list')
+    badges = Cell.fragment('proposition_badges')
     small = Cell.fragment('proposition_small')
     card = Cell.fragment('proposition_card')
 
@@ -102,6 +102,12 @@ class PropositionCell(LayoutCell):
             return ""
         template = f"proposition/detail_top/proposition_detail_top_{variant}.j2.jade"
         return self.render_template(template)
+
+    def department_name(self):
+        return self._model.ballot.area.department.name
+
+    def subject_area_name(self):
+        return self._model.ballot.area.name
 
     def associated_url(self):
         return self.link(self._model, 'associated')
@@ -161,8 +167,16 @@ class PropositionCell(LayoutCell):
     def discussion_url(self):
         return self.link(self._model)
 
-    def propositions_tag_url(self, tag):
-        return self.class_link(Propositions, dict(tags=tag.name))
+    def propositions_badge_url(self, department_name, subject_area_name=None, tag_name=None):
+        params = {"department": department_name}
+
+        if subject_area_name:
+            params["subject_area"] = subject_area_name
+
+        if tag_name:
+            params["tags"] = tag_name
+
+        return self.class_link(Propositions, params)
 
     def current_user_is_supporter(self):
         if self.current_user is None:
