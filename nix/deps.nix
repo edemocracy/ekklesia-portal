@@ -61,7 +61,7 @@ let
   //
     (addPythonBuildDeps
       [ self.poetry ]
-      [ "ekklesia-common" "iso8601" "mimesis-factory" ])
+      [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ])
   //
     (addPythonBuildDeps
       [ self.pbr ]
