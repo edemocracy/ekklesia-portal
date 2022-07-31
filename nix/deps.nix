@@ -15,12 +15,6 @@ let
   poetry2nix = pkgs.callPackage sources_.poetry2nix {};
   python = pkgs.python310;
 
-  poetryWrapper = with python.pkgs; pkgs.writeScriptBin "poetry" ''
-    export PYTHONPATH=
-    unset SOURCE_DATE_EPOCH
-    ${poetry}/bin/poetry "$@"
-  '';
-
   overrides = poetry2nix.overrides.withDefaults (
     self: super:
     let
@@ -52,30 +46,20 @@ let
           buildInputs = old.buildInputs ++ [ self.poetry ];
         }
       );
-
-  }
-  //
+    } //
     (addPythonBuildDeps
       [ self.flit-core ]
-      [ "pyparsing" "markdown-it-py" ])
-  //
+      [ "pyparsing" "markdown-it-py" ]) //
     (addPythonBuildDeps
       [ self.poetry ]
-      [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ])
-  //
+      [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ]) //
     (addPythonBuildDeps
       [ self.pbr ]
-      [ "munch" ])
-  //
+      [ "munch" ]) //
     (addPythonBuildDeps
       [ self.hatchling ]
       [ "soupsieve" ])
   );
-
-in rec {
-  inherit pkgs bootstrap javascriptDeps python;
-  inherit (pkgs) lib sassc glibcLocales;
-  inherit (python.pkgs) buildPythonApplication gunicorn;
 
   mkPoetryApplication = { ... }@args:
     poetry2nix.mkPoetryApplication (args // {
@@ -86,14 +70,24 @@ in rec {
     projectDir = ../.;
     inherit python;
     inherit overrides;
-  }) poetryPackages pyProject;
+  }) poetry poetryPackages pyProject;
 
   poetryPackagesByName =
     lib.listToAttrs
       (map
-        (p: { name = p.pname; value = p; })
+        (p: { name = p.pname or "none"; value = p; })
         poetryPackages);
 
+  poetryWrapper = pkgs.writeScriptBin "poetry" ''
+    export PYTHONPATH=
+    unset SOURCE_DATE_EPOCH
+    ${poetry}/bin/poetry "$@"
+  '';
+
+in rec {
+  inherit bootstrap javascriptDeps mkPoetryApplication pkgs poetryPackagesByName python;
+  inherit (pkgs) lib sassc glibcLocales;
+  inherit (python.pkgs) gunicorn;
   inherit (poetryPackagesByName) alembic deform ekklesia-common babel;
 
   # Can be imported in Python code or run directly as debug tools
@@ -153,7 +147,7 @@ in rec {
     pkgs.zsh
     poetryPackagesByName.eliot-tree
     poetryPackagesByName.pdbpp
-    poetryWrapper
+    poetry
     python.pkgs.gunicorn
   ];
 
