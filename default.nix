@@ -4,19 +4,15 @@
 { sources ? null, system ? builtins.currentSystem }:
 let
   deps = import ./nix/deps.nix { inherit sources system; };
-  inherit (deps) babel pkgs mkPoetryApplication python pyProject;
+  inherit (deps) babel mkPoetryApplication python pyProject;
   inherit (deps.pyProject) version;
-  src = pkgs.nix-gitignore.gitignoreSource
-    [ "cookiecutter" ]
-    ./.;
 
 in mkPoetryApplication {
-  doCheck = false;
   projectDir = ./.;
-  inherit python src version;
+  inherit python version;
 
   passthru = {
-    inherit deps src version;
+    inherit deps version;
   };
 
   postInstall = ''
