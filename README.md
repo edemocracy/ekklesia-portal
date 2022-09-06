@@ -85,8 +85,6 @@ or the first step will take a long time to complete.
    python src/ekklesia_portal/runserver.py --debug -c config.yml 2>&1 | eliot-tree -l0
    ```
 
-6. You can run `doit auto` to automatically compile translations and CSS when the input files change.
-
 ## Running In Production
 
 A production environment can be built by Nix. The generated output

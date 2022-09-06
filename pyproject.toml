@@ -44,7 +44,7 @@ pytest-pspec = "^0.0.4"
 responses = "^0.10.14"
 typing-extensions = "^3.7.4"
 webtest = "^3.0.0"
-doit = { git = "https://github.com/dpausp/doit", rev = "multiprocess" }
+doit = "^0.36.0"
 multiprocess = "^0.70.12"
 
 

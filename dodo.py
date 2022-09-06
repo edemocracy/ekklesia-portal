@@ -7,8 +7,6 @@ Just run the `doit` command to compile translation files and CSS. This is the sa
 
 doit babel_compile css_compile
 
-`doit auto` watches the input files and recompiles the targets when the inputs change.
-
 doit shows a dot before tasks that were executed and two dashes (--) if nothing changed.
 """
 from pathlib import Path
