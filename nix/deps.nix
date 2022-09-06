@@ -43,7 +43,7 @@ let
       pypugjs = super.pypugjs.overridePythonAttrs (
         old: {
           format = "setuptools";
-          buildInputs = old.buildInputs ++ [ self.poetry ];
+          buildInputs = old.buildInputs ++ [ poetry ];
         }
       );
     } //
@@ -51,7 +51,7 @@ let
       [ self.flit-core ]
       [ "pyparsing" "markdown-it-py" ]) //
     (addPythonBuildDeps
-      [ self.poetry ]
+      [ poetry ]
       [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ]) //
     (addPythonBuildDeps
       [ self.pbr ]
