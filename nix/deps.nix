@@ -78,12 +78,6 @@ let
         (p: { name = p.pname or "none"; value = p; })
         poetryPackages);
 
-  poetryWrapper = pkgs.writeScriptBin "poetry" ''
-    export PYTHONPATH=
-    unset SOURCE_DATE_EPOCH
-    ${poetry}/bin/poetry "$@"
-  '';
-
 in rec {
   inherit bootstrap javascriptDeps mkPoetryApplication pkgs poetryPackagesByName python;
   inherit (pkgs) lib sassc glibcLocales;
