@@ -3,8 +3,16 @@ with builtins;
 
 let
   sources_ = if (sources == null) then import ./sources.nix else sources;
-  pkgs = import sources_.nixpkgs { inherit system; };
-  inherit (pkgs) stdenv lib;
+  poetry2nixSrc = "${sources_.poetry2nix}";
+  # Taken from overlay.nix from poetry2nix, adapted for python310
+  pkgs = import sources_.nixpkgs {
+    overlays = [(final: prev: {
+      poetry2nix = import poetry2nixSrc { pkgs = final; poetry = final.poetry; };
+      poetry = prev.callPackage "${poetry2nixSrc}/pkgs/poetry" { python = final.python310; };
+    })];
+  };
+
+  inherit (pkgs) poetry poetry2nix stdenv lib;
   niv = (import sources_.niv { }).niv;
   # Ekklesia-common is pulled in by poetry as Python dependency.
   # We don't use any Nix code from the project right now, so we don't have to import it here.
@@ -12,7 +20,6 @@ let
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
-  poetry2nix = pkgs.callPackage sources_.poetry2nix {};
   python = pkgs.python310;
 
   overrides = poetry2nix.overrides.withDefaults (
@@ -51,7 +58,7 @@ let
       [ self.flit-core ]
       [ "pyparsing" "markdown-it-py" ]) //
     (addPythonBuildDeps
-      [ poetry ]
+      [ self.poetry ]
       [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ]) //
     (addPythonBuildDeps
       [ self.pbr ]
@@ -70,7 +77,7 @@ let
     projectDir = ../.;
     inherit python;
     inherit overrides;
-  }) poetry poetryPackages pyProject;
+  }) poetryPackages pyProject;
 
   poetryPackagesByName =
     lib.listToAttrs
