@@ -2,7 +2,7 @@
 name = "ekklesia-portal"
 version = "22.05.0"
 description = "Motion portal for the Ekklesia e-democracy platform"
-readme = "README.rst"
+readme = "README.md"
 keywords = ["ekklesia", "edemocracy", "argument mapping", "evoting", "participation"]
 license = "AGPL-3.0-or-later"
 authors = ["Tobias dpausp <dpausp@posteo.de>"]
