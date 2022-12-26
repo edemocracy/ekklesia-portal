@@ -59,7 +59,14 @@ class LayoutCell(Cell):
         return self.link(AdminArea())
 
     def show_admin_area(self):
-        return self.current_user and self._request.identity.has_global_admin_permissions
+        if self.current_user is None:
+            return False
+
+        if self._request.identity.has_global_admin_permissions:
+            return True
+
+        if self.current_user.managed_departments:
+            return True
 
     def show_login_button(self):
         return self._s.app.login_visible

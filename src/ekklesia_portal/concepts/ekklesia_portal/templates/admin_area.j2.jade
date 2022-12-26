@@ -3,12 +3,95 @@
 - block content
 
       h2 Admin
+
+      if is_global_admin
+        p
+          strong Du bist globaler Admin
+
       .row
         .col-sm-6
           .card
             .card-body
+              h2.card-title
+                a(href="#") Wartende Anträge
+                |&nbsp;
+                span.badge.badge-primary= queued_propositions|length
+
               .card-text
-                = render_cell(admin_box)
+                for proposition in queued_propositions[:3]
+                  .card
+                    .card-body
+                      h5.card-title
+                        p= proposition.title
+                        small Von:
+                          = proposition.author
+                      .card-text
+                        .message_actions
+                          .btn.btn-secondary.btn-sm Veröffentlichen
+                          .btn.btn-danger.btn-sm Löschen
+                          .btn.btn-danger.btn-sm Ignorieren
+                        hr
+                        p= proposition.content
+
+              a(href="#")
+                small Es werden nur 3 von 9 Anträgen angezeigt, alle anzeigen...
+
+
+        .col-sm-6
+          .card
+            .card-body
+              h2.card-title
+                a(href="#") Nachrichten
+                |&nbsp;
+                span.badge.badge-primary= queued_messages|length
+              .card-text
+                for message in queued_messages[:3]
+                  .card
+                    .card-body
+                      h5.card-title
+                        p= message.subject
+                        small Von: {{ message.author }}
+                      .card-text
+                        .message_actions
+                          .btn.btn-secondary.btn-sm Antworten
+                          .btn.btn-secondary.btn-sm Als Abgeschlossen markieren
+                          .btn.btn-danger.btn-sm Ignorieren
+                        hr
+                        p= message.body
+
+              a(href="#")
+                small Es werden nur 3 von 8 Nachrichten angezeigt, alle anzeigen...
+
+      hr
+      
+      .row
+        .col-sm-6
+          .card
+            .card-body
+              h2.card-title
+                a(href="#") Meine Gliederungen
+                |&nbsp;
+                span.badge.badge-primary= managed_departments|length
+              .card-text
+                for department in managed_departments[:3]
+                  .card
+                    .card-body
+                      h5.card-title= department.name
+                      .card-text
+                        .message_actions
+                          .btn.btn-secondary.btn-sm Neuer Antrag
+                          .btn.btn-secondary.btn-sm Neue Abstimmungsphase
+                          .btn.btn-secondary.btn-sm Alle Anträge
+
+        if is_global_admin
+          .col-sm-6
+            .card
+              .card-body
+                h2.card-title Admin-Aktionen
+                .card-text
+                  = render_cell(admin_box)
+
+
 
 
 // generated from jade
