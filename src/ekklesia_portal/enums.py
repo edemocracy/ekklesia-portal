@@ -1,14 +1,14 @@
 """A place for public enums"""
 
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class ArgumentType(Enum):
+class ArgumentType(StrEnum):
     PRO = 'pro'
     CONTRA = 'contra'
 
 
-class EkklesiaUserType(str, Enum):
+class EkklesiaUserType(StrEnum):
     PLAIN_MEMBER = 'plain member'
     ELIGIBLE_MEMBER = 'eligible member'
     SYSTEM_USER = 'system user'
@@ -16,12 +16,12 @@ class EkklesiaUserType(str, Enum):
     GUEST = 'guest'
 
 
-class Majority(str, Enum):
+class Majority(StrEnum):
     SIMPLE = '1/2'
     TWO_THIRDS = '2/3'
 
 
-class PropositionStatus(str, Enum):
+class PropositionStatus(StrEnum):
     DRAFT = 'draft'
     SUBMITTED = 'submitted'
     CHANGING = 'changing'
@@ -32,54 +32,54 @@ class PropositionStatus(str, Enum):
     FINISHED = 'finished'
 
 
-class PropositionRelationType(str, Enum):
+class PropositionRelationType(StrEnum):
     REPLACES = 'replaces'
     MODIFIES = 'modifies'
 
 
-class PropositionVisibility(str, Enum):
+class PropositionVisibility(StrEnum):
     PUBLIC = 'public'
     UNLISTED = 'unlisted'
     HIDDEN = 'hidden'
 
 
-class SecretVoterStatus(str, Enum):
+class SecretVoterStatus(StrEnum):
     ACTIVE = 'active'
     EXPIRED = 'expired'
     RETRACTED = 'retracted'
 
 
-class SupporterStatus(str, Enum):
+class SupporterStatus(StrEnum):
     ACTIVE = 'active'
     EXPIRED = 'expired'
     RETRACTED = 'retracted'
 
 
-class VotingType(str, Enum):
+class VotingType(StrEnum):
     ONLINE = 'online'
     ASSEMBLY = 'assembly'
     BOARD = 'board'
     URN = 'urn'
 
 
-class VotingStatus(str, Enum):
+class VotingStatus(StrEnum):
     PREPARING = 'preparing'  # voting has not been started yet
     VOTING = 'voting'  # ballots have been transferred to a voting module and voting is open
     FINISHED = 'finished'  # voting is closed, results have been fetched
     ABORTED = 'aborted'  # voting stopped by administration
 
 
-class OpenSlidesVotingResult(str, Enum):
+class OpenSlidesVotingResult(StrEnum):
     ACCEPTED = 'accepted'
     REJECTED = 'rejected'
     NOT_DECIDED = 'not decided'
 
 
-class VotingSystem(str, Enum):
+class VotingSystem(StrEnum):
     RANGE_APPROVAL = 'range_approval'
 
 
-class VoteByUser(str, Enum):
+class VoteByUser(StrEnum):
     UNSURE = 'unsure'
     ACCEPT = 'accept'
     DECLINE = 'decline'

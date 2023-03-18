@@ -8,7 +8,7 @@ let
   pkgs = import sources_.nixpkgs {
     overlays = [(final: prev: {
       poetry2nix = import poetry2nixSrc { pkgs = final; poetry = final.poetry; };
-      poetry = prev.callPackage "${poetry2nixSrc}/pkgs/poetry" { python = final.python310; };
+      poetry = prev.callPackage "${poetry2nixSrc}/pkgs/poetry" { python = final.python311; };
     })];
   };
 
@@ -20,7 +20,7 @@ let
   bootstrap = import ./bootstrap.nix { };
   javascriptDeps = import ./javascript_deps.nix { };
   font-awesome = import ./font-awesome.nix { };
-  python = pkgs.python310;
+  python = pkgs.python311;
 
   overrides = poetry2nix.overrides.withDefaults (
     self: super:
@@ -54,12 +54,32 @@ let
         }
       );
     } //
+    (addPythonBuildDeps [ self.setuptools-scm self.setuptools ] [
+      "pdbpp"
+      "better-exceptions"
+      "case-conversion"
+      "fancycompleter"
+      "mimesis"
+      "py-gfm"
+      "pytest-pspec"
+      "sqlalchemy-searchable"
+    ]) //
+    (addPythonBuildDeps
+      [ self.setuptools ]
+      [ "base32-crockford" ]
+    ) //
     (addPythonBuildDeps
       [ self.flit-core ]
       [ "pyparsing" "markdown-it-py" ]) //
     (addPythonBuildDeps
-      [ self.poetry ]
-      [ "ekklesia-common" "iso8601" "mimesis-factory" "pytest-factoryboy" ]) //
+      [ self.poetry ] [
+      "ekklesia-common"
+      "iso8601"
+      "mimesis-factory"
+      "more-browser-session"
+      "more-babel-i18n"
+      "pytest-factoryboy"
+     ]) //
     (addPythonBuildDeps
       [ self.pbr ]
       [ "munch" ]) //
@@ -88,13 +108,12 @@ let
 in rec {
   inherit bootstrap javascriptDeps mkPoetryApplication pkgs poetryPackagesByName python;
   inherit (pkgs) lib sassc glibcLocales;
-  inherit (python.pkgs) gunicorn;
-  inherit (poetryPackagesByName) alembic deform ekklesia-common babel;
+  inherit (poetryPackagesByName) alembic deform ekklesia-common babel gunicorn ipython;
 
   # Can be imported in Python code or run directly as debug tools
   debugLibsAndTools = with python.pkgs; [
-    ipython
     poetryPackagesByName.pdbpp
+    poetryPackagesByName.ipython
   ];
 
   pythonDevTest = python.buildEnv.override {
@@ -126,9 +145,9 @@ in rec {
 
   in [
     bandit
-    isortWrapper
+    #isortWrapper
     mypy
-    pylintWrapper
+    #pylintWrapper
     yapf
   ];
 
@@ -136,7 +155,7 @@ in rec {
   shellTools = let
     ekklesiaPortalConsole = pkgs.writeScriptBin "ekklesia-portal-console" ''
       export PYTHONPATH=$PYTHONPATH:${pythonDev}/${pythonDev.sitePackages}
-      ${python.pkgs.ipython}/bin/ipython -i consoleenv.py "$@"
+      ${ipython}/bin/ipython -i consoleenv.py "$@"
     '';
   in [
     ekklesiaPortalConsole
@@ -149,7 +168,7 @@ in rec {
     poetryPackagesByName.eliot-tree
     poetryPackagesByName.pdbpp
     poetry
-    python.pkgs.gunicorn
+    poetryPackagesByName.gunicorn
   ];
 
 

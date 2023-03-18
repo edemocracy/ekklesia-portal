@@ -116,9 +116,10 @@ class ProposeChangeExtension(Extension):
     def __init__(self, url_template):
         self.url_template = url_template
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         md.registerExtension(self)
-        md.treeprocessors['proposechange'] = ProposeChangeTreeprocessor(md, self.url_template)
+        tree_processor = ProposeChangeTreeprocessor(md, self.url_template)
+        md.treeprocessors.register(tree_processor, 'proposechange', 100)
 
 
 def markdown_with_propose_change(url_template, text):

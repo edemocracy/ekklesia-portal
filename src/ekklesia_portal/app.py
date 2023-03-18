@@ -7,6 +7,7 @@ import string
 import morepath
 import reg
 import yaml
+import ekklesia_common
 from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
 from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
@@ -236,7 +237,7 @@ def get_locale(request):
 @log_call
 def make_wsgi_app(settings_filepath=None, testing=False):
     with start_action(action_type='morepath_scan'):
-        morepath.autoscan()
+        morepath.scan(ekklesia_common)
         morepath.scan(ekklesia_portal)
 
     if testing:

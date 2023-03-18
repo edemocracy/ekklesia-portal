@@ -12,8 +12,6 @@ from ekklesia_portal.app import create_or_update_user
 from ekklesia_portal.datamodel import User
 from tests.helpers.webtest_helpers import get_session
 
-morepath.autoscan()
-
 
 @fixture
 def token():
