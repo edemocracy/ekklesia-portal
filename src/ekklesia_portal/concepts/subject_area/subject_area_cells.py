@@ -28,6 +28,9 @@ class SubjectAreaCell(LayoutCell):
     def show_edit_button(self):
         return self.options.get('show_edit_button') and self._request.permitted_for_current_user(self._model, EditPermission)
 
+    def num_members(self):
+        return len(self._model.members)
+
 
 @App.cell(SubjectAreas, 'new')
 class NewSubjectAreaCell(NewFormCell):
