@@ -236,7 +236,7 @@ def new(self, request):
         if import_handler is None:
             raise ValueError("unsupported proposition import schema: " + import_schema)
 
-        form_data = import_handler(importer_config['base_url'], from_data)
+        form_data = import_handler(importer_config, from_data)
     else:
         form_data = {}
 
