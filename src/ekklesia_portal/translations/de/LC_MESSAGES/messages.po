@@ -1702,6 +1702,14 @@ msgstr "(%(num)s Mitglieder)"
 msgid "number_of_area_members"
 msgstr "%(num)s angemeldete Teilnehmer"
 
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_replaces"
+msgstr "Gegenantrag für:"
+
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_modifies"
+msgstr "Änderungsantrag für:"
+
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
 

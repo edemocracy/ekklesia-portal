@@ -9,8 +9,9 @@ from sqlalchemy import desc, func
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.functions import coalesce
 
+from ekklesia_common.lid import LID
 from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
-from ekklesia_portal.enums import PropositionStatus, PropositionVisibility
+from ekklesia_portal.enums import PropositionStatus, PropositionVisibility, PropositionRelationType
 
 
 @dataclass
@@ -27,6 +28,8 @@ class Propositions:
     without_tags: str = None
     type: str = None
     visibility: str = None
+    association_type: PropositionRelationType = None
+    association_id: str = None
     # Initialization with numbers instead of None is necessary because otherwise the
     # query values are not actually converted to an integer on assignment
     page: Optional[int] = 1  # Ranges: x<=1 = None => First page; x>1 => Show page x

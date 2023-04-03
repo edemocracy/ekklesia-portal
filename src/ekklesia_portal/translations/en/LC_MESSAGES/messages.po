@@ -1681,6 +1681,14 @@ msgstr "(%(num_members)s members)"
 msgid "number_of_area_members"
 msgstr "%(num)s registered members"
 
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_replaces"
+msgstr "Counter motion for:"
+
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_modifies"
+msgstr "Change motion for:"
+
 #~ msgid "follow"
 #~ msgstr "Follow"
 
