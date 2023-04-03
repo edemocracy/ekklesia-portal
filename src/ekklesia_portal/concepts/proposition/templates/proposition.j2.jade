@@ -17,9 +17,9 @@
     .card-body(class=("" if not current_user_is_supporter else "card-body-supported"))
       = card()
 
-  br
-  .card
-    if options.show_toolbar
+  if options.show_toolbar
+    br
+    .card
       .proposition_toolbar
         ul.proposition_tabs
           li.nav-item
@@ -28,77 +28,77 @@
           li.nav-item
             a.nav-link(href=associated_url, class=associated_link_class)= customizable_text("tab_associated")
 
-    if options.active_tab == 'discussion'
-      .row.arguments
-        a(name="bottom")
+      if options.active_tab == 'discussion'
+        .row.arguments
+          a(name="bottom")
 
-        .proposition_col.pro
-          = render_cell(collection=pro_argument_relations)
+          .proposition_col.pro
+            = render_cell(collection=pro_argument_relations)
 
-          if show_create_argument
-            a(href=new_pro_argument_url)
-              .button_add_related
-                i.far.fa-thumbs-up &nbsp;
-                = _("button_add_pro_argument")
+            if show_create_argument
+              a(href=new_pro_argument_url)
+                .button_add_related
+                  i.far.fa-thumbs-up &nbsp;
+                  = _("button_add_pro_argument")
 
-        .proposition_col.con
-          = render_cell(collection=contra_argument_relations)
+          .proposition_col.con
+            = render_cell(collection=contra_argument_relations)
 
-          if show_create_argument
-            a(href=new_con_argument_url)
-              .button_add_related
-                i.far.fa-thumbs-down &nbsp;
-                = _("button_add_con_argument")
-
-
-    if options.active_tab == 'associated'
-      .row.arguments
-        a(name="bottom")
-
-        .proposition_col.change
-
-          if modifies
-            .proposition_change_header
-              .card-body
-                h4= _('title_proposition_modifies')
-
-            = render_cell(modifies, 'small', side='left')
+            if show_create_argument
+              a(href=new_con_argument_url)
+                .button_add_related
+                  i.far.fa-thumbs-down &nbsp;
+                  = _("button_add_con_argument")
 
 
-          if derivations
-            .proposition_change_header
-              .card-body
-                h4= _('title_proposition_derivations')
+      if options.active_tab == 'associated'
+        .row.arguments
+          a(name="bottom")
 
-          = render_cell(collection=derivations, view_name='small', side='left')
+          .proposition_col.change
 
-          if show_create_associated_proposition
-            a(href=new_associated_proposition_url("change"))
-              .button_add_related
-                i.far.fa-circle &nbsp;
-                = _("button_add_change_proposition")
+            if modifies
+              .proposition_change_header
+                .card-body
+                  h4= _('title_proposition_modifies')
 
-        .proposition_col.counter
+              = render_cell(modifies, 'small', side='left')
 
-          if replaces
-            .proposition_counter_header
-              .card-body
-                h4= _('title_proposition_replaces')
 
-            = render_cell(replaces, 'small', side='right')
+            if derivations
+              .proposition_change_header
+                .card-body
+                  h4= _('title_proposition_derivations')
 
-          if replacements
-            .proposition_counter_header
-              .card-body
-                h4= _('title_proposition_replacements')
+            = render_cell(collection=derivations, view_name='small', side='left')
 
-          = render_cell(collection=replacements, view_name='small', side='right')
+            if show_create_associated_proposition
+              a(href=new_associated_proposition_url("change"))
+                .button_add_related
+                  i.far.fa-circle &nbsp;
+                  = _("button_add_change_proposition")
 
-          if show_create_associated_proposition
-            a(href=new_associated_proposition_url("counter"))
-              .button_add_related
-                i.fas.fa-circle &nbsp;
-                = customizable_text("button_add_counter_proposition")
+          .proposition_col.counter
+
+            if replaces
+              .proposition_counter_header
+                .card-body
+                  h4= _('title_proposition_replaces')
+
+              = render_cell(replaces, 'small', side='right')
+
+            if replacements
+              .proposition_counter_header
+                .card-body
+                  h4= _('title_proposition_replacements')
+
+            = render_cell(collection=replacements, view_name='small', side='right')
+
+            if show_create_associated_proposition
+              a(href=new_associated_proposition_url("counter"))
+                .button_add_related
+                  i.fas.fa-circle &nbsp;
+                  = customizable_text("button_add_counter_proposition")
 
 // generated from jade
 //- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:
