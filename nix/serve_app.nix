@@ -1,14 +1,15 @@
 #!/usr/bin/env -S nix-build -o serve_app
-{ sources ? null,
-  appConfigFile ? null,
-  listen ? "127.0.0.1:8080",
-  tmpdir ? null,
-  system ? builtins.currentSystem
+{ pkgs
+, lib
+, app
+, gunicorn
+, appConfigFile ? null
+, listen ? "127.0.0.1:10080"
+, tmpdir ? null
+, system ? builtins.currentSystem
 }:
 let
-  ekklesia-portal = import ../. { inherit sources system; };
-  inherit (ekklesia-portal) dependencyEnv deps src;
-  inherit (deps) pkgs gunicorn lib;
+  inherit (app) dependencyEnv src;
   pythonpath = "${dependencyEnv}/${dependencyEnv.sitePackages}";
 
   exportConfigEnvVar =
@@ -17,12 +18,12 @@ let
       "export EKKLESIA_PORTAL_CONFIG=\${EKKLESIA_PORTAL_CONFIG:-${appConfigFile}}";
 
   gunicornConf = pkgs.writeText
-                "gunicorn_config.py"
-                (import ./gunicorn_config.py.nix {
-                   inherit listen pythonpath;
-                });
+    "gunicorn_config.py"
+    (import ./gunicorn_config.py.nix {
+      inherit listen pythonpath;
+    });
 
-  runGunicorn = pkgs.writeShellScriptBin "run" ''
+  runGunicorn = pkgs.writeShellScriptBin "ekklesia-portal-serve-app" ''
     ${exportConfigEnvVar}
     ${lib.optionalString (tmpdir != null) "export TMPDIR=${tmpdir}"}
 
@@ -47,7 +48,8 @@ let
     ${dependencyEnv}/bin/python "$@"
   '';
 
-in pkgs.buildEnv {
+in
+pkgs.buildEnv {
   ignoreCollisions = true;
   name = "ekklesia-portal-serve-app";
   paths = [ runGunicorn runMigrations runAlembic runPython ];

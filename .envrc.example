@@ -1,0 +1,18 @@
+# Direnv integration: copy this to .envrc and adapt to your system
+# This file can be used to set environment variables and automatically build the dev shell.
+
+# Set main config file for ekklesia-portal
+# export EKKLESIA_PORTAL_CONFIG="$(pwd)/config.yml"
+
+# If you don't set the EKKLESIA_PORTAL_TEST_DB_URL env var, the default is:
+# "postgresql+psycopg2:///test_ekklesia_portal?host=/tmp"
+
+# Use this for a PostgreSQL database installed on your system, using the unix socket in /run/postgresql
+# export EKKLESIA_PORTAL_TEST_DB_URL="postgresql+psycopg2:///test_ekklesia_portal?host=/run/postgresql"
+
+# Use nix-direnv's Flake integration to automatically rebuild the dev shell when
+# flake.nix (default), Nix files in nix/ or poetry.lock change.
+# See https://github.com/nix-community/nix-direnv
+nix_direnv_watch_file nix/*.nix
+nix_direnv_watch_file poetry.lock
+use flake . --impure

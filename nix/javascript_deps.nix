@@ -1,7 +1,5 @@
-{ sources ? null }:
+{ pkgs }:
 let
-  sources_ = if (sources == null) then import ./sources.nix else sources;
-  pkgs = import sources_.nixpkgs { };
   lib = pkgs.lib;
   libs = with pkgs; {
 
@@ -28,10 +26,10 @@ let
   };
 
 in
-pkgs.runCommand "ekklesia-portal-js-libs" {}
+pkgs.runCommand "ekklesia-portal-js-libs" { }
   ("mkdir -p $out/js" + "\n" +
-    lib.concatStringsSep
-      "\n"
-      (lib.mapAttrsToList
-        (name: src: "cp ${src} $out/js/${name}.js")
-        libs))
+  lib.concatStringsSep
+    "\n"
+    (lib.mapAttrsToList
+      (name: src: "cp ${src} $out/js/${name}.js")
+      libs))

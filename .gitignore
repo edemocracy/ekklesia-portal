@@ -28,3 +28,8 @@ serve_app
 docker-image-ekklesia-portal.tar
 docker-image-ekklesia-portal-static.tar
 src/ekklesia_portal/static/css/*.css
+.devenv
+.direnv
+venv
+log.json
+.envrc

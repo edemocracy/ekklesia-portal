@@ -22,7 +22,7 @@ You can find more development and operation documentation in the
 - Dependency management and build tool: [Nix](https://nixos.org/nix)
 - Documentation: [Sphinx](https://sphinx-doc.org) with [MyST Markdown](https://myst-parser.readthedocs.io) parser.
 - (Optional) Run on NixOS with the included NixOS module
-- (Optional) Docker / Kubernetes for running Docker images built by Nix
+- (Optional) Docker / Podman for running container images (built by Nix)
 
 ## Development
 
@@ -39,12 +39,12 @@ Setting up the environment for testing and running tests is described in the
 section [Testing](https://docs.ekklesiademocracy.org/en/latest/development/testing.html)
 in the Ekklesia documentation.
 
-The following instructions assume that *Nix* and *lorri* are already installed,
-and an empty + writable PostgreSQL database can be accessed somehow.
+The following instructions assume that *Nix* is already installed, has Nix
+flakes enabled, and an empty + writable PostgreSQL database can be accessed somehow.
 
-If you don't have *Nix* and *lorri* or can’t use an existing PostgreSQL server,
-have a look at the section [Development Environment](https://docs.ekklesiademocracy.org/en/latest/development/dev_env.html)
-in the Ekklesia documentation.
+If you don't have *Nix* with Flakes support and or can’t use an existing
+PostgreSQL server, have a look at the [Development Environment](https://docs.ekklesiademocracy.org/en/latest/development/dev_env.html)
+section in the Ekklesia documentation.
 
 It's strongly recommended to also follow the instructions at
 `Setting up the Cachix Binary Cache <https://docs.ekklesiademocracy.org/en/latest/development/dev_env.html#setting-up-the-cachix-binary-cache>`
@@ -56,10 +56,10 @@ or the first step will take a long time to complete.
    ```
    git clone https://github.com/edemocracy/ekklesia-portal
    cd ekklesia-portal
-   lorri shell
+   nix develop
    ```
 
-2. Compile translations and CSS (look at dodo.py to see what this does):
+2. Compile translations and CSS (look at `dodo.py` to see what this does):
 
    ```
    doit
@@ -71,18 +71,24 @@ or the first step will take a long time to complete.
    Make sure that the database connection string points to an
    empty + writable database.
 
-4. Initialize the dev database with a custom config file:
+4. Set up the database for testing (look at `flake.nix` to see what this does):
 
    ```
-   python tests/create_test_db.py -c config.yml
+   create_test_db
    ```
 
-5. The development server can be run with a custom config file by
-   executing:
+5. Run tests:
 
    ```
-   python src/ekklesia_portal/runserver.py --debug -c config.yml 2>&1 | eliot-tree -l0
+   pytest
    ```
+
+6. Run the development server (look at `flake.nix` to see what this does):
+   ```
+   run_dev
+   ```
+
+Run `help` to see all commonly used dev shell commands.
 
 ## Running In Production
 
@@ -111,5 +117,5 @@ AGPLv3, see LICENSE
 ## Active Authors
 
 - Tobias ‘dpausp’
-- Holger ‘plexar’
 - Nico ‘kaenganxt’
+- Holger ‘plexar’

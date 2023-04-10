@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#!nix-shell --pure -i bash
+#!/usr/bin/env bash
 tmpdir=$(mktemp -d)
 socketdir=${1:-$tmpdir}
 echo "Using database temp dir $tmpdir"

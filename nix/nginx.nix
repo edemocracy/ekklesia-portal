@@ -1,11 +1,11 @@
-{ stdenv, lib, nginxMainline, fetchurl, zlib }:
+{ stdenv, lib, nginxMainline, fetchurl, zlib, libxcrypt }:
 
 let
   tmp = "/dev/shm";
 in
 
-nginxMainline.overrideAttrs(oldAttrs: rec {
-  buildInputs = [ zlib ];
+nginxMainline.overrideAttrs (oldAttrs: rec {
+  buildInputs = [ libxcrypt zlib ];
 
   configureFlags = [
     "--error-log-path=/dev/stderr"
@@ -42,7 +42,7 @@ nginxMainline.overrideAttrs(oldAttrs: rec {
     "-Wno-error=implicit-fallthrough"
   ] ++ lib.optional stdenv.isDarwin "-Wno-error=deprecated-declarations";
 
-  configurePlatforms = [];
+  configurePlatforms = [ ];
 
   hardeningEnable = lib.optional (!stdenv.isDarwin) "pie";
 
