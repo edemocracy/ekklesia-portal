@@ -1,4 +1,5 @@
 *.pyc
+.doit.db
 .settings
 .project
 .pydevproject
