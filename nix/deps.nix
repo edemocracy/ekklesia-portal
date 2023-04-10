@@ -54,7 +54,7 @@ let
         }
       );
     } //
-    (addPythonBuildDeps [ self.setuptools-scm self.setuptools ] [
+    (addPythonBuildDeps [ self.setuptools-scm self.setuptools self.greenlet ] [
       "pdbpp"
       "better-exceptions"
       "case-conversion"
@@ -69,23 +69,21 @@ let
       [ "base32-crockford" ]
     ) //
     (addPythonBuildDeps
-      [ self.flit-core ]
-      [ "pyparsing" "markdown-it-py" ]) //
-    (addPythonBuildDeps
-      [ self.poetry ] [
+      [ self.poetry self.greenlet ] [
       "ekklesia-common"
       "iso8601"
       "mimesis-factory"
       "more-browser-session"
       "more-babel-i18n"
       "pytest-factoryboy"
+      "sqlalchemy"
+      "zope-sqlalchemy"
      ]) //
     (addPythonBuildDeps
-      [ self.pbr ]
-      [ "munch" ]) //
-    (addPythonBuildDeps
-      [ self.hatchling ]
-      [ "soupsieve" ])
+      [ self.hatchling ] [
+      "beautifulsoup4"
+      "soupsieve"
+    ])
   );
 
   mkPoetryApplication = { ... }@args:
@@ -162,7 +160,7 @@ in rec {
     pkgs.niv
     pkgs.entr
     pkgs.jq
-    pkgs.postgresql_13
+    pkgs.postgresql_15
     pkgs.sassc
     pkgs.zsh
     poetryPackagesByName.eliot-tree
