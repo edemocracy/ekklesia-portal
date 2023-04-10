@@ -4,6 +4,7 @@
 .project
 .pydevproject
 .idea
+*.log.json
 *.pot
 *.mo
 .babelcompiled

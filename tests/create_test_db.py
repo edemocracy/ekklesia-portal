@@ -1,29 +1,19 @@
-import argparse
-import logging
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
-from alembic.config import Config
-from alembic import command
 import mimesis
 import sqlalchemy.orm
-from sqlalchemy import pool
 import transaction
+import typer
+from alembic import command
+from alembic.config import Config
+from rich import print
+from sqlalchemy import pool
+from typer import Option, confirm, Exit
+
+import ekklesia_common.logging
 from ekklesia_common.ekklesia_auth import OAuthToken
-
-from ekklesia_portal.app import make_wsgi_app, App
-from fixtures import get_test_settings, get_db_uri
-from ekklesia_portal.enums import ArgumentType, Majority, PropositionStatus, SupporterStatus, VotingStatus, VotingSystem, VotingType
-from ekklesia_portal.lib.password import password_context
-
-logging.basicConfig(level=logging.INFO)
-
-parser = argparse.ArgumentParser("Ekklesia Portal create_test_db.py")
-parser.add_argument(
-    "-c",
-    "--config-file",
-    help=f"Optional path to config file in YAML / JSON format. Uses default test configuration when not set."
-)
-parser.add_argument("--doit", action="store_true", default=False)
 
 DOCUMENT_WP = '''# Wahlprogramm
 
@@ -78,14 +68,44 @@ Der Text des Antrags kann dort von allen angemeldeten Benutzern bearbeitet werde
 Du kannst die Bearbeitung sperren lassen. Wende dich dazu an die Antragskommission.
 '''
 
-if __name__ == "__main__":
 
-    logg = logging.getLogger(__name__)
+def main(
+    config_file: Optional[Path] = Option(
+        None,
+        "--config-file",
+        "-c",
+        help="Path to config file in YAML / JSON format. Default: Built-in test config (DB test_ekklesia_portal).",
+        readable=True,
+    ),
+    doit: bool = Option(
+        False,
+        "--doit",
+        help="Don't ask, just drop and recreate the database"
+    ),
+    log_path: Path = Option(
+        Path("."),
+        help="Directory where to write logs to.",
+        file_okay=False,
+        writable=True,
+    ),
+):
+    """
+    Create an ekklesia-portal database for testing.
+    This is needed for pytest but can also be used for manual application testing.
+    """
 
-    args = parser.parse_args()
+    log_file = log_path / "create_test_db.log.json"
+    print(f"Log output goes to {log_file}")
 
-    if args.config_file:
-        app = make_wsgi_app(args.config_file)
+    ekklesia_common.logging.init_logging(open(log_file, "w"))
+
+    from ekklesia_portal.app import make_wsgi_app, App
+    from ekklesia_portal.enums import ArgumentType, Majority, PropositionStatus, SupporterStatus, VotingStatus, VotingSystem, VotingType
+    from ekklesia_portal.lib.password import password_context
+    from fixtures import get_test_settings, get_db_uri
+
+    if config_file:
+        app = make_wsgi_app(config_file)
     else:
         settings = get_test_settings(get_db_uri())
         App.init_settings(settings)
@@ -99,7 +119,7 @@ if __name__ == "__main__":
         VotingPhase, VotingPhaseType
     )
 
-    print(f"using config file {args.config_file}")
+    print(f"using config file {config_file}")
     print(f"using db url {app.settings.database.uri}")
 
     engine = sqlalchemy.create_engine(app.settings.database.uri, poolclass=pool.NullPool)
@@ -108,9 +128,15 @@ if __name__ == "__main__":
 
     sqlalchemy.orm.configure_mappers()
 
-    if not args.doit:
+    if doit:
+        confirmed = True
+    else:
         print(80 * "=")
-        input("press Enter to drop and create the database...")
+        confirmed = confirm("Drop and recreate the database now?", default=False)
+
+    if not confirmed:
+        print("Not confirmed, doing nothing.")
+        raise Exit(3)
 
     db_metadata.drop_all()
     connection.execute("DROP TABLE IF EXISTS alembic_version")
@@ -476,7 +502,7 @@ if __name__ == "__main__":
 
     transaction.commit()
 
-    logg.info("committed")
+    print("Committed database changes.")
 
     alembic_cfg = Config("./alembic.ini")
     alembic_cfg.attributes['connection'] = connection
@@ -487,4 +513,8 @@ if __name__ == "__main__":
     # Didn't happen before.
     connection.close()
 
-    logg.info("finished")
+    print("Finished successfully.")
+
+
+if __name__ == "__main__":
+    typer.run(main)
