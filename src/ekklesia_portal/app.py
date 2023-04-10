@@ -43,6 +43,7 @@ def app_setting_section():
         "faq_url": None,
         "imprint_url": None,
         "insecure_development_mode": False,
+        "log_environment_on_startup": False,
         "internal_login_enabled": True,
         "languages": ["de", "en"],
         "login_visible": False,
@@ -187,7 +188,7 @@ def media_type_predicate(self, request, obj):
     return request.params.get("media_type")
 
 
-@log_call
+@log_call(include_result=False)
 def get_app_settings(settings_filepath=None):
     settings = {}
 
@@ -252,13 +253,17 @@ def make_wsgi_app(settings_filepath=None, testing=False):
         App.commit()
         app = App()
 
+    if app.settings.app.log_environment_on_startup:
+        log_message(
+            message_type="environment",
+            env=dict(os.environ),
+            encoding=locale.getpreferredencoding(),
+            default_locale=locale.getdefaultlocale(),
+            settings=settings,
+        )
+
     database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
-    log_message(
-        message_type="environment",
-        env=dict(os.environ),
-        encoding=locale.getpreferredencoding(),
-        default_locale=locale.getdefaultlocale()
-    )
+
     return app
