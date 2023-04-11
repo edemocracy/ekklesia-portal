@@ -566,7 +566,7 @@ msgstr "Majoriy"
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:14
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:12
 msgid "proposition_expiration"
-msgstr "Time to reach the supporter quorum"
+msgstr "Time to reach the supporter quorum (days)"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:15
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:14
@@ -577,7 +577,7 @@ msgstr "Minimum number of supporters"
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:16
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:15
 msgid "qualification_quorum"
-msgstr "Supporter quorum for voting qualification"
+msgstr "Supporter quorum for voting qualification [0-1]"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:17
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:18
@@ -602,7 +602,7 @@ msgstr "Minimum number of supporters for secret voting"
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:21
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:26
 msgid "secret_quorum"
-msgstr "Supporter Quorum"
+msgstr "Supporter Quorum [0-1]"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:22
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:28
@@ -612,7 +612,7 @@ msgstr "Number of Submitters"
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:23
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:30
 msgid "voting_duration"
-msgstr "Voting duration"
+msgstr "Voting duration (days)"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:24
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:32
@@ -1672,6 +1672,22 @@ msgstr "No"
 #: src/ekklesia_portal/enums.py:86
 msgid "vote_by_user_abstention"
 msgstr "Abstention"
+
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:19
+msgid "number_of_members"
+msgstr "(%(num_members)s members)"
+
+#: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:32
+msgid "number_of_area_members"
+msgstr "%(num)s registered members"
+
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_replaces"
+msgstr "Counter motion for:"
+
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_modifies"
+msgstr "Change motion for:"
 
 #~ msgid "follow"
 #~ msgstr "Follow"

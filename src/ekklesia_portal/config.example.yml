@@ -30,6 +30,7 @@ exporter:
         api_username: testuser
         category: 12
         base_url: https://testdiscourse-local
+        importer: testdiscourse
 voting_modules:
     vvvote_local:
         api_urls:

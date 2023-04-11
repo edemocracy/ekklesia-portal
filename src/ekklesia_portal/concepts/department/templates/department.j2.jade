@@ -16,6 +16,8 @@
   .department.container
     h3
       a(href=self_link)= name
+      &nbsp;
+      =_('number_of_members', num=num_members)
 
       if show_edit_button
         a.edit_button(href=edit_url)

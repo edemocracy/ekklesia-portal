@@ -27,6 +27,9 @@ class DepartmentCell(LayoutCell):
         return self.options.get('show_edit_button'
                                 ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
+    def num_members(self):
+        return len(self._model.members)
+
 
 class NewDepartmentCell(NewFormCell):
     pass

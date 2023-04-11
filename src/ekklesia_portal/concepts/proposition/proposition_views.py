@@ -223,6 +223,9 @@ def new(self, request):
     from_data = request.GET.get("from_data")
     source = request.GET.get("source")
 
+    association_type = request.GET.get("association_type")
+    association_id = request.GET.get("association_id")
+
     if from_data and source:
         # pre-fill new proposition form from a URL returning data formatted as `from_format`
         # 'for supported formats, see 'PROPOSITION_IMPORT_HANDLERS'
@@ -236,7 +239,12 @@ def new(self, request):
         if import_handler is None:
             raise ValueError("unsupported proposition import schema: " + import_schema)
 
-        form_data = import_handler(importer_config['base_url'], from_data)
+        form_data = import_handler(importer_config, from_data)
+    elif association_type and association_id:
+        form_data = {
+            "relation_type": PropositionRelationType.MODIFIES if association_type == "change" else PropositionRelationType.REPLACES,
+            "related_proposition_id": association_id
+        }
     else:
         form_data = {}
 

@@ -6,6 +6,13 @@
 - block content
   h2= _("title_new_draft")
 
+  dl
+    if relation_type
+      dt= _("relation_" + relation_type)
+      dd
+        a(href=relation_url)
+          = relation_name
+
   = customizable_text("new_draft_explanation")|markdown
 
   = form_html

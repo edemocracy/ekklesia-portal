@@ -9,6 +9,7 @@ from functools import cached_property
 from eliot import log_call
 from sqlalchemy import func
 
+from ekklesia_common.lid import LID
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.argument_relation.argument_relations import ArgumentRelations
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
@@ -200,7 +201,7 @@ class PropositionCell(LayoutCell):
         return 'active' if self.options.get('active_tab') == 'associated' else ''
 
     def new_associated_proposition_url(self, association_type):
-        return self.class_link(Propositions, dict(association_type=association_type), '+new')
+        return self.class_link(Propositions, dict(association_type=association_type, association_id=self._model.id.repr), '+new')
 
     def new_pro_argument_url(self):
         return self.class_link(
@@ -288,7 +289,7 @@ class PropositionCell(LayoutCell):
         return self._model.status in (
             PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
             PropositionStatus.SCHEDULED
-        ) and self._request.permitted_for_current_user(self._model, CreatePermission)
+        ) and self._request.permitted_for_current_user(Propositions(), CreatePermission)
 
     def show_submitter_names(self):
         if self.current_user is None:
@@ -398,6 +399,26 @@ class NewPropositionCell(NewFormCell):
         proposition_types = self._request.q(PropositionType)
         items = items_for_proposition_select_widgets(departments, tags, proposition_types, selected_tag_names)
         self._form.prepare_for_render(items)
+
+    def relation_type(self):
+        if "relation_type" in self._form_data:
+            return self._form_data["relation_type"]
+        else:
+            return None
+
+    @cached_property
+    def relation(self):
+        if "related_proposition_id" in self._form_data:
+            return self._request.q(Proposition).get(LID.from_str(self._form_data["related_proposition_id"]))
+        else:
+            return None
+
+    def relation_url(self):
+        return self.link(self.relation) if self.relation else ""
+
+    def relation_name(self):
+        return self.relation.title if self.relation else ""
+
 
 @App.cell(Proposition, 'edit')
 class EditPropositionCell(EditFormCell):
@@ -520,7 +541,7 @@ class PropositionsCell(LayoutCell):
             return None
 
     def export_csv_url(self):
-        return (url_change_query(self.self_link, media_type="text/csv"))
+        return url_change_query(self.self_link, media_type="text/csv")
 
 
 @App.cell(Propositions, 'new_draft')
