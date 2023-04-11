@@ -1,13 +1,22 @@
+{ pkgs
+, deform
+, ekklesia-common
+, javascriptDeps
+, pyProject
+, python
+, sassPath
+, sassc
+, webfontsPath
+, ...
+}:
+
 with builtins;
 
-{ sources ? null }:
 let
-  deps = import ./deps.nix { inherit sources; };
-  inherit (deps) lib pkgs sassc javascriptDeps webfontsPath sassPath deform ekklesia-common python pyProject;
-  version = import ./git_version.nix { inherit pkgs; default = pyProject.tool.poetry.version; };
-
+  inherit (pyProject.tool.poetry) version;
 in
-pkgs.runCommand "ekklesia-portal-static-${version}" {
+pkgs.runCommand "ekklesia-portal-static-${version}"
+{
   buildInputs = [ sassc ];
   inherit sassPath;
   src = ../src/ekklesia_portal;

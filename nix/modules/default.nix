@@ -11,14 +11,12 @@ let
     pkgs.writeText configFilename
       (toJSON cfg.extraConfig);
 
-  serveApp = import ../serve_app.nix {
+  serveApp = pkgs.ekklesia-portal-serve-app.override {
     appConfigFile = "/run/ekklesia-portal/${configFilename}";
     listen = "${cfg.address}:${toString cfg.port}";
     tmpdir = "/tmp";
     inherit (config.nixpkgs.localSystem) system;
   };
-
-  staticFiles = import ../static_files.nix { };
 
   ekklesiaPortalConfig = pkgs.writeScriptBin "ekklesia-portal-config" ''
     systemctl cat ekklesia-portal.service | grep X-ConfigFile | cut -d"=" -f2
@@ -28,7 +26,8 @@ let
     cat `${ekklesiaPortalConfig}/bin/ekklesia-portal-config`
   '';
 
-in {
+in
+{
   options.services.ekklesia.portal = with lib; {
 
     enable = mkEnableOption "Enable the portal component of the Ekklesia e-democracy platform";
@@ -92,7 +91,7 @@ in {
 
     secretFiles = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
       description = ''
         Arbitrary secrets that should be read from a file and
         inserted in the config on startup. Expects an attrset with
@@ -105,7 +104,7 @@ in {
 
     extraConfig = mkOption {
       type = types.attrs;
-      default = {};
+      default = { };
       description = "Additional config options given as attribute set.";
     };
 
@@ -115,7 +114,7 @@ in {
 
     services.ekklesia.portal.configFile = configInput;
     services.ekklesia.portal.app = serveApp;
-    services.ekklesia.portal.staticFiles = staticFiles;
+    services.ekklesia.portal.staticFiles = pkgs.ekklesia-portal-static;
 
     environment.systemPackages = [ ekklesiaPortalConfig ekklesiaPortalShowConfig ];
 
@@ -132,39 +131,41 @@ in {
       wantedBy = [ "multi-user.target" ];
       stopIfChanged = false;
 
-      preStart = let
-        replaceDebug = lib.optionalString cfg.debug "-vv";
-        secrets = cfg.secretFiles // {
-          browser_session_secret_key = cfg.browserSessionSecretKeyFile;
-        };
-        replaceSecret = file: var: secretFile:
-        "${pkgs.replace}/bin/replace-literal -m 1 ${replaceDebug} -f -e @${var}@ $(< ${secretFile}) ${file}";
-        replaceCfgSecret = var: secretFile: replaceSecret "$cfgdir/${configFilename}" var secretFile;
-        secretReplacements = lib.mapAttrsToList (k: v: replaceCfgSecret k v) cfg.secretFiles;
-      in ''
-        echo "Prepare config file..."
-        cfgdir=$RUNTIME_DIRECTORY
-        chmod u+w -R $cfgdir
-        cp ${configInput} $cfgdir/${configFilename}
+      preStart =
+        let
+          replaceDebug = lib.optionalString cfg.debug "-vv";
+          secrets = cfg.secretFiles // {
+            browser_session_secret_key = cfg.browserSessionSecretKeyFile;
+          };
+          replaceSecret = file: var: secretFile:
+            "${pkgs.replace}/bin/replace-literal -m 1 ${replaceDebug} -f -e @${var}@ $(< ${secretFile}) ${file}";
+          replaceCfgSecret = var: secretFile: replaceSecret "$cfgdir/${configFilename}" var secretFile;
+          secretReplacements = lib.mapAttrsToList (k: v: replaceCfgSecret k v) cfg.secretFiles;
+        in
+        ''
+          echo "Prepare config file..."
+          cfgdir=$RUNTIME_DIRECTORY
+          chmod u+w -R $cfgdir
+          cp ${configInput} $cfgdir/${configFilename}
 
-        ${lib.concatStringsSep "\n" secretReplacements}
+          ${lib.concatStringsSep "\n" secretReplacements}
 
-        echo "Run database migrations if needed..."
-        ${serveApp}/bin/migrate
-        echo "Pre-start finished."
-      '';
+          echo "Run database migrations if needed..."
+          ${serveApp}/bin/migrate
+          echo "Pre-start finished."
+        '';
 
       serviceConfig = {
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = "${serveApp}/bin/run";
+        ExecStart = "${serveApp}/bin/ekklesia-portal-serve-app";
         RuntimeDirectory = "ekklesia-portal";
         StateDirectory = "ekklesia-portal";
         RestartSec = "5s";
         Restart = "always";
         X-ConfigFile = configInput;
         X-App = serveApp;
-        X-StaticFiles = staticFiles;
+        X-StaticFiles = cfg.staticFiles;
 
         DeviceAllow = [
           "/dev/stderr"

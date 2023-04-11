@@ -1,89 +1,73 @@
-{ sources ? null, system ? builtins.currentSystem }:
+{ pkgs, poetry2nix, poetry }:
+
 with builtins;
 
 let
-  sources_ = if (sources == null) then import ./sources.nix else sources;
-  poetry2nixSrc = "${sources_.poetry2nix}";
-  # Taken from overlay.nix from poetry2nix, adapted for python310
-  pkgs = import sources_.nixpkgs {
-    overlays = [(final: prev: {
-      poetry2nix = import poetry2nixSrc { pkgs = final; poetry = final.poetry; };
-      poetry = prev.callPackage "${poetry2nixSrc}/pkgs/poetry" { python = final.python311; };
-    })];
-  };
 
-  inherit (pkgs) poetry poetry2nix stdenv lib;
-  niv = (import sources_.niv { }).niv;
-  # Ekklesia-common is pulled in by poetry as Python dependency.
-  # We don't use any Nix code from the project right now, so we don't have to import it here.
-  # ekklesia-common = (import sources_.ekklesia-common { sources = sources_; });
-  bootstrap = import ./bootstrap.nix { };
-  javascriptDeps = import ./javascript_deps.nix { };
-  font-awesome = import ./font-awesome.nix { };
+  inherit (pkgs) stdenv lib;
+  bootstrap = pkgs.callPackage ./bootstrap.nix { };
+  javascriptDeps = pkgs.callPackage ./javascript_deps.nix { };
+  font-awesome = pkgs.callPackage ./font-awesome.nix { };
   python = pkgs.python311;
 
   overrides = poetry2nix.overrides.withDefaults (
     self: super:
-    let
-      pythonBuildDepNameValuePair = deps: pname: {
-        name = pname;
-        value = super.${pname}.overridePythonAttrs (old: {
-          buildInputs = old.buildInputs ++ deps;
-        });
-      };
+      let
+        pythonBuildDepNameValuePair = deps: pname: {
+          name = pname;
+          value = super.${pname}.overridePythonAttrs (old: {
+            buildInputs = old.buildInputs ++ deps;
+          });
+        };
 
-      addPythonBuildDeps = deps: pnames:
-        lib.listToAttrs
-          (map
-            (pythonBuildDepNameValuePair deps)
-            pnames);
-    in
-    {
-      macfsevents = super.macfsevents.overridePythonAttrs (
-        old: {
-          buildInputs =
-            old.buildInputs
-            ++ lib.optionals stdenv.isDarwin [ pkgs.darwin.apple_sdk.frameworks.CoreServices ];
-        }
-      );
+        addPythonBuildDeps = deps: pnames:
+          lib.listToAttrs
+            (map
+              (pythonBuildDepNameValuePair deps)
+              pnames);
+      in
+      {
+        # XXX: Weird issue: rich fails because commonmark is missing
+        # in overrides/default.nix from poetry2nix.
+        commonmark = self.CommonMark;
 
-      pypugjs = super.pypugjs.overridePythonAttrs (
-        old: {
-          format = "setuptools";
-          buildInputs = old.buildInputs ++ [ poetry ];
-        }
-      );
-    } //
-    (addPythonBuildDeps [ self.setuptools-scm self.setuptools self.greenlet ] [
-      "pdbpp"
-      "better-exceptions"
-      "case-conversion"
-      "fancycompleter"
-      "mimesis"
-      "py-gfm"
-      "pytest-pspec"
-      "sqlalchemy-searchable"
-    ]) //
-    (addPythonBuildDeps
-      [ self.setuptools ]
-      [ "base32-crockford" ]
-    ) //
-    (addPythonBuildDeps
-      [ self.poetry self.greenlet ] [
-      "ekklesia-common"
-      "iso8601"
-      "mimesis-factory"
-      "more-browser-session"
-      "more-babel-i18n"
-      "pytest-factoryboy"
-      "sqlalchemy"
-      "zope-sqlalchemy"
-     ]) //
-    (addPythonBuildDeps
-      [ self.hatchling ] [
-      "beautifulsoup4"
-      "soupsieve"
-    ])
+        pypugjs = super.pypugjs.overridePythonAttrs (
+          old: {
+            format = "setuptools";
+            buildInputs = old.buildInputs ++ [ poetry ];
+          }
+        );
+      } //
+      (addPythonBuildDeps [ self.setuptools-scm self.setuptools self.greenlet ] [
+        "pdbpp"
+        "better-exceptions"
+        "case-conversion"
+        "fancycompleter"
+        "mimesis"
+        "py-gfm"
+        "pytest-pspec"
+        "sqlalchemy-searchable"
+      ]) //
+      (addPythonBuildDeps
+        [ self.setuptools ]
+        [ "base32-crockford" ]
+      ) //
+      (addPythonBuildDeps
+        [ self.poetry self.greenlet ] [
+        "ekklesia-common"
+        "iso8601"
+        "mimesis-factory"
+        "more-browser-session"
+        "more-babel-i18n"
+        "pytest-factoryboy"
+        "sqlalchemy"
+        "zope-sqlalchemy"
+      ]) //
+      (addPythonBuildDeps
+        [ self.hatchling ] [
+        "beautifulsoup4"
+        "soupsieve"
+      ])
   );
 
   mkPoetryApplication = { ... }@args:
@@ -103,9 +87,10 @@ let
         (p: { name = p.pname or "none"; value = p; })
         poetryPackages);
 
-in rec {
-  inherit bootstrap javascriptDeps mkPoetryApplication pkgs poetryPackagesByName python;
-  inherit (pkgs) lib sassc glibcLocales;
+in
+rec {
+  inherit bootstrap javascriptDeps mkPoetryApplication pkgs poetryPackagesByName pyProject python;
+  inherit (pkgs) sassc glibcLocales;
   inherit (poetryPackagesByName) alembic deform ekklesia-common babel gunicorn ipython;
 
   # Can be imported in Python code or run directly as debug tools
@@ -116,7 +101,7 @@ in rec {
 
   pythonDevTest = python.buildEnv.override {
     extraLibs = poetryPackages ++
-                debugLibsAndTools;
+      debugLibsAndTools;
     ignoreCollisions = true;
   };
 
@@ -141,34 +126,33 @@ in rec {
       ${isort}/bin/isort --virtual-env=${pythonDev} "$@"
     '';
 
-  in [
+  in
+  [
     bandit
     #isortWrapper
     mypy
+    pkgs.nixpkgs-fmt
     #pylintWrapper
-    yapf
   ];
 
   # Various tools for log files, deps management, running scripts and so on
-  shellTools = let
-    ekklesiaPortalConsole = pkgs.writeScriptBin "ekklesia-portal-console" ''
-      export PYTHONPATH=$PYTHONPATH:${pythonDev}/${pythonDev.sitePackages}
-      ${ipython}/bin/ipython -i consoleenv.py "$@"
-    '';
-  in [
-    ekklesiaPortalConsole
-    pkgs.niv
-    pkgs.entr
-    pkgs.jq
-    pkgs.postgresql_15
-    pkgs.sassc
-    pkgs.zsh
-    poetryPackagesByName.eliot-tree
-    poetryPackagesByName.pdbpp
-    poetry
-    poetryPackagesByName.gunicorn
-  ];
-
+  shellTools =
+    let
+      console = pkgs.writeScriptBin "console" ''
+        export PYTHONPATH=$PYTHONPATH:${pythonDev}/${pythonDev.sitePackages}
+        ${ipython}/bin/ipython -i consoleenv.py "$@"
+      '';
+    in
+    [
+      console
+      pkgs.entr
+      pkgs.postgresql_15
+      pkgs.sassc
+      poetryPackagesByName.eliot-tree
+      poetryPackagesByName.pdbpp
+      poetry
+      poetryPackagesByName.gunicorn
+    ];
 
   # Needed for a development nix shell
   shellInputs =

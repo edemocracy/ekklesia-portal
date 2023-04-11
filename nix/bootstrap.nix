@@ -1,10 +1,6 @@
-{ sources ? null }:
-let
-  sources_ = if (sources == null) then import ./sources.nix else sources;
-  pkgs = import sources_.nixpkgs { };
-in
-
-with pkgs;
+{ stdenv
+, fetchFromGitHub
+}:
 
 stdenv.mkDerivation rec {
   pname = "bootstrap";
