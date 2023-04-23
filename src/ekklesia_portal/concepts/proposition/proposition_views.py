@@ -275,7 +275,6 @@ def _create_proposition(request, ballot, appstruct, document=None, section=None,
     proposition = Proposition(
         author=request.current_user,
         ballot=ballot,
-        status=PropositionStatus.DRAFT,
         submitter_invitation_key=submitter_invitation_key,
         visibility=PropositionVisibility.HIDDEN,
         external_fields={'external_draft': {
@@ -283,6 +282,12 @@ def _create_proposition(request, ballot, appstruct, document=None, section=None,
         }},
         **appstruct
     )
+
+    if request.app.settings.app.enable_drafts:
+        proposition.status = PropositionStatus.DRAFT
+    else:
+        proposition.status = PropositionStatus.SUBMITTED
+        proposition.submitted_at = datetime.now()
 
     if document is not None and section is not None:
         changeset = Changeset(document=document, section=section, proposition=proposition)

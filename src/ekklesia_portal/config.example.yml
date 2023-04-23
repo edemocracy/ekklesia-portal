@@ -11,6 +11,7 @@ app:
     tos_url: /pages/tos
     imprint_url: /pages/imprint
     data_protection_url: /pages/data_protection
+    enable_drafts: false
     faq_url: /pages/faq
 share:
     use_url_shortener: false
