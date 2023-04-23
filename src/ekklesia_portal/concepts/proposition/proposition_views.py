@@ -119,13 +119,13 @@ class PropositionRedirect:
 
 @App.html(model=Proposition, permission=ViewPermission)
 def show(self, request):
-    cell = PropositionCell(self, request, show_toolbar=True, show_details=True, show_actions=True, active_tab='discussion')
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
     return cell.show()
 
 
 @App.html(model=Proposition, name='associated', permission=ViewPermission)
 def associated(self, request):
-    cell = PropositionCell(self, request, show_toolbar=True, show_details=True, show_actions=True, active_tab='associated')
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
     return cell.show()
 
 

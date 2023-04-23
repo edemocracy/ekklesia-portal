@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-28 20:53+0200\n"
+"POT-Creation-Date: 2023-04-23 22:03+0000\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.12.1\n"
 
 #: src/ekklesia_portal/concepts/argument/argument_contracts.py:12
 #: src/ekklesia_portal/concepts/page/page_contracts.py:11
@@ -168,7 +168,7 @@ msgstr "Abstimmung"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:9
 #: src/ekklesia_portal/concepts/customizable_text/templates/customizable_text.j2.jade:7
-#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:8
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:9
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:10
 #: src/ekklesia_portal/concepts/page/templates/page.j2.jade:7
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:7
@@ -289,7 +289,7 @@ msgid "title_new_customizable_text"
 msgstr "Neue Textanpassung"
 
 #: src/ekklesia_portal/concepts/department/department_contracts.py:10
-#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:11
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:12
 #: src/ekklesia_portal/concepts/document/document_contracts.py:13
 #: src/ekklesia_portal/concepts/document/templates/document.j2.jade:17
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:12
@@ -297,7 +297,7 @@ msgstr "Neue Textanpassung"
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:11
 #: src/ekklesia_portal/concepts/proposition_type/templates/proposition_type.j2.jade:12
 #: src/ekklesia_portal/concepts/subject_area/subject_area_contracts.py:11
-#: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:12
+#: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:13
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:27
 #: src/ekklesia_portal/concepts/voting_phase_type/templates/voting_phase_type.j2.jade:26
 #: src/ekklesia_portal/concepts/voting_phase_type/voting_phase_type_contracts.py:24
@@ -311,6 +311,10 @@ msgstr "Exporter-Einstellungen"
 #: src/ekklesia_portal/concepts/department/department_contracts.py:12
 msgid "voting_module_settings"
 msgstr "Einstellungen zu Abstimmungsmodulen"
+
+#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:8
+msgid "number_of_members"
+msgstr "(%(num)s Mitglieder)"
 
 #: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:5
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:38
@@ -577,6 +581,7 @@ msgstr "Minimale Anzahl an Unterstützern"
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:16
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:16
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:15
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:39
 msgid "qualification_quorum"
 msgstr "Unterstützer-Quorum zur Zulassung zur Abstimmung [0-1]"
 
@@ -699,11 +704,11 @@ msgstr "Antragsentwurf anlegen"
 msgid "button_submit_draft"
 msgstr "Antrag einreichen"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:392
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:405
 msgid "change"
 msgstr "Änderung"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:502
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:515
 msgid "amendment_to"
 msgstr "Änderungsantrag to %(title)s"
 
@@ -736,39 +741,6 @@ msgstr "Neuer Änderungsantrag"
 #: src/ekklesia_portal/concepts/proposition/templates/new_proposition_amendment.j2.jade:4
 msgid "changes_proposition"
 msgstr "Ändert"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:6
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_toolbar.j2.jade:2
-msgid "tab_discussion"
-msgstr "Diskussion"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:17
-msgid "button_add_pro_argument"
-msgstr "Pro-Argument hinzufügen"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:21
-msgid "button_add_con_argument"
-msgstr "Contra-Argument hinzufügen"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:29
-msgid "title_proposition_modifies"
-msgstr "Ist Änderungsantrag zu"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:34
-msgid "title_amendments"
-msgstr "Änderungsanträge"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:37
-msgid "button_add_amendment"
-msgstr "Änderungsantrag stellen"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:43
-msgid "title_proposition_replaces"
-msgstr "Ist Konkurrenzantrag zu"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition.j2.jade:48
-msgid "title_proposition_replacements"
-msgstr "Gegenanträge"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_share"
@@ -807,10 +779,12 @@ msgid "button_request_secret_voting"
 msgstr "Papierabstimmung fordern"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
 msgid "abbr_secret_voters_count"
 msgstr "Anzahl Befürworter für Papierabstimmung"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:13
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
 msgid "abbr_secret_voting_quorum"
 msgstr "Quorum für Papierabstimmung"
 
@@ -818,6 +792,7 @@ msgstr "Quorum für Papierabstimmung"
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:15
 #: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:2
 #: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:39
 msgid "supporter"
 msgid_plural "supporters"
 msgstr[0] "Unterstützer"
@@ -857,6 +832,9 @@ msgstr "Unterstützen"
 
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:10
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:19
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:36
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:43
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:47
 msgid "supporters"
 msgstr "Unterstützer"
 
@@ -1132,6 +1110,46 @@ msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Argumente"
 
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_associated.j2.jade:5
+msgid "title_proposition_modifies"
+msgstr "Ist Änderungsantrag zu"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_associated.j2.jade:10
+msgid "title_amendments"
+msgstr "Änderungsanträge"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_associated.j2.jade:19
+msgid "title_proposition_replaces"
+msgstr "Ist Konkurrenzantrag zu"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_associated.j2.jade:24
+msgid "title_proposition_replacements"
+msgstr "Gegenanträge"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_discussion.j2.jade:3
+msgid "button_add_pro_argument"
+msgstr "Pro-Argument hinzufügen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_discussion.j2.jade:7
+msgid "button_add_con_argument"
+msgstr "Contra-Argument hinzufügen"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:15
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:22
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:26
+msgid "supporter_groups"
+msgstr "Gruppen der Unterstützer"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:18
+msgid "supporter_group"
+msgid_plural "supporter_groups"
+msgstr[0] "Gruppen des Unterstützers"
+msgstr[1] "Gruppe der Unterstützer"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:18
+msgid "qualification_group_quorum"
+msgstr "Unterstützer-Quorum zur Zulassung zur Abstimmung"
+
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:11
 msgid "proposition_id"
 msgstr ""
@@ -1182,6 +1200,10 @@ msgstr "Antragsart bearbeiten"
 #: src/ekklesia_portal/concepts/subject_area/templates/edit_subject_area.j2.jade:3
 msgid "title_edit_subject_area"
 msgstr "Themenbereich bearbeiten"
+
+#: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:12
+msgid "number_of_area_members"
+msgstr "%(num)s angemeldete Teilnehmer"
 
 #: src/ekklesia_portal/concepts/user/user_contracts.py:10
 msgid "email"
@@ -1478,13 +1500,21 @@ msgstr "Antragsentwurf übertragen"
 
 #: src/ekklesia_portal/helper/missing_translations.py:16
 msgid "tab_associated"
-msgstr "Zugehörig (Konkurrenzanträge)"
+msgstr "Änderungs- & Konkurrenzanträge"
 
 #: src/ekklesia_portal/helper/missing_translations.py:17
+msgid "tab_discussion"
+msgstr "Diskussion"
+
+#: src/ekklesia_portal/helper/missing_translations.py:18
+msgid "button_add_amendment"
+msgstr "Änderungsantrag hinzufügen"
+
+#: src/ekklesia_portal/helper/missing_translations.py:19
 msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
-#: src/ekklesia_portal/helper/missing_translations.py:18
+#: src/ekklesia_portal/helper/missing_translations.py:20
 msgid "button_goto_associated"
 msgstr "Zu den Konkurrenzanträgen"
 
@@ -1708,22 +1738,6 @@ msgstr "Nein"
 msgid "vote_by_user_abstention"
 msgstr "Enthaltung"
 
-#: src/ekklesia_portal/concepts/department/templates/department.j2.jade:19
-msgid "number_of_members"
-msgstr "(%(num)s Mitglieder)"
-
-#: src/ekklesia_portal/concepts/subject_area/templates/subject_area.j2.jade:32
-msgid "number_of_area_members"
-msgstr "%(num)s angemeldete Teilnehmer"
-
-#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
-msgid "relation_replaces"
-msgstr "Gegenantrag für:"
-
-#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
-msgid "relation_modifies"
-msgstr "Änderungsantrag für:"
-
 #~ msgid "translation"
 #~ msgstr "Übersetzung"
 
@@ -1757,7 +1771,9 @@ msgstr "Änderungsantrag für:"
 #~ msgstr "Beziehungstyp"
 
 #~ msgid "amendment"
-#~ msgstr "Änderungsantrag"
+#~ msgid_plural "amendments"
+#~ msgstr[0] "Änderung"
+#~ msgstr[1] "Änderungen"
 
 #~ msgid "counter_proposition"
 #~ msgstr "Gegenantrag"
@@ -1838,3 +1854,12 @@ msgstr "Änderungsantrag für:"
 #~ msgid_plural "propositions"
 #~ msgstr[0] "Antrag"
 #~ msgstr[1] "Anträge"
+
+#~ msgid "tab_discussion"
+#~ msgstr "Diskussion"
+
+#~ msgid "relation_replaces"
+#~ msgstr "Gegenantrag für:"
+
+#~ msgid "relation_modifies"
+#~ msgstr "Änderungsantrag für:"

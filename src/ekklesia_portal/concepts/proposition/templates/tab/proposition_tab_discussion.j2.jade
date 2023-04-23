@@ -1,0 +1,24 @@
+.row.arguments
+  a(name="bottom")
+
+  .proposition_col.pro
+    = render_cell(collection=pro_argument_relations)
+
+    if show_create_argument
+      a(href=new_pro_argument_url)
+        .button_add_related
+            i.far.fa-thumbs-up &nbsp;
+            = _("button_add_pro_argument")
+
+  .proposition_col.con
+    = render_cell(collection=contra_argument_relations)
+
+    if show_create_argument
+      a(href=new_con_argument_url)
+        .button_add_related
+            i.far.fa-thumbs-down &nbsp;
+            = _("button_add_con_argument")
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

@@ -1,0 +1,51 @@
+.row.arguments
+  a(name="bottom")
+
+  .proposition_col.amendments
+
+    if modifies
+      .proposition_change_header
+        .card-body
+          h4= _('title_proposition_modifies')
+
+      = render_cell(modifies, 'small', side='left')
+
+
+    if derivations
+      .proposition_amendments_header
+        .card-body
+          h4= _('title_amendments')
+
+    = render_cell(collection=derivations, view_name='small', side='left')
+
+    if show_create_amendment
+      a(href=new_amendment_url)
+        .button_add_related
+          i.far.fa-circle &nbsp;
+          = customizable_text("button_add_amendment")
+
+  .proposition_col.counter
+
+    if replaces
+      .proposition_counter_header
+        .card-body
+          h4= _('title_proposition_replaces')
+
+      = render_cell(replaces, 'small', side='right')
+
+    if replacements
+      .proposition_counter_header
+        .card-body
+          h4= _('title_proposition_replacements')
+
+    = render_cell(collection=replacements, view_name='small', side='right')
+
+    if show_create_counter_proposition
+      a(href=new_counter_proposition_url)
+        .button_add_related
+          i.fas.fa-circle &nbsp;
+          = customizable_text("button_add_counter_proposition")
+
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

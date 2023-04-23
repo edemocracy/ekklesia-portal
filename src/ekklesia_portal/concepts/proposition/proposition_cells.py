@@ -58,10 +58,18 @@ class PropositionCell(LayoutCell):
     actions = Cell.fragment('proposition_actions')
     secret_voting = Cell.template_fragment('proposition_secret_voting')
     support = Cell.template_fragment('proposition_support')
-    toolbar = Cell.fragment('proposition_toolbar')
+    tabs = Cell.fragment('proposition_tabs')
     badges = Cell.fragment('proposition_badges')
     small = Cell.fragment('proposition_small')
     card = Cell.fragment('proposition_card')
+
+    @Cell.fragment
+    def tab_content(self):
+        variant = self.options.get("active_tab")
+        if variant is None:
+            return ""
+        template = f"proposition/tab/proposition_tab_{variant}.j2.jade"
+        return self.render_template(template)
 
     @Cell.fragment
     def status(self):
