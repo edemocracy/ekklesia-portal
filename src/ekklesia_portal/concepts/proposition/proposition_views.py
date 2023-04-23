@@ -151,7 +151,7 @@ def secret_voting(self, request):
         secret_record.status = SecretVoterStatus.RETRACTED
     secret_record.last_change = datetime.now(timezone.utc)
 
-    if request.headers.get("HX-Request"):
+    if request.htmx:
         return PropositionCell(self, request).secret_voting()
     else:
         return redirect(request.link(self))
@@ -180,7 +180,7 @@ def support(self, request):
     elif supporter is not None:
         supporter.status = SupporterStatus.RETRACTED
 
-    if request.headers.get("HX-Request"):
+    if request.htmx:
         cell = PropositionCell(self, request)
         return "\n".join([cell.support(), cell.detail_top()])
     else:
