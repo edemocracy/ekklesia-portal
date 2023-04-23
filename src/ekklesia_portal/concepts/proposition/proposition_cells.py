@@ -111,7 +111,7 @@ class PropositionCell(LayoutCell):
         return self._model.ballot.area.name
 
     def associated_url(self):
-        return self.link(self._model, 'associated')
+        return self.link(self._model, 'associated') + "#bottom"
 
     def report_url(self):
         return self._s.app.report_url
@@ -166,7 +166,7 @@ class PropositionCell(LayoutCell):
         return f'# {ballot.id}'
 
     def discussion_url(self):
-        return self.link(self._model)
+        return self.link(self._model) + "#bottom"
 
     def propositions_badge_url(self, department_name, subject_area_name=None, tag_name=None):
         params = {"department": department_name}
@@ -200,8 +200,11 @@ class PropositionCell(LayoutCell):
     def associated_link_class(self):
         return 'active' if self.options.get('active_tab') == 'associated' else ''
 
-    def new_associated_proposition_url(self, association_type):
-        return self.class_link(Propositions, dict(association_type=association_type, association_id=self._model.id.repr), '+new')
+    def new_amendment_url(self):
+        return self.link(self._model, '+new_amendment')
+
+    def new_counter_proposition_url(self):
+        return self.class_link(Propositions, dict(association_type="counter"), '+new')
 
     def new_pro_argument_url(self):
         return self.class_link(
@@ -285,11 +288,17 @@ class PropositionCell(LayoutCell):
             PropositionStatus.VOTING, PropositionStatus.ABANDONED
         )
 
-    def show_create_associated_proposition(self):
-        return self._model.status in (
+    def show_create_amendment(self):
+        return self._s.app.enable_amendments and self._model.status in (
             PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
             PropositionStatus.SCHEDULED
-        ) and self._request.permitted_for_current_user(Propositions(), CreatePermission)
+        ) and self._request.permitted_for_current_user(Proposition(), CreatePermission) and self._model.modifies is None
+
+    def show_create_counter_proposition(self):
+        return self._s.app.enable_counter_propositions and self._model.status in (
+            PropositionStatus.DRAFT, PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED,
+            PropositionStatus.SCHEDULED
+        ) and self._request.permitted_for_current_user(Propositions(), CreatePermission) and self._model.modifies is None
 
     def show_submitter_names(self):
         if self.current_user is None:
@@ -598,3 +607,11 @@ class PropositionSubmitDraftCell(EditFormCell):
 
     def draft_not_fully_matched(self):
         return not self._form_data.get("all_matched")
+
+@App.cell(Proposition, 'new_amendment')
+class NewPropositionAmendmentCell(NewFormCell):
+
+    model_properties = ["title"]
+
+    def new_amendment_explanation(self):
+        return customizable_text(self._request, 'new_proposition_amendment_explanation')

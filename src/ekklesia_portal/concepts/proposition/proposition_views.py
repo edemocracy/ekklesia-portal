@@ -21,10 +21,10 @@ from ekklesia_portal.importer import PROPOSITION_IMPORT_HANDLERS
 from ekklesia_portal.lib.discourse import DiscourseError
 from ekklesia_portal.lib.identity import identity_manages_department
 from ekklesia_portal.lib.propositions import propositions_to_csv, TableRowOptionalFields
-from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission, WritePermission
+from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission, ViewPermission
 
-from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionSubmitDraftCell, PropositionsCell
-from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm, PropositionSubmitDraftForm
+from .proposition_cells import EditPropositionCell, NewPropositionCell, PropositionCell, PropositionNewDraftCell, PropositionSubmitDraftCell, PropositionsCell, NewPropositionAmendmentCell
+from .proposition_contracts import PropositionEditForm, PropositionNewDraftForm, PropositionNewForm, PropositionSubmitDraftForm, PropositionNewAmendmentForm
 from .proposition_helper import get_or_create_tags, proposition_slug
 from .propositions import Propositions
 
@@ -58,6 +58,13 @@ def propositions_create_permission(identity, model, permission):
 def proposition_support_permission(identity, model, permission):
     # TODO: All users can support propositions at the moment.
     # This must be limited to the users of a department.
+    return True
+
+
+@App.permission_rule(model=Proposition, permission=CreatePermission)
+def amendment_create_permission(identity, model, permission):
+    # TODO: All users can amendments at the moment.
+    # This must be limited to the users of a department (at least).
     return True
 
 
@@ -252,9 +259,16 @@ def new(self, request):
     return NewPropositionCell(request, form, form_data).show()
 
 
-def _create_proposition(request, ballot, appstruct, document=None, section=None):
-    appstruct['tags'] = get_or_create_tags(request.db_session, appstruct['tags'])
-    editing_remarks = appstruct.pop('editing_remarks')
+def _create_proposition(request, ballot, appstruct, document=None, section=None, tags=None):
+    if tags is None:
+        tags = get_or_create_tags(request.db_session, appstruct['tags'])
+
+    appstruct['tags'] = tags
+
+    if 'editing_remarks' in appstruct:
+        editing_remarks = appstruct.pop('editing_remarks')
+    else:
+        editing_remarks = None
 
     submitter_invitation_key = base32_crockford.encode(secrets.randbits(64))
 
@@ -487,3 +501,35 @@ def submit_draft_post(self: Proposition, request, appstruct):
     self.submitted_at = datetime.now()
 
     return redirect(request.link(self))
+
+
+@App.html(model=Proposition, name='new_amendment', permission=CreatePermission)
+def new_amendment(self, request):
+    _ = request.i18n.gettext
+    form_data = {
+        "title": _('amendment_to', title=self.title),
+        "content": self.content,
+        "related_proposition_id": self.id,
+        "relation_type": PropositionRelationType.MODIFIES
+    }
+
+    form = PropositionNewAmendmentForm(request, request.link(self, "new_amendment"))
+    return NewPropositionAmendmentCell(request, form, form_data, model=self).show()
+
+
+@App.html_form_post(model=Proposition, form=PropositionNewAmendmentForm, cell=NewPropositionAmendmentCell, permission=CreatePermission, name="new_amendment")
+def create_amendment(self, request, appstruct):
+    related_proposition_id = appstruct.pop('related_proposition_id')
+    del appstruct["relation_type"]
+    if related_proposition_id:
+        related_proposition = request.db_session.query(Proposition).get(related_proposition_id)
+        if related_proposition is None:
+            raise HTTPBadRequest()
+
+        # modifiying and replacing propositions are put in the existing ballot of the related proposition
+        ballot = related_proposition.ballot
+
+        appstruct['modifies'] = related_proposition
+
+    proposition_url = _create_proposition(request, ballot, appstruct, tags=related_proposition.tags)
+    return redirect(proposition_url)
