@@ -138,10 +138,10 @@
                   build_docker_static
                 '';
                 run_dev.exec = ''
-                  python src/ekklesia_portal/runserver.py -b localhost --reload -p 10080 | tee run_dev.log.json | eliot-tree -l0
+                  python src/ekklesia_portal/runserver.py -b localhost --reload -p 8080 -c config.yml | tee run_dev.log.json | eliot-tree -l0
                 '';
                 debug_dev.exec = ''
-                  python src/ekklesia_portal/runserver.py -b localhost -p 10080 --debug
+                  python src/ekklesia_portal/runserver.py -b localhost -p 8080 -c config.yml --debug
                 '';
                 create_test_db.exec = ''
                   python tests/create_test_db.py --config-file config.yml
