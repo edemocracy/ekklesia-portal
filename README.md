@@ -71,19 +71,13 @@ or the first step will take a long time to complete.
    Make sure that the database connection string points to an
    empty + writable database.
 
-4. Set up the database for testing (look at `flake.nix` to see what this does):
+4. Set up the dev database (look at `flake.nix` to see what this does):
 
    ```
-   create_test_db
+   create_dev_db
    ```
 
-5. Run tests:
-
-   ```
-   pytest
-   ```
-
-6. Run the development server (look at `flake.nix` to see what this does):
+5. Run the development server (look at `flake.nix` to see what this does):
    ```
    run_dev
    ```

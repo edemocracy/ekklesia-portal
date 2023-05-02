@@ -143,8 +143,11 @@
                 debug_dev.exec = ''
                   python src/ekklesia_portal/runserver.py -b localhost -p 8080 -c config.yml --debug
                 '';
-                create_test_db.exec = ''
+                create_dev_db.exec = ''
                   python tests/create_test_db.py --config-file config.yml
+                '';
+                create_test_db.exec = ''
+                  python tests/create_test_db.py
                 '';
                 doit_auto.exec = ''
                   echo "Recompiling CSS and translation files if source files change..."
