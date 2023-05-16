@@ -60,8 +60,22 @@ def get_test_settings(db_uri):
                 'base_url': 'test'
             }
         },
+
         'share': {
             'use_url_shortener': False
+        },
+        'voting_modules': {
+            "test": {
+                'api_urls': [
+                  "http://vvvote1", "http://vvvote2"
+                ],
+                'defaults': {
+                    'must_be_eligible': True,
+                    'must_be_verified': False,
+                    'auth_server_id': 'test_auth_server',
+                    'required_role': 'test_role',
+                }
+            }
         }
     }
 

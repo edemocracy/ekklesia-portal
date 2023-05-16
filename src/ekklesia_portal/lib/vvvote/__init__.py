@@ -2,16 +2,18 @@ import json
 from eliot import start_action
 import requests
 
+
 class VVVoteAPIException(Exception):
     pass
 
 
-def create_election_in_vvvote(module_config, election_config):
+def create_election_in_vvvote(module_config, election_config) -> str:
 
     for url in module_config["api_urls"]:
 
-        with start_action(action_type="post_election_config",
-            election_config=election_config) as action:
+        with start_action(
+            action_type="post_election_config", election_config=election_config
+        ) as action:
 
             response = requests.post(f"{url}/newelection", data=election_config)
             response.raise_for_status()
@@ -30,4 +32,5 @@ def create_election_in_vvvote(module_config, election_config):
             else:
                 raise VVVoteAPIException(f"unexpected response from vvvote: {response}")
 
-    return response_json["configUrl"]
+    config_url = response_json["configUrl"]
+    return config_url

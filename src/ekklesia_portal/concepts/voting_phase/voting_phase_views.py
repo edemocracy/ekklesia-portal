@@ -17,6 +17,7 @@ from .voting_phase_cells import EditVotingPhaseCell, NewVotingPhaseCell, VotingP
 from .voting_phase_contracts import VotingPhaseForm
 from .voting_phases import VotingPhases
 from .voting_phase_permissions import ManageVotingPermission
+from ...voting_modules import VOTING_MODULES
 
 
 @App.permission_rule(model=VotingPhases, permission=CreatePermission)
@@ -144,24 +145,24 @@ def spickerrr(self, request):
 
 
 @App.html(model=VotingPhase, name="create_voting", request_method="POST", permission=EditPermission)
-def create_voting(self, request):
+def create_voting(self: VotingPhase, request):
     if not self.voting_can_be_created:
-        raise HTTPBadRequest("Voting phase is in the wrong state or target date is not set")
+        raise HTTPBadRequest(f"Voting phase {self} is in the wrong state ({self.status}) or target date is not set ({self.target})")
 
-    voting_module_name = request.POST.get("create_voting")
+    try:
+        voting_module_name = request.POST["create_voting"]
+    except KeyError:
+        raise HTTPBadRequest("create_voting (voting module name) missing from POST data!")
 
     try:
         module_config = prepare_module_config(request.app, self.department, voting_module_name)
     except InvalidVotingModule as e:
         raise HTTPBadRequest(e.args[0])
 
-    with start_action(action_type="create_vvvote_election_config", module_config=module_config):
-        election_config = voting_phase_to_vvvote_election_config(module_config, self).to_json()
+    _create_voting = module_config["create_voting"]
 
-    with start_action(action_type="create_election_in_vvvote", election_config=election_config) as action:
-        config_url = create_election_in_vvvote(module_config, election_config)
-        self.voting_module_data[voting_module_name] = {"config_url": config_url, "results_url": config_url + "&showresult"}
-        action.add_success_fields(config_url=config_url)
+    with start_action(action_type="create_voting", create_voting_func=_create_voting):
+        self.voting_module_data[voting_module_name] = _create_voting(module_config, self)
 
     _ = request.i18n.gettext
 

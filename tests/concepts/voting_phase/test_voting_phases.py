@@ -1,3 +1,5 @@
+import datetime
+
 import factory
 
 from assert_helpers import assert_difference
@@ -66,3 +68,28 @@ def test_update_as_global_admin(client, voting_phase_factory, logged_in_global_a
     form['title'] = 'new title'
     form.submit(status=302)
     assert voting_phase.title == 'new title'
+
+
+def test_create_voting(client, department_factory, voting_phase_factory, logged_in_global_admin, monkeypatch):
+
+    department = department_factory(voting_module_settings={"test": {}})
+    voting_phase: VotingPhase = voting_phase_factory(
+        department=department,
+        target=datetime.datetime.now(),
+        registration_start_days=21,
+        voting_days=14
+    )
+
+    def _create_test_voting(_module_config, _voting_phase):
+        assert _module_config["api_urls"]
+        assert _voting_phase is voting_phase
+        return {"result_url": "http://test1/result"}
+
+    monkeypatch.setattr("ekklesia_portal.voting_modules.VOTING_MODULES", {"test": _create_test_voting})
+
+
+    res = client.post(f"/v/{voting_phase.id}/slug/create_voting", dict(create_voting="test"), status=302)
+    loc = res.headers["Location"]
+    assert str(voting_phase.id) in loc, res.headers
+
+    assert voting_phase.voting_module_data.get("test", {}).get("result_url") == "http://test1/result", voting_phase.voting_module_data
