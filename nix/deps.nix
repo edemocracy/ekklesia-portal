@@ -54,6 +54,7 @@ let
       ) //
       (addPythonBuildDeps
         [ self.poetry self.greenlet ] [
+        "alembic"
         "ekklesia-common"
         "iso8601"
         "mimesis-factory"
@@ -61,6 +62,7 @@ let
         "more-babel-i18n"
         "pytest-factoryboy"
         "sqlalchemy"
+        "sqlalchemy-utils"
         "zope-sqlalchemy"
       ]) //
       (addPythonBuildDeps
@@ -70,7 +72,7 @@ let
       ])
   );
 
-  mkPoetryApplication = { ... }@args:
+  mkPoetryApplication = args:
     poetry2nix.mkPoetryApplication (args // {
       inherit overrides;
     });
