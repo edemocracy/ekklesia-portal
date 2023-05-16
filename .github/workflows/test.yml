@@ -13,8 +13,8 @@ jobs:
       with:
         name: edemocracy
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: nix develop -c ./test-setup.sh /tmp
-    - run: nix develop -c pytest
+    - run: nix develop --impure -c ./test-setup.sh /tmp
+    - run: nix develop --impure -c pytest
 
 
 # vim: set filetype=yaml sw=2 ts=2 sts=2 expandtab:
