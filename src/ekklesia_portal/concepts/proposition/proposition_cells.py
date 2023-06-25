@@ -212,7 +212,7 @@ class PropositionCell(LayoutCell):
         return self.link(self._model, '+new_amendment')
 
     def new_counter_proposition_url(self):
-        return self.class_link(Propositions, dict(association_type="counter"), '+new')
+        return self.class_link(Propositions, dict(association_type="counter", association_id=self._model.id.repr), '+new')
 
     def new_pro_argument_url(self):
         return self.class_link(
