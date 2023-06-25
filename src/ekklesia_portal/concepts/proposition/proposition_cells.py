@@ -418,14 +418,14 @@ class NewPropositionCell(NewFormCell):
         self._form.prepare_for_render(items)
 
     def relation_type(self):
-        if "relation_type" in self._form_data:
+        if self._form_data and "relation_type" in self._form_data:
             return self._form_data["relation_type"]
         else:
             return None
 
     @cached_property
     def relation(self):
-        if "related_proposition_id" in self._form_data:
+        if self._form_data and "related_proposition_id" in self._form_data:
             return self._request.q(Proposition).get(LID.from_str(self._form_data["related_proposition_id"]))
         else:
             return None

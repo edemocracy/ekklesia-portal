@@ -1245,11 +1245,23 @@ msgstr "Bitte die Teilnahme an den Themenbereichen wählen:"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:20
 msgid "button_member_in_area"
-msgstr "Teilnahme:"
+msgstr "Teilnahme widerrufen"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
 msgid "button_not_member_in_area"
-msgstr "KEINE Teilnahme:"
+msgstr "Teilnehmen"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:20
+msgid "member_in_area"
+msgstr "(Du bist Teilnehmer): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
+msgid "not_member_in_area"
+msgstr "(Du bist kein Teilnehmer): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:49
+msgid "cant_leave_supporting_area"
+msgstr "Solange du Anträge in diesem Themenbereich unterstützt, kannst du ihn nicht verlassen"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:29
 msgid "label_groups"
