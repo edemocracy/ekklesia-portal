@@ -379,6 +379,10 @@ msgstr "Consent is required"
 msgid "title_new_draft"
 msgstr "New draft"
 
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_replaces"
+msgstr "Counter motion for:"
+
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:8
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
@@ -1824,9 +1828,6 @@ msgstr "Abstention"
 #~ msgid_plural "propositions"
 #~ msgstr[0] "proposition"
 #~ msgstr[1] "propositions"
-
-#~ msgid "relation_replaces"
-#~ msgstr "Counter motion for:"
 
 #~ msgid "relation_modifies"
 #~ msgstr "Change motion for:"
