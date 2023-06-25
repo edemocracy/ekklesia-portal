@@ -13,7 +13,7 @@ from ekklesia_portal.app import App
 from ekklesia_portal.concepts.customizable_text.customizable_text_helper import customizable_text
 from ekklesia_portal.concepts.document.document_helper import get_section_from_document
 from ekklesia_portal.concepts.proposition.proposition_permissions import NewDraftPermission, SubmitDraftPermission
-from ekklesia_portal.datamodel import Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter, SecretVoter
+from ekklesia_portal.datamodel import AreaMember, Ballot, Changeset, Document, Proposition, PropositionType, SubjectArea, Supporter, SecretVoter
 from ekklesia_portal.enums import PropositionRelationType, PropositionStatus, PropositionVisibility, SecretVoterStatus, SupporterStatus
 from ekklesia_portal.exporter.discourse import push_draft_to_discourse
 from ekklesia_portal.identity_policy import NoIdentity
@@ -177,6 +177,12 @@ def support(self, request):
 
         supporter.status = SupporterStatus.ACTIVE
 
+        # Join subject area when supporting proposition
+        am = request.q(AreaMember).filter(AreaMember.member == request.current_user).filter(AreaMember.area == self.ballot.area).first()
+        if am is None:
+            am = AreaMember(area=self.ballot.area, member=request.current_user)
+            request.db_session.add(am)
+
     elif supporter is not None:
         supporter.status = SupporterStatus.RETRACTED
 
@@ -201,6 +207,12 @@ def become_submitter(self: Proposition, request):
         request.db_session.add(supporter)
 
     supporter.submitter = True
+
+    # Join subject area when joining as submitter
+    am = request.q(AreaMember).filter(AreaMember.member == request.current_user).filter(AreaMember.area == self.ballot.area).first()
+    if am is None:
+        am = AreaMember(area=self.ballot.area, member=request.current_user)
+        request.db_session.add(am)
 
     return redirect(request.link(self))
 
@@ -326,6 +338,7 @@ def create(self, request, appstruct):
     relation_type = appstruct.pop('relation_type')
     related_proposition_id = appstruct.pop('related_proposition_id')
     if relation_type and related_proposition_id:
+        # TODO: Check department here and add member to area
         related_proposition = request.db_session.query(Proposition).get(related_proposition_id)
         if related_proposition is None:
             raise HTTPBadRequest()
@@ -353,6 +366,13 @@ def create(self, request, appstruct):
             return HTTPBadRequest("proposition_type missing")
 
         ballot = Ballot(area=area, proposition_type=proposition_type)
+
+        # Join subject area when creating a proposition
+        if not request.identity.has_global_admin_permissions:
+            am = request.q(AreaMember).filter(AreaMember.member == request.current_user).filter(AreaMember.area == area).first()
+            if am is None:
+                am = AreaMember(area=area, member=request.current_user)
+                request.db_session.add(am)
 
     del appstruct['area_id']
     del appstruct['proposition_type_id']

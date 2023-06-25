@@ -6,6 +6,7 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.user.user_helper import items_for_user_select_widgets
 from ekklesia_portal.datamodel import Group, User, UserProfile
+from ekklesia_portal.enums import PropositionStatus, SupporterStatus
 
 
 @App.cell(User)
@@ -35,6 +36,11 @@ class UserCell(LayoutCell):
 
     def member_area_action(self):
         return self.link(self._model, name='member_area')
+
+    def supported_areas(self):
+        return [support.proposition.ballot.area for support in self._model.member_propositions \
+                if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED]
+
 
 @App.cell(User, 'edit')
 class EditUserCell(EditFormCell):
