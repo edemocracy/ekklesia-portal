@@ -182,6 +182,8 @@ def support(self, request):
         if am is None:
             am = AreaMember(area=self.ballot.area, member=request.current_user)
             request.db_session.add(am)
+        else:
+            am.last_update = datetime.now()
 
     elif supporter is not None:
         supporter.status = SupporterStatus.RETRACTED
@@ -213,6 +215,8 @@ def become_submitter(self: Proposition, request):
     if am is None:
         am = AreaMember(area=self.ballot.area, member=request.current_user)
         request.db_session.add(am)
+    else:
+        am.last_update = datetime.now()
 
     return redirect(request.link(self))
 
@@ -373,6 +377,8 @@ def create(self, request, appstruct):
             if am is None:
                 am = AreaMember(area=area, member=request.current_user)
                 request.db_session.add(am)
+            else:
+                am.last_update = datetime.now()
 
     del appstruct['area_id']
     del appstruct['proposition_type_id']

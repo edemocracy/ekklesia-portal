@@ -210,6 +210,7 @@ class AreaMember(Base):
     area = relationship("SubjectArea", backref=backref("area_members", cascade="all, delete-orphan"))
     member_id: int = C(Integer, ForeignKey('users.id'), primary_key=True)
     member = relationship("User", backref=backref("member_areas", cascade="all, delete-orphan"))
+    last_update: datetime = C(DateTime, nullable=False, server_default=func.now(), comment='last membership update')
 
     def __init__(self, area=None, member=None):
         self.area = area
