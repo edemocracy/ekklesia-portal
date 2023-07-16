@@ -20,7 +20,7 @@ pkgs.dockerTools.buildLayeredImage {
   config = {
     ExposedPorts = { "8080/tcp" = { }; };
     User = user;
-    Entrypoint = [ "${serveApp}/bin/run" ];
+    Entrypoint = [ "${serveApp}/bin/ekklesia-portal-serve-app" ];
     Cmd = [ "# runs gunicorn" ];
   };
 }

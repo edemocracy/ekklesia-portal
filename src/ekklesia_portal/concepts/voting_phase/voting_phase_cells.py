@@ -236,6 +236,10 @@ class EditVotingPhaseCell(EditFormCell):
             self._model, ManageVotingPermission
         )
 
+    def show_retrieve_voting(self):
+        return self.voting_modules and self.propositions and self._model.voting_can_be_retrieved \
+            and self._request.permitted_for_current_user(self._model, ManageVotingPermission)
+
     def show_inherited_properties(self):
         if not self.inherited_properties:
             return
@@ -263,3 +267,12 @@ class EditVotingPhaseCell(EditFormCell):
 
     def create_voting_action(self):
         return self._request.link(self._model, "create_voting")
+
+    def retrieve_voting_action(self):
+        return self._request.link(self._model, "retrieve_voting")
+
+    def allow_retrieve_results(self):
+        if self._model.voting_end is None:
+            return False
+
+        return datetime.now() > self._model.voting_end

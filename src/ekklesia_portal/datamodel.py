@@ -403,6 +403,10 @@ class VotingPhase(Base):  # Abstimmungsperiode
         return self.status == VotingStatus.PREPARING and self.voting_start is not None and self.voting_end is not None
 
     @property
+    def voting_can_be_retrieved(self):
+        return self.status == VotingStatus.FINISHED and self.voting_start is not None and self.voting_end is not None
+
+    @property
     def voting_start(self):
         if self.target is None:
             return

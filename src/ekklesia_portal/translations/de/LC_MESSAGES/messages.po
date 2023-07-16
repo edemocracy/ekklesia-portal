@@ -1348,6 +1348,10 @@ msgstr "Daten für externe Abstimmungssysteme"
 msgid "voting_created_msg"
 msgstr "Abstimmung im Abstimmungsmodul %(voting_module)s erzeugt."
 
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:198
+msgid "voting_retrieved_msg"
+msgstr "Abstimmungsergebnisse von %(voting_module)s geholt."
+
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:9
 msgid "title_edit_voting_phase"
@@ -1357,9 +1361,17 @@ msgstr "Abstimmungszeitraum bearbeiten"
 msgid "title_create_voting"
 msgstr "Externe Abstimmungen anlegen"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:6
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:19
+msgid "title_retrieve_voting"
+msgstr "Ergebnisse abholen"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:16
 msgid "create_voting_button"
 msgstr "Abstimmung erzeugen (%(voting_module)s)"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:23
+msgid "retrieve_voting_button"
+msgstr "Ergebnisse abfragen (%(voting_module)s)"
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:10
 msgid "inherited_properties"

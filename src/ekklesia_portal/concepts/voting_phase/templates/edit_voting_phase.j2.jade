@@ -15,6 +15,15 @@
           |&nbsp;
           = _('create_voting_button', voting_module=voting_module)
 
+  if show_retrieve_voting
+    h2= _("title_retrieve_voting")
+    form.create_voting_form(action=retrieve_voting_action, method="POST")
+      for voting_module, enabled in voting_modules
+        button.btn.btn-primary(disabled=(not allow_retrieve_results), type="submit", name="retrieve_voting", value=voting_module)
+          i.far.fa-paper-plane
+          |&nbsp;
+          = _('retrieve_voting_button', voting_module=voting_module)
+
 
   h2= _("title_edit_voting_phase")
 
