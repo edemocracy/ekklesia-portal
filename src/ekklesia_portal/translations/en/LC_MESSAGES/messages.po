@@ -1239,11 +1239,23 @@ msgstr "Please select the participation in the subject areas:"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:20
 msgid "button_member_in_area"
-msgstr "participation:"
+msgstr "Cancel participation"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
 msgid "button_not_member_in_area"
-msgstr "NO participation:"
+msgstr "Participate"
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:20
+msgid "member_in_area"
+msgstr "(You are participating): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
+msgid "not_member_in_area"
+msgstr "(You are not participating): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:49
+msgid "cant_leave_supporting_area"
+msgstr "As long as you support propositions in this subject area, you can't quit the participation"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:29
 msgid "label_groups"

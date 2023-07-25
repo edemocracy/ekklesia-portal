@@ -1,7 +1,8 @@
 from ekklesia_common.permission import EditPermission, ViewPermission
+from ekklesia_portal.enums import PropositionStatus, SupporterStatus
 from morepath.view import redirect
 from ekklesia_portal.app import App
-from ekklesia_portal.datamodel import Group, User, AreaMember, SubjectArea
+from ekklesia_portal.datamodel import Ballot, Group, Proposition, Supporter, User, AreaMember, SubjectArea
 
 from .user_cells import EditUserCell, UserCell
 from .user_contracts import UserForm
@@ -64,7 +65,14 @@ def show_member_area(self, request):
                 request.db_session.add(am)
         else:
             if am is not None:
-                request.db_session.delete(am)
+                # Check if user is supporting any propositions in this subject area
+                support = request.q(Supporter).filter(Supporter.member == self) \
+                    .join(Proposition).join(Ballot).filter(Ballot.area == area_obj) \
+                    .filter(Supporter.status == SupporterStatus.ACTIVE) \
+                    .filter(Proposition.status == PropositionStatus.SUBMITTED) \
+                    .first()
+                if not support:
+                    request.db_session.delete(am)
 
     cell = UserCell(self, request)
     return cell.show()

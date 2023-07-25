@@ -41,15 +41,21 @@
               li
                 form(action=member_area_action, method="POST")
                   input(type='hidden', name='area_id', value=area.id)
-                  if member_in_area
-                    button.btn.btn-primary.btn-sm(type="submit", name="member_in_area", value="N")
-                      i.far.fa-thumbs-up &nbsp;
-                      = _('button_member_in_area')
-                  else
-                    button.btn.btn-secondary.btn-sm(type="submit", name="member_in_area", value="Y")
-                      i.far.fa-remove &nbsp;
-                      = _('button_not_member_in_area')
                   label= area.name
+                  &nbsp;
+                  if member_in_area
+                    = _('member_in_area')
+                    if area in supported_areas
+                      = _('cant_leave_supporting_area')
+                    else
+                      button.btn.btn-secondary.btn-sm(type="submit", name="member_in_area", value="N")
+                        i.far.fa-trash-alt &nbsp;
+                        = _('button_member_in_area')
+                  else
+                    = _('not_member_in_area')
+                    button.btn.btn-primary.btn-sm(type="submit", name="member_in_area", value="Y")
+                      i.far.fa-thumbs-up &nbsp;
+                      = _('button_not_member_in_area')
 
   if groups
     h3= _('label_groups')
