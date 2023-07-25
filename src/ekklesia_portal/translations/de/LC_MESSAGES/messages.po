@@ -379,6 +379,10 @@ msgstr "Zustimmung ist erforderlich"
 msgid "title_new_draft"
 msgstr "Neuer Antragsentwurf"
 
+#: src/ekklesia_portal/concepts/proposition/templates/new_proposition.j2.jade:11
+msgid "relation_replaces"
+msgstr "Gegenantrag für:"
+
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:8
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/layout.j2.jade:31
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phases.j2.jade:5
@@ -1869,9 +1873,6 @@ msgstr "Enthaltung"
 
 #~ msgid "tab_discussion"
 #~ msgstr "Diskussion"
-
-#~ msgid "relation_replaces"
-#~ msgstr "Gegenantrag für:"
 
 #~ msgid "relation_modifies"
 #~ msgstr "Änderungsantrag für:"

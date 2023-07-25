@@ -28,6 +28,8 @@ class Propositions:
     without_tags: str = None
     type: str = None
     visibility: str = None
+    association_type: PropositionRelationType = None
+    association_id: str = None
     include_amendments: str = None
     # Initialization with numbers instead of None is necessary because otherwise the
     # query values are not actually converted to an integer on assignment

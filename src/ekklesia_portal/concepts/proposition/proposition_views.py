@@ -157,6 +157,13 @@ def secret_voting(self, request):
         return redirect(request.link(self))
 
 
+def _make_qualified_if_entitled(self):
+    if self.status == PropositionStatus.SUBMITTED and self.qualification_quorum > 0:
+        if self.active_supporter_count >= self.qualification_quorum:
+            self.status = PropositionStatus.QUALIFIED
+            self.qualified_at = datetime.now()
+
+
 @App.html(model=Proposition, request_method='POST', name='support', permission=SupportPermission)
 def support(self, request):
     new_state = request.POST.get("support")
@@ -183,6 +190,9 @@ def support(self, request):
             am = AreaMember(area=self.ballot.area, member=request.current_user)
             request.db_session.add(am)
 
+        # Upgrade state to qualified if enough supporters
+        _make_qualified_if_entitled(self)
+
     elif supporter is not None:
         supporter.status = SupporterStatus.RETRACTED
 
@@ -198,6 +208,9 @@ def become_submitter(self: Proposition, request):
     key_valid = secrets.compare_digest(self.submitter_invitation_key, request.POST.get("submitter_invitation_key", ""))
     if not key_valid:
         raise HTTPBadRequest("wrong submitter invitation key")
+
+    if not self.status == PropositionStatus.DRAFT:
+        raise HTTPBadRequest("Proposition is already submitted")
 
     user = request.current_user
     supporter = self.support_by_user(user)
@@ -524,6 +537,9 @@ def submit_draft_post(self: Proposition, request, appstruct):
     self.content = appstruct["content"]
     self.status = PropositionStatus.SUBMITTED
     self.submitted_at = datetime.now()
+
+    # Directly change state to qualified if enough supporters
+    _make_qualified_if_entitled(self)
 
     return redirect(request.link(self))
 
