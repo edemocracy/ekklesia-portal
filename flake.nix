@@ -6,7 +6,7 @@
   description = "ekklesia-portal";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     devenv.url = "github:cachix/devenv";
     poetry2nix = {
       url = "github:dpausp/poetry2nix";

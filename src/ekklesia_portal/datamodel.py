@@ -22,6 +22,7 @@ from datetime import datetime, timedelta
 import math
 
 from ekklesia_common.database import Base, C, LIDType, integer_pk
+from ekklesia_common.ekklesia_auth import OAuthTokenMixin
 from ekklesia_common.lid import LID
 from ekklesia_common.utils import cached_property
 from sqlalchemy import (
@@ -124,6 +125,10 @@ class UserProfile(Base):
     verified: bool = C(Boolean)
     profile: str = C(Text)
 
+class OAuthToken(Base, OAuthTokenMixin):
+    __tablename__ = "oauth_token"
+    id = C(Integer, ForeignKey("users.id"), primary_key=True)
+    user = relationship("User", backref=backref("oauth_token", uselist=False))
 
 class GroupMember(Base):
     __tablename__ = 'groupmembers'

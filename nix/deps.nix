@@ -27,10 +27,6 @@ let
               pnames);
       in
       {
-        # XXX: Weird issue: rich fails because commonmark is missing
-        # in overrides/default.nix from poetry2nix.
-        commonmark = self.CommonMark;
-
         pypugjs = super.pypugjs.overridePythonAttrs (
           old: {
             format = "setuptools";
@@ -51,6 +47,10 @@ let
       (addPythonBuildDeps
         [ self.setuptools ]
         [ "base32-crockford" ]
+      ) //
+      (addPythonBuildDeps
+        [ self.flit-core ]
+        [ "colored" ]
       ) //
       (addPythonBuildDeps
         [ self.poetry self.greenlet ] [
