@@ -9,8 +9,8 @@ class IndexCell(LayoutCell):
 
     def scheduled_voting_phases(self):
         return (self._request.q(VotingPhase).
-            filter_by(status=VotingStatus.PREPARING).
-            filter(VotingPhase.target is not None).
+            where(VotingPhase.target is not None).
+            where(VotingPhase.status.in_([VotingStatus.PREPARING, VotingStatus.VOTING])).
             order_by(VotingPhase.target))
 
     def insecure_development_mode_enabled(self):
