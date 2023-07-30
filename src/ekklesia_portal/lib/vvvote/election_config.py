@@ -60,17 +60,20 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
     ballots.sort(key=get_ballot_sort_key)
     questions = [ballot_to_vvvote_question(ballot) for ballot in ballots]
 
-    if phase.registration_start is None:
-        raise ValueError("Cannot create voting for phase {phase}, registration_start is None")
+    phase_title = phase.title or phase.name or phase.phase_type.name
+    required_phase_attrs = [
+        "registration_start",
+        "registration_end",
+        "voting_start",
+        "voting_end",
+    ]
 
-    if phase.registration_end is None:
-        raise ValueError("Cannot create voting for phase {phase}, registration_end is None")
+    missing_attrs = [attr for attr in required_phase_attrs if getattr(phase, attr) is None]
 
-    if phase.voting_start is None:
-        raise ValueError("Cannot create voting for phase {phase}, voting_start is None")
+    if missing_attrs:
+        missing_attrs_str = ", ".join(missing_attrs)
+        raise ValueError(f"Cannot create voting for phase `{phase_title}`, value is missing for: {missing_attrs_str}")
 
-    if phase.voting_end is None:
-        raise ValueError("Cannot create voting for phase {phase}, voting_end is None")
 
     auth_data = vvvote_schema.OAuthConfig(
         eligible=module_config["must_be_eligible"],
