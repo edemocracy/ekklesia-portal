@@ -777,7 +777,7 @@ CREATE TABLE public.alembic_version (
 CREATE TABLE public.areamembers (
     area_id integer NOT NULL,
     member_id integer NOT NULL,
-    last_update timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 

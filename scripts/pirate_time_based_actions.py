@@ -34,7 +34,7 @@ def cleanup_subject_area_members(session: Session):
             cleanup_threshold = phase.target
             members = session.query(AreaMember).join(SubjectArea)\
                 .filter(SubjectArea.department == department,
-                        AreaMember.last_update < cleanup_threshold)\
+                        AreaMember.updated_at < cleanup_threshold)\
                 .all()
             for member in members:
                 print("Expiring", member.member_id, "'s area membership of", member.area_id)
