@@ -8,7 +8,6 @@ from ekklesia_portal.datamodel import VotingPhase, VotingPhaseType
 from ekklesia_portal.enums import VotingStatus, OpenSlidesVotingResult
 from ekklesia_portal.lib.identity import identity_manages_department, identity_manages_any_department
 from ekklesia_portal.lib.voting import InvalidVotingModule, prepare_module_config
-from ekklesia_portal.lib.vvvote import retrieve_results_from_vvvote
 from ekklesia_portal.permission import CreatePermission, EditPermission
 
 from .voting_phase_cells import EditVotingPhaseCell, NewVotingPhaseCell, VotingPhaseCell, VotingPhasesCell
@@ -171,17 +170,15 @@ def create_voting(self: VotingPhase, request):
 @App.html(model=VotingPhase, name="retrieve_voting", request_method="POST", permission=EditPermission)
 def retrieve_voting(self, request):
     if not self.voting_can_be_retrieved:
-        raise HTTPBadRequest("Voting phase is in the wrong state or target date is not set")
+        raise HTTPBadRequest(f"Voting phase {self} is in the wrong state ({self.status}) or target date is not set ({self.target})")
 
-    voting_module_name = request.POST.get("retrieve_voting")
+    try:
+        voting_module_name = request.POST["retrieve_voting"]
+    except KeyError:
+        raise HTTPBadRequest("retrieve_voting (voting module name) missing from POST data!")
 
-    voting_url = False
-    for name, settings in self.department.voting_module_settings.items():
-        voting_module_data = self.voting_module_data.get(name)
-        if voting_module_data and (voting_url := voting_module_data.get('config_url')):
-            break
-
-    if not voting_url:
+    voting_module_data = self.voting_module_data.get(voting_module_name)
+    if not voting_module_data:
         raise HTTPBadRequest("Voting module is not configured")
 
     try:
@@ -189,8 +186,11 @@ def retrieve_voting(self, request):
     except InvalidVotingModule as e:
         raise HTTPBadRequest(e.args[0])
 
-    with start_action(action_type="retrieve_election_from_vvvote") as action:
-        results = retrieve_results_from_vvvote(module_config, voting_url)
+    _retrieve_voting = module_config["retrieve_voting"]
+
+    results = _retrieve_voting(module_config, voting_module_data)
+
+    with start_action(action_type="apply_election_results") as action:
         result_objs = []
         for ii, ballot in enumerate(self.ballots, start=1):
             result = results.get(str(ii))

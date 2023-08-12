@@ -38,7 +38,9 @@ def create_election_in_vvvote(module_config, election_config) -> str:
     return config_url
 
 
-def retrieve_results_from_vvvote(module_config, election_url):
+def retrieve_results_from_vvvote(module_config, voting_data):
+
+    election_url = voting_data["config_url"]
 
     for url in module_config["api_urls"]:
 
