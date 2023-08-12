@@ -85,8 +85,10 @@ def test_create_voting(client, department_factory, voting_phase_factory, logged_
         assert _voting_phase is voting_phase
         return {"result_url": "http://test1/result"}
 
-    monkeypatch.setattr("ekklesia_portal.voting_modules.VOTING_MODULES", {"test": _create_test_voting})
+    def _retrieve_test_voting(_module_config, _voting_data):
+        return {}
 
+    monkeypatch.setattr("ekklesia_portal.voting_modules.VOTING_MODULES", {"test": (_create_test_voting, _retrieve_test_voting)})
 
     res = client.post(f"/v/{voting_phase.id}/slug/create_voting", dict(create_voting="test"), status=302)
     loc = res.headers["Location"]
