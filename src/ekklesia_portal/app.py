@@ -10,12 +10,12 @@ import yaml
 import ekklesia_common
 from ekklesia_common import database
 from ekklesia_common.app import EkklesiaBrowserApp
-from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp, OAuthToken
+from ekklesia_common.ekklesia_auth import EkklesiaAuth, EkklesiaAuthPathApp
 from ekklesia_common.lid import LID
 from eliot import log_call, start_action, log_message
 
 import ekklesia_portal
-from ekklesia_portal.datamodel import Department, Group, User, UserProfile
+from ekklesia_portal.datamodel import Department, Group, OAuthToken, User, UserProfile
 from ekklesia_portal.identity_policy import EkklesiaPortalIdentityPolicy
 
 logg = logging.getLogger(__name__)
