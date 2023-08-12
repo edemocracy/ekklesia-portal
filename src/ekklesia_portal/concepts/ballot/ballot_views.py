@@ -4,6 +4,7 @@ from webob.exc import HTTPBadRequest
 
 from ekklesia_portal.app import App
 from ekklesia_portal.datamodel import Ballot, SubjectArea, VotingPhase
+from ekklesia_portal.enums import PropositionStatus, VotingStatus
 from ekklesia_portal.lib.identity import identity_manages_department, identity_manages_any_department
 from ekklesia_portal.permission import EditPermission
 
@@ -105,6 +106,12 @@ def update(self, request, appstruct):
         department_allowed = [d for d in request.current_user.managed_departments if d.id == department_id]
         if not department_allowed:
             return HTTPBadRequest("department not allowed")
+
+    # Move proposition states to scheduled when adding ballot to voting phase
+    if voting_phase and voting_phase.status == VotingStatus.PREPARING:
+        for proposition in self.propositions:
+            if proposition.status == PropositionStatus.QUALIFIED:
+                proposition.status = PropositionStatus.SCHEDULED
 
     self.update(**appstruct)
     return redirect(request.link(self))
