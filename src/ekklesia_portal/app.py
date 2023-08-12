@@ -40,6 +40,7 @@ def app_setting_section():
         "enable_amendments": True,
         "enable_counter_propositions": True,
         "enable_drafts": True,
+        "submit_proposition_as_hidden": True,
         "fallback_language": "de",
         "faq_url": None,
         "imprint_url": None,
