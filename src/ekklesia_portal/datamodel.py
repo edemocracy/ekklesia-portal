@@ -386,9 +386,12 @@ class VotingPhase(Base):  # Abstimmungsperiode
         if self.target is None:
             return
 
-        days = self.registration_start_days or self.phase_type.registration_start_days
+        days = self.phase_type.registration_start_days
 
-        if days is None:
+        if self.registration_start_days is not None:
+            days = self.registration_start_days
+
+        if not days:
             return
 
         return self.target - timedelta(days=days)
@@ -400,7 +403,13 @@ class VotingPhase(Base):  # Abstimmungsperiode
         if self.target is None:
             return
 
-        days = self.registration_end_days or self.phase_type.registration_end_days or 0
+        days = self.phase_type.registration_end_days
+
+        if self.registration_end_days is not None:
+            days = self.registration_end_days
+
+        if not days:
+            return
 
         return self.target - timedelta(days=days)
 
