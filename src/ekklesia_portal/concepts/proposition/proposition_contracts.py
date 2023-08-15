@@ -99,15 +99,14 @@ class PropositionNewDraftForm(Form):
         super().__init__(PropositionNewDraftSchema(), request, action, buttons=[Button(title=_("button_create_draft"))])
 
     def prepare_for_render(self, items_for_selects):
-        common = common_widgets(items_for_selects)
         self.set_widgets({
             'document_id': HiddenWidget(),
             'section': HiddenWidget(),
             'editing_remarks': TextAreaWidget(rows=4),
-            'title': common['title'],
-            'abstract': common['abstract'],
-            'content': common['content'],
-            'motivation': common['motivation'],
+            'title': common_widgets['title'],
+            'abstract': common_widgets['abstract'],
+            'content': common_widgets['content'],
+            'motivation': common_widgets['motivation'],
             'tags': Select2Widget(multiple=True, tags=True, values=items_for_selects['tags']),
         })
 
