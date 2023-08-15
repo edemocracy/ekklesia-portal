@@ -189,6 +189,8 @@ def support(self, request):
         if am is None:
             am = AreaMember(area=self.ballot.area, member=request.current_user)
             request.db_session.add(am)
+        else:
+            am.updated_at = datetime.now()
 
         # Upgrade state to qualified if enough supporters
         _make_qualified_if_entitled(self)
@@ -226,6 +228,8 @@ def become_submitter(self: Proposition, request):
     if am is None:
         am = AreaMember(area=self.ballot.area, member=request.current_user)
         request.db_session.add(am)
+    else:
+        am.updated_at = datetime.now()
 
     return redirect(request.link(self))
 
@@ -386,6 +390,8 @@ def create(self, request, appstruct):
             if am is None:
                 am = AreaMember(area=area, member=request.current_user)
                 request.db_session.add(am)
+            else:
+                am.updated_at = datetime.now()
 
     del appstruct['area_id']
     del appstruct['proposition_type_id']
