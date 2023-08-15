@@ -301,7 +301,7 @@ def _create_proposition(request, ballot, appstruct, document=None, section=None,
         author=request.current_user,
         ballot=ballot,
         submitter_invitation_key=submitter_invitation_key,
-        visibility=PropositionVisibility.HIDDEN,
+        visibility=PropositionVisibility.HIDDEN if request.app.settings.app.submit_proposition_as_hidden else PropositionVisibility.PUBLIC,
         external_fields={'external_draft': {
             'editing_remarks': editing_remarks
         }},
