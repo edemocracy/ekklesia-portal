@@ -88,7 +88,7 @@
             dd= proposition_count
             dt
               i.fas.fa-vote-yea &nbsp;
-              = _("ballots")
+              a(href=ballots_url)= _("ballots")
             dd= ballot_count
 
           .col-sm-6
@@ -119,5 +119,3 @@
           hr
           .description
             = description|markdown
-
-

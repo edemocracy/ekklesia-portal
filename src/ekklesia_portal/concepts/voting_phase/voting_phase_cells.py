@@ -1,6 +1,7 @@
 from collections import namedtuple
 from datetime import datetime
 from ekklesia_portal.app import App
+from ekklesia_portal.concepts.ballot.ballots import Ballots
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell, NewFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.proposition.propositions import Propositions
@@ -164,11 +165,14 @@ class VotingPhaseCell(LayoutCell):
 
         return self.voting_end < datetime.now()
 
-    def proposition_count(self):
-        return len([p for b in self._model.ballots for p in b.propositions])
-
     def ballot_count(self):
         return len(self._model.ballots)
+
+    def ballots_url(self):
+        return self.link(Ballots(voting_phase=self._model.name))
+
+    def proposition_count(self):
+        return len([p for b in self._model.ballots for p in b.propositions])
 
     def propositions_url(self):
         return self.link(Propositions(phase=self._model.name))
