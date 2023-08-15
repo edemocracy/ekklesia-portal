@@ -310,7 +310,7 @@ msgstr "Exporter settings"
 
 #: src/ekklesia_portal/concepts/department/department_contracts.py:12
 msgid "voting_module_settings"
-msgstr "External voting module settings"
+msgstr "Voting module settings"
 
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:8
 msgid "number_of_members"
@@ -1336,7 +1336,7 @@ msgstr "Duration of the voting period in days relative to the target date."
 
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:28
 msgid "voting_module_data"
-msgstr "External Voting Data"
+msgstr "Voting Module Data"
 
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:168
 msgid "voting_created_msg"
@@ -1489,9 +1489,8 @@ msgid "document_propose_change_explanation"
 msgstr ""
 
 #: src/ekklesia_portal/helper/missing_translations.py:11
-#, fuzzy
 msgid "ekklesia_login_explanation"
-msgstr "Please select the participation in the subject areas:"
+msgstr "Log in using Single-Sign-On (SSO)"
 
 #: src/ekklesia_portal/helper/missing_translations.py:12
 #, fuzzy
@@ -1514,7 +1513,7 @@ msgstr "Push draft"
 
 #: src/ekklesia_portal/helper/missing_translations.py:16
 msgid "tab_associated"
-msgstr "Related (change and counter motions)"
+msgstr "Related Propositions"
 
 #: src/ekklesia_portal/helper/missing_translations.py:17
 msgid "tab_discussion"
@@ -1530,7 +1529,7 @@ msgstr "Add Counter Motion"
 
 #: src/ekklesia_portal/helper/missing_translations.py:20
 msgid "button_goto_associated"
-msgstr "Go to Associated"
+msgstr "Go to Associated Propositions"
 
 #. ArgumentType.PRO
 #: src/ekklesia_portal/enums.py:7
