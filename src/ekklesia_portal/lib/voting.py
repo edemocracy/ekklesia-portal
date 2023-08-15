@@ -8,7 +8,7 @@ class InvalidVotingModule(KeyError):
 
 def prepare_module_config(app, department, voting_module_name):
     try:
-        create_voting = voting_modules.VOTING_MODULES[voting_module_name]
+        (create_voting, retrieve_voting) = voting_modules.VOTING_MODULES[voting_module_name]
     except KeyError:
         raise InvalidVotingModule(f"Unsupported voting module {voting_module_name}")
 
@@ -19,4 +19,4 @@ def prepare_module_config(app, department, voting_module_name):
 
     from_config = {**getattr(app.settings.voting_modules, voting_module_name)}
     defaults = from_config.pop("defaults")
-    return {**from_config, **defaults, **department_overrides, "create_voting": create_voting}
+    return {**from_config, **defaults, **department_overrides, "create_voting": create_voting, "retrieve_voting": retrieve_voting}

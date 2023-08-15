@@ -1342,6 +1342,10 @@ msgstr "External Voting Data"
 msgid "voting_created_msg"
 msgstr "Created voting in voting module %(voting_module)s."
 
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:198
+msgid "voting_retrieved_msg"
+msgstr "Voting results retrieved from %(voting_module)s."
+
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:2
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:9
 msgid "title_edit_voting_phase"
@@ -1351,9 +1355,17 @@ msgstr "Edit Voting Phase"
 msgid "title_create_voting"
 msgstr "Create Voting"
 
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:19
+msgid "title_retrieve_voting"
+msgstr "Retrieve results"
+
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:6
 msgid "create_voting_button"
 msgstr "Create Voting (%(voting_module)s)"
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:23
+msgid "retrieve_voting_button"
+msgstr "Retrieve results (%(voting_module)s)"
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/edit_voting_phase.j2.jade:10
 msgid "inherited_properties"
