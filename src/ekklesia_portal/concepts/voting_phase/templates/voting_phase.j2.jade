@@ -48,35 +48,32 @@
                   i.fas.fa-times &nbsp;
                   = _("could_not_vote_currently")
 
-          if show_voting_without_url
-            p.help-text.mb-2= _("voting_info_text", end=voting_end|datetimeformat)
-
           if show_registration
             p.help-text.mb-2= _("registration_links_help_text", end=registration_end|datetimeformat)
-            ul.votings
             for title, url in votings
-              li
+              p
                 a.btn.btn-primary.btn-sm(href=url,target='_blank')
                   i.fas.fa-sign-in-alt &nbsp;
                   = _('register_now_with_voting_module', title=title)
 
+          if show_voting_without_url
+            p.help-text.mb-2= _("voting_info_text", end=voting_end|datetimeformat)
+
           if show_voting_with_url
             p.help-text.mb-2= _("voting_links_help_text", end=voting_end|datetimeformat)
-            ul.votings
-              for title, url in votings
-                li
-                  a.btn.btn-primary.btn-sm(href=url,target='_blank')
-                    i.fas.fa-person-booth &nbsp;
-                    = _('vote_now_with_voting_module', title=title)
+            for title, url in votings
+              p
+                a.btn.btn-primary.btn-sm(href=url,target='_blank')
+                  i.fas.fa-person-booth &nbsp;
+                  = _('vote_now_with_voting_module', title=title)
 
           if show_result_link
             p.help-text.mb-2= _("result_links_help_text")
-            ul.votings
-              for title, url in voting_results
-                li
-                  a.btn.btn-secondary.btn-sm(href=url,target='_blank')
-                    i.fas.fa-poll-h &nbsp;
-                    = _('show_results_with_voting_module', title=title)
+            for title, url in voting_results
+              p
+                a.btn.btn-secondary.btn-sm(href=url,target='_blank')
+                  i.fas.fa-poll-h &nbsp;
+                  = _('show_results_with_voting_module', title=title)
 
           hr
 
