@@ -8,6 +8,6 @@ class FavIcon:
 
 
 @App.view(model=FavIcon)
-def favicon():
+def favicon(_self, _request):
     raise redirect("/static/favicon.ico")
 
