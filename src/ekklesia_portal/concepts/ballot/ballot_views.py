@@ -23,9 +23,7 @@ def ballot_edit_permission(identity, model, permission):
     return identity_manages_department(identity, model.area.department)
 
 
-@App.path(model=Ballots, path='b')
-def ballots():
-    return Ballots()
+App.path(path='b')(Ballots)
 
 
 @App.path(model=Ballot, path='b/{id}')
