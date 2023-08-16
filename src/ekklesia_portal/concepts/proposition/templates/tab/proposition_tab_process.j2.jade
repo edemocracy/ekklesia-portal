@@ -1,0 +1,101 @@
+.proposition_tab
+  a(name="bottom")
+
+  h3 Status
+
+  p
+    = _('info_submitted_proposition')
+
+  if show_support
+    a(name="support")
+    h3.my-2 Support
+
+    if support_still_required
+      p.
+        This needs {{ qualification_quorum }} supporters to be qualified for voting.
+    elif support_still_possible
+        p.
+          This has enough support for voting but supporting is still possible.
+    else
+      p.
+        Supporting is closed for this proposition.
+
+    if current_user_is_submitter
+      p
+        = _('current_user_is_submitter')
+
+        if current_user_is_supporter
+          = " " + _('current_user_is_submitter_and_supporter')
+
+    elif current_user_is_supporter
+      p= _('current_user_is_supporter_not_submitter')
+
+    elif can_support
+      p= _('current_user_can_support')
+
+    if support_still_required
+      .supporter_progress
+        .col-sm-4
+          h4 Supports
+
+        .col-sm-8
+          if supporter_quorum_percent is not none
+            .progress(title=(ngettext("supporter", "supporters", supporter_count) + " / " + _('qualification_quorum')))
+              .progress-bar(role="progressbar"
+                            style="width: {{ supporter_quorum_percent }}%"
+                            aria-valuenow=supporter_count
+                            aria-valuemin="0"
+                            aria-valuemax=qualification_quorum)
+                | {{ supporter_count }} / {{ qualification_quorum }}
+          else
+            | {{ supporter_count }} {{ _("supporters") }}
+    else
+      h4 {{ _('supporters') }} ({{ supporter_count }})
+
+
+    if supporters
+      a(href="#", data-toggle="collapse", data-target="#supporters")
+        small Show supporter names...
+
+      #supporters.row.collapse
+        .col-sm-12
+          ul
+            for supporter in supporters
+              li= supporter
+
+    if show_secret_voting
+
+      hr
+
+      h3 Secret Voting
+
+      p.
+        This needs at least {{ secret_voting_quorum }} requests to move the vote to a secret ballot.
+
+      .secret_voting_progress
+        .col-sm-4
+          h4 Secret Voting Requests
+
+        .col-sm-8
+          .progress(title=(_('abbr_secret_voters_count') + " / " + _('abbr_secret_voting_quorum')))
+            .progress-bar(role="progressbar"
+                          style="width: {{ secret_voters_count/secret_voting_quorum * 100 }}%"
+                          aria-valuenow=secret_voters_count
+                          aria-valuemin="0"
+                          aria-valuemax=secret_voting_quorum)
+              | {{ secret_voters_count }} / {{ secret_voting_quorum }}
+
+    if submitters
+
+      hr
+
+      h3 Submitters
+
+      .row
+        .col-sm-12
+          ul
+            for submitter in submitters
+              li= submitter
+
+// generated from jade
+//- vim: set filetype=jade sw=2 ts=2 sts=2 expandtab:

@@ -1,4 +1,5 @@
 import secrets
+import time
 from datetime import datetime
 
 import base32_crockford
@@ -120,12 +121,22 @@ class PropositionRedirect:
 @App.html(model=Proposition, permission=ViewPermission)
 def show(self, request):
     cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='discussion')
+    if request.htmx:
+        time.sleep(1)
     return cell.show()
 
 
 @App.html(model=Proposition, name='associated', permission=ViewPermission)
 def associated(self, request):
     cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='associated')
+    if request.htmx:
+        time.sleep(3)
+    return cell.show()
+
+
+@App.html(model=Proposition, name='process', permission=ViewPermission)
+def process(self, request):
+    cell = PropositionCell(self, request, show_tabs=True, show_details=True, show_actions=True, active_tab='process')
     return cell.show()
 
 

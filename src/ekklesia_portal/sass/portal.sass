@@ -188,6 +188,11 @@ footer.footer
   .list-inline
     @extend .my-1
 
+.htmx-indicator
+    @extend .fas
+    @extend .fa-spinner
+    @extend .fa-spin
+
 .large_number
   font-size: 1.2rem
 
@@ -224,9 +229,6 @@ footer.footer
 .filter-nav
   .filter
     @extend .nav-link
-
-.points_text
-  @extend .text-muted
 
 .proposition
   @extend .card
@@ -275,6 +277,15 @@ footer.footer
   @extend .nav
   @extend .nav-tabs
   @extend .card-header-tabs
+  padding-right: 20px
+
+  .htmx-indicator
+    margin-left: 3px
+    margin-right: -16px
+
+.proposition_tab
+  padding-top: 8px
+  padding-bottom: 8px
 
 .proposition_amendments_header
   @extend .card
@@ -393,18 +404,23 @@ ul.proposition_filter
   align-items: center
 
   .progress
-    height: 1.5rem
+    height: 2rem
+    padding: 0.25rem
 
   .progress-bar
     color: black
 
-#support
+.supporter_count, .amendment_count, .argument_count
+  .proposition_info_number, i
+    color: black
+
+.supporter_progress
   @extend .progress_row
 
   .progress-bar
     background-color: $light-orange
 
-#secret_voting
+.secret_voting_progress
   @extend .progress_row
 
   .progress-bar

@@ -33,9 +33,3 @@
       else
         p
           a(href=login_url)= _('notice_login')
-
-  if show_submitter_names and submitter_names
-    p= _('current_submitters')
-    ul
-      for name in submitter_names
-        li= name

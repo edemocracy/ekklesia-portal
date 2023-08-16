@@ -49,6 +49,8 @@ def app_setting_section():
         "internal_login_enabled": True,
         "languages": ["de", "en"],
         "login_visible": False,
+        "public_submitters": False,
+        "public_supporters": False,
         "report_url": None,
         "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
         "title": "Ekklesia Portal Dev",

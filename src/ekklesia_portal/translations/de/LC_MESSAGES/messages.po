@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-23 22:03+0000\n"
+"POT-Creation-Date: 2023-06-23 02:59+0200\n"
 "PO-Revision-Date: 2015-09-06 22:42+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -46,7 +46,7 @@ msgstr "Ausführlich"
 #: src/ekklesia_portal/concepts/page/page_contracts.py:19
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:30
 #: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:84
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:129
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:128
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:20
 #: src/ekklesia_portal/concepts/proposition_type/proposition_type_contracts.py:18
 #: src/ekklesia_portal/concepts/subject_area/subject_area_contracts.py:17
@@ -143,7 +143,7 @@ msgstr "Abstimmungsart"
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:13
 #: src/ekklesia_portal/concepts/document/document_helper.py:15
 #: src/ekklesia_portal/concepts/document/document_helper.py:16
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:59
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:54
 msgid "not_determined"
 msgstr "nicht festgelegt"
 
@@ -162,7 +162,7 @@ msgstr ""
 #: src/ekklesia_portal/concepts/ballot/templates/ballot.j2.jade:7
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:12
 #: src/ekklesia_portal/concepts/proposition/templates/edit_proposition.j2.jade:13
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:10
 msgid "ballot"
 msgstr "Abstimmung"
 
@@ -201,7 +201,7 @@ msgstr "Gliederung"
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:2
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/index.j2.jade:16
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:3
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:42
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:37
 msgid "propositions"
 msgstr "Anträge"
 
@@ -221,7 +221,7 @@ msgstr "Übersicht"
 
 #: src/ekklesia_portal/concepts/ballot/templates/ballots.j2.jade:5
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:26
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:45
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:40
 msgid "ballots"
 msgstr "Abstimmungen"
 
@@ -584,7 +584,6 @@ msgstr "Minimale Anzahl an Unterstützern"
 
 #: src/ekklesia_portal/concepts/policy/policy_contracts.py:16
 #: src/ekklesia_portal/concepts/policy/templates/policy.j2.jade:16
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:15
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:39
 msgid "qualification_quorum"
 msgstr "Unterstützer-Quorum zur Zulassung zur Abstimmung [0-1]"
@@ -703,16 +702,16 @@ msgstr "Daten für externe Systeme"
 msgid "button_create_draft"
 msgstr "Antragsentwurf anlegen"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:118
+#: src/ekklesia_portal/concepts/proposition/proposition_contracts.py:117
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_actions.j2.jade:2
 msgid "button_submit_draft"
 msgstr "Antrag einreichen"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:405
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:411
 msgid "change"
 msgstr "Änderung"
 
-#: src/ekklesia_portal/concepts/proposition/proposition_views.py:515
+#: src/ekklesia_portal/concepts/proposition/proposition_views.py:521
 msgid "amendment_to"
 msgstr "Änderungsantrag to %(title)s"
 
@@ -774,28 +773,17 @@ msgstr "Begründung"
 msgid "changes"
 msgstr "Änderungen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:4
 msgid "button_retract_secret_voting"
 msgstr "Forderung auf Papierabstimmung zurückziehen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:8
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:7
 msgid "button_request_secret_voting"
 msgstr "Papierabstimmung fordern"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:13
-#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
-msgid "abbr_secret_voters_count"
-msgstr "Anzahl Befürworter für Papierabstimmung"
-
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_secret_voting.j2.jade:13
-#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
-msgid "abbr_secret_voting_quorum"
-msgstr "Quorum für Papierabstimmung"
-
 #: src/ekklesia_portal/concepts/proposition/templates/proposition_small.j2.jade:10
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:15
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:2
-#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:2
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:5
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:39
 msgid "supporter"
 msgid_plural "supporters"
@@ -826,16 +814,15 @@ msgstr ""
 msgid "title_notice"
 msgstr "Hinweis"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:5
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:4
 msgid "button_retract_support"
 msgstr "Unterstützung zurückziehen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:8
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:7
 msgid "button_support"
 msgstr "Unterstützen"
 
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:10
-#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:19
+#: src/ekklesia_portal/concepts/proposition/templates/proposition_support.j2.jade:9
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:36
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:43
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:47
@@ -995,10 +982,6 @@ msgstr "Antragsteller werden"
 msgid "notice_login"
 msgstr "Du musst dich erst anmelden."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_draft.j2.jade:20
-msgid "current_submitters"
-msgstr "Aktuell sind Antragsteller:"
-
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:2
 msgid "title_qualified_proposition"
 msgstr "Zur Abstimmung zugelassener Antrag"
@@ -1008,12 +991,6 @@ msgid "info_qualified_proposition"
 msgstr ""
 "Dieser Antrag hat die erforderliche Anzahl an Unterstützern erreicht und "
 "kann von den Verantwortlichen zur Abstimmung eingeplant werden."
-
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_qualified.j2.jade:4
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:4
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:8
-msgid "submitters"
-msgstr "Antragsteller"
 
 #: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_scheduled.j2.jade:2
 msgid "title_scheduled_proposition"
@@ -1035,7 +1012,7 @@ msgstr ""
 "Dieser Antrag ist eingereicht und hat zu wenig Unterstützung, um zur "
 "Abstimmung zugelassen zu werden."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:4
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:5
 msgid "current_user_is_submitter"
 msgstr "Du bist Antragsteller."
 
@@ -1045,11 +1022,11 @@ msgstr ""
 "Wenn du deine Unterstützung zurückziehst, bleibst du weiterhin "
 "Antragsteller."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:6
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:7
 msgid "current_user_is_supporter_not_submitter"
 msgstr "Du unterstützt diesen Antrag."
 
-#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:7
+#: src/ekklesia_portal/concepts/proposition/templates/detail_top/proposition_detail_top_submitted.j2.jade:8
 msgid "current_user_can_support"
 msgstr "Du kannst diesen Antrag unterstützen."
 
@@ -1114,6 +1091,13 @@ msgid_plural "arguments"
 msgstr[0] "Argument"
 msgstr[1] "Argumente"
 
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_scheduled.j2.jade:3
+#: src/ekklesia_portal/concepts/proposition/templates/status/proposition_status_submitted.j2.jade:3
+msgid "amendment"
+msgid_plural "amendments"
+msgstr[0] "Änderung"
+msgstr[1] "Änderungen"
+
 #: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_associated.j2.jade:5
 msgid "title_proposition_modifies"
 msgstr "Ist Änderungsantrag zu"
@@ -1150,9 +1134,13 @@ msgid_plural "supporter_groups"
 msgstr[0] "Gruppen des Unterstützers"
 msgstr[1] "Gruppe der Unterstützer"
 
-#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:18
-msgid "qualification_group_quorum"
-msgstr "Unterstützer-Quorum zur Zulassung zur Abstimmung"
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
+msgid "abbr_secret_voters_count"
+msgstr "Anzahl Befürworter für Papierabstimmung"
+
+#: src/ekklesia_portal/concepts/proposition/templates/tab/proposition_tab_process.j2.jade:62
+msgid "abbr_secret_voting_quorum"
+msgstr "Quorum für Papierabstimmung"
 
 #: src/ekklesia_portal/concepts/proposition_note/proposition_note_contracts.py:11
 msgid "proposition_id"
@@ -1291,7 +1279,7 @@ msgstr "Stichtag"
 msgid "voting_phase_target_description"
 msgstr "Die Abstimmung endet am Stichtag."
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:56
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:51
 #: src/ekklesia_portal/concepts/voting_phase/voting_phase_contracts.py:14
 msgid "voting_status"
 msgstr "Status"
@@ -1356,7 +1344,7 @@ msgstr ""
 msgid "voting_module_data"
 msgstr "Daten für externe Abstimmungssysteme"
 
-#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:168
+#: src/ekklesia_portal/concepts/voting_phase/voting_phase_views.py:169
 msgid "voting_created_msg"
 msgstr "Abstimmung im Abstimmungsmodul %(voting_module)s erzeugt."
 
@@ -1405,51 +1393,51 @@ msgid "could_not_vote_currently"
 msgstr "Du wirst nach aktuellem Stand nicht an der Abstimmung teilnehmen können."
 
 #: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:24
-msgid "voting_info_text"
-msgstr ""
-"Die Abstimmung läuft aktuell bis zum %(end)s. Nutze das bei der "
-"Registrierung erzeugte Dokument zur Abstimmung."
-
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:25
 msgid "registration_links_help_text"
 msgstr ""
 "Registriere dich bis %(end)s, um an der Abstimmung teilzunehmen. Du "
 "erfährst bei der Registrierung, wie du deine Stimme abgibst."
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:27
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:25
 msgid "register_now_with_voting_module"
 msgstr "Jetzt registrieren bei %(title)s"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:29
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:27
+msgid "voting_info_text"
+msgstr ""
+"Die Abstimmung läuft aktuell bis zum %(end)s. Nutze das bei der "
+"Registrierung erzeugte Dokument zur Abstimmung."
+
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:28
 msgid "voting_links_help_text"
 msgstr "Du kannst bis %(end)s abstimmen."
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:31
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:29
 msgid "vote_now_with_voting_module"
 msgstr "Stimme jetzt ab bei %(title)s"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:34
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:31
 msgid "result_links_help_text"
 msgstr "Die Abstimmung ist beendet und die Ergebnisse können eingesehen werden"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:36
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:32
 msgid "show_results_with_voting_module"
 msgstr "Ergebnisse bei %(title)s ansehen"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:50
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:45
 msgid "registration_from"
 msgstr "Registrierung für die Abstimmung läuft von"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:52
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:55
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:47
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:50
 msgid "start_end_duration"
 msgstr "%(start)s bis %(end)s"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:53
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:48
 msgid "voting_from"
 msgstr "Abstimmung möglich von"
 
-#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:58
+#: src/ekklesia_portal/concepts/voting_phase/templates/voting_phase.j2.jade:53
 msgid "target_date"
 msgstr "Stichtag"
 
@@ -1546,10 +1534,14 @@ msgid "button_add_amendment"
 msgstr "Änderungsantrag hinzufügen"
 
 #: src/ekklesia_portal/helper/missing_translations.py:19
+msgid "tab_process"
+msgstr "Unterstützung & Details zum Ablauf"
+
+#: src/ekklesia_portal/helper/missing_translations.py:20
 msgid "button_add_counter_proposition"
 msgstr "Gegenantrag stellen"
 
-#: src/ekklesia_portal/helper/missing_translations.py:20
+#: src/ekklesia_portal/helper/missing_translations.py:21
 msgid "button_goto_associated"
 msgstr "Zu den Konkurrenzanträgen"
 
@@ -1895,3 +1887,6 @@ msgstr "Enthaltung"
 
 #~ msgid "relation_modifies"
 #~ msgstr "Änderungsantrag für:"
+
+#~ msgid "button_add_amendment"
+#~ msgstr "Änderungsantrag stellen"

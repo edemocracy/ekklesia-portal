@@ -1,5 +1,15 @@
-ul.proposition_tabs
+ul.proposition_tabs(hx-boost="true", hx-indicator="find .htmx-indicator")
   li.nav-item
-    a.nav-link(href=discussion_url, class=discussion_link_class)= customizable_text("tab_discussion")
+    a.nav-link(href=discussion_url, class=discussion_link_class)
+      = customizable_text("tab_discussion")
+      i.htmx-indicator
+
   li.nav-item
-    a.nav-link(href=associated_url, class=associated_link_class)= customizable_text("tab_associated")
+    a.nav-link(href=associated_url, class=associated_link_class)
+      = customizable_text("tab_associated")
+      i.htmx-indicator
+
+  li.nav-item
+    a.nav-link(href=process_url, class=process_link_class)
+      = customizable_text("tab_process")
+      i.htmx-indicator

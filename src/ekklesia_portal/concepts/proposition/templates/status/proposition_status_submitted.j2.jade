@@ -1,12 +1,19 @@
-a.argument_count(href=(("" if options.show_details else self_link) + "#bottom")
-                 title=_("goto_arguments"))
-  i.icon.far.fa-comments &nbsp;
-  strong.proposition_info_number= argument_count
-  | &nbsp;
-  span= ngettext("argument", "arguments", argument_count)
+.argument_count
+  a(href=(link(_model) + "#bottom"), title=_("goto_arguments"))
+    i.far.fa-comments &nbsp;
+    strong.proposition_info_number= argument_count
+    | &nbsp;
+    span= ngettext("argument", "arguments", argument_count)
 
-if not options.show_details
-  .points
+.amendment_count
+  a(href=(link(_model, "associated") + "#bottom"), title="goto")
+    i.mr-1.far.fa-plus-square &nbsp;
+    strong.proposition_info_number= amendment_count
+    | &nbsp;
+    span= ngettext("amendment", "amendments", amendment_count)
+
+.supporter_count
+  a(href=(link(_model, "process") + "#support"), title="goto")
     i.far.fa-thumbs-up &nbsp;
     strong.proposition_info_number= supporter_count
     | &nbsp;

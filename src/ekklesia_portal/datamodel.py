@@ -584,6 +584,15 @@ class Proposition(Base):
                 .correlate(Proposition.__table__))
 
     @property
+    def active_supporter_group_count(self):
+        groups = set()
+        for member in self.propositions_member:
+            if member.status == SupporterStatus.ACTIVE:
+                groups.update(member.user.groups)
+
+        return len(groups)
+
+    @property
     def submitter_count(self):
         return len([s for s in self.propositions_member if s.submitter])
 

@@ -1,3 +1,4 @@
+from collections import Counter
 import urllib.parse
 import math
 from operator import attrgetter
@@ -18,7 +19,7 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.concepts.proposition.proposition_permissions import SubmitDraftPermission
 from ekklesia_portal.datamodel import Department, Document, Proposition, PropositionNote, PropositionType, Tag, VotingPhase, SecretVoter
 from ekklesia_portal.helper.url_shortener import make_tiny
-from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, SecretVoterStatus
+from ekklesia_portal.enums import ArgumentType, OpenSlidesVotingResult, PropositionStatus, SecretVoterStatus, SupporterStatus
 from ekklesia_portal.lib.url import url_change_query
 from ekklesia_portal.permission import CreatePermission, EditPermission, SupportPermission
 
@@ -162,6 +163,9 @@ class PropositionCell(LayoutCell):
         twitter_url = 'https://twitter.com/intent/tweet?' + twitter_url
         return twitter_url
 
+    def amendment_count(self):
+        return len(self._model.derivations)
+
     def ballot_url(self):
         return self.link(self._model.ballot)
 
@@ -174,6 +178,9 @@ class PropositionCell(LayoutCell):
 
     def discussion_url(self):
         return self.link(self._model) + "#bottom"
+
+    def process_url(self):
+        return self.link(self._model, 'process') + "#bottom"
 
     def propositions_badge_url(self, department_name, subject_area_name=None, tag_name=None):
         params = {"department": department_name}
@@ -205,7 +212,10 @@ class PropositionCell(LayoutCell):
         return 'active' if self.options.get('active_tab') == 'discussion' else ''
 
     def associated_link_class(self):
-        return 'active' if self.options.get('active_tab') == 'associated' else ''
+        return "active" if self.options.get("active_tab") == "associated" else ""
+
+    def process_link_class(self):
+        return 'active' if self.options.get('active_tab') == 'process' else ''
 
     def new_amendment_url(self):
         return self.link(self._model, '+new_amendment')
@@ -228,6 +238,18 @@ class PropositionCell(LayoutCell):
 
     def supporter_count(self):
         return self._model.active_supporter_count
+
+    def supporter_group_count(self):
+        return len(self._supporters_and_groups[1])
+
+    def support_still_required(self):
+        return self._model.status in (PropositionStatus.SUBMITTED)
+
+    def support_still_possible(self):
+        return self._model.status in (
+            PropositionStatus.QUALIFIED,
+            PropositionStatus.VOTING,
+        )
 
     def become_submitter_action(self):
         return self.link(self._model, 'become_submitter')
@@ -259,14 +281,32 @@ class PropositionCell(LayoutCell):
         return self._model.ready_to_submit
 
     def show_support(self):
-        return self._model.status in (PropositionStatus.SUBMITTED, PropositionStatus.QUALIFIED)
+        return True
+
+        if self.current_user is None:
+            return False
+
+        if self._model.status not in (
+            PropositionStatus.SUBMITTED,
+            PropositionStatus.QUALIFIED,
+        ):
+            return False
+
+        if self._request.identity.has_global_admin_permissions:
+            return True
+
+        return self._request.permitted_for_current_user(self._model, SupportPermission)
 
     def can_support(self):
-        return self.show_support and self._request.permitted_for_current_user(self._model, SupportPermission)
+        return self.show_support
 
     def supporter_quorum_percent(self):
         if self._model.qualification_quorum > 0:
-            return self._model.active_supporter_count / self._model.qualification_quorum * 100
+            return (
+                self._model.active_supporter_count
+                / self._model.qualification_quorum
+                * 100
+            )
 
     def show_secret_voting(self):
         return self._model.status in (
@@ -307,9 +347,12 @@ class PropositionCell(LayoutCell):
             PropositionStatus.SCHEDULED
         ) and self._request.permitted_for_current_user(Propositions(), CreatePermission) and self._model.modifies is None
 
-    def show_submitter_names(self):
+    def show_submitters(self):
         if self.current_user is None:
             return False
+
+        if self._s.app.public_submitters:
+            return True
 
         if self._model.ballot.area.department in self.current_user.managed_departments:
             return True
@@ -324,6 +367,26 @@ class PropositionCell(LayoutCell):
             return True
 
         return False
+
+    def show_supporters(self):
+        if self.current_user is None:
+            return False
+
+        if self._model.status not in (
+            PropositionStatus.SUBMITTED,
+            PropositionStatus.QUALIFIED,
+            PropositionStatus.VOTING,
+        ):
+            return False
+
+        if self._s.app.public_supporters:
+            return True
+
+        if self._model.ballot.area.department in self.current_user.managed_departments:
+            return True
+
+        if self._request.identity.has_global_admin_permissions:
+            return True
 
     def valid_submitter_invitation_key(self):
         key = self._request.GET.get("submitter_invitation_key")
@@ -374,10 +437,44 @@ class PropositionCell(LayoutCell):
         )
 
     def become_submitter_url(self):
-        return self.self_link + f"?submitter_invitation_key={self._model.submitter_invitation_key}"
+        return (
+            self.self_link
+            + f"?submitter_invitation_key={self._model.submitter_invitation_key}"
+        )
 
-    def submitter_names(self):
-        return [pm.member.name for pm in self._model.propositions_member if pm.submitter]
+    def submitters(self):
+        submitters = []
+
+        for pm in self._model.propositions_member:
+            if pm.submitter:
+                user = pm.member
+                group_names = ", ".join(g.name for g in user.groups)
+                submitters.append(f"{user.name} ({group_names})")
+
+        return submitters
+
+    @cached_property
+    def _supporters_and_groups(self):
+        supporters = []
+        group_counter = Counter()
+
+        for pm in self._model.propositions_member:
+            if pm.status == SupporterStatus.ACTIVE:
+                user = pm.member
+                group_names = [g.name for g in user.groups]
+                group_str = ", ".join(group_names)
+                supporters.append(f"{user.name} ({group_str})")
+                group_counter.update(group_names)
+
+        groups = [f"{name} ({count})" for name, count in group_counter.items()]
+
+        return (supporters, groups)
+
+    def supporters(self):
+        return self._supporters_and_groups[0]
+
+    def supporter_groups(self):
+        return self._supporters_and_groups[1]
 
     def show_full_history(self):
         return self.options.get('show_details')

@@ -1,25 +1,34 @@
-a.argument_count(href=(("" if options.show_details else self_link) + "#bottom")
-                 title=_("goto_arguments"))
-  i.icon.far.fa-comments &nbsp;
-  strong.proposition_info_number= argument_count
-  | &nbsp;
-  span= ngettext("argument", "arguments", argument_count)
+.argument_count
+  a(href=(("" if options.show_details else self_link) + "#bottom")
+                  title=_("goto_arguments"))
+    i.far.fa-comments &nbsp;
+    strong.proposition_info_number= argument_count
+    | &nbsp;
+    span= ngettext("argument", "arguments", argument_count)
+
+.amendment_count
+  a(href=(link(_model, "associated") + "#bottom")
+                    title="goto")
+    i.far.fa-plus-square &nbsp;
+    strong.proposition_info_number= amendment_count
+    | &nbsp;
+    span= ngettext("amendment", "amendments", amendment_count)|capitalize
 
 if options.show_details
-  .points
-    i.far.fa-thumbs-up &nbsp;
-    strong.proposition_info_number= supporter_count
-    | &nbsp;
-    span= ngettext("supporter", "supporters", supporter_count)
-
+  .supporter_count
+    a(href=(link(_model, "process") + "#support")
+                            title="goto")
+      i.far.fa-thumbs-up &nbsp;
+      strong.proposition_info_number= supporter_count
+      | &nbsp;
+      span= ngettext("supporter", "supporters", supporter_count)
 
 .voting
   div
-    i.fas.fa-person-booth &nbsp;
-    = _('ballot')
-    |:
-  div
     a(href=link(voting_phase))= voting_phase.title
   div
+    i.fas.fa-person-booth &nbsp;
+    = _('ballot')|capitalize
+    |:
+  div
     a(href=link(ballot))= ballot_title
-
