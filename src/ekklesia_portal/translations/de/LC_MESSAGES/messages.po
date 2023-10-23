@@ -1480,6 +1480,13 @@ msgstr ""
 "zu einer Stunde dauern, bis dein Account überprüft wurde und du das "
 "Antragsportal nutzen kannst."
 
+#: src/ekklesia_portal/app.py:116
+msgid "alert_ekklesia_auth_failed_parsing"
+msgstr ""
+"Der Login ist fehlgeschlagen, da die notwendigen Daten nicht in der Antwort "
+"des Single-Sign-On Provider enthalten waren. "
+"Das Problem kann nur ein Administrator lösen."
+
 #: src/ekklesia_portal/helper/missing_translations.py:4
 msgid "alert_logged_in_to"
 msgstr "Du hast dich erfolgreich per %(name)s angemeldet."
