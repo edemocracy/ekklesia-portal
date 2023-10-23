@@ -56,7 +56,7 @@
             ul.votings
             for title, url in votings
               li
-                a.btn.btn-primary.btn-sm(href=url)
+                a.btn.btn-primary.btn-sm(href=url,target='_blank')
                   i.fas.fa-sign-in-alt &nbsp;
                   = _('register_now_with_voting_module', title=title)
 
@@ -65,7 +65,7 @@
             ul.votings
               for title, url in votings
                 li
-                  a.btn.btn-primary.btn-sm(href=url)
+                  a.btn.btn-primary.btn-sm(href=url,target='_blank')
                     i.fas.fa-person-booth &nbsp;
                     = _('vote_now_with_voting_module', title=title)
 
@@ -74,7 +74,7 @@
             ul.votings
               for title, url in voting_results
                 li
-                  a.btn.btn-secondary.btn-sm(href=url)
+                  a.btn.btn-secondary.btn-sm(href=url,target='_blank')
                     i.fas.fa-poll-h &nbsp;
                     = _('show_results_with_voting_module', title=title)
 

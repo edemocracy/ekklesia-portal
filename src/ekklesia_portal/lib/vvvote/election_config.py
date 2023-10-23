@@ -1,22 +1,29 @@
+import random
 from uuid import uuid4
 
 import ekklesia_portal.lib.vvvote.schema as vvvote_schema
 
 
-def ballot_to_vvvote_question(ballot, question_id=1):
+def ballot_to_vvvote_question(ballot):
     options = []
     voting_scheme_yes_no = vvvote_schema.YesNoScheme(
-        name='yesNo', abstention=True, abstentionAsNo=False, quorum=2, mode=vvvote_schema.SchemeMode.QUORUM
+        name=vvvote_schema.SchemeName.YES_NO, abstention=True, abstentionAsNo=False, quorum=2, mode=vvvote_schema.SchemeMode.QUORUM
     )
 
-    voting_scheme_score = vvvote_schema.ScoreScheme(name='score', minScore=0, maxScore=3)
+    proposition_count = len(ballot.propositions)
+    voting_scheme_score = vvvote_schema.ScoreScheme(
+        name=vvvote_schema.SchemeName.SCORE, minScore=0, maxScore=3 if proposition_count <= 5 else 9)
 
     voting_scheme = [voting_scheme_yes_no, voting_scheme_score]
 
-    for option_id, proposition in enumerate(ballot.propositions, start=1):
+    # Random order of propositions in ballot
+    propositions = list(ballot.propositions)
+    random.shuffle(propositions)
+
+    for proposition in propositions:
         proponents = [s.member.name for s in proposition.propositions_member if s.submitter]
         option = vvvote_schema.Option(
-            optionID=option_id,
+            optionID=int(proposition.id) & ((2 ** 22) - 1),  # Only use the random bits (64bit not supported in JSON)
             proponents=proponents,
             optionTitle=proposition.title,
             optionDesc=proposition.content,
@@ -31,17 +38,25 @@ def ballot_to_vvvote_question(ballot, question_id=1):
 
     question = vvvote_schema.Question(
         questionWording=question_wording,
-        questionID=question_id,
+        questionID=ballot.id,
         scheme=voting_scheme,
         options=options,
-        findWinner=['yesNo', 'score', 'random']
+        findWinner=[vvvote_schema.SchemeName.YES_NO, vvvote_schema.SchemeName.SCORE, vvvote_schema.SchemeName.RANDOM]
     )
 
     return question
 
 
+def get_ballot_sort_key(ballot):
+    props = list(ballot.propositions)
+    props.sort(key=lambda prop: prop.qualified_at)
+    return props[0].qualified_at
+
+
 def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schema.ElectionConfig:
-    questions = [ballot_to_vvvote_question(b, ii) for ii, b in enumerate(phase.ballots, start=1)]
+    ballots = list(phase.ballots)
+    ballots.sort(key=get_ballot_sort_key)
+    questions = [ballot_to_vvvote_question(ballot) for ballot in ballots]
 
     if phase.registration_start is None:
         raise ValueError("Cannot create voting for phase {phase}, registration_start is None")

@@ -192,12 +192,12 @@ def retrieve_voting(self, request):
 
     with start_action(action_type="apply_election_results") as action:
         result_objs = []
-        for ii, ballot in enumerate(self.ballots, start=1):
-            result = results.get(str(ii))
-            if result:
+        for ballot in self.ballots:
+            if str(ballot.id) in results:
+                result = results.get(str(ballot.id))
                 result_obj = {}
-                for option_id, proposition in enumerate(ballot.propositions, start=1):
-                    if option_id in result:
+                for proposition in ballot.propositions:
+                    if int(proposition.id) & ((2 ** 22) - 1) in result:
                         res = OpenSlidesVotingResult.ACCEPTED
                     else:
                         res = OpenSlidesVotingResult.REJECTED
