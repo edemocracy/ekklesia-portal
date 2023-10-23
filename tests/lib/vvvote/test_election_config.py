@@ -6,7 +6,7 @@ from ekklesia_portal.lib.vvvote.election_config import ballot_to_vvvote_question
 def test_ballot_to_vvvote_question(db_session, ballot, proposition_factory):
     proposition = proposition_factory(ballot=ballot)
     question = ballot_to_vvvote_question(ballot)
-    assert question.questionID == 1
+    assert question.questionID == ballot.id
     assert question.options[0].optionTitle == proposition.title
     assert question.options[0].optionDesc == proposition.content
     assert question.options[0].reasons == proposition.motivation

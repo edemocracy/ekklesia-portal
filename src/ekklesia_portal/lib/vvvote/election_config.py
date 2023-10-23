@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import random
 from uuid import uuid4
 
@@ -49,8 +51,8 @@ def ballot_to_vvvote_question(ballot):
 
 def get_ballot_sort_key(ballot):
     props = list(ballot.propositions)
-    props.sort(key=lambda prop: prop.qualified_at)
-    return props[0].qualified_at
+    props.sort(key=lambda prop: prop.qualified_at or datetime.now())
+    return props[0].qualified_at or datetime.now()
 
 
 def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schema.ElectionConfig:

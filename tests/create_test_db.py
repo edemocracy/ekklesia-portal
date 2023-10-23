@@ -13,7 +13,6 @@ from sqlalchemy import pool
 from typer import Option, confirm, Exit
 
 import ekklesia_common.logging
-from ekklesia_common.ekklesia_auth import OAuthToken
 
 DOCUMENT_WP = '''# Wahlprogramm
 
@@ -115,7 +114,7 @@ def main(
     # local import because we have to set up the database stuff before that
     from ekklesia_portal.datamodel import (
         Argument, ArgumentRelation, ArgumentVote, Ballot, CustomizableText, Department, DepartmentMember, Document,
-        Group, Policy, Proposition, PropositionType, SubjectArea, Supporter, Tag, User, UserPassword, UserProfile,
+        Group, OAuthToken, Policy, Proposition, PropositionType, SubjectArea, Supporter, Tag, User, UserPassword, UserProfile,
         VotingPhase, VotingPhaseType
     )
 
