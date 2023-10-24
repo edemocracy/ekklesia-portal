@@ -38,17 +38,7 @@ nginxMainline.overrideAttrs (oldAttrs: rec {
     "--without-http_uwsgi_module"
   ];
 
-  NIX_CFLAGS_COMPILE = [
-    "-Wno-error=implicit-fallthrough"
-  ] ++ lib.optional stdenv.isDarwin "-Wno-error=deprecated-declarations";
-
-  configurePlatforms = [ ];
-
-  hardeningEnable = lib.optional (!stdenv.isDarwin) "pie";
-
-  enableParallelBuilding = true;
-
-  postInstall = ''
+  postInstall = oldAttrs.postInstall + ''
     mv $out/sbin $out/bin
     rm -rf $out/html
     rm $out/conf/{fastcgi,scgi,uwsgi,win-utf,koi-win}*
