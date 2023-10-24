@@ -120,14 +120,14 @@
                   echo "Tested with VSCode, Pycharm."
                 '';
                 build_docker_app.exec = ''
-                  out=docker-image-ekklesia-portal.tar
+                  out=docker-image-ekklesia-portal.tar.gz
                   nix build .#docker -o $out
                   echo "Built container image for the application".
                   echo "Load the image with:"
                   echo "docker load -i $out"
                 '';
                 build_docker_static.exec = ''
-                  out=docker-image-ekklesia-portal-static.tar
+                  out=docker-image-ekklesia-portal-static.tar.gz
                   nix build .#dockerStatic -o $out
                   echo "Built container image for the static files (assets)".
                   echo "Load the image with:"
