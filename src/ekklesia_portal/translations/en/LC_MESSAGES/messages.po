@@ -1461,6 +1461,13 @@ msgstr ""
 "You cannot use this application via %(name)s because you don't have the "
 "role '%(role)s'"
 
+#: src/ekklesia_portal/app.py:116
+msgid "alert_ekklesia_auth_failed_parsing"
+msgstr ""
+"Login failed, as the required information was not included in the"
+"response of the Single-Sign-On provider. "
+"This problem can only be solved by an administrator."
+
 #: src/ekklesia_portal/helper/missing_translations.py:4
 msgid "alert_logged_in_to"
 msgstr "Logged in successfully via %(name)s."
