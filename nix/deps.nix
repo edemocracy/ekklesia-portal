@@ -1,4 +1,4 @@
-{ pkgs, poetry2nix, poetry }:
+{ pkgs, poetry2nix }:
 
 with builtins;
 
@@ -9,6 +9,7 @@ let
   javascriptDeps = pkgs.callPackage ./javascript_deps.nix { };
   font-awesome = pkgs.callPackage ./font-awesome.nix { };
   python = pkgs.python311;
+  poetry = (pkgs.poetry.override { python3 = python; });
 
   overrides = poetry2nix.overrides.withDefaults (
     self: super:
@@ -27,10 +28,16 @@ let
               pnames);
       in
       {
+        mimesis-factory = super.mimesis-factory.overridePythonAttrs (old: {
+          buildInputs = old.buildInputs ++ [ self.poetry-core ];
+          patchPhase = ''
+            substituteInPlace pyproject.toml --replace poetry.masonry poetry.core.masonry
+          '';
+        });
         pypugjs = super.pypugjs.overridePythonAttrs (
           old: {
             format = "setuptools";
-            buildInputs = old.buildInputs ++ [ poetry ];
+            buildInputs = old.buildInputs ++ [ self.poetry-core ];
           }
         );
       } //
@@ -49,17 +56,22 @@ let
         [ "base32-crockford" ]
       ) //
       (addPythonBuildDeps
-        [ self.flit-core ]
-        [ "colored" ]
+        [ self.flit-core ] [
+          "cloudpickle"
+          "colored"
+        ]
       ) //
       (addPythonBuildDeps
-        [ self.poetry self.greenlet ] [
-        "alembic"
+        [ self.poetry-core ] [
         "ekklesia-common"
         "iso8601"
-        "mimesis-factory"
         "more-browser-session"
         "more-babel-i18n"
+      ]) //
+      (addPythonBuildDeps
+        [ self.poetry-core self.greenlet ] [
+        "alembic"
+        "eliot-tree"
         "pytest-factoryboy"
         "sqlalchemy"
         "sqlalchemy-utils"
@@ -75,6 +87,7 @@ let
   mkPoetryApplication = args:
     poetry2nix.mkPoetryApplication (args // {
       inherit overrides;
+      inherit python;
     });
 
   inherit (poetry2nix.mkPoetryPackages {
