@@ -37,14 +37,14 @@ class VotingPhaseCell(LayoutCell):
         'description',
         'name',
         'phase_type',
-        'registration_end',
-        'registration_start',
+        'registration_ends_at',
+        'registration_starts_at',
         'secret',
         'status',
         'target',
         'title',
-        'voting_end',
-        'voting_start',
+        'voting_ends_at',
+        'voting_starts_at',
     ]
 
     def show_edit_button(self):
@@ -64,16 +64,16 @@ class VotingPhaseCell(LayoutCell):
         return False
 
     def show_registration_period(self):
-        if self.registration_end is None:
+        if self._model.registration_ends_at is None:
             return
 
-        return datetime.now() < self.registration_end
+        return datetime.now() < self._model.registration_ends_at
 
     def show_voting_period(self):
-        if self.voting_end is None:
+        if self._model.voting_ends_at is None:
             return
 
-        return datetime.now() < self.voting_end
+        return datetime.now() < self._model.voting_ends_at
 
     def can_participate_in_voting(self):
         user = self._request.current_user
@@ -93,13 +93,13 @@ class VotingPhaseCell(LayoutCell):
         if not self.can_participate_in_voting:
             return
 
-        if self.registration_start is None:
+        if self._model.registration_starts_at is None:
             return
 
         if not self.votings:
             return
 
-        return self.registration_start < datetime.now() < self.registration_end
+        return self.registration_start < datetime.now() < self._model.registration_ends_at
 
     def show_will_be_able_to_vote(self):
         if self._request.current_user is None:
@@ -108,10 +108,10 @@ class VotingPhaseCell(LayoutCell):
         if self._model.status not in (VotingStatus.PREPARING, VotingStatus.VOTING):
             return
 
-        if self.registration_start:
-            return datetime.now() < self.registration_start
-        elif self.voting_start:
-            return datetime.now() < self.voting_start
+        if self._model.registration_starts_at:
+            return datetime.now() < self._model.registration_starts_at
+        elif self._model.voting_starts_at:
+            return datetime.now() < self._model.voting_starts_at
         else:
             return True
 
@@ -126,13 +126,13 @@ class VotingPhaseCell(LayoutCell):
         if not self.votings:
             return
 
-        if self.registration_start is None:
+        if self._model.registration_starts_at is None:
             return
 
         if self.voting_start is None:
             return
 
-        return self.voting_start < datetime.now() < self.voting_end
+        return self._model.voting_starts_at < datetime.now() < self._model.voting_ends_at
 
     def show_voting_with_url(self):
         """Determines if voting info should be shown.
@@ -142,16 +142,16 @@ class VotingPhaseCell(LayoutCell):
         if not self.can_participate_in_voting:
             return
 
-        if self.registration_start is not None:
+        if self._model.registration_starts_at:
             return
 
         if not self.votings:
             return
 
-        if self.voting_start is None:
+        if self._model.voting_starts_at is None:
             return
 
-        return self.voting_start < datetime.now() < self.voting_end
+        return self._model.voting_starts_at < datetime.now() < self._model.voting_ends_at
 
     def show_result_link(self):
         """
@@ -160,10 +160,10 @@ class VotingPhaseCell(LayoutCell):
         if not self.votings:
             return
 
-        if self.voting_end is None:
+        if self._model.voting_ends_at is None:
             return
 
-        return self.voting_end < datetime.now()
+        return self._model.voting_ends_at < datetime.now()
 
     def ballot_count(self):
         return len(self._model.ballots)
@@ -283,7 +283,7 @@ class EditVotingPhaseCell(EditFormCell):
         return self._request.link(self._model, "retrieve_voting")
 
     def allow_retrieve_results(self):
-        if self._model.voting_end is None:
+        if self._model.voting_ends_at is None:
             return False
 
-        return datetime.now() > self._model.voting_end
+        return datetime.now() > self._model.voting_ends_at

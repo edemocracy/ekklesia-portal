@@ -49,7 +49,7 @@
                   = _("could_not_vote_currently")
 
           if show_registration
-            p.help-text.mb-2= _("registration_links_help_text", end=registration_end|datetimeformat)
+            p.help-text.mb-2= _("registration_links_help_text", end=registration_ends_at|datetimeformat)
             for title, url in votings
               p
                 a.btn.btn-primary.btn-sm(href=url,target='_blank')
@@ -57,10 +57,10 @@
                   = _('register_now_with_voting_module', title=title)
 
           if show_voting_without_url
-            p.help-text.mb-2= _("voting_info_text", end=voting_end|datetimeformat)
+            p.help-text.mb-2= _("voting_info_text", end=voting_ends_at|datetimeformat)
 
           if show_voting_with_url
-            p.help-text.mb-2= _("voting_links_help_text", end=voting_end|datetimeformat)
+            p.help-text.mb-2= _("voting_links_help_text", end=voting_ends_at|datetimeformat)
             for title, url in votings
               p
                 a.btn.btn-primary.btn-sm(href=url,target='_blank')
@@ -93,13 +93,13 @@
               dt
                 i.fas.fa-sign-in-alt &nbsp;
                 = _('registration_from')
-              dd= _('start_end_duration', start=registration_start|datetimeformat, end=registration_end|datetimeformat)
+              dd= _('start_end_duration', start=registration_starts_at|datetimeformat, end=registration_ends_at|datetimeformat)
 
             if show_voting_period
               dt
                 i.fas.fa-person-booth &nbsp;
                 = _('voting_from')
-              dd= _('start_end_duration', start=voting_start|datetimeformat, end=voting_end|datetimeformat)
+              dd= _('start_end_duration', start=voting_starts_at|datetimeformat, end=voting_ends_at|datetimeformat)
             else
               dt= _('voting_status')
               dd= status|enum_value

@@ -382,7 +382,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
         return self.status == VotingStatus.PREPARING
 
     @property
-    def registration_start(self):
+    def registration_starts_at(self):
         if self.target is None:
             return
 
@@ -397,7 +397,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
         return self.target - timedelta(days=days)
 
     @property
-    def registration_end(self):
+    def registration_ends_at(self):
         """Registration ends at `target - registration_end_days` or
         at `target` if registration_end_days is not set"""
         if self.target is None:
@@ -415,14 +415,14 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
     @property
     def voting_can_be_created(self):
-        return self.status == VotingStatus.PREPARING and self.voting_start is not None and self.voting_end is not None
+        return self.status == VotingStatus.PREPARING and self.voting_starts_at is not None and self.voting_ends_at is not None
 
     @property
     def voting_can_be_retrieved(self):
-        return self.status == VotingStatus.FINISHED and self.voting_start is not None and self.voting_end is not None
+        return self.status == VotingStatus.FINISHED and self.voting_starts_at is not None and self.voting_ends_at is not None
 
     @property
-    def voting_start(self):
+    def voting_starts_at(self):
         if self.target is None:
             return
 
@@ -434,7 +434,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
         return self.target - timedelta(days=days)
 
     @property
-    def voting_end(self):
+    def voting_ends_at(self):
         return self.target
 
 

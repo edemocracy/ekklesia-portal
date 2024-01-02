@@ -62,10 +62,10 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
 
     phase_title = phase.title or phase.name or phase.phase_type.name
     required_phase_attrs = [
-        "registration_start",
-        "registration_end",
-        "voting_start",
-        "voting_end",
+        "registration_starts_at",
+        "registration_ends_at",
+        "voting_starts_at",
+        "voting_ends_at",
     ]
 
     missing_attrs = [attr for attr in required_phase_attrs if getattr(phase, attr) is None]
@@ -81,10 +81,10 @@ def voting_phase_to_vvvote_election_config(module_config, phase) -> vvvote_schem
         verified=module_config["must_be_verified"],
         nested_groups=[module_config["required_role"]],
         serverId=module_config["auth_server_id"],
-        RegistrationStartDate=phase.registration_start,
-        RegistrationEndDate=phase.registration_end,
-        VotingStart=phase.voting_start,
-        VotingEnd=phase.voting_end,
+        RegistrationStartDate=phase.registration_starts_at,
+        RegistrationEndDate=phase.registration_ends_at,
+        VotingStart=phase.voting_starts_at,
+        VotingEnd=phase.voting_ends_at,
     )
     config = vvvote_schema.ElectionConfig(
         electionId=str(uuid4()),
