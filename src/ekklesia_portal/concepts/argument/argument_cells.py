@@ -5,8 +5,10 @@ from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
 from ekklesia_portal.datamodel import Argument
 
 
-@App.cell(Argument)
+@App.cell()
 class ArgumentCell(LayoutCell):
+
+    _model: Argument
     model_properties = ['id', 'title', 'abstract', 'details', 'created_at', 'author']
 
     footer = Cell.fragment('argument_footer')

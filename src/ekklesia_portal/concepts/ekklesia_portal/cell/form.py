@@ -1,4 +1,5 @@
 from .layout import LayoutCell
+from ekklesia_common.cell import EditCellMixin, NewCellMixin
 
 
 class FormCell(LayoutCell):
@@ -29,7 +30,7 @@ class FormCell(LayoutCell):
         return self.__class__.markup_class(html)
 
 
-class NewFormCell(FormCell):
+class NewFormCell(FormCell, NewCellMixin):
 
     def __init__(
         self, request, form, form_data=None, model=None, layout=None, parent=None, template_path=None, **options
@@ -42,7 +43,7 @@ class NewFormCell(FormCell):
         self._form.prepare_for_render()
 
 
-class EditFormCell(FormCell):
+class EditFormCell(FormCell, EditCellMixin):
 
     def __init__(self, model, request, form, form_data=None, layout=None, parent=None, template_path=None, **options):
         super().__init__(

@@ -25,7 +25,6 @@ from ekklesia_portal.permission import CreatePermission, EditPermission, Support
 from .proposition_helper import items_for_proposition_select_widgets
 from .propositions import Propositions
 
-
 @App.cell()
 class PropositionCell(LayoutCell):
 
@@ -397,8 +396,10 @@ class PropositionCell(LayoutCell):
         return secret_record.status == SecretVoterStatus.ACTIVE
 
 
-@App.cell(Propositions, 'new')
+@App.cell()
 class NewPropositionCell(NewFormCell):
+
+    _model: Propositions
 
     def _prepare_form_for_render(self):
         if self._request.identity.has_global_admin_permissions:
@@ -437,8 +438,10 @@ class NewPropositionCell(NewFormCell):
         return self.relation.title if self.relation else ""
 
 
-@App.cell(Proposition, 'edit')
+@App.cell()
 class EditPropositionCell(EditFormCell):
+
+    _model: Proposition
 
     def _prepare_form_for_render(self):
         if self._form.error is None:
@@ -488,8 +491,10 @@ class EditPropositionCell(EditFormCell):
         return self._model.ballot.area.department.exporter_settings.get('exporter_description', '')
 
 
-@App.cell(Propositions)
+@App.cell()
 class PropositionsCell(LayoutCell):
+
+    _model: Propositions
 
     model_properties = [
         'department',
@@ -561,8 +566,10 @@ class PropositionsCell(LayoutCell):
         return url_change_query(self.self_link, media_type="text/csv")
 
 
-@App.cell(Propositions, 'new_draft')
+@App.cell('new_draft')
 class PropositionNewDraftCell(NewFormCell):
+
+    _model: Propositions
 
     def _prepare_form_for_render(self):
         tags = self._request.q(Tag).all()
@@ -583,8 +590,10 @@ class PropositionNewDraftCell(NewFormCell):
         return customizable_text(self._request, 'new_draft_explanation')
 
 
-@App.cell(Proposition, 'submit_draft')
+@App.cell('submit_draft')
 class PropositionSubmitDraftCell(EditFormCell):
+
+    _model: Proposition
 
     def _prepare_form_for_render(self):
         if self._form.error is None:
@@ -616,9 +625,10 @@ class PropositionSubmitDraftCell(EditFormCell):
     def draft_not_fully_matched(self):
         return not self._form_data.get("all_matched")
 
-@App.cell(Proposition, 'new_amendment')
+@App.cell('new_amendment')
 class NewPropositionAmendmentCell(NewFormCell):
 
+    _model: Proposition
     model_properties = ["title"]
 
     def new_amendment_explanation(self):

@@ -13,8 +13,10 @@ from .voting_phase_permissions import ManageVotingPermission
 from .voting_phases import VotingPhases
 
 
-@App.cell(VotingPhases)
+@App.cell()
 class VotingPhasesCell(LayoutCell):
+
+    _model: VotingPhases
 
     def voting_phases(self):
         return list(self._model.voting_phases(self._request.q))
@@ -23,8 +25,10 @@ class VotingPhasesCell(LayoutCell):
         return self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(VotingPhase)
+@App.cell()
 class VotingPhaseCell(LayoutCell):
+
+    _model: VotingPhase
 
     model_properties = [
         'ballots',
@@ -189,8 +193,10 @@ class VotingPhaseCell(LayoutCell):
 
         return votings
 
-@App.cell(VotingPhases, 'new')
+@App.cell()
 class NewVotingPhaseCell(NewFormCell):
+
+    _model: VotingPhases
 
     def _prepare_form_for_render(self):
         identity = self._request.identity
@@ -205,9 +211,10 @@ class NewVotingPhaseCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(VotingPhase, 'edit')
+@App.cell()
 class EditVotingPhaseCell(EditFormCell):
 
+    _model: VotingPhase
     model_properties = [
         'voting_days',
         'registration_end_days',

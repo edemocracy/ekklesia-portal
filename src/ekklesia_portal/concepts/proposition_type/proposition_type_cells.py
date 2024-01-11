@@ -8,8 +8,10 @@ from .proposition_type_helper import items_for_proposition_type_select_widgets
 from .proposition_types import PropositionTypes
 
 
-@App.cell(PropositionTypes)
+@App.cell()
 class PropositionTypesCell(LayoutCell):
+
+    _model: PropositionTypes
 
     def proposition_types(self):
         return list(self._model.proposition_types(self._request.q))
@@ -19,8 +21,10 @@ class PropositionTypesCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(PropositionType)
+@App.cell()
 class PropositionTypeCell(LayoutCell):
+
+    _model: PropositionType
     model_properties = ['name', 'description', 'policy']
 
     def show_edit_button(self):
@@ -28,8 +32,10 @@ class PropositionTypeCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
 
-@App.cell(PropositionTypes, 'new')
+@App.cell()
 class NewPropositionTypeCell(NewFormCell):
+
+    _model: PropositionTypes
 
     def _prepare_form_for_render(self):
         policies = self._request.q(Policy)
@@ -37,8 +43,10 @@ class NewPropositionTypeCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(PropositionType, 'edit')
+@App.cell()
 class EditPropositionTypeCell(EditFormCell):
+
+    _model: PropositionType
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

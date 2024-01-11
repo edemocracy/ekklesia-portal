@@ -8,8 +8,10 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 from ..login import Login
 
 
-@App.cell(Login)
+@App.cell()
 class LoginCell(LayoutCell):
+
+    _model: Login
     model_properties = ['username', 'back_url', 'from_redirect']
 
     def ekklesia_login_url(self):

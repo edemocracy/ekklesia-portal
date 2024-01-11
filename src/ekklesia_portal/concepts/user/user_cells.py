@@ -9,8 +9,10 @@ from ekklesia_portal.datamodel import Group, User, UserProfile
 from ekklesia_portal.enums import PropositionStatus, SupporterStatus
 
 
-@App.cell(User)
+@App.cell()
 class UserCell(LayoutCell):
+
+    _model: User
     model_properties = ['name', 'joined', 'profile', 'departments', 'areas', 'groups', 'last_active']
 
     def show_edit_button(self):
@@ -42,8 +44,10 @@ class UserCell(LayoutCell):
                 if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED]
 
 
-@App.cell(User, 'edit')
+@App.cell('edit')
 class EditUserCell(EditFormCell):
+
+    _model: User
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()
@@ -54,6 +58,8 @@ class EditUserCell(EditFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(UserProfile)
+@App.cell()
 class UserProfileCell(Cell):
+
+    _model: UserProfile
     model_properties = ['sub', 'eligible', 'verified', 'roles', 'profile']

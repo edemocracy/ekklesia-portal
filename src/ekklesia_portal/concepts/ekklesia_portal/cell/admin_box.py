@@ -14,8 +14,10 @@ from ekklesia_portal.concepts.voting_phase_type.voting_phase_types import Voting
 from ..admin_box import AdminBox
 
 
-@App.cell(AdminBox)
+@App.cell()
 class AdminBoxCell(Cell):
+
+    _model: AdminBox
 
     def new_voting_phase_url(self):
         return self.link(VotingPhases(), '+new')

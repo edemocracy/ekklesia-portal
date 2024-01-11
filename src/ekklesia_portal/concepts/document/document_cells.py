@@ -12,8 +12,10 @@ from .document_helper import items_for_document_select_widgets, markdown_with_pr
 from .documents import Documents
 
 
-@App.cell(Documents)
+@App.cell()
 class DocumentsCell(LayoutCell):
+
+    _model: Documents
 
     def documents(self):
         return list(self._model.documents(self._request.q))
@@ -23,9 +25,10 @@ class DocumentsCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(Document)
+@App.cell()
 class DocumentCell(LayoutCell):
 
+    _model: Document
     model_properties = ['name', 'lang', 'text', 'description']
 
     def show_edit_button(self):
@@ -45,9 +48,10 @@ class DocumentCell(LayoutCell):
         return self._model.proposition_type.name
 
 
-@App.cell(Document, 'propose_change')
+@App.cell('propose_change')
 class DocumentProposeChangeCell(LayoutCell):
 
+    _model: Document
     model_properties = ['name', 'lang', 'description']
 
     def text_with_propose_change(self):
@@ -67,8 +71,10 @@ class DocumentProposeChangeCell(LayoutCell):
         return customizable_text(self._request, 'document_propose_change_explanation')
 
 
-@App.cell(Documents, 'new')
+@App.cell()
 class NewDocumentCell(NewFormCell):
+
+    _model: Documents
 
     def _prepare_form_for_render(self):
         identity = self._request.identity
@@ -82,8 +88,10 @@ class NewDocumentCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(Document, 'edit')
+@App.cell()
 class EditDocumentCell(EditFormCell):
+
+    _model: Document
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

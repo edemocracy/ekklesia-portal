@@ -8,8 +8,10 @@ from ekklesia_portal.enums import ArgumentType
 from ekklesia_portal.permission import VotePermission
 
 
-@App.cell(ArgumentRelation)
+@App.cell()
 class ArgumentRelationCell(LayoutCell):
+
+    _model: ArgumentRelation
     model_properties = ['id', 'proposition', 'argument', 'score']
 
     voting = Cell.fragment('argument_relation_voting')
@@ -58,7 +60,10 @@ class ArgumentRelationCell(LayoutCell):
         return self.link(self._model, 'vote')
 
 
+@App.cell()
 class NewArgumentForPropositionCell(NewFormCell):
+
+    _model: ArgumentRelation
 
     def proposition(self):
         return self._request.db_session.query(Proposition).get(self._model.proposition_id)

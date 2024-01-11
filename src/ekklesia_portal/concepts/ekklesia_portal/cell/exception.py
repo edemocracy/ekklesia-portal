@@ -7,6 +7,8 @@ from ekklesia_portal.concepts.customizable_text.customizable_text_helper import 
 
 class ExceptionCell(LayoutCell):
 
+    _model: Exception
+
     model_properties = ["task_uuid", "xid"]
 
     @property

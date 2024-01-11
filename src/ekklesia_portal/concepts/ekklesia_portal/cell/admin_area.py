@@ -4,9 +4,10 @@ from ..admin_area import AdminArea
 from ..admin_box import AdminBox
 
 
-@App.cell(AdminArea)
+@App.cell()
 class AdminAreaCell(LayoutCell):
+
+    _model: AdminArea
 
     def admin_box(self):
         return AdminBox()
-

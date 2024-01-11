@@ -9,8 +9,10 @@ from .ballot_helper import items_for_ballot_select_widgets
 from .ballots import Ballots
 
 
-@App.cell(Ballots)
+@App.cell()
 class BallotsCell(LayoutCell):
+
+    _model: Ballots
 
     def ballots(self):
         return list(self._model.ballots(self._request.q))
@@ -20,8 +22,10 @@ class BallotsCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(Ballots, 'new')
+@App.cell()
 class NewBallotCell(NewFormCell):
+
+    _model: Ballots
 
     def _prepare_form_for_render(self):
         identity = self._request.identity
@@ -35,9 +39,10 @@ class NewBallotCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(Ballot)
+@App.cell()
 class BallotCell(LayoutCell):
 
+    _model: Ballot
     model_properties = [
         'area', 'election', 'id', 'name', 'proposition_type', 'propositions', 'result', 'status', 'voting'
     ]
@@ -59,8 +64,10 @@ class BallotCell(LayoutCell):
             return ballot.voting.phase_type.voting_type
 
 
-@App.cell(Ballot, 'edit')
+@App.cell()
 class EditBallotCell(EditFormCell):
+
+    _model: Ballot
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

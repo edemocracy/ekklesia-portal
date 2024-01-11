@@ -7,8 +7,10 @@ from .voting_phase_type_helper import items_for_voting_phase_type_select_widgets
 from .voting_phase_types import VotingPhaseTypes
 
 
-@App.cell(VotingPhaseTypes)
+@App.cell()
 class VotingPhaseTypesCell(LayoutCell):
+
+    _model: VotingPhaseTypes
 
     def voting_phase_types(self):
         return list(self._model.voting_phase_types(self._request.q))
@@ -18,8 +20,10 @@ class VotingPhaseTypesCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(VotingPhaseType)
+@App.cell()
 class VotingPhaseTypeCell(LayoutCell):
+
+    _model: VotingPhaseType
 
     model_properties = [
         'abbreviation',
@@ -37,8 +41,10 @@ class VotingPhaseTypeCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, EditPermission)
 
 
-@App.cell(VotingPhaseTypes, 'new')
+@App.cell()
 class NewVotingPhaseTypeCell(NewFormCell):
+
+    _model: VotingPhaseTypes
 
     def _prepare_form_for_render(self):
         items = items_for_voting_phase_type_select_widgets(self._model)
@@ -46,8 +52,10 @@ class NewVotingPhaseTypeCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(VotingPhaseType, 'edit')
+@App.cell()
 class EditVotingPhaseTypeCell(EditFormCell):
+
+    _model: VotingPhaseType
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

@@ -7,8 +7,10 @@ from .subject_area_helper import items_for_subject_area_select_widgets
 from .subject_areas import SubjectAreas
 
 
-@App.cell(SubjectAreas)
+@App.cell()
 class SubjectAreasCell(LayoutCell):
+
+    _model: SubjectAreas
 
     def subject_areas(self):
         return list(self._model.subject_areas(self._request.q))
@@ -17,9 +19,10 @@ class SubjectAreasCell(LayoutCell):
         return self.options.get('show_new_button') and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(SubjectArea)
+@App.cell()
 class SubjectAreaCell(LayoutCell):
 
+    _model: SubjectArea
     model_properties = ['description', 'name']
 
     def department_name(self):
@@ -32,9 +35,10 @@ class SubjectAreaCell(LayoutCell):
         return len(self._model.members)
 
 
-@App.cell(SubjectAreas, 'new')
+@App.cell()
 class NewSubjectAreaCell(NewFormCell):
-    pass
+
+    _model: SubjectAreas
 
     def _prepare_form_for_render(self):
 
@@ -48,8 +52,10 @@ class NewSubjectAreaCell(NewFormCell):
         self._form.prepare_for_render(items)
 
 
-@App.cell(SubjectArea, 'edit')
+@App.cell()
 class EditSubjectAreaCell(EditFormCell):
+
+    _model: SubjectArea
 
     def _prepare_form_for_render(self):
         form_data = self._model.to_dict()

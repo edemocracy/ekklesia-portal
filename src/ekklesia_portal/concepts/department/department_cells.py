@@ -7,8 +7,10 @@ from ekklesia_portal.permission import CreatePermission, EditPermission
 from .departments import Departments
 
 
-@App.cell(Departments)
+@App.cell()
 class DepartmentsCell(LayoutCell):
+
+    _model: Departments
 
     def departments(self):
         return list(self._model.departments(self._request.q))
@@ -18,9 +20,10 @@ class DepartmentsCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(Department)
+@App.cell()
 class DepartmentCell(LayoutCell):
 
+    _model: Department
     model_properties = ['areas', 'description', 'name', 'voting_phases']
 
     def show_edit_button(self):
@@ -31,9 +34,13 @@ class DepartmentCell(LayoutCell):
         return len(self._model.members)
 
 
+@App.cell()
 class NewDepartmentCell(NewFormCell):
-    pass
+
+    _model: Departments
 
 
+@App.cell()
 class EditDepartmentCell(EditFormCell):
-    pass
+
+    _model: Department

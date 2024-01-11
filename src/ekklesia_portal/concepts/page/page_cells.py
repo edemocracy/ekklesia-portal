@@ -7,8 +7,10 @@ from ekklesia_portal.permission import CreatePermission, EditPermission
 from .pages import Pages
 
 
-@App.cell(Pages)
+@App.cell()
 class PagesCell(LayoutCell):
+
+    _model: Pages
 
     def pages(self):
         return list(self._model.pages(self._request.q))
@@ -21,11 +23,10 @@ class PagesCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(Page)
+@App.cell()
 class PageCell(LayoutCell):
 
-    # Model attributes included here are available as variables in the template:
-    # = name
+    _model: Page
     model_properties = ['lang', 'name', 'text', 'title']
 
     def can_edit(self):
@@ -35,9 +36,10 @@ class PageCell(LayoutCell):
         return self.options.get('show_edit_button') and self.can_edit
 
 
-@App.cell(Pages, 'new')
+@App.cell()
 class NewPageCell(NewFormCell):
-    pass
+
+    _model: Pages
 
     # def _prepare_form_for_render(self):
     # By default, the form's prepare_for_render() method is called without arguments.
@@ -47,9 +49,10 @@ class NewPageCell(NewFormCell):
     # self._form.prepare_for_render(items)
 
 
-@App.cell(Page, 'edit')
+@App.cell()
 class EditPageCell(EditFormCell):
-    pass
+
+    _model: Page
 
     # def _prepare_form_for_render(self):
     # By default, all fields from the model as given by to_dict() are passed to the form.

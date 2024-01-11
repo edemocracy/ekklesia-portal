@@ -7,8 +7,10 @@ from ekklesia_portal.permission import CreatePermission, EditPermission
 from .customizable_texts import CustomizableTexts
 
 
-@App.cell(CustomizableTexts)
+@App.cell()
 class CustomizableTextsCell(LayoutCell):
+
+    _model: CustomizableTexts
 
     def customizable_texts(self):
         return list(self._model.customizable_texts(self._request.q))
@@ -18,9 +20,10 @@ class CustomizableTextsCell(LayoutCell):
                                 ) and self._request.permitted_for_current_user(self._model, CreatePermission)
 
 
-@App.cell(CustomizableText)
+@App.cell()
 class CustomizableTextCell(LayoutCell):
 
+    _model: CustomizableText
     model_properties = ['lang', 'name', 'text']
 
     def can_edit(self):
@@ -30,11 +33,13 @@ class CustomizableTextCell(LayoutCell):
         return self.options.get('show_edit_button') and self.can_edit
 
 
-@App.cell(CustomizableTexts, 'new')
+@App.cell()
 class NewCustomizableTextCell(NewFormCell):
-    pass
+
+    _model: CustomizableTexts
 
 
-@App.cell(CustomizableText, 'edit')
+@App.cell()
 class EditCustomizableTextCell(EditFormCell):
-    pass
+
+    _model: CustomizableText
