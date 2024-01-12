@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ekklesia-portal"
-version = "23.07.0"
+version = "24.1.0"
 description = "Motion portal for the Ekklesia e-democracy platform"
 readme = "README.md"
 keywords = ["ekklesia", "edemocracy", "argument mapping", "evoting", "participation"]
