@@ -5,7 +5,6 @@
 .pydevproject
 .idea
 *.log.json
-*.pot
 *.mo
 .babelcompiled
 src/ekklesia_portal.egg-info/
