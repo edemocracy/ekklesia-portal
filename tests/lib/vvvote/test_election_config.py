@@ -37,6 +37,6 @@ def test_voting_phase_to_vvvote_election_config(db_session, ballot_factory, prop
     assert len(config.questions[1].options) == 3
     assert len(config.questions[2].options) == 5
     assert config.authData.VotingStart == target - timedelta(days=4)
-    assert config.authData.VotingEnd == target
+    assert config.authData.VotingEnd == target - timedelta(seconds=1)
     assert config.authData.RegistrationStartDate == target - timedelta(days=8)
-    assert config.authData.RegistrationEndDate == target - timedelta(days=4)
+    assert config.authData.RegistrationEndDate == target - timedelta(days=4) - timedelta(seconds=1)
