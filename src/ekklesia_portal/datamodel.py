@@ -402,7 +402,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
         days = self.registration_end_days or self.phase_type.registration_end_days or 0
 
-        return self.target - timedelta(days=days)
+        return self.target - timedelta(days=days) - timedelta(seconds=1)
 
     @property
     def voting_can_be_created(self):
@@ -426,7 +426,7 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
     @property
     def voting_end(self):
-        return self.target
+        return self.target - timedelta(seconds=1)
 
 
 class Supporter(Base):  # §3.5

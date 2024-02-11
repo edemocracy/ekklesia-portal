@@ -93,9 +93,9 @@ class PropositionCell(LayoutCell):
             PropositionStatus.CHANGING: 'submitted',
             PropositionStatus.SUBMITTED: 'submitted',
             PropositionStatus.ABANDONED: 'submitted',
-            PropositionStatus.QUALIFIED: 'submitted',
+            PropositionStatus.QUALIFIED: 'qualified',
             PropositionStatus.SCHEDULED: 'scheduled',
-            PropositionStatus.VOTING: 'scheduled',
+            PropositionStatus.VOTING: 'voting',
             PropositionStatus.FINISHED: 'finished',
         }
         variant = status_to_variant[self._model.status]

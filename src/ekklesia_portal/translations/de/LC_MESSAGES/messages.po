@@ -1082,7 +1082,15 @@ msgstr "Abgeschlossen"
 msgid "qualified_on"
 msgstr "Zur Abstimmung qualifiziert am %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:10
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_qualified.j2.jade:18
+msgid "qualified_no_date"
+msgstr "Zur Abstimmung qualifiziert"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:21
+msgid "voting_starts_at"
+msgstr "Abstimmung beginnt am %(datetime)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:23
 msgid "voting_ends_at"
 msgstr "Abstimmung endet am %(datetime)s"
 

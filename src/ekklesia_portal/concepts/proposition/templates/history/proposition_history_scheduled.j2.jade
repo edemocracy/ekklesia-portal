@@ -15,8 +15,14 @@ if show_full_history
     .proposition_history_item
       = _('qualified_on', date=qualified_at|dateformat)
 
-.proposition_history_item
-  if voting_phase.target
-    = _('voting_ends_at', datetime=voting_phase.target|datetimeformat)
-  else
+if voting_phase.voting_start or voting_phase.voting_end
+  if voting_phase.voting_start:
+    .proposition_history_item
+      = _('voting_starts_at', datetime=voting_phase.voting_start|datetimeformat)
+
+  if voting_phase.voting_end:
+    .proposition_history_item
+      = _('voting_ends_at', datetime=voting_phase.voting_end|datetimeformat)
+else
+  .proposition_history_item
     = _('voting_no_date')
