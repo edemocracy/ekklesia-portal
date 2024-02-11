@@ -283,9 +283,10 @@ class Propositions:
             propositions = propositions.filter(Proposition.modifies_id.is_(None))
 
         if self.only_supporting:
-            propositions = (propositions.join(Supporter)
-                            .filter(Supporter.member_id == current_user.id)
-                            .filter(Supporter.status == SupporterStatus.ACTIVE))
+            propositions = (
+                propositions.join(Supporter).filter(Supporter.member_id == current_user.id
+                                                    ).filter(Supporter.status == SupporterStatus.ACTIVE)
+            )
 
         if count:
             propositions = propositions.count()

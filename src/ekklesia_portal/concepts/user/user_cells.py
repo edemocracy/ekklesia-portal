@@ -41,15 +41,19 @@ class UserCell(LayoutCell):
         return self.link(self._model, name='member_area')
 
     def supported_areas(self):
-        return [support.proposition.ballot.area for support in self._model.member_propositions
-                if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED]
+        return [
+            support.proposition.ballot.area for support in self._model.member_propositions
+            if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED
+        ]
 
     def supported_link(self, subject_area: SubjectArea):
-        return self.class_link(Propositions, {
-            "department": subject_area.department.name,
-            "subject_area": subject_area.name,
-            "only_supporting": "yes"
-        })
+        return self.class_link(
+            Propositions, {
+                "department": subject_area.department.name,
+                "subject_area": subject_area.name,
+                "only_supporting": "yes"
+            }
+        )
 
 
 @App.cell('edit')
