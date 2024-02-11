@@ -17,8 +17,9 @@ common_widgets = {
     'related_proposition_id': HiddenWidget()
 }
 
+
 class PropositionSchema(Schema):
-    title = string_property(title=_('title'), validator=Length(min=5, max=255))
+    title = string_property(title=_('title'), validator=Length(min=7, max=255))
     content = string_property(title=_('content'), validator=Length(min=10, max=100_000))
     motivation = string_property(title=_('motivation'), missing='', validator=Length(max=100_000))
     tags = set_property(title=_('tags'), missing=tuple())
@@ -48,7 +49,7 @@ class PropositionEditSchema(PropositionSchema):
 
 
 class PropositionNewDraftSchema(Schema):
-    title = string_property(title=_('title'), validator=Length(min=5, max=255))
+    title = string_property(title=_('title'), validator=Length(min=7, max=255))
     content = string_property(title=_('content'), validator=Length(min=10, max=100_000))
     motivation = string_property(title=_('motivation'), missing='', validator=Length(max=100_000))
     tags = set_property(title=_('tags'), missing=tuple())
