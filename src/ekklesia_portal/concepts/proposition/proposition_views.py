@@ -245,7 +245,7 @@ def index_csv(self, request):
     optional_fields = TableRowOptionalFields()
     optional_fields.submitters = is_global_admin
     content = propositions_to_csv(
-        self.propositions(request.q, is_global_admin),
+        self.propositions(request.q, request.current_user, is_global_admin),
         origin=request.app.settings.common.instance_name,
         optional_fields=optional_fields
     )

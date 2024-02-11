@@ -459,7 +459,7 @@ class EditPropositionCell(EditFormCell):
             departments = self._request.current_user.departments
 
         tags = self._request.q(Tag).all()
-        items = items_for_proposition_select_widgets(departments, tags, selected_tag_names)
+        items = items_for_proposition_select_widgets(departments, tags, selected_tags=selected_tag_names)
         self._form.prepare_for_render(items)
 
     def department_name(self):
@@ -507,17 +507,18 @@ class PropositionsCell(LayoutCell):
         'tag_values',
         'type',
         'without_tag_values',
+        'only_supporting'
     ]
 
     pager = Cell.fragment("propositions_pager")
 
     def propositions(self):
         is_admin = self.current_user and self._request.identity.has_global_admin_permissions
-        return list(self._model.propositions(self._request.q, is_admin))
+        return list(self._model.propositions(self._request.q, self.current_user, is_admin))
 
     def prop_count(self):
         is_admin = self.current_user and self._request.identity.has_global_admin_permissions
-        return self._model.propositions(self._request.q, is_admin, count=True)
+        return self._model.propositions(self._request.q, self.current_user, is_admin, count=True)
 
     def page_count(self):
         per_page = self.prop_per_page
@@ -607,7 +608,7 @@ class PropositionSubmitDraftCell(EditFormCell):
             selected_tag_names = self._form.cstruct['tags']
 
         tags = self._request.q(Tag).all()
-        items = items_for_proposition_select_widgets([], tags, selected_tag_names)
+        items = items_for_proposition_select_widgets([], tags, selected_tags=selected_tag_names)
         self._form.prepare_for_render(items)
 
     def department_name(self):

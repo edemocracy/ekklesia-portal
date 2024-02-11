@@ -895,6 +895,10 @@ msgstr "Tagged propositions"
 msgid "propositions_without_tags"
 msgstr "Propositions without tags"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:133
+msgid "only_supporting"
+msgstr "Only supported propositions"
+
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:78
 msgid "no_propositions_found"
 msgstr "No propositions found"
@@ -1260,6 +1264,10 @@ msgstr "(You are participating): "
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
 msgid "not_member_in_area"
 msgstr "(You are not participating): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:50
+msgid "supported_propositions"
+msgstr "Supported Propositions"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:49
 msgid "cant_leave_supporting_area"

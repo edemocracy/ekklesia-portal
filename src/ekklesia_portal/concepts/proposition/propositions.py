@@ -9,9 +9,8 @@ from sqlalchemy import desc, func
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.functions import coalesce
 
-from ekklesia_common.lid import LID
-from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase
-from ekklesia_portal.enums import PropositionStatus, PropositionVisibility, PropositionRelationType
+from ekklesia_portal.datamodel import Ballot, Changeset, Department, Proposition, PropositionType, SubjectArea, Tag, VotingPhase, Supporter
+from ekklesia_portal.enums import PropositionStatus, PropositionVisibility, PropositionRelationType, SupporterStatus
 
 
 @dataclass
@@ -31,6 +30,7 @@ class Propositions:
     association_type: PropositionRelationType = None
     association_id: str = None
     include_amendments: str = None
+    only_supporting: str = None
     # Initialization with numbers instead of None is necessary because otherwise the
     # query values are not actually converted to an integer on assignment
     page: Optional[int] = 1  # Ranges: x<=1 = None => First page; x>1 => Show page x
@@ -51,6 +51,7 @@ class Propositions:
         self.type = self.type or None
         self.status = self.status or None
         self.include_amendments = self.include_amendments or None
+        self.only_supporting = self.only_supporting or None
 
         self.status_values = None
         self.tag_values = None
@@ -163,6 +164,8 @@ class Propositions:
                 self.visibility = value
             case "include_amendments":
                 self.include_amendments = value
+            case "only_supporting":
+                self.only_supporting = value
 
     def build_search_query(self):
         query = []
@@ -190,6 +193,8 @@ class Propositions:
             query.append("visibility:" + self.maybe_add_quotes(self.visibility))
         if self.include_amendments:
             query.append("include_amendments:" + self.include_amendments)
+        if self.only_supporting:
+            query.append("only_supporting:" + self.only_supporting)
 
         return " ".join(query)
 
@@ -204,7 +209,7 @@ class Propositions:
         return value
 
     @log_call
-    def propositions(self, q, is_admin=False, count=False):
+    def propositions(self, q, current_user, is_admin=False, count=False):
 
         Message.log(
             message_type="propositions_filters",
@@ -275,7 +280,12 @@ class Propositions:
                 propositions = propositions.filter(~Proposition.tags.contains(tag))
 
         if not self.include_amendments:
-                propositions = propositions.filter(Proposition.modifies_id.is_(None))
+            propositions = propositions.filter(Proposition.modifies_id.is_(None))
+
+        if self.only_supporting:
+            propositions = (propositions.join(Supporter)
+                            .filter(Supporter.member_id == current_user.id)
+                            .filter(Supporter.status == SupporterStatus.ACTIVE))
 
         if count:
             propositions = propositions.count()

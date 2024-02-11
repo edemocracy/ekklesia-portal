@@ -899,6 +899,10 @@ msgstr "Anträge mit Tags"
 msgid "propositions_without_tags"
 msgstr "Anträge ohne Tags"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:133
+msgid "only_supporting"
+msgstr "Nur unterstützte Anträge"
+
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:78
 msgid "no_propositions_found"
 msgstr "Keine Anträge gefunden"
@@ -1270,6 +1274,10 @@ msgstr "(Du bist Teilnehmer): "
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
 msgid "not_member_in_area"
 msgstr "(Du bist kein Teilnehmer): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:50
+msgid "supported_propositions"
+msgstr "Unterstützte Anträge"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:49
 msgid "cant_leave_supporting_area"
