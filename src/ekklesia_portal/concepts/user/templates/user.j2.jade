@@ -45,6 +45,9 @@
                   &nbsp;
                   if member_in_area
                     = _('member_in_area')
+                    a(href=supported_link(subject_area=area))
+                      = _('supported_propositions')
+                    br
                     if area in supported_areas
                       = _('cant_leave_supporting_area')
                     else

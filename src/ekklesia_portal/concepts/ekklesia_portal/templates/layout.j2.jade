@@ -44,7 +44,7 @@ body
         input.form-control(type="text", placeholder=_("search_for"), name="search", value=search_query)
         button.search_button(type="submit")
           i.fas.fa-search &nbsp;
-            = _('button_search')
+          = _('button_search')
 
       if current_user is not none
         | &nbsp;
@@ -54,12 +54,12 @@ body
         form.top_logout(action=logout_action, method="POST")
           button.logout_button(type="submit")
             i.fas.fa-sign-out-alt &nbsp;
-              = _('button_logout')
+            = _('button_logout')
       else
         if show_login_button
           a.login_button(href=login_url)
             i.fas.fa-sign-in-alt &nbsp;
-              = _("button_login")
+            = _("button_login")
 
 
     - block messages

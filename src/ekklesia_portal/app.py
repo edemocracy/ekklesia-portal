@@ -48,6 +48,7 @@ def app_setting_section():
         "log_environment_on_startup": False,
         "internal_login_enabled": True,
         "languages": ["de", "en"],
+        "timezone": "UTC",
         "login_visible": False,
         "report_url": None,
         "source_code_url": "https://github.com/edemocracy/ekklesia-portal",
@@ -276,5 +277,6 @@ def make_wsgi_app(settings_filepath=None, testing=False):
     database.configure_sqlalchemy(app.settings.database, testing)
     app.babel_init()
     app.babel.localeselector(get_locale)
+    app.babel.timezoneselector(lambda: app.settings.app.timezone)
 
     return app

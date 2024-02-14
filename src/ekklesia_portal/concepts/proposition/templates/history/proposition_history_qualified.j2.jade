@@ -12,7 +12,7 @@ if show_full_history
       = _('submitted_on', date=submitted_at|dateformat)
 
 .proposition_history_item
-  if voting_phase.voting_end
-    = _('finished_on', date=voting_phase.voting_end|dateformat)
+  if qualified_at
+    = _('qualified_on', date=qualified_at|dateformat)
   else
-    = _('finished_no_date')
+    = _('qualified_no_date')

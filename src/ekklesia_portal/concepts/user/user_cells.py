@@ -4,8 +4,9 @@ from ekklesia_common.permission import EditPermission
 from ekklesia_portal.app import App
 from ekklesia_portal.concepts.ekklesia_portal.cell.form import EditFormCell
 from ekklesia_portal.concepts.ekklesia_portal.cell.layout import LayoutCell
+from ekklesia_portal.concepts.proposition import Propositions
 from ekklesia_portal.concepts.user.user_helper import items_for_user_select_widgets
-from ekklesia_portal.datamodel import Group, User, UserProfile
+from ekklesia_portal.datamodel import Group, User, UserProfile, SubjectArea
 from ekklesia_portal.enums import PropositionStatus, SupporterStatus
 
 
@@ -40,8 +41,19 @@ class UserCell(LayoutCell):
         return self.link(self._model, name='member_area')
 
     def supported_areas(self):
-        return [support.proposition.ballot.area for support in self._model.member_propositions \
-                if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED]
+        return [
+            support.proposition.ballot.area for support in self._model.member_propositions
+            if support.status == SupporterStatus.ACTIVE and support.proposition.status == PropositionStatus.SUBMITTED
+        ]
+
+    def supported_link(self, subject_area: SubjectArea):
+        return self.class_link(
+            Propositions, {
+                "department": subject_area.department.name,
+                "subject_area": subject_area.name,
+                "only_supporting": "yes"
+            }
+        )
 
 
 @App.cell('edit')

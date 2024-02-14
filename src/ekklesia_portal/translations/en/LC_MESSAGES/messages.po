@@ -314,7 +314,7 @@ msgstr "External voting module settings"
 
 #: src/ekklesia_portal/concepts/department/templates/department.j2.jade:8
 msgid "number_of_members"
-msgstr "(%(num_members)s members)"
+msgstr "(%(num)s members)"
 
 #: src/ekklesia_portal/concepts/department/templates/departments.j2.jade:5
 #: src/ekklesia_portal/concepts/ekklesia_portal/templates/admin_box.j2.jade:38
@@ -895,6 +895,10 @@ msgstr "Tagged propositions"
 msgid "propositions_without_tags"
 msgstr "Propositions without tags"
 
+#: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:133
+msgid "only_supporting"
+msgstr "Only supported propositions"
+
 #: src/ekklesia_portal/concepts/proposition/templates/propositions.j2.jade:78
 msgid "no_propositions_found"
 msgstr "No propositions found"
@@ -1072,7 +1076,15 @@ msgstr "Finished"
 msgid "qualified_on"
 msgstr "Qualified for voting on %(date)s"
 
-#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:10
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_qualified.j2.jade:18
+msgid "qualified_no_date"
+msgstr "Qualified for voting"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:21
+msgid "voting_starts_at"
+msgstr "Voting starts at %(datetime)s"
+
+#: src/ekklesia_portal/concepts/proposition/templates/history/proposition_history_scheduled.j2.jade:23
 msgid "voting_ends_at"
 msgstr "Voting ends at %(datetime)s"
 
@@ -1252,6 +1264,10 @@ msgstr "(You are participating): "
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:22
 msgid "not_member_in_area"
 msgstr "(You are not participating): "
+
+#: src/ekklesia_portal/concepts/user/templates/user.j2.jade:50
+msgid "supported_propositions"
+msgstr "Supported Propositions"
 
 #: src/ekklesia_portal/concepts/user/templates/user.j2.jade:49
 msgid "cant_leave_supporting_area"

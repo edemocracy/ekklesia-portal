@@ -126,6 +126,14 @@
           li
             a.btn_filter_remove(href=change_self_link(without_tags=none), title=_('remove_filter')) X
 
+    if only_supporting
+      li.nav-item
+        ul.proposition_filter
+          li
+            = _('only_supporting')
+          li
+            a.btn_filter_remove(href=change_self_link(only_supporting = none), title=_('remove_filter')) X
+
   div.page-selector
     = pager()
 
