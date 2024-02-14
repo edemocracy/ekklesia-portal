@@ -426,6 +426,9 @@ class VotingPhase(Base):  # Abstimmungsperiode
 
     @property
     def voting_end(self):
+        if self.target is None:
+            return
+
         return self.target - timedelta(seconds=1)
 
 
